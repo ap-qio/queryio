@@ -1,0 +1,64 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Build Instructions</title>
+
+</head>
+
+<body>
+<h1><span>Build Instructions</span></h1>
+<p>This chapter describes all the JAR files you need to use sample codes.</p>
+
+<h2 id="dfs"><span>DFS Client API</span></h2>
+<p>Following JARs need to be included in classpath to use sample codes related to DFS CLient APIs.</p>
+<ul>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/hadoop-custom-compiled-server.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/commons-logging-1.1.1.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/log4j-1.2.17.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/slf4j-api-1.6.1.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/slf4j-log4j12-1.6.1.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/protobuf-java-2.5.0.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/guava-11.0.2.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/commons-lang-2.5.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/commons-configuration-1.6.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/commons-cli-1.2.jar</li>
+	<li>$INSTALL_HOME/services/hadoop-2.7.1/share/hadoop/common/lib/commons-io-2.1.jar</li>
+	
+
+</ul>
+
+<h2><span>S3 Compatible REST API</span></h2>
+<p>Following JARs need to be included in classpath to use sample codes related to S3 Compatible REST API.</p>
+<ul>
+	<li><a href="http://hc.apache.org/downloads.cgi" target="_blank">httpcore-4.2.2.jar</a></li>
+	<li><a href="http://hc.apache.org/downloads.cgi" target="_blank">httpclient-4.2.2.jar</a></li>
+	<li><a href="http://hc.apache.org/downloads.cgi" target="_blank">httpclient-cache-4.2.2.jar</a></li>
+	<li><a href="http://hc.apache.org/downloads.cgi" target="_blank">httpmime-4.2.2.jar</a></li>
+</ul>
+
+<h2><span>Writing MapReduce Jobs for AdHoc Querying / On Ingest Parser</span></h2>
+<p>Following JARs need to be included in classpath to use sample codes.</p>
+<ul>
+	<li>$INSTALL_HOME/hadoop-2.7.1/share/hadoop/common/queryio-plugins.jar</li>
+</ul>
+
+<h2><span>Hadoop SQL</span></h2>
+<p>Hadoop SQL requires JSON of query to be passed as argument. Following is the sample of a Hadoop SQL JSON:</p>
+<ul>
+<li>
+<pre>
+{"selectedHaving":{},"sqlQuery":"SELECT filepath, accesstime, modificationtime, owner, usergroup, permission, blocksize, replication, len, compression_type, encryption_type  FROM hdfs_metadata","chartDetail":{"chartPreferences":{"titleJson":{"text-align":"center","color":"333333","font-style":"bold","font-size":"12","background":"69abdb","insets":{"bottom":"1","left":"1","right":"1","top":"1"},"value":"Chart","font-family":"Verdana","outline":{"visible":false,"style":"Solid","color":"000000","width":"1"},"anchor":"top"},"outLineJson":{"visible":true,"style":"Solid","color":"000000","width":"2"},"xAxisJson":{"position":"below","visible":true,"text-align":"left","font-style":"normal","gridline":{"visible":false,"style":"Solid","color":"000000","width":"1"},"outline":{"visible":false,"style":"Solid","color":"000000","width":"1"},"color":"4c4c4c","shadow":"","background":"","font-size":"12","insets":{"bottom":"1","left":"1","right":"1","top":"1"},"value":"Xaxis","font-family":"Verdana"},"leaderLineJson":{"visible":false,"style":"stretch","color":"000000","width":"1","lineStyle":"Solid","lineLength":"2"},"commonJson":{"topColors":["0096bc", "f94040", "fce955", "35a835", "666666", "669999", "333366", "990000", "003300", "004a6d"],"emptyChartMessage":"","background":"ffffff","floorBackground":"ffffff","wallBackground":"ffffff","clientBackground":"ffffff","plotBackground":"ffffff"},"lineChartJson":{"curveColor":"","showCurve":false},"legendJson":{"position":"right","Stretch":"horizontal","visible":true,"title-font-color":"000000","background":"","insets":{"bottom":"1","left":"1","right":"1","top":"1"},"visibleTitle":false,"title-font-family":"Arial","outline":{"visible":false,"style":"Solid","color":"000000","width":"1"},"title-font-style":"normal","title-font-size":"12","anchor":"middle"},"labelJson":{"position":"outside","visible":false,"text-align":"left","font-style":"normal","outline":{"visible":false,"style":"Solid","color":"000000","width":"1"},"suffix":"","values":"actual","shadow":"","insets":{"bottom":"1","left":"1","right":"1","top":"1"},"background":"","font-size":"12","prefix":"","font-family":"Arial","font-color":"000000","separator":":"},"yAxisJson":{"position":"left","visible":true,"text-align":"left","font-style":"normal","gridline":{"visible":true,"style":"Solid","color":"000000","width":"1"},"outline":{"visible":false,"style":"Solid","color":"000000","width":"1"},"color":"4c4c4c","shadow":"","background":"","font-size":"12","insets":{"bottom":"1","left":"1","right":"1","top":"1"},"value":"Yaxis","font-family":"Verdana"},"insetsJson":{"bottom":"1","left":"1","right":"1","top":"1"}}},"limitResultRowsValue":"300","executionId":1,"queryFilterDetail":{"filterQuery":"","selectedTable":[],"selectedWhere":{}},"queryFooter":{"footer":{"title":""}},"setLimitResultRows":true,"isHiveQuery":false,"queryDesc":"","groupFooter":{},"colDetail":{},"username":"a","dbName":"MetaStore","colHeaderDetail":{"usergroup":{"title":"usergroup","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"100px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"filepath":{"title":"filepath","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"250px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"modificationtime":{"title":"modificationtime","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"125px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"replication":{"title":"replication","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"40px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"accesstime":{"title":"accesstime","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"125px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"blocksize":{"title":"blocksize","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"70px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"owner":{"title":"owner","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"100px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"compression_type":{"title":"compression_type","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"100px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"permission":{"title":"permission","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"100px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"len":{"title":"len","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"70px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}},"encryption_type":{"title":"encryption_type","color":"333333","text-align":"center","font-size":"10px","font-style":"normal","width":"100px","background-color":"69abdb","font-family":"Arial","font-weight":"bold","format":{}}},"isFilterQuery":false,"selectedColumn":{"usergroup":{"function":""},"filepath":{"function":""},"modificationtime":{"function":""},"replication":{"function":""},"accesstime":{"function":""},"blocksize":{"function":""},"owner":{"function":""},"compression_type":{"function":""},"permission":{"function":""},"len":{"function":""},"encryption_type":{"function":""}},"queryId":"New Query 2","colspanDetail":{"groupFooter":1,"queryHeader":1,"queryFooter":1,"groupHeader":1},"persistResults":false,"namenode":"NameNode1","resultTableName":"hdfs_metadata_result_2013_4_22_16_29_12","selectedTable":["hdfs_metadata"],"selectedOrderBy":{},"queryHeader":{"header":{"title":""}},"selectedWhere":{},"setHighFidelityOutput":true,"groupHeader":{},"selectedGroupBy":[],"selectedColumnList":["filepath","accesstime","modificationtime","owner","usergroup","permission","blocksize","replication","len","compression_type","encryption_type"]}
+</pre>
+</li>
+</ul>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

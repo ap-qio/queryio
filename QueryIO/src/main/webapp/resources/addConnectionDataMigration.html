@@ -1,0 +1,388 @@
+<link rel="stylesheet" href="styles/dataConnections.css" type="text/css" />
+<script src="scripts/dataConnections.js"></script>
+
+
+<div id="addDC" class="lightbox" style="width: 475px; z-index: 99999;">
+	<div id="close" class="close">
+		<a href="javascript:DataConnection.closeBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<table id="data_connection_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Add Data Connection</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table align="center" width="100%" id = "addEditTable" style="border-collapse: collapse;">
+						<tr>
+							<td id="msg_td">
+								<div class="instructional" style=""><span id="instruction"> Add a new Data Connection.</span> 
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<hr>
+							</td>
+						</tr>
+						<tr>
+							<td id="msg_td_1" style="color:red; ">
+								<div class="otherinstruction">
+								</div>
+							</td>
+						</tr>
+						<tr id="uploadFormTr" style="display: ''; ">
+							<td>
+								<form id="CommonForm">									
+									<div id="dataConnectionCommon">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Connection ID</td>
+												<td style="text-align: left;"><input type="text" name ="connectionId" id ="connectionId" value="">
+												</td>
+											</tr>
+											<tr>
+												<td>Source</td>
+												<td>
+													<select id="source" style="width: 225px;" onchange="javascript:DataConnection.sourceChanged(this.id);">
+														<option value="0">--Select--</option>
+														<option value="Amazon">Amazon</option>
+														<option value="FTP">FTP</option>
+														<option value="HDFS">HDFS</option>
+														<option value="POP/IMAP">POP/IMAP</option>
+														<option value="HTTP/HTTPS">HTTP/HTTPS</option>
+														<option value="SSH">SSH</option>	
+														<option value="SFTP">SFTP</option>
+														<option value="DB">Database</option>													
+													</select>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<!-- AMAZON -->
+									<div id = "amazonDiv" style="display: none;">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Access Key</td>
+												<td style="text-align: left;"><input type="text" id="accessKeyData" ></td>
+											</tr>
+											<tr>
+												<td>Secret Access Key</td>
+												<td><input type="text" id="secureAccessKeyData"></td>
+											</tr>
+										</table>
+									</div>
+									<!-- FTP -->
+									<div id ="ftpDiv" style="display: none">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align:left; width: 41%;">FTP Host</td>
+												<td style="text-align: left;">
+													<input type="text" id = "hostnameData" style="" >
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align:left;">FTP Port</td>
+												<td style="text-align: left;"><input type="text" id = "portnumberData" style="" >
+												</td>
+											</tr>
+											<tr>
+												<td>Username</td>
+												<td><input type="text" id="usernameData"></td>
+											</tr>
+											<tr>
+												<td>Password</td>
+												<td><input type="password" id="passwordData"></td>
+											</tr>
+										</table>
+									</div>
+									
+									<!-- HDFS -->
+									<div id ="HDFSDivLB" style="display: none">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Host</td>
+												<td style="text-align: left;"><input type="text" id="HDFSHost" name="HDFShost" value="hdfs://"></td>
+											</tr>
+											<tr>
+												<td>Port</td>
+												<td><input type="text" id="HDFSPort" name="HDFSport" ></td>
+											</tr>
+											<tr>
+												<td>User Name</td>
+												<td><input type="text" id="HDFSUser" name="HDFSUser" ></td>
+											</tr>
+											<tr>
+												<td>Group</td>
+												<td><input type="text" id="HDFSGroup" name="HDFSGroup" ></td>
+											</tr>
+										</table>
+									</div>
+									
+									<!-- POP -->
+									<div id ="emailDivLB" style="display: none">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Email Address</td>
+												<td style="text-align: left;"><input type="text" id="EmailAdd" name="EmailAdd" ></td>
+											</tr>
+											<tr>
+												<td>Email Password</td>
+												<td><input type="password" id="EmailPass" name="EmailPass" ></td>
+											</tr>
+											<tr>
+												<td>Mail Server Address</td>
+												<td><input type="text" id="EmailSadd" name="EmailSadd" ></td>
+											</tr>
+											<tr>
+												<td>Account Name</td>
+												<td><input type="text" id="EmailAname" name="EmailAname" ></td>
+											</tr>
+											
+											<tr>
+												<td>Protocol</td>												
+												<td>
+													<select id="Emailprotocol" style="width: 225px;">
+														<option value="POP3">POP3</option>
+														<option value="IMAP">IMAP</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>Socket Type</td>												
+												<td>
+													<select id="EmailSocket" style="width: 225px;">
+														<option value="PLAIN">PLAIN</option>
+														<option value="SSL">SSL</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>PORT</td>
+												<td><input type="text" id="EmailPort" name="EmailPort" ></td>
+											</tr>
+											<tr>
+												<td>Connection Timeout</td>
+												<td><input type="text" id="EmailCTO" name="EmailCTO" value="10000"></td>
+											</tr>
+											<tr>
+												<td>Read Timeout</td>
+												<td><input type="text" id="EmailRTO" name="EmailRTO" value="10000"></td>
+											</tr>
+											
+											
+										</table>
+									</div>
+									
+									<!-- HTTP -->
+									<div id ="httpDivLB" style="display: none">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Base URL</td>
+												<td style="text-align: left;"><input type="text" id="HttpBaseURL" name="httpBaseURL" value="Http://"></td>
+											</tr>
+											<tr>
+												<td>User Name</td>
+												<td><input type="text" id="HttpUser" name="httpUser"></td>
+											</tr>
+											<tr>
+												<td>Password</td>
+												<td><input type="password" id="HttpPass" name="httpPass"></td>
+											</tr>
+										</table>
+									</div>
+									
+									<!-- SSH IMPORT -->
+									<div id = "SSHDivLB" style="display: none;">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Host</td>
+												<td style="text-align: left;"><input type="text" id="SSHHost" name="SSHHost" ></td>
+											</tr>
+											<tr>
+												<td>Port</td>
+												<td><input type="text" id="SSHPort" name="SSHPort" ></td>
+											</tr>
+											
+											<tr>
+												<td>User Name</td>
+												<td><input type="text" id="SSHUser" name="SSHUser"></td>
+											</tr>
+											<tr>
+												<td>Authentication Method</td>
+												<td><select id="authMethodLB" style="width: 225px" name="authMethodLB" onchange="javascript:authenticationMethodChanged();">
+														<option selected value="SSHpLB">Password</option>
+														<option value="SSHkLB">Key</option>
+													</select>
+												</td>
+											</tr>
+											<tr id="SSHprLB" style="display: ">
+												<td>Password</td>
+												<td><input type="password" id="SSHPass" name="SSHPass"></td>
+											</tr>											
+											<tr id="SSHkrLB" style="display:none;">
+												<td>SSH Key</td>
+												<td><input type="text" id="SSHKey" name="SSHKey"></td>
+											</tr>	
+										</table>
+									</div>
+									
+									<!-- SFTP IMPORT -->
+									<div id = "SFTPDivLB" style="display: none;">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align:left; width: 41%;">SFTP Host</td>
+												<td style="text-align: left;"><input type="text" id = "SFTPHost" style="" >
+												</td>
+											</tr>
+											<tr>
+												<td>SFTP Port</td>
+												<td style="text-align: left;"><input type="text" id = "SFTPPort" style="" >
+												</td>
+											</tr>
+											<tr>
+												<td>Username</td>
+												<td><input type="text" id="SFTPUser" ></td>
+											</tr>
+											<tr>
+												<td>Password</td>
+												<td><input type="password" id="SFTPPass"  ></td>
+											</tr>											
+										</table>
+									</div>
+									
+									<!-- DATABASE IMPORT -->
+									<div id = "DataBaseDivLB" style="display: none;">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align:left; width: 41%;">JDBC Driver Class</td>
+												<td style="text-align: left;"><input type="text" name="DBDriverClass" id = "DBDriverClass"  style="" >
+												<input type="hidden" name="connectionId" id="connetionIdValueForm" value="" style="display: none">
+												</td>
+											</tr>
+											<tr>
+												<td>JDBC Connection URL</td>
+												<td style="text-align: left;"><input type="text" name="DBConnectionURL" id = "DBConnectionURL" style="" >
+												</td>
+											</tr>
+											<tr>
+												<td>Username</td>
+												<td><input type="text" name="DataBaseUser" id="DataBaseUser" ></td>
+											</tr>
+											<tr>
+												<td>Password</td>
+												<td><input type="password" name="DataBasePass" id="DataBasePass"  ></td>
+											</tr>
+											
+											<tr>
+												<td>JDBC Driver Jar</td>
+												<td><input type="file" name="DataBaseDriverJar" id="DataBaseDriverJar" style="width: 90%;"  ></td>
+											</tr>
+											<tr>
+												<td>Maximum Connections*</td>
+												<td><input type="text" name="maxConnection" id="maxConnections" value="20"  ></td>
+											</tr>
+											<tr>
+												<td>Maximum Idle Connections*</td>
+												<td><input type="text" name="maxIdleConnection" id="maxIdleConnection" value="10" ></td>
+											</tr>
+											<tr>
+												<td>Wait Time MilliSeconds*</td>
+												<td><input type="text" name="waitTime" id="waitTime" value="30000" ></td>
+											</tr>
+										</table>
+									</div>
+									
+									
+									
+									<table style="width: 100%;">
+										<tr>
+											<td colspan="2">
+												<input type="button" value="Cancel" id="cancelConnection" style="float: right;" onClick="javascript:DataConnection.closeBox(false);">
+												<input type="button" value="Save" id="saveConnection" style="float: right;" onClick="javascript: DataConnection.saveConnection();">
+												<input type="button" value="Save" id="saveDBConnection" style="display: none; float: right;" onClick="javascript: DataMigrate.saveDBConnection();">
+											</td>
+										</tr>
+									</table>
+								</form>
+							</td>
+						</tr>
+					</table>
+					
+					<table align="center" width="100%" id = "viewTable" style="border-collapse: collapse; display: none;">
+						<tbody>
+							<tr>
+								<td id="msg_td">
+									<div class="instructional" style=""><span id="instruction"><span id="connType"></span> Data Connection details for Connection ID- <span id = "connName"></span></span> 
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table class = "dataTable" id = "viewDataConnectionTable">
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+<div id="processingDiv" style="display: none;">
+					<table align="center" width="100%" style="border-collapse: collapse; text-align: center;">
+							<tr>
+								<th><span >Jar</span></th>
+								<th><span id="popup.message">Message</span></th>
+								<th><span id="popup.status">Status</span></th>
+								<th><span id="popup.image">	</span></th>
+							</tr>
+							<tr id="pop.pattern" style="">
+								<td><span id="parser"></span></td>
+								<td><span id="respMessage"></span><br><div id="log_div" style="display: none;"></div></td>
+								<td><span id="respStatus"></span></td>
+								<td>
+									<span id="respFail" style="display:none;"><img src="images/Fail_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+									<span id="respSuccess" style="display:none;"><img  src="images/Success_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+									<span id="respProcessing"><img  src="images/process.gif" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+								</td>
+								
+							</tr>
+							<tr>
+							<td colspan="4">
+								<input type="button" disabled="disabled" class="buttonAdmin" id="okpopup" value="Ok" onclick="DataMigrate.closeDBBox();">
+								<!-- <input type="button" disabled="true" class="buttonAdmin" id="viewreason.popup" value="Reason For Failure" onclick="javascript:showReasonForFailure();" style="margin: 0 0 0 10pt;">-->
+							</td>
+							</tr>
+						</table>
+					</div>
+</div>
+
+<div>
+</div>
+
+<script>
+	DataConnection.currentOperation = "externalAdd";
+	$("#source").val(DataMigrate.currentDataStore);
+	DataConnection.sourceChanged("source");
+</script>
+<script type="text/javascript">
+	function authenticationMethodChanged(){
+		
+		if($('#authMethodLB').val()=='SSHpLB')
+		{			
+			$('#SSHprLB').css('display','');
+			$('#SSHkrLB').css('display','none');
+		}
+		else if($('#authMethodLB').val()=='SSHkLB'){ 
+			$('#SSHprLB').css('display','none');
+			$('#SSHkrLB').css('display','');		
+		}		
+	} 
+</script>

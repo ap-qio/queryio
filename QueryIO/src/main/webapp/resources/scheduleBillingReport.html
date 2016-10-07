@@ -1,0 +1,204 @@
+<script type="text/javascript" src="scripts/reportList.js" ></script>
+
+
+
+<!-- <script type="text/javascript" src="scripts/datetimepicker.js"></script> -->
+
+<link href="styles/emailTable.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<style>
+    .divStyle {float:left; margin: 0 0 0 250;}
+</style>
+<script>
+$('#reportDate').datetimepicker({
+	controlType: 'select',
+	timeFormat: 'HH:mm:ss'
+});
+</script>
+<div id="add_rule" class="lightbox" >
+	<div id="close" class="close">
+		<a href="javascript:Billing.closeBox();"><img src="images/light-box-close.png"></a>
+	</div>
+	<form>
+	
+	<table id="add_schedule_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">Schedule Billing Report</span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td>
+                	<div id ="reportdiv1">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td>
+									<div class="instructional">
+									Schedule Billing report in QueryIO.
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="msg_td_1" style="color:red">
+								</td>
+							</tr>
+							<tr>
+								<td>	
+									<div id="reportDiv" style="">
+										
+										<table id="ruletbl1" width="100%" class="form_table" >
+											<tbody>
+												<tr id="hostScroll">
+													<td style="text-align: left;">Schedule Id</td>
+													<td style="text-align: left;">
+														<input type="text" id="schedID" style="width:180px;" width="180px;"></input>
+													</td>
+												</tr>
+												<tr>
+													<td>Interval</td>
+													<td>
+														<select name="interval" style="width:180px;" width="180px;">
+															<option value="0">Once</option>
+															<option value="1">Twelve Hours</option>
+															<option value="2">Daily</option>
+															<option value="3">Weekly</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td>Schedule Time</td>
+													<td>
+														<input type="text" id="reportDate"   readonly="readonly"  alt="Select date &amp; time..." name="reportDate" style="width:180px;" width="180px;">
+														<!-- <a href="javascript:NewCal('reportDate', 'MMddyyyy','arrow', true, '24', false);"><img src="images/calendar_16.gif"></img></a> -->
+													</td>
+												</tr>
+												<tr>
+													<td>Select Format</td>
+													<td>
+														<input id = "format_html" type="checkbox" name="html">HTML
+															&nbsp;<input  id = "format_pdf"  type="checkbox" name="pdf">PDF &nbsp;<input  id = "format_xls"  type="checkbox" name="xls">XLS
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2" style="text-align: right;">
+														<input type="button" name="rulenext" value="Next" onclick="javascript:Billing.nextScheduleStep(2);" class="buttonClass"> 
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id ="reportdiv2">
+					
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td>
+									<div class="instructional">
+									Select notification type and add message.
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="msg_td_2" style="color:red">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table width="100%" class="form_table">
+										<tbody>
+											<tr>
+												<td style="text-align: left;">Notification Type</td>
+												<td style="text-align: left;">
+													<select name="notificationType" id="notificationType" style="width:180px;" width="180px;">
+														<option value="Email">Email</option>
+														<!-- <option value="SMS">SMS</option> -->
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td class="form_td" valign="top">Message</td>
+												<td class="form_td">
+													<textarea name="alertRaisedNotificationMessage" id="alertRaisedNotificationMessage" cols="60" rows="5" class="list_td"></textarea>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align: right;">
+													<input type="button" name="rulenext" value="Back" onclick="javascript:Billing.nextScheduleStep(1);" class="buttonClass">
+													<input type="button" name="rulenext" value="Next" onclick="javascript:Billing.nextScheduleStep(3);" class="buttonClass"> 
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="reportdiv3">
+						
+						
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td>
+									<div class="instructional">
+									Select members to send notification.  
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="msg_td_3" style="color:red"></td>
+							</tr>
+							<tr>
+								<td>
+									<table class="pickList" style="width:100%;">
+										<tbody>
+											<tr>
+												<th class="pickLabel">Available users</th>
+												<td></td>
+												<th class="pickLabel">Selected users</th>
+											</tr>
+											<tr>
+					    						<td>
+					        						<select name="user" multiple="multiple" ondblclick="Billing.moveSelectedOptions('user','selected')" id="user" size="5">
+											        </select>
+					    						</td>
+						    					<td class="moveOptions">
+						       						<button class="button userMoveButton" name="moveRight" id="moveRight1" type="button" onclick="javascript:Billing.moveSelectedOptions('user','selected');">&nbsp;&gt;</button>
+						            				<br>
+						        					<button class="button userMoveButton" name="moveAllRight" id="moveAllRight1" type="button" onclick="javascript:Billing.moveAllOptions('user','selected');">&gt;&gt;</button>
+											        <br>
+											        <button class="button userMoveButton" name="moveLeft" id="moveLeft1" type="button" onclick="javascript:Billing.moveSelectedOptions('selected','user');">&nbsp;&lt;</button>
+													<br>
+											        <button class="button userMoveButton"  name="moveAllLeft" id="moveAllLeft1" type="button" onclick="javascript:Billing.moveAllOptions('selected','user');">&lt;&lt;</button>
+												</td>
+											    <td>
+											        <select name="selected" multiple="multiple" id="selected" size="5">
+					    					        </select>
+					    						</td>
+											</tr>
+											<tr>
+												<td colspan="4" style="text-align: right; width:100%;">
+													<input type="button" value="Back" name="back" onClick="javascript:Billing.nextScheduleStep(2);">
+													<input type="button" value="Finish" name="email" onClick="javascript:Billing.addSchedule();">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script>
+Billing.nextScheduleStep(1);
+document.getElementById('format_pdf').checked = true;
+var d = new Date();
+document.getElementById('reportDate').value =  (d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+</script>

@@ -1,0 +1,157 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hive Data Definition</title>
+</head>
+
+<body>
+
+<h1><span>Hive Data Definition</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains how to define schema to perform Ad hoc analysis of the files stored on the cluster. </p>
+<ul>
+	<li><a href="#what">What is Hive ?</a></li>
+	<li><a href="#hive">What is Hive Data Definition ?</a></li>
+	<li><a href="#csv">Data definition for CSV files</a></li>
+</ul>
+
+<h2 id="hive"><span>What is Hive ?</span></h2>
+
+<p>
+Hive is a data warehouse system for Hadoop that facilitates easy data summarization, ad-hoc queries, and the analysis of large datasets stored in Hadoop compatible file systems. 
+Hive provides a mechanism to project structure onto this data and query the data using a SQL-like language called HiveQL. 
+At the same time this language also allows traditional map/reduce programmers to plug in their custom mappers and reducers when it is inconvenient or inefficient to express this logic in HiveQL.
+</p>
+
+<p>Various supported file type are : </p>
+<ul>
+	<li>CSV / TSV</li>
+	<li>LOG4J</li>
+	<li>Apache Log</li>
+	<li>IIS Log</li>
+	<li>JSON</li>
+	<li>Key / Value Pair</li>
+	<li>Regex Parsable Text</li>
+	<li>XML</li>
+</ul>
+
+
+<h2 id="hive"><span>What is Hive Data Definition ?</span></h2>
+
+<p>
+Hive data definition assigns relational structure to the files stored on the HDFS cluster. 
+You can easily query the structured data to extract specific information. For example, data definition for log files would contain columns like: 
+CLASS, FILENAME, MESSAGE, LINENUBER, etc. Now if you want to check for the classes in which exception occurred, you can search for the term 
+'Exception' in the 'MESSAGE' column in a relational way. You can run SQL like queries for your files on cluster to search for the required data.
+</p>
+
+<h2 id="csv"><span>Data definition for CSV files.</span></h2>
+<p>Following are the steps to create data definition for CSV files so that you can perform ad hoc analysis on those files:</p>
+<ul>
+	<li>Before any data definition is added, there will be no adhoc table [ in "AdHocDB" database] in the QueryManager.</li>
+	<li>Navigate to <b>Data > Manage Hive</b> and click <b>Add</b>.</li>	
+	<li>In the <b>AdHoc Id</b> textbox, enter <b>AdHoc1</b>. It is used to differentiate between multiple data definitions. Enter a unique Id.</li>
+	<li>From the <b>File Type</b> drop-down list, select <b>CSV/TSV</b>.</li>
+	<li>From the <b>NameNode</b> drop-down list, select the namenode of the cluster on which you want to perform analysis.</li>
+	<li>From the <b>ResourceManager</b> drop-down list, select ResourceManager. The selected resource manager will be used to allocate resources while performing adhoc analysis.</li>
+	<li>In the <b>HDFS Source Path</b> textbox, enter '/Data/csv'. This path points to the directory on the cluster where csv files are stored.</li>
+	<li>In the <b>File Filter Pattern</b> textbox, enter <b>*.csv</b>. This data definition will be associated with the file types that you specify here.</li>
+	<li>In the <b>AdHoc Table Name</b> textbox, enter <b>AdHoc1CSVTable</b>. When you execute any queries on this table (using Query Builder view), QueryIO will automatically 
+	spawn a map-reduce job to perform ad hoc analysis on the files the full path of which matches with the filter specied above.</li>	
+	<li>Click <b>Next</b>.</li>
+	<img src="images/screenshots/adhoc-dd.png" /><br><br>	
+</ul>
+	
+	
+<ul>
+	<li>From the <b>Encoding</b> drop-down list, select <b>UTF-8</b> </li>
+	<li>Select <b>Auto Detect</b> radio button to let QueryIO automatically determine schema definition for adhoc query. If you select Auto Detect, QueryIO will automatically detect the 
+	schema of the file using the information that you provide in the subsequent fields.</li>
+	<li>Click on "Choose File" in <b>Sample File</b> and select any .csv file given in the compressed folder $INSTALL_HOME/demo/Data.zip</li>
+	<li><b>Has Header Row: </b> If the csv file being uploaded has a header row specifying the column names, select the checkbox.</li>
+	<li><b>Records to Analyze: </b> The number of rows/records to analyze to determine the data types of the fields persent in the file.</li>	
+	<li><b>Delimiter: </b> Specify the character that seperates the fields in the given file. If the fields in the file are seperated by a comma, enter '<b>,</b>'.</li>	
+	<li><b>Value separator: </b> It is the character that encloses each field. If the file contains values like: ["IP","CPU","RAM"], the value separator would be <b>"</b>. </li>	
+	<li>Click <b>Next</b>.</li>
+	<img src="images/screenshots/adhoc-dd-csv.png" /><br><br>
+</ul>
+
+<ul>
+	<li>In case of Auto Detect schema definition, this view shows the schema definition as determined by QueryIO by analyzing file content.</li>
+	<li>Click on <b>Submit</b> button to create the table for the data definition</b>.</li>
+	<img src="images/screenshots/adhoc-dd-schema.png" /><br><br>
+</ul>
+<p>You can use <a href="big-data-analytics.html#hive" > Query Designer</a> to query the csv data registered using this Hive Data Definition.
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+
+</html>
+
+
+
+<!-- <body>
+
+<h1><span>AdHoc - Content Processor</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p></p>
+<ul>
+	<li><a href="#intro">What is AdHoc - Content Processing</a></li>
+	<li><a href="#csv">CSV MapReduce Job with AdHoc Support</a></li>
+
+</ul>
+
+<h2 id="intro"><span>What is AdHoc - Content Processing</span></h2>
+<p>QueryIO provides AdHoc query feature. AdHoc query allows you to execute MapReduce jobs through analytics query manager and store parsed data in resultant table.<br>
+For ad-hoc analytics, no filter expressions are provided when job is added. 
+Instead filter expressions are provided using SQL query builder's WHERE block. 
+
+When a query is fired on these tables, respective mapreduce job is executed and result is displayed.</p>
+
+
+<p>You can also write your own MapReduce Jobs for different file types that you want to analyze.
+To see how you can write your own <b>Job</b>, refer to the <a href="../../hadoop-big-data-developer-guide/index.html" target="_blank">developer documentation</a>. </p>
+
+<h2 id="csv"><span>CSV MapReduce Job with AdHoc Support</span></h2>
+<p>Following are the steps to execute CSV Parser job:</p>
+<ul>
+	<li>Before any mapreduce job is added, there will be only no adhoc table [AdHocDB] in the QueryManager.</li>
+	<li>Now go to <b>Data > Adhoc - Content Processor</b> and click <b>Add</b>.</li>
+	<li>In the <b>Job Name</b> textbox, enter <b>CSVParser</b>.</li>
+	<li>In the <b>Parser Class</b> textbox, enter the main class name for your parser. For demo CSV parser, enter <b>com.queryio.demo.adhoc.csv.CSVParserJob</b>.</li>
+	<li>In the <b>Source Path</b> textbox, you can specify the path from where files will be parsed.</li>
+	<li>In the <b>Path Pattern</b> textbox, specify file filter pattern.(For example : *.csv or /Data/*.csv)</li>
+	<li>In the <b>Arguments</b> textbox, provide any extra arguments required by your parser. For sample job, provide <b>/</b>.</li>
+	
+	<li>Select NameNode and ResourceManager to be linked with job.</li>
+	<li>Select <b>$INSTALL_HOME/demo/CSVAdHocJob.jar</b> file.</li>
+	
+	<li>For CSV parser job, we do not need to add any dependency libraries or native files.</li>
+	<li>Click <b>Save</b>.</li>
+	<img src="images/screenshots/adhoc-job-csv.jpeg" /><br><br>
+	<li>Go to <b>Analytics > Query Designer</b></li>
+	<li>There will be a new <b>ADHOC_CSVPARSERJOB</b> table added in the FROM section.</li>
+	<img src="images/screenshots/adhoc-csv.jpeg" /><br><br>
+	<li>Result Table : If "Persist Result" option is checked, it displays name of the table in which result of the job execution will be saved in database. It can be manually changed. However, 
+	if  "Persist Result" is unchecked, the execution result is not saved in any table.</li>
+	<li>To provide <b>filter expressions</b>, use <b>WHERE</b> block. Select the attribute to be filtered and specify expression value through UI.</li>
+	<li>Click "View" to fire query.</li>
+	<li>Job will be automatically executed and result is displayed accordingly.</li>
+	<li>Once the query is executed, &lt;Result Table&gt; will be added to your FROM list and can be used further for querying.</li>
+	<img src="images/screenshots/adhoc-table.jpeg"/><br><br>
+</ul>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2013 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>
+ -->

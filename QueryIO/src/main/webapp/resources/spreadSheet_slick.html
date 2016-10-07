@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="styles/slick/slick.grid.css" type="text/css"/>
+<link rel="stylesheet" href="styles/slick/slick-default-theme.css" type="text/css"/>
+<link rel="stylesheet" href="styles/slick/examples.css" type="text/css"/>
+
+
+<!-- <script type="text/javascript" src="scripts/slick/lib/firebugx.js"></script> -->
+
+<!-- <script type="text/javascript" src="scripts/slick/lib/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="scripts/slick/lib/jquery-ui-1.8.16.custom.min.js"></script> -->
+<script type="text/javascript" src="scripts/slick/lib/jquery.event.drag-2.0.min.js"></script>
+<script type="text/javascript" src="scripts/slick/lib/jquery.jsonp-1.1.0.min.js"></script>
+
+<script type="text/javascript" src="scripts/slick/slick.core.js"></script>
+<!-- <script type="text/javascript" src="scripts/slick/slick.editors.js"></script> -->
+<script type="text/javascript" src="scripts/slick/slick.grid.js"></script>
+<!-- <script type="text/javascript" src="scripts/slick/slick.dataview.js"></script> -->
+<script type="text/javascript" src="scripts/slick/slick.remotemodel.js"></script>
+
+<script type="text/javascript" src="scripts/slick/plugins/slick.autotooltips.js"></script>
+<script type="text/javascript" src="scripts/slick/plugins/slick.cellrangedecorator.js"></script>
+<script type="text/javascript" src="scripts/slick/plugins/slick.cellrangeselector.js"></script>
+<script type="text/javascript" src="scripts/slick/plugins/slick.cellcopymanager.js"></script>
+<script type="text/javascript" src="scripts/slick/plugins/slick.rowselectionmodel.js"></script>
+
+<script type="text/javascript" src="scripts/spreadSheet_slick.js"></script>
+
+<style>
+	.slick-cell.copied {
+  		background: blue;
+  		background: rgba(0, 0, 255, 0.2);
+  		-webkit-transition: 0.5s background;
+   	}
+
+    .cell-selection {
+		border-right-color: silver;
+      	border-right-style: solid;
+      	background: #f5f5f5;
+	    color: gray;
+    	text-align: right;
+		font-size: 10px;
+    }
+
+    .slick-row.selected .cell-selection {
+    	background-color: transparent; /* show default selected row background */
+    }
+    
+    .cell-story {
+      white-space: normal !important;
+      line-height: 19px !important;
+    }
+
+    .loading-indicator {
+      display: inline-block;
+      padding: 12px;
+      background: white;
+      -opacity: 0.5;
+      color: black;
+      font-weight: bold;
+      z-index: 9999;
+      border: 1px solid #5DA423;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      -moz-box-shadow: 0 0 5px #396516;
+      -webkit-box-shadow: 0px 0px 5px #396516;
+      -text-shadow: 1px 1px 1px white;
+    }
+
+    .loading-indicator label {
+      padding-left: 20px;
+      background: url('styles/slick/images/ajax-loader-small.gif') no-repeat center left;
+    }
+    
+</style>
+
+<div style="position:relative">
+	<div id="myGridContainer" style="width: 1200px;">
+   		<div id="myGrid" style="width:100%;height:500px;"></div>
+	</div>
+
+<script>
+
+	$(".grid-header .ui-icon")
+		.addClass("ui-state-default ui-corner-all")
+		.mouseover(function (e) {
+	  		$(e.target).addClass("ui-state-hover")
+		})
+		.mouseout(function (e) {
+	  		$(e.target).removeClass("ui-state-hover")
+		});
+	
+	SSS.ready();
+	
+</script>
+</div>

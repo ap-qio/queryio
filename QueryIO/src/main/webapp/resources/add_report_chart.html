@@ -1,0 +1,198 @@
+<!-- <script src="scripts/jquery.alerts.js"></script>
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+-->
+
+
+
+<script type="text/javascript" src="scripts/report_chart.js"></script>
+
+
+<div id="add_report_chart" class="lightbox">
+	<div id="close" class="close">
+		<a href="javascript:RC.closeBox();"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<table id="add_report_chart_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Add Chart</span>
+					</h4>
+				</td>
+			</tr>
+			<tr id="error_msg_row">
+			</tr>
+			<tr>
+				<td>
+					<div id="chart_detail_div">
+						<table id="chart_detail_table" style="width: 100%;">
+							<tbody>
+								<tr>
+								<td colspan="2"><span id="error_msg" style="color: red;"></span></td>
+								</tr>
+								<tr>
+									<td style="">Chart Type</td>
+									<td style="padding-left: 30px;"><select id="chart_type" style="width: 120px;" onchange="javascript:RC.chartTypeChanged(this);">
+											<option value="">Select Chart Type</option>
+											<option value="line">Line Chart</option>
+											<option value="bar">Bar Chart</option>
+											<option value="pie">Pie Chart</option>
+											</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Section
+									</td>
+									<td style="padding-left: 30px;">
+									<select id="chart_position" style="width: 120px;" >
+											<option value="queryHeader">Report Header</option>
+											<option value="groupHeader">Group Header</option>
+											<option value="groupFooter">Group Footer</option>
+											<!-- <option value="queryFooter">Report Footer</option> -->
+											</select>
+										<input type="text" id="chart_section" style="display: none;">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Width (pt)
+									</td>
+									<td style="padding-left: 30px;">
+										<input type="search" placeholder="Width" id="chart_width" value="400" style="width: 100%;">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Height (pt)
+									</td>
+									<td style="padding-left: 30px;">
+										<input type="search" placeholder="Height" id="chart_height" value="200" style="width: 100%;">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table style="width: 100%; display:none " id="line_chart_table">
+								<tr>
+									<td style="text-align: left;">	
+										Chart Title
+									</td>
+									<td style="text-align: left;">
+										<input type="search" placeholder="Chart Title" id="line_chart_title" style="width: 100%;">
+									</td>
+								</tr>
+								<tr>
+									<td>	
+										X Series
+									</td>
+									<td><select id="line_x_series" style="width: 100%;">
+											<option value="col1">--Select--</option>
+									</select></td>
+								</tr>
+								<tr>
+									<td>
+										Y Series
+									</td>
+									<td>	
+										<span class="sbox" style=""><input	type="search" id="line_y_series"
+																				placeholder="Y Series ..." results="0"
+																				onfocus="DA.showLineYSeriesCol(this);"
+																					onclick="DA.showLineYSeriesCol(this);"
+																				style="width: 100%;"></span>
+																			<div id="line_y_seriesColFilters"
+																				class="filtersBlock" style="display: none;">
+																				<span>Y Series</span><br>
+
+																			</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										X Axis Legend
+									</td>
+									<td>
+										<input type="search" placeholder="X axis"
+																			id="line_x_axis_legend" style="width: 100%;">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Y Axis Legend
+									</td>
+									<td>
+										<input type="search" placeholder="Y axis"
+																			id="line_y_axis_legend" style="width: 100%;">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" style="text-align: right;">
+									<input type="button" class="buttonAdmin" id="lineAdd" value="Add" onclick="RC.addLineChart();">
+									<input type="button" class="buttonAdmin" id="lineCancel" value="Cancel" onclick="RC.closeBox();">
+										
+										
+									</td>
+								</tr>
+								
+							</table>
+						
+						<!-- Pie Chart Div -->
+						
+							<table style="width: 100%;display:none " id="pie_chart_table">
+								<tr>
+									<td style="text-align: left;width: 35%;">	
+										Chart Title
+									</td>
+									<td style="text-align: left;">
+										<input type="search" placeholder="Chart Title" id="pie_chart_title" style="width: 100%;">
+									</td>
+								</tr>
+								<tr>
+									<td>	
+										X Series
+									</td>
+									<td><select id="pie_x_series" style="width: 100%;">
+											<option value="col1">--Select--</option>
+									</select></td>
+								</tr>
+								<tr>
+									<td>	
+										Y Series
+									</td>
+									<td><select id="pie_y_series" style="width: 100%;">
+											<option value="col1">--Select--</option>
+									</select></td>
+								</tr>
+								<tr>
+									<td colspan="2" style="text-align: right;">
+										<input type="button" class="buttonAdmin" id="lineAdd" value="Add" onclick="RC.addPieChart();">
+										<input type="button" class="buttonAdmin" id="lineCancel" value="Cancel" onclick="RC.closeBox();">
+									</td>
+								</tr>
+								
+							</table>
+												
+
+					</div>
+				
+					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<script type="text/javascript">
+	RC.ready();
+	var onfilter =false;
+	$('#line_y_series').focus(function(){$('#line_y_seriesColFilters').show();});
+	
+	
+	$('#line_y_seriesColFilters').mouseenter(function(){
+		$('#line_y_seriesColFilters').show();
+	}).mouseleave(function(){
+		$('#line_y_seriesColFilters').hide();
+	});
+	
+	
+	</script>
+</div>

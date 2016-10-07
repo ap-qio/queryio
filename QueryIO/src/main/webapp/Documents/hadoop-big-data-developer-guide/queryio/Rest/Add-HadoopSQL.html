@@ -1,0 +1,1737 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>PUT Hadoop SQL</title>
+</head>
+<body>
+	<div>
+	<h1><span>PUT Hadoop SQL</span></h1>	
+	<h2><span>Description</span></h2>
+	<p>PUT Hadoop SQL operation of QueryIO server will add given Hadoop SQL query to the database or perform and update operation if it already exists.</p>
+	
+	<h2><span>Requests</span></h2>
+	<h3>Syntax</h3>
+	<ul>
+	<li>
+	<pre>
+PUT <em><code>/queryio/hadoopsql/</code></em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;Token&gt;</code></em></pre></li>
+		<li>authorization: Token for authorization. </li>
+	</ul>
+	
+	<h3>Request Headers</h3>
+	<p>The PUT Hadoop SQL operation in QueryIO Server uses following request header: </p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr><th> Header Name </th><th> Description </th><th> Type </th><th> Default </th><th> Required </th></tr>
+		<tr>
+			<td align="center">
+				<em ><code>hadoopsql-properties</code></em>
+			</td>
+			<td>
+				<p><a href="#json">Hadoop SQL properties JSON</a></p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> Yes </td>
+		</tr>		
+	</table>
+
+	<h3 id="json">Hadoop SQL JSON</h3>
+	<table cellspacing="0" border="1" width="100%">
+	<tr>
+		<th>Key</th><th>Value</th><th>Type</th><th>Required</th>
+	</tr>
+	<tr>
+		<td>namenode</td>
+		<td>ID of the NameNode on which data will be queried. <br>Example: "namenode": "NameNode1", </td>
+		<td>String</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>queryId</td>
+		<td>Unique identifier for the Hadoop SQL. <br>Example: "queryId": "New Query 7"</td>
+		<td>String</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>queryDesc</td>
+		<td>(Optional)Brief description for the query. Value can be empty or null. <br>Example: "queryDesc": "Query to get all sales list", </td>
+		<td>String</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>sqlQuery</td>
+		<td>Standard SQL query. <br>Example: "sqlQuery": "SELECT *  FROM HDFS_METADATA ", </td>
+		<td>String</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#chartDetail">chartDetail</a></td>
+		<td>(Optional) JSON object of the all the charts to be generated.
+		</td>
+		<td>JSONObject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#colHeaderDetail">colHeaderDetail</a></td>
+		<td>(Optional) Column header Formatting details. JSONObject for each coloumn header.</td>
+		<td>JSONObject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#colDetail">colDetail</a></td>
+		<td>(Optional) Formatting for each selected columns. JSONObject for each coloumn.</td>
+		<td>JSONObject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>dbName</td>
+		<td>Database name in which queried table is present.</td>
+		<td>String</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#queryHeader">queryHeader</a></td>
+		<td>(Optional) Header details for query result. JSONObject which contains header title and formatting details.</td>
+		<td>JSONObject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#queryFooter">queryFooter</a></td>
+		<td>(Optional) Footer details for query result. JSONObject which contains footer title and formatting details.
+		</td>
+		<td>JSONObject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#groupHeader">groupHeader</a></td>
+		<td>(Optional) Header description for each group. </td>
+		<td>JSONObject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#groupFooter">groupFooter</a></td>
+		<td>(Optional) Footer description for each group.</td>
+		<td>JSONObject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>selectedTable</td>
+		<td>List of tables to be queried. <br>Example: ["HDFS_METADATA", "DATATAGS_PDF"]</td>
+		<td>JSONArray</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#selectedWhere">selectedWhere</a></td>
+		<td>(Optional) Condition to be specified in query.</td>
+		<td>JSONObject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>setHighFidelityOutput</td>
+		<td>To get high or low quality output.</td>
+		<td>Boolean</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>setLimitResultRows</td>
+		<td>Limit the number of rows to be included in result.</td>
+		<td>Boolean</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>limitResultRowsValue</td>
+		<td>Specify number of rows to be included in result.</td>
+		<td>String</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>executionId</td>
+		<td>Specifies the current execution ID.</td>
+		<td>String</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>username</td>
+		<td>Current logged in user.</td>
+		<td>String</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>resultTableName</td>
+		<td>Name of the result table which gets created while running an adhoc query.</td>
+		<td>String</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>persistResults</td>
+		<td>Specifies whether user wants to create result table while running an adhoc query.</td>
+		<td>Boolean</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#selectedColumn">selectedColumn</a></td>
+		<td>(Optional)List of selected columns.</td>
+		<td>JSONOBject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>selectedGroupBy</td>
+		<td>Group columns with aggregate functions. <br>Example: [ "USERGROUP", "FILEPATH" ] </td>
+		<td>JSONArray</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#selectedHaving">selectedHaving</a></td>
+		<td>(Optional)Condition to be specified on GROUP BY clause. </td>
+		<td>JSONObject</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td><a href="#selectedOrderBy">selectedOrderBy</a></td>
+		<td>Sort the result-set by a specified column.</td>
+		<td>JSONOBject</td>
+		<td>Yes</td>
+	</tr>
+		
+	</table>
+	
+	<h3 id="chartDetail">chartDetail JSON Value</h3>
+	<p>Format for chartDetail JSON:
+	<ul><li><code id = "chartPreferencesLI">chartPreferences : "&lt;JSONObject&gt;"</code></li>
+	<ul>
+		<li>chartPreferences : Keyword indicating the JSON contains common formatting details.</li>
+		<li> &lt;JSONObject&gt; : Formatting details common for each chart. JSON is explained in following table.</li>
+	</ul>
+	</ul>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th style = "width: 200px;">Key</th><th>Value</th><th style = "width: 200px;">Type</th><th style = "width: 200px;">Required</th>
+		</tr>
+		<tr>
+			<td>titleJson</td>
+			<td>Properties of the title of the chart.
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>color</td>
+						<td>Color of the title.</td>
+					</tr>
+					<tr>
+						<td>text-align</td>
+						<td>Text alignment of the title.</td>
+					</tr>
+					<tr>
+						<td>insets</td>
+						<td>Offsets required from bottom, left, right, top</td>
+					</tr>
+					<tr>
+						<td>background</td>
+						<td>Background color of the title.</td>
+					</tr>
+					<tr>
+						<td>font-size</td>
+						<td>Font size of the title.</td>
+					</tr>
+					<tr>
+						<td>font-style</td>
+						<td>Font style of the title as Lighter, Normal, Bold or Bolder</td>
+					</tr>
+					<tr>
+						<td>value</td>
+						<td>Value of the title.</td>
+					</tr>
+					<tr>
+						<td>font-family</td>
+						<td>Font family of the title.</td>
+					</tr>
+					<tr>
+						<td>outline</td>
+						<td>Contains properties such as style, visibility, color and width of the outline.</td>
+					</tr>
+					<tr>
+						<td>anchor</td>
+						<td>Decides the gravity of the title as top, middle or bottom.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>outLineJson</td>
+			<td>Properties of the outline of the chart.
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>style</td>
+						<td>Style of the outline as solid, dashed or dotted.</td>
+					</tr>
+					<tr>
+						<td>visible</td>
+						<td>Visibility of the outline as true or false.</td>
+					</tr>
+					<tr>
+						<td>color</td>
+						<td>Color code of the outline in hex.</td>
+					</tr>
+					<tr>
+						<td>width</td>
+						<td>Width of the outline as 1, 2, 3 or 4.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>xAxisJson</td>
+			<td>Properties of the x axis of the chart.
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>position</td>
+						<td>Position of the x axis values as above or below.</td>
+					</tr>
+					<tr>
+						<td>visible</td>
+						<td>Visibility of the x axis values as true or false.</td>
+					</tr>
+					<tr>
+						<td>text-align</td>
+						<td>Text alignment of the x axis values.</td>
+					</tr>
+					<tr>
+						<td>font-style</td>
+						<td>Font style of the x axis values as Lighter, Normal, Bold or Bolder.</td>
+					</tr>
+					<tr>
+						<td>gridline</td>
+						<td>Contains properties such as style, visibility, color and width of the gridlines of the x axis values.</td>
+					</tr>
+					<tr>
+						<td>outline</td>
+						<td>Contains properties such as style, visibility, color and width of the outline of x axis values.</td>
+					</tr>
+					<tr>
+						<td>color</td>
+						<td>Color of the x axis values.</td>
+					</tr>
+					<tr>
+						<td>shadow</td>
+						<td>Color of the shadow of the x axis values.</td>
+					</tr>
+					<tr>
+						<td>background</td>
+						<td>Background color of the x axis values.</td>
+					</tr>
+					<tr>
+						<td>font-size</td>
+						<td>Font size of the x axis values.</td>
+					</tr>
+					<tr>
+						<td>insets</td>
+						<td>Offsets required from bottom, left, right, top</td>
+					</tr>
+					<tr>
+						<td>value</td>
+						<td>Value of the x axis.</td>
+					</tr>
+					<tr>
+						<td>font-family</td>
+						<td>Font family of the x axis values.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>leaderLineJson</td>
+			<td>Properties of the leader lines of the chart (Applicable only for Pie charts).
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>style</td>
+						<td>Style of the leader lines as fixed length or stretch to slide.</td>
+					</tr>
+					<tr>
+						<td>visible</td>
+						<td>Visibility of the leader lines as true or false.</td>
+					</tr>
+					<tr>
+						<td>color</td>
+						<td>Color code of the leader lines in hex.</td>
+					</tr>
+					<tr>
+						<td>lineStyle</td>
+						<td>Style of the leader lines as solid, dashed or dotted.</td>
+					</tr>
+					<tr>
+						<td>width</td>
+						<td>Width of the leader lines as 1, 2, 3 or 4.</td>
+					</tr>
+					<tr>
+						<td>lineLength</td>
+						<td>Length of the leader lines as 1, 2, 3, 4 and so on.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>commonJson</td>
+			<td>Common properties of the chart.
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>topColors</td>
+						<td>Top 5 colors of the chart configurable by the users.</td>
+					</tr>
+					<tr>
+						<td>emptyChartMessage</td>
+						<td>Message that appears when no chart is present.</td>
+					</tr>
+					<tr>
+						<td>background</td>
+						<td>Background of the whole chart.</td>
+					</tr>
+					<tr>
+						<td>floorBackground</td>
+						<td>Background color of the floor (Applicable only for 3D charts).</td>
+					</tr>
+					<tr>
+						<td>wallBackground</td>
+						<td>Background color of the wall (Applicable only for 3D charts).</td>
+					</tr>
+					<tr>
+						<td>clientBackground</td>
+						<td>Background color of the client area which contains just the chart area without any additional space such as X or Y legend.</td>
+					</tr>
+					<tr>
+						<td>plotBackground</td>
+						<td>Background color of the plot area which contains the area around the client area but without the title space.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>lineChartJson</td>
+			<td>Properties exclusively for the line chart.
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>curveColor</td>
+						<td>Color of the curve so formed.</td>
+					</tr>
+					<tr>
+						<td>showCurve</td>
+						<td>Whether or not to show the curve along with the lines passing through the points.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>legendJson</td>
+			<td>Properties of the legend of the chart.
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>Stretch</td>
+						<td>Orientation of the legend area as horizontal or vertical.</td>
+					</tr>
+					<tr>
+						<td>position</td>
+						<td>Position of the legend as above, below, right or left.</td>
+					</tr>
+					<tr>
+						<td>visible</td>
+						<td>Visibility of the legend as true or false.</td>
+					</tr>
+					<tr>
+						<td>title-font-color</td>
+						<td>Color of the legend values.</td>
+					</tr>
+					<tr>
+						<td>insets</td>
+						<td>Offsets required from bottom, left, right, top</td>
+					</tr>
+					<tr>
+						<td>background</td>
+						<td>Background color of the legend values.</td>
+					</tr>
+					<tr>
+						<td>visibleTitle</td>
+						<td>Whether or not to show the title of the legend area.</td>
+					</tr>
+					<tr>
+						<td>outline</td>
+						<td>Contains properties such as style, visibility, color and width of the outline of legend area.</td>
+					</tr>
+					<tr>
+						<td>title-font-family</td>
+						<td>Font family of the legend values.</td>
+					</tr>
+					<tr>
+						<td>title-font-style</td>
+						<td>Font style of the legend values as Lighter, Normal, Bold or Bolder.</td>
+					</tr>
+					<tr>
+						<td>anchor</td>
+						<td>Decides the gravity of the title as top, middle or bottom.</td>
+					</tr>
+					<tr>
+						<td>title-font-size</td>
+						<td>Font size of the title values.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>labelJson</td>
+			<td>Properties of the labels of the chart which forms the part of the actual data.
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>position</td>
+						<td>Position of the labels as outside or inside.</td>
+					</tr>
+					<tr>
+						<td>visible</td>
+						<td>Visibility of the labels as true or false.</td>
+					</tr>
+					<tr>
+						<td>text-align</td>
+						<td>Text alignment of the labels as left, center, right or justify.</td>
+					</tr>
+					<tr>
+						<td>font-style</td>
+						<td>Font style of the labels as Lighter, Normal, Bold or Bolder.</td>
+					</tr>
+					<tr>
+						<td>outline</td>
+						<td>Contains properties such as style, visibility, color and width of the outline of labels.</td>
+					</tr>
+					<tr>
+						<td>suffix</td>
+						<td>Text to be appended at the end of the label values.</td>
+					</tr>
+					<tr>
+						<td>values</td>
+						<td>Value of the labels as Actual value or percentage values.</td>
+					</tr>
+					<tr>
+						<td>shadow</td>
+						<td>Color of the shadow of the labels.</td>
+					</tr>
+					<tr>
+						<td>insets</td>
+						<td>Offsets required from bottom, left, right, top</td>
+					</tr>
+					<tr>
+						<td>background</td>
+						<td>Background color of the labels.</td>
+					</tr>
+					<tr>
+						<td>font-size</td>
+						<td>Font size of the labels.</td>
+					</tr>
+					<tr>
+						<td>prefix</td>
+						<td>Text to be appended at the beginning of the label values.</td>
+					</tr>
+					<tr>
+						<td>font-color</td>
+						<td>Color of the labels.</td>
+					</tr>
+					<tr>
+						<td>font-family</td>
+						<td>Font family of the labels.</td>
+					</tr>
+					<tr>
+						<td>separator</td>
+						<td>Separates the actual value from the percentage values using it.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>yAxisJson</td>
+			<td>Properties of the y axis of the chart.
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>position</td>
+						<td>Position of the y axis values as above or below.</td>
+					</tr>
+					<tr>
+						<td>visible</td>
+						<td>Visibility of the y axis values as true or false.</td>
+					</tr>
+					<tr>
+						<td>text-align</td>
+						<td>Text alignment of the y axis values.</td>
+					</tr>
+					<tr>
+						<td>font-style</td>
+						<td>Font style of the y axis values as Lighter, Normal, Bold or Bolder.</td>
+					</tr>
+					<tr>
+						<td>gridline</td>
+						<td>Contains properties such as style, visibility, color and width of the gridlines of the y axis values.</td>
+					</tr>
+					<tr>
+						<td>outline</td>
+						<td>Contains properties such as style, visibility, color and width of the outline of y axis values.</td>
+					</tr>
+					<tr>
+						<td>color</td>
+						<td>Color of the y axis values.</td>
+					</tr>
+					<tr>
+						<td>shadow</td>
+						<td>Color of the shadow of the y axis values.</td>
+					</tr>
+					<tr>
+						<td>background</td>
+						<td>Background color of the y axis values.</td>
+					</tr>
+					<tr>
+						<td>font-size</td>
+						<td>Font size of the y axis values.</td>
+					</tr>
+					<tr>
+						<td>insets</td>
+						<td>Offsets required from bottom, left, right, top</td>
+					</tr>
+					<tr>
+						<td>value</td>
+						<td>Value of the y axis.</td>
+					</tr>
+					<tr>
+						<td>font-family</td>
+						<td>Font family of the y axis values.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>insetsJson</td>
+			<td>Properties of the insets of the chart.
+				<br><br>
+				<table cellspacing="0" border="1" width="60%" style = "margin-left: 30px;">
+					<tr>
+						<th>Key</th><th>Value</th>
+					</tr>
+					<tr>
+						<td>bottom</td>
+						<td>Padding given at the bottom.</td>
+					</tr>
+					<tr>
+						<td>left</td>
+						<td>Padding given at the left.</td>
+					</tr>
+					<tr>
+						<td>right</td>
+						<td>Padding given at the right.</td>
+					</tr>
+					<tr>
+						<td>top</td>
+						<td>Padding given at the top.</td>
+					</tr>
+				</table>
+				<br><br>
+			</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+	</table>
+	
+	<ul><li><code>"&lt;ChartId&gt;" : "&lt;JSONObject&gt;"</code></li>
+	<ul>
+		<li>&lt;ChartId&gt; : Unique Identifier for chart.</li>
+		<li> &lt;JSONObject&gt; : Formatting details for each chart. JSON is explained in following table.</li>
+	</ul>
+	</ul>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th><th>Required</th>
+		</tr>
+		<tr>
+			<td>position</td>
+			<td>Position of chart.<br> Valid Values: "queryHeader", "groupHeader", "groupFooter"</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>yseriesArray</td>
+			<td>List of Y-axis columns.It can be more than one selected column. <br>Example: [ "COUNT(USERGROUP)", "FILEPATH", "LEN" ]</td>
+			<td>JSONArray</td>
+			<td>Yes</td>
+		</tr>
+		 <tr>
+			<td>yseries</td>
+			<td>Aggregate function on "yseriesArray" columns.
+			<br>Key: Value = &lt;ColumnName&gt;:&lt;Function&gt;
+			<ul>
+				<li>&lt;ColumnName&gt; : Name of the selected column.</li>
+				<li>&lt;Function&gt; : Aggregate function to be executed on column name. <br>Valid Value: "#", "Count","DistinctCount". '#' represents no aggregate function.</li>
+			</ul> 
+			</td>
+			<td>JSONObject</td>
+			<td></td>
+		</tr>
+		 <tr>
+			<td>ylegend</td>
+			<td>Y axis description</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		 <tr>
+			<td>align</td>
+			<td>center</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		 <tr>
+			<td>width</td>
+			<td>Width of chart in pixels. <br>Example: "300"</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		 <tr>
+			<td>type</td>
+			<td>Type of chart. <br>Valid Values: "line", "bar", "pie"</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		 <tr>
+			<td>chartPreferences</td>
+			<td>Chart formatting details defined for each chart similar to the common <a href = "#chartPreferencesLI">chartPreferences</a> explained above.</td>
+			<td>JSONObject</td>
+			<td>Yes</td>
+		</tr>
+		 <tr>
+			<td>title</td>
+			<td>Title of chart</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		 <tr>
+			<td>dimension</td>
+			<td>Dimensional representation of chart. 0 represents 2D, 1 represents 2D with depth, 2 represents 3D.<br> Valid Values: "0", "1", "2".
+			</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>height</td>
+			<td>Height of chart in pixels.<br>Example: "300"</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>colSpan</td>
+			<td>Set position of chart according to column.</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>rowPosition</td>
+			<td>Set position of chart according to row.</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>xlegend</td>
+			<td>X-axis descritpion.</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+		<tr>
+			<td>xseries</td>
+			<td>X-axis column. It can be only one selected column.</td>
+			<td>String</td>
+			<td>Yes</td>
+		</tr>
+	</table>
+	
+	<h3 id="colHeaderDetail">colHeaderDetail JSON Value</h3>
+	<p>Specify formatting for all column headers. Format for colHeaderDetail JSON:
+	<ul><li><code>"&lt;ColumnName&gt;" : "&lt;JSONObject&gt;"</code></li>
+	<ul>
+		<li>For all <a href="#selectedColumn">selected columns</a>.</li>
+		<li>&lt;ColumnName&gt; : Name of Selected columns.</li>
+		<li> &lt;JSONObject&gt; : Formatting details for each column. JSON is explained in following table.</li>
+	</ul>
+	</ul>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>title</td>
+			<td>Title of the column header to be displayed.</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>color</td>
+			<td>Font color in RGB format. <br>Example: #000000</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>text-align</td>
+			<td>Position of text. <br>Valid Values: "left", "center", "right", "justify"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-size</td>
+			<td>Font size in "pt" or "px". <br>Example: "12px"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>width</td>
+			<td>Width for the column in "pt" or "px" <br>Example: "100px".</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-style</td>
+			<td>Font Styles. <br>Valid Values: "normal", "italic", "oblique"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>background-color</td>
+			<td>Specify background color in RGB format. <br>Example: "#cccccc"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-family</td>
+			<td>The font-family property specifies the font for an element.<br>Valid Values: "Times New Roman", "Verdana", "Courier"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-weight</td>
+			<td>The font-weight CSS property specifies the weight or boldness of the font.<br>Valid Values: "normal", "bold", "bolder", "lighter" </td>
+			<td>String</td>
+		</tr>
+		
+	
+	</table>
+	
+	
+	<h3 id="colDetail">colDetail JSON Value</h3>
+	<p>Specify formatting for all column data. Format for colDetail JSON:
+	<p><ul><li><code>"&lt;ColumnName&gt;" : "&lt;JSONObject&gt;"</code><br>
+	<code>"checkBookFlag" : "true" or "false"</code></li>
+	<ul>
+		<li>For all <a href="#selectedColumn">selected columns</a>.</li>
+		<li>&lt;ColumnName&gt; : Name of Selected columns.</li>
+		<li> &lt;JSONObject&gt; : Formatting details for each column. JSON is explained in following table.</li>
+	</ul></ul></p>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>color</td>
+			<td>Font color in RGB format. <br>Example: #000000</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>text-align</td>
+			<td>Position of text. <br>Valid Values: "left", "center", "right", "justify"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-size</td>
+			<td>Font size in "pt" or "px". <br>Example: "12px"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>width</td>
+			<td>Width for the column in "pt" or "px" <br>Example: "100px".</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-style</td>
+			<td>Font Styles. <br>Valid Values: "normal", "italic", "oblique"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>background-color</td>
+			<td>Specify background color in RGB format. <br>Example: "#cccccc"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-family</td>
+			<td>The font-family property specifies the font for an element.<br>Valid Values: "Times New Roman", "Verdana", "Courier"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-weight</td>
+			<td>The font-weight CSS property specifies the weight or boldness of the font.<br>Valid Values: "normal", "bold", "bolder", "lighter" </td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td><a href="#format">format</a></td>
+			<td>JSON object with extra formatting details.</td>
+			<td>JSONOBject</td>
+		</tr>
+	</table>
+	
+	<h3 id="format">Format JSONObject</h3>
+	<p>Specify extra formatting for all column data.
+	</ul>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>category</td>
+			<td>Valid Values for column type 
+				<ul>
+					<li>string: "Unformatted", "uppercase", "lowercase", "Custom"</li>
+					<li>numeric: "Unformatted", "General Number", "Currency", "Fixed", "Percentage", "Scientific", "Custom" </li>
+				</ul> 
+			<br>
+			</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td><a href="#pattern">pattern</a></td>
+			<td>Details according to column type. </td>
+			<td>JSONObject</td>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>Column data  type. Only for column data type as "string". <br>Valid Value: String</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>sample</td>
+			<td>A sample data to show current formatting preview.</td>
+			<td>String</td>
+		</tr>
+	</table>
+	<h3 id="pattern">pattern JSONObject</h3>
+	<p>Specify extra formatting according to column data type.</p>
+	</ul>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>String Column Type</th><th>Numeric Column Type</th>
+		</tr>
+		<tr>
+			<td>decimalPlace</td>
+			<td>Number of decimal places to be displayed.</td>
+			<td>-1</td>
+			<td>Any number greater that 0(zero).</td>
+		</tr>
+		<tr>
+			<td>commaSeparator</td>
+			<td>Comma separator for larger numbers.</td>
+			<td>"false"</td>
+			<td>"true" or "false"</td>
+		</tr>
+		<tr>
+			<td>roundingMode</td>
+			<td>Rules for round up number.</td>
+			<td>"-"</td>
+			<td>"Half_Up" , "Half_Down", "Half_Even", "Up", "Down", "Ceiling", "Floor", "Unnecessary"</td>
+		</tr>
+		<tr>
+			<td>symbolNumber</td>
+			<td>Symbol to be displayed along with number.</td>
+			<td>"-"</td>
+			<td>"No Symbol", "$", "DKK" </td>
+		</tr>
+		<tr>
+			<td>negativeNumber</td>
+			<td>define how to display negative numbers.</td>
+			<td>"-"</td>
+			<td>"useHyphen", "useBracket" </td>
+		</tr>
+		<tr>
+			<td>symbolPosition</td>
+			<td>Specify to place symbol before or after number.</td>
+			<td>"-"</td>
+			<td>"before", "after" </td>
+		</tr>
+		<tr>
+			<td>useSymbolSpace</td>
+			<td>To provide space between symbol and number or not.</td>
+			<td>"false"</td>
+			<td>"true" or "false"</td>
+		</tr>
+		</table>
+		
+		<h3 id="queryHeader">queryHeader JSON Value</h3>
+	<p>Specify formatting for query header. Format for queryHeader JSON:
+	<p><ul><li><code>"header" : &lt;JSONObject&gt;</code></li>
+	<ul>
+		<li> &lt;JSONObject&gt; : Formatting details for header. JSON is explained in following table.</li>
+	</ul></ul></p>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>title</td>
+			<td>Title to be displayed in report or query header.</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>color</td>
+			<td>Font color in RGB format. <br>Example: #000000</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>text-align</td>
+			<td>Position of text. <br>Valid Values: "left", "center", "right", "justify"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-size</td>
+			<td>Font size in "pt" or "px". <br>Example: "12px"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>width</td>
+			<td>Width for the column in "pt" or "px" <br>Example: "100px".</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-style</td>
+			<td>Font Styles. <br>Valid Values: "normal", "italic", "oblique"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>background-color</td>
+			<td>Specify background color in RGB format. <br>Example: "#cccccc"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-family</td>
+			<td>The font-family property specifies the font for an element.<br>Valid Values: "Times New Roman", "Verdana", "Courier"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-weight</td>
+			<td>The font-weight CSS property specifies the weight or boldness of the font.<br>Valid Values: "normal", "bold", "bolder", "lighter" </td>
+			<td>String</td>
+		</tr>
+	</table>
+	
+	
+		<h3 id="queryFooter">queryFooter JSON Value</h3>
+	<p>Specify formatting for query footer. Format for queryFooter JSON:
+	<p><ul><li><code>"footer" : &lt;JSONObject&gt;</code></li>
+	<ul>
+		<li> &lt;JSONObject&gt; : Formatting details for header. JSON is explained in following table.</li>
+	</ul></ul></p>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>title</td>
+			<td>Title to be displayed at end of report or query.</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>color</td>
+			<td>Font color in RGB format. <br>Example: #000000</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>text-align</td>
+			<td>Position of text. <br>Valid Values: "left", "center", "right", "justify"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-size</td>
+			<td>Font size in "pt" or "px". <br>Example: "12px"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>width</td>
+			<td>Width for the column in "pt" or "px" <br>Example: "100px".</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-style</td>
+			<td>Font Styles. <br>Valid Values: "normal", "italic", "oblique"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>background-color</td>
+			<td>Specify background color in RGB format. <br>Example: "#cccccc"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-family</td>
+			<td>The font-family property specifies the font for an element.<br>Valid Values: "Times New Roman", "Verdana", "Courier"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-weight</td>
+			<td>The font-weight CSS property specifies the weight or boldness of the font.<br>Valid Values: "normal", "bold", "bolder", "lighter" </td>
+			<td>String</td>
+		</tr>
+	</table>
+	
+	<h3 id="groupHeader">groupHeader JSON Value</h3>
+	<p>Specify formatting for all group headers. Format for groupHeader JSON:
+	<p><ul><li><code>"&lt;ColumnName&gt;" : &lt;JSONObject&gt;</code><br></li>
+	<ul>
+		<li>For all group headers</a>.</li>
+		<li>&lt;ColumnName&gt; : Name of Selected columns.</li>
+		<li> &lt;JSONObject&gt; : Formatting details for each column. JSON is explained in following table.</li>
+	</ul></ul></p>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td><a href="#style">style</a></td>
+			<td>Formatting for group header.</td>
+			<td>JSONObject</td>
+		</tr>
+		<tr>
+			<td>prefix</td>
+			<td>Text to be displayed before column name</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>suffix</td>
+			<td>Text to be displayed after column name</td>
+			<td>String</td>
+		</tr>
+	</table>
+		
+	<h3 id="style">style JSONObject (groupHeader and groupFooter)</h3>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>color</td>
+			<td>Font color in RGB format. <br>Example: #000000</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>text-align</td>
+			<td>Position of text. <br>Valid Values: "left", "center", "right", "justify"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-size</td>
+			<td>Font size in "pt" or "px". <br>Example: "12px"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>width</td>
+			<td>Width for the column in "pt" or "px" <br>Example: "100px".</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-style</td>
+			<td>Font Styles. <br>Valid Values: "normal", "italic", "oblique"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>background-color</td>
+			<td>Specify background color in RGB format. <br>Example: "#cccccc"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-family</td>
+			<td>The font-family property specifies the font for an element.<br>Valid Values: "Times New Roman", "Verdana", "Courier"</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>font-weight</td>
+			<td>The font-weight CSS property specifies the weight or boldness of the font.<br>Valid Values: "normal", "bold", "bolder", "lighter" </td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td><a href="#format">format</a></td>
+			<td>JSON object with extra formatting details.</td>
+			<td>JSONOBject</td>
+		</tr>
+	</table>
+	
+	
+	<h3 id="groupFooter">groupFooter JSON Value</h3>
+	<p>Specify formatting for all group footer. Format for groupFooter JSON:
+	<p><ul><li><code>"&lt;ColumnName&gt;" : &lt;JSONObject&gt;</code><br></li>
+	<ul>
+		<li>For all group footers</a>.</li>
+		<li>&lt;ColumnName&gt; : Name of Selected columns.</li>
+		<li> &lt;JSONObject&gt; : Formatting details for each column. JSON is explained in following table.</li>
+	</ul></ul></p>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td><a href="#style">style</a></td>
+			<td>Formatting for group header.</td>
+			<td>JSONObject</td>
+		</tr>
+		<tr>
+			<td>prefix</td>
+			<td>Text to be displayed before column name</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>suffix</td>
+			<td>Text to be displayed after column name</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>function</td>
+			<td>Aggregate function to be applied on column<br>Valid Values: "COUNT", "DistinctCount" </td>
+			<td>String</td>
+		</tr>
+	</table>
+	
+	
+	<h3 id="selectedWhere">selectedWhere JSON Value</h3>
+	<p>Specify "where" condition for the columns provided in "sqlQuery".</p>
+	<p><ul><li><code>"&lt;ColumnName&gt;" : &lt;JSONObject&gt;</code><br></li>
+	<ul>
+		<li>For all columns included in condition.</li>
+		<li>&lt;ColumnName&gt; : Name of column.</li>
+		<li> &lt;JSONObject&gt; : JSON specifying condition.</li>
+	</ul></ul></p>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>roperator</td>
+			<td>Relational operator used in the condition<br>Valid Values: "=", "!=", "&gt;", "&lt;", "&lt;=", "&gt;=", IN , NOT IN, IS NULL , NOT IS NULL, LIKE, NOT LIKE, BETWEEN, NOT BETWEEN </td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>value</td>
+			<td>Value to be provided in condition</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>loperator</td>
+			<td>Logical operator to join several conditions.</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+			<pre>
+"selectedWhere": {
+            "USERGROUP": {
+                  "roperator": " = ", 
+                  "value": "queryio", 
+                  "loperator": "AND"
+            }, 
+            "LEN": {
+                  "roperator": " > ", 
+                  "value": "10", 
+                  "loperator": ""
+            }
+      }, 			
+			</pre>
+			</td>
+			<td></td>
+		</tr>
+	</table>
+	
+	
+	<h3 id="selectedColumn">selectedColumn JSON Value</h3>
+	<p>Specify selected columns which are included in sql query (if query is not in the format : SELECT * FROM &lt;table&gt;). <br>Format for JSONObject is</p>
+	<p><ul><li><code>"&lt;ColumnName&gt;" : &lt;JSONObject&gt;</code><br></li>
+	<ul>
+		<li>For all selected columns</a>.</li>
+		<li>&lt;ColumnName&gt; : Name of Selected columns.</li>
+		<li> &lt;JSONObject&gt; : aggregate function details for each column. JSON is explained in following table.</li>
+	</ul></ul></p>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>function</td>
+			<td>Aggregate function to be applied on column.<br>Valid Values: "COUNT", "DistinctCount"</td>
+			<td>String</td>
+		</tr>
+	</table>
+	
+	<h3 id="selectedHaving">selectedHaving JSON Value</h3>
+	<p>Specify condition for the columns provided in "GROUP BY" clause.</p>
+	<p><ul><li><code>"&lt;ColumnName&gt;" : &lt;JSONObject&gt;</code><br></li>
+	<ul>
+		<li>For all columns included in condition.</li>
+		<li>&lt;ColumnName&gt; : Name of column.</li>
+		<li> &lt;JSONObject&gt; : JSON specifying condition.</li>
+	</ul></ul></p>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>roperator</td>
+			<td>Relational operator used in the condition<br>Valid Values: "=", "!=", "&gt;", "&lt;", "&lt;=", "&gt;=", IN , NOT IN, IS NULL , NOT IS NULL, LIKE, NOT LIKE, BETWEEN, NOT BETWEEN </td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>value</td>
+			<td>Value to be provided in condition</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td>loperator</td>
+			<td>Logical operator to join several conditions.</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+			<pre>
+"selectedHaving": {
+            "USERGROUP": {
+                  "roperator": " LIKE ", 
+                  "value": "query%", 
+                  "loperator": "AND"
+            }, 
+            "LEN": {
+                  "roperator": " > ", 
+                  "value": "10", 
+                  "loperator": ""
+            }
+      }, 			
+			</pre>
+			</td>
+			<td></td>
+		</tr>
+	</table>
+	
+	<h3 id="selectedOrderBy">selectedOrderBy JSON Value</h3>
+	<p><a href="#sample">See Sample JSON</a>.</p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr>
+			<th>Key</th><th>Value</th><th>Type</th>
+		</tr>
+		<tr>
+			<td>&lt;columnName&gt;</td>
+			<td>Specify sorting of Selected column name.<br>Valid Values: "ASC", "DESC" 
+			<br>Example: "selectedOrderBy": { "USERGROUP": "ASC"  }, 
+			</td>
+			<td>String</td>
+		</tr>
+	</table>
+	
+	<h3 id="sample">Sample Hadoop SQL properties JSON</h3>
+<pre>
+{
+      "resultTableName": "RESULT_8_HDFS_METADATA", 
+      "namenode": "NameNode1", 
+      "sqlQuery": "SELECT USERGROUP, FILEPATH, COUNT(LEN)  FROM HDFS_METADATA WHERE USERGROUP =   'queryio' AND LEN >   10   GROUP BY USERGROUP,FILEPATH  ORDER BY USERGROUP ASC ",
+      "dbName": "QueryDB", 
+      "chartDetail": {
+            "chart0": {
+                  "position": "groupHeader", 
+                  "yseriesArray": [
+                        "FILEPATH"
+                  ], 
+                  "yseries": {
+                        "FILEPATH": "#"
+                  }, 
+                  "ylegend": "vcb", 
+                  "align": "center", 
+                  "width": "300", 
+                  "type": "line",
+                  "chartPreferences": {},
+                  "title": "chart", 
+                  "dimension": "0", 
+                  "height": "300", 
+                  "colSpan": "1", 
+                  "rowPosition": "1", 
+                  "xlegend": "cvb", 
+                  "xseries": "USERGROUP"
+            }, 
+            "chart1": {
+                  "position": "queryHeader", 
+                  "yseriesArray": [
+                        "Count(FILEPATH)"
+                  ], 
+                  "yseries": {
+                        "FILEPATH": "Count"
+                  }, 
+                  "ylegend": "aa", 
+                  "align": "center", 
+                  "width": "300", 
+                  "type": "pie",
+                  "chartPreferences": {},
+                  "title": "2", 
+                  "dimension": "0", 
+                  "height": "300", 
+                  "colSpan": "1", 
+                  "rowPosition": "1", 
+                  "xlegend": "aa", 
+                  "xseries": "USERGROUP"
+            },
+            "chartPreferences": {
+	            "titleJson": {}, 
+	            "outLineJson": {}, 
+	            "xAxisJson": {}, 
+	            "leaderLineJson": {}, 
+	            "commonJson": {}, 
+	            "lineChartJson": {}, 
+	            "legendJson": {}, 
+	            "labelJson": {}, 
+	            "yAxisJson": {}, 
+	            "insetsJson": {}
+	        }
+      },
+      "selectedOrderBy": {
+            "USERGROUP": "ASC"
+      }, 
+      "selectedTable": [
+            "HDFS_METADATA"
+      ], 
+      "queryHeader": {
+            "header": {
+                  "title": "header", 
+                  "color": "ffffff", 
+                  "text-align": "center", 
+                  "font-size": "16px", 
+                  "width": "100%", 
+                  "font-style": "italic", 
+                  "background-color": "005fbf", 
+                  "font-family": "Arial", 
+                  "font-weight": "bold", 
+                  "format": { }
+            }
+      }, 
+      "selectedWhere": {
+            "USERGROUP": {
+                  "roperator": " = ", 
+                  "value": "queryio", 
+                  "loperator": "AND"
+            }, 
+            "LEN": {
+                  "roperator": " > ", 
+                  "value": "10", 
+                  "loperator": ""
+            }
+      },
+      "selectedHaving": {
+            "USERGROUP": {
+                  "roperator": " LIKE ", 
+                  "value": "query%", 
+                  "loperator": "AND"
+            }, 
+            "LEN": {
+                  "roperator": " > ", 
+                  "value": "10", 
+                  "loperator": ""
+            }
+      },
+      "username": "admin", 
+      "executionId": 12, 
+      "limitResultRowsValue": "5", 
+      "setHighFidelityOutput": true, 
+      "queryFooter": {
+            "footer": {
+                  "title": "footer", 
+                  "color": "#7c7c7c", 
+                  "text-align": "left", 
+                  "font-size": "16px", 
+                  "width": "100%", 
+                  "font-style": "normal", 
+                  "background-color": "", 
+                  "font-family": "Arial", 
+                  "font-weight": "normal", 
+                  "format": { }
+            }
+      }, 
+      "groupHeader": {
+            "USERGROUP": {
+                  "style": {
+                        "color": "ffffff", 
+                        "text-align": "center", 
+                        "font-size": "10px", 
+                        "width": "pt", 
+                        "font-style": "italic", 
+                        "background-color": "00bf5f", 
+                        "font-family": "Times New Roman", 
+                        "font-weight": "bold", 
+                        "format": {
+                              "category": "uppercase", 
+                              "pattern": {
+                                    "decimalPlace": "-1", 
+                                    "commaSeparator": false, 
+                                    "roundingMode": "-", 
+                                    "symbolNumber": "-", 
+                                    "negativeNumber": "-", 
+                                    "symbolPosition": "-", 
+                                    "useSymbolSpace": false
+                              }, 
+                              "type": "string", 
+                              "sample": "USERGROUP"
+                        }
+                  }, 
+                  "prefix": "prefix", 
+                  "suffix": "suffix", 
+                  "function": ""
+            }
+      }, 
+      "setLimitResultRows": true, 
+      "groupFooter": {
+            "FILEPATH": {
+                  "style": {
+                        "color": "", 
+                        "text-align": "left", 
+                        "font-size": "10pt", 
+                        "width": "pt", 
+                        "font-style": "normal", 
+                        "background-color": "", 
+                        "font-family": "Times New Roman", 
+                        "font-weight": "normal", 
+                        "format": {
+                              "category": "Unformatted", 
+                              "pattern": {
+                                    "decimalPlace": "-1", 
+                                    "commaSeparator": false, 
+                                    "roundingMode": "-", 
+                                    "symbolNumber": "-", 
+                                    "negativeNumber": "-", 
+                                    "symbolPosition": "-", 
+                                    "useSymbolSpace": false
+                              }, 
+                              "type": "string", 
+                              "sample": "FILEPATH"
+                        }
+                  }, 
+                  "prefix": "", 
+                  "suffix": "", 
+                  "function": ""
+            }
+      }, 
+      "queryDesc": "aasassxz", 
+      "colDetail": {
+            "USERGROUP": {
+                  "color": "#000000", 
+                  "text-align": "left", 
+                  "font-size": "10px", 
+                  "width": "180px", 
+                  "font-style": "normal", 
+                  "background-color": "", 
+                  "font-family": "Arial", 
+                  "font-weight": "normal", 
+                  "format": {
+                        "category": "uppercase", 
+                        "pattern": {
+                              "decimalPlace": "-1", 
+                              "commaSeparator": false, 
+                              "roundingMode": "-", 
+                              "symbolNumber": "-", 
+                              "negativeNumber": "-", 
+                              "symbolPosition": "-", 
+                              "useSymbolSpace": false
+                        }, 
+                        "type": "string", 
+                        "sample": "USERGROUP"
+                  }
+            }, 
+            "FILEPATH": {
+                  "color": "#000000", 
+                  "text-align": "center", 
+                  "font-size": "12px", 
+                  "width": "180px", 
+                  "font-style": "italic", 
+                  "background-color": "aaffaa", 
+                  "font-family": "Times New Roman", 
+                  "font-weight": "bolder", 
+                  "format": {
+                        "category": "Unformatted", 
+                        "pattern": {
+                              "decimalPlace": "-1", 
+                              "commaSeparator": false, 
+                              "roundingMode": "-", 
+                              "symbolNumber": "-", 
+                              "negativeNumber": "-", 
+                              "symbolPosition": "-", 
+                              "useSymbolSpace": false
+                        }, 
+                        "type": "string", 
+                        "sample": "FILEPATH"
+                  }
+            }, 
+            "COUNT(LEN)": {
+                  "format": {
+                        "category": "Currency", 
+                        "pattern": {
+                              "decimalPlace": "3", 
+                              "commaSeparator": false, 
+                              "roundingMode": "Half_Up", 
+                              "symbolNumber": "$", 
+                              "negativeNumber": "useBracket", 
+                              "symbolPosition": "before", 
+                              "useSymbolSpace": false
+                        }, 
+                        "sample": "$123456123456.000"
+                  }
+            }, 
+            "checkBookFlag": true
+      }, 
+      "colHeaderDetail": {
+            "USERGROUP": {
+                  "title": "USERGROUP", 
+                  "color": "#000000", 
+                  "text-align": "center", 
+                  "font-size": "12px", 
+                  "width": "100px", 
+                  "font-style": "normal", 
+                  "background-color": "#cccccc", 
+                  "font-family": "Verdana", 
+                  "font-weight": "normal", 
+                  "format": { }
+            }, 
+            "FILEPATH": {
+                  "title": "FILEPATH", 
+                  "color": "#000000", 
+                  "text-align": "center", 
+                  "font-size": "12px", 
+                  "width": "180px", 
+                  "font-style": "normal", 
+                  "background-color": "#cccccc", 
+                  "font-family": "Arial", 
+                  "font-weight": "normal", 
+                  "format": { }
+            }
+      }, 
+      "selectedGroupBy": [
+            "USERGROUP", 
+            "FILEPATH"
+      ], 
+      "selectedColumn": {
+            "USERGROUP": {
+                  "function": ""
+            }, 
+            "FILEPATH": {
+                  "function": ""
+            }, 
+            "LEN": {
+                  "function": "COUNT"
+            }
+      }, 
+      "queryId": "New Query 7"
+      "persistResults": true, 
+      "colspanDetail": {
+        "groupFooter": 1, 
+        "queryHeader": 1, 
+        "groupHeader": 1, 
+        "queryFooter": 1
+      }, 
+}
+</pre>	
+	
+	
+	
+	
+	
+	
+	<h2><span>Examples</span></h2>
+		<h3>Sample Request </h3>
+		<p>The following request will add a new Hadoop SQL query.</p>
+		<ul>
+		<li>
+		<pre>
+PUT /queryio/hadoopsql/ HTTP/1.1
+Host: QueryIO
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+hadoopsql-properties : {"sqlQuery":"SELECT *  FROM TAGS_NAMENODE1","chartDetail":{},"selectedOrderBy":[],"selectedTable":["TAGS_NAMENODE1"],"queryHeader":{"header":{"title":""}},"selectedWhere":{},"queryFooter":{"footer":{"title":""}},"groupHeader":{},"queryDesc":"","groupFooter":{},"colDetail":{},"colHeaderDetail":{},"selectedGroupBy":[],"selectedColumn":{"*":{}},"queryId":"Query1"}
+</pre></li>
+		</ul>
+		
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+&lt;xml version="1.0" encoding="UTF-8"&gt;
+&lt;SaveHadoopSQL&gt;
+	&lt;Status&gt;&lt;true&gt;&lt;/Status&gt;
+&lt;/SaveHadoopSQL&gt;
+
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

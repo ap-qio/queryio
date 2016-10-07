@@ -1,0 +1,248 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop NameNode</title>
+</head>
+<body>
+<h1 id="NameNode"><span>Hadoop NameNode</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>NameNode is the centerpiece of QueryIO cluster. This chapter explains HDFS NameNode and related functions.<br> Various aspects of NameNode explained are:</p>
+<ul>
+	<li><a href="#intro">What is NameNode</a></li>
+	<li><a href="#summary">NameNode Summary</a></li>
+	<li><a href="#new">Add NameNode</a></li>
+	<li><a href="#start">Start/Stop NameNode</a></li>
+	<li><a href="#delete">Delete NameNode</a></li>
+	<li><a href="#monitor">Start/Stop Monitoring</a></li>
+	<li><a href="#config">Configure NameNode</a></li>
+	<li><a href="#health">Run Health Check</a></li>
+	<li><a href="#balancer">Run Balancer</a></li>
+	<li><a href="#failover">Failover</a></li>
+	<li><a href="#enableHA">High Availability</a></li>
+	<li><a href="#safemode">Safemode</a></li>
+	<li><a href="#details">NameNode Details</a></li>
+</ul>
+
+<h2 id="intro"><span>What is NameNode</span></h2>
+<p>The NameNode is the centerpiece of an HDFS file system. It keeps the directory tree of all files in the file system in form of metadata, and tracks where across the cluster, the file data is kept. 
+It does not store the data of these files itself. Client applications talk to the NameNode whenever they wish to locate a file, or when they want to add/copy/move/delete a file. 
+The NameNode responds the successful requests by returning a list of relevant DataNode servers where the data lives. </p>
+<p>An HDFS cluster consists of a single NameNode, a master server that manages the file system namespace and regulates access to files by clients.</p>
+<p>There are two types of NameNodes in a cluster:</p>
+<ul>
+	<li>Active NameNode</li>
+	<li>StandBy NameNode</li>
+</ul>
+<p>The <b>Active NameNode</b> is responsible for all client operations in the cluster, while the <b>Standby NameNode</b> is simply acting as a slave. The <b>Active</b> NameNode is a single point of failure for the HDFS cluster. When the NameNode goes down, the file system will go offline. There is an optional <b>Standby</b> NameNode that can be hosted on a separate machine. 
+So when active NameNode goes down, standby name node can be used as active NameNode and file system will be safe. This process is called failover.</p> 
+
+<p>To manage NameNodes on your cluster, go to <b>HDFS > NameNode</b>.</p>
+
+<img alt="name-node" src="images/screenshots/name-node.jpeg" >
+
+<h2 id="summary"><span>NameNode Summary</span></h2>
+<p>Following details about NameNode are displayed:</p>
+<ul>
+	<li>I/O summary: A pie chart displaying number of file reads against file writes performed on HDFS.</li>
+	<li>Status summary: It displays the following:
+		<ul>
+			<li><b>Total Bytes Read:</b> Amount of data read from the cluster in bytes.</li>
+			<li><b>Total Bytes Written:</b> Amount of data imported to the cluster in bytes.</li>
+			<li><b>Total Blocks Read:</b> Total number of blocks read. If block size is 20KB and 100KB data has been read, then number of blocks read would be 5.</li>
+			<li><b>Total Blocks Written:</b> Total number of blocks written on cluster. If block size is 20KB and a 500KB file is imported, then blocks written would be 25.</li>
+			<li><b>Total File Read:</b> Total number of files read from the cluster.</li>
+			<li><b>Total File Written:</b> Total number of files created on the cluster.</li>
+			<li><b>Total File Appended:</b> Total number of files updated.</li>
+			<li><b>Total File Renamed:</b> Total number of files renamed.</li>
+			<li><b>Total List File Ops: </b>Number of requests to list the files on the cluster.</li>
+			<li><b>Total Delete File Ops: </b>Number of delete operations performed on cluster.</li>	
+		</ul>
+	</li>
+	<li>NameNode Summary: Details about NameNode.</li>
+	<li>Activity Summary: Details of the activities performed on NameNodes like Health Check or Balancer.</li>		
+</ul>
+
+<h3>NameNode Summary</h3>
+<p class="whs5">It displays certain attributes about the NameNode in the cluster in a tabular form. Summary attributes contain:</p>
+<ul>
+	<li><b>NameNode:</b> Unique identifier and IP address of the NameNode.</li>
+	<li><b>Type:</b> Mode of the NameNode as Non-HA or HA(High Availability).</li>
+	<li><b>JVM Heap:</b> The Java virtual machine heap is the area of memory used by the JVM, for dynamic memory allocation.</li>
+	<li><b>File Reads:</b> Number of files read from cluster.</li>
+	<li><b>File Writes:</b> Total files stored on cluster.</li>
+	<li><b>Alerts:</b> <a href="big-data-alerts.html">Alerts</a> are generated when rules defined by user violates. It displays number of alerts generated.</li>
+	<li><b>CPU Usage:</b> Memory usage of NameNode system.</li>
+	<li><b>RAM:</b> Amount of random access memory available at NameNode.</li>
+	<li><b>N/W Rcvd:</b> Rate of data received through network in bytes/s.</li>
+	<li><b>N/W Sent:</b> Rate of data sent through network in bytes/s.</li>
+	<li><b>Disk Read:</b> Rate of data read from cluster in bytes/s.</li>
+	<li><b>Disk Write:</b> Rate of data written to cluster in bytes/s.</li>
+	<li><b>Safemode:</b> <a href="#safemode">Safemode</a> status as On or Off.</li>
+	<li><b>Logs:</b> Click on respective link to view 'stdout/stderr' logs or 'full log file'.</li>
+	<li><b>Status:</b> State of the NameNode i.e started or stopped or not responding.</li>
+	<li><b>Monitoring:</b> State of NameNode monitoring i.e. whether NameNode monitoring is started or stopped or not responding.</li>
+</ul>
+
+<h3>Activity Summary</h3>
+<p>Displays activity details performed on NameNode. Activities supported by QueryIO are 'Health Check' and 'Balancer'.</p>
+<ul>
+	<li><b>NameNode:</b> Unique identifier of the NameNode on which activity was performed.</li>
+	<li><b>Start time:</b> Time when activity was executed.</li>
+	<li><b>Activity:</b> Activity which was performed like Health Check or Balancer.</li>
+	<li><b>Status:</b> Result of the activity performed - Completed or Failed.</li>
+	<li><b>Log:</b> Click to view log of the activity if available.</li>
+</ul>
+
+<h2 id="new"><span>Add NameNode</span></h2>
+<h3 id="new-active">Add Active NameNode</h3>
+<p>To add a new NameNode to your cluster, click <b>Add</b> button. It will bring forth a wizard to add a new NameNode.</p>
+<ul>
+	<li><b>NameNode Type:</b> For non HA cluster, select <b>Active</b> 
+	<p>In an HA cluster, two separate machines are configured as NameNodes. 
+	At any point of time, exactly one of the NameNodes is in the Active state, 
+	and the other is in Standby state. The Active NameNode is responsible for all 
+	client operations in the cluster, while the Standby is simply acting as a slave, 
+	maintaining enough state to provide a fast failover if necessary. If you are configuring HA cluster, you should add <b>Active</b>
+	as well as <b>StandBy</b> nodes.</p></li>
+		
+	<li><b>Hostname/IP:</b> Select Hostname/IP from the list of registered hosts. </li>
+	<li><b>Database: </b> Select database to be linked with NameNode (Optional).</li>
+		<ul>
+			<li>Metadata Database : To store HDFS metadata, Extended Metadata & user defined tags. </li>
+			<li>AdHoc Analysis Database : To store processed data as a result of Big Data analysis.</li>
+		</ul>
+	<p>For every NameNode, there must be a database linked with it to support <a href="glossary.html#federation">NameNode federation</a>. All the metadata / tags associated with the data in given namespace is stored in this link in database. 
+	First NameNode can be linked to default database(MetaStore) but for every other NameNode you need to define a new database configuration and link NameNode with it. 
+	You can define new database configuration directly by clicking on <b>Add database</b> or from <a href="hadoop-sql-database.html#Add Database">Manage Databases</a> page under Hadoop SQL tab.	</p>
+	<li><b>Unique Identifier:</b> A unique name for the node.</li>
+	<li>Click Next.</li>
+	<img alt="NameNode-add" src="images/screenshots/name-node-add1.jpeg" >
+	<li>Configure the ports for various QueryIO services.</li>
+		<ul>
+			<li>Server Port: The NameNode server port.</li>
+			<li>HTTP Port: The NameNode http port.</li>
+			<li>HTTPS Port: The NameNode secure http port.</li>
+			<li>JMX Port: JMX Monitoring port.</li>
+			<li>S3 Compatible REST Server Port: S3 Compatible REST Server Port.</li>
+			<li>S3 Compatible REST Secure Server Port: S3 Compatible REST Secure Server Port</li>
+			<li>HDFS Over FTP Server Port: Port to enable FTP services.</li>
+			<li>FTP Server Port: Port to access HDFS through FTP.</li>
+			<li>Secure FTP Server Port: Secure FTP server port to access HDFS</li>
+		</ul>
+	
+	<img alt="NameNode-add" src="images/screenshots/name-node-add2.jpeg">
+	<li><b>Disk: </b>Select from available disks at the selected host.</li>
+	<li><b>Directory Path: </b>Enter valid installation directory path for the node which will be the local repository of the node on that host.</li>
+	<li><b>Start NameNode services after installation: </b>Select check box, if you want to start the NameNode just after it is installed. You can start the node later also.</li>
+	<li>Click on <b>Save</b> to add new node.</li>	
+	<img alt="NameNode-add" src="images/screenshots/name-node-add3.jpeg" >
+	</br></br>
+</ul><br/>
+
+<h3 id="standby">Add Standby NameNode</h3>
+<p>To add a new Stanby NameNode to your cluster, you must have NFS mounted shared directory. <a href="hadoop-high-availability.html#nfs">Click here</a> to see how to configure NFS mount point.</p> 
+<p>Click <b>Add</b> button on NameNode page. It will bring forth a wizard to add a new NameNode.</p>
+<ul>
+	<li><b>NameNode Type:</b> Select <b>Standby</b>. 
+	<li><b>Hostname/IP:</b> Select Hostname/IP from the list of registered hosts. </li>
+	<li><b>NameNode:</b> Select active NameNode to be linked with standby NameNode.</li>
+	<li><b>Unique Identifier:</b> A unique name for the node.</li>
+	<img alt="NameNode-add" src="images/screenshots/standby.jpeg" >
+	
+	<li>Configure the ports for various NameNode services.</li>
+	<li><b>Disk: </b>Select from available disks at the selected host.</li>
+	<li><b>Directory Path: </b>Enter valid installation directory path for the node which will be the local repository of the node on that host.</li>
+	<li><b>High Availability With: </b>Select method to be used with HA feature.</li>
+	<li><b>Shared Directory Path: </b>In case of <b>NFS mount</b>, Enter <a href="hadoop-high-availability.html#nfs">NFS mounted</a> directory path.</li>
+	<li><b>Select Journal Node: </b>In case of <b>QJM</b>, Select already configured <a href="hadoop-journal-node.html">Journal Node</a>.</li>	
+	<li>Click on <b>Save</b> to add new node.</li>	
+	<img alt="NameNode-add" src="images/screenshots/standby3.jpeg" >
+	</br></br>
+</ul><br/>
+
+
+<h2 id="start"><span>Start/Stop NameNode</span></h2>
+<p>To start or stop a NameNode, select the check box against the node and click on <b>Start</b> or <b>Stop</b> button respectively.</p>
+
+
+<h2 id="delete"><span>Delete NameNode</span></h2>
+<p>NameNode can not be deleted until there is no <a href="hadoop-data-nodes.html">DataNode</a> in the cluster. <a href="node-replacement.html">Click here</a> to read more. </p> 
+
+<h2 id="monitor"><span>Start/Stop Monitoring</span></h2>
+<p>JMX monitoring takes place which checks NameNode's status, CPU Usage, RAM, N/W Rcvd, N/W Sent, Disk Read and Disk Write. To start or stop NameNode Monitoring, select the check box against the node and click on <b>Start Monitoring</b> or <b>Stop Monitoring</b> button respectively.</p> 
+
+<h2 id=config><span>Configure NameNode</span></h2>
+<p>Select the NameNode and click on <b>Configure</b>. NameNode related properties will be displayed. You can update the settings and click <b>Save</b> to store changes. But you must have privileges to configure NameNode. 
+ </p><p>You can also add custom configuration properties related to namenode or delete any configuration property.</p>
+<img alt="NameNode-config" src="images/screenshots/name-node-config.jpeg" >
+
+<h2 id="health"><span>Run Health Check</span></h2>
+<p>Health Check makes sure that the data stored on HDFS is safe and not corrupted. Running the health check will scan all the files in the system and returns status as "Completed" or "Failed".
+Every file will be checked by using checksum, and if an error is found in any file, it will return failed status. The result of Health check will be added to activity summary of NameNode. 
+To start a health check, select the NameNode and click on <b>Health Check</b>.</p>
+
+<h2 id="balancer"><span>Run Balancer</span></h2>
+<p>Work of balancer is basically to distribute data evenly among all the <a href="hadoop-data-nodes.html">DataNodes</a>. Balancer will scan amount of data storage at all the nodes and distributes them evenly at all nodes. Suppose there are two DataNodes,
+one node has 15GB of data and other node has 5GB of data. Now balancer will check both nodes and distribute the whole 20GB data evenly among both nodes i.e 10GB on each node. </p>
+
+<h2 id="failover"><span>FailOver</span></h2>
+<p>Failover is switching to a redundant or standby NameNode upon the failure or abnormal termination of the previously active NameNode. 
+If NameNode goes down, failover feature will automatically switch active NameNode to standby mode and standby NameNode to active mode. Thus system will not fail.
+This action can be reversed, once failed NameNode has recovered.</p>
+<p>Click on <b>FailOver</b> to perform failover process. </p> 
+
+<h2 id="enableHA"><span>High Availability</span></h2>
+<p>High Availability(HA) feature of QueryIO will make sure that QueryIO agent service on host is always available. 
+To make it possible, in every two minutes(configurable), host checks itself whether the QueryIO agent process is up or not and if it is down, then host will start QueryIO agent process on itself.</br> 
+HDFS has always had a well-known single point of failure which impacts HDFS's availability: 
+The system relies on a single NameNode to coordinate access to the file system data and if NameNode is down, then the whole cluster is unavailable. 
+Hadoop introduced its own High Availability feature to ease this problem.</br>
+<a href="hadoop-high-availability.html.html">Click here</a> to read more.</p>
+
+<h2 id="safemode"><span>Safemode</span></h2>
+<p>During start up NameNode loads the filesystem state from fsimage and edits log file. It then waits for DataNodes to report their blocks so that it does not prematurely start replicating the blocks though enough replicas already exist in the cluster. During this time NameNode stays in safemode. A Safemode for NameNode is essentially a read-only mode for the HDFS cluster, where it does not allow any modifications to filesystem or blocks. Normally NameNode gets out of safemode automatically at the beginning.</p>
+
+<h2 id="details"><span>NameNode Details</span></h2>
+<p>NameNode in the menu displays the NameNodes in the cluster. Just click on the NameNode name in the menu to get all the details of the NameNode system. Details are displayed in the form of charts.</p>
+<p>NameNode details contain:</p>
+<ul>
+	<li><b>I/O Summary:</b> A pie chart displaying number of file reads against file writes performed on HDFS.</li>
+	<li><b>Status summary:</b> It has various details about NameNode:
+		<ul>
+			<li><b>JVM Heap Used:</b> Amount of storage used by java virtual machine for dynamic memory allocation.</li>
+			<li><b>JVM Started On:</b> Time when java virtual machine was started on NameNode.</li>
+			<li><b>Total File Reads:</b> Number of files read from cluster.</li>
+			<li><b>Total File Writes:</b> Total files stored on cluster.</li>
+			<li><b>Total Alerts:</b> Number of <a href="big-data-alerts.html">alerts</a> generated on NameNode.
+		</ul> 
+	</li>
+	<li><b>Monitoring Data:</b> Shows monitoring data of the NameNode host machine. It uses JVM matrix to display data in form of charts. Time interval between which data is displayed can be varied from 1 day to 360 days.
+	This data is further used to generate reports and forecast. It can also be used diagnostic purposes.
+	Various charts displayed are: 
+		<ul>
+			<li><b>Block Operations:</b> Shows Number of blocks added with respect to time.</li>
+			<li><b>File Operations:</b> Number of file operations like Create File, Delete File, List File, Total Files Read, Total Files Written performed.</li>
+			<li><b>CPU Usage:</b> Amount of CPU usage</li>
+			<li><b>Heap Memory:</b> Heap memory committed and heap memory used with respect to time in MB.</li>
+			<li><b>Non Heap Memory:</b> Non heap memory committed and used with respect to time in MB. </li>
+			<li><b>Threads:</b> Number of Running, Blocked, Waiting, Timed Waiting, Terminated, New threads with respect to time period.</li>
+			<li><b>GC Count:</b> Total GC Count with respect to time.</li>
+			<li><b>GC Time:</b> Total time required for GC in ms.</li>
+			<li><b>Network:</b> Bytes received and sent through network in bytes/s.</li>
+			<li><b>Disk:</b> Bytes read and bytes written by user in Bytes/s.</li>
+		</ul>
+	</li>
+</ul>
+<img alt="NameNode-charts" src="images/screenshots/name-node-charts.jpeg" >
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+#chart_preview_plot_area{
+	padding-bottom: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 2px;
+}
+
+#chart_preview_client_area{
+	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+}
+#preview_chart_div{
+	border: 1px solid #ddd;
+	display: block;
+	float: right;
+	width: 385px;
+	height: 400px;
+	max-height: 450px;
+}
+
+#left_panel{
+	width: 30%;
+}
+#right_panel{
+	width: 70%;
+}
+
+
+ul#tabs {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	float: left;
+	/* background: url(../images/tabs_bg.jpeg) repeat-x left bottom transparent; */
+}
+ul#tabs li{
+	float: left;
+	width: 100%;
+	/* background: url(../images/top_bar_gradient.png) repeat-x left bottom transparent; */
+	background-color: #fff;
+	/* border-bottom: 1px solid #ddd; */
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	height: 56px;
+/* 	font-family: 'OpenSans-Regular', "Lucida Grande", sans-serif;
+	display: inline;
+	text-align: center !important;
+	z-index: 222;
+	margin: 0; */
+}
+
+.active{
+	color: #fff !important;
+	/* background: #DDD !important; */
+	text-decoration: none !important;	
+	background: repeat-x left top #2B4D6F !important;
+}
+
+ul#tabs li a {
+	
+/* border: 1px solid #fff;
+text-decoration: none;
+display: inline-block;
+color: #666666;
+height: 28px;
+min-width: 75px;
+padding: 0 12px;
+line-height: 40px;
+font-size: 12px;
+font-weight: normal;
+position: relative;
+border-radius: 7px 7px 0 0;
+-moz-border-radius: 7px 7px 0 0;
+-webkit-border-radius: 7px 7px 0 0;
+background: repeat-x left top #DDD; */
+	display: block;
+	padding: 15px 0 15px 20px;;
+	text-decoration: none;
+	text-align: left;
+	font-size: 13px;
+	display: block;
+	padding: 23px 0 15px 31px;
+	text-decoration: none;
+	color: #666666;
+}
+
+ul#tabs li a:ACTIVE, ul#tabs li a:hover {
+background: #DDD;
+text-decoration: none !important;
+}
+
+#chart_preferences_box .left {
+background-color: #DEDEDE;
+min-height: 400px;
+width: 20%;
+float: left;
+}
+
+#chart_preferences_box .right {
+	min-height: 400px;
+	border-bottom:1px solid #ddd;
+	
+	border-right:1px solid #ddd;
+	border-top:1px solid #ddd;
+	max-height: 400px;
+	overflow-y: auto;
+	float: right;
+	width: 46%;
+}

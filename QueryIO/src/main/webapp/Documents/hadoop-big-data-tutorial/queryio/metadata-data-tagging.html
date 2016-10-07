@@ -1,0 +1,312 @@
+<html>
+	<head>
+		<meta content="en-us" http-equiv="Content-Language" />
+		<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+		<meta content="text/css" http-equiv="Content-style-type" />
+		<link href="../../common/css/stylesheet_ns.css" rel="stylesheet" type="text/css" />
+		<title>Data Tagging</title>
+	</head>
+	<body>
+	<h1 id="intro"><span>Introduction</span></h2>
+		<p>QueryIO provides a feature to associate Data Tags with files. 
+		You can configure a database instance for use with each Namespace and the tags associated to each file are stored in this database.
+		This enables you to search for specific files as per the tags they've been associated with. 
+		You can execute standard SQL queries on the database specifying the filters and retrieve a list of the files that pertain to your requirement.</p>
+		
+		<p>QueryIO can stores two types of tags for a file:
+			<ul>
+				<li><a href="#core">HDFS Core Metadata</a></li>
+				<li><a href="#content">Data Tags</a></li>
+			</ul></p>
+		<p>Typically, the number of files stored in HDFS grows to the order of millions over a period of time. 
+		It is recommended that you configure multiple database instances in such a way that the database instances and namenodes have one to one mapping with each other.</p>
+	<h1 id="core">
+		<span>HDFS Core Metadata</span></h1>
+		<p>Metadata (metacontent) is defined as data providing information about one or more aspects of the data.
+			The namespace of the entire filesystem, including the mapping of blocks to files and file system properties, is stored in HDFS.
+			Core Metadata refers to these properties that are stored in HDFS.
+			When you upload any files to QueryIO, it automatically extracts this HDFS metadata for those files from HDFS. 
+			The extracted metadata is then stored in the associated table in the database. 
+			Using the extracted metadata you can also reconstruct the file system namespace so that you do not loose access to your data even if your Namenode crashes.</p>
+		<p>Database schema for storing hdfs metadata is as follows:</p>
+		<table border="1" cellspacing="0" width="100%">
+			<tbody>
+				<tr>
+					<th>
+						Parameter</th>
+					<th>
+						Description</th>
+					<th>
+						Data Type</th>
+					<th>
+						Column Name</th>
+				</tr>
+				<tr>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>File path</code></em></td>
+					<td>
+						<p>
+							Absolute path of the file on the cluster</p>
+					</td>
+					<td>
+						String</td>
+					<td>
+						FILEPATH</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>Access time</code></em></td>
+					<td>
+						<p>
+							The time when the file was last accessed</p>
+					</td>
+					<td>
+						Timestamp</td>
+					<td>
+						ACCESSTIME</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>Modification time</code></em></td>
+					<td>
+						<p>
+							The time when the file was last modified</p>
+					</td>
+					<td>
+						Timestamp</td>
+					<td>
+						MODIFICATIONTIME</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>Owner</code></em></td>
+					<td>
+						<p>
+							Name of the file owner</p>
+					</td>
+					<td>
+						String</td>
+					<td>
+						OWNER</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>User group</code></em></td>
+					<td>
+						<p>
+							User group to which the file belongs</p>
+					</td>
+					<td>
+						String</td>
+					<td>
+						USERGROUP</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>Permission</code></em></td>
+					<td>
+						<p>
+							Permissions of the file</p>
+					</td>
+					<td>
+						String</td>
+					<td>
+						PERMISSION</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>Block size</code></em></td>
+					<td>
+						<p>
+							Size of the blocks of the file</p>
+					</td>
+					<td>
+						Integer</td>
+					<td>
+						BLOCKSIZE</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>Replication</code></em></td>
+					<td>
+						<p>
+							Replication count for the file</p>
+					</td>
+					<td>
+						Integer</td>
+					<td>
+						REPLICATION</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>Length</code></em></td>
+					<td>
+						<p>
+							Length of the file in bytes</p>
+					</td>
+					<td>
+						Integer</td>
+					<td>
+						LEN</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>Compression Type</code></em></td>
+					<td>
+						<p>
+							Compression algorithm used for the file. Supported algorithms are SNAPPY, GZ, LZ4.</p>
+					</td>
+					<td>
+						String</td>
+					<td>
+						COMPRESSION_TYPE</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<em><code>Encryption Type</code></em></td>
+					<td>
+						<p>
+							Encryption algorithm used for the file. Supported algorithms are AES256</p>
+					</td>
+					<td>
+						String</td>
+					<td>
+						ENCRYPTION_TYPE</td>
+				</tr>
+			</tbody>
+		</table>
+<h1 id="content"><span>Data Tags</span></h1>
+		<p>Every type of file has some associated properties with it that can help to make it searchable. 
+			These properties includes such things as the name of the author or the date that the file was last modified. 
+			These could be file specific, such as aspect ratio or dimensions of an image file.
+			QueryIO enables users to associate files in HDFS with these Data Tags that are not interpreted by HDFS.</p>
+		<p>
+			QueryIO uses Apache Tika<span style="background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-family: arial, sans-serif; font-size: small; line-height: 16px;">&trade;</span> to parse and extract Data Tags from various files. 
+			Following are some of the supported document formats whose parsers are pre-configured in QueryIO:</p>
+		<ul>
+			<li>
+				HyperText Markup Language</li>
+			<li>
+				XML and derived formats</li>
+			<li>
+				Microsoft Office document formats</li>
+			<li>
+				OpenDocument Format</li>
+			<li>
+				Apple iWorks Formats</li>
+			<li>
+				Portable Document Format</li>
+			<li>
+				Electronic Publication Format</li>
+			<li>
+				Rich Text Format</li>
+			<li>
+				Compression and packaging formats</li>
+			<li>
+				Text formats</li>
+			<li>
+				Audio formats</li>
+			<li>
+				Image formats</li>
+			<li>
+				Video formats</li>
+			<li>
+				Java class files and archives</li>
+			<li>
+				The mbox format</li>
+			<li>
+				The DWG (AutoCAD) format</li>
+			<li>
+				Font formats</li>
+			<li>
+				Scientific formats</li>
+		</ul>
+		<p>
+			You can also register your own metadata parser to support other file formats.</p>
+		<p>
+			If you do not want QueryIO to extract the metadata from the files during ingestion, you can disable the registered parser from the &quot;Data Tag Parsers&quot; view.</p>
+		<img src="images/screenshots/extended-metadata.png" />
+		<p>&nbsp;</p>
+		<p>
+			When you upload any file to HDFS using QueryIO, it automatically parses the file and stores the extracted Data Tags in the associated table (specific to file type) in the database.</p>
+		<p>
+			For instance, if you upload a PDF file to QueryIO, information like author, subject, number of pages, etc will be extracted from that file. 
+			All of this extracted information will be saved in the respective columns in the 'datatags_pdf' table in the database.
+			You can view the schema for such a schema from "Manage Datasource" view. 
+			Following is an example showing some of the columns / fields for 'datatags_pdf' table.</p>
+		<img src="images/screenshots/extended-metadata1.png" />
+		<p>&nbsp;</p>	
+			
+	<p>&nbsp;</p>
+	<p>QueryIO supports custom data tags, that are meta-information attached to a file designed to be customized by the user. 
+	These tags are stored in datatags table for its particular file type.
+	They are great for making searching easier because you can use words or even phrases that make sense to you. 
+	You can think of these tags as keywords.</p>
+	<p>The value of the tag defined by the user can be any constant value, global function or an operator on any table column.
+	One can also define conditions based on which the data will be tagged.
+	Data tagging can be scheduled on-ingest or post-ingest.</p>
+	<p>You can choose to define data tags using the schema you have already defined using Hive DDL or can choose System defined schemas for different file formats.</p>
+	
+	<p> To add a data tag, navigate to <b>Data > Data Tagging</b> view.</p>
+	
+	
+	<p>Following example guides you to add a data tag on a hive table : <b>hivecsvtable1</b> which finds average reading of CPU in a particular file for host 192.168.0.4</p> 
+
+	<ul>
+		<li>Click on <b>Add</b> button in the Data Tagging view to define a new Data Tag.</li>
+		<li><b>Tag ID</b>: Enter a unique ID for data tag which will be column name in your hive table. [For example : <b>Tag_1</b>]</li>
+		<li><b>Tag Description</b>: Provide description for this tag. [Say : <b>Average of CPU for 192.168.0.4</b>]</li>
+		<li><b>Select NameNode</b>: Select a namespace under which files will be parsed for tagging.</li>
+		<li><b>Select Database</b>: Select a database from Metastore database or Hive database on tables of which tags will be added. For our example, select <b>Hive</b> .</li>
+		<li><b>Select Table</b>: Select <b>hivecsvtable1</b> table.</li>
+		<li><b>Is Enabled</b>: Check box to enable or disable the data tagging.</li>
+		<li>Click on <b>Next</b> to define the operator and conditions.</li>
+		<br><img alt="NM-add3" src="images/screenshots/data-tagging1.png" >	<br><br>
+		
+		<li><b>Tag ID </b> Enter a Tag Id which is the actual Field Name that identifies the Tag in queries.</li>
+		<li><b>Operator Type</b>: You can choose the tag value to be</li>
+			<ul>
+				<li><b>Global Function</b>: Function applied on entire content of the file and resultant value is given to the tag.</li>
+				<li><b>Table Column Operator</b>: Operation is performed on a chosen column name from the defined schema and the resultant value is given to the tag (option not available in case no table is chosen).</li>
+				<li><b>Constant Value</b>: A single constant value is given to the tag.</li>
+			For our example, select the "Table Column Operator" as "avg(CPU)"
+			</ul>
+			
+		<li><b>Conditional Expression</b>: You can provide a compound expression that contains a condition on your data, which when evaluated to true would be included in the computation of Tag Value. Now to tag only those entries where IP is 192.168.0.4, use the wizard to easily define conditional expressions as "IP = 192.168.0.4".</li>
+		<br><img alt="NM-add3" src="images/screenshots/data-tagging2.png" >	<br><br>
+		<br><img alt="NM-add3" src="images/screenshots/data-tagging3.png" >	<br><br>
+		 <li><b>To Add Multiple Tags On The Same Table</b> Click on the plus(+) sign and provide the details for the Tag.</li>		
+		<li>Click on <b>next</b> to Schedule the data tag.</li>
+		<br><img alt="NM-add3" src="images/screenshots/data-tagging3a.png" >	<br><br>
+		<li><b>When do you want data tags to be applied</b>:</li>
+			<ul>
+				<li><b>On Ingest</b>: Tagging job will be performed while importing files to QueryIO.</li>
+				<li><b>Post-Ingest</b>: Tagging job will be performed at chosen time intervals starting from a mentioned time.</li>
+			</ul>
+		<li><b>Apply this data tag to existing data</b>: If checked then the tag will be applied to existing data when specified.</li>
+			<ul>
+				<li><b>Apply Now</b>: Choose this to apply tag just after the data tag is defined.</li>
+				<li><b>Schedule Time</b>: Choose this to apply tag on specified time.</li>
+			</ul>
+		<li><b>Processing Type for Existing Data or Post-Ingest Tagging</b>: For specific file types(csv, json, keyvalue, log, iislog,accesslog, and jtl), you can choose to process the file according to :</li>
+			<ul>
+				<li><b>File Level Processing</b>:  You can choose to process whole file together(recommended for multiple files of small size), a single mapper has lots of files.</li>
+				<li><b>Record Level Processing</b>: Process records one by one(recommended for large files),multiple mappers are launched and processing is done record by record.</li>
+			</ul>			
+		<li>Click on <b>Add</b> to add newly created tag into tags list.</li>
+		<img alt="NM-add3" src="images/screenshots/data-tagging4.png" >	<br><br>
+		
+		<li>Tag will be added to tags list and can be viewed in <b>Data > Data Tagging</b>.</li>
+		
+	</ul>
+	
+	<p>You can use <a href="import-big-data-hadoop.html" > Data Import</a> to import data to the cluster and check the tags added in metadata table using <a href="big-data-analytics.html#datatags" > Query Designer</a></p>
+		<hr align="center" class="whs4" />
+		<h4 class="whs5">
+			Copyright &copy; 2015 QueryIO Corporation. All Rights Reserved.</h4>
+		<h4 class="whs5">
+			QueryIO, &quot;Big Data Intelligence&quot; and the QueryIO Logo are trademarks of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+	</body>
+</html>

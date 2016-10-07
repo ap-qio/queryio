@@ -1,0 +1,122 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>Get all files in a Bucket</title>
+	
+</head>
+<body>
+<h1><span>Get all files in a directory</span></h1>
+<p>This operation retrieves all or some of the files in a directory from QueryIO server. </p>
+<p>GET Operation can be performed through following interfaces: </p>
+<ul>	
+	<li><a href="#java">DFS Client API</a></li>
+	<li><a href="#WEBHDFS">WEBHDFS API</a></li>
+</ul>
+
+<h2 id="java"><span>DFS Client API</span></h2>
+<p>Following code is used to get list of all the files in a directory.</p>
+<p>Apache Hadoop file system classes are used for this purpose. Configuration settings consist of URL and replication count for files. Hadoop file system object is used with these configuration settings.
+<code>FileSystem.listFiles(org.apache.Hadoop.fs.Path)</code> is used to  get all the files from the directory provided in the path. A <code>while</code> loop is used to traverse through all the files in the bucket.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.IOException;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.LocatedFileStatus;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.RemoteIterator;
+import org.apache.hadoop.hdfs.DFSConfigKeys;
+
+public class GetBucket {
+	/*
+	 * This program lists all the files and directories in a folder non recursively.
+	 */
+	public static void main(String[] args) throws IOException{
+		Configuration conf = new Configuration(true);	//Create a configuration object to define hdfs properties
+		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, "hdfs://192.168.0.1:9000"); // URL for your namenode
+		conf.set(DFSConfigKeys.DFS_REPLICATION_KEY, "3"); // Replication count for files you write
+		
+		//Initialize DFS FileSystem object with QueryIO configurations 
+		FileSystem dfs = FileSystem.get(conf);	//Returns the configured filesystem implementation.
+		FileStatus[] statusList = dfs.listStatus(new Path("/queryio/demo"));	//get list of files from directory "demo"
+		for(int i=0; i&lt;statusList.length; i++){
+			if(statusList[i].isFile()){
+				System.out.println(statusList[i].getPath().getName());	//display file name
+			}
+		}
+	}
+}
+
+	</pre>
+</div>
+
+
+<h2 id="WEBHDFS"><span>WEBHDFS API</span></h2>
+<p>To get files in a given directory, HTTP reqest can be used. Following sample is explained using <code>curl</code> command.</p>
+<p>Syntax of curl command is : </p>
+<code>curl -i  "http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;PATH&gt;?user.name=&lt;username&gt;&op=LISTSTATUS"</code>
+<ul>
+	<li> <code>-i option</code>: Include the HTTP-header in the output like server-name, date of the document, HTTP-version etc.</li>
+	<li> <code>&lt;HOST&gt;</code>: Hostname of the queryio server.</li>
+	<li> <code>&lt;PORT&gt;</code>: Port on which server is working.</li>
+	<li> <code>&lt;PATH&gt;</code>: A valid path to directory name.</li>
+	<li> <code>user.name=&lt;username&gt;</code>: QueryIO account username for authentication.</li>
+	<li> <code>op=LISTSTATUS"</code> : GET all files from directory.</li>
+</ul>
+<div id="code" style="background:EEE;">
+
+	<pre>
+<b>Sample Request:</b>
+curl -i "http://192.168.0.1:50070/webhdfs/v1/queryio/demo?user.name=admin&op=LISTSTATUS"
+	</pre>
+</div>
+<p>Above request will get all files from a directory "demo". </p> 
+<p>GET directory operation using WEBHDFS api returns a JSON object.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+<b>HTTP Request:</b>
+GET /webhdfs/v1/queryio/demo?user.name=admin&op=LISTSTATUS HTTP/1.1
+User-Agent: curl/7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+Host: 192.168.0.1:50070
+Accept: */*
+
+<b>HTTP Response:</b>
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 1136
+Server: Jetty(6.1.26)
+{
+    "FileStatuses": {
+        "FileStatus": [
+            {
+                "accessTime": 1356603848022, 
+                "blockSize": 67108864, 
+                "group": "queryio", 
+                "length": 16011, 
+                "modificationTime": 1356603848045, 
+                "owner": "admin", 
+                "pathSuffix": "file1.txt", 
+                "permission": "644", 
+                "replication": 1, 
+                "type": "FILE"
+            }
+        ]
+    }
+}
+	</pre>
+</div>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

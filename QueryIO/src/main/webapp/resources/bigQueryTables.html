@@ -1,0 +1,81 @@
+<link rel="stylesheet" href="styles/bigQueryTables.css" type="text/css" />
+
+
+<script type="text/javascript" src="scripts/bigQueryTables.js"></script>
+
+<div id='tables_list' class="viewDiv" style="min-width: 0px;">
+	
+	<div id="bigQuery_table_div" style = "width: 260px; float: left; min-width: 300px; height:auto; margin: 0px 5px;">
+		<div id = "leftOverlayDS">
+			<div id = "leftTable" style = "margin: 3px; min-width: 190px;">
+				<div class="queryHeader" style="text-align: left;">
+					<span>Tables (<span id="tableCount"></span>)</span>
+					<select id = "selectQueryOption" style = "float: right; font-size: xx-small; height: 19px;" onchange = "BQT.selectTask();">
+						<option>--Action--</option>
+						<option>Clear</option>
+						<option>Delete</option>
+					</select>
+				</div>
+				<div id ="bigQueryContainer" style="min-width: 190px;">
+					<table id="bigQueryTable_list"></table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id = 'loadPageBQT' style="width: auto; overflow: hidden; margin: 5px;">
+		<div style="width: 99%;">
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+BQT.ready();
+
+function fillPopUp(flag)
+{
+	if (BQT.popupId == '')
+	{
+		DB_Config.fillPopUpBox();
+	}
+	else
+	{
+		var id = BQT.popupId;
+		
+		dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+		dwr.util.byId('pop.pattern'+id).style.display = '';
+		dwr.util.byId('popup.image.processing'+id).style.display = '';
+		dwr.util.setValue('popup.component', 'BigQuery Table');
+		
+		if (BQT.selectedTableList.length == 1)
+			dwr.util.setValue('popup.host'+id, BQT.selectedTable);
+		else
+			dwr.util.setValue('popup.host'+id, "Selected Tables");
+		
+		dwr.util.setValue('popup.message'+id, 'Processing Request...');
+		dwr.util.setValue('popup.status'+id, '');
+		
+		if (id == "_delete")
+		{
+			RemoteManager.dropBigQueryTable(DB_Config.selectedDBId, BQT.selectedTableList, BQT.popupResponse);
+		}
+		else if (id == "_clear")
+		{
+			RemoteManager.clearBigQueryTable(DB_Config.selectedDBId, BQT.selectedTableList, BQT.popupResponse);
+		}
+	}
+}
+	
+function closePopUpBox()
+{
+	DB_Config.closeBox(false);
+	BQT.closeBox();
+
+	Navbar.refreshView();
+	/*if (BQT.popupId == '')
+	{
+	}
+	else
+	{
+	}*/
+}
+</script>

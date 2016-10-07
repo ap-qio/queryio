@@ -1,0 +1,76 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Glossary</title>
+</head>
+<body>
+
+<h1><span>Glossary</span></h1>
+
+<h2 id="hadoop"><span>Apache Hadoop</span></h2>
+<p>A free, open source software framework that supports data-intensive distributed applications. 
+The core components of Apache Hadoop are the Hadoop Distributed File System and the MapReduce processing framework. 
+The term is also used for an ecosystem of projects related to Hadoop that fall under the umbrella of infrastructure for distributed computing and large-scale data processing.</p>
+
+
+
+<h2 id="datanode"><span>DataNode</span></h2>
+<p>A <a href="hadoop-data-nodes.html">DataNode</a> stores data in the HDFS. A functional filesystem has more than one DataNode, with data replicated across them.</p>
+
+<h2 id="hdfs"><span>HDFS</span></h2>
+<p>Hadoop Distributed File System (HDFS) is the primary storage system used by Hadoop applications. HDFS creates multiple replicas of data blocks and distributes them on compute nodes throughout a cluster to enable reliable, extremely rapid computations. </p>
+
+<h2 id="host"><span>Host</span></h2>
+<p>Host can be a local or remote machine where several QueryIO components will be installed.</p>
+
+<h2 id="Hive"><span>Hive</span></h2>
+<p>Hive is a data warehouse system for Hadoop that facilitates easy data summarization, ad-hoc queries, and the analysis of large datasets stored in Hadoop compatible file systems. </p>
+
+<h2 id="map"><span>MapReduce</span></h2>
+<p>MapReduce is a programming model for processing large data sets. MapReduce model is divided into two steps:<br>
+"Map" step: The master node takes the input, divides it into smaller sub-problems, and distributes them to worker nodes. A worker node may do this again in turn, leading to a multi-level tree structure. The worker node processes the smaller problem and passes the answer back to its master node.<br>
+"Reduce" step: The master node then collects the answers to all the sub-problems and combines them in some way to form the output. The answer to the problem it was originally trying to solve.</p>
+
+<h2 id="metadata"><span>Metadata</span></h2>
+<p>Metadata (metacontent) is defined as data providing information about one or more aspects of the data. 
+For example, A text document's metadata may contain information about how long the document is, who the author is, when the document was written, and a short summary of the document. 
+A digital image may include metadata that describes how large the picture is, the color depth, the image resolution, when the image was created and other data. </p>
+
+<h2 id="namenode"><span>NameNode</span></h2>
+<p>The <a href="hadoop-name-nodes.html">NameNode</a> is the centerpiece of an HDFS file system. It keeps the directory tree of all files in the file system in form of metadata and tracks where across the cluster the file data is kept. It does not store the data of these files itself.</p> 
+
+
+
+<h2 id="notification"><span>Notifications</span></h2>
+<p><a href="big-data-notification.html">Notifications</a> refer to the feature of sending messages that the QueryIO sends to the user(s) whenever a rule is violated. Notification is an optional feature for all the rules. It has to be explicitly set up for users or groups and proper details regarding email addresses and location of log files for these users. Notifications are currently available as Email and Log</p>
+
+<h2 id="on-ingest"><span>On Ingest Tagging</span></h2>
+<p>On Ingest Parsers analyze the file while it is being written onto the cluster and create tags according to the registered parser.</p>
+
+<h2 id ="post-ingest"><span>PostIngest Tagging</span></h2>
+<p>Post Ingest Parsers analyze the file at specified time after it is written onto the cluster.</p>
+
+<h2 id="rm"><span>ResourceManager</span></h2>
+<p>ResourceManager (RM) is the master that arbitrates all the available cluster resources and thus helps manage the distributed applications running on the YARN system. It works together with the per-node NodeManagers (NMs) and the per-application ApplicationMasters (AMs).</p>
+
+<h2 id="rule"><span>Rule</span></h2>
+<p>A rule is a condition for an attribute specifying an acceptable range within which its value should lie and / or the time when this condition should hold. When a rule is violated, an <a href="big-data-alerts.html">alert</a> is generated.</p>
+
+
+<h2 id="sql"><span>SQL</span></h2>
+<p>A declarative programming language designed for managing data in relational database management systems. 
+Originally based upon relational algebra and tuple relational calculus, its scope includes data insert, query update and delete, schema creation & modification and data access control.</p>
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>
+

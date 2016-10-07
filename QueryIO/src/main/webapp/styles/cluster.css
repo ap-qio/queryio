@@ -1,0 +1,79 @@
+#cluster_dashboard .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+
+#cluster_dashboard #status_table_div,
+#cluster_dashboard #default_rac_table_div,
+#cluster_dashboard #replication_rac_status_div
+{
+	-moz-border-top-left-radius: 5px;
+	-moz-border-top-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	margin-top: 10px;
+	/*margin-top: 10px;*/
+	margin-left: 1px;
+	float: left; 
+	width: 40%; 
+	text-align: left; 
+	position: relative;
+	border: solid 1px #ccc;
+	height: 220px;
+}
+#default_rac .row,
+#replication_rac .row,
+#default_rac_table_div .row ,
+#default_rac_table_div .row, 
+#status_table_div .row {
+	float: left; 
+	width: 100%; 
+	text-align: left; 
+	height: 18px;
+	vertical-align: middle;
+}
+#cluster_dashboard .header,
+#cluster_dashboard .header,
+#default_rac_table_div .header ,
+#replication_rac_status_div .header ,
+#status_table_div .header {
+	background: #ddd;
+	-moz-border-top-left-radius: 5px;
+	-moz-border-top-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	color: black;
+	text-indent: 1em;
+	height: 20px;
+	padding-top: 8px;
+	font-size: 10pt;
+}
+#default_rac_table_div .even,
+#replication_rac_status_div .even,
+{
+	background: #fff;
+	padding-top: 2px;
+	text-indent: 2em;
+}
+#replication_rac_status_div .odd,
+#default_rac_table_div .odd
+{
+	background: rgba(214, 231, 243, .8);
+	padding-top: 2px;
+	text-indent: 2em;
+}
+.cluster_div{
+	height: 50px; 
+	text-align: center; 
+	vertical-align: baseline;
+}
+.cluster_image{
+	height: 50px;
+	 width: 50%;
+}

@@ -1,0 +1,541 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>System Configuration</title>
+</head>
+<body>
+
+<h1><span>Configure HDFS</h1>
+<p>System Configuration defines the computers, processes, and devices that compose the system and its boundary. 
+More general the system configuration is the specific definition of the elements that define and/or prescribe what a system is composed of.</p>
+<p>It consists of various configuration properties for DataNodes, NameNodes, Checkpoint Node, High Availability and HDFS.</p>
+
+
+<p>To configure DataNodes, NameNodes,  High Availability or HDFS properties, click on <b>Configure HDFS</b> under ADMIN menu tab. Change the properties according to requirements and click <b>Save</b> to update properties.</p>
+<p>Various properties that can be configured are: </p>
+
+<table  width="100%" cellspacing="0" cellpadding="5" bordercolor="#000000" border="1" style="border-collapse: collapse;">
+	<tr>
+		<th width="5%">Type</th><th width="20%">Key</th><th width="20%">Default Value</th><th width="55%">Description</th>
+	</tr>
+	<tr>
+		<td>Checkpoint Node</td>
+		<td>dfs.namenode.secondary.http-address</td>
+		<td>0.0.0.0:50090</td>
+		<td>The secondary namenode http server address and port. If the port is 0 then the server will start on a free port.</td>
+	</tr>
+	<tr>
+		<td>Checkpoint Node</td>
+		<td>dfs.namenode.checkpoint.dir</td>
+		<td>file://${hadoop.tmp.dir}/dfs/namesecondary</td>
+		<td>Determines where on the local filesystem the DFS secondary name node should store the temporary images to merge. If this is a comma-delimited list of directories then the image is replicated in all of the directories for redundancy.</td>
+	</tr>
+	<tr>
+		<td>Checkpoint Node</td>
+		<td>dfs.namenode.checkpoint.period</td>
+		<td>3600</td>
+		<td>The number of seconds between two periodic checkpoints.</td>
+	</tr>
+	<tr>
+		<td>Checkpoint Node</td>
+		<td>dfs.namenode.checkpoint.txns</td>
+		<td>40000</td>
+		<td>The Secondary NameNode or CheckpointNode will create a checkpoint of the namespace every</td>
+	</tr>
+	<tr>
+		<td>Checkpoint Node</td>
+		<td>dfs.namenode.checkpoint.check.period</td>
+		<td>60</td>
+		<td>The SecondaryNameNode and CheckpointNode will poll the NameNode every</td>
+	</tr>
+	<tr>
+		<td>Checkpoint Node</td>
+		<td>dfs.namenode.num.checkpoints.retained</td>
+		<td>2</td>
+		<td>The number of image checkpoint files that will be retained by the NameNode and Secondary NameNode in their storage directories. All edit logs necessary to recover an up-to-date namespace from the oldest retained checkpoint will also be retained.</td>
+	</tr>
+	<tr>
+		<td>Checkpoint Node</td>
+		<td>queryio.secondarynamenode.options</td>
+		<td>-Dcom.sun.management.jmxremote $HADOOP_SECONDARYNAMENODE_OPTS -Dcom.sun.management.jmxremote.port=9005 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
+		<td>Checkpoint Node specific run-time options. Used by queryio server for hdfs runtime configuration.</td>
+	</tr>	
+	<tr>
+		<td>DataNode</td>
+		<td>dfs.datanode.du.reserved</td>
+		<td>0</td>
+		<td>Reserved space in bytes per volume. Always leave this much space free for non dfs use.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>dfs.datanode.handler.count</td>
+		<td>10</td>
+		<td>The number of server threads for the DataNode.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>dfs.datanode.address</td>
+		<td>0.0.0.0:50010</td>
+		<td>The address where the DataNode server will listen to. If the port is 0 then the server will start on a free port.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>dfs.datanode.http.address		</td>
+		<td>0.0.0.0:50075</td>
+		<td>The DataNode http server address and port. If the port is 0 then the server will start on a free port.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>dfs.datanode.ipc.address			</td>
+		<td>0.0.0.0:50020</td>
+		<td>The DataNode ipc server address and port. If the port is 0 then the server will start on a free port.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>dfs.datanode.https.address					</td>
+		<td>0.0.0.0:50475</td>
+		<td>The DataNode secure http server address and port.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>dfs.datanode.max.transfer.threads		</td>
+		<td>4096</td>
+		<td>Specifies the maximum number of threads to use for transferring data in and out of the DN.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>dfs.datanode.data.dir.perm		</td>
+		<td>700</td>
+		<td>Permissions for the directories on on the local filesystem where the DFS data node store its blocks. The permissions can either be octal or symbolic.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>dfs.datanode.data.dir		</td>
+		<td>file://${hadoop.tmp.dir}/dfs/data</td>
+		<td>Determines where on the local filesystem the DFS data node should store the data. If this is a comma-delimited list of directories then the name table is replicated in all of the directories, for redundancy.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>queryio.datanode.data.disk</td>
+		<td></td>
+		<td>Datanode directory.</td>
+	</tr>
+	<tr>
+		<td>DataNode</td>
+		<td>queryio.datanode.options</td>
+		<td>-Dcom.sun.management.jmxremote $HADOOP_DATANODE_OPTS -Dcom.sun.management.jmxremote.port=9006 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
+		<td>Datanode specific runtime options. Used by queryio server for hadoop runtime configuration.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.blocksize		</td>
+		<td>67108864</td>
+		<td>The default block size for new HDFS files.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.nameservices		</td>
+		<td></td>
+		<td>Comma-separated list of nameservices.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.ha.NameNodes		</td>
+		<td></td>
+		<td>The prefix for a given nameservice, contains a comma-separated list of NameNodes for a given nameservice (eg: EXAMPLENAMESERVICE).</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.replication.max	</td>
+		<td>512</td>
+		<td>Maximal block replication.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.permissions.enabled		</td>
+		<td>true</td>
+		<td>If "true", enable permission checking in HDFS. If "false", permission checking is turned off, but all other behavior is unchanged. Switching from one parameter value to the other does not change the mode, owner or group of files or directories.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.permissions.superusergroup		</td>
+		<td>supergroup</td>
+		<td>The name of the group of super-users.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.namenode.upgrade.permission</td>
+		<td>777</td>
+		<td>The name of the group of super-users.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>hadoop.security.groups.cache.secs</td>
+		<td>30</td>
+		<td>User Group Information cache refresh interval in seconds.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.https.enable		</td>
+		<td>true</td>
+		<td>Decide if HTTPS(SSL) is supported on HDFS.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.https.port		</td>
+		<td>50470</td>
+		<td>The NameNode secure http port.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.https.server.keystore.resource		</td>
+		<td>ssl-server.xml</td>
+		<td>Resource file from which ssl server keystore information will be extracted.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.client.https.keystore.resource		</td>
+		<td>ssl-client.xml</td>
+		<td>Resource file from which ssl client keystore information will be extracted.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.client.https.need-auth		</td>
+		<td>true</td>
+		<td>Whether SSL client certificate authentication is required.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>dfs.client.block.write.retries		</td>
+		<td>3</td>
+		<td>The number of retries for writing blocks to the data nodes, before we signal failure to the application.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>io.file.buffer.size		</td>
+		<td>16384</td>
+		<td>The size of buffer for use in sequence files. The size of this buffer should probably be a multiple of hardware page size (4096 on Intel x86), and it determines how much data is buffered during read and write operations.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>io.bytes.per.checksum		</td>
+		<td>512</td>
+		<td>The number of bytes per checksum. Must not be larger than dfs.stream-buffer-size.</td>
+	</tr>
+	
+	<tr>
+		<td>HDFS</td>
+		<td>fs.trash.interval		</td>
+		<td>0</td>
+		<td>Number of minutes between trash checkpoints. To disable the trash feature, enter 0.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>fs.df.interval		</td>
+		<td>600000</td>
+		<td>Disk usage statistics refresh interval in msec.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>hadoop.security.authorization</td>
+		<td>true</td>
+		<td>Is service-level authorization enabled?</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>hadoop.security.group.mapping</td>
+		<td>com.queryio.plugin.groupinfo.QueryIOGroupInfoServiceProvider</td>
+		<td>Class for user to group mapping (get groups for a given user) for ACL</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>queryio.controller.data.fetch.interval		</td>
+		<td>15</td>
+		<td>Data fetch interval in seconds.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>queryio.hadoop.options		</td>
+		<td>-server -Xms1024M -Xmn400M -XX:PermSize=128M -XX:MaxPermSize=128M -XX:+UnlockExperimentalVMOptions -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=80 -XX:+UseStringCache -XX:+AggressiveOpts -XX:+EliminateLocks -XX:+UseBiasedLocking -XX:+ExplicitGCInvokesConcurrent -Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -Dfile.encoding=UTF-8</td>
+		<td>Extra Java runtime options options. Used by queryio server for hadoop runtime configuration.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>queryio.hadoop.log-dir		</td>
+		<td></td>
+		<td>Where log files are stored. Used by queryio server for hadoop runtime configuration.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>queryio.hadoop.pid-dir		</td>
+		<td></td>
+		<td>The directory where pid files are stored. Used by queryio server for hadoop runtime configuration.</td>
+	</tr>
+	<tr>
+		<td>HDFS</td>
+		<td>queryio.hadoop.heap-size		</td>
+		<td>4096</td>
+		<td>The maximum amount of heap to use, in MB. Used by queryio server for hadoop runtime configuration.</td>
+	</tr>
+	<tr>
+		<td>High Availability</td>
+		<td>dfs.replication	</td>
+		<td>1</td>
+		<td>Default block replication. The actual number of replications can be specified when the file is created. The default is used if replication is not specified in create time.	</td>
+	</tr>
+	<tr>
+		<td>High Availability</td>
+		<td>dfs.replication.min		</td>
+		<td>1</td>
+		<td>Minimal block replication.</td>
+	</tr>
+	<tr>
+		<td>High Availability</td>
+		<td>dfs.heartbeat.interval		</td>
+		<td>3</td>
+		<td>Determines DataNode heartbeat interval in seconds.		</td>
+	</tr>
+	<tr>
+		<td>High Availability</td>
+		<td>dfs.NameNode.heartbeat.recheck-interval		</td>
+		<td>300000</td>
+		<td>Determines DataNode heartbeat recheck interval in milliseconds.</td>
+	</tr>
+	<tr>
+		<td>High Availability</td>
+		<td>fs.checkpoint.period		</td>
+		<td>3600</td>
+		<td>The number of seconds between two periodic checkpoints.</td>
+	</tr>
+	<tr>
+		<td>High Availability</td>
+		<td>dfs.DataNode.scan.period.hours		</td>
+		<td>0</td>
+		<td>Interval in hours for DataNode to scan data directories and reconcile the difference between blocks in memory and on the disk. If set to 0, the interval defaults to 3 weeks</td>
+	</tr>
+	<tr>
+		<td>High Availability</td>
+		<td>dfs.blockreport.intervalMsec		</td>
+		<td>21600000</td>
+		<td>Determines block reporting interval in milliseconds.</td>
+	</tr>
+	<tr>
+		<td>High Availability</td>
+		<td>queryio.agent.monitor.interval		</td>
+		<td>10</td>
+		<td>Agent monitor interval in minutes.</td>
+	</tr>
+	<tr>
+		<td>High Availability</td>
+		<td>queryio.node.monitor.interval		</td>
+		<td>60</td>
+		<td>Node monitor interval in seconds.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>fs.permissions.umask-mode</td>
+		<td>022</td>
+		<td>Default permission for file/folder.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.umaskmode</td>
+		<td>022</td>
+		<td>Default permission for file/folder.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.client.failover.proxy.provider.mycluster		</td>
+		<td>org.apache.hadoop.hdfs.server.NameNode.ha.ConfiguredFailoverProxyProvider</td>
+		<td>The Java class that HDFS clients use to contact the Active NameNode.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.ha.fencing.methods		</td>
+		<td>sshfence</td>
+		<td>A list of scripts or Java classes which will be used to fence the Active NameNode during a failover.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.ha.fencing.ssh.private-key-files		</td>
+		<td>/root/.ssh/id_rsa</td>
+		<td>A comma-separated list of SSH private key files.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.NameNode.name.dir		</td>
+		<td>file://${hadoop.tmp.dir}/dfs/name</td>
+		<td>Determines where on the local filesystem the DFS name node should store the name table(fsimage). If this is a comma-delimited list of directories then the name table is replicated in all of the directories, for redundancy.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.NameNode.shared.edits.dir			</td>
+		<td></td>
+		<td>A directory on shared storage between the multiple NameNodes in an HA cluster. This directory will be written by the active and read by the standby in order to keep the namespaces synchronized. This directory does not need to be listed in dfs.NameNode.edits.dir. It should be left empty in a non-HA cluster.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.hosts		</td>
+		<td></td>
+		<td>Names a file that contains a list of hosts that are permitted to connect to the NameNode. The full pathname of the file must be specified. If the value is empty, all hosts are permitted.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.hosts.exclude		</td>
+		<td></td>
+		<td>Names a file that contains a list of hosts that are not permitted to connect to the NameNode. The full pathname of the file must be specified. If the value is empty, no hosts are excluded.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.namenode.http-address</td>
+		<td>0.0.0.0:50070</td>
+		<td>The address and the base port where the dfs namenode web ui will listen on. If the port is 0 then the server will start on a free port.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.namenode.https-address</td>
+		<td>0.0.0.0:50470</td>
+		<td>The namenode secure http server address and port.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.namenode.rpc-address</td>
+		<td>0.0.0.0:9000</td>
+		<td>The fully-qualified RPC address for each NameNode for a given nameservice to listen on</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.NameNode.handler.count		</td>
+		<td>100</td>
+		<td>The number of server threads for the NameNode.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.NameNode.safemode.threshold-pct		</td>
+		<td>0.999f</td>
+		<td>Specifies the percentage of blocks that should satisfy the minimal replication requirement defined by dfs.NameNode.replication.min. Values less than or equal to 0 mean not to wait for any particular percentage of blocks before exiting safemode. Values greater than 1 will make safe mode permanent.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.NameNode.safemode.extension		</td>
+		<td>30000</td>
+		<td>Determines extension of safe mode in milliseconds after the threshold level is reached.</td>
+	</tr>	
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.nameservice.id</td>
+		<td></td>
+		<td>The ID of this nameservice. If the nameservice ID is not configured or more than one nameservice is configured for dfs.federation.nameservices it is determined automatically by matching the local node.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>dfs.block.replicator.classname</td>
+		<td>org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicyDefault</td>
+		<td>HDFS Block Placement policy. Default value : org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicyDefault.</td>
+	</tr>
+		<td>NameNode</td>
+		<td>net.topology.script.file.name		</td>
+		<td></td>
+		<td>The script name that should be invoked to resolve DNS names to NetworkTopology names. Example: the script would take host.foo.bar as an argument, and return /rack1 as the output.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>net.topology.script.number.args		</td>
+		<td>1</td>
+		<td>The max number of args that the script configured with net.topology.script.file.name should be run with. Each arg is an IP address.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.namenode.options</td>
+		<td>-Dcom.sun.management.jmxremote $HADOOP_NAMENODE_OPTS -Dcom.sun.management.jmxremote.port=9004 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
+		<td>NameNode specific runtime options. Used by queryio server for hadoop runtime configuration.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.namenode.data.disk</td>
+		<td></td>
+		<td>NameNode directory.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.customtag.db.dbsourceid</td>
+		<td></td>
+		<td>QueryIO custom tag poolname.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.os3server.port</td>
+		<td>5667</td>
+		<td>QueryIO Services port specific to node.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.hdfsoverftp.port</td>
+		<td>5669</td>
+		<td>QueryIO Services port specific to node.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.ftpserver.port</td>
+		<td>5660</td>
+		<td>QueryIO Services port specific to node.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.ftpserver.ssl.enabled</td>
+		<td>false</td>
+		<td>QueryIO Secure FTP enabled.</td>
+	</tr>	
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.ftpserver.ssl.port</td>
+		<td>5670</td>
+		<td>QueryIO Secure FTP port specific to node.</td>
+	</tr>	
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.ftpserver.ssl.keystore</td>
+		<td></td>
+		<td>SSL keystore for QueryIO Secure FTP specific to node.</td>
+	</tr>	
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.ftpserver.ssl.password</td>
+		<td>hadoop</td>
+		<td>SSL password for QueryIO Secure FTP specific to node.</td>
+	</tr>	
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.server.url</td>
+		<td>http://localhost:5678/queryio/</td>
+		<td>QueryIO Services port specific to node.</td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>fs.defaultFS</td>
+		<td>file:///</td>
+		<td>The name of the default file system. A URI whose scheme and authority determine the FileSystem implementation. </td>
+	</tr>
+	<tr>
+		<td>NameNode</td>
+		<td>queryio.dfs.data.encryption.key</td>
+		<td>vdphkLF2eWW4k0h542VX1gKZWaT2JrIY</td>
+		<td>Server side data encryption key</td>
+	</tr>	
+</table>
+<p class="note">NOTE: Descriptions are part of <a href="http://hadoop.apache.org/docs/current/" target="_blank">Apache Hadoop documentation.</a></p>
+
+<h2><span>Add Key</span></h2>
+<p>You can also add custom configuration properties related to any HDFS cluster component.</p>
+<ul><img src="images/screenshots/add-key.jpeg"/></ul>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

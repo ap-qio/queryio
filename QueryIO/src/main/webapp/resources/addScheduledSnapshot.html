@@ -1,0 +1,133 @@
+<script type="text/javascript" src="scripts/snapshotList.js" ></script>
+
+
+
+
+
+<!-- <script type="text/javascript" src="scripts/datetimepicker.js"></script> -->
+<link href="styles/emailTable.css" rel="stylesheet" type="text/css" />
+<style>
+    .divStyle {float:left; margin: 0 0 0 250;}
+</style>
+
+<div id="add_rule" class="lightbox" >
+	<div id="close" class="close">
+		<a href="javascript:SnapshotSchedules.closeBox();"><img src="images/light-box-close.png"></a>
+	</div>
+	<form>
+    <table id="add_snapshot_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">Create Snapshot</span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td id="msg_td">
+                	<div id ="snapshotdiv1" class="instructional" style="text-align: center; width: 100%;">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+											<td id="msg_td_1">
+												
+											</td>
+							</tr>
+							<tr>
+								<td>	
+							
+							<div id="snapshotDiv" style="">
+								<table id="ruletbl1" style="width: 100%; text-align: center; ">
+									<tbody>
+										<tr>
+										<td>
+										Title
+										</td>
+										<td style="text-align: left;">
+										<input type="text" id="snapshotID" name="snapshotID"></input>
+										</td>
+										</tr>
+										<tr>
+										<td>
+										Namenode
+										</td>
+										<td style="text-align: left;">
+										<select class="report_list_box" name="node_list" id="node_list"
+														style="width: 50%">
+										</select>
+										</td>
+										</tr>
+										</td>
+										</tr>
+										<tr>
+										<td>
+										Location
+										</td>
+										<td style="text-align: left;">
+										<input type="text" id="location" name="location"></input>
+										</td>
+										</tr>
+										<!-- <tr>
+										<td>
+											Interval
+										</td>
+										<td style="text-align: left;">
+											<select name="interval" id="interval">
+											<option value="0">Once</option>
+											<option value="1">Twelve Hours</option>
+											<option value="2">Daily</option>
+											<option value="3">Weekly</option>
+											</select>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											Snapshot Time 
+										</td>
+										<td style="text-align: left;">
+											<input type="text" id="snapshotDate" alt="Select date &amp; time..."
+													name="snapshotDate"><a
+													href="javascript:NewCal('snapshotDate', 'MMddyyyy','arrow', true, '24', false);"><img
+														src="images/calendar_16.gif"></img></a>
+
+										</td>
+									</tr> -->
+									
+									<tr>
+										<td colspan="2" style="text-align: right;">
+											<input type="button" name="rulenext" value="Create" onclick="javascript:SnapshotSchedules.save();" class="buttonClass"> 
+										</td>
+									
+										</tr>
+								</tbody></table>
+							</div>
+							</td>
+							</tr>
+							</table>
+							</div>
+							<div id ="snapshotdiv2" >
+							<table align="center" width="100%"
+							style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td_2" style="color:red"></td>
+							</tr>
+						</table>
+						</div>
+						<div id="snapshotdiv3" class="instructional"
+						style="text-align: center; width: 100%;">
+						
+						
+						</td>
+						</tr>
+					</table>
+				</div>
+					
+				</td>
+				</tr>
+				</table>
+				</form>
+			</div>
+
+	<script>
+	SnapshotSchedules.addReady();
+	</script>
+	

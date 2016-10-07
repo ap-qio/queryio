@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>PUT Bucket ACL</title>
+</head>
+<body>
+	<div>
+	<h1><span>PUT Bucket ACL</span></h1>	
+	<h2><span>Description</span></h2>
+	<p>PUT Bucket ACL operation of QueryIO server will create bucket set ACL properties on bucket.</p>
+	
+	<h2><span>Requests</span></h2>
+	<h3>Syntax</h3>
+	<ul>
+	<li>
+	<pre>
+PUT <em><code>/queryio/&lt;BucketName&gt;</code>?acl</em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>Token</code></em></pre></li>
+	
+		<li>&lt;BucketName&gt;: Name of the bucket to be created.</li>
+		<li>authorization: Token for authorization. </li>
+	</ul>
+	
+	
+		<h3>ACL Headers</h3>
+		<p>QueryIO server uses following ACL headers: </p>
+	<table cellspacing="0" border="1" width="100%">
+	<tr><th> Header Name </th><th> Description </th><th> Type </th><th> Required </th></tr>
+	<tr>
+	
+					<tr><td align="center">
+								<em ><code>owner</code></em>
+							</td><td>
+								<p>Set owner of the bucket.</p>
+								
+							</td><td> String </td><td> No </td></tr>
+					<tr><td align="center">
+								<em ><code>group</code></em>
+							</td><td>
+								<p>Set group of the bucket.</p>
+								
+							</td><td> String </td><td> No </td></tr>
+					<tr><td align="center">
+								<em ><code>permission</code></em>
+							</td><td>
+								<p>Permissions to be granted on bucket in octal format.</p>
+								
+							</td><td> OctalFormat </td><td> No </td></tr>
+					</table>
+	
+	
+	
+	<h2><span>Examples</span></h2>
+		<h3>Sample Request </h3>
+		<p>The following request will set ACL settings on bucket.</p>
+		<ul>
+		<li>
+		<pre>
+PUT /queryio/DIR1?acl HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+permission: 777</pre>
+		</li>
+		</ul>
+				
+	
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

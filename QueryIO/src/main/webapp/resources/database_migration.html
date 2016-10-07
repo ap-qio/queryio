@@ -1,0 +1,23 @@
+<!-- <link rel="stylesheet" href="styles/db_migration.css" type="text/css" /> -->
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />-->
+
+
+
+<script src="scripts/jquery.dataTables.js"></script>
+<script src="scripts/jquery.alerts.js"></script>
+<script src="scripts/db_migration.js"></script>
+
+<div>
+	<!-- <div id="DBM_summary_table_div" style="margin-top: 5px;">
+		<div class="table_header_div"><span>Database Migration Statistics</span>
+		</div> -->
+		<div id="migration_table_container">
+		<table id="migration_table" class="dataTable">
+		</table>
+		</div>
+	</div>
+</div>
+<script>
+DBM.ready();
+</script>

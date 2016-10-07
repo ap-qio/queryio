@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="styles/jquery.jqplot.min.css" type="text/css" />
+<script src="scripts/jquery.jqplot.js?version=1"></script>
+<script src="scripts/jqplot.pieRenderer.js?version=1"></script>
+<script src="scripts/jquery.treeTable.js"></script>
+<link rel="stylesheet" href="styles/dn_detail_host.css" type="text/css" />
+
+<script src="scripts/dn_detail_host.js"></script>
+
+<div id='dn_detail_host' class="viewDiv">
+	<div id="summary_chart_div">
+		<span id="summary_title" class="header" style="width: 99%;">Storage Summary</span>
+		<div id="summary_chart"></div>
+	</div>
+	<div id="status_table_div">
+	<div  id="status_title" class="header" style="width: 99%;">Status Summary</div>
+	</div>
+	<div id="dn_summary_table_div">
+	</div>
+</div>
+
+<script type="text/javascript">
+	var interval="onehour";
+	var resource = "chart.jsp";
+	DN_Host.ready();
+</script>

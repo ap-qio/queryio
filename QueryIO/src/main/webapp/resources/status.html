@@ -1,0 +1,60 @@
+
+
+<link rel="stylesheet" href="styles/status.css" type="text/css" />
+
+<script type="text/javascript" src="dwr/interface/StatusManager.js"></script>
+<script src="scripts/status.js"></script>
+
+<div id='status' class="viewDiv" > 
+	<div id="status_table_div">
+		<div>
+		<table style="width: 100%">
+		<tr>
+		
+		<td style="width: 80%;">
+		
+		<table style="border: 0; width: 80%; float: left;">
+				<tbody><tr style="font-size: 8pt; font-family: Tahoma, Arial, Helvetica, sans-serif;  repeat center right; overflow: hidden; padding-left: 0; margin: 0 auto;">
+			    			<td style="width: 14%;"></td>
+			    			<td width="4%" align="left" class="empty_dashbrdcell_legend">&nbsp;&nbsp;</td>
+			    			<td width="5%" align="left">Empty</td>
+			    			<td width="4%" align="left" class="suspended_dashbrdcell_legend">&nbsp;&nbsp;</td>
+			    			<td width="5%" align="left">Suspended</td>
+			    			<td width="4%" align="left" class="ok_dashbrdcell_legend">&nbsp;&nbsp;</td>
+			    			<td width="5%" align="left">Ok</td>
+			    			<td width="4%" align="left" class="warning_dashbrdcell_legend">&nbsp;&nbsp;</td>
+			    			<td width="5%" align="left">Warning</td>
+			    			<td width="4%" align="left" class="error_dashbrdcell_legend">&nbsp;&nbsp;</td>
+			    			<td width="5%" align="left">Error</td>	
+			    			<td width="4%" align="left" class="polling_dashbrdcell_legend">&nbsp;&nbsp;</td>
+			    			<td width="5%" align="left">Failure</td>
+			    		</tr>
+		</tbody></table>
+		</td>
+		<td style="text-align: right; width: 40%;">
+			<span id = "timeIntervalSpan">
+			<select id="timeInterval" onchange="javascript:Status.changeInterval();">
+								<option selected="" value="onehour">1 hour</option>
+								<option value="oneday">1 day</option>
+								<option value="oneweek">7 days</option>
+								<option value="onemonth">30 days</option>
+								<option value="quarter">90 days</option>
+								<option value="halfyear">180 days</option>
+								<option value="oneyear">360 days</option>
+							</select>
+			</span>
+				
+		</td>
+		</tr>
+		</table>
+		
+		</div>
+		
+		<table id="status_tree_table" class="dataTable " style="font-size: 9pt;" >
+		</table>
+		
+	</div>
+</div>
+<script type="text/javascript">
+	Status.ready();
+</script>

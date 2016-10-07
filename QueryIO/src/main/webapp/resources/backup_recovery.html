@@ -1,0 +1,192 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />
+<script type="text/javascript" src="scripts/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+-->
+
+<link rel="stylesheet" href="styles/alerts_list.css" type="text/css" />
+<script type="text/javascript" src="dwr/interface/DiagnosisAndRepairManager.js"></script>
+<script type="text/javascript" src="scripts/backupAndRecovery.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.tabs.js"></script>
+<script type="text/javascript" src="scripts/js/ui.tabs.paging.js"></script>
+<style>
+#backuprecoveryli:hover, #diagnoserepairli:hover,#restoreHistoryli:hover
+{
+	background: white;
+}
+</style>
+<div id='backup_list' class="viewDiv">
+	
+	<div>
+	<div id="backupandDiagnoseTab" style="border: none;">
+		<div>
+			<ul class="tabs customTagsClass" style="min-height: 30px;">
+				<li id="diagnoserepairli" style="display: ;"><a id ="adhocJobLink" href="#diagnoserepairDiv" style = "font-size: 13px;">Diagnose & Repair</a></li>
+				<li id="backuprecoveryli" style="display: ;"><a id ="backuprecoveryDivLink" href="#backuprecoveryDiv" style = "font-size: 13px;">Backup & Restore</a></li>
+				<li id="restoreHistoryli" style="display: ;"><a id ="restoreHistoryDivLink" href="#restoreHistoryDiv" style = "font-size: 13px;">Restore History</a></li>
+			</ul>
+		</div>
+			<div id="diagnoserepairDiv" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+				<div id="diagnose_table_div" class="detailDivView">
+				<div class="buttons" style="font-size: 12px;">
+				
+				 QueryIO stores metadata of all the files ingested on HDFS cluster in a relational database. It is very vital to keep the metadata information stored in relational DB to be in synch with the NameNode's FSImage.
+				 <br>
+				 <br>
+				 Diagnose & Repair view helps you diagnose and repair the metadata DB if it ever goes out of synch with the NameNode's FSImage. 
+				 <br>
+				 
+				</div>
+				<div id="backup_buttons" class="buttons">
+					<button class="button" type="button" id="diagnoseBtn" onclick="javascript:BAR.diagnoseBackup();" title=" To diagnose Namenode's backup entry from the System DB.">Diagnose</button>
+					<button class="button" type="button" id="repairBtn" onclick="javascript:BAR.liveBackup();"  style="width:56px;">Repair</button>
+					<button class="button" type="button" id="deleteDiagnosisEntryBtn" onclick="javascript:BAR.deleteDiagnoseEntry();">Delete</button>
+				</div>
+				<form action="">
+				<table id="diagnose_repair_table" class="dataTable" style="font-size: 9pt; width: 100%"></table>
+				</form>
+			</div>
+		</div>
+		<div id="backuprecoveryDiv" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+				<div id="backup_table_div" class="detailDivView">
+				<div class="buttons" style="font-size: 12px;">
+				
+				 QueryIO stores metadata of all the files ingested on HDFS cluster in a relational database. QueryIO can leverage this metadata information stored in database to recreate the FSimage file of the NameNode. Since metadata is stored in a relational database, you can leverage efficient means of backup and recovery tools provided by the database vendors.
+				 <br>
+				 <br>
+				 Backup & Restore view is an efficient solution for Disaster Recovery. It helps you take the backup of the metadata DB, schedule backups and also provides the all important feature to recreate the NameNode's FSImage from scratch using the information stored in metadata DB. You can recreate the FSImage from any backed up copy or can use Hot Restore feature to restore from live metadata db. It is useful in recovering from cases where NameNode's FSImage is lost or has got corrupted. 
+				 <br>
+				 
+				</div>
+				<div id="backup_buttons" class="buttons">
+					<button class="button" type="button" id="addbar" onclick="javascript:BAR.addNewBackupEntry();" title="To backup metadata db to filesystem or another relational DB.">Backup</button>
+					<button class="button" type="button" id="restorebar" onclick="javascript:BAR.restore();" title="Create and update the Namenode's FSImage using the backed-up metadata DB.">Restore</button>
+					<button class="button" type="button" id="schedulebar" onclick="javascript:BAR.scheduleBackup();" title="To automatically take the backup of metadata db at scheduled time.">Schedule </button>
+					<button class="button" type="button" id="deletebar" onclick="javascript:BAR.deleteBackup();" title="To delete selected backup entry from the System DB.">Delete</button>
+					<button class="button" type="button" id="createFSimage" onclick="javascript:BAR.createFSImage();" title="To create Namenode's FSImage using the metadata stored in currently configured metadata DB.">Hot Restore</button>
+				</div>
+				<form action="">
+				<table id="backup_recovery_table" class="dataTable" style="font-size: 9pt; width: 100%"></table>
+				</form>
+			</div>
+		</div>
+	
+		<div id="restoreHistoryDiv" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+				<div id="restore_table_div" class="detailDivView">
+				<div class="buttons" style="font-size: 12px;">
+				
+				 Restore History view maintains history of all the restores done in past or are currently in progress. You can control and track the progress of a recovery process using this view.
+				 <br>
+				 
+				</div>
+				<div id="backup_buttons" class="buttons">
+					<button class="button" type="button" id="stopRestoreBtn" onclick="javascript:BAR.stopRestore();">Stop</button>
+					<button class="button" type="button" id="deleteRestoreBtn" onclick="javascript:BAR.deleteRestore();">Delete</button>
+				</div>
+				<form action="">
+				<table id="restore_table" class="dataTable" style="font-size: 9pt; width: 100%"></table>
+				</form>
+			</div>
+		</div>
+		
+	</div>
+</div>
+	
+</div>
+<script type="text/javascript">
+	var selectedBAR = [];
+	var selectedDAR = [];
+	var selectedRestore = [];
+	
+	BAR.ready();
+	function fillPopUp(flag)
+	{
+		if (BAR.currentOperation == 'deleteDiagnosis')
+	 	{
+			for(var i=0;i<selectedDAR.length;i++){
+				id = selectedDAR[i];
+				dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+				dwr.util.byId('pop.pattern'+id).style.display = '';
+				dwr.util.byId('popup.image.processing'+id).style.display = '';
+				dwr.util.setValue('popup.component','Diagnosis ID');
+				dwr.util.setValue('popup.host'+id,id);
+				dwr.util.setValue('popup.message'+id,'Deleting diagnosis entry');
+				dwr.util.setValue('popup.status'+id,'Processing');
+				DiagnosisAndRepairManager.deleteDiagnosisStatus(id,BAR.hadleDeleteDiagnose);
+			}
+		}else{
+			
+			var id = "Backup";
+			
+			dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+			dwr.util.byId('pop.pattern'+id).style.display = '';
+			dwr.util.byId('popup.image.processing'+id).style.display = '';
+			dwr.util.setValue('popup.component','Action');
+			dwr.util.setValue('popup.host'+id,id);
+			dwr.util.setValue('popup.message'+id,'Processing Request...');
+			dwr.util.setValue('popup.status'+id,'Processing');
+			
+			if (BAR.currentOperation == 'add')
+			{
+				if (BAR.isFileSystem)
+				{
+					RemoteManager.startDBToFileMigration(BAR.selectedBackupId, BAR.selectedNameNodeId, BAR.selectedHostId, BAR.selectedDestPath,BAR.isAutoDiagnose,BAR.saveResponseCallback);
+				}
+				else
+				{
+					RemoteManager.startDBToDBMigration(BAR.selectedBackupId, BAR.selectedNameNodeId, BAR.selectedDestDb,BAR.isAutoDiagnose, BAR.saveResponseCallback);
+				}
+			}
+		 	else if (BAR.currentOperation == 'schedule')
+		 	{
+				/* TODO */
+		 		var obj = {"id":"","responseCode":200,"responseMessage":"Backup scheduled successfully","taskSuccess":true};
+		 		BAR.saveResponseCallback(obj);
+		 	}
+		 	else if (BAR.currentOperation == 'delete')
+		 	{
+		 		RemoteManager.deleteBackupEntry(selectedBAR, BAR.saveResponseCallback);
+		 	}
+		 	else if (BAR.currentOperation == 'deleteHistory')
+			{
+		 		RemoteManager.deleteRestoreEntry(selectedRestore, BAR.saveResponseCallback);
+			}
+		 	else if (BAR.currentOperation == 'stop')
+			{
+		 		RemoteManager.interruptRestore(selectedRestore, BAR.saveResponseCallback);
+			}
+		 	else if (BAR.currentOperation == 'restore')
+		 	{
+				RemoteManager.restoreFsImageFromBackup(BAR.selectedBackupId, BAR.selectedNameNodeId, BAR.saveResponseCallback);
+		 	}
+		 	else if (BAR.currentOperation == 'repair')
+		 	{
+		 	
+			 	dwr.util.setValue('popup.component','Diagnosis ID');
+		 		dwr.util.setValue('popup.host'+id,BAR.selectedDianoseid);
+		 		var namenode = $('#namenode_'+BAR.selectedDianoseid).text();
+				
+				DiagnosisAndRepairManager.repair(BAR.selectedDianoseid, namenode,BAR.saveResponseCallback);
+			}
+			else if (BAR.currentOperation == 'createFSImage')
+		 	{
+		 		RemoteManager.reconstructFsImage(BAR.selectedNameNodeId, BAR.saveResponseCallback);
+	 		}
+		}
+		
+	}
+		
+	function closePopUpBox()
+	{
+		BAR.closeBox(true);
+	}
+	function viewError(){
+		if(BAR.currentOperation == 'diagnoseError'){
+			$('#logcontainer').text($('#diagnose_error_'+BAR.selectedDianoseid).html());
+		}else if(BAR.currentOperation == 'backupandRecoveryError'){
+			$('#logcontainer').text($('#backup_error_'+BAR.selectedDianoseid).html());
+		}
+	}
+</script>
+

@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="styles/jquery.jqplot.min.css" type="text/css" />
+<script src="scripts/jquery.jqplot.js?version=1"></script>
+<script src="scripts/jqplot.pieRenderer.js?version=1"></script>
+<link rel="stylesheet" href="styles/resource_manager.css" type="text/css" />
+
+<script src="scripts/resource_manager.js"></script>
+
+<div id='ResourceManager_Div' class="viewDiv">
+	<div id="RM_summary_chart_div">
+		<span id="RM_Summary_title" class="header" style="width: 99%;" >Application Summary</span>
+		<div id="RM_Summary_chart" ></div>
+	</div>
+	<div id="RM_status_table_div">
+	<div  id="RM_Summary_title" class="header" style="width: 99%;" >Status Summary</div>
+		<div class="row even">Total Apps Submitted:<span id ="RM_apps_submitted"></span> </div>
+        <div class="row odd">Total Apps Running:<span id ="RM_apps_running"></span> </div>
+        <div class="row even">Total Apps Pending:<span id ="RM_apps_pending"></span></div>
+        <div class="row odd">Total Apps Completed: <span id ="RM_apps_completed"></span></div>
+        <div class="row even">Total Apps Killed:<span id ="RM_apps_killed"></span></div>
+	</div>
+	<div id="RM_summary_table_div" class="dataTables_wrapper">
+		<div class="table_header_div" ><span> ResourceManager Summary</span></div>
+		<div style = "min-width: 1000px; overflow-x: auto;">
+			<table id="ResourceManager_summary_table" class="dataTable"></table>
+		</div>
+	</div>
+	</div>
+
+
+<script type="text/javascript">
+	/*var interval="onehour";*/
+	var resource = "chart.jsp";
+	Resource_Manager.findHostDetail(Navbar.selectedChildTab,Navbar.selectedGrandChildTab);
+</script>

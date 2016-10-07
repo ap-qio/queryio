@@ -1,0 +1,132 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop DataSource Connections</title>
+</head>
+<body>
+
+<h1><span>DataSource Connections</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains how to save connection settings to data stores to directly use them while data import/export operations.</p>
+<ul>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#data">DataSource Connections</a></li>
+</ul>
+
+<h2 id="intro"><span>Introduction</span></h2>
+<p>QueryIO provides you to save connection settings to different data stores which are frequently used for data import/export operations.</p>
+
+<h2 id="data"><span>DataSource Connections</span></h2>
+<p>Following data stores settings can be saved : </p>
+<ul>
+	<li>Amazon</li>
+	<li>FTP</li>
+	<li>HDFS</li>
+	<li>POP / IMAP</li>
+	<li>HTTP / HTTPS</li>
+	<li>SSH</li>
+	<li>SFTP</li>
+	<li>Database</li>
+</ul>
+<img src="images/screenshots/add-connection2.png"/>
+
+<p>Goto <b>Data > Manage Datasources > Manage Datasource Connections</b> and click on  <b>Add</b> to define new datasource connection.</p>
+<ul>
+	<li><b>Connection ID</b> : Provide a unique connection id.</li>
+	<li><b>Source</b> : Select the data store.</li>
+	<li>Provide configuration settings and click "Save".</li>
+</ul> 
+
+<ul>
+	<li id="amazon"><b>Amazon</b>
+		<ul>
+			<li><b>Access Key:</b> Provide access key to connect to amazon S3 cloud store.</li>
+			<li><b>Secret Access Key:</b> Enter secret access key. </li>
+		</ul>
+	</li>
+	<li id="ftp"><b>FTP</b>:
+		<ul>
+			<li><b>FTP Host:</b> Name or IP of host to connect through FTP.</li>
+			<li><b>FTP Port:</b> Port on which host's FTP service is running.</li>
+			<li><b>Username:</b> Username of the host machine to login.</li>
+			<li><b>Password:</b> Password for the account provided above.</li>
+		</ul>
+	</li>
+	
+	<li id="hdfs"><b>HDFS</b>:
+		<ul>
+			<li><b>Host:</b> HDFS host name.</li>
+			<li><b>Port:</b> Port on which HDFS host service is running.</li>
+			<li><b>UserName:</b> UserName of the HDFS.</li>
+			<li><b>Group:</b> group name.</li>
+		</ul>
+	</li>
+	
+	<li id="email"><b>POP/IMAP</b>:
+		<ul>
+			<li><b>Email Address</b> : Your email account from which emails will be imported</li>
+			<li><b>Email Password</b> : Password for email id provided above.</li>
+			<li><b>Mail Server Address</b> : Address of mail server.</li>
+			<li><b>Account Name</b> : Name of our account.</li>
+			<li><b>Protocol</b> : Protocol to be used : IMAP or  POP3</li>
+			<li><b>Socket Type</b> : Use SSL or not.</li>
+			<li><b>PORT</b> : Port to connect to mail server.</li>
+			<li><b>Connection Timeout</b> : Timeout period after which connection will be dropped if there is no response from server.</li>
+			<li><b>Read Timeout</b> : Timeout period, if client can not read from server.</li>
+		</ul>
+	</li>
+	
+	<li id="http"><b>Using HTTP/HTTPS</b>:
+		<ul>
+			<li><b>Base URL:</b> URL from which data will be imported.</li>
+			<li><b>User Name:</b> User name if authentication is required to access files using HTTP/HTTPS.</li>
+			<li><b>Password:</b> Password of the user name provided.</li>
+		</ul>
+	</li>
+	
+	<li id="ssh"><b>Using SSH</b>:
+		<ul>
+			<li><b>Host:</b> HostName / IP of the machine from which data will be imported.</li>
+			<li><b>Port:</b> Port on which SSH service is working on host machine.</li>
+			<li><b>User Name:</b> User name for authentication.</li>
+			<li><b>Authentication Method:</b> Select from "Password" or "SSH Key"</li>
+			<li><b>Password / SSH Key:</b> Password / SSH of the user name provided.</li>
+		</ul>
+	</li>
+	<li id="sftp"><b>Using SFTP</b>:
+		<ul>
+			<li><b>SFTP Host:</b> Name or IP of host to connect through SFTP.</li>
+			<li><b>SFTP Port:</b> Port on which host's SFTP service is running.</li>
+			<li><b>UserName:</b> UserName of the host machine to login.</li>
+			<li><b>Password:</b> Password for the account provided above.</li>
+		</ul>
+	</li>
+	<li id="database"><b>Using Database</b>:
+		<ul>
+			<li><b>Database Driver Class:</b> Driver class for the database.</li>
+			<li><b>Database Connection URL:</b> Connection URL required to connect to the database.</li>
+			<li><b>Username:</b> User name for authentication.</li>
+			<li><b>Password:</b> Password of the username provided.</li>
+			<li><b>JDBC Driver Jar</b>: Jar containing JDBC drivers for your database.</li>		
+			<li><b>Maximum Connections:</b> Specify maximum number of open connections allowed.</li>
+			<li><b>Maximum Idle Connections:</b> Specify the maximum number of active connections that can remain idle in the pool without extra connections being released.</li>
+			<li><b>Wait Time MilliSeconds:</b> Specify the length of time (in milliseconds) for a database connection to become available.</li>
+		</ul>
+	</li>
+</ul>
+
+<img src="images/screenshots/add-connection4.png"/>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+</body>
+</html>

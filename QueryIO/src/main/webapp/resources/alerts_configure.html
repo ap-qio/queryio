@@ -1,0 +1,41 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />
+<script src="scripts/jquery.dataTables.js"></script>
+<script src="scripts/jquery.alerts.js"></script>
+
+-->
+<link rel="stylesheet" href="styles/rules_list.css" type="text/css" />
+<script src="scripts/rules_list.js"></script>
+
+<script src="scripts/addRule.js" ></script>
+
+
+
+<div id='rules_list' class="viewDiv">
+	<div id="rules_table_div" class="detailDivView" >
+		<div id="buttons" class="buttons">
+			<button class = "button" onclick="javascript:RulesList.addRule()">Add</button> 
+			<button class = "button" id = "rule.edit" onclick="javascript:RulesList.editSelectedRule()">Edit</button> 
+			<button class = "button" id = "rule.delete" onclick="javascript:RulesList.deleteSelectedRules()">Delete</button> 
+			<button class = "button" id = "rule.restart" onclick="javascript:RulesList.startSelectedRules()">Restart</button> 
+			<button class = "button" id = "rule.suspend" onclick="javascript:RulesList.suspendSelectedRules()">Suspend</button> 
+			<button class = "button" id = "rule.notification" onclick="javascript:RulesList.configureNotifications();">Notifications</button>
+		</div>
+		<div style="width:100%;">
+			<form action="">
+				<div style = "min-width: 1000px; overflow-x: auto;">
+					<table id="rules_list_table" ></table>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var tableList = [];
+	var ruleArray = [];
+	var selectedRule = [];
+	var isEditRule=false;
+	var ruleId='';
+	var alertId='';
+	var totalRules=0
+	RulesList.ready();
+</script>

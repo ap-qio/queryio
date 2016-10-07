@@ -1,0 +1,313 @@
+<script type="text/javascript" src="scripts/automate_cluster_setup.js"></script>
+<script src="scripts/jquery.treeTable.js"></script>
+<link rel="stylesheet" href="styles/automate_cluster_setup.css" type="text/css" />
+
+<div id ="automate_cluster_setup_box" style="text-align: center; width: 95%; margin: 0 auto; margin-top: 10px;">
+	<div id="toc" class="menu" style=" width: 100%; display:none;	">
+				<ul id="abs" style="width : 100%">
+					<li id="liSelect" class="active">Select Host</li>
+					<li id="liAgent">Install Agent</li>                
+		            <li id="liNode">Install Nodes</li>
+		            <li id="liStatus">Status</li>
+				</ul>
+			</div>
+	<div id="automate_cluster_setup_main_box" >
+		<div id = 'automate_cluster_setup_hosts' class = 'showPreference'>
+			
+			
+			<div id = 'searchHostsDiv'>
+				
+				<table id="setupMethodTable" style="width: 100%;">
+					<tr>
+						<td style="float: left;">
+							<span style="font-size: 14px;">Hadoop Cluster Setup</span>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: left;">
+							<span style="font-size: 12px;">If you are an evaluation user and setting up cluster for the first time, select "Single Machine Cluster" option to install nodes on single machine.</span>
+							<br><span style="font-size: 12px;">If you are an advanced user and setting up cluster for production use, select "Multiple Machines Cluster" option to install nodes on multiple machines.</span>
+						</td>
+					</tr>
+					<tr id="singleHost">
+						<td style="float: left;">
+							<input type="radio" name="group1" value="single" checked style="" onclick="javascript:AutoCluster.hideSingle();"> Single Machine Cluster (For evaluation users)
+						</td>
+					</tr>
+					<tr>
+						<td style="float: left;">
+							<input type="radio" name="group1" value="multiple" onclick="javascript:AutoCluster.hideSingle();"> Multiple Machines Cluster (For advanced users)
+						</td>
+						
+					</tr>
+					
+					<tr>
+						<td style="float: left;">
+							<button style="margin-top: 20px;" class = 'button' onclick = 'javascript : AutoCluster.setupMethod();'>Start Installation</button>
+						</td>
+					</tr>
+					
+				</table>
+				
+				
+				<table id = "serachHostTable" style="width: 100%; display: none;float: left;">
+					<tr>
+						<td style="float: left;">
+							<span style="font-size: 12px;">Search Hosts using Patterns. (Example : 192.168.[0-10].[1-45] or 192.168.0.9 or 192.168.0.*)</span>
+							<span id="warning" style="font-size: 10px; color: red; display: none;">Please enter hosts to be searched</span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<textarea id = 'searchHostsPattern'></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span id="processingHost" style = "display: none; float: left;"><img  src="images/process.gif" style="height: 12pt;"/></span>
+							<div style="float: right; margin-top: 10px; margin-bottom:10px;">
+								<button id="searchButton" class = 'button' onclick = 'javascript : AutoCluster.searchHosts();' style="float: right; margin-left: 10px;">Search</button>
+								<button style="" class="button" id="searchbackButton" onclick="javascript:AutoCluster.backStep();">Back</button>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div id = 'searchedHostTableDiv' style="display: none">
+					<table id = 'searchedHostTable' class = 'dataTable'>
+						<thead>
+							<tr>
+								<th>
+									<input type = 'checkbox' id = 'selectAllHosts' onclick = 'AutoCluster.selectAllHosts();'>
+								</th>
+								<th>
+									Host IP
+								</th>
+								<th>
+									Already Added
+								</th>
+								<th>
+									Available
+								</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			<div id ="installerDiv" style="display: none;">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+									<div class="instructional">
+									Cluster setup status
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="otherinstruction">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>	
+									<div id = 'automate_cluster_install_services_status'>
+										<table id = 'cluster_install_status_table' class = 'dataTable'>
+											<thead>
+												<tr>
+													<th style="width: 120px;">
+														Host
+													</th>
+													<th>
+														Node(s) Installation Status 
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+								
+						</table>
+					</div>
+			
+			
+			
+			
+			
+			
+			<div id = 'hostsCredentials' style="display: none;">
+				<table style="float: left;">
+					<tr>
+						<td colspan = '2'>
+							<input onclick="javascript:AutoCluster.disableMasterCredentials();" type = "checkbox" id = 'useMasterCredentials' checked="checked" style="float: left;"><span>Use the following credentials for all the hosts</span>
+							<br>
+							<span>[You can edit individual host's details.]</span>
+						</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>
+							<span>SSH User</span>
+						</td>
+						<td>
+							<input type = "text" id = 'masterUsername' onkeyup="AutoCluster.copyCredentials();">
+						</td>
+						<td>
+							<span>Installation Path</span>
+						</td>
+						<td>
+							<input type = "text" id = 'masterInstallationPath' onkeyup="AutoCluster.copyCredentials();">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span>SSH Port</span>
+						</td>
+						<td>
+							<input type = "text" id = 'masterPort' value = '22' onkeyup="AutoCluster.copyCredentials();" onkeypress = 'javascript:Util.isNumericWithBlockOthers(event);'>
+						</td>
+						<td>
+							<span>Rack Name</span>
+						</td>
+						<td>
+							<input type = "text" id = 'masterRackName' onkeyup="AutoCluster.copyCredentials();" value = "/default-rack">
+						</td>
+					</tr>
+					<tr>
+						<td><span>Authentication Method</span></td>
+						<td><span>
+						<select id="authenticationMethod" onchange="javascript:authenticationMethodChanged();" style = "width: 96%;">
+							<option value="password" selected="selected">Password </option>
+							<option value="privateKey">Private Key </option>
+						</select>
+						</span></td>
+						<td>
+							<span>QueryIO Agent Port</span>
+						</td>
+						<td>
+							<input type = "text" id = 'masterAgentPort' onkeyup="AutoCluster.copyCredentials();" value = "6680">
+						</td>
+					</tr>
+					<tr id="password_tr">
+						<td>
+							<span>Password</span>
+						</td>
+						<td>
+							<input type = "password" id = 'masterPassword' onkeyup="AutoCluster.copyCredentials();">
+						</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr id="privatekey_tr" style="display: none;">
+						<td >
+							<span>Private Key</span>
+						</td>
+						<td>
+							<input type = "text" id = 'masterPrivateKey' onkeyup="AutoCluster.copyCredentials();">
+						</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<!-- tr>
+						<td>
+							<span>Use same credentials for all</span>
+						</td>
+						<td>
+							<input type = "checkbox" id = 'useMasterCredentials' checked="checked" style="float: left;">
+						</td>
+					</tr-->
+					
+					<!-- tr>
+						<td>
+							<span>Use same Private Key</span>
+						</td>
+						<td>
+							<input type = "checkbox" id = 'useMasterPrivateKey' checked="checked" style="float: left;">
+						</td>
+					</tr-->
+				</table>
+				<a onclick = "javascript:AutoCluster.retryAllFailedAddHost();" class = "retryAllFailed" style = "display : none; cursor : pointer; text-decoration: underline;float: right; margin-bottom: 5px; font-size: 12px;">Retry All Failed</a>
+				<div id = 'progressStatus' style="visibility: hidden; color: green;">
+				<span>Processing Status.. | Total : </span>
+				<span id = 'totalProcessing'>0</span>
+				<span> | Success : </span>
+				<span id = 'successProcessing'>0</span>
+				<span> | Failure : </span>
+				<span id = 'failureProcessing'>0</span>
+				</div>
+				<div id = 'hostsListWithCredentials' style="margin-top: 15px;">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id = 'automate_cluster_setup_services' style="display: none;">
+		<div style="margin-bottom: 10px;">
+			<span style="font-size: 12px; float: left;">Select services to be installed for respective hosts.</span>
+		</div>
+		<table id = 'cluster_setup_services_table' class = 'dataTable' style="float: left;">
+			<thead>
+				<tr>
+					<th style="width: 120px;">
+						Host
+					</th>
+					<th style="width: 250px;">
+						NameNode
+						<span id = 'removeSelection_nameNode' onclick = 'AutoCluster.unselectRadio("nameNode");' style = 'visibility: hidden; font-size: 10px; text-decoration: underline; color: #3083d0;'>Remove Selection</span>
+					</th>
+					<th style="width: 250px;">
+						DataNode
+						<input type = 'checkbox' id = 'selectAll_dataNode' onclick="javascript:AutoCluster.selectAllServices('dataNode')">
+					</th>
+					<th style="width: 250px;">
+						Resource Manager
+						<span id = 'removeSelection_resourceManager' onclick = 'AutoCluster.unselectRadio("resourceManager");' style = 'visibility: hidden; font-size: 10px; text-decoration: underline; color: #3083d0;'>Remove Selection</span>
+					</th>
+					<th style="width: 250px;">
+						Node Manager
+						<input type = 'checkbox' id = 'selectAll_nodeManager' onclick="javascript:AutoCluster.selectAllServices('nodeManager')">
+					</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<div style="float: right; margin-top: 10px; margin-bottom: 10px;">
+		<button style="display : none;"class = 'button' id = 'backButton' onclick="javascript:AutoCluster.backStep();">Back</button>
+		<button style="display : none;"class = 'button' id = 'nextButton' onclick="javascript:AutoCluster.nextStep();">Next</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+AutoCluster.ready();
+
+function authenticationMethodChanged(){
+	
+	if($('#authenticationMethod').val()=='password'){
+		
+		$('#password_tr').css('display','');
+		$('#privatekey_tr').css('display','none');
+		$('#masterPrivateKey').val('');
+		
+		
+	}else if($('#authenticationMethod').val()=='privateKey'){ 
+		$('#password_tr').css('display','none');
+		$('#privatekey_tr').css('display','');
+		$('#masterPassword').val('');
+		
+	}
+	
+} 
+
+</script>

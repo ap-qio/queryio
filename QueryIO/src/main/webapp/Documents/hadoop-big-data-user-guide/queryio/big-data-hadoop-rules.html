@@ -1,0 +1,126 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Big Data Hadoop : Rules for Alerts</title>
+</head>
+
+<body>
+<h1><span>Rules for Alerts</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter shows how to define rules for alerts.</p>
+<ul>
+	<li><a href="#rule">Rules</a></li>
+	<li><a href="#notification">Notifications</a></li>
+</ul>
+
+
+<h2 id="rule"><span>Rules</span></h2>
+<p> Select <b>Rules for Alerts</b> in Monitoring menu tab to perform more operations on alerts. You can view already created alert rules, create new alerts by defining new rules, suspend or start an alert or delete a rule.</p>
+<img alt="alerts-config" src="images/screenshots/rules.jpeg" >
+<p> Alerts are displayed in a tabular form with attributes as:</p>
+<ul>
+	<li>Check box to select alert.</li>
+	<li><b>RuleID:</b> ID of the alert specified at time of creating alert.</li>
+	<li><b>Host:</b> IP address of the node for which alert is created.</li>
+	<li><b>Severity:</b> Warning or Error.</li>
+	<li><b>Attribute:</b> Attribute on which rule is defined. Examples: Heap memory used, CPU usage, Threads runnable etc.</li>
+	<li><b>Notify:</b> Notification will be sent when rule violates or comes out of violation. Notification type can be Email or Log.</li> 
+	<li><b>Alerts:</b> Click on details to view about alert.</li>
+</ul>
+
+<h3>Add Rule</h3>
+<p>Steps to create a new Rule are specified here:
+<ul>
+	<li>Click on <b>Add</b> button to create a new Rule under <b>Monitoring > Rules for Alerts</b>.</li>
+	<li><b>Rule ID: </b>Enter RuleID for the rule.</li>
+	<li><b>Node:</b> Select the node from the drop down list on which the rule will work.</li>
+	<li><b>Severity: </b>Select the severity of alert as <b>Warning</b> or <b>Error</b>.</li>
+	<li>And click on <b>Next</b> button.</li><br>
+<img alt="alerts-config-add" src="images/screenshots/alerts-add1.jpeg" ><br><br>
+
+<li>Next screen will configure the notification options. Notification will be sent when rule violates or comes out of violation. All notifications configured for a node will be processed.</li>
+
+	<li><b>Notification Type: </b>Select the notification type as <b>Email</b> or <b>Log</b> You need to configure <a href="#notification">Notifications</a> setting first to get mail notifications.</li>
+	<br><img alt="alerts-config-add-notify" src="images/screenshots/alerts-add2.jpeg" ><br><br>
+	<li><b>Subject: </b>Enter subject and message for both cases i.e when a rule violates or come out of the violation (optional).</li>
+	<li>Select <b>Include attribute values of monitor in message</b> check box to add details about alert in message.</li>
+	<li><b>Message: </b>Message that will be sent along with notification.</li>
+	<li>Click on <b>Next</b> button to continue.</li>
+
+	<br><img alt="alerts-config-add-notify" src="images/screenshots/alerts-add2-log.jpeg" ><br><br>
+	<li><b>Message: </b>Message that will be sent along with notification.</li>
+	
+	<li><b>Add expression for Attribute: </b>Select the expression for attribute from the drop down list and click on <b>Add</b> to create a expression.</li>
+		
+	<li>Enter details about the expression in a tabular form:
+		<ul>
+			<li><b>Attribute: </b>Expression attribute just selected.</li>
+			<li><b>Condition: </b>Condition to be checked on attribute. Select from greater than, less than, equal to and not equal to.</li>
+			<li><b>Value: </b>Value for the condition to fulfill.</li>
+			<li><b>Aggregate Function: </b>Use any aggregate function like average, minimum, maximum on expression attribute if required.</li>
+			<li><b>Duration(sec): </b>Time duration after which rules are violated and alert will be generated.</li>
+			<li><b>Remove: </b>Click <b>Delete</b> if you don't want to add it as a expression.</li>   
+		</ul>	
+	</li>
+	<li>Click on <b>Add</b> to create new alert.</li>
+	<br><img alt="alerts-config-add-expr" src="images/screenshots/alerts-add3.jpeg" ><br><br>
+</ul>
+
+<h3>Suspend Alert</h3>
+<p>To stop an alert manually, select the check box against the alert and click on <b>Suspend</b> button.</p>
+
+<h3>Restart Alert</h3>
+<p>To restart a alert, select the check box against the alert and click on <b>Restart</b> button.</p>
+
+<h3>Delete Alert</h3>
+<p>Select the check box against the alert and click on <b>Delete</b> button to delete an alert.</p>
+
+<h3>Edit Alert</h3>
+<p>Select the check box against the alert and click on <b>Edit</b> button to edit alert settings. You can update all the settings that were stored during creation of alert except rule id and node for which it was created.</p>
+
+<h2 id="notification"><span>Notifications</span></h2>
+<p>When an alert is raised a notice is sent out to all the concerned users that a particular event has occurred and needs to be dealt with. This process is called notification.
+ QueryIO provides two modes of notification. They are:</p>
+<ul>
+	<li>Email notification</li>
+	<li>Log notification</li>
+</ul>
+
+<p>The preferred notification mode can be selected by enabling it and specifying the appropriate sender details.</p>
+
+<h3 id="Email"><span>Email notification</span></h3>
+<p>Configure email settings for the account from which mails will be sent.</p>
+<ul>
+	<li><b>Enabled: </b>Select check box to enable email notification..</li>
+	<li><b>Sender's Name: </b>User friendly name that will be seen when you receive a mail from QueryIO as Sender.</li>
+	<li><b>Sender's Address: </b>The address that will be used to send out the email that is your email address For example, xyz@queryio.com</li>
+	<li><b>SMTP Server: </b>The SMTP address of the mail server is to be entered here. For example, smtp.queryio.com</li>
+	<li><b>SMTP Port: </b>The outgoing SMTP port of the mail server is to be entered here. Default is 25.</li>
+	<li><b>Server requires a secure connection(SSL): </b>Check it if secure connection is required.</li>
+	<li><b>Authentication: </b>If the mail server requires authentication, authentication details are also required.</li>
+	<li><b>User Name: </b>User name of the sender's Email.</li>
+	<li><b>Password: </b>Password of the above username.</li>
+</ul>
+
+
+
+<h3 id="Log-Notification"><span>Log notification</span></h3>
+<p>In case the notification is to be logged to a log file then the following information is required.</p>
+<ul>
+	<li><b>Enabled: </b>Select check box to enable log notification..</li>
+	<li><b>Log file path: </b>Path of the log file to which QueryIO should log the notification message.</li>
+</ul></br>
+<img alt="Notification" src="images/screenshots/rulesNotifications.jpeg" >
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

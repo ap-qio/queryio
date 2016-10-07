@@ -1,0 +1,197 @@
+<link rel="stylesheet" href="styles/emailTable.css" type="text/css" />
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+
+
+
+
+<div id="generate_report" class="lightbox">
+	<div id="close" class="close">
+		<a href="javascript:DA.closeBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<form>
+	<table id="generate_reoprt_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Email SQLQuery Result</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div id="emailReportDiv_1">
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+									<div class="instructional">
+									It is used to email result for SQLQuery.
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<hr>
+									<div class="otherinstruction">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="msg_td_1" style="color:red"></td>
+							</tr>
+							<tr>
+								<td>
+									<table width="100%" class="form_table" >
+										<tbody>
+											<tr>
+												<td style="text-align: left;">Query Id</td>
+												<td style="text-align: left;"><input type="text" id ="title" name="title"></td>
+											</tr>
+											<tr>
+												<td>Select Format</td>
+												<td>
+													<input type="checkbox" name="html_chk" id="html_chk" onclick="javascript:exportTypeClicked(this);" />HTML
+													&nbsp;<input type="checkbox"  name="pdf_chk" id="pdf_chk" onclick="javascript:exportTypeClicked(this);"/>PDF &nbsp;<input
+													type="checkbox" name="xls_chk" id="xls_chk" onclick="javascript:exportTypeClicked(this);"/>XLS
+												</td>
+											</tr>
+											<tr>
+												<td>Records</td>
+												<td><input type="text" id ="pages" name="pages" value="*" style="width: 70%;">&nbsp;&nbsp; * for all.</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+												<hr>
+													<div class="otherinstruction">
+														
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<input type="button" value="Next" name="view" style="float: right; width: 60px;" onClick="javascript:DA.nextPage();">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="emailReportDiv_2">
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+									<div class="instructional">
+									It is used to email result for SQLQuery.
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<hr>
+									<div class="otherinstruction">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="msg_td_2" style="color:red"></td>
+							</tr>
+							<tr>
+								<td>
+									<table class="pickList" style="width:100%;">
+										<tbody><tr>
+											<th class="pickLabel">
+												Available users
+											</th>
+											<td></td>
+											<th class="pickLabel">
+												Selected users
+											</th>
+										</tr>
+										<tr>
+				    						<td>
+				        						<select name="user" multiple="multiple" ondblclick="moveSelectedOptions('user','selected')" id="user" size="5">
+										        </select>
+				    						</td>
+										    <td class="moveOptions">
+				       						<button class="button userMoveButton" name="moveRight" id="moveRight1" type="button" onclick="javascript:DA.moveSelectedOptions('user','selected');">
+				            					&nbsp;&gt;</button><br>
+				        					<button class="button userMoveButton" name="moveAllRight" id="moveAllRight1" type="button" onclick="javascript:DA.moveAllOptions('user','selected');">
+									           &gt;&gt;</button><br>
+									        <button class="button userMoveButton" name="moveLeft" id="moveLeft1" type="button" onclick="javascript:DA.moveSelectedOptions('selected','user');">
+									           &nbsp;&lt;</button><br>
+									        <button class="button" name="moveAllLeft" id="moveAllLeft1" type="button" onclick="javascript:DA.moveAllOptions('selected','user');">
+									           &lt;&lt;</button>
+										    </td>
+										    <td>
+										        <select name="selected" multiple="multiple" id="selected" size="5">
+				    					        </select>
+				    						</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+												<hr>
+													<div class="otherinstruction">
+														
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" style="text-align: right; width:100%;">
+													<input style= "width: 60px;" type="button" value="Back" name="back" onClick="javascript:DA.backPage();">
+													<input style= "width: 60px;" type="button" value="Email" name="email" onClick="javascript:DA.emailDataReport();">
+												</td>
+											</tr>
+									</tbody>
+								</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+</div>
+
+<script>
+
+DA.fillQueryName();
+DA.emailReady();
+DA.generateReportReady();
+
+function exportTypeClicked(element){
+	//var exportReportType = new Array();
+
+	if(element.checked){
+		if(element.id=='html_chk'){
+			DA.exportReportType.push('HTML');
+		}else if(element.id=='pdf_chk'){
+			DA.exportReportType.push('PDF');
+		}else if(element.id=='xls_chk'){
+			DA.exportReportType.push('XLS');
+		}
+	}else{
+		var val=9;
+		if(element.id=='html_chk'){
+			val='HTML';
+		}else if(element.id=='pdf_chk'){
+			val='PDF';
+		}else if(element.id=='xls_chk'){
+			val='XLS';
+		}
+		for(var i=0;i<DA.exportReportType.length;i++){
+			if(DA.exportReportType[i]==val){
+				DA.exportReportType.splice(i,1);
+			}
+		}
+	}
+	//exportType = exportReportType;
+
+}
+</script>

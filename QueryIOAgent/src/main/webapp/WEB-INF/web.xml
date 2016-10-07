@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:javaee="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="3.0">
+  <display-name>QueryIO</display-name>
+  <listener>
+        <listener-class>com.queryio.web.listener.AgentStartupListener</listener-class>
+  </listener>
+  <servlet>
+        <servlet-name>apremote</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+        <servlet-name>apremote</servlet-name>
+        <url-pattern>/app/*</url-pattern>
+   </servlet-mapping>
+   <servlet>
+        <servlet-name>logviewer</servlet-name>
+		<servlet-class>com.queryio.agent.web.LogViewer</servlet-class>
+  </servlet>
+  <servlet-mapping>
+        <servlet-name>logviewer</servlet-name>
+        <url-pattern>/log/*</url-pattern>
+   </servlet-mapping>
+</web-app>

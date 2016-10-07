@@ -1,0 +1,103 @@
+
+
+
+
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+
+<div id="generate_report" class="lightbox">
+	<div id="close" class="close">
+		<a href="javascript:DA.closeBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<form>
+	<table id="generate_reoprt_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Export SQLQuery Result</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div id="emailReportDiv_1">
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+									<div class="instructional">
+									It is used to export result for SQLQuery.
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<hr>
+									<div class="otherinstruction">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="msg_td_1" style="color:red"></td>
+							</tr>
+							<tr>
+								<td>
+									<table width="100%" class="form_table" >
+										<tbody>
+											<tr>
+												<td style="text-align: left;">Query Id</td>
+												<td style="text-align: left;"><input type="text" id="title" name="title"></td>
+											</tr>
+											
+											<tr id="startDate">
+												<td>Export Format</td>
+												<td>
+												<input type="radio" id="html_radio" name="export" style="width: auto;" value="HTML">&nbsp;HTML&nbsp;&nbsp;
+												
+												<input type="radio" id="pdf_radio" name="export" style="width: auto;" value="PDF">&nbsp;PDF&nbsp;&nbsp;
+												
+												<input type="radio" id="xls_radio" name="export" style="width: auto;" value="XLS">&nbsp;XLS&nbsp;&nbsp;
+												</td>
+											</tr>
+											<!-- <tr>
+												<td>Records</td>
+												<td><input type="text" id="pages" name="pages" style="width: 70%;" value="*">&nbsp;&nbsp;* for all.</td>
+											</tr>
+											<tr>
+												<td>Alternate Row Color</td>
+												<td><input style="width: 50%;" class="color" id="firstRowColor">&nbsp;<input style="width: 50%;" class="color" id="secRowColor"></td>
+											</tr>
+											<tr>
+												
+											</tr> -->
+											<tr>
+												<td colspan="2">
+												<hr>
+													<div class="otherinstruction">
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+												<input type="button" value="Export" name="Export" style="float: right;" onclick="javascript:DA.exportData();">
+												<input type="button" value="Cancel" name="Cancel" style="float: right;" onclick="javascript:DA.closeBox(false);"></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+</div>
+
+<script>
+
+document.getElementById('pdf_radio').checked=true;
+DA.fillQueryName();
+
+</script>

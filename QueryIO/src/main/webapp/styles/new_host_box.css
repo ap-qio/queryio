@@ -1,0 +1,52 @@
+div.lightbox#new_host_box
+{
+	width: 400px;
+}
+
+.input
+{
+	width: 88%;
+	margin: 0 40 0 40;
+}
+
+#page2Table td
+{
+	text-align: left;
+	padding: 2px;
+	width:	20px;
+}
+
+#dataNodeTable td
+{
+	text-align: left;
+	padding: 2px;
+	width:	20px;
+}
+#nodeManagerTable tr > td > first,
+#nodeManagerTable td
+{
+	text-align: left;
+	padding: 2px;
+	width:	20px;
+}
+
+#resourceConfTable td
+{
+	text-align: left;
+	padding: 2px;
+	width:	20px;
+}
+
+#resourceJobTable td
+{
+	text-align: left;
+	padding: 2px;
+	width:	20px;
+}
+
+#standByNameNodeSecPage2 td
+{
+	text-align: left;
+	padding: 2px;
+	width:	20px;
+}

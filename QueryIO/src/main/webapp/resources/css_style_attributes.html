@@ -1,0 +1,160 @@
+<table id = 'cssProperties'>
+		<tr>
+			<th id = 'currentSelectedColumn'>
+				
+			</th>
+		</tr>
+<!--	<tr id = 'checkBookStyleRow' onclick = "javascript:cssGenerator.showCheckBookColorSelector();" style="display: none;">
+			<td>
+				<input type="checkbox" id = "checkBookStyleFlag" />
+			</td>
+			<td>
+				Checkbook Style
+			</td>
+		</tr>	
+		<tr id = "checkbookStyleColorsRow" style="display: none;">
+			<td>
+				Odd
+			</td>
+			<td>
+				<input type="text" id = "checkBookOddColor" style="display: none;"/>
+			</td>
+			<td>
+				Even
+			</td>
+			<td>
+				<input type="text" id = "checkBookEvenColor" style="display: none;"/>
+			</td>
+		</tr>	 -->
+		<tr id="column_list_row" style="display: ">
+			<td style= "text-align: left;">
+				Column
+			</td>
+			<td style= "text-align: left;" id = 'columnList'>
+				
+			</td>
+			<td style= "text-align: left;" nowrap = "nowrap" id = "checkBookStyleTD" style="display: none;">
+				<input type="checkbox" id = "checkBookStyleFlag" checked="checked"/>
+				Checkbook Style
+			</td>
+		</tr>
+		<tr style="display: ">
+			<td style= "text-align: left;">
+				Width
+			</td>
+			<td style= "text-align: left;" nowrap = "nowrap">
+				<input type="text" id = "column_detail_width" value = "120"/>
+				<select id = 'column_detail_width_unit' style=" width: 30%;">
+					<option value = 'px'>px</option>
+					<option value = 'pt'>pt</option>
+				</select>
+			</td>
+		</tr>
+		<tr id="title_row" style="display: none;">
+			<td style= "text-align: left;">
+				Title
+			</td>
+			<td style= "text-align: left;" id = 'title'>
+				<input type="text" id="header_title" style="width: 100%;">
+			</td>
+		</tr>
+		<tr>
+			<td style= "text-align: left;" nonowrap = 'nowrap'>
+				Font Size :
+			</td>
+			<td style= "text-align: left;" id = 'fontSizeSection'>
+				
+			</td>
+		
+		</tr>
+		<tr>
+			<td>
+			</td>
+				<td style= "text-align: left;" nowrap="nowrap"> 
+				<input type = "text" id = 'fontSize' size="2" disabled="disabled" value = '6' style="width: 40%;"/>
+			
+				<select id = 'fontSizeUnit' disabled="disabled" style=" width: 54%;">
+					<option value = 'pt'>pt</option>
+					<option value = 'px'>px</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td style= "text-align: left;" nowrap = 'nowrap'>
+				Font Family : 
+			</td>
+			<td style= "text-align: left;" id = 'fontFamily'>
+				
+			</td>
+		</tr>
+		<tr id="width_row" style="display:none; text-align: left;">
+			<td nowrap = 'nowrap'>
+				Width : 
+			</td>
+			<td style= "text-align: left;" nowrap="nowrap">
+				<input type = "text" id = 'colWidth'  style="width: 40%;"/>
+				<select id="colwidthUnit" style=" width: 54%;">
+					<option value="pt">pt</option>
+					<option value="px">px</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td style= "text-align: left;" nowrap = 'nowrap'>
+				Color :
+			</td>
+			<td style= "text-align: left;">
+				<input type = 'text' id = 'fontColor' size="7" style="display: none"/>
+			</td>
+			</tr>
+		<tr>	
+			<td style= "text-align: left;" nowrap = 'nowrap'>
+				Background Color :
+			</td>
+			<td style= "text-align: left;">
+				<input type = 'text' id = 'backgroundColor' size="7" style="display: none"/>
+			</td>
+		</tr>
+		
+		<tr>
+			<td style= "text-align: left;" nowrap = 'nowrap'>
+				Text Align :
+			</td>
+			<td style= "text-align: left;">
+				<select style="width: 100%;" id = 'fontTextAlign'>
+					<option value = 'left'>Left</option>
+					<option value = 'center'>Center</option>
+					<option value = 'right'>Right</option>
+					<option value = 'justify'>Justify</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td style= "text-align: left;" nowrap = 'nowrap'>
+				Font Weight :
+			</td>
+			<td style= "text-align: left;">
+				<select style="width: 100%;" id = 'fontWeight'>
+					<option value = 'normal'>Normal</option>
+					<option value = 'bold'>Bold</option>
+					<option value = 'bolder'>Bolder</option>
+					<option value = 'lighter'>Lighter</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td style= "text-align: left;" nowrap = 'nowrap'>
+				Font Style :
+			</td>
+			<td style= "text-align: left;">
+				<select style="width: 100%;" id = 'fontstyle'>
+					<option value = 'normal'>Normal</option>
+					<option value = 'italic'>italic</option>
+					<option value = 'oblique'>Oblique</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+		</tr>
+		
+	</table>		

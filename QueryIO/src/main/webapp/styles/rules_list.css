@@ -1,0 +1,26 @@
+/* Add dash board specific style sheets in here*/
+
+#rules_list .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+#rules_table_div {
+	/* margin-left: 10px;
+	margin-top: 10px; */
+	border: solid 1px #ccc;
+	float: left;
+ 	width: 99%; 
+}
+
+#rules_table_div table thead th,
+#rules_table_div table tbody tr td
+{
+	font-size: 9pt;
+}
+	
+.centerDiv{
+	
+}
+

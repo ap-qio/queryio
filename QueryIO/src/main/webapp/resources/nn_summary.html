@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="styles/nn_summary.css" type="text/css" />
+<link rel="stylesheet" href="styles/jquery.jqplot.min.css" type="text/css" />
+<script src="scripts/jquery.jqplot.js?version=1"></script>
+<script src="scripts/jqplot.pieRenderer.js?version=1"></script>
+<script src="scripts/nn.js"></script>
+<script src="scripts/nn_summary.js"></script>
+<script src="scripts/nn_config.js"></script>
+<script src="scripts/log_view.js"></script>
+
+<script>
+	fillAllServices();
+</script>
+<div id='nn_summary' class="viewDiv">
+	<div id="nn_summary_chart_div">
+		<span id="nn_summary_title" class="header" style="width: 99%;">I/O Summary</span>
+		<div id="nn_summary_chart" ></div>
+	</div>
+	<div id="nn_status_table_div">
+		<div id="status_summary_title" class="header" style="width: 99%;">Status Summary</div>
+		<div class="row even">Total File Reads:<span id ="nn_status_fileread"></span> </div>
+        <div class="row odd">Total File Writes:<span id ="nn_status_filewrite"></span> </div>
+        <div class="row even">File Read Latency:<span id ="nn_latency_fileread"></span></div>
+        <div class="row odd">File Write Latency: <span id ="nn_latency_filewrite"></span></div>
+	</div>
+	
+	<form action="">
+		<div id="nn_summary_table_div">
+			<br>
+			<div class="table_header_div" ><span> NameNode Summary</span></div>
+			<div class="buttons">
+				<button class="button" id="add.service" type="button" onclick="javascript:NN_Summary.addHdfsNode();" name="Add" value="Add">Add</button>
+				<button class="button" id="delete.service" type="button" onclick="javascript:deleteHdfsNameNode();" name="Delete" value="Delete">Delete</button>
+				<button class="button" id="start.service" type="button" onclick="javascript:startHdfsNode(true);" name="Start" value="Start">Start Node</button>
+				<button class="button" id="stop.service" type="button" onclick="javascript:stopHdfsNode(true);" name="Stop" value="Stop">Stop Node</button>
+				<button class="button" id="start.monitoringservice" type="button" onclick="javascript:startMonitoring(true);" name="Start" value="Start">Start Monitoring</button>
+				<button class="button" id="stop.monitoringservice" type="button" onclick="javascript:stopMonitoring(true);" name="Stop" value="Stop">Stop Monitoring</button>
+				<!--<button class="button" id="decommission.service" type="button" onclick="javascript:decommissionHdfsNode(true);" name="Decommission" value="Decommission">Decommission</button></span></td>  -->
+				<button class="button" id="config.service" type="button" onclick="javascript:NN_Summary.showConfiguration();" name="Node Configuration" value="Node Configuration">Configure</button>
+				<button class="button" id="filecheck.service" type="button" onclick="javascript:fsck(true);" name="FileCheck" value="FileCheck">Health Check</button>
+				<button class="button" id="balancer.service" type="button" onclick="javascript:balancer(true);" name="Balancer" value="Balancer">Balancer</button>
+				<button class="button" id="initiateFailover" type="button" onclick="javascript:NN_Summary.enableHA(true,'IntiateFaiilOver');" name="initiateFailOver" value="initiateFailOver" disabled="disabled">FailOver</button>
+				<!-- <button class="button" id="enableHA" type="button" onclick="javascript:NN_Summary.enableHA(true,'HAEnable');" name="enableHA" value="enableHA" style="display: none">Enable HA</button>
+				<button class="button" id="disableHA" type="button" onclick="javascript:NN_Summary.enableHA(true,'HADisable');" name="disableHA" value="disableHA" style="display: none">Disable HA</button> -->
+				
+			</div>
+			<table  id="nn_summary_table" style="font-size: 9pt;"></table>
+			<br>
+			<div id ="nn_log_div">
+				<div class="table_header_div"><span style=";">Activity Summary </span></div>
+			<table id="nn_log_table" style="font-size: 9pt;"></table>
+			</div>
+		
+			
+		</div></form>
+</div>
+<div id='nn_summary_table_div' style="display: none">
+		<table id = "nnServiceListTable" class="dataTable" style="font-size: 9pt;">
+			<thead>
+			<tr >
+				<th><input id='selectAll' type="checkbox" onclick="javascript:selectAllhdfsServiceRows(this);"></th>
+				<th>NameNode</th>
+				<th>Volume Name</th>
+				<th>Volume Path</th>
+				<th>Status</th>
+				<th>Health</th>
+			</tr>
+			</thead>
+			<tbody id="nodes">
+				<tr id="pattern" style="display:none;">
+					<td><input id='mark' type="checkbox" onclick="javascript:clickCheckBox(this.id)"></td>
+					<td><a id="node.loadChart" href=""><span id="node.host"></span></a></td>
+					<td><span id="volume.volumeName"></span></td>
+					<td><span id="volume.path"></span></td>		
+					<td><span id="node.status"></span></td>
+					<td><span id="node.health"></span></td>							
+				</tr>
+			</tbody>
+		</table>
+
+</div>
+<script type="text/javascript">
+	NN_Summary.ready();
+	var nameNodeIdArray = new Array();
+	var logPath ='';
+	var config_nodeId='';
+	var isCallFromNameNode = true;
+	
+</script>

@@ -1,0 +1,77 @@
+<link rel="stylesheet" href="styles/ftp_server.css" type="text/css" />
+<script src="scripts/ftpServer.js"></script>
+<script  type="text/javascript" src="dwr/interface/HOFManager.js"></script>
+
+<div id='ftp_server' style=" overflow: auto; min-width: 950px;">
+	<div id="ftp_server_btn_table_div">
+		<div id="buttons" class="buttons">
+			<button class="button" id ="ftpStart" onclick="javascript:FTPServer.startServer()" >Start</button> 
+			<button class="button" id="ftpStop" id = "datamigration.cancel" onclick="javascript:FTPServer.stopServer()">Stop</button>
+		</div>
+		<div id="ftp_server_table_div" style="text-align: center;">
+		<form id = "ftpForm" action="">
+		
+		<table id="ftp_server_table" class="dataTable">
+			<!-- <tr>
+				<td>FTP Server IP </td><td><input type="text" id="serverIp" size="16" disabled="disabled">  </td>
+			</tr>
+			<tr>	
+				<td>Username</td><td><input type="text" id="userName"  disabled="disabled">  </td>
+			</tr>
+			<tr>
+				<td>Password </td><td><input type="text" id="password"  disabled="disabled">  </td>
+			</tr>
+			<tr>
+				<td>Home Directory</td><td><input type="text" id="homeDir" disabled="disabled">  </td>
+			</tr>
+			-->
+				<tr><span id ="message"></span></tr>
+									<tr id ="hostUriRow" style="display: none;">
+										<td>Host URI</td><td>
+										
+										<input type="text" style=" width: 200px;" id = "hostUri"> </td>
+									</tr>						
+									<tr id = "hostRow" style="display: none;">
+										<td>NameNode Host</td><td><select id ="hostForFtp"></select> </td>
+									</tr>
+									<tr id = "ftpServerRow" style="display: none;">
+										<td>FTP Server</td><td><input type="text" id = "ftpServer"> </td>
+									</tr>									
+									<tr>	
+										<td>Port</td><td><input type="text" id = "port"> </td>
+									</tr>
+																		<tr  id="statusRow" style="display: none;">	
+										<td>Status</td>
+										<td>
+										<img id ="statusStart" alt="" src="images/status_start.png" class="statusImage" style="display: none; "> 
+										<img id ="statusStop" alt="" src="images/status_stop.png" class="statusImage" style="display: none; ">
+										<img id ="noStatus" alt="" src="images/no_status.png" class="statusImage" style="display: none; ">
+										<label id = "status"></label>
+										</td>
+									</tr>
+										
+									<tr>
+										<td colspan="2" style="text-align: right;"> 
+										<input type="button" class="buttonAdmin"
+														id="saveFtpConfig" value="Save"
+														onclick="javascript:FTPServer.saveConfig();" style="display: none;" />
+											
+												<input type="button" class="buttonAdmin"
+														id="editFtpConfig" value="Edit"
+														onclick="javascript:FTPServer.editConfig();" style="display: none;"/>			
+												
+												<input type="button" class="buttonAdmin"
+														id="cancelConfig" value="Cancel"
+														onclick="javascript:FTPServer.cancelEditConfig();" style="display: none;"/>			
+																		
+										</td>
+									</tr>
+		</table>
+		</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+FTPServer.ready();
+
+</script>

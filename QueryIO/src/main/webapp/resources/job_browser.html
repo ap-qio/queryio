@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="styles/job_browser.css" type="text/css" />
+
+<script type="text/javascript" src="scripts/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.tabs.js"></script>
+<script type="text/javascript" src="scripts/js/ui.tabs.paging.js"></script>
+
+<script src="scripts/job_browser.js"></script>
+
+
+<div>
+	<div id="jobTabs" style="border: none;">
+		<div>
+			<ul class="tabs customTagsClass" style="min-height: 30px;">
+				<li id="standardJobHead" style="display: ;"><a id ="standardJobLink" href="#standardJobTab" style = "font-size: 13px;">Standard MapReduce</a></li>
+				<li id="execHistoryHead" style="display: ;"><a id ="execHistoryLink" href="#execHistoryTab" style = "font-size: 13px;">Execution History</a></li>
+			</ul>
+		</div>
+		<div id="standardJobTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+			<div class="buttons">
+			<button class="button" type="button" name="Add" id="addButton" onClick="javascript:JB.addApplication(false);">Add</button>
+			<button class="button" type="button" name="Start" id="startButton" disabled="disabled" onClick="javascript:JB.startApplication(false);">Start</button>
+			<button class="button" type="button" name="Edit" id="editButton" disabled="disabled" onClick="javascript:JB.editApplication(false);">Configure</button>
+			<button class="button" type="button" name="Delete" id="deleteButton" disabled="disabled" onClick="javascript:JB.deleteApplication(false);">Remove</button>
+			<button class="button" type="button" name="Schedule" id="scheduleButton" disabled="disabled" onClick="javascript:JB.scheduleApplication(false)">Schedule</button>
+		</div>
+		<table id="JobBrowser_summary_table" class="dataTable">
+		</table>
+		</div>
+		<div id="execHistoryTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+			<div class="buttons">
+			<button class="button" type="button" name="Stop" id="stopButton" disabled="disabled" onClick="javascript:JB.stopApplication();">Stop</button>
+		</div>
+		<table id="JobBrowserApps_summary_table" class="dataTable">
+		</table>
+		</div>
+	</div>
+</div>
+
+
+<script>
+JB.ready();
+
+function fillPopUp(flag)
+{
+	var id = JB.jobName;
+	
+	if (JB.currentOperation == 'stopJob')
+		id = JB.appName;
+	
+	dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+	dwr.util.byId('pop.pattern'+id).style.display = '';
+	dwr.util.byId('popup.image.processing'+id).style.display = '';
+	dwr.util.setValue('popup.component','Job');
+	dwr.util.setValue('popup.host'+id,id);
+	dwr.util.setValue('popup.message'+id,'Processing Request...');
+	dwr.util.setValue('popup.status'+id,'');
+	
+	if (JB.currentOperation == 'startJob')
+	{
+		RemoteManager.runJob(JB.jobName, JB.startCallbackResponse);
+		dwr.util.setValue('popup.status'+id,'Job start in progress..');
+	}
+ 	else if (JB.currentOperation == 'editJob')
+	{
+ 		if(JB.isAdhoc)
+ 		{
+ 			RemoteManager.updateAdhocJobDetails(JB.jobName, JB.newJobName, JB.mainClass, JB.arguments, JB.pathPattern, JB.sourcePath, JB.selectedNN, JB.selectedRM, JB.callbackResponse);
+ 		}
+ 		else
+ 		{
+			RemoteManager.updateJobDetails(JB.jobName, JB.newJobName, JB.mainClass, JB.arguments, JB.selectedNN, JB.selectedRM, JB.callbackResponse);
+ 		}
+	}
+ 	else if (JB.currentOperation == 'deleteJob')
+	{
+		dwr.util.setValue('popup.host'+id,JB.selectedJobsList);
+		RemoteManager.deleteAllJobs(JB.selectedJobsList, JB.callbackDeleteResponse);
+	}
+	else if (JB.currentOperation == 'stopJob')
+	{
+		RemoteManager.killApplication(JB.appName, JB.callbackResponse);
+	}
+}
+	
+function closePopUpBox()
+{
+	JB.closeBox(true);
+}
+</script>

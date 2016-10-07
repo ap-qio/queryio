@@ -1,0 +1,59 @@
+
+
+#data_browser .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+#data_browser_table_div {
+	margin-left: 10px;
+	margin-top: 10px;
+	border: solid 1px #ccc;
+	float: left;
+	/* width: 98%; */
+}
+
+#data_browser_table_div table thead th{
+
+border-right: 1px solid #969696;
+font-weight: normal;
+cursor: pointer;
+text-align: left;
+background: -webkit-gradient(linear, 0 0%, 0 100%, from(white), to(#EBEBEB));
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #ffffff 0%, #ebebeb 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ebebeb)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ffffff 0%,#ebebeb 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ffffff 0%,#ebebeb 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #ffffff 0%,#ebebeb 100%); /* IE10+ */
+background: linear-gradient(to bottom, #ffffff 0%,#ebebeb 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ebebeb',GradientType=0 ); /* IE6-9 */
+color: #135;
+font-size:9pt;
+}
+#data_browser_table_div table tbody tr td
+{
+	font-size: 9pt;
+	padding: 3px 2px;
+	border: 1px solid #687588;
+	color: #555;
+	
+}
+#data_browser_path_bar{
+	margin: 5px;
+}
+
+#data_browser_path_bar_text{
+	margin: 8px;
+	color: #555;
+}
+
+.rowSelector{
+	background-color: red;
+}
+
+#permissionTable tr:first-child td{
+	text-align: left;
+	padding: 3px 10px;
+}

@@ -1,0 +1,47 @@
+<script src="scripts/date.js"></script>
+<table align="center" width="100%"
+	style="border-collapse: collapse;">
+	<tr>
+		<td id="msg_td_1" style="color:red"></td>
+	</tr>
+	<tr>
+		<td style="text-align: left;">
+			Column
+		</td>
+		<td style="text-align: left;" id = 'columnList'>
+			
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: left;">
+			Format As:
+		</td>
+		<td style="text-align: left;" id = 'formatTypeList'>
+			
+		</td>
+	</tr>
+	<tr id = 'subOptionRow'>
+		<td style="padding: 0px; text-align: left;" id = 'formatTypeSubOptions' colspan="2">
+			
+		</td>
+	</tr>
+	<tr id = 'customFormatHolder' style="display: none;" >
+		<td style="text-align: left;">
+			Custom
+		</td>
+		<td style="text-align: left;">
+			<input type = 'text' value = 'My String' id = 'customFormat' style="width: 120px" onkeyup="Formatter.loadStringSubOptions();"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="text-align: center;">
+			Preview with format
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input type="text" id = "formatPreview" disabled="disabled" style="text-align: center;width: 100%"/>
+		</td>
+	</tr>
+	
+</table>

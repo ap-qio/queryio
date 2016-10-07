@@ -1,0 +1,124 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Cluster Setup</title>
+</head>
+<body>
+<h1><span>Cluster Setup</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains automated cluster setup process.</p>
+<ul>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#single">Single Machine Cluster (For evaluation users)</a></li>
+	<li><a href="#multi">Multiple Machines Cluster (For advanced users)</a></li>
+</ul>
+
+<h2 id="intro"><span>Introduction</span></h2>
+
+<p>A cluster consists of a set of connected 
+computers that work together so that in many respects they can be viewed as a single system. </p>
+
+<p>Installing a Hadoop cluster typically involves unpacking the software on all the machines in the cluster.
+
+Typically one machine in the cluster is designated as the NameNode and another machine as the ResourceManager, exclusively. 
+These are the masters. The rest of the machines in the cluster act as both DataNode and NodeManager. These are the slaves.</p>
+
+<p>Cluster setup might be a time consuming task if you want to add large number of nodes on different machines.
+To ease the task, QueryIO provides automated cluster setup.</p>
+<p>First screen that appears on QueryIO server when no host is present is <b>Cluster Setup</b> through which you can directly configure your entire cluster.</p>
+<p>To configure the cluster, go to <b>Admin > Cluster Setup</b>.</p>
+
+<p>QueryIO provides two types of cluster setup:</p>
+	<ol>
+		<li>Single Machine Cluster (For evaluation users)</li>
+	    <li>Multiple Machines Cluster (For advanced users)</li>
+	</ol>
+<br><img src="images/screenshots/clusture-setup1.png"/>
+	
+<h2 id="single"><span>Single Machine Cluster (For evaluation users)</span></h2>
+<p>If you are not a professional user and just want to evaluate the product, you might want to go for single machine cluster setup.</p>
+<p>This setup installs all required nodes on a single machine. </p>
+<p>Just provide machine's credentials and QueryIO will install a NameNode, DataNode, ResourceManger and a NodeManager with default settings.</p>
+<p>Following details need to be provided : </p>
+<ul>
+	<li><b>HostName/IP:</b> IP address or name  of the host to be added.</li>
+	<li><b>SSH User:</b> Username of the host.</li>
+	<li><b>Authentication Method:</b> Select authentication method from password or private key.</li>
+	<li><b>Password or Private Key</b>: Password or private key for account whose username was provided.</li>
+	<li>And click <b>Start Installation</b></li>
+	
+</ul>
+<br><img src="images/screenshots/cluster-single.png"/>
+
+<h2 id="multi"><span>Multiple Machines Cluster (For advanced users)</span></h2>
+<p>If you are an advanced user and want to configure cluster for production use, select "Multiple Machines Cluster" option to install nodes on multiple machines. </p>
+<p>This setup allows you to install multiple nodes on multiple systems simultaneously.</p>
+<p>Follow these steps to configure the cluster :</p>
+
+<ul>
+	<li><b>Select Host</b></li>
+	<ul>
+		<li>First step is to search for the host machines on which QueryIO nodes will be installed.</li>
+		<li>Host can be searched using various patterns. For example : </li>
+			<ul>
+				<li>192.168.0.[0-30] : Search all available hosts between 192.168.0.0 to 192.168.0.30</li>
+				<li>192.168.0.* : Equivalent to 192.168.0.[1-255] </li>
+				<li>192.168.0.16, 192.168.0.17</li>
+			</ul>
+		
+		<li>Select hosts from the list on which QueryIO agent will be installed.</li>
+		
+	</ul>
+</ul>
+
+	<br><img src="images/screenshots/clusture-setup2.png"/>
+<ul>
+	<li><b>Install Agent</b></li>
+	<ul>
+		<li>Next step will install QueryIO agents on all selected machines. QueryIO manages the nodes using these agents.</li>
+		<li>You need to provide credentials for all the machines.</li>
+		<li>If all selected machines have same credentials, then you can use interface provided at top to provide username and password for all systems.</li>
+		<li>Click <b>Install</b> to install QueryIO agent on all machines.</li>
+		<li>In case of any failures, click on <b>Retry</b> to try again.</li>
+		<li>Once agent is installed, click <b>Next </b>to install QueryIO nodes.</li>
+		
+	</ul>
+</ul>
+	<br><img src="images/screenshots/clusture-setup3.png"/>
+<ul>
+	<li><b>Install Nodes</b>
+	<ul>
+		<li>Next step to select the nodes to be installed on respective hosts.</li>
+		<li>List of all configured hosts and interface to select nodes to be installed on it is shown.</li>
+		<li>Select nodes and configure respective properties like id, ports, install location etc.</li>
+		<li>You can install only one NameNode and ResourceManager among all hosts.</li>
+		<li>Number of DataNodes and NameNodes can be installed.</li>
+		<li>Once you have configured settings for all nodes, click <b>Install</b> to start installation.</li>
+		 
+	</ul>
+</ul>
+	<br><img src="images/screenshots/clusture-setup4.png"/>
+<ul>
+	<li><b>Status</b></li>
+	<ul>
+		<li>This step displays the final status of nodes installation.</li>
+		
+	</ul>
+</ul>
+	<br><img src="images/screenshots/clusture-setup5.png"/>
+
+
+
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

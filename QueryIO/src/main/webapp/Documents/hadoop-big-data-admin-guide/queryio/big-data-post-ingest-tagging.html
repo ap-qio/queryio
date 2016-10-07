@@ -1,0 +1,52 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Big Data - Post Ingest Tagging</title>
+</head>
+
+<body>
+
+<h1><span>Big data - Post Ingest Tagging</span></h1>
+<h2><span>In this chapter</span></h2>
+<p>Following details are explained about Post Ingest Tagging:</p>
+<ul>
+	<li><a href="#on">Description</a></li>
+	<li><a href="#add">Add Post Ingest Parser</a></li>
+</ul>
+
+<h2 id="on"><span>Description</span></h2>
+<p>Post Ingest Parser parses the file at specified time after it is written onto the cluster and extracts extended metadata from it.
+Extended metadata refers to the file metadata that is not interpreted by file system. It is used to associated files with some extra information. 
+Typical usage can be storing the author of a document, the character encoding of a plain-text document, a checksum, or digital signature. These metadata about files are saved in the database.</p>
+
+
+<h2 id="add"><span>Add Post Ingest Parser</span></h2>
+<p>Use following guidelines to add Post Ingest parser</p>
+	<ul>
+	<img alt="Add Post Ingest Parser" src="images/screenshots/post-ingest.jpeg" >	<br><br>
+		<li>Go to <b>Data > Data Tagging</b>.</li> 
+		<li>Click on <b>Add</b> button in the Post Ingest view to add new Post Ingest parser.</li>
+		<li><b>Name</b>: Enter name for the parser.</li>
+		<li><b>Description</b>: Provide description for the parser.</li>
+		<li><b>NameNode</b>: Select NameNode, data of which will be parsed through post ingest parser.</li>
+		<li><b>ResourceManager</b>: Select ResourceManager to be linked with the post ingest parser.</li>
+		<li><b>Class Name</b>: Provide main class for the parser.</li>
+		<li><b>File Extensions</b>: Provide file extensions that you want to associate with the parser.</li>
+		<li><b>Tag Parser JAR</b>: Click on <b>Choose File</b> to browse and select the Tag Parser JAR file.</li>
+		<li><b>Extra JAR(s)</b>: To add any dependent JAR files, if required. You can add number of extra JAR files but <b>Main Class</b> must be of <B>Tag Parser Jar</B>.</li>
+		<li>Click on <b>Add</b> to add the parser.</li>
+		<li>Now you can schedule to run post ingest tagging using <a href="big-data-schedule.html#job">Status > Schedules > Schedule MapReduce Job</a> section or start it directly from <a href="yarn-job-manager.html">MapReduce > Job Manager</a>.</li>
+		<br><img alt="NM-add3" src="images/screenshots/data-tag-manager-add-postingest.jpeg" >	<br><br>
+	</ul>
+<p>To see how to write your own parser, refer to the <a href="../../hadoop-big-data-developer-guide/index.html" target="_blank">developer documentation</a></p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

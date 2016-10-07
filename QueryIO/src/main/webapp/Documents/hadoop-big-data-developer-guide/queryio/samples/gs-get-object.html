@@ -1,0 +1,139 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>Fetch a File</title>
+	
+</head>
+<body>
+<h1><span>Fetch a file</span></h1>
+
+<p>Following interfaces provide functionality to perform get file operation:</p>
+<ul>	
+	<li><a href="#java">DFS Client API</a></li>
+	<li><a href="#WEBHDFS">WEBHDFS API</a></li>
+</ul>
+
+<h2 id="java"><span>DFS Client API</span></h2>
+<p>Get file operation through DFS Client API uses <code>java.io</code> and <code>Hadoop</code> classes. IOUtils.copy(InputStream, OutputStream) is used to get the file from server to local system.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hdfs.DFSConfigKeys;
+
+public class GetObject {
+	/*
+	 * This program reads a file from HDFS and saves it on the local file system.
+	 */
+	public static void main(String[] args) throws IOException{
+		Configuration conf = new Configuration(true);	//Create a configuration object to define hdfs properties
+		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, "hdfs://192.168.0.1:9000"); // URL for your namenode
+		conf.set(DFSConfigKeys.DFS_REPLICATION_KEY, "3"); // Replication count for files you write
+		
+		OutputStream os = null;
+		InputStream is = null;
+		try{
+			//Initialize DFS FileSystem object with QueryIO configurations 
+			FileSystem dfs = FileSystem.get(conf);	
+			dfs.mkdirs(new Path("/queryio/demo/"));	//creates new directory if it doesn't exist
+			
+			is = dfs.open(new Path("/queryio/demo/file1.txt"));	//InputStream to the object to be GET
+			
+			os = new FileOutputStream(new File("/local/queryio.txt"));	//OutputStream to a local filesystem file
+			
+			IOUtils.copy(is, os);	//copy bytes from InputStream to OutputStream : Fetch File Operation
+		} finally {
+			try{
+				if(is!=null)
+					is.close();	//close InputStream
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+			try{
+				if(os!=null)
+					os.close();	//close OutputStream
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+}
+	
+	</pre>
+</div>
+
+
+
+<h2 id="WEBHDFS"><span>WEBHDFS API</span></h2>
+<p><code>HTTP</code> operation is used to fetch a file. Following sample is explained using <code>curl</code> command.</p>
+<code>curl -i -L "http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;PATH&gt;?user.name=&lt;username&gt;&op=OPEN
+                    [&offset=&lt;LONG&gt;][&length=&lt;LONG&gt;][&buffersize=&lt;INT&gt;]"</code>
+           
+<ul>
+	<li> <code>-i option</code> : Include the HTTP-header in the output like server-name, date of the document, HTTP-version etc. </li>
+	<li> <code>-L option</code> :  signifies Location</li>
+	<li> <code>&lt;HOST&gt;</code>: Hostname for the server.</li>
+	<li> <code>&lt;PORT&gt;</code>: Port on which the server is working.</li>
+	<li> <code>&lt;PATH&gt;</code>: A valid path of the file.</li>
+	<li> <code>&lt;DATANODE&gt;:&lt;PORT&gt;</code>: Datanode host and port.</li>
+	<li> <code>user.name=&lt;username&gt;</code>: QueryIO account username for authentication.</li>
+	<li> <code>op=OPEN</code>: Opens the file for reading data.</li>
+	<li> <code>[&offset=&lt;LONG&gt;]</code> : (Optional) The starting byte position. Default value is 0.</li>
+	<li> <code>[&length=&lt;LONG&gt;]</code> : (Optional) The number of bytes to be processed.</li>
+	<li> <code>[&buffersize=&lt;INT&gt;]</code> : (Optional) The size of the buffer used in transferring data.</li>	
+</ul>
+          
+<div id="code" style="background:EEE;">
+	<pre>
+<b>Sample Request:</b>
+curl -i -L "http://192.168.0.1:50070/webhdfs/v1/queryio/demo/file1.txt?user.name=admin&op=OPEN"
+	</pre>
+</div>
+<p>The request is redirected to a DataNode where the file data can be read. Client follows the redirect to the DataNode and receives the file data.</p>
+<div id="code" style="background:EEE;">
+<pre>
+<b>HTTP Request:</b>
+GET /webhdfs/v1/queryio/demo/file1.txt?user.name=admin&op=OPEN HTTP/1.1
+User-Agent: curl/7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+Host: 192.168.0.1:50070
+Accept: */*
+
+<b>HTTP Response:</b>
+HTTP/1.1 307 TEMPORARY_REDIRECT
+Expires: Thu, 01-Jan-1970 00:00:00 GMT
+Set-Cookie: hadoop.auth="u=admin&p=admin&t=simple&e=1356640451437&s=rxWjJIkQGQCoY4syFgoWnD240YM=";Path=/
+Location: http://server.local:50075/webhdfs/v1/queryio/demo/file1.txt?op=OPEN&user.name=admin&namenoderpcaddress=server.local:9000&offset=0
+Content-Type: application/octet-stream
+Content-Length: 0
+Server: Jetty(6.1.26)
+
+HTTP/1.1 200 OK
+Content-Length: 16011
+Content-Type: application/octet-stream
+Server: Jetty(6.1.26)
+
+Hello, QueryIO user!
+</pre>
+</div>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

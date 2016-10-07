@@ -1,0 +1,577 @@
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<link rel="stylesheet" type="text/css"
+	href="styles/jquery.ui.combify.css" />
+
+
+<script type="text/javascript" src="scripts/jquery.ui.combify.js"></script>
+
+<style>
+#columnListContainer td {
+	padding: 0px 2px 0px 2px;
+}
+</style>
+<div id="host_create" class="lightbox" style="width: 600px;">
+	<div id="close" class="close">
+		<a href="javascript:AHQ.closeBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+<table class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Hive Data Definition</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				<table align="center" width="100%" style="border-collapse: collapse;">
+						<tbody>
+							<tr>
+								<td id="msg_td" colspan="2">
+									<div class="instructional" id="inst">Define the schema for files you need to analyze. Hive will launch a Map Reduce job to analyze and process files on cluster. Results of Hive Queries will be stored in the schema you define here.
+									 </div>
+									 </td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<hr>
+								</td>
+							</tr>
+							<tr>
+							<td>
+							<span id="error_span" style="display: none;color: red;"></span>
+							</td>
+							</tr>
+														
+							<tr>
+								<td>
+									<table style="width: 98%;">
+										<tbody>
+											<tr>
+											<td style="vertical-align: top; width: 100%;">
+											<div id="toc" class="menu" style="width: 100%; ">
+												<ul id="tabs" style="width: 100%;">
+													<li id="liGeneral"><a href="javascript:AHQ.showDiv(1 );" id="common">General Settings</a></li>
+													<li id="liConfig"><a href="javascript:AHQ.showDiv(2 );" id="title">Configurations</a></li>  
+								            		<li id="liSchema"><a href="javascript:AHQ.showDiv(3 );" id="leader_lines">Schema Definition</a></li>
+												</ul>
+											</div>
+											
+											<div id="notToc" style="width: 100%;">
+																						
+												<div id="firstPage" style="float:right; width: 100%;">
+													<table align="center" width="100%" class="form_table" id="table" >
+													<tbody>
+													<tr>
+														<td style=" width: 20%;text-align: left;">Hive Id*</td>
+														<td colspan="2" style=" width: 55%;">
+														<span> <input style="width: 90%;" type="text" name="adHocId" id="adHocId" value="" onkeypress="javascript:Util.blockSpecialChar(event);">
+														</span>
+														</td>
+													</tr>
+
+													<tr>
+														<td style="width: 20%;text-align:left;">File Type*</td>
+														<td style="width: 55%;" colspan="2"><select id="adHocType" name="adHocType" style="width: 94%;" onchange="javascript:AHQ.changeOptions(this.options[this.selectedIndex].value);">
+															<option value="CSV">CSV / TSV</option>
+															<option value="LOG">LOG4J</option>
+															<option value="ACCESSLOG">Apache Log</option>
+															<option value="IISLOG">IIS LOG</option>
+															<!-- <option value="FIXED">Fixed Width</option> -->
+															<option value="JSON">JSON</option>
+															<option value="PAIRS">Key/Value Pairs</option>
+															<option value="REGEX">Regex Parsable Text</option>
+															<!-- <option value="SEQUENCE">Sequence File with Metadata</option>  -->
+															<option value="XML">XML</option>
+															</select>
+														</td>
+													</tr>
+
+													<tr>
+														<td style="width: 20%;text-align:left;">NameNode*</td>
+															<td style="width: 55%;" colspan="2"><select id="nameNodeId" name="nameNodeId" style="width: 94%;"><option value="Select NameNode">Select NameNode</option><option value="NameNode1">NameNode1</option></select>
+														</td>
+													</tr>
+												
+													<tr>
+														<td style="width: 20%;text-align:left;">ResourceManager*</td>
+														<td style="width: 55%;" colspan="2"><select id="resourceManagerId" name="resourceManagerId" style="width: 94%;"><option value="Select ResourceManager">Select ResourceManager</option><option value="ResourceManager1">ResourceManager1</option></select></td>
+													</tr>
+												
+													<tr>
+														<td style="vertical-align: top;width: 20%;text-align:left;">HDFS Source Path*</td>
+														<td style="width: 55%;" colspan="2"><span> <input style="width: 90%;" type="text" name="sourcePath" value="" id="sourcePath">
+															<div style="color: grey; text-align: left; margin-left: 10px;">
+																<span>
+																	* Root folder (/) as HDFS Source Path is not supported
+																</span>
+															</div>
+														</span></td>
+													</tr>
+													<tr>
+														<td style="vertical-align: top; width: 20%; text-align: left;">Recurse sub folders</td>
+														<td style="width: 55%;" colspan="2"><span> <input style="width: 95%;" type="checkbox" checked="checked" name="parseRecursive" value="" id="parseRecursive">
+														</span></td>
+													</tr>
+													<tr>
+														<td style="width: 20%;text-align:left;">File Filter Pattern</td>
+														<td style="width: 55%;" colspan="2"><span> <input style="width: 90%;" type="text" name="filePattern" value=".*\.csv" id="filePattern" onkeypress="">
+															<div style="color: grey; text-align: left; margin-left: 10px;">
+																<span>
+																	* java regex
+																</span>
+															</div>
+														</td>
+													</tr>
+
+													<tr>
+														<td style="width: 20%;text-align:left;">Hive Table Name*</td>
+														<td style="width: 55%;" colspan="2"><span> <input style="width: 90%;" type="text" name="adHocTableName" value="" id="adHocTableName" onkeypress="javascript:Util.blockSpecialCharButNotUnderScore(event,this);"><span id="sub_error_span" style="display: none;color:red; "></span>
+														</span></td>
+													</tr>
+
+													<tr>
+													</tr><tr>
+														<td colspan="3">
+															<hr >
+														</td>
+													</tr>
+													<tr>
+														<td colspan="3" style="text-align: right;"><input type="button" style="width: 70px;" class="buttonAdmin" id="nextbtn" value="Next" onclick="javascript:AHQ.nextPageSwitch(1 , 2);"> <input type="button" style="width: 70px;" class="buttonAdmin" id="cancelbtn" value="Cancel" onclick="javascript:AHQ.closeBox(false);">
+														</td>
+													</tr>
+
+												</tbody>
+											</table>
+											</div>		<!-- first page over -->
+											<!-- viewjson div start -->
+											<div id="viewJSON" style="display: none; ">
+												<div style="background-color: #FFFFFF;" id="options">
+													<br />
+													
+												<form name="fileParser1" id="fileParser1">
+													<table style="width: 100%; margin-top: 37px;">
+														<tbody>
+															<tr>
+																<td style="text-align: left; width: 25%;"><span>Encoding*
+																</span></td>
+																<td style="text-align: left; width: 55%;"><select
+																	id="encoding" name="encoding"
+																	style=" width: 350px;"
+																	onchange="javascript:AHQ.setEncoding(this.options[this.selectedIndex].value);">
+																	<option value="UTF-8">UTF-8</option>
+																	<option value="Big5-HKSCS">Big5-HKSCS</option>
+																	<option value="EUC-JP">EUC-JP</option>
+																	<option value="EUC-KR">EUC-KR</option>
+																	<option value="GB18030">GB18030</option>
+																	<option value="GB2312">GB2312</option>
+																	<option value="GBK">GBK</option>
+																	<option value="IBM-Thai">IBM-Thai</option>
+																	<option value="IBM00858">IBM00858</option>
+																	<option value="IBM01140">IBM01140</option>
+																	<option value="IBM01141">IBM01141</option>
+																	<option value="IBM01142">IBM01142</option>
+																	<option value="IBM01143">IBM01143</option>
+																	<option value="IBM01145">IBM01145</option>
+																	<option value="IBM01146">IBM01146</option>
+																	<option value="IBM01147">IBM01147</option>
+																	<option value="IBM01148">IBM01148</option>
+																	<option value="IBM01149">IBM01149</option>
+																	<option value="IBM037">IBM037</option>
+																	<option value="IBM1026">IBM1026</option>
+																	<option value="IBM1047">IBM1047</option>
+																	<option value="IBM273">IBM273</option>
+																	<option value="IBM277">IBM277</option>
+																	<option value="IBM278">IBM278</option>
+																	<option value="IBM280">IBM280</option>
+																	<option value="IBM284">IBM284</option>
+																	<option value="IBM285">IBM285</option>
+																	<option value="IBM297">IBM297</option>
+																	<option value="IBM420">IBM420</option>
+																	<option value="IBM424">IBM424</option>
+																	<option value="IBM437">IBM437</option>
+																	<option value="ISO-2022-CN">ISO-2022-CN</option>
+																	<option value="ISO-2022-JP">ISO-2022-JP</option>
+																	<option value="ISO-2022-JP-2">ISO-2022-JP-2</option>
+																	<option value="ISO-2022-KR">ISO-2022-KR</option>
+																	<option value="ISO-8859-1">ISO-8859-1</option>
+																	<option value="ISO-8859-13">ISO-8859-13</option>
+																	<option value="ISO-8859-15">ISO-8859-15</option>
+																	<option value="ISO-8859-2">ISO-8859-2</option>
+																	<option value="ISO-8859-3">ISO-8859-3</option>
+																	<option value="ISO-8859-4">ISO-8859-4</option>
+																	<option value="ISO-8859-5">ISO-8859-5</option>
+																	</select>
+																	</td>
+															</tr>
+													<tr id='radioJSON'>
+													<td></td>
+													<td colspan="2" style=" text-align: left; width:56%; "><span><input
+														type="radio" name="rd" id="auto" checked="checked"
+														onclick="javascript:AHQ.autoSelectedClicked();">Auto
+														Detect</span>
+														<span><input type="radio" name="rd" id="manual"
+														onclick="javascript:AHQ.manualConfigClicked();">Manual
+														Configuration</span><br></td>
+													</tr>
+
+															<tr id="jsonSampleFile">
+																<td
+																	style="width: 25%; text-align: left; white-space: nowrap;"><span
+																	id="header_file">Sample File* </span></td>
+																<td colspan="2" style="width: 95%; text-align: left;"
+																	id="hF"><input name="fileTag" id="headerFileJSON"
+																	type="file" style="width: 95%; float:left;"> <input
+																	type="hidden" name="adHocType" id="adHocTypeFormJSON"
+																	value="" style="width: 338px;"> <input type="hidden"
+																	name="encodingType" id="encodingValueFormJSON" value="">
+																</td>
+															</tr>
+			
+															<tr id="hasRecordsInJSON">
+																<td
+																	style="width: 20%; text-align: left; min-width:110px; white-space: nowrap; vertical-align: top;"><span
+																	id="tot_records1_json">Records to Analyze* </span></td>
+																	<td style="text-align: left;" colspan="2"><span>
+																	<input style="width: 338px;" type="text"
+																	name="records" id="recordsJSON" value="100"
+																	onkeypress="">
+																	<label style="font: 9px; color: #999;">Number of records which should be analyzed to detect Data types for each column</label>
+																	</span></td>
+															</tr>												
+															<tr>
+																<td style=" text-align: left; width: 25%; ">
+																<label>If Error Occurs during processing</label>
+																</td>
+																<td style=" text-align: left; "><span><input type="radio" name="exceptionCase" id="one" onclick="javascript:AHQ.checkExceptionCase(this.id);">Skip error record</span> 
+																<span><input type="radio" name="exceptionCase" id="all" checked="checked" onclick="javascript:AHQ.checkExceptionCase(this.id);">Skip all remaining records.</span>
+																 <br></td>
+															</tr>
+															<tr id="failed1" style="display: none;">
+																		<td colspan="2"
+																			style="width: 25%; text-align: left; white-space: nowrap; color: red;"><span>File
+																				processing failed. Uploaded file or its contents are
+																				invalid for selected filter type. <a
+																				href="javascript:Navbar.showServerLog();">View
+																					Log</a>
+																		</span></td>
+															</tr>
+																		
+															
+															
+													</tbody>
+												</table>
+											</form>
+											<br>
+																						<br />
+											<br />
+											</div>
+											<table align="center" width="100%"
+											style="border-collapse: collapse;">
+											<tbody>
+												<tr>
+													<td colspan="3">
+													<hr >
+													</td>
+												</tr>
+												<tr>
+													<td colspan="3"
+														style="text-align: right; padding: 15px 5px 10px 0px;">
+														<input type="button" style="width: 70px;" class="buttonAdmin" id="backbtn"
+														value="Back"
+														onclick="javascript:AHQ.nextPageSwitch(2 , 1);" /> <input
+														type="button" style="width: 70px;" class="buttonAdmin" id="nextbtn"
+														value="Next"
+														onclick="javascript:AHQ.nextPageSwitch(2 , 3);" /> <input
+														type="button" style="width: 70px;" class="buttonAdmin" id="cancelbtn"
+														value="Cancel" onclick="javascript:AHQ.closeBox(false);" />
+													</td>
+												</tr>
+											</tbody>
+										</table>
+											
+											</div><!-- ending of viewJSOn Div -->
+											
+											
+											<div id="secondPage" style="display: none;">
+												<table align="center" width="100%"
+												style="border-collapse: collapse; margin-top: 37px;">
+												<tbody>
+												<tr id='log' style='display: none;'>
+													<td
+														style="text-align: left; width: 20%; min-width:110px; white-space: nowrap;"><span
+														id="delimiterText">Log Pattern* </span></td>
+													<td style="text-align: left; width: 55%;"><span>
+															<input style="width: 338px; " type="text"
+															name="patternExpr" id="log_pattern" value="%d{dd MMM,HH:mm:ss:SSS} [%t] [%c] [%x] [%X] [%p] [%l] [%r] %C{3} %F-%L [%M] - %m%n"
+															onkeypress="">
+														</span>
+													</td>
+												</tr>
+
+												<tr>
+													<td style="text-align: left; min-width:110px; width: 20%;"><span>Encoding*
+													</span></td>
+													<td style="text-align: left; width: 55%;"><select
+														id="encoding" name="encoding"
+														style=" width: 350px;"
+														onchange="javascript:AHQ.setEncoding(this.options[this.selectedIndex].value);">
+															<option value="UTF-8">UTF-8</option>
+															<option value="Big5-HKSCS">Big5-HKSCS</option>
+															<option value="EUC-JP">EUC-JP</option>
+															<option value="EUC-KR">EUC-KR</option>
+															<option value="GB18030">GB18030</option>
+															<option value="GB2312">GB2312</option>
+															<option value="GBK">GBK</option>
+															<option value="IBM-Thai">IBM-Thai</option>
+															<option value="IBM00858">IBM00858</option>
+															<option value="IBM01140">IBM01140</option>
+															<option value="IBM01141">IBM01141</option>
+															<option value="IBM01142">IBM01142</option>
+															<option value="IBM01143">IBM01143</option>
+															<option value="IBM01145">IBM01145</option>
+															<option value="IBM01146">IBM01146</option>
+															<option value="IBM01147">IBM01147</option>
+															<option value="IBM01148">IBM01148</option>
+															<option value="IBM01149">IBM01149</option>
+															<option value="IBM037">IBM037</option>
+															<option value="IBM1026">IBM1026</option>
+															<option value="IBM1047">IBM1047</option>
+															<option value="IBM273">IBM273</option>
+															<option value="IBM277">IBM277</option>
+															<option value="IBM278">IBM278</option>
+															<option value="IBM280">IBM280</option>
+															<option value="IBM284">IBM284</option>
+															<option value="IBM285">IBM285</option>
+															<option value="IBM297">IBM297</option>
+															<option value="IBM420">IBM420</option>
+															<option value="IBM424">IBM424</option>
+															<option value="IBM437">IBM437</option>
+															<option value="ISO-2022-CN">ISO-2022-CN</option>
+															<option value="ISO-2022-JP">ISO-2022-JP</option>
+															<option value="ISO-2022-JP-2">ISO-2022-JP-2</option>
+															<option value="ISO-2022-KR">ISO-2022-KR</option>
+															<option value="ISO-8859-1">ISO-8859-1</option>
+															<option value="ISO-8859-13">ISO-8859-13</option>
+															<option value="ISO-8859-15">ISO-8859-15</option>
+															<option value="ISO-8859-2">ISO-8859-2</option>
+															<option value="ISO-8859-3">ISO-8859-3</option>
+															<option value="ISO-8859-4">ISO-8859-4</option>
+															<option value="ISO-8859-5">ISO-8859-5</option>
+
+													</select></td>
+												</tr>
+
+												<tr id='radio'>
+													<td></td>
+													<td colspan="2" style=" text-align: left; width:56%; "><span><input
+														type="radio" name="rd" id="auto" checked="checked"
+														onclick="javascript:AHQ.autoSelectedClicked();" style="width: 10%;">Auto
+														Detect</span>
+														<span><input type="radio" name="rd" id="manual"
+														onclick="javascript:AHQ.manualConfigClicked();" style="width:10%;">Manual
+														Configuration</span><br></td>
+												</tr>
+
+												<tr id='rec1'>
+													<td colspan="3">
+														<form name="fileParser" id="fileParser"
+															style="">
+															<table style="width: 100%; margin: -10px;">
+																<tbody>
+
+																	<tr id="sampleFile">
+																		<td
+																			style="width: 20%; text-align: left; min-width:110px; white-space: nowrap;"><span>Sample
+																				File* </span></td>
+																		<td colspan="2" style="width: 100%; text-align: left;"
+																			id="hF"><input name="fileTag" id="headerFile"
+																			type="file" style="width: 338px; float: left;"
+																			onclick=""></td>
+																	</tr>
+
+																	<tr id="hasHeaderId">
+																		<td
+																			style="width: 20%; min-width:115px; text-align: left; white-space: nowrap;"><span
+																			id="tot_records">Has Header Row* </span></td>
+																		<td style="text-align: left;" colspan="2"><span>
+																				<input style="width: 5%;" type="checkbox"
+																				name="isFirstLineHeader" id="isFirstLineHeader"
+																				checked="checked" onkeypress=""> <input
+																				type="hidden" name="separatorValue"
+																				id="separatorValueForm" value=""> <input
+																				type="hidden" name="patternExpr"
+																				id="delimiterValueForm" value=""> <input
+																				type="hidden" name="encodingType"
+																				id="encodingValueForm" value=""> <input
+																				type="hidden" name="selNameNodeId"
+																				id="selNameNodeIdForm" value=""> <input
+																				type="hidden" name="adHocType" id="adHocTypeForm"
+																				value="">
+																		</span></td>
+																	</tr>
+
+																	<tr id="hasRecords">
+																		<td
+																			style="width: 20%; text-align: left; min-width:110px; white-space: nowrap; vertical-align: top;"><span
+																			id="tot_records1">Records to Analyze* </span></td>
+																		<td style="text-align: left;" colspan="2"><span>
+																				<input style="width: 338px;" type="text"
+																				name="records" id="records" value="100"
+																				onkeypress="">
+																				<label style="font: 9px; color: #999;">Number of records which should be analyzed to detect Data types for each column</label>
+																		</span></td>
+																	</tr>
+																	<tr id="regexField" style = "display: none;">
+																		<td
+																			style="width: 20%; text-align: left; min-width:110px; white-space: nowrap; vertical-align: top;">
+																			<span>Regular Expression* </span></td>
+																		<td style="text-align: left;" colspan="2"><span>
+																				<input style="width: 338px;" type="text"
+																				name="regex" id="regex"
+																				onkeypress="">
+																		</span></td>
+																	</tr>
+											<tr id='deli' style=''>
+													<td style="width: 20%;text-align: left;"><span id="delimiterText1">Delimiter*
+													</span></td>
+													<td style="width: 55%;" colspan="2"><input
+														style="width: 338px; float: left; " type="text"
+														id="delimiterValue" value="" onkeypress=""></td>
+												</tr>
+												<tr id='sepa' style=''>
+													<td style="text-align: left; width: 20%;"><span
+														id="value_sepera" style="white-space: nowrap;"">Value
+															Separator* </span></td>
+													<td style="text-align: left; width: 75%;" colspan="2"><span>
+															<input style="width: 338px; " type="text"
+															id="separatorValue" value="" onkeypress="">
+													</span></td>
+												</tr>
+												
+												<tr>
+											<td style=" text-align: left; width: 25%; ">
+											<label>If Error Occurs during processing</label>
+											</td>
+												<td style=" text-align: left; ">
+												<span><input type="radio" name="exceptionCase" id="one" style="width: 4%;" checked="checked" onclick="javascript:AHQ.checkExceptionCase(this.id);">Skip error record </span>
+												<span><input type="radio" name="exceptionCase" id="all" style="width: 5%;" onclick="javascript:AHQ.checkExceptionCase(this.id);">Skip all remaining records</span>
+												<br></td>
+											</tr>
+												
+											<tr id="processingDiv" style="display: none;">
+																		<td colspan="2">
+																			<div id="processingDiv">
+																				<span><img src="images/process1.gif"
+																					style="height: 25pt; margin-left: 256px;" /></span>
+																			</div>
+																		</td>
+																	</tr>
+																						
+																	<tr id="failed" style="display: none;">
+																				<td colspan="2"
+																					style="width: 25%; text-align: left; white-space: nowrap; color: red;"><span>File
+																						processing failed. Uploaded file or its contents are
+																						invalid for selected filter type. <a
+																						href="javascript:Navbar.showServerLog();">View
+																							Log</a>
+																				</span></td>
+																	</tr>
+																</tbody>
+															</table>
+														</form>
+													</td>
+												</tr>
+												
+												<tr>
+													<td colspan="3">
+														<hr  >
+													</td>
+												</tr>
+
+												<tr>
+													<td colspan="3"
+														style="text-align: right; padding: 15px 5px 10px 0px;">
+														<input type="button" style="width: 70px;" class="buttonAdmin" id="backbtn1"
+														value="Back"
+														onclick="javascript:AHQ.nextPageSwitch(2 , 1);" /> <input
+														type="button" style="width: 70px;" class="buttonAdmin" id="nextbtn1"
+														value="Next"
+														onclick="javascript:AHQ.nextPageSwitch(2 , 3);" /> <input
+														type="button" style="width: 70px;" class="buttonAdmin" id="cancelbtn"
+														value="Cancel" onclick="javascript:AHQ.closeBox(false);" />
+													</td>
+												</tr>
+											</tbody>
+											</table>
+										
+											</div><!-- closing second page -->
+																						<div id="thirdPage" style="display: none; "><!-- starting third page -->
+											<table align="center" width="100%"
+													style="border-collapse: collapse; margin-top: 37px;">
+											<tbody>
+											<tr>
+												<td colspan="3">
+													<div id="columnListContainer"
+														style="overflow: auto; height: auto; max-height: 275px; width: auto;">
+													<table id="columnListGrid"></table>
+													<div id="columnListPager"></div>
+													</div>
+
+													<div id="sampledataTables"
+														style="max-width: 800px; overflow-x: auto; max-height: 350px; overflow-y: auto;">
+													<table id='sample_table' class='dataTable'>
+													</table>
+													</div>
+												</td>
+												
+											</tr>
+											<tr>
+												<td colspan="2">
+										
+												</td>
+											</tr>
+								
+											<tr>
+												<td colspan="3">
+													<hr >
+												</td>
+											</tr>
+									
+											<tr>
+												<td colspan="3"
+													style="text-align: right; padding: 15px 5px 10px 0px;"><input
+													type="button" style="width: 70px;" class="buttonAdmin" id="backbtn" value="Back"
+													onclick="javascript:AHQ.nextPageSwitch(3 , 2);" /> <input
+													type="button" style="width: 70px;" class="buttonAdmin" id="nextbtn" value="Submit"
+													onclick="javascript:AHQ.saveEntry();" /> <input type="button" style="width: 70px;"
+													class="buttonAdmin" id="cancelbtn" value="Cancel"
+													onclick="javascript:AHQ.closeBox(false);" /></td>
+											</tr>
+
+									</tbody>
+								</table>
+								</div> <!-- ending of thirdpage -->
+								</div><!-- ending tag of notToc -->
+								</td>
+								</tr>
+								</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<script>
+	AHQ.fillClusterNameNodeID();
+	$('#adHocId').val("Hive" + (AHQ.recordsTotal + 1));
+	$('#adHocTableName').val("HiveCSVTable" + (AHQ.recordsTotal + 1));
+	$("#liGeneral").addClass("active");
+	//$('#separatorValue').val("\");
+</script>

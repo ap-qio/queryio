@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="styles/dataConnections.css" type="text/css" />
+<script src="scripts/dataConnections.js"></script>
+
+
+<div id='dataConnection' style=" overflow: auto; min-width: 950px;">
+	<div id="dataConnectionDiv" style="width: 98%">
+		<div class="buttons">
+			<button class="button" style="width: 60px;" id ="addButton" onclick="javascript:DataConnection.addConnection();">Add</button>
+			<button class="button" style="width: 60px;" id ="editButton" onclick="javascript:DataConnection.editConnection();">Edit</button>
+			<button class="button" style="width: 60px;" id ="deleteButton" onclick="javascript:DataConnection.deleteConnection();">Delete</button>
+		</div>
+		<div>
+			<table id="dataConnectionTable" class="dataTable" style="font-size: 9pt; table-layout: fixed;"></table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	DataConnection.ready();
+</script>

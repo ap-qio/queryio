@@ -1,0 +1,89 @@
+.bodyClass{
+	font-size: 10px;
+	font-family: Verdana;
+	
+}
+.chartCell{
+	text-align: left;
+	font-size: 16px;
+	
+}
+.reportHeader
+{
+	font-weight: bold;
+	font-size: 16px;
+	color: gray;
+}
+
+.reportFooter
+{
+	font-weight: bold;
+	font-size: 16px;
+	color: gray;
+}
+
+.tableHeader
+{
+	font-family:Verdana;
+	font-weight: bold;
+	font-size: 12px;
+	color: #333333;
+	background-color:#90c7f1;
+	border: 1px solid #d6d6d5;
+	padding: 2px;
+}
+
+.tableHeaderNumber
+{
+	font-family:Verdana;
+	font-weight: bold;
+	font-size: 12px;
+	background-color: #69ABDB;
+	color: #333333;
+	border: 1px solid #d6d6d5;
+	padding: 2px;
+}
+
+.tableHeaderString
+{
+	font-family:Verdana;
+	font-weight: bold;
+	font-size: 12px;
+	background-color: #69ABDB;
+	color: #333333;
+	border: 1px solid #d6d6d5;
+	padding: 2px;
+}
+
+.tableDetail
+{
+	font-family:Verdana;
+	font-size: 10px;
+	border: 1px solid #d6d6d5;
+	text-align: left;
+}
+
+.tableDetailNumber
+{
+	font-family:Verdana;
+	font-size: 10px;
+	border: 1px solid #d6d6d5;
+	text-align: right;
+}
+
+.tableDetailString
+{
+	font-size: 10px;
+	border: 1px solid #d6d6d5;
+	text-align: left;
+}
+table{
+	
+	overflow: auto;
+	width: 100%;
+}
+div{
+	font-family:Verdana;
+	overflow: auto;
+	width: 100%;
+}

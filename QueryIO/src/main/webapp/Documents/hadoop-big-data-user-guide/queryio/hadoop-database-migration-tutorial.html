@@ -1,0 +1,75 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop Database Migration Tutorial : PostGRE SQL to MySQL</title>
+</head>
+
+<body>
+
+<h1><span>Database Migration Tutorial: PostgreSQL to MySQL</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains database migration process from PostgreSQL to MySQL.</p>
+<ul>
+	<li><a href="#add">Register MySQL Database to QueryIO</a></li>
+	<li><a href="#migrate">Migrate Database</a></li>
+	<li><a href="#nn-link">Point NameNode to new Database </a></li>
+</ul>
+
+<h2 id="add"><span>Register MySQL Database to QueryIO</span></h2>
+<ul>
+	<li>You need to install and start MySQL database manually to add it to QueryIO for migration process.</li>
+	<li>After MySQL has been successfully installed and started, create new database(<i>say "newdb"</i>) in mysql. </li>	
+	<li>Now to register new database to QueryIO, navigate to <b>Data > Manage Datasources > Manage Databases</b></li>
+	<li>Select <b>Add</b> action from the dropdown at the top of the DBConnections tab.</li> 
+	<ul>
+		<li><b>New DB Connection Name</b>: Enter name for the connection as "migrateDB".</li>
+		<li>Click on <b>Save</b> to create a new database configuration.</li>
+		<li>Fill in the required database connection details in Database Configuration</li>
+		<li><b>JDBC Connection URL</b>: 'jdbc:mysql://&lt;IP Address of system running database&gt;:&lt;Port for database&gt;/&lt;Database Name&gt;, For example: 'jdbc:mysql://192.168.0.24:3306/newdb'.</li>
+		<li><b>UserName</b>: MySQL DB username say "admin".</li>
+		<li><b>Password</b>: MySQL DB connection password say "admin".</li>
+		<li><b>JDBC Driver Name</b>: "com.mysql.jdbc.Driver" for MySQL.</li>
+		<li><b>JDBC Driver Jar</b>: Select "mysql.jar" file.</li>	
+	</ul>		
+	<li>Click <b>Save</b> to update changes.</li>
+	<img alt="NM-add3" src="images/screenshots/database-migration-mysql.jpeg" >	<br><br>
+</ul>
+
+<h2 id="migrate"><span>Migrate Database</span></h2>
+<p>After you have configured new database with QueryIO, following are the steps to migrate database:</p>
+<ul>	
+		<li>From the DB Connections tab, select the database that you want to migrate: <b>MetaStore</b>(by default database).</li>
+		<li>From the dropdown at the top of the DB Connections tab, select <b>Migrate</b>. You will see the following window.</li>
+		<li>Select <b>Destination Database</b> as "migrateDB", new database from dropdown</li>
+		<li>Click on <b>Migrate</b> to migrate your database.</li>
+		<li>You can see migration status in <b>Migration Statistics</b>.</li>
+		<img alt="NM-add3" src="images/screenshots/database-migration-tut.jpeg" >	<br><br>
+</ul>
+
+<h2 id="nn-link"><span>Point NameNode to new Database</span> </h2>
+<ul>
+	<li>Goto <b>Hadoop > HDFS > NameNode</b>.</li>
+	<li>Select the NameNode to be configured with new database and click <b>Configure</b></li>
+	<ul>
+		<li>Click <b>Configure Database</b> and select the new database to be linked with NameNode.</li>
+		<img alt="" src="images/screenshots/database-migration-nn-ui.jpeg" >
+	</ul>
+	
+	<li>Now restart the NameNode: First stop NameNode and then start NameNode.</li>	
+</ul>
+
+<p>You have successfully migrated from PostgreSQL to MySQL. You can view the tables from old database(MetaStore) have been migrated to new database(migrateDB).</p>
+<img src="images/screenshots/database-migration-done.jpeg" >
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

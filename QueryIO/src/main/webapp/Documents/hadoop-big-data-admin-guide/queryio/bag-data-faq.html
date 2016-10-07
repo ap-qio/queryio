@@ -1,0 +1,138 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>FAQs</title>
+</head>
+<body>
+<h1><span>FAQs</span></h1>
+
+<ul>
+	
+	<li><a href="#2">Q: If I add new DataNodes to the cluster will HDFS move the blocks to the newly added nodes in order to balance disk space utilization between the nodes?</a></li>
+	<li><a href="#3">Q: On "Add host", QueryIO is unable to SSH to host machine. What should I do?</a></li>
+	<li><a href="#4">Q: Does adding number of nodes require different ports?</a></li>
+	<li><a href="#5">Q: Adding DataNode shows error : "NameNode HOST-IP mapping not listed in /etc/hosts file in DataNode system" ?</a></li>
+	<li><a href="#6">Q: No machine on network is able to access queryIO server UI?</a></li>
+	<li><a href="#7">Q: Why QueryIO supports one database instance per NameNode?</a></li>
+	<li><a href="#8">Q: Why does NameNode status show : "Started with outdated configuration" ?</a></li>
+	<li><a href="#9">Q: I am getting "Connection Refused Exception"?</a></li>
+	<li><a href="#1">Q: What is the purpose of the checkpoint NameNode?</a></li>
+	<li><a href="#10">Q: How do i browse back to root in "Data Browser"?</a></li>
+	<li><a href="#12">Q: Data Browser does not show any data. What may be the reason?</a></li>
+	<li><a href="#11">Q: To whom does the system send E-mail on generating an alert when E-mail is configured?</a></li>
+	<li><a href="#13">Q: What should I do if I am not getting email notification on violation of a rule?</a></li>
+	<li><a href="#14">Q: I am currently evaluating QueryIO and have installed a single node cluster on my laptop which gets its IP address dynamically. 
+	My cluster setup keep failing as I switch between my home and office network due to change in IP. 
+	I understand that cluster should be setup on machines having static IP addresses but I would like to have some workaround to get it working during evaluation phase with single machine setup.</a></li>
+</ul>
+
+
+
+<h3 id="2">Q: If I add new DataNodes to the cluster will HDFS move the blocks to the newly added nodes in order to balance disk space utilization between the nodes?</h3>
+<p>No, HDFS will not move blocks to new nodes automatically. However, newly created files will likely have their blocks placed on the new nodes. You need to run <a href="name_nodes.html#balancer">Balancer</a> on NameNode to re-balance the cluster.</p>
+<hr>
+<br>
+
+<h3 id="3">Q: On "Add host", QueryIO is unable to SSH to host machine. What should I do? </h3>
+<p>Please check that SSH service is enabled on remote machine and credentials provided are correct.</p>
+<hr>
+<br>
+
+<h3 id="4">Q: Does adding number of nodes require different ports?</h3>
+<p>Yes, all cluster components like NameNode, DataNode, ResourceManager, NodeManager, host must work on different ports for single host machine. Adding more that one node will require changing port settings.</p>
+<hr>
+<br>
+
+<h3 id="5">Q: Adding DataNode shows error : "NameNode HOST-IP mapping not listed in /etc/hosts file in DataNode system" ?</h3>
+<p>You need to add IP to hostname mapping in your host's /etc/hosts file. Administrative privileges are required to edit /etc/hosts file.</p>
+<ul style="margin-left: 0px;">
+	<li>To get system hostname:	$ echo $HOSTNAME</li>
+	<li>To get IP address:	ifconfig</li>
+	<li>Edit /etc/hosts file:	sudo /etc/hosts</li>
+	<li>For example : If your host's IP address is 192.168.0.16 and hostname is "server.local". Then append "192.168.0.16 server.local" in /etc/hosts file.</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="6">Q: No machine on network is able to access queryIO server UI?</h3>
+<p>This problem might be due to ports used by QueryIO are blocked by firewall. All ports used by QueryIO must be open from firewall.</p>
+<hr>
+<br>
+
+<h3 id="7">Q: Why QueryIO supports one databsase instance per NameNode?</h3>
+<p>In a typical Hadoop cluster, total number of files grows to the order of millions over a period of time. Thus with multiple NameNodes having millions of files each, HDFS cluster storage scales horizontally but the namespace does not. In order to scale the name service horizontally, NameNode federation uses multiple independent namespaces. The Namenodes are federated, that is, the Namenodes are independent and don't require coordination with each other. The datanodes are used as common storage for blocks by all the federated Namenodes. Each datanode registers with all the Namenodes in the cluster. 
+QueryIO supports configuration of one database instance per namespace to support NameNode Federation. User can define a database configuration and link it to a namespace. All the metadata / tags associated with the data in given namespace is stored in this linked in database.
+This feature is required only if user need to use Analytics query feature.</p>
+<hr>
+<br>
+
+<h3 id="8">Q: Why does NameNode status show : "Started with outdated configuration" ?</h3>
+<p>This happens after you have changed configuration properties for NameNode. You need to restart NameNode by first <a href="name_nodes.html#start">stopping NameNode</a> and then <a href="name_nodes.html#start">start NameNode</a>. Same is valid for all cluster components. (NameNode, DataNode, ResourceManager, NodeManager).</p>
+<hr><br>
+
+<h3 id="9">Q: I am getting "Connection Refused Exception"?</h3>
+<p>A common cause for this is the Hadoop service isn't running. Make sure all your cluster components are running. You can see status of all components on <a href="dashboard_view.html">Dashboard view</a>.</p>
+<hr><br>
+
+<h3 id="1">Q: What is the purpose of the checkpoint NameNode?</h3>
+<p>The only purpose of the secondary name-node is to perform periodic checkpoints. 
+The secondary name-node periodically downloads current name-node image and edits log files, joins them into new image and uploads the new image back to the (primary and the only) name-node.<br>
+So if the name-node fails and you can restart it on the same physical node then there is no need to shutdown data-nodes, just the name-node needs to be restarted. 
+If you cannot use the old node anymore you will need to copy the latest image somewhere else. The latest image can be found either on the node that used to be the primary before failure if available; or on the secondary name-node. 
+The latter will be the latest checkpoint without subsequent edits logs, that is the most recent name space modifications may be missing there. You will also need to restart the whole cluster in this case.</p>
+<hr>
+<br>
+
+<h3 id="10">Q: How do i browse back to root in "Data Browser"?</h3>
+<p>Check for the forward slash '/' at the top of data browser, clicking on this this lead you to the root location. </p>
+<hr><br>
+
+<h3 id="12">Q: Data Browser does not show any data. What may be the reason?</h3>
+<p>This problem might occur if any of your NameNode or DataNode is stopped. Please make sure your NameNode and DataNode are running.</p>
+<hr><br>
+
+<h3 id="11">Q: To whom does the system send E-mail on generating an alert when E-mail is configured?</h3>
+<p>E-mail is sent to the Email IDs of all registered users. Please write the Email IDs carefully while creating user accounts. </p>
+<hr><br>
+
+<h3 id="13">Q: What should I do if I am not getting Email notification on violation of a rule?</h3>
+<p>You need to configure notification settings to get email alerts.</p>
+<hr><br>
+
+
+<h3 id="14">Q: I am currently evaluating QueryIO and have installed a single node cluster on my laptop which gets its IP address dynamically. 
+	My cluster setup keep failing as I switch between my home and office network due to change in IP. 
+	I understand that cluster should be setup on machines having static IP addresses but I would like to have some workaround to get it working during evaluation phase with single machine setup.</h3>
+<p>
+For production setup you should consider having Static IPs to your machines, while for a standalone setup where all servers are configured on same host please follow these steps:
+</p>
+<ul style="margin-left: 0px;">
+<li> In fresh install replace IP address in database JDBC Connection URLs with machine's hostname from 'Data' -> 'Manage Databases'</li>
+<li> Add new host by its hostname instead of IP.</li>
+<li> Add an entry in /etc/hosts to map current IP with machine's hostname.</li>
+<li> Every time you change networks you will have to
+	<ul style="margin-left: -10px;">
+    <li> Update IP-Hostname mapping in /etc/hosts.</li>
+    <li> Restart QueryIOUI Server by executing &lt;Installation Dir&gt;/QueryIO/tomcat/bin/stop_queryio.sh and <br>then &lt;Installation Dir&gt;/QueryIO/tomcat/bin/start_queryio.sh.</li>
+    <li> Restart all nodes. (Namenode, Datanode, CheckpointNode, ResourceManager, NodeManager)</li>
+   	</ul>
+</li> 
+</ul>
+
+<br>
+
+
+
+
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

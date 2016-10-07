@@ -1,0 +1,110 @@
+
+
+
+<!-- <script type="text/javascript" src="scripts/datetimepicker.js" ></script> -->
+<script type="text/javascript" src="scripts/reportList.js" ></script>
+<script type="text/javascript" src="scripts/jquery.alerts.js"></script>
+<script>
+$('#report\\.stdate').datetimepicker({
+	controlType: 'select',
+	timeFormat: 'HH:mm:ss'
+});
+$('#report\\.enddate').datetimepicker({
+	controlType: 'select',
+	timeFormat: 'HH:mm:ss'
+});
+</script>
+<div id="generate_report" class="lightbox">
+	<div id="close" class="close">
+		<a href="javascript:Reports.closeBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<table id="generate_reoprt_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Report</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td id="msg_td">
+					<div id="hostDiv" class="instructional"
+						style="text-align: center; width: 100%;">
+						<table align="center" width="100%"
+							style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td_1" style="color:red"></td>
+							</tr>
+							<tr>
+								<td>
+
+									<form>
+										<table style="width: 100% ;	">
+											<tr id="hostScroll">
+												<td style="text-align: left;">Select Host: </td>
+												<td style="text-align: left;"><select style="width: 192px;" id="hostName1" width="192px;"></select></td>
+											</tr>
+											<tr>
+												<td style="text-align: left;">Title</td>
+												<td style="text-align: left;"><input type="text" id ="title" name="title" style="width:180px;" width="180px;"></td>
+											</tr>
+											<tr >
+											<td></td>
+												<td style="text-align: left;" colspan="2"><input id ="rTime" type="radio" name="rTime" value="rTime"  onclick="javascript:Reports.clickeRadioButton(this.id)"/> Relative time &nbsp;&nbsp;<input id ="aTime" type="radio" name="aTime" value="aTime" onclick="javascript:Reports.clickeRadioButton(this.id)"/> Absolute time
+											</tr>
+											<tr id ="relativeTimeRow">
+												<td style="text-align: left;">
+													Select interval
+												</td>
+												<td style="text-align: left;">
+													<select id="reportInterval" onchange="javascript:Reports.intervalChanged()" style="width:192px;" width="192px;">
+													<option  selected value="0.0416666667">1 hour</option>
+													<option  value="1">1 day</option>
+													<option value="7">7 days</option>
+													<option value="30">30 days</option>
+													<option value="90">90 days</option>
+													<option value="180">180 days</option>
+													<option value="360">360 days</option>
+											</select>
+												</td>
+											</tr>
+											<tr id ="startDate">
+												<td style="text-align: left;">Start Date</td>
+												<td style="text-align: left;"><input type="text" id="report.stdate"  name="stdate" style="width:180px;" width="180px;"><!-- <a
+													href="javascript:NewCal('report.stdate', 'MMddyyyy','arrow', true, '24', false);"><img
+														src="images/calendar_16.gif"></img></a> --></td>
+											</tr>
+											<tr id ="endDate">
+												<td style="text-align: left;">End Date</td>
+												<td style="text-align: left;"><input type="text" id="report.enddate" name="enddate" style="width:180px;" width="180px;"><!-- <a
+													href="javascript:NewCal('report.enddate', 'MMddyyyy','arrow', true, '24', false);"><img
+														src="images/calendar_16.gif"></img></a> --></td>
+											</tr>
+											<tr>
+												<td style="text-align: left;">Select Format</td>
+												<td style="text-align: left;"><input type="radio" name="format" id="html" />HTML
+													&nbsp;<input type="radio" name="format" id="pdf" />PDF &nbsp;<input
+													type="radio" name="format" id="xls" />XLS</td>
+											</tr>
+											<tr >
+												<td colspan="2"><input type="button" value="View" name="view" style="float: right;"
+													onClick="javascript:Reports.view();"></td>
+											</tr>
+										</table>
+									</form> <!--javascript:NewCal('rpt.startdate','mmddyyyy',false, 24)-->
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script>
+Reports.setButtonDisable();
+Reports.generateReportReady();
+
+</script>

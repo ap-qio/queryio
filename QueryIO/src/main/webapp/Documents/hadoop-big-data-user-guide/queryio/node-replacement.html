@@ -1,0 +1,48 @@
+
+
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Node Replacement</title>
+</head>
+<body>
+
+<h1><span>Node Replacement Steps</span></h1>
+<h2><span>In this chapter</span></h2>
+<p>If in case you want to change the host machine of DataNode or NameNode or you want to delete a node from the host machine. Node Replacement steps are explained for : </p>
+<ul>
+	<li><a href="#nn">NameNode Replacement Steps</a></li>
+	<li><a href="#dn">DataNode Replacement Steps</a></li>
+</ul>
+<h2 id="nn"><span>NameNode Replacement Steps</span></span></h2>
+<ul>
+	<li>In <b>non-HA</b> cluster mode, you can not delete a NameNode as it may cause cluster unavailability.</li>
+	<li>In <b>HA-Enabled</b> mode, If an active NameNode is deleted, failover process will switch standby NameNode to active NameNode. .</li>
+	<li>Deletion of standby NameNode will change cluster to non-HA mode.</li>
+	<li>To delete a NameNode, select the check box against the node and click <b>Delete</b> on <a href="hadoop-name-nodes.html">NameNode</a> page.</li>
+</ul>  
+
+<h2 id="dn"><span>DataNode Replacement Steps</span></h2>
+<ul>
+	<li>Before a node can be deleted, it must be first decommissioned.</li>
+	<li>When a DataNode is decommissioned, HDFS will copy all its data to other DataNodes(if any) and update the NameNode data.
+	Decommissioned node will no longer be valid for storing data, but will be a part of cluster until it is deleted.</li>
+	<li>If DataNode is deleted directly, then HDFS will wait for 15 minutes (configurable) for that DataNode to come back and if it doesn't, it will re-replicate its blocks on other nodes(if available).
+	This may cause damage to data because there would be a possibility of some blocks to be present exclusively on one DataNode.</li>
+	<li>To decommission a node, select the DataNode and click <b>Decommission</b> on <a href="hadoop-data-nodes.html">DataNode</a> page.</li>
+	<li>To delete a DataNode from the cluster, select the check box against the the DataNode and click <b>Delete</b> on <a href="hadoop-data-nodes.html">DataNode</a> page. </li>
+	
+</ul>
+
+<div style="position: absolute; bottom: 0px; width:99%">
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</div>
+
+</body>
+</html>

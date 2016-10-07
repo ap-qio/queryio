@@ -1,0 +1,195 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<script src="scripts/jquery.alerts.js"></script>-->
+
+
+
+<script type="text/javascript" src="scripts/admin_notifications.js"></script>
+<div style=" overflow: auto; " class="detailDivView">
+<button class = "button" type="button" name="saveEmailConfig" value="Save" onclick="javascript:saveNotify(document)"  style="margin-bottom: 5px;">Save</button>
+<form name="emailNotificationForm" id="emailNotificationForm">
+<table border="1"  style="float:left; width: 100%; color: black; font-size: 9pt; " class="dataTable">
+			<thead>
+			<tr>
+				<th colspan="2" width="100%" height="13" >
+					Email Notification&nbsp;&nbsp;&nbsp;&nbsp;	<!-- <button class = "button" type="button" name="validateEmailConfig" value="Validate" onclick="javascript:submitNotify(document, 0)" disabled="" >Validate</button> -->
+					<button class = "button" type="button" name="validateEmail" id="validateEmail" value="Validate" onclick="javascript:validateEmailSettings(document, 0)"  >Validate</button>
+					<button id="backBtn" class = "button" style="float:right" type="button" name="Back" value="Back" onclick="javascript:handleBack();"  >Back</button>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr id="email.1" >
+				<td width="30%" class="form_td">Enabled</td>
+				<td class="form_td">
+					<input type="checkbox" name="emailEnabled" value="on" onclick="javascript:onEmailEnabled(document, this);">
+					<input type="hidden" name="emailEnabled" value="false">
+				</td>
+			</tr>
+			<tr id="email.2" >
+				<td width="30%" class="form_td">Sender's Name</td>
+				<td class="form_td">
+					<input style = "width: 269px;" type="text" name="emailSenderName" value="QueryIO" placeholder="QueryIO" disabled="disabled"> *
+				</td>
+			</tr>
+			<tr id="email.3" >
+				<td width="30%" class="form_td">Sender's Address</td>
+				<td class="form_td">
+					<input style = "width: 269px;" type="text" name="emailSenderAddress" id="emailSenderAddress" value="noname@mail.com" placeholder="noname@mail.com" disabled=""> *
+				</td>
+			</tr>
+			<tr id="email.4" >
+				<td class="form_td">SMTP Server</td>
+				<td class="form_td">
+					<input style = "width: 269px;" type="text" name="emailSMTPServer" value="smtp.gmail.com" placeholder="smtp.gmail.com" disabled=""> *
+				</td>
+			</tr>
+			<tr id="email.5" >
+				<td class="form_td">SMTP Port</td>
+				<td class="form_td">
+					<input style = "width: 269px;" type="text" name="emailSMTPPort" value="25" disabled="" onkeydown="javascript:Util.maskNumericInput(event);">*
+				</td>
+			</tr>
+			<tr id="email.6" >
+				<td width="30%" class="form_td">Server requires a secure connection(SSL)</td>
+				<td class="form_td">
+					<input type="checkbox" name="securedProtocol" id = "securedProtocol" value="on">
+					<input type="hidden" name="securedProtocol" value="false">
+				</td>
+			</tr>
+			<tr id="email.7" >
+				<td width="30%" class="form_td">Authentication Required</td>
+				<td class="form_td">
+					<input type="checkbox" id = "authRequired" name="authRequired" value="on" onclick="javascript:onAuthenticationReq(document, this);">
+					<input type="hidden" name="authRequired" value="false">
+				</td>
+			</tr>
+			<tr id="email.8" >
+				<td class="form_td">User Name</td>
+				<td class="form_td">
+					<input type="text" name="emailUsername" style = "width: 269px;" value="" disabled=""> ex. john@queryio.com
+				</td>
+			</tr>
+			<tr id="email.9" >
+				<td class="form_td">Password</td>
+				<td class="form_td">
+					<input type="password" name="emailPassword" style = "width: 269px;" value="" disabled="">
+				</td>
+			</tr>
+		</tbody></table>
+</form>
+<form name = "smsnotificationform" id ="smsNotificationForm" style="display: none;">
+<table border="1"  style=" float:left; width: 100%;  margin-top: 6pt; color: black; font-size: 9pt;" class="dataTable">
+	<thead>
+	<tr>
+		<th colspan="2" width="100%" height="13" >
+				SMS Notification&nbsp;&nbsp;&nbsp;&nbsp;<!--<button class = "button" type="button" name="validateSmsConfig" value="Validate" onclick="javascript:submitNotify(document, 1)" disabled="" >Validate</button>-->
+		</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr id="sms.1" >
+			<td width="30%" class="form_td">Enabled</td>
+			<td class="form_td">
+				<input type="checkbox" name="smsEnabled" value="on" onclick="javascript:onSmsEnabled(document, this);">
+				<input type="hidden" name="smsEnabled" value="false">
+			</td>
+		</tr>
+		<tr id="sms.2" >
+			<td width="30%" class="form_td">Sender's No.</td>
+			<td class="form_td">
+				<input type="text" name="smsNumber" style = "width: 269px;" value="" onkeydown="javascript:Util.maskNumericInput(event);" disabled=""> *
+			</td>
+		</tr>
+		<tr id="sms.3" >
+			<td class="form_td">Serial Port</td>
+			<td class="form_td">
+				<input type="text" name="smsSerialPort" style = "width: 269px;" value="" disabled=""> *
+			</td>
+		</tr>
+		<tr id="sms.4" >
+			<td class="form_td">Manufacturer</td>
+			<td class="form_td">
+				<select name="smsManufacturer" onchange="javascript:onManufacturerChange(document, document.forms[0].smsManufacturer, document.forms[0].smsModel, false);" class="shuffle_select" disabled=""><option value="Nokia" selected="selected">Nokia</option>
+					<option value="Siemens">Siemens</option>
+					<option value="Sony Ericsson">Sony Ericsson</option>
+					<option value="Wavecom">Wavecom</option>
+					<option value="Motorola">Motorola</option>
+					<option value="Billionton">Billionton</option>
+					<option value="ITengo">ITengo</option>
+					<option value="Janus">Janus</option>
+					<option value="Sharp">Sharp</option>
+					<option value="SIMCOM Ltd">SIMCOM Ltd</option>
+					<option value="Ubinetics">Ubinetics</option></select>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				Model
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="hidden" name="smsSelectedModel" value="6310i">
+				<select name="smsModel" class="shuffle_select" disabled=""><option value="6070">6070</option><option value="6100">6100</option><option value="6210">6210</option><option value="6310">6310</option><option value="6310i">6310i</option><option value="6230">6230</option><option value="6230i">6230i</option><option value="6681">6681</option><option value="8250">8250</option><option value="8310">8310</option><option value="6610">6610</option><option value="6800">6800</option><option value="7210">7210</option><option value="6810">6810</option><option value="7250i">7250i</option><option value="6103">6103</option><option value="6020">6020</option><option value="3220">3220</option><option value="6822">6822</option><option value="5140">5140</option><option value="5140i">5140i</option></select>
+			</td>
+			</tr>
+			<tr id="sms.5" >
+				<td class="form_td">Baud rate</td>
+				<td class="form_td">
+					<input type="text" name="smsBaudRate" style = "width: 269px;" onkeydown="javascript:Util.maskNumericInput(event);" value="57600" disabled="">*
+				</td>
+			</tr>
+	</tbody></table>
+	</form>
+	<form name = "logNotification" id="logNotificationForm">
+	
+	<table border="1" class="dataTable" bordercolordark="#666666" style="float:left; width: 100%; margin-top:10px; color: black; font-size: 9pt;">
+			<thead>
+			<tr>
+				<th colspan="2" width="100%" height="13" style="border-right-color: #666666;">
+					Log Notification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--<button class = "button" type="button" name="validateLogConfig" value="Validate" onclick="javascript:submitNotify(document, 3)" disabled="" >Validate</button>-->
+				<button class = "button" type="button" name="validateLog" id="validateLog" value="Validate" onclick="javascript:validateLogSettings(document, 0)"  >Validate</button>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr id="log.1" >
+				<td width="30%" class="form_td">Enabled</td>
+				<td class="form_td">
+					<input type="checkbox" name="logEnabled" value="on" onclick="javascript:onLogEnabled(document, this);">
+					<input type="hidden" name="logEnabled" value="false">
+				</td>
+			</tr>
+			<tr id="log.2" >
+				<td class="form_td">Log file path</td>
+				<td class="form_td">
+					<input type="text" id = "logFilePath" name="logFilePath" style = "width: 269px;" value="" disabled="">
+					<button id="viewLog" class = "button" style="float:right" type="button" name="viewLog" value="ViewLog" onclick="javascript:showNotificationLog();">View Log file</button>
+				</td>
+			</tr>
+		</tbody></table>
+</form>
+
+<script>
+	getAllDetails(document);
+	if(Navbar.selectedTabName=='dashboard' && Navbar.selectedChildTab == 'notifications')
+	{
+		$('#backBtn').hide();
+	}
+
+	function fillPopUp(flag)
+	{
+		var id = "validate";
+		
+		dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+		dwr.util.byId('pop.pattern'+id).style.display = '';
+		dwr.util.byId('popup.image.processing'+id).style.display = '';
+		dwr.util.setValue('popup.component','Notifications');
+		dwr.util.setValue('popup.host'+id,'Validate Notification');
+		dwr.util.setValue('popup.message'+id,'Processing Request...');
+		dwr.util.setValue('popup.status'+id,'Validating..');
+		RemoteManager.validateNotification(notificationBean, "Email", handleNotificationResponse);
+	}
+
+	function closePopUpBox()
+	{
+	    closeBox();
+	}
+</script>
+
+</div>

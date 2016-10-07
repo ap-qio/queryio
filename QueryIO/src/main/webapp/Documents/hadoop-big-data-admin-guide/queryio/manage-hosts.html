@@ -1,0 +1,88 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Manage Host</title>
+</head>
+<body>
+<h1 id="host"><span>Manage Hosts</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>Host can be a local or remote machine which will be used to install several QueryIO components.</p>
+<ul>
+	<li><a href="#intro">What is Host</a></li>	
+	<li><a href="#add-host">Add New Host</a></li>	
+	<li><a href="#edit">Edit Host</a></li>	
+	<li><a href="#delete">Delete Host</a></li>	
+	<li><a href="#start">Start Host</a></li>	
+	<li><a href="#stop">Stop Host</a></li>
+	<li><a href="#monitor">Start/Stop Monitoring</a></li>	
+	<li><a href="#start-nodes">Start Nodes</a></li>
+	<li><a href="#stop-nodes">Stop Nodes</a></li>
+</ul>
+<h2 id="intro"><span>What is Host</span></h2>
+<p>Host will be the part of HDFS cluster
+and <a href="hadoop-name-nodes.html">NameNode</a>, <a href="hadoop-data-nodes.html">DataNode</a>, <a href="yarn-resource-manager.html">ResourceManager</a>,<a href="yarn-node-manager.html">NodeManager</a> can be installed on it. By default, a QueryIO package is installed on every host. </p>
+<img alt="NameNode-add-host" src="images/screenshots/host.jpeg" >
+<h3>Host Summary</h3>
+<p>Displays details about registered host.</p>
+<ul>
+	<li><b>Host IP:</b> IP address of the host machine.</li>
+	<li><b>Rack Name:</b> Name of the rack in which host is present.</li>
+	<li><b>Installation Path:</b> Location where QueryIO package is installed on host machine.</li>
+	<li><b>Status:</b> Current state of the host machine as <b>Started</b>, <b>Stopped</b> or <b>Not Responding</b></li>
+	<li><b>Monitoring:</b> Current monitoring state of the host machine as <b>Started</b>, <b>Stopped</b> or <b>Not Responding</b></li>
+	<li><b>Agent Log:</b> Click on <b>View Log</b> to view host machine log file.</li>
+</ul>
+
+
+<h2 id="add-host"><span>Add New Host</span></h2>
+<p>To manage hosts on your cluster, go to <b>Admin > Manage Hosts</b>.</p>
+<ul>
+	<li>Click <b>Add</b> to add new host to the cluster.</li>
+	<li><b>HostName/IP:</b> IP address or name  of the host to be added.</li>
+	<li><b>SSH User:</b> Username of the host.</li>
+	<li><b>Authentication Method:</b> Select authentication method from password or private key.</li>
+	<li><b>Password or Private Key</b>: Password or private key for account whose username was provided.</li>
+	<li><b>SSH Port</b>: Port on which SSH service is running on target host machine.</li>
+	<img alt="NameNode-add-host" src="images/screenshots/add-host1.jpeg" >
+	<li><b>Installation Path:</b> Installation directory where QueryIO agent will be installed.</li>
+	<li><b>Rack Name: </b> Name of the rack in which host is present.</li>
+	<li><b>QueryIO Agent Port: </b>Agent port on which host will work.</li>
+	<li><b>System JAVA-HOME: </b>Path to directory where java is installed on system.</li>
+	<li>Click on <b>Add</b> button to add node. If node is reachable and all credentials are correct, then host will be added to cluster.</li> 	
+	<img alt="NameNode-add-host" src="images/screenshots/add-host2.jpeg" >
+	</br></br>
+</ul>
+
+<h2 id="edit"><span>Edit Host</span></h2>
+<p>You can update rack name for the host. To edit a host, select the check box against the host and click on <b>Edit</b> button.</p>
+
+
+<h2 id="delete"><span>Delete Host</span></h2>
+<p>To delete a host, you need to provide valid SSH username and password for the host machine. </p> 
+
+<h2 id="start"><span>Start Host</span></h2>
+<p>To start a <b>Stopped</b> or <b>Not Responding</b> host, you need to provide valid SSH username and password for the host machine. </p>
+
+<h2 id="stop"><span>Stop Host</span></h2>
+<p>To stop a <b>Started</b> host, you need to provide valid SSH username and password for the host machine. </p>
+
+<h2 id="monitor"><span>Start/Stop Monitoring</span></h2>
+<p>JMX monitoring takes place which checks Host's status. To start or stop Host Monitoring, select the check box against the host and click on <b>Start Monitoring</b> or <b>Stop Monitoring</b> button respectively.</p> 
+
+<h2 id="start-nodes"><span>Start Nodes</span></h2>
+<p><b>To Start All Nodes with a Single Click</b>,it will provide the status(Started, Not Responding, Failed) of each node configured after Start Operation performed. </p>
+
+<h2 id="stop-nodes"><span>Stop Nodes</span></h2>
+<p><b>To Stop All Nodes with a Single Click</b> it will provide the status(Started, Not Responding, Failed) of each node configured after Stop Operation performed. </p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

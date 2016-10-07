@@ -1,0 +1,66 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />-->
+<link rel="stylesheet" href="styles/report_schedules.css" type="text/css" />
+<script type="text/javascript" src="scripts/jquery.dataTables.js"></script>
+<script type="text/javascript" src="scripts/report_schedules.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.tabs.js"></script>
+<script type="text/javascript" src="scripts/js/ui.tabs.paging.js"></script>
+<script type="text/javascript" src="scripts/reportList.js" ></script>
+
+<script  type="text/javascript" src="scripts/trigger_list.js"></script>
+
+<link rel="stylesheet" href="styles/tagManager.css" type="text/css" />
+
+<div id='report_schedules' class="viewDiv">
+	<div id="scheduleTabs" style="border: none;">
+		<div>
+			<ul class="tabs customTagsClass" style="min-height: 30px;">
+				<li id="systemReportHead" style="display: ;"><a id ="systemReportLink"  href="#systemReportTab" style = "font-size: 13px;">System Reports</a></li>
+				<li id="bigQueryHead" style="display: ;"><a id ="bigQueryLink"  href="#bigQueryTab" style = "font-size: 13px;">Query</a></li>
+				<li id="mapReduceHead" style="display: ;"><a id ="mapReduceLink"  href="#mapReduceTab" style = "font-size: 13px;">MapReduce Jobs</a></li>
+				<li id="scheduleStatusHead" style="display: ;"><a id ="scheduleStatusLink"  href="#scheduleStatusTab" style = "font-size: 13px;">Schedules Status</a></li>
+			</ul>
+		</div>
+		<div id="systemReportTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+			<div class="buttons">
+				<button class="button" onclick="javascript:ReportSchedules.schedule();">Add</button>
+				<button class="button" id="editSchedule" onclick="javascript:ReportSchedules.editSchedule();">Edit</button>
+				<button class="button" id="deleteSchedule" onclick="javascript:ReportSchedules.deleteSchedule()">Delete</button>
+			</div>
+			<table id="schedules_table_1">
+			</table>
+		</div>
+		<div id="bigQueryTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+			<div class="buttons">
+				<button class="button" onclick="javascript:ReportSchedules.scheduleBigQuery();">Add</button>
+				<button class="button" id="editBigQuerySchedule" onclick="javascript:ReportSchedules.editBigQuerySchedule();">Edit</button>
+				<button class="button" id="deleteBigQuerySchedule" onclick="javascript:ReportSchedules.deleteBigQuerySchedule()">Delete</button>
+			</div>
+			<table id="schedules_table_2">
+			</table>
+		</div>
+		<div id="mapReduceTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+			<div class="buttons">
+				<button class="button" onclick="javascript:ReportSchedules.scheduleMR();">Add</button>
+				<button class="button" id="editMRSchedule" onclick="javascript:ReportSchedules.editMRSchedule();">Edit</button>
+				<button class="button" id="deleteMRSchedule" onclick="javascript:ReportSchedules.deleteMRSchedule()">Delete</button>
+			</div>
+			<table id="schedules_table_3">
+			</table>
+		</div>
+		<div id="scheduleStatusTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+			<div class="buttons">
+				<button class = "button" id="trigger.delete" onclick="javascript:TriggerList.deleteTriggers();" style="margin-left: 4px;">Delete</button>
+			</div>
+			<table id="trigger_list_table"></table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var triggerJobName = '';
+	var triggerJobGroup = '';
+	var bigqueryschedule = 0;
+	var mapreduceschedule = 0;
+	ReportSchedules.ready();
+</script>

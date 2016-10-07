@@ -1,0 +1,37 @@
+.colheader_link
+{
+color: black;
+}
+
+.outtertab_table
+{
+border-collapse: collapse;
+}
+
+table thead th,
+table tr td
+{
+	padding: 0px;
+	font-size: 9pt;
+}
+
+#all_reports .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+#reports_table_div {
+	margin-left: 10px;
+	margin-top: 10px;
+	border: solid 1px #ccc;
+	float: left;
+	width: 75%;
+}
+
+#reports_table_div table thead th,
+#reports_table_div table tbody tr td
+{
+	font-size: 9pt;
+}
+	

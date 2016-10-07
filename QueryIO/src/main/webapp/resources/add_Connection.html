@@ -1,0 +1,92 @@
+<div id="adddm" class="lightbox" style="width: 500px;">
+	<div id="close" class="close">
+		<a href="javascript:DB_Config.closeBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<table id="data_migrate_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Add New Database</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table align="center" width="100%"	style="border-collapse: collapse;">
+						<tr>
+							<td id="msg_td">
+								<div class="instructional" style="">
+									<span id="instruction"> Provide the Unique Connection Name for new DB Connection.</span> 
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="otherinstruction" style="width: 100%;">
+									<hr>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div id="MigrateForm">
+									<form id="AddForm">
+										<div>
+											<table width="95%" class="form_table">
+												<tr>
+													<td style="text-align: left; width: 41%;">New DB Connection Name*:</td>
+													<td style="text-align: left;"><input type="text" id="connName" name="connectionName" style = "width: 180px;" onKeyPress="return checkKey(event)"></td>
+												</tr>
+												<tr>
+													<td style="text-align: left; width: 41%;">Type*:</td>
+													<td style="text-align: left;">
+														<select id="dbType" style="width: 60%;">
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td style="text-align: left; width: 41%;">Role*:</td>
+													<td style="text-align: left;">
+														<select id="dbRole" style="width: 60%;">
+															<option value="true">Metadata / Tagging</option>
+															<option value="false">Hive Schema</option>
+														</select>
+													</td>
+												</tr>
+											</table>
+										</div>
+										<div class="otherinstruction" style="width: 100%;">
+											<hr>
+										</div>
+										<br>
+										<div id="submitBox" style="text-align:right; width: 100%;">
+											<input type="button" value="Save" name="Save" style="width: 15%;" onClick="javascript:DB_Config.saveDBName();">
+											<input type="button" value="Cancel" name="cancel" style="width: 15%;" onClick="javascript:DB_Config.closeBox(false);">
+										</div>
+									</form>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script>
+function checkKey(event)
+{
+	if (event.keyCode == 13){
+		return false;
+	}	
+	return true;
+}
+RemoteManager.getAllDatabaseNames(setDatabase);
+
+function setDatabase(list)
+{
+	DB_Config.setDatabaseNames(list, "dbType");
+}
+</script>

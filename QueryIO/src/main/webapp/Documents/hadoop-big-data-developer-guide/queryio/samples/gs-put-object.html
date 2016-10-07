@@ -1,0 +1,158 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>Create New File</title>
+	
+</head><body>
+<h1><span>Create New File</span></h1>
+<p>Create new file operation is used to create a file to the directory. Following interfaces can be used to add file in the directory.</p>
+
+<ul>	
+	<li><a href="#java">DFS Client API</a></li>
+	<li><a href="#rest">WEBHDFS API</a></li>
+</ul>
+
+<h2 id="java"><span>DFS Client API</span></h2>
+<p><code>Apache Hadoop</code> and <code>java.io</code> classes are used to create file in the directory.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hdfs.DFSConfigKeys;
+
+public class PutObject {
+	/*
+	 * This program reads a file from the local file system and saves it on HDFS.
+	 */
+	public static void main(String[] args) throws IOException{
+		Configuration conf = new Configuration(true);	//Create a configuration object to define hdfs properties
+		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, "hdfs://192.168.0.1:9000"); // URL for your namenode
+		conf.set(DFSConfigKeys.DFS_REPLICATION_KEY, "3"); // Replication count for files you write
+		
+		OutputStream os = null;
+		InputStream is = null;
+		try{
+			// First initialize DFS FileSystem object  
+			FileSystem dfs = FileSystem.get(conf);	//Hadoop FileSystem object with QueryIO configuration
+			dfs.mkdirs(new Path("/queryio/demo/"));	//created a new directory "demo"
+			
+			os = dfs.create(new Path("/queryio/demo/file1.txt"));	//return a OutputStream at indicated path
+			
+			is = new FileInputStream(new File("/local/queryio.txt"));	//InputStream from a local filesystem file
+			
+			IOUtils.copy(is, os);	//copy bytes from InputStream to OutputStream : create Object Operation
+		} finally {
+			try{
+				if(is!=null)
+					is.close();	//close InputStream
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+			try{
+				if(os!=null)
+					os.close();	//close OutputStream
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+}	
+	</pre>
+</div>
+
+<h2 id="rest"><span>WEBHDFS API</span></h2>
+<p>Following version of <code>curl</code> command is used for creating new file.</p>
+
+<p><b>Step 1:</b>  Submit a HTTP PUT request without automatically following redirects and without sending the file data. Request is redirected to datanode where data is to be written.</p>
+<code>
+curl -i -X PUT "http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;PATH&gt;?user.name=&lt;username&gt;&op=CREATE
+                    [&overwrite=&lt;true|false&gt;][&blocksize=&lt;LONG&gt;][&replication=&lt;SHORT&gt;]
+                    [&permission=&lt;OCTAL&gt;][&buffersize=&lt;INT&gt;]" <br>
+
+</code>
+<ul>
+	<li> <code>-i option</code> : Include the HTTP-header in the output like server-name, date of the document, HTTP-version etc. </li>
+	<li> <code>-X option</code> :  (HTTP) Specifies a custom request method to use when communicating with the HTTP server.</li>
+	<li> <code>PUT</code> : Submit HTTP PUT request.</li>
+	<li> <code>&lt;HOST&gt;</code>: Hostname where file has to be created.</li>
+	<li> <code>&lt;PORT&gt;</code>: Port on which server is working.</li>
+	<li> <code>&lt;PATH&gt;</code>: A valid path of the file.</li>
+	<li> <code>&lt;DATANODE&gt;:&lt;PORT&gt;</code>: Datanode host and port.</li>
+	<li> <code>user.name=&lt;username&gt;</code>: QueryIO account username for authentication.</li>
+	<li> <code>op=CREATE</code>: Create new file.</li>
+	<li> <code>[&overwrite=&lt;true|false&gt;]</code> : (Optional)If file already exists, should it be overwritten.</li>
+	<li> <code>[&blocksize=&lt;LONG&gt;]</code> : (Optional) Block size of file.</li>
+	<li> <code>[&replication=&lt;SHORT&gt;]</code> : (Optional) The number of replications of a file.</li>
+	<li> <code>[&permission=&lt;OCTAL&gt;]</code> : (Optional) Permissions to be granted on file in octal format. By default permissions granted to file is 0755.</li>
+	<li> <code>[&buffersize=&lt;INT&gt;]</code> : (Optional) The size of the buffer used in transferring data.</li>	
+</ul>
+
+<p><b>Step 2:</b>  Submit another HTTP PUT request using the URL in the location header with the file data to be written.</p>
+<code>
+curl -i -X PUT -T &lt;LOCAL_FILE&gt; "http://&lt;DATANODE&gt;:&lt;PORT&gt;/&lt;PATH&gt;?user.name=&lt;username&gtop=CREATE..."
+</code>
+<ul>
+	<li> <codE>-T option</code> : Upload file.</li>
+	<li> <code>&lt;LOCAL_FILE&gt;</code> : Local file to be uploaded to hdfs.</li>
+	<li> <code>&lt;DATANODE&gt;:&lt;PORT&gt;</code>: Datanode host and port.</li>
+	<li> <code>op=CREATE</code>: create new file.</li>
+</ul>
+
+<div id="code" style="background:EEE;">
+	<pre>
+<b>Step 1: Sample Request:</b>
+curl -i -X PUT "http://192.168.0.1:50070/webhdfs/v1/queryio/demo/file1.txt?user.name=admin&op=CREATE&overwrite=false"
+<b>HTTP Request:</b>
+PUT /webhdfs/v1/queryio/demo/file1.txt?user.name=admin&op=CREATE&overwrite=false HTTP/1.1
+User-Agent: curl/7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+Host: 192.168.0.16:50070
+Accept: */*
+<b>HTTPResponse:</b>
+HTTP/1.1 307 TEMPORARY_REDIRECT
+Location: http://server.local:50075/webhdfs/v1/queryio/demo/file1.txt?op=CREATE&user.name=admin&namenoderpcaddress=server.local:9000&overwrite=false
+Content-Type: application/octet-stream
+Content-Length: 0
+Server: Jetty(6.1.26)
+
+<b>Step 2: Sample Request:</b>
+curl -i -X PUT -T /local/queryio.txt "http://server.local:50075/webhdfs/v1/queryio/demo/file1.txt?op=CREATE&user.name=admin&namenoderpcaddress=server.local:9000&overwrite=false"
+<b>HTTP Request:</b>
+PUT /webhdfs/v1/queryio/demo/file1.txt?op=CREATE&user.name=admin&namenoderpcaddress=server.local:9000&overwrite=false HTTP/1.1
+User-Agent: curl/7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+Host: server.local:50075
+Accept: */*
+Content-Length: 16011
+Expect: 100-continue
+<b>HTTP Response:</b>
+HTTP/1.1 100 Continue
+
+HTTP/1.1 201 Created
+Location: webhdfs://0.0.0.0:50070/queryio/demo/file1.txt
+Content-Type: application/octet-stream
+Content-Length: 0
+Server: Jetty(6.1.26)
+	</pre>
+</div>
+<p>The client receives a 201 Created response code and the WebHDFS URI of the file in the Location header</p>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>
