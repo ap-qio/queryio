@@ -68,7 +68,7 @@
 
 		<dependency>
 			<groupId>com.queryio</groupId>
-			<artifactId>QueryIOAgent</artifactId>
+			<artifactId>qioagent-jar</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -127,6 +127,7 @@
 				<version>2.1.1</version>
 				<configuration>
 					<attachClasses>true</attachClasses>
+					 <webXml>${project.basedir}\src\main\webapp\WEB-INF\web.xml</webXml>
 				</configuration>
 			</plugin>
 			<plugin>

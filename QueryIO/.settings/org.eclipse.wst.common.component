@@ -21,6 +21,9 @@
         <dependent-module archiveName="QueryIOCommon-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/QueryIOCommon/QueryIOCommon">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="qioagent-jar-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/qioagent-jar/qioagent-jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="QueryIO"/>
         <property name="java-output-path" value="/QueryIO/target/classes"/>
     </wb-module>

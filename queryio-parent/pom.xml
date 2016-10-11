@@ -15,6 +15,7 @@
 		<module>../QueryIO</module>
 		<module>../QueryIOAgent</module>
 		<module>../QueryIOCommon</module>
+		<module>../qioagent-jar</module>
 		<module>../QueryIODemo</module>
 		<module>../QueryIOPlugins</module>
 	</modules>
