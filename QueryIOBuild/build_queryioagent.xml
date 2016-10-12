@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+
+<project default="main" basedir=".">
+
+
+<property file="axis_bujava.properties"/>
+
+		<path id="queryio.lib.QueryIOCommon">
+			<fileset dir="${dir.source}/lib/QueryIOCommonJars">
+				<include name="**/jsp-api.jar" />
+				<include name="**/servlet-api.jar" />
+				<include name="**/log4j-1.2.14.jar" />
+			</fileset>
+		</path>
+
+		<path id="queryio.lib.others">
+			<fileset dir="${dir.source}/lib/others">
+				<include name="**/jetty-6.1.26.jar" />
+				<include name="**/jetty-util-6.1.26.jar" />
+			</fileset>
+		</path>	
+	
+	<path id="queryio.lib.fsimageutils">
+			<fileset dir="${temp.build}">
+				<include name="QueryIOCommon.jar" />
+				<include name="QueryIOPlugins.jar" />
+			</fileset>
+		</path>
+		
+		<path id="queryio.lib.fsimageutils.log">
+				<fileset dir="${dir.source}/${hadoop.version}/lib">
+					<include name="**/*.jar" />
+					<exclude name="hadoop-hdfs-2.0.2-alpha.jar"/>
+					<exclude name="hadoop-common-2.0.2-alpha.jar"/>
+				</fileset>
+			</path>
+		
+		<path id="hadoop.custom.server.lib" >
+			<fileset dir="${temp.build}">
+				<include name="hadoop-custom-compiled.jar" />
+			</fileset>
+		</path>
+	
+	<path id="queryio.lib.hadoop">
+		<fileset dir="${temp.build}">
+					<include name="hadoop-custom-compiled.jar" />
+		</fileset>
+	</path>
+	
+		<path id="queryio.lib.more">
+			<fileset dir="${dir.source}/lib/QueryIOJars">
+				<include name="**/commons-collections-3.1.jar"/>
+				<include name="**/dom4j-1.4.jar"/>
+				<include name="**/wstx-asl-3.0.2.jar"/>
+				<include name="**/log4j-1.2.8.jar"/>
+				<include name="**/commons-betwixt-0.8.jar"/>
+				<include name="**/commons-lang-2.1.jar"/>
+				<include name="**/commons-beanutils-1.7.0.jar"/>
+				<include name="**/commons-digester-1.7.jar"/>
+				<include name="**/commons-dbcp-1.2.1.jar"/>
+				<include name="**/jakarta-oro-2.0.8.jar"/>
+				<include name="**/commons-codec-1.3.jar"/>
+				<include name="**/commons-pool-1.2.jar"/>
+				<include name="**/commons-logging-1.0.4.jar"/>
+				<include name="**/stax-api-1.0.1.jar"/>
+			</fileset>
+			<fileset dir="${dir.source}/lib/QueryIOJars">
+				<include name="json_simple-1.1.jar" />
+			</fileset>
+			<fileset dir="${dir.source}/QueryIODemo/lib">
+				<include name="commons-jexl-2.1.1.jar" />
+			</fileset>
+		</path>	
+		
+		<path id="temp.build.queryiocommon">
+				<fileset dir="${temp.build}">
+					<include name="QueryIOCommon.jar" />
+					<!--include name="QueryIOCommonAgent.jar" /-->
+					<include name="QueryIOPlugins.jar" />
+				</fileset>	
+		</path>
+		
+	<path id="queryio.lib.QueryIOJars">
+			<fileset dir="${dir.source}/lib/QueryIOJars">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>	
+	
+	<path id="queryio.lib.yarnJars">
+				<fileset dir="${dir.source}/lib/yarnJars">
+					<include name="**/*.jar" />
+				</fileset>
+		</path>	
+	
+		<target name="create.temp.queryioagent">
+				<delete dir="${temp.queryioagent.classes}" />
+				<mkdir dir="${temp.queryioagent.classes}" />
+		</target>
+		
+		<target name="compile.queryio.common.agent">
+			<!--mkdir dir="${temp.queryiocommon.agent.classes}" />
+			<javac srcdir="${dir.source}/QueryIOAgent/agent" destdir="${temp.queryiocommon.agent.classes}" debug="on"  nowarn="on" optimize="on" >
+				<include name="**/*.java" />
+				<classpath refid="queryio.lib.hadoop" />
+				<classpath refid="queryio.lib.QueryIOJars" />
+				<classpath>
+					<fileset dir="${temp.build}">
+						<include name="**/*QueryIOCommon.jar" />
+					</fileset>
+				</classpath>
+				<classpath>
+					<fileset dir="${temp.queryioagent.classes}" />
+				</classpath>
+				<classpath>
+					<fileset dir="${temp.queryiocommon.agent.classes}" />
+				</classpath>
+				
+			</javac-->
+			<jar jarfile="${temp.build}/QueryIOCommonAgent.jar" >
+					<fileset dir="${temp.queryioagent.classes}">
+						<!--exclude name="**/*.class"/-->
+						<include name="**/common/**/*.class"/>
+						<include name="**/disk/**/*.class"/>
+						<include name="**/ipmi/**/*.class"/>
+						<include name="**/proc/**/*.class"/>
+						<include name="**/sysmoncommon/**/*.class"/>
+					</fileset>
+			</jar>
+		</target>
+	
+		<target name="copy.agent.jar">
+			<copy todir="${dir.queryio.agent}/WEB-INF/lib">
+				<fileset dir="${temp.build}">
+					<include name="QueryIOCommonAgent.jar" />
+				</fileset>
+			</copy>
+		</target>
+		
+		<target name="compile.queryioAgent" depends="create.temp.queryioagent">
+				<javac srcdir="${dir.source}/QueryIOAgent" destdir="${temp.queryioagent.classes}" debug="on"  nowarn="on" optimize="on" >
+					<include name="**/*.java" />
+					
+					<classpath refid="queryio.lib.QueryIOCommon" />
+					<classpath refid="temp.build.queryiocommon" />
+					<classpath refid="queryio.lib.others" />
+					<classpath refid="queryio.lib.more" />	
+					<classpath refid="queryio.lib.fsimageutils"/>
+					<classpath refid="queryio.lib.fsimageutils.log"/>
+					<classpath refid="hadoop.custom.server.lib" />
+					<classpath refid="queryio.lib.hadoop" />
+					<classpath refid="queryio.lib.QueryIOJars" />
+					<classpath refid="queryio.lib.yarnJars" />
+					<classpath>
+						<fileset dir="${temp.build}">
+							<include name="**/*QueryIOCommon.jar" />
+						</fileset>
+					</classpath>
+					<classpath>
+						<fileset dir="${temp.queryioagent.classes}" >
+							<include name="**/*.class" />
+						</fileset>
+					</classpath>
+				</javac>
+		</target>
+	
+	
+
+	<target name="create.queryio.agent.jar" >
+		<jar jarfile="${dir.queryio.agent}/WEB-INF/lib/QueryIOAgent.jar">
+			<fileset dir="${temp.queryioagent.classes}">
+				<!--include name="**/*.class"/-->
+				<include name="**/com/queryio/agent/core/server/*.class"/>
+				<include name="**/com/queryio/agent/web/*.class"/>
+				<include name="**/com/queryio/core/services/*.class"/>
+				<include name="**/com/queryio/fsimage/*.class"/>
+				<include name="**/com/queryio/web/listener/*.class"/>
+			</fileset>
+		</jar>	
+	</target>
+	
+	
+	<target name="create.jar">
+			<antcall target="create.queryio.agent.jar" />
+		</target>
+		
+	
+	<target name="copy.queryio.common.jar">
+			<copy todir="${dir.queryio.agent}/WEB-INF/lib">
+				<fileset dir="${temp.build}">
+					<include name="QueryIOCommon.jar" />
+				</fileset>
+			</copy>
+		</target>	
+	
+	
+	
+	<target name="copy.related.jar">
+		<copy todir="${dir.queryio.agent}/WEB-INF/lib">
+			<fileset dir="${dir.source}/lib/QueryIOAgentJars">
+				<include name="**/*.jar" />
+				<exclude name="spring-2.5.4.jar" />
+				<exclude name="spring-modules-validation_0.9.jar"/>
+				<exclude name="spring-security-core-2.0.2.jar"/>
+				<exclude name="spring-security-taglibs-2.0.2.jar"/>
+				<exclude name="spring-web_2.5.4.jar"/>
+				<exclude name="spring-webmvc-2.5.4.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="${dir.queryio.agent}/WEB-INF/lib">
+			<fileset dir="${dir.source}/lib/QueryIOJars">
+				<include name="commons-collections-3.1.jar" />
+				<include name="dom4j-1.4.jar" />
+				<include name="wstx-asl-3.0.2.jar" />
+				<include name="log4j-1.2.8.jar" />
+				<include name="commons-betwixt-0.8.jar" />
+				<include name="commons-lang-2.1.jar" />
+				<include name="commons-beanutils-1.7.0.jar" />
+				<include name="commons-digester-1.7.jar" />
+				<include name="commons-dbcp-1.2.1.jar" />
+				<include name="jakarta-oro-2.0.8.jar" />
+				<include name="commons-codec-1.3.jar" />
+				<include name="commons-pool-1.2.jar" />
+				<include name="commons-logging-1.0.4.jar" />
+				<include name="stax-api-1.0.1.jar" />
+				<include name="xstream-1.4.4.jar" />
+			</fileset>
+		</copy>
+	</target>
+	
+	
+	<target name="compile-all" >
+		
+		<antcall target="compile.queryioAgent" />
+		<antcall target="create.jar" />
+		<antcall target="compile.queryio.common.agent" />
+		<antcall target="copy.agent.jar" />
+		<antcall target="copy.queryio.common.jar" />
+		<antcall target="copy.related.jar" />
+	</target>
+
+	<target name="main" >
+		<antcall target="compile-all" />
+	</target>
+  	
+	
+</project>

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+
+<project default="main" basedir=".">
+
+
+	<property name="temp.yarn.client.classes" value="${temp.build}/yarnclient" />
+
+	
+	
+	<path id="hpcs.lib.yarn.client">
+		<fileset dir="${dir.source}/YarnClient/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="create.dir">
+		<delete dir="${temp.yarn.client.classes}" />
+		<mkdir dir="${temp.yarn.client.classes}" />
+	</target>
+	
+	<target name="comple.yarn.client" depends="create.dir">
+		<javac srcdir="${dir.source}/YarnClient/src" destdir="${temp.yarn.client.classes}" debug="on"  nowarn="on" optimize="on" >
+			<include name="**/*.java" />
+			<classpath>
+				<fileset dir="${temp.yarn.client.classes}" />
+			</classpath>
+			<classpath refid="hpcs.lib.yarn.client" />
+		</javac>
+	</target>
+	
+	
+	<target name="create.customTag.jar">
+		<jar jarfile="${temp.build}/CustomTag.jar">
+			<fileset dir="${temp.yarn.client.classes}">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<target name="create.structure">
+		<mkdir dir="${hiperBuild}/resources" />
+		<mkdir dir="${hiperBuild}/resources/CustomTagParser" />
+		<copy todir="${hiperBuild}/resources/CustomTagParser">
+			<fileset dir="${temp.build}">
+				<include name="CustomTag.jar" />
+			</fileset>
+		</copy>
+	</target>
+	
+
+ <target name="main">
+	<antcall target="comple.yarn.client" />
+	<antcall target="create.customTag.jar" />
+	<antcall target="create.structure" />
+ </target>
+  
+</project>

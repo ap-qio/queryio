@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+
+<project default="main" basedir=".">
+
+
+	<target name="init" >
+	  	<tstamp>
+	      	<format property="touch.time" pattern="MM/dd/yyyy hh:mm aa" offset="-8" unit="hour"/>
+	  	</tstamp>
+	</target>
+		
+	<path id="queryio.lib.hadoop">
+		<fileset dir="${temp.build}">
+					<include name="hadoop-custom-compiled.jar" />
+		</fileset>
+	</path>
+
+	
+	<path id="queryio.lib.birtJars">
+		<fileset dir="${dir.source}/lib/birt4.2.2">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>	
+	
+	<path id="queryio.lib.QueryIOJars">
+		<fileset dir="${dir.source}/lib/QueryIOJars">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${dir.source}/lib/os3server">
+			<include name="httpclient-4.2.1.jar" />
+			<include name="httpcore-4.2.1.jar" />
+		</fileset>
+	</path>	
+	
+	<path id="temp.build.queryiocommon">
+		<fileset dir="${temp.build}">
+			<include name="QueryIOCommon.jar" />
+			<include name="QueryIOCommonAgent.jar" />
+			<include name="QueryIOPlugins.jar" />
+			<include name="QueryIOAgent.jar" />
+		</fileset>	
+	</path>
+	
+	<path id="other.jar">
+		<fileset dir="${dir.source}/lib/QueryIOJars">
+			<include name="json_simple-1.1.jar" />
+		</fileset>
+		<fileset dir="${dir.source}/QueryIODemo/lib">
+			<include name="commons-jexl-2.1.1.jar" />
+		</fileset>
+	</path>
+	
+		
+	
+	<target name="compile.queryio.all">
+		<javac srcdir="${dir.source}/QueryIO/src" destdir="${temp.queryio.classes}" debug="on"  nowarn="on" optimize="on" >
+			<include name="**/*.java" />
+			<exclude name="agent/**/*.java" />
+			<classpath refid="queryio.lib.QueryIOJars"/>
+			<classpath refid="queryio.lib.hadoop" />
+			<classpath refid="temp.build.queryiocommon" />
+			<classpath refid="queryio.lib.birtJars" />
+			<classpath refid="other.jar" />
+			<classpath>
+				<fileset dir="${temp.queryio.classes}" >
+					<include name="**/*.class" />
+				</fileset>
+			</classpath>
+		</javac>			
+	</target>
+	
+
+	<target name="compile.queryio" >
+			<!--antcall target="compile.queryio.common.agent" /-->
+			<antcall target="compile.queryio.all" />	
+	</target>
+	
+		
+		<target name="compile-all" depends="init" >
+				<antcall target="compile.queryio" />
+				<antcall target="create.jar" />
+				<antcall target="copy.resources" />
+		</target>
+	<!-- QueryIO COMPILATION ENDS -->
+	
+	
+	<target name="create.queryio.jar" >
+		<jar jarfile="${dir.queryio}/WEB-INF/lib/QueryIOUI.jar">
+			<fileset dir="${temp.queryio.classes}">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	
+	
+	<target name="copy.related.jar">
+		<copy todir="${dir.queryio}/WEB-INF/lib">
+			<fileset dir="${dir.source}/lib/QueryIOJars">
+				<include name="**/*.jar" />
+				<exclude name="**/servlet-api.jar" />
+				<exclude name="**/jsp-api.jar" />
+				<exclude name="**/commons-configuration-1.6.jar" />
+				<exclude name="**/commons-dbcp-1.2.2.jar" />
+				<exclude name="**/commons-logging-1.1.1.jar" />
+				<exclude name="**/commons-net-3.1.jar" />
+				<exclude name="**/guava-11.0.2.jar" />
+				<exclude name="**/jregex-1.2_01.jar" />
+				<exclude name="**/commons-pool-1.4.jar" />
+				<exclude name="**/jsch-0.1.53.jar" />
+				<exclude name="**/protobuf-java-2.4.0a.jar" />
+				<exclude name="**/slf4j-api-1.6.1.jar" />
+				<exclude name="**/hsqldb-2.2.8.jar" />
+				<exclude name="**/tika-app-1.3-modified.jar" />
+				<exclude name="**/tika-app-1.2-modified.jar" />
+				<exclude name="**/hadop-yarn-api-2.0.2-aplha.jar" />
+				<exclude name="**/hadop-yarn-api-2.1.0-beta.jar" />
+				<exclude name="**/hadop-yarn-common-2.0.2-aplha.jar" />
+				<exclude name="**/hadop-yarn-common-2.1.0-beta.jar" />
+			</fileset>
+			<fileset dir="${dir.source}/lib/birt4.2.2">
+				<include name="**/*.jar" />
+				<exclude name="commons-cli-1.0.jar" />
+			</fileset>
+			<fileset dir="${dir.source}/lib/os3server">
+				<include name="httpclient-4.2.1.jar" />
+				<include name="httpcore-4.2.1.jar" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="copy.jar">
+		<antcall target="copy.related.jar" />
+	</target>
+	
+	<target name="create.jar">
+		<antcall target="create.queryio.jar" />
+		<antcall target="copy.jar" />
+	</target>
+	
+	
+	<target name="create.classes">
+		<mkdir dir="${dir.queryio}/WEB-INF/classes" />
+	</target>
+	
+	<target name="copy.resources" depends="create.classes">
+		<copy todir="${dir.queryio}/WEB-INF/classes">
+			<fileset dir="${dir.source}/QueryIO/src/resource">
+					<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="main" >
+			<antcall target="compile-all" />
+	</target>
+  
+</project>
