@@ -1,0 +1,160 @@
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<link rel="stylesheet" href="styles/ui.jqgrid.css" type="text/css" />
+<link rel="stylesheet" href="styles/nd.css" type="text/css" />
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />-->
+<link rel="stylesheet" href="styles/db_Config.css" type="text/css" />
+
+<script type="text/javascript" src="scripts/jquery.dataTables.js"></script>
+<script src="scripts/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="scripts/jquery.jqGrid.min.js" type="text/javascript"></script>
+<script src="scripts/jquery.alerts.js" type="text/javascript"></script>
+<script type="text/javascript" src="scripts/popup.js"></script>
+<script type="text/javascript" src="scripts/db_config.js"></script>
+
+<form id="db_connection">
+<input type="hidden" name="operation">
+<input type="hidden" name="connectionName">
+
+<div id = "mainDC" class = "viewDiv">
+	<div id="db_detail" style="float: left; width: 20%; height: 99%;  min-height: 500px; margin: 0px 5px; min-width: 348px;">
+		<div id = "leftOverlayDC">
+			<img id="ShowDC" src="images/Right.png" style="float: right; display: none; height: 15px; margin: 3px;">
+			<div id="dbConfig" style = "margin: 3px;">
+				<div id="dbHeader" class="databaseConfigHeader" style="text-align: left;">
+					<span id="connection_header">Databases</span>
+					<img id="HideDC" src="images/Left.png" style="float: right; height: 15px;">
+					<select id = "actionDC" style = "float: right; font-size: xx-small; height: 19px; width: 80px;" onchange="javascript:DB_Config.selectTask();">
+						<option>--Action--</option>
+						<option>Add</option>
+						<option>Delete</option>
+						<option>Migrate</option>
+						<option>Export Schema</option>
+						<option>Configure Namespace</option>
+					</select>
+				</div>
+				<div id ="table_container" style="height: 620px;">
+					<table id="dbTable"></table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id = "rightDC" style="width: auto; height: auto; overflow: hidden; margin: 5px;">
+
+	<div id="rightOverlayDCST" style = "height: auto;">
+		<div id = "rightPanelDCST" style = "margin: 3px; height: 391px;">
+			<div class="databaseConfigHeader" style="text-align: left;">
+				<span style="" id="schema_header">Database Schema</span>
+			</div>
+			<div id="bigQueryTablesDiv" style="background: white; border: 1px solid #9B9B9B;">
+			</div>
+		</div>
+	</div>
+
+	<div id = "rightOverlayDC" style = "height: auto; margin-top: 5px;">
+		<div id = "rightPanelDC" style = "margin: 3px;">
+			<div class="databaseConfigHeader" style="text-align: left;">
+				<span style="" id="detail_header">Database Configuration</span>
+				<span style="margin-right: 10px;float: right;display: none;" id="nameSpace_header"></span>
+			</div>
+			<div id="buttonDiv" class="buttons">
+					<button class="button" type="button" id="updateButton" name="Update" onclick="javascript:DB_Config.SaveUpdateDB();"><span id="SaveUpdate">Update</span></button>
+					<button class="button" type="button" name="Activate" onclick="javascript:DB_Config.activateDB();" style="display: none;">Activate</button>
+			</div>
+			<div id = "divDBDetails">
+			<table class="dataTable" style="width: 100%">
+				<tbody>
+					<tr>
+						<td>
+							JDBC Connection URL:*
+						</td>
+						<td>
+							<input type="text" id="dbUrl" name="url" style="width: 75%;">
+							<input type="hidden" id="isPrimary" name="isPrimary" value="">
+							<input type="hidden" id="type" name="type" value="">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							UserName:*
+						</td>
+						<td>
+							<input type="text" id="dbUserName" name="username" style="width: 75%;">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Password:*
+						</td>
+						<td>
+							<input type="password" id="dbPassword" name="passwd" style="width: 75%;">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							JDBC Driver Name:*
+						</td>
+						<td>
+							<input type="text" id="dbDriver" name="driver" style="width: 75%;">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							JDBC Driver Jar:*
+						</td>
+						<td>
+							<input type="file" id="driverJar" name="driverJar" onchange="javascript:DB_Config.updatedJar(this.id, this.value);" style="width: 75%;">
+							<input type="text" id="jarFileText" name="jarFileText" readonly="readonly" value="" style="width: 75%; display: none;">
+							<input type="button" class="button" id="chooseFile" value="Change" onclick="javascript:DB_Config.showChooseFile();" style="width: 110px; float: right; margin: 0px;"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Maximum Connections:*
+						</td>
+						<td>
+							<input type="text" name="maxConnections" id ="maxConnections" style="width: 75%" value = "20">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Maximum Idle Connections:*
+						</td>
+						<td>
+							<input type="text" id="maxIdleConnections" name="maxIdleConnections" style="width: 75%" value = "10">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Wait Time MilliSeconds:*
+						</td>
+						<td>
+							<input type="text" name="waitTimeMilliSeconds" id="waitTimeMilliSeconds" style="width: 75%" value = "300000">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+	</div>
+</div>
+
+</form>
+
+<script type="text/javascript">
+
+DB_Config.ready();
+
+function fillPopUp(flag)
+{
+	DB_Config.fillPopUpBox();
+}
+
+
+function closePopUpBox()
+{
+	DB_Config.closeBox(true);
+}
+
+</script>

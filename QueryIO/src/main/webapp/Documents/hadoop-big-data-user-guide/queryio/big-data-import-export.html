@@ -1,0 +1,312 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Import/Export Data</title>
+</head>
+<body>
+<h1><span>Import/Export Data</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains how to transfer Big Data between QueryIO server and other data sources. </p>
+<ul>
+	<li><a href="#intro">What is Data Migration</a></li>
+	<li><a href="#details">Data Migration Details</a></li>
+	<li><a href="#import">Data Import</a></li>
+	<li><a href="#export">Data Export</a></li>
+	<li><a href="#op">Restart/Stop/Delete Operation</a></li>
+</ul>
+
+<h2 id="intro"><span>What is Data Migration</span></h2>
+<p>Data migration is the process of transferring Big Data between storage types, formats, or computer systems. 
+Data migration is usually performed programmatically to achieve an automated migration, freeing up human resources from tedious tasks.
+To achieve an effective data migration procedure, data on the old system is mapped to the new system providing a design for data extraction and data loading. </p>
+<p>QueryIO provides data migration services from and to different data stores. It provides two services:</p>
+<ul>
+	<li><b>Data Import:</b> Data from other servers or cloud stores or from local systems can be imported to QueryIO.</li>
+	<li><b>Data Export:</b> Data from QueryIO can be exported to other servers or cloud stores.</li>
+</ul>
+<p>Currently QueryIO supports Amazon S3 cloud server, File Transfer Protocol(FTP), HDFS, POP/IMAP, HTTP/HTTPS, SSH, SFTP, Database and also supports import from local system.</p>
+<img alt="data-migration" src="images/screenshots/data-migration.jpeg">
+
+<h2 id="details"><span>Data Migration Details</span></h2>
+<p>All import and export operations added are displayed in a tabular form. Various attributes of table are:</p>
+<ul>
+	<li>Check Box to select the operation.</li>
+	<li><b>NameNodeID: </b>Unique identifier of the NameNode on which migration operation was performed.</li>
+	<li><b>Title:</b> Type of operation and name of the file.</li>
+	<li><b>Data Store:</b> Data Store type and an icon which indicates operation is import or export and red or green colored according to the status of migration process.</li>
+	<li><b>Source Path:</b> Path from where data is fetched.</li>
+	<li><b>Destination Path:</b>Path where data will be saved.</li>
+	<li><b>Start Time:</b> Time when the migration was started.</li>
+	<li><b>End Time:</b> Time when the migration operation was completed.</li>
+	<li><b>Status:</b> Current state of the import/export operation.</li>
+	<li><b>Progress:</b> A progress bar which shows the percentage of operation completed.</li> 
+</ul>
+
+
+<h2 id=import><span>Data Import</span></h2>
+<p>To use data produced by system. The ability to import data is very important in software applications because it means that one application can complement another.</p>
+<p>Currently QueryIO supports following data stores from which data can be imported:</p>
+<ul>
+	<li><a href="#local">Local system</a></li>
+	<li><a href="#amazon">From Amazon S3 Cloud Store</a></li>
+	<li><a href="#ftp">Using FTP</a></li>
+	<li><a href="#hdfs">HDFS (Hadoop Distributed File System)</a></li>
+	<li><a href="#email">Emails : POP/IMAP</a></li>
+	<li><a href="#http">Using HTTP/HTTPS</a></li>
+	<li><a href="#ssh">SSH</a></li>
+	<li><a href="#sftp">SFTP</a></li>
+	<li><a href="#database">Database</a></li>
+</ul> 
+<p>To import a data from other source, click on <b>Import</b> button on Data Migration page.</p>
+<ul>
+	<li><b>Title: </b>Enter the title name for migration operation.</li>
+	<li><b>Destination NameNode: </b>Select the NameNode(from drop down list) on which import operation will be performed.</li>
+	<li><b>HDFS Destination Path:</b> Path where imported data should be saved. Default path is "/".</li>
+	<li><b>Data Compression: </b>Select compression algorithm to be applied on imported data.</li>
+	<li><b>Data Encryption: </b>Select the encryption algorithm to be used on imported data.</li>
+	<li><b>Data Store: </b>Select from various available data stores.</li>
+	<li><b>Data Connection: </b> Select a predefined data connection.</li> 
+	<li><b>Unzip file after upload:</b> Select the check box to extract zip file contents during import.</li>
+</ul>
+
+<h2 id="store"><span>Data Stores</span></h2>
+<ul>
+	<li id="local"><b>Local</b>
+		<ul>
+			<li>click <b>Next</b> to select and upload files.</li>
+			<img alt="data-migration-ftp" src="images/screenshots/data-migration-import-local1.jpeg" ></br>
+			<li>In next window, click on <b>Add files...</b> to browse and select file to be uploaded. Users can add multiple files. </li>
+			<li>Click on <b>Cancel</b> to remove the selected file dialog.</li>
+			<li>Click on <b>Upload</b> to upload selected file to QueryIO.</li>
+			<li>Click on <b>Upload All</b> to upload all selected files to QueryIO. Upload process will be asynchronous.</li>
+			<li>Click on <b>Cancel All</b> to cancel all the uploads taking place.</li>
+			<img alt="data-migration-ftp" src="images/screenshots/data-migration-import-local2.jpeg" ><br><br>
+		</ul>
+	</li>
+	<br/>
+	<li id="amazon"><b>Amazon</b>
+		<ul>
+			<li><b>Access Key:</b> Provide access key to connect to amazon S3 cloud store.</li>
+			<li><b>Secret Access Key:</b> Enter secret access key. </li>
+			<li><b>Bucket Name:</b> Enter bucket name from which data will be imported.</li>
+			<li><b>Inner Key:</b> Enter inner key.</li>
+			<li><b>Use SSL:</b> Select check box if you require a secure connection. By default it is checked.</li>
+			<li><b>Unzip file after upload:</b> Select the check box to extract zip file contents during import.</li>
+			<li>Click on <b>Import</b> to import data from data store.</li><br/>
+			<img alt="data-migration-amazon" src="images/screenshots/data-migration-import-amazon.jpeg" >
+			
+		</ul>
+	</li>
+	</br>
+	<li id="ftp"><b>FTP</b>:
+		<ul>
+			<li><b>FTP Host:</b> Name or IP of host to connect through FTP.</li>
+			<li><b>FTP Port:</b> Port on which host's FTP service is running.</li>
+			<li><b>Username:</b> Username of the host machine to login.</li>
+			<li><b>Password:</b> Password for the account provided above.</li>
+			<li><b>FTP Source Path:</b> Path from where data will be imported.</li>
+			<li><b>Unzip file after upload:</b> Select the check box to extract zip file contents during import.</li>
+			<li>Click on <b>Import</b> to import data from data store.</li></br>
+			<img alt="data-migration-ftp" src="images/screenshots/data-migration-import-ftp.jpeg" >
+		</ul>
+	</li>
+	<br/>
+	<li id="hdfs"><b>HDFS</b>:
+		<ul>
+			<li><b>Host:</b> HDFS host name.</li>
+			<li><b>Port:</b> Port on which HDFS host service is running.</li>
+			<li><b>Root Path Prefix:</b> Path to the data to be imported.</li>
+			<li>Click on <b>Import</b> to import data from another HDFS.</li></br>
+			<img alt="data-migration-hdfs" src="images/screenshots/data-migration-import-hdfs.jpeg" >
+		</ul>
+	</li>
+	<br/>
+	<li id="email"><b>POP/IMAP</b>:
+		<ul>
+			<li><b>Data Connection:</b> Select predefined POP/IMAP settings or click on "ADD" to create new connection.</li>
+			<li><b>Folder:</b> Folder from which email will be fetched.(Example: Inbox, Sent, Draft etc)</li>
+			<li><b>Prefix:</b> Name to be altered before email file name.</li>
+			<li><b>Suffix:</b> Name to be appended at end of email file name.(Example: Prefix_1_Suffix.eml)</li>
+			<li><b>Start Date:</b> Date interval between which mails will be retrieved. </li>
+			<li><b>Start Date:</b> End Date interval between which mail wills be retrieved. </li>
+			<li>Click on <b>Import</b> to import data using POP/IMAP.</li></br>
+			<img alt="data-migration-email" src="images/screenshots/data-migration-import-pop.jpeg" >
+		</ul>
+	</li>
+	<br/>
+
+	<li id="http"><b>Using HTTP/HTTPS</b>:
+		<ul>
+			<li><b>Base URL:</b> URL from which data will be imported.</li>
+			<li><b>User Name:</b> User name if authentication is required to access files using HTTP/HTTPS.</li>
+			<li><b>Password:</b> Password of the user name provided.</li>
+			<li><b>File:</b> File to be imported.</li>
+			<li><b>Character Encoding:</b> Supported character encoding of the file. </li>
+			<li>Click on <b>Import</b> to import data using HTTP/HTTPS.</li></br>
+			<img alt="data-migration-http" src="images/screenshots/data-migration-import-http.jpeg" >
+		</ul>
+	</li>
+	<br/>
+	<li id="ssh"><b>Using SSH</b>:
+		<ul>
+			<li><b>Host:</b> HostName / IP of the machine from which data will be imported.</li>
+			<li><b>Port:</b> Port on which SSH service is working on host machine.</li>
+			<li><b>User Name:</b> User name for authentication.</li>
+			<li><b>Authentication Method:</b> Select from "Password" or "SSH Key"</li>
+			<li><b>Password / SSH Key:</b> Password / SSH of the user name provided.</li>
+			<li><b>SSH Source Path:</b> Comma separated list of files will be imported.</li>
+			<li><b>Unzip file after upload:</b> Select the check box to extract zip file contents during import.</li>
+			<li>Click on <b>Import</b> to import data using SSH.</li></br>
+			<img alt="data-migration-ssh" src="images/screenshots/data-migration-import-ssh.jpeg" >
+		</ul>
+	</li>
+	<br/>
+	<li id="sftp"><b>Using SFTP</b>:
+		<ul>
+			<li><b>SFTP Host:</b> Name or IP of host to connect through SFTP.</li>
+			<li><b>SFTP Port:</b> Port on which host's SFTP service is running.</li>
+			<li><b>Username:</b> Username of the host machine to login.</li>
+			<li><b>Password:</b> Password for the account provided above.</li>
+			<li><b>SFTP Source Path:</b> Path from where data will be imported.</li>
+			<li><b>Unzip file after upload:</b> Select the check box to extract zip file contents during import.</li>
+			<li>Click on <b>Import</b> to import data using SFTP.</li></br>
+			<img alt="data-migration-ftp" src="images/screenshots/data-migration-import-sftp.jpeg" >
+		</ul>
+	</li>
+	<br>
+	<li id="database"><b>Database</b>:
+		<ul>
+			<li><b>Data Connection:</b> Select predefined database settings or click on "ADD" to create new connection.</li>
+			<li><b>Database Driver Class:</b> Driver class for the database.</li>
+			<li><b>Database Connection URL:</b> Connection URL required to connect to the database.</li>
+			<li><b>Username:</b> User name for authentication.</li>
+			<li><b>Password:</b> Password of the username provided.</li>
+			<li><b>Import all tables from database:</b> Checkbox to include all tables or only selected tables.</li>
+			<li><b>Select Tables:</b> Tables selected for Data Import.</li>
+			<li>Click on <b>Import</b> to import data from database.</li><br>
+			<img alt="data-migration-database" src="images/screenshots/data-migration-import-database.jpeg" >
+		</ul>
+	</li>
+</ul>
+
+
+
+
+<h2 id="export"><span>Data Export</span></h2>
+<p>To transfer data from our system to other data store and enabling the two stores to share the same data.</p>
+<p>Currently QueryIO supports following data stores to which data can be exported:</p>
+<ul>
+	<li>To Amazon S3 cloud store</li>
+	<li>Using FTP</li>
+	<li>HDFS</li>
+	<li>HTTP / HTTPS</li>
+	<li>SSH</li>
+	<li>SFTP</li>
+	<li>Database</li>
+</ul> 
+<p>To export a data to other source, click on <b>Export</b> button on Data Migration page.</p>
+<ul>
+	<li><b>Title: </b>Enter the title name for migration operation.</li>
+	<li><b>Source NameNode: </b>Select NameNode(from drop down list) from which data will be exported.</li>
+	<li><b>HDFS Source Path:</b> Path from where data will be exported. Default path is "/".</li>
+	<li><b>Data Store: </b>Select from various available data stores.		</li>
+	<br/>
+	<li>If <b>Amazon</b> is selected:
+		<ul>
+			<li><b>Access Key:</b> Provide access key to connect to amazon S3 cloud store.</li>
+			<li><b>Secret Access Key:</b> Enter secret access. </li>
+			<li><b>Bucket Name:</b> Enter bucket name to which data will be exported.</li>
+			<li><b>Inner Key:</b> Enter inner key.</li>
+			<li><b>Use SSL:</b> Select check box if you require a secure connection.</li>
+			<li>Click on <b>Export</b> to transfer data to data store.</li>
+			
+		</ul>
+	</li>
+	<br/>
+	<li>If <b>FTP</b> is selected:
+		<ul>
+			<li><b>FTP Host:</b> Name or IP of host to connect through FTP.</li>
+			<li><b>FTP Port:</b> Port on which host's FTP service is running.</li>
+			<li><b>Username:</b> Username of the host machine to login.</li>
+			<li><b>Password:</b> Password for the account provided above.</li>
+			<li><b>FTP Destination Path:</b> Path where data will be stored at host machine.</li>			
+			<li>Click on <b>Export</b> to transfer data to data store.</li>
+		</ul>
+	</li>
+	<br/>
+	<li>If <b>HDFS</b> is selected:
+		<ul>
+			<li><b>Host:</b> HDFS host name.</li>
+			<li><b>Port:</b> Port on which HDFS host service is running.</li>
+			<li><b>User Name:</b> HDFS username.</li>
+			<li><b>Group:</b> HDFS group.</li>
+			<li><b>Root Path Prefix:</b> Path to the data to be exported.</li>
+			<li>Click on <b>Export</b> to transfer data to data store.</li>
+		</ul>
+	</li>
+	<br/>
+	<li>If <b>HTTP / HTTPS</b> is selected:
+		<ul>
+			<li><b>Base URL:</b> URL to which data will be exported.</li>
+			<li><b>User Name:</b> User name if authentication is required to access files using HTTP/HTTPS.</li>
+			<li><b>Password:</b> Password of the user name provided.</li>
+			<li><b>File:</b> File to be exported.</li>
+			<li><b>Character Encoding:</b> Supported character encoding of the file. </li>
+		</ul>
+	</li>
+	<br/>
+	<li>If <b>SSH</b> is selected:
+		<ul>
+			<li><b>Host:</b> HostName / IP of the machine from which data will be imported.</li>
+			<li><b>Port:</b> Port on which SSH service is working on host machine.</li>
+			<li><b>User Name:</b> User name for authentication.</li>
+			<li><b>Authentication Method:</b> Select from "Password" or "SSH Key"</li>
+			<li><b>Password / SSH Key:</b> Password / SSH of the user name provided.</li>
+			<li><b>SSH Destination Path:</b> Location where data will be saved on host machine.</li>
+			<li><b>Unzip file after upload:</b> Select the check box to extract zip file contents during import.</li>
+		</ul>
+	</li>
+	<br/>
+	<li>If <b>SFTP</b> is selected:
+		<ul>
+			<li><b>SFTP Host:</b> Name or IP of host to connect through SFTP.</li>
+			<li><b>SFTP Port:</b> Port on which host's SFTP service is running.</li>
+			<li><b>Username:</b> Username of the host machine to login.</li>
+			<li><b>Password:</b> Password for the account provided above.</li>
+			<li><b>SFTP Destination Path:</b> Path where data will be stored at host machine.</li>			
+			<li>Click on <b>Export</b> to transfer data to data store.</li>
+		</ul>
+	</li>
+	<br/>
+	<li>If <b>Database</b> is selected:
+		<br>
+		It asks user to define Database schema for the database.
+		<ul>
+			<li><b>Has Header Row:</b> Whether file which is to be uploaded contains header row or not.</li>
+			<li><b>Delimiter:</b> Character on which file parsing takes place.</li>
+			<li><b>Value Separator:</b> Delimiter used in file to separate values.</li>
+			<li><b>Sample File:</b> Select a sample file to auto detect schema.</li>
+			<li><b>Records to Analyze:</b> Number of records which should be analyzed to detect Data types for each column.</li>
+			<li>Click on <b>Export</b> to transfer data to data store.</li>
+		</ul>
+	</li>
+</ul>
+
+<h2 id="op"><span>Restart/Stop/Delete Operation</span></h2>
+<p>Select the check box against the import/export operation and click on <b>Stop</b> button to perform respective operations. You can stop an import/export operation any time.
+You can also restart operation using <b>Restart</b> button.</p>
+<p>If you want to clear an entry from the table, select the check box and click <b>Clear Data</b> button.</p>
+<p>You can change the number of entries viewed at a time from 10 to 100.</br>
+You can navigate through migration operation details using page numbers at the bottom of the details table.</p> 
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

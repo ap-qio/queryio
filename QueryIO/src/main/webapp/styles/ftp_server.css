@@ -1,0 +1,32 @@
+
+
+/* Add dash board specific style sheets in here*/
+
+#ftp_server .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+#ftp_server_table {
+	margin-left: 10px;
+	margin-top: 10px;
+	border: solid 1px #ccc;
+	float: left;
+	width: 99%;
+	
+}
+
+#ftp_server_table_div table thead th,
+#rftp_server_table_div table tbody tr td
+{
+	
+}
+	
+.centerDiv{
+	
+}
+.statusImage{
+	height: 10px;
+	  vertical-align: middle;
+}

@@ -1,0 +1,9 @@
+version=$version$
+hadoop=$hadoop$
+installLoc=$USER_INSTALL_DIR$
+clusterHosts=
+NameNode=
+DataNode=
+ResourceManager=
+NodeManager=
+isUpgrade=$isUpgrade$

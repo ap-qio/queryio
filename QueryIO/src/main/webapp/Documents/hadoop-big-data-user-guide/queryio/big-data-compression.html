@@ -1,0 +1,56 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Big Data Compression</title>
+</head>
+
+<body>
+<h1><span>Big Data Compression</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>QueryIO supports Big Data compression on the server side. If compression is enabled, then whatever Big Data you write to the server is first compressed
+and then saved on the cluster. When you fetch the data, the data is first decompressed and then returned to you.</p>
+
+<p>Compression is useful because it helps reduce resource usage, such as data storage space transmission capacity.</p>
+
+<p>QueryIO supports various algorithms for compression.</p>
+<p>Compression algorithms supported by QueryIO are:</p>
+<ul>
+	<li><a href="#snappy">Snappy</a></li>
+	<li><a href="#gzip">gzip</a></li>
+	<li><a href="#lz">LZ4</a></li>
+</ul> 
+
+<p>You can select compression type while <a href="big-data-import-export.html#import">data import</a>.</p>
+<p>See <a href="../../hadoop-big-data-developer-guide/queryio/Rest/PUT-Object.html">REST API server documentation [Put Object Action]</a> to see how you can enable compression for files.</p>
+
+<h2 id="snappy"><span>Snappy</span></h2>
+<p>Snappy is a lossless data compression algorithms. It aims for very high speed and reasonable compression.</p>
+<p>Snappy encoding is byte-oriented (only whole bytes are emitted or consumed from a stream).</p> 
+
+<p><i>org.xerial.snappy.SnappyInputStream</i> and <i>org.xerial.snappy.SnappyOutputStream</i> are imported for compression and decompression of streams. 
+SnappyInputStream compresses the target input stream and returns a compressed input stream.
+SnappyOutputStream compresses the target output stream and returns a compressed output stream.</br>
+ <a href="../../hadoop-big-data-developer-guide/queryio/Rest/PUT-Object.html" >Click here</a> to see how to use SNAPPY compression with S3 compatible REST API.</p>
+
+<h2 id="gzip"><span>gzip</span></h2>
+<p>GZIP is a lossless data compression algorithms. gzip produces files with a .gz extension. gunzip can decompress files created by gzip, compress or pack. The detection of the input format is automatic. </p>
+<p>gzip compression works by finding similar strings within a text file, and replacing those strings temporarily to make the overall file size smaller. 
+This form of compression is particularly well-suited for the web because HTML and CSS files usually contain plenty of repeated strings, such as whitespace, tags, and style definitions.</p>
+<p><a href="../../hadoop-big-data-developer-guide/queryio/Rest/PUT-Object.html" >Click here</a> to see how to use gzip compression with S3 compatible REST API.</p></p>
+
+<h2 id="lz"><span>LZ4</span></h2>
+<p>LZ4 is a very fast lossless compression algorithm.  It allows for an easy code, and fast execution. It provides better compression ratio for text files and reaches impressive decompression speed.</p>
+
+
+<p><a href="../../hadoop-big-data-developer-guide/queryio/Rest/PUT-Object.html" >Click here</a> to see how to use LZ4 compression with S3 compatible REST API.</p></p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

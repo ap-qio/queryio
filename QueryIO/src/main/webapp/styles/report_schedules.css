@@ -1,0 +1,24 @@
+#report_schedules .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+#schedules_table_div {
+/* 	margin-left: 10px;
+	margin-top: 10px;
+ */	border: solid 1px #ccc;
+	float: left;
+	width: 75%;
+}
+
+#schedules_table_div table thead th,
+#schedules_table_div table tbody tr td
+{
+	font-size: 9pt;
+}
+
+#systemReportHead:hover, #bigQueryHead:hover, #mapReduceHead:hover, #scheduleStatusHead:hover
+{
+	background: white;
+} 

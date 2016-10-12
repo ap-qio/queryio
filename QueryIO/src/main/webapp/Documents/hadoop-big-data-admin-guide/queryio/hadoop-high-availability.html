@@ -1,0 +1,204 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop High Availability</title>
+</head>
+
+<body>
+
+<h1><span>Hadoop High Availability</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains High Availability feature supported by QueryIO. Various aspects of high availability explained are:</p>
+<ul>
+	<li><a href="#intro">Description</a></li>
+	<li><a href="#qjm">HA feature with QJM (Quorum Journal Manager)</a></li>
+	<li><a href="#nfs">HA feature with NFS Mount</a></li>	
+	
+</ul>
+
+
+<h2 id="intro"><span>Description</span></h2>
+<p>High Availability(HA) feature of QueryIO will make sure that QueryIO agent service on host is always available. 
+To make it possible, in every two minutes(configurable), host checks itself whether the QueryIO agent process is up or not and if it is down, then host will start QueryIO agent process on itself. 
+This is made possible through crontab, which is a time-based job scheduler in Unix-like computer operating systems.</p>
+
+<p>HDFS has always had a well-known single point of failure which impacts HDFS' availability: The system relies on a single NameNode to coordinate access to the file system data and if NameNode is down, then the whole cluster is unavailable. 
+Hadoop introduced its own High Availability feature to ease this problem.
+The HA-Enabled cluster comprises of two redundant NameNodes, one is in Active state and the other is in StandBy state. 
+These two nodes access a shared directory(example: NFS Mounted disk) to synchronize their FileSystem Image through Audit Logs. 
+Now the single point of failure is reduced to availability of this shared directory. 
+This feature provides a hot-standby between these two nodes and in case of failure, manual failover can be performed through QueryIO UI to switch states between these nodes.
+</p>
+
+<p>NameNode federation does not support HA feature. There must be single active NameNode in the cluster for HA feature to work.</p> 
+
+
+<h2 id="nfs"><span>HA feature with QJM (Quorum Journal Manager)</span></h2>
+<p>For HA feature to use QJM, <a href="hadoop-name-nodes.html#standby">Add Standby NameNode</a> with QJM configured.<br>  
+	For High availability, Standby NameNode needs to be synchronized with active NameNode, so both NameNodes communicate with each other through <b>Journal Node</b>.
+	 When any namespace modification is performed by the Active node, it durably logs a record of the modification to a majority of these JNs. 
+	 Standby NameNode constantly monitors edit logs at journal nodes and updates its namespace accordingly.<br>
+	 In the event of failover, standby NameNode will ensure that its namespace is completely updated according to edit logs before it is changes to Active state. 
+	 Thus namespace is fully synchronized before a failover. 
+	</p>
+	<p>Click on <a href="hadoop-name-nodes.html#failover">FailOver</a> to initiate HA feature.	</p>
+
+<h2 id="nfs"><span>HA feature with NFS Mount</span></h2>
+
+<h3><span>How to use <b>HA</b> Feature</span></h3>
+<p>For HA feature to use QJM, <a href="hadoop-name-nodes.html#standby">Add Standby NameNode</a> with NFS mount configured.<br></p>
+<p>Use following guidelines to configure <b>HA</b> feature:</p>
+<ul>
+	<li>Cluster should be HA-Enabled. 
+		<ul>
+			<li>By default, cluster is non-HA cluster.</li>
+			<li><a href="hadoop-name-nodes.html#standby">Add standby NameNode</a> to change cluster to enable HA. </li>
+			<li> After standby NameNode is successfully configured, <b>Type</b> of NameNodes will change to <b>Active</b> and <b>Standby</b> from <b>Non-HA</b>.</li>
+			<li>Make sure that NFS shared directory mount point for both Active and Standby NameNodes should be same.</li>
+		</ul> 
+	</li>
+	
+	<li>FailOver feature can only be used when cluster is HA-Enabled.</li> 
+	<li>Click on <a href="hadoop-name-nodes.html#failover">FailOver</a> to switch active NameNode to Standby mode and standby NameNode to active mode.	</li>
+	
+</ul>
+
+<h3><span>NFS Mount Steps</span></h3>
+<p>Both the NFS server and NFS client must have parts of the NFS package installed and running. NFS is installed by default, and also by default NFS is activated when the system boots. 
+If you want to install NFS package manually, use following command:  </p>
+<ul>
+	<li>yum install nfs-utils
+</ul>
+<h3>Configuring NFS on The Server</h3>
+<ul>
+	<li>The <b>/etc/exports</b> File: This is the main NFS configuration file, and it has got two columns:
+		<ul>
+			<li>The first column contains the directories which is made available to the network.</li>
+			<li>The second column is further divided into two parts. The first part contains the networks or DNS domains that can access the directory, and the second part contains NFS options in brackets.</li>
+		</ul>
+	</li>
+	<li>Add directory to be mounted in "/etc/exports" file. Suppose "/data" directory is to be mounted, then add this directory :</li>
+	<ul>
+		<li>
+	<pre>
+# vi /etc/exports
+/data *(rw,sync)
+	</pre>
+		</li>
+	</ul>
+	<li>Use the <b>chkconfig</b> command to configure the required nfs and RPC rpcbind daemons to start at boot. </li>
+	<ul>
+		<li>
+			<pre>
+# chkconfig --level 35 nfs on
+# chkconfig --level 35 nfslock on
+# chkconfig --level 35 rpcbind on			
+			</pre>
+		</li>
+	</ul>
+	<li>Three services of the NFS are required to be active on server: rpcbind, nfs, nfslock</br>
+		
+		Services can be started using start option. You can also stop and restart the processes with the stop and restart options.  For example: 
+			<ul><li>service rpcbind start</li> <li>service nfs start</li> <li>service nfslock start</li></ul> 
+	</li>
+	<li>Use <b>rpcinfo</b> command to test whether NFS is running correctly. You should get a listing of running RPC programs that must include mountd, portmapper, nfs, and nlockmgr.</li>
+	<ul>
+		<li>
+			<pre>
+# rpcinfo -p
+program vers proto   port  service
+    100000    4   tcp    111  portmapper
+    100000    3   tcp    111  portmapper
+    100024    1   udp  59471  status
+    100024    1   tcp  14485  status
+    100011    1   udp    875  rquotad
+    100005    1   udp  20780  mountd
+    100005    1   tcp  57275  mountd
+    100003    2   tcp   2049  nfs
+    100003    3   tcp   2049  nfs
+    100227    2   tcp   2049  nfs_acl
+    100227    3   tcp   2049  nfs_acl
+    100021    1   udp  54505  nlockmgr
+    100021    3   udp  54505  nlockmgr
+			</pre>
+		</li>
+	</ul>
+	
+</ul>
+
+<h3>Configuring NFS on The Client</h3>
+<ul>
+	<li><b>chkconfig</b> command is used to configure the required nfs and RPC rpcbind daemons to start at boot. </li>
+	<ul>
+		<li>
+			<pre>
+# chkconfig --level 35 netfs on
+# chkconfig --level 35 nfslock on
+# chkconfig --level 35 rpcbind on			
+			</pre>
+		</li>
+	</ul>
+	<li>Three services of the nfs are required to be active on client: rpcbind, netfs, nfslock</br>
+		
+		Services can be started using start command. You can also stop and restart the processes with the stop and restart options. For example: 
+			<ul><li># service rpcbind start</li> <li># service netfs start</li> <li># service nfslock start</li></ul> 
+	</li>
+	<li>Use <b>rpcinfo</b> command to test whether NFS is running correctly.  The listing of running RPC programs one gets must include status, portmapper, and nlockmgr.</li>
+	<ul>
+		<li>
+			<pre>
+# rpcinfo -p
+program vers proto   port  service
+    100000    4   tcp    111  portmapper
+    100000    3   tcp    111  portmapper
+    100024    1   udp  59471  status
+    100024    1   tcp  14485  status
+    100011    1   udp    875  rquotad
+    100005    1   udp  20780  mountd
+    100005    1   tcp  57275  mountd
+    100003    2   tcp   2049  nfs
+    100003    3   tcp   2049  nfs
+    100227    2   tcp   2049  nfs_acl
+    100227    3   tcp   2049  nfs_acl
+    100021    1   udp  54505  nlockmgr
+    100021    3   udp  54505  nlockmgr
+			</pre>
+		</li>
+	</ul>	
+</ul>
+
+<h3>Mounting the NFS Directory</h3>
+<p>
+<ul>  
+	<li>In case you want to mount "/data" directory as NFS-type filesystem on the /mnt/nfs mount point. NFS server is 192.168.0.1 . 
+	<li>To mount a NFS directory, use the following command:</br>
+		<ul>
+			<li><pre>
+# mkdir /mnt/nfs			
+# mount -t nfs &lt;NFSServer&gt;:&lt;directory&gt; &lt;mount point directory&gt;</pre></li>	
+			<ul>
+				<li>&lt;NFSServer&gt; : IP address of the nfs server. In our case , it is 192.168.0.1.</li>
+				<li>&lt;directory&gt;: Directory to be mounted as NFS-type filesystem. In our case, it is "/data"</li>
+				<li>&lt;mount point directory&gt; : Path to mount point directory. (/mnt/nfs).</li>
+			</ul>	
+		</ul>
+	</li>
+	<li>For example: <pre>mount -t nfs 192.168.0.1:/data /mnt/nfs</pre></li>
+	<li>You will notice that all the file in the "/data" directory at NFs server appears in the "/mnt/nfs" directory.</li>
+</ul>
+
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+</body>
+</html>

@@ -1,0 +1,432 @@
+<html>
+<head>
+	<title>Quick Start Guide</title>
+	<script src="../scripts/navbar.js"></script>
+	<script type="text/javascript" src="../scripts/jquery-1.7.2.min.js"></script>
+	<link rel="stylesheet" href="../styles/dashboard.css" type="text/css" />
+	<script src="../scripts/dashboard.js"></script>
+	
+	
+	<script src="../scripts/jquery-ui-1.8.20.custom.min.js"></script>
+		<link rel="stylesheet" href="../styles/jquery-ui-1.8.20.custom.css" type="text/css" />
+		<link rel="stylesheet" href="../styles/global.css" type="text/css" />
+		<link rel="stylesheet" href="../styles/nav_bar.css" type="text/css" />
+		<link rel="stylesheet" href="../styles/surround_box.css" type="text/css" />
+		<link rel="stylesheet" href="../styles/tree.css" type="text/css" />
+		<link rel="stylesheet" href="../styles/jquery.treeTable.css" type="text/css" />
+		<link rel="stylesheet" href="../styles/lightbox.css" type="text/css" />
+		<link rel="stylesheet" href="../styles/menu.css" type="text/css" />
+
+		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/jquery.dataTables.js"></script>
+		<script src="../scripts/jquery.alerts.js"></script>
+		<script src="../scripts/jquery.jqplot.js?version=1"></script>
+		<script src="../scripts/jqplot.pieRenderer.js?version=1"></script>
+		<script src="../scripts/jquery-ui-1.8.20.custom.min.js"></script>
+		<script src="../scripts/jquery.treeTable.js"></script>
+		<script src="../scripts/ddacordin.js"></script>
+		<script src="../scripts/navbar.js"></script>
+		<script src="../scripts/util.js"></script>
+		<script src="../scripts/dashboard.js"></script>
+		<script src="../scripts/host_config.js"></script>
+		
+		<script src="../scripts/jquery-ui-1.8.20.custom.min.js"></script>
+		<style>
+		  	td {overflow:hidden; word-wrap:break-word;text-align: left;}
+		  	body {
+			    overflow-y: hidden;
+			    overflow-x: hidden;
+			}
+		
+		</style>
+</head>
+<body id="body" style="padding: 0px;margin: 0px;">
+<div id="getting_started" class="lightbox" style="width: 800px;">
+<table id="table" class="outer">
+ <tbody>
+       	<tr>
+           	<td style="padding: 0pt;">
+           		<h4 style="font-weight: normal;"><span id ="headerspan">Getting Started</span></h4>
+           	</td>
+       	</tr>
+       	<tr>
+			<td style="padding-right: 0px;padding-top: 0px;padding-bottom: 0px;">
+				<table >
+					<tr>
+						<td style="border-right: 1px solid black; width: 15%; vertical-align: top">
+							<ul style="text-align:left; list-style-type: circle;">
+								
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(1)">Introduction</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(2)">Add Host</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(3)">Add NameNode</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(4)">Add DataNode</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(5)">Write data to the cluster</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(6)">File Browser</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(7)">Monitoring View</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(8)">MapReduce: Add ResourceManager</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(9)">MapReduce: Add NodeManager</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(10)">MapReduce: Submit MapReduce Jobs</a></li>
+								<br>
+								<li style="padding: 0px;"><a href="javascript:Navbar.changeView(11)">Haddop SQL Query</a></li>
+							</ul>
+						</td>
+						<td style="text-align:left; padding-right: 0px; padding-bottom: 0px">
+							
+							
+							<div id="page1"  style="overflow: auto; height: 500px;">
+								<h2><span>Welcome to QueryIO - A Big Data solution !</span></h2>
+								<p>Quick start guide will help you getting started with the product. It has step by step instructions on how you can quickly setup a Hadoop cluster, upload data to it, run query against your Big Data. It also explains on how you can setup MapReduce jobs to process data on cluster and then can use Hadoop SQL Query interface to query the processed data using Standard SQL interface. The sample Data.zip and job jars used in the demo are part of the installation and can be found at $INSTALL_HOME/demo folder. You can open the Quick Start Guide anytime using QuickStart link in the product UI. You can also access detailed product documentation using Help link in product UI.</p>
+							</div>	
+							
+							
+							<div id="page2"  style="overflow: auto; height: 500px; display:none;">
+								<h2><span>Add Hosts</span></h2>
+									
+								To add new host, go to ManageHosts page under Admin tab and click <b>Add</b> OR go to NameNode page, click on <b>Add</b>, select <b>Add New Host</b>.</p>
+								<ul class="quick">	
+									<p>&bull;    <b>HostName/IP:</b> IP address or name  of the host to be added.</p>
+									<p>&bull;    <b>UserName:</b> Username of the host.</p>
+									<p>&bull;    <b>Authentication Method:</b> Select authentication method from password or private key.</p>
+									<p>&bull;    <b>Password or Private Key</b>: Password or private key for account whose username was provided.</p>
+									<p>&bull;    <b>Installation Path:</b> Installation directory where QueryIO agent will be installed.</p>
+									<p>&bull;    <b>Rack Name: </b> Name of the rack in which host is present.</p>
+									<p>&bull;    <b>QueryIO Agent Port: </b>Agent port on which host will work.</p>
+									<p>&bull;    Click on <b>Add</b> button to add node. If node is reachable and all credentials are correct, then host will be added to cluster.</p> 				
+								</ul>
+							</div>	
+							
+							<div  id="page3" style="display:none;overflow: auto; height: 500px;">
+								<h2><span>Add NameNode</span></h2>
+								<p>After you have added host machines to the cluster, you can add new NameNodes.</p>
+										<p>The NameNode is the centerpiece of an HDFS file system. It keeps the directory tree of all files in the file system in form of metadata, and tracks where across the cluster, the file data is kept.</p>
+										<p>Click on <b>Add</b> button on NameNode page under HDFS menu tab:</p>
+								<div id="nn2">	
+										
+									<p>&bull;    <b>NameNode Type:</b>Select NameNode type as Active.</p>
+									<p>&bull;    <b>Hostname/IP:</b>Select Hostname/IP from the list of registered hosts.</p>
+									<p>&bull;    <b>Unique Identifier:</b> A unique name for the node.</p>
+									<p>&bull;    Configure the required ports for starting NameNode service on the host selected.</p>
+									<p>&bull;    <b>Disk: </b>Select from available disks at the selected host.</p>
+									<p>&bull;    <b>Directory Path: </b>Enter valid installation directory path for the node which will be local repository of node on that host.</p>
+									<p>&bull;    <b>Start node after installation: </b>Select check box, if you want to start the NameNode just after it is installed. You can start the node later also.</p>
+									<p>&bull;    Click on <b>Save</b> to add new node.</p>					
+								
+								</div>
+							</div>	
+							
+							<div  id="page4" style="display:none; overflow: auto; height: 500px;">
+								<h2><span>Add DataNode</span></h2>
+								<p>
+									After you've created Namenode and started the service, you can start creating DataNodes for this cluster. A DataNode stores data in the HDFS.
+										</br>On DataNode page, Click on "Add" to create new DataNodes.
+								</p>										
+								<div id="dn2">
+									
+									<p>&bull;    <b>Hostname/IP:</b> Select the host from the drop down list.</p>
+									<p>&bull;    <b>Unique Identifier:</b> A unique name for the node.</p>
+									<p>&bull;    <b>Server Port:</b> The port where the DataNode server will listen to.</p> 	
+									<p>&bull;    <b>HTTP Port:</b> The DataNode http port.</p>
+									<p>&bull;    <b>HTTPS Port:</b> The DataNode secure http port.</p>
+									<p>&bull;    <b>IPC Port:</b> Inter-process communications port. </p>
+									<p>&bull;    <b>JMX Port:</b> JMX monitoring port.</p>
+									<p>&bull;    <b>Disk:</b> Now select the disk in which data should be stored. All disks available at the host are displayed in a drop down list.</p>
+									<p>&bull;    <b>Volume Path:</b> Enter the volume path where data should be stored. This is local repository of DataNode on that host.</p>
+									<p>&bull;    <b>Start node after installation: </b>Select check box, if you want to start the DataNode just after it is installed. You can start the node later also.</p>
+									<p>&bull;    Click <b>Save</b> to complete the process.</p></br>
+								
+								</div>
+							</div>	
+								
+								<div  id="page5" style="display:none; overflow: auto; height: 500px;">
+									<h2 ><span>How to insert data in the cluster</span></h2>
+									<p>After you have configured the cluster for QueryIO, you can upload your data to the cluster. There are various ways through which data can be transfered to or from QueryIO cluster.<br>
+									</p>
+									<p>For demo, you will get a data.zip file with installer. You can find zip file in "demo" folder at QueryIO location.<br> Following are the steps to upload zip file :</p>
+									
+										<div id="dm1" >									
+											<p>	Click on <b>Import</b> button to transfer data to QueryIO Cluster.</p>
+											<p>&bull;   <b>Title: </b>Provide a name for migration operation.</p>
+											<p>&bull;   <b>Destination NameNode: </b>Select the NameNode(from drop down list) on which import operation will be performed.</p>
+											<p>&bull;   <b>HDFS Destination Path:</b> Path where imported data should be saved. Default path is "/".</p>
+											<p>&bull;   <b>Data Store: </b>Select data store as <b>Local</b></p>
+											<p>&bull;    Click <b>Next</b> to select and upload files.</p>
+											<p>&bull;    Click on <b>Choose File</b> to browse and select the data.zip file.</p>
+											<p>&bull;    Click on <b>Upload</b> to upload all select files to QueryIO. Upload process will asynchronous.</p>
+									<p>Demo.zip file consist of following types of files:<br>
+											&bull;    CSV files<br>
+											&bull;    Image files<br>
+											&bull;    PDF files<br>
+											&bull;    LOG files<br></p>
+									<p>You can check the uploaded files Data Browser under HDFS menut tab or Query Manager under Hadoop SQL menu tab.</p>
+										</div>
+									
+							</div>
+								
+								
+							<div id="page7"  style="overflow: auto; height: 500px; display:none;">
+										<h2><span>Monitoring View</span></h2>
+										<p>After you have configured cluster and uploaded data to the cluster, you can view summary of QueryIO cluster through <b>Dashboard</b> menu tab.</p>
+										<p>HDFS Overview displays storage summary and I/O summary. It also displays the NameNode summary and DataNode summary.</p>
+										<p>&bull;  <b>Storage Summary</b> displays total storage space, available and used storage space with a pie chart.</p>
+										<p>&bull;  <b>I/O Summary</b> displays details of input output operationsperformed on cluster with a pie chart.</p>
+										<p>&bull;  <b>NameNode Summary</b> provides all details about NameNode.</p>
+										<p>&bull;  <b>DataNode Summary</b> provides all details about DataNode.</p>									
+							</div>	
+								
+									
+							<div  id="page6" style="display:none; overflow: auto; height: 500px;">		
+									
+										<h1><span>File Browser</span></h1><br>
+										<h2  ><span>Data Browser</span></h2>							
+										<p>Go to DataBrowser page under HDFS menu tab.</p>
+										<p>Data Browser is a file explorer. It allows you to view all the directories and files stored in the QueryIO.</br>
+										You can view all the files being added to the cluster and allows you to download the file to the local system by click on the file name.</p>
+										<p>Contents of data.zip file can be viewed in data browser under <b>Data</b> folder.</p> 
+								
+										<h2 ><span>SQLQuery Builder</span></h2>							
+										<p>Go to QueryManager under SQLQuery menu tab.</p>
+										<p>It allows you to filter out files based on the content file types.
+										You can execute queries on the data stored on the cluster and filter out the contents.</p>
+										<p>You can view table names according content filetypes from uploaded data.zip file. Following tables will be available in the query builder : </p>
+											&bull;    TAGS_NAMENODE1_CSV<br>
+											&bull;    TAGS_NAMENODE1_IMAGE<br>
+											&bull;    TAGS_NAMENODE1_LOG<br>
+											&bull;    TAGS_NAMENODE1_PDF<br> 
+ 										<p>Use QueryBuilder UI to generate queries and save queries for future use.</p>
+										<h3><span>Sample Queries</span></h3>
+										<p> To view all the CSV files uploaded, query will be:<br></p>
+										 &bull;    SELECT *  FROM TAGS_NAMENODE1_CSV<br>
+										 &bull;    OUTPUT : 
+										 	<table width="99%" border=1 style="table-layout:fixed;">
+										 		<col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+										 		<tr>
+										 			<th style="font-size: 10px;" width="10px">FilePath</th>
+										 			<th style="font-size: 10px;">ACESSTIME</th>
+										 			<th style="font-size: 10px;">MODIFICATIONTIME</th>
+										 			<th style="font-size: 10px;">OWNER</th>
+										 			<th style="font-size: 10px;">USERGROUP</th>
+										 			<th style="font-size: 10px;">PERMISSION</th>
+										 			<th style="font-size: 10px;">BLOCKSIZE</th>
+										 			<th style="font-size: 10px;">REPLICATION</th>
+										 			<th style="font-size: 10px;">LENGTH</th>
+										 			<th style="font-size: 10px;">CONTENTTYPE</th>
+										 		</tr>
+										 		<tr>
+										 			<td>/Data/csv/MachineLogs_1350473405632.csv</td>
+										 			<td>1350476760438</td>
+										 			<td>1350476760896</td>
+										 			<td>admin</td>
+										 			<td>queryio</td>
+										 			<td>rw-r--r--</td>
+										 			<td>67108864</td>
+										 			<td>1</td>
+										 			<td>51015</td>
+										 			<td>application/octet-stream</td>
+										 		</tr>
+										 		<tr>
+										 			<td>/Data/csv/MachineLogs_1350473405703.csv</td>
+										 			<td>1350476761048</td>
+										 			<td>1350476761515</td>
+										 			<td>admin</td>
+										 			<td>queryio</td>
+										 			<td>rw-r--r--</td>
+										 			<td>67108864</td>
+										 			<td>1</td>
+										 			<td>51106</td>
+										 			<td>application/octet-stream</td>
+										 		</tr>
+										 	</table>
+										
+										<p> To view details of IMAGE files uploaded, query will be:<br></p>
+										 &bull;    SELECT ACCESSTIME, OWNER, CONTENT_TYPE  FROM TAGS_NAMENODE1_IMAGE WHERE OWNER = 'admin'  <br>
+										 &bull;    OUTPUT : 
+										 	<table border=1 style="table-layout:fixed;">
+										 		<col width="25%" />
+											    <col width="25%" />
+											    <col width="25%" />
+											    <col width="25%" />
+										 		<tr>
+										 			<th style="font-size: 10px;">FilePath</th>
+										 			<th style="font-size: 10px;">ACESSTIME</th>
+										 			<th style="font-size: 10px;">OWNER</th>										 			
+										 			<th style="font-size: 10px;">CONTENTTYPE</th>
+										 		</tr>
+										 		<tr>
+										 			<td> /Data/images/Img_1350469911625.png</td>
+										 			<td>1350492050411</td>
+										 			<td>admin</td>
+										 			<td>application/octet-stream</td>
+										 		</tr>
+										 		<tr>
+										 			<td>/Data/images/Img_1350469912968.png</td>
+										 			<td>1350492050684</td>
+										 			<td>admin</td>
+										 			<td>application/octet-stream</td>
+										 		</tr>
+										 	</table> 
+							</div>	
+								
+								
+								
+								<div  id="page8" style="display:none; overflow: auto; height: 500px;">
+									<h1><span>MapReduce</span></h1>
+									<p>Hadoop MapReduce is a YARN-based system for parallel processing of large data sets.</p><br>
+									<h2><span>Add ResourceManager</span></h2>
+										<p>A ResourceManager (RM) manages the global assignment of compute resources to applications.</p>
+										
+									<p>To add a new ResourceManager, click on <b>Add</b> button on ResourceManager page under MapReduce menu tab.</br>
+									Fill in the required details and click <b>Save</b> to add ResourceManage.</p>
+									
+										<p>&bull;    <b>Unique Identifier: </b>Unique ID of the ResourceManager. </p>
+										<p>&bull;    <b>HostName/IP: </b>Select host on which ResourceManager will be configured. </p>
+										<p>&bull;    <b>Configure Ports:</b> Enter all required ports.</p>
+										<p>&bull;    <b>Job History Ports: </b>Enter required job related ports.</p>
+										<p>&bull;    <b>Dir Path: </b>Installation path for the ResourceManager on selected host.</p>
+										<p>&bull;    <b>Start Resource Manager after installation: </b>Select check box to start ResourceManager after installation.</p>
+										<p>&bull;    Click <b>Save</b> to install resource manager.</p>
+								</div>	
+								
+								<div  id="page9" style="display:none; overflow: auto; height: 500px;">
+									<h2><span>Add NodeManager</span></h2>
+									<p>There is a per-machine NodeManager (NM) that manages the user processes on configured machine. The ResourceManager and the NodeManager form the computation fabric of the cluster.</p>
+										
+									<p>To add a new NodeManager , click on <b>Add</b> button on NodeManager page.</br>
+									Fill all the required details and click <b>Save</b> to add NodeManager.</p>
+									
+									<p>&bull;    <b>Unique Identifier: </b>Unique ID of the NodeManager.</p>
+									<p>&bull;    <b>HostName/IP: </b>Select host on which NodeManager will be configured.</p>
+									<p>&bull;    <b>ResourceManager: </b>Select ResourceManager.</p>
+									<p>&bull;    <b>Configure Ports: </b>Enter required ports.</p>
+									<p>&bull;    <b>Dir Path: </b>Installation path for the NodeManager on selected host.</p>
+									<p>&bull;    <b>Start Node Manager after installation: </b>Select check box to start NodeManager after installation.</p>
+									<p>&bull;    Click <b>Save</b> to install NodeManager.</p>		
+								</div>	
+								
+						
+								
+								<div  id="page10" style="display:none; overflow: auto; height: 500px;">
+										<h2><span>How to define MapReduce Job</span></h2>
+										<p>Hadoop MapReduce is a YARN-based system for parallel processing of large data sets. QueryIO provides facility to add your own  mapreduce application.</p>
+										
+										<p>You will find demo jobs for CSV parser and LOG parser in <b>demo</b> folder at QueryIO installation location .</p>
+										<p>&bull;    You can submit MapReduce jobs through <b>Job Browser</b> under MapReduce menu tab.</p>
+										<h3><span>Add CSV Job Parser</span></h3>					
+											<p>CSV Job Parser will parse your all csv files metadata and extract number of files according to conditions provided in job. You can view the parsed files in SQLQuery section once your job is completed.</p>							
+											<p>To add csv job parser, click on <b>Add</b> button and provide following details.</p>
+											<table border=1 style="table-layout:fixed; text-align:left;">
+												<col width="13%" />
+											    <col width="90%" />
+												<tr>
+													<td><b>Job Name</b></td>
+													<td >csvParser</td>
+												</tr>
+												<tr>
+													<td><b>Main Class</b></td>
+													<td>com.queryio.hadoop.yarn.csv.CSVParserJob</td>
+												</tr>
+												<tr>
+													<td><b>Arguments</b></td>
+													<td>[generic options] &lt;hdfs-uri&gt;     &lt;nameservice-id&gt;     &lt;input-folder&gt;     [&lt;column1=value1&gt;     &lt;column2=calue2&gt;     ... ]
+													 <br>For example: hdfs://192.168.0.10:9000 NameNode1 /</td>
+												</tr>
+												<tr>
+													<td><b>Jar File</b></td>
+													<td>Select CsvParser.jar file</td>
+												</tr>
+											</table>
+										
+										<h3><span>Start Job</span></h3>
+										<p>All job details regarding log parser and csv parser are displayed in Jobs table. Select the Job and click <b>Start</b> to execute Job.</p>
+										<p><b>Jobs Execution History</b> displays the job details. Job state will change from SUBMITTED -> RUNNING -> FINISHED. After job is completed,job state will change to FINISHED.</p>
+										<p>After job has finished execution, proceed to <b>Hadoop SQL Query</b>.
+										
+								</div>
+								
+								<div  id="page11" style="display:none; overflow: auto; height: 500px;">
+									<h2><span>Hadoop SQL Query</span></h2>
+									<p>After the job is complete, go to QueryBuilder tab under Hadoop SQL menu tab.</p>
+									<p>You will see new job tables in the query builder. Execute queries on tables to view the parsed files.</p>
+									<p>CSV job parser will add <b>TAGS_OUTPUT_CSV</b> table to the query builder.</p>
+									<h3><span>Sample Queries</span></h3>
+									<p>Use QueryBuilder UI to generate queries and save queries for future use.</p> 
+									 &bull;    SELECT ACCESSTIME, REPLICATION, CONTENT_TYPE  FROM TAGS_OUTPUT_CSV WHERE OWNER = 'admin'  <br>
+									 &bull;    OUTPUT : 
+									 <table width="98%" border=1 style="table-layout:fixed;">
+										 		<col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+											    <col width="10%" />
+										 		<tr>
+										 			<th style="font-size: 10px;">FilePath</th>
+										 			<th style="font-size: 10px;">ACESSTIME</th>
+										 			<th style="font-size: 10px;">REPLICATION</th>
+										 			<th style="font-size: 10px;">CONTENTTYPE</th>
+										 		</tr>
+										 		<tr>
+										 			<td>/Data/csv/MachineLogs_1350473405632.csv</td>
+										 			<td>1350476760438</td>
+										 			<td>1</td>
+										 			<td>application/octet-stream</td>
+										 		</tr>
+										 		<tr>
+										 			<td>/Data/csv/MachineLogs_1350473405703.csv</td>
+										 			<td>1350476761048</td>
+										 			<td>1</td>
+										 			<td>application/octet-stream</td>
+										 		</tr>
+										 	</table>
+								</div>	
+									
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-bottom: 3px; padding-top: 3px">
+							<hr style = "margin-bottom: 5px;">
+							<input id = "nextButton" type="button" value="Next" onClick="javascript:Navbar.nextView();" style = "float: right">
+							<input id = "prevButton" type="button" value="Previous" onClick="javascript:Navbar.previousView();" style = "float: right" disabled="disabled">
+							<input type="button" value="Close" onClick="javascript:Navbar.closeBox();" style="float: right">
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<script type="text/javascript">
+
+
+ var width= window.innerWidth;
+  var height=window.innerHeight;
+
+  $('#getting_started').css('width',width);
+  $('#getting_started').css('height',height-1);
+  window.onresize = function() {
+	  var width= window.innerWidth;
+	  var height=window.innerHeight;
+
+	  $('#getting_started').css('width',width);
+	  $('#getting_started').css('height',heigt-1);
+	 
+	};
+</script>
+</body>
+</html>

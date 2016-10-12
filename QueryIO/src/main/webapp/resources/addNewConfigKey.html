@@ -1,0 +1,194 @@
+<!-- <script src="scripts/jquery.alerts.js"></script>
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+
+-->
+
+
+
+
+<!-- script type="text/javascript" src="scripts/admin_users.js"></script-->
+
+
+<div id="add_user" class="lightbox">
+	<div id="close" class="close">
+		<a href="javascript:closeBox();"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<table id="add_user_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Add New Configuration Key</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div id="addNewKeyDiv" style="display: ">
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+									<div class="instructional" style="">Add New Configuration Key</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<hr>
+								</td>
+							</tr>
+							<tr id="error_msg_row">
+							</tr>
+							<tr>
+								<td>
+									<form id="addNewKey" method="post" action="javascript:void(0);" onsubmit="">
+										<table id = "addNewKeyTable" class="viewTable" style=" width: 100%">
+											<tbody>
+												
+												<tr id = "typeRow" style = "display: none;">
+													<td style="text-align: left;">Type</td>
+													<td style="text-align: left;">
+														<select id="type">
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td style="text-align: left;">Key</td>
+													<td style="text-align: left;">
+														<input type="text" id="configKey" >
+														
+													</td>
+												</tr>
+												<tr>
+													<td style="text-align: left;">Value</td>
+													<td style="text-align: left;">
+														<input type="text" id="configValue" >
+														
+													</td>
+												</tr>
+												<tr id = "descRow" style = "display: none;">
+													<td style="text-align: left;">Description</td>
+													<td style="text-align: left;">
+														<input type="text" id="configDesc" >
+														
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<hr>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2" style="text-align: right;"><input type="button" class="buttonAdmin"
+														id="saveKey" value="Save"
+														onclick="javascript:saveNewKey();" /> <input
+														type="button" class="buttonAdmin" id="cancel.user"
+														value="Cancel"
+														onclick="javascript:closeBox();" />
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</form>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="processingPopUp" style="display: none;">
+							<table align="center" width="100%" style="border-collapse: collapse; text-align: center;">
+							<tr>
+								<th><span id="popup.component">Host</span></th>
+								<th><span id="popup.message">Message</span></th>
+								<th><span id="popup.status">Status</span></th>
+								<th><span id="popup.image">	</span></th>
+							</tr>
+							<tr id="pop.pattern" style="display:none;">
+								<td><span id="popup.host"></span></td>
+								<td><span id="popup.message"></span><br><div id="log_div" style="display: none;"></div></td>
+								<td><span id="popup.status"></span></td>
+								<td>
+									<span id="popup.image.fail" style="display:none;"><img src="images/Fail_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+									<span id="popup.image.success" style="display:none;"><img  src="images/Success_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+									<span id="popup.image.processing"><img  src="images/process.gif" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+								</td>
+								
+							</tr>
+							<tr>
+							<td colspan="4">
+								<input type="button" disabled="true"  class="buttonAdmin" id="ok.popup" value="Ok" onclick="javascript:closeBox();">
+								<!-- <input type="button" disabled="true" class="buttonAdmin" id="viewreason.popup" value="Reason For Failure" onclick="javascript:showReasonForFailure();" style="margin: 0 0 0 10pt;">-->
+							</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<script type="text/javascript">
+	
+	if(Navbar.selectedChildTab == "system_config_HDFS")
+	{
+		$('#descRow').show();
+		$('#typeRow').show();
+		SystemConfig.fillType(true);
+	}
+	else if(Navbar.selectedChildTab == "system_config_MR")
+	{
+		$('#descRow').show();
+		$('#typeRow').show();
+		SystemConfig.fillType(false);
+	}
+		
+	function closeBox()
+	{
+		if(Navbar.selectedTabName == 'nn_summary' || Navbar.selectedTabName == 'rack_summary' || Navbar.selectedTabName == 'nn_host' 
+			|| Navbar.selectedTabName == 'nn_detail' || Navbar.selectedTabName == 'host_summary' || Navbar.selectedTabName == 'dn_detail' || Navbar.selectedTabName == 'dn_summary')
+		{
+			NN_Config.closeBox();
+			NN_Config.ready();
+		}
+		else if(Navbar.selectedTabName == 'Hadoop')
+		{
+			if(Navbar.selectedChildTab == 'ResourceManager')
+			{
+				RM_Config.closeBox();
+				RM_Config.ready();
+			}
+			else if(Navbar.selectedChildTab == 'NodeManager')
+			{
+				NM_Config.closeBox();
+				NM_Config.ready();
+			}
+			else if(Navbar.selectedChildTab == "system_config_MR")
+				SystemConfig.closeBox();
+			else if(Navbar.selectedChildTab == "system_config_HDFS")
+				SystemConfig.closeBox();	
+		}
+	}
+	function saveNewKey()
+	{
+		if(Navbar.selectedTabName == 'nn_summary' || Navbar.selectedTabName == 'rack_summary' || Navbar.selectedTabName == 'nn_host' 
+			|| Navbar.selectedTabName == 'nn_detail' || Navbar.selectedTabName == 'host_summary' || Navbar.selectedTabName == 'dn_detail' || Navbar.selectedTabName == 'dn_summary')
+		{
+			NN_Config.addNewKeyinConfig();
+		}
+		else if(Navbar.selectedTabName == 'Hadoop')
+		{
+			if(Navbar.selectedChildTab == 'ResourceManager')
+			{
+				RM_Config.addNewKeyinConfig();
+			}
+			else if(Navbar.selectedChildTab == 'NodeManager')
+			{
+				NM_Config.addNewKeyinConfig();
+			}
+			else if(Navbar.selectedChildTab == "system_config_MR")
+				SystemConfig.addNewKeyinConfig();
+			else if(Navbar.selectedChildTab == "system_config_HDFS")
+				SystemConfig.addNewKeyinConfig();		
+		}
+	}
+	</script>
+</div>

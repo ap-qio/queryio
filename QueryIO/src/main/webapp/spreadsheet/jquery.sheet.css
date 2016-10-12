@@ -1,0 +1,485 @@
+/* Controls styling */
+.jSLoc
+{
+	border-width: 0px ! important;
+	background: none ! important;
+	width: 35px;
+	text-align: right;
+}
+
+.jSFormula
+{
+	width: 99%;
+    height: 17px;
+}
+
+.jSFormulaParent
+{
+	border: none ! important;
+}
+
+.jSHeader, 
+.jSHeader table
+{
+	background : -webkit-gradient(linear,0% 20%,0% 100%,from(white),to(#EBEBEB));
+	padding: 0px ! important;
+	border: none ! important;
+	width: 100%; 
+	margin: 0px;
+}
+
+.jSHeader img
+{
+	border: none;
+}
+
+/* Menu */
+.jSBarHelper {
+	float: right;
+	position: relative;
+	height: 0px;
+	border: none ! important;
+	left: -20px;
+	width: 0px;
+	padding-left: 0px ! important;
+}
+.jSBarHelper * {
+	position: absolute;
+	cursor: pointer;
+	height: 12px;
+	width: 14px;
+	background-color: inherit ! important;
+}
+
+.jSMenuFixed {
+	position: relative ! important;
+}
+
+.jSMenu {
+	padding: 3px;
+	background-image: none;
+	border: none ! important;
+	position: absolute;
+	z-index: 1001;
+}
+.jSMenu *
+{
+	border-color: inherit ! important;
+	border-width: 1px;
+	text-decoration: none ! important;
+	width: auto;
+}
+
+.jSMenu ul,.jSMenu div
+{
+	cursor: pointer;
+	padding: 0px ! important;
+	margin: 0px ! important;
+	border: none ! important;
+	z-index: 1001;
+	position:relative;
+	margin:0;
+	padding:0;
+	list-style:none;
+	list-style-position:outside;
+}
+
+.jSMenu a
+{
+	padding:0px 5px;
+	background:-webkit-gradient(linear,0% 20%,0% 100%,from(white),to(#EBEBEB));
+	
+}
+
+.ui-widget-header li {
+	border: none;
+}
+
+.jSMenu li
+{
+	background:-webkit-gradient(linear,0% 20%,0% 100%,from(white),to(#EBEBEB));
+	border-bottom-width:1px;
+	border-bottom-color:#135;
+	border-bottom-style:solid;
+	float:left;
+	position:relative;
+	border: none;
+	background-image: none;
+	border-width: 1px;
+	width: inherit;
+}
+.jSMenu li:hover,.jSMenu div:hover {
+	background-image: inherit;
+}
+
+.jSMenu ul ul {
+	position:absolute;
+	display:none;
+	width:12em;
+	top:1.5em;
+}
+.jSMenu li ul :FIRST-CHILD a{
+	border-top-width: 1px;
+	border-top-color: #ddd;
+	border-top-style:solid;
+}
+.jSMenu li ul :last-child a{
+	border-bottom-style:solid;
+	border-bottom-width : 1px;
+	border-bottom-color : #ddd;
+}
+.jSBarTop_0{
+	background-color: #ddd;
+}
+.jSMenu li ul a:HOVER{
+	background: rgb(122,188,255); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(122,188,255,1) 0%, rgba(96,171,248,1) 44%, rgba(64,150,238,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(122,188,255,1)), color-stop(44%,rgba(96,171,248,1)), color-stop(100%,rgba(64,150,238,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(122,188,255,1) 0%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(122,188,255,1) 0%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(122,188,255,1) 0%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(122,188,255,1) 0%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7abcff', endColorstr='#4096ee',GradientType=0 ); /* IE6-9 */
+
+	color: white;
+	font-weight: bold;
+}
+.jSMenu li ul a{
+	height:20px;
+	padding-left:10% !important; 
+	font-weight: normal;
+	font-style: normal;
+	background: #FFF;
+	color: #135;
+	font-size: 10px;
+	
+	
+	border-right-color:#ddd;
+	border-right-style:solid;
+	border-right-width:1px;
+	
+	border-left-color:#ddd;
+	border-left-width:1px;
+	border-left-style:solid;
+	
+	/* background: #EFEFEF; */
+	width: 12em;
+	float: left;
+	
+	line-height: 2;
+}
+.divHower{
+	background: red;
+}
+ .jSMenuFixed div{
+ 	background: -webkit-gradient(linear,0% 20%,0% 100%,from(white),to(#EBEBEB)) !important;
+}
+.jSMenu :FIRST-CHILD  div{
+
+}
+div.ui-widget-header{
+	min-width: 10%;
+}
+div.jSMenu >hr{
+	background-color: #ddd;
+}
+div.jSMenu > div{
+	width: 90%;
+	 padding-left:10% !important;
+	
+}
+div.jSMenu > div:HOVER{
+	background: rgb(122,188,255); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(122,188,255,1) 0%, rgba(96,171,248,1) 44%, rgba(64,150,238,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(122,188,255,1)), color-stop(44%,rgba(96,171,248,1)), color-stop(100%,rgba(64,150,238,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(122,188,255,1) 0%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(122,188,255,1) 0%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(122,188,255,1) 0%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(122,188,255,1) 0%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7abcff', endColorstr='#4096ee',GradientType=0 ); /* IE6-9 */
+	color: white;
+	font-weight: bold;	
+}
+.jSMenu div{
+	height:100%;
+	/* padding-left:10% !important; */ 
+	font-weight: normal;
+	font-style: normal;
+	background: #FFF;
+	color: #135;
+	font-size: 10px;
+	
+}
+.jSMenu ul ul{
+	top:auto;
+}	
+
+.jSMenu li ul ul {
+	left:12em;
+	margin:0px 0 0 10px;
+}
+
+.jSMenu li:hover ul ul, .jSMenu li:hover ul ul ul, .jSMenu li:hover ul ul ul ul{
+	display:none;
+}
+.jSMenu li:hover ul, .jSMenu li li:hover ul, .jSMenu li li li:hover ul, .jSMenu li li li li:hover ul{
+	display:block;
+}
+
+#global-zeroclipboard-html-bridge {
+	opacity:0.01;
+	filter:alpha(opacity=1);
+}
+
+.jSUI
+{
+	width: inherit ! important;
+	border-color: inherit ! important;
+}
+.jSTabContainer
+{
+	vertical-align: bottom;
+	text-align: left ! important;
+}
+.jSTabContainer span
+{
+	
+	padding: 2px 5px 0 5px ! important;
+	cursor: pointer;
+}
+.jSTabContainer *, .Div *
+{
+	font-size: 1em ! important;
+}
+
+
+.jSScroll {
+	position: absolute;
+	overflow: scroll;
+	height: inherit;
+	width: inherit;
+}
+
+/* Sheet styling */
+.jS
+{
+    table-layout: fixed;
+    empty-cells: show;
+	background-image: none ! important;
+	border-width: 1px ! important;
+	cursor: cell;
+	*border-collapse: collapse; /* IE7 and below */
+	width: 0px ! important;
+}
+.jS tbody
+{
+	background-color: transparent;
+	color: inherit ! important;
+	border-color: inherit ! important;
+}
+
+.jS tr {
+	border-color: inherit ! important;
+/* 	color:  inherit ! important; */
+}
+.jS td {
+	height: inherit;
+	border-width: 1px;
+	border-color: inherit;
+	padding: 0px ! important;
+	border-style: solid ! important;
+	margin: 0px ! important;
+	font-size: 1em;
+	-moz-border-radius: 0px 0px 0px 0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	-ms-text-overflow: ellipsis;
+}
+
+.jS td.jSBarCorner {
+	border-width: 0px;
+}
+
+.jS td.jSBarLeft {
+	border-width: 1px 0px 1px 0px;
+}
+
+.jS td.jSBarTop {
+	border-width: 0px 1px 0px 1px;
+}
+
+.jSCellHighighted {
+	background-image: none ! important;
+}
+
+.jSError {
+	text-align: left;
+	overflow: hidden;
+	padding: 0px;
+	margin: 0px;
+}
+
+/* Containers styleing*/
+.jSBarCorner
+{
+	cursor: pointer;
+	border-width: 1px ! important;
+}
+
+.jSEditPane
+{
+    overflow: hidden ! important;
+	background-image: none ! important;
+	border-width: 0px;
+	position: absolute ! important;
+}
+/* Bar item styling */
+
+.jSBarTopParent
+{
+	font-size: 0.8em ! important;
+	text-align: center;
+	cursor: pointer ! important;
+	height: 18px;
+}
+
+.jSBarTopParent .jSBarController .ui-resizable-handle {
+	height: 16px;
+	width: 10px;
+}
+.jSBarLeft .jSBarController {
+	width: 0px;
+	height: 0px;
+	position: absolute;
+}
+.jSBarLeft .jSBarController {
+	width: 0px ! important;
+}
+.jSBarLeft .jSBarController .ui-resizable-handle {
+	width: 16px;
+	display: inline ! important;
+	height: 10px;
+}
+.jSBarHandleFreezeTop
+{
+	top: 0em ! important;
+	cursor: move ! important;
+	width: 8px;
+	position: absolute;
+	background-image: none ! important;
+}
+
+.jSBarHandleFreezeLeft
+{
+	right: 0em ! important;
+	cursor: move ! important;
+	height: 8px;
+	position: absolute;
+	background-image: none ! important;
+}
+.jSBarLeft
+{
+	font-size: 0.8em ! important;
+	text-align: center;
+	vertical-align: middle ! important;
+	cursor: pointer ! important;
+	overflow: visible ! important;
+}
+
+.jSInPlaceEdit
+{
+	position: absolute;
+	background-image: none ! important;
+}
+
+.colorPickers *
+{
+	display: inline-block;
+	width: 16px ! important;
+	height: 16px ! important;
+	background-color: transparent ! important;
+}
+
+.jSFullScreen
+{
+	top: 60px;
+	left: 5px;
+	position: fixed;
+	top: expression(eval(document.body.scrollTop + 15) + "px");
+	left: expression(eval(document.body.scrollLeft) + "px");
+}
+
+.jSAutoFiller
+{
+	position: absolute;
+	height: 8px;
+	width: 8px;
+	top: 0px;
+	left: 0px;
+	cursor: crosshair ! important;
+	display: none;
+}
+
+.jSTitle
+{
+	width: auto;
+	text-align: center;
+	border: none ! important;
+}
+
+.jSChart
+{
+	width: inherit;
+	height: inherit;
+}
+
+.jSChart svg {
+	position: relative ! important;
+}
+
+.bodyNoScroll
+{
+	overflow: hidden ! important;
+}
+
+
+
+/* Cell styler classes */
+.styleBold
+{ font-weight: bold; }
+.styleItalics	
+{ font-style: italic; }
+.styleUnderline	
+{ text-decoration: underline; }
+.styleLineThrough
+{ text-decoration: line-through;}
+.styleLeft		
+{ text-align: left; }
+.styleRight		
+{ text-align: right; }
+.styleCenter	
+{ text-align: center; }
+.styleTop		
+{ vertical-align: top; }
+.styleMiddle	
+{ vertical-align: middle; }
+.styleBottom	
+{ vertical-align: bottom; }
+.styleUpper 		
+{ text-transform: uppercase; }
+.styleCapital 	
+{ text-transform: capitalize; }
+.styleLower 		
+{ text-transform: lowercase; }
+.styleHidden 	
+{ display: none; }
+.styleWrap
+{
+	white-space: pre-wrap ! important;       /* css-3 */
+	white-space: -moz-pre-wrap ! important;  /* Mozilla, since 1999 */
+	white-space: -pre-wrap ! important;      /* Opera 4-6 */
+	white-space: -o-pre-wrap ! important;    /* Opera 7 */
+	word-wrap: break-word;
+	-ms-text-overflow: clip;
+}

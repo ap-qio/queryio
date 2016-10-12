@@ -1,0 +1,57 @@
+
+
+ul#tabs li{
+	/* float: left;
+	width: 100%; */
+	/* background: url(../images/top_bar_gradient.png) repeat-x left bottom transparent; */
+	background-color: rgb(216, 215, 215);
+	/* border-bottom: 1px solid #ddd; */
+	border-right: 1px solid  rgb(229, 229, 229);
+	border-left: 1px solid  rgb(229, 229, 229);
+	border-top: 1px solid  rgb(229, 229, 229);
+	height: 26px;
+	padding-top: 9px;
+	font-size: 12px;
+	width: 32.8%;
+	color: grey;
+}
+
+.active{
+	color: #3083d0; !important; 
+	/* background: #DDD !important; */
+	text-decoration: none !important;	
+	background: #fff !important;
+}
+
+
+ul#tabs li.active a {
+	text-decoration: none;
+	color: #3083d0; !important; 
+}
+
+ul#tabs li a {
+	text-decoration: none;
+	color: #555; !important; 
+}
+
+
+.menu {
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+.menu ul {
+	padding: 0;
+	margin-left: 5px;
+	list-style: none;
+	border: 0;
+	float: left;
+}
+
+.menu ul li {
+	float: left;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}

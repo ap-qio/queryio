@@ -1,0 +1,88 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>Get all files in a Bucket</title>
+	
+</head>
+<body>
+<h1><span>Get all objects in a Bucket</span></h1>
+<p>This operation retrieves all or some of the objects in a bucket from QueryIO server. </p>
+
+
+<h2 id="s3"><span>Get bucket using S3 Compatible REST API</span></h2>
+<p>Following code is used to retrieve object from the bucket.</p>
+<p>HttpURLConnection object is used to create a GET request with bucketName appended at the end of the URL.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.apache.http.HttpStatus;
+
+public class BucketOperations {
+	
+	/**
+	 * This program gets objects from the bucket
+	 * @param serverURL: URL of S3 Compatible REST server(http://&lt;S3 server IP&gt; : &lt;S3 server port&gt; /queryio/). For example: http://192.168.0.1:5667/queryio/
+	 * @param token: authorization token.
+	 * @bucketName: Name of the bucket to be retrieved	.
+	 */	
+	public void getBucket(String serverURL, String token, String bucketName)
+			throws Exception {
+		URL url = null;
+		HttpURLConnection httpCon = null;
+		InputStream is = null;
+		try {
+			/* append "/" at end of serverURL */
+			if (!serverURL.endsWith("/")) {
+				serverURL = serverURL + "/";
+			}
+			url = new URL(serverURL + bucketName);	//creates a URL with appending bucket name at end
+
+			//Returns a URLConnection object that represents a connection to the remote object referred to by the URL.
+			httpCon = (HttpURLConnection) url.openConnection();
+						
+			httpCon.setDoOutput(true);	// to use the URL connection for output
+			httpCon.setRequestMethod("GET");	//GET request is used.
+
+			httpCon.setRequestProperty("authorization", token);	//Provides token for authorization
+
+			httpCon.connect();	//Opens a communications link to the resource reference by the URL
+
+			if (httpCon.getResponseCode() == HttpStatus.SC_OK) {
+				is = httpCon.getInputStream();	//response of GET bucket operation
+				// Process response here
+				StringWriter writer = new StringWriter();                 
+				IOUtils.copy(is, writer, "UTF-8");                 
+				System.out.println(writer.toString());	//Displaying response
+			}
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (httpCon != null) {
+				httpCon.disconnect();
+			}
+		}
+	}
+}
+	</pre>
+</div>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

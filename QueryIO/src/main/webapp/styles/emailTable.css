@@ -1,0 +1,31 @@
+table.pickList {
+    padding: 0;
+    border-spacing: 0;
+}
+
+table.pickList th.pickLabel {
+	text-indent: 20px;
+	text-align: left;
+    font-size: 10px;
+	font-weight: normal;
+
+}
+
+table.pickList td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+table.pickList td label {
+    vertical-align: middle;
+}
+
+table.pickList td button {
+    padding-bottom: 2px;
+    font-size: 8px;
+    width: 40px;
+}
+
+table.pickList td select {
+    width: 130px;
+}

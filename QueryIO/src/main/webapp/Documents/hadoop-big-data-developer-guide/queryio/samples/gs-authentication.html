@@ -1,0 +1,116 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title> Authentication</title>
+	
+</head>
+<h1><span>Authentication</span></h1>
+<p>QueryIO Server provides access to authorized user only. To log in to the QueryIO server, you need to provide valid username and password along with the GET request to the server.
+If the username and password combination that you provide is correct, then you'll be authorized to access QueryIO cluster and perform different operations on it.</p>
+<p>You can authenticate using following interfaces:</p>
+<ul>	
+	<li><a href="#WEBHDFS">WEBHDFS API</a></li>
+	<li><a href="#s3">S3 Compatible API</a></li>
+	<li><a href="#java">DFS Client API</a></li>
+</ul>
+
+<h2 id="WEBHDFS"><span>WEBHDFS API</span></h2>
+<p>The HTTP REST API supports the complete FileSystem interface for HDFS. Following sample is explained using <code>curl</code> command.</p>
+<p>When security is off, the authenticated user is the username specified in the 'user.name' query parameter. If the 'user.name' parameter is not set, the server may either set the authenticated user to a default web user.
+</p>
+<code>curl -i "http://&lt;HOST&gt;:&lt;PORT&gt;/webhdfs/v1/&lt;PATH&gt;?[user.name=&lt;USER&gt;&]op=..."</code>
+
+<p>When security is on, authentication is performed by Kerberos SPNEGO.</p>
+<code>curl -i --negotiate -u : "http://&lt;HOST&gt;:&lt;PORT&gt;/webhdfs/v1/&lt;PATH&gt;?op=..."</code>
+<div id="code" style="background:EEE;">
+	<pre>
+Example:
+
+When security is off:
+curl -i "http://192.168.0.1:5678/webhdfs/v1/queryio?user.name=admin&op=MKDIRS"
+
+
+When Kerberos is enabled:
+curl -i --negotiate -u : "http://192.168.0.1:5678/webhdfs/v1/queryio?user.name=admin&op=..."
+	</pre>
+</div>
+
+
+
+<h2 id="s3"><span>S3 Compatible API</span></h2>
+<p>Following code can be used to login to QueryIO server using S3 compatible api.</p>
+<p>HttpURLConnection is used to connect to QueryIO server through GET request providing username and password along the HttpURLConnection object.</p>
+
+<div id="code" style="background:EEE;">
+	<pre>
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.apache.http.HttpStatus;
+
+public class LoginOperation {
+	
+	/**
+	 * This program will login into QueryIO Server
+	 * @param serverURL: URL of S3 Compatible REST server(http://&lt;S3 server IP&gt; : &lt;S3 server port&gt; /queryio/). For example: http://192.168.0.1:5667/queryio/
+	 * @param username: username to login
+	 * @param password: password of username provided
+	 */
+	public static String login(String serverURL, String username,
+			String password) throws Exception {
+		URL url = null;
+		HttpURLConnection httpCon = null;
+		String token = null;
+		try {
+			/* appending "/" at the end of serverURL */
+			if (!serverURL.endsWith("/")) {
+				serverURL = serverURL + "/";
+			}
+			url = new URL(serverURL); //create a new URL object
+
+			//Returns a URLConnection object that represents a connection to the remote object referred to by the URL.
+			httpCon = (HttpURLConnection) url.openConnection();			
+			
+			httpCon.setDoOutput(true);	// to use the URL connection for output
+			httpCon.setRequestMethod("GET");	//GET request to be used
+
+			httpCon.addRequestProperty("username", username);	//set username property of HttpURLConnection
+			httpCon.addRequestProperty("password", password);	//set password property of HttpURLConnection
+
+			httpCon.connect();	//Opens a communications link to the resource reference by the URL
+
+			if (httpCon.getResponseCode() == HttpStatus.SC_OK) {
+				token = httpCon.getHeaderField("authorization");	//get authorization token
+				// Use this token in subsequent requests for the current session
+				
+			}
+		} finally {	//close connection
+			if (httpCon != null) {
+				httpCon.disconnect();
+			}
+		}
+
+		return token;
+	}
+}
+	</pre>
+</div>
+
+<h2 id="java"><span>DFS Client API</span></h2>
+<p>Java HDFS automatically uses underlying operating system's account username and password for autheticating to QueryIO server, if kerberos is not set. 
+So in order to login to the server, change operating system's account username and password to QueryIO user credentials.</p>
+<p>If kerberos security is enabled, 'kadmin.local' must be used.</p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+<body>
+
+
+
+</body>
+</html>

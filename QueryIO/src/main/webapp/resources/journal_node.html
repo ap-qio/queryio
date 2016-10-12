@@ -1,0 +1,29 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />-->
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<link rel="stylesheet" href="styles/alerts_list.css" type="text/css" />
+
+<script src="scripts/journalNode.js"></script>
+<script src="scripts/jquery.alerts.js"></script>
+<script src="scripts/jquery.dataTables.js"></script>
+
+
+
+<div id='hosts_list' class="viewDiv">
+	<div id="hosts_table_div"  class="detailDivView">
+		<div id="hosts_buttons" class="buttons">
+			<button class="button" id="addJN" onclick="javascript:JN.addNewJournal();">Add</button>
+			<button class="button" id="configJN" onclick="javascript:JN.configJN();">Configure</button>
+			<button class="button" id="startJN" onclick="javascript:JN.startJN();">Start</button>
+			<button class="button" id="stopJN" onclick="javascript:JN.stopJN();">Stop</button>
+			<button class="button" id="deleteJN" onclick="javascript:JN.deleteJN();">Delete</button>
+			 
+		</div>
+		<form action="">
+		<table id="journal_node_table" class="dataTable" style="font-size: 9pt; width: 100%"></table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+JN.ready();
+var config_nodeId = '';
+</script>

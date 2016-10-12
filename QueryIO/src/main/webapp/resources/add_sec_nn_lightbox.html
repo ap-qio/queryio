@@ -1,0 +1,50 @@
+<div id="host_operation" class="lightbox">
+    <table id="host_operation_table" class="outer" style="">
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt; ">
+            		<h4 style="font-weight: normal;">Status</h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td id="msg_td">
+                	<div class="instructional" style="text-align: center; width: 100%;">
+                		<table align="center" width="100%" style="border-collapse: collapse; ; text-align: center;">
+							<tr>
+								<th><span id="popup.component">Host</span></th>
+								<th><span id="popup.message">Message</span></th>
+								<th><span id="popup.status">Status</span></th>
+								<th><span id="popup.image">	</span></th>
+							</tr>
+							<tr id="pop.pattern">
+								<td><span id="host"></span></td>
+								<td><span id="message"></span>
+								<br><div id="log_div" style="display: none;"></div></td>
+								<td><span id="status"></span></td>
+								<td>
+									<span id="imagefail" style="display:none;"><img src="images/Fail_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+									<span id="imagesuccess" style="display:none;"><img  src="images/Success_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+									<span id="imageprocessing"><img  src="images/process.gif" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+								</td>
+								
+							</tr>
+							<tr>
+							<td colspan="4">
+								<input type="button" disabled="true"  class="buttonAdmin" id="okbutton" value="Ok" onclick="javascript:SecDataNode.closeBox(true);">
+								<!-- <input type="button" disabled="true" class="buttonAdmin" id="viewreason.popup" value="Reason For Failure" onclick="javascript:showReasonForFailure();" style="margin: 0 0 0 10pt;">-->
+							</td>
+							</tr>
+						</table>
+					</div>
+            	</td>
+        	</tr>
+        	
+			
+		
+    	</tbody>
+	</table>
+	<script type="text/javascript">
+
+		SecDataNode.lightBoxReady(true);
+	</script>
+</div>

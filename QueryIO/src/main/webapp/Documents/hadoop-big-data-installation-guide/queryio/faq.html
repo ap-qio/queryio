@@ -1,0 +1,70 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>FAQs</title>
+</head>
+<body>
+<h1><span>FAQs</span></h1>
+
+<ul>
+	<li><a href="#1">Q: Installer is not working fine. I am getting ELF bad interpreter error on trying to install it on Linux.</a></li>
+	<li><a href="#2">Q: Does QueryIO support windows platform?</a></li>
+	<li><a href="#3">Q: Does QueryIO require Administrative privileges for Installation?</a></li>
+	<li><a href="#4">Q: On completion of installation the QueryUI server is not starting. What should I do?</a></li>
+	<li><a href="#5">Q: In remote installation setup, installer is unable to SSH to remote machine. What should I do?</a></li>
+	<li><a href="#6">Q: What is "First time user registration"?</a></li>
+	<li><a href="#7">Q: After running the server successfully, QueryIO UI is not properly displayed in my browser.</a></li>
+</ul>
+
+<h3 id="1">Q: Installer is not working fine. I am getting ELF bad interpreter error on trying to install it on Linux.</h3>
+
+<p>You need to install "ld-linux.so.2". You can install it using following command:</p>
+	<ul>
+		<li> yum install ld-linux.so.2</li>
+	</ul>
+<hr>
+<br>
+
+<h3 id="2">Q: Does QueryIO support windows platform?</h3>
+<p>No, QueryIO does not support windows platform.</p>
+<!-- <p>Only QueryIO UI server is supported on windows platform, but not Hadoop cluster. You'll need a linux or mac machine for Hadoop cluster.</p>   -->
+<hr>
+<br>
+
+<h3 id="3">Q: Does QueryIO require Administrative privileges for Installation?</h3>
+<p>No, you don't need administrative privileges for installation. But you must have access to destination location where software is installed.</p>
+<hr>
+<br>
+
+<h3 id="4">Q: On completion of installation the QueryUI server is not starting. What should I do?</h3>
+<p>Try starting the QueryIO server manually. Goto $INSTALL_HOME/tomcat/bin and run following executable file:</p>
+<ul>
+	<!-- <li>For Windows:	start_queryio.bat</li> -->
+	<li>For Linux/Mac OS: 	./start_queryio.sh</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="5">Q: In remote installation setup, installer is unable to SSH to remote machine. What should I do?</h3>
+<p>Please check that SSH service is enabled on remote machine and credentials provided are correct.</p>
+<hr>
+<br>
+
+<h3 id="6">Q: What is "First time user registration"?</h3>
+<p>This screen appears when you visit QueryIO UI for the first time. Server needs atleast one admin user. </p>
+<hr><br>    
+     
+<h3 id="7">Q: After running the server successfully, QueryIO UI is not properly displayed in my browser.</h3>
+<p>The reason might be outdated version of your browser. Please update your browser. See <a href="hadoop-requirements.html">System Requirements</a> for more details.</p>
+<br> 
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

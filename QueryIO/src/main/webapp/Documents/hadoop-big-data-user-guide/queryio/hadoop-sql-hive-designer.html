@@ -1,0 +1,105 @@
+<html>
+	<head>
+		<meta content="en-us" http-equiv="Content-Language" />
+		<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+		<meta content="text/css" http-equiv="Content-style-type" />
+		<link href="../../common/css/stylesheet_ns.css" rel="stylesheet" type="text/css" />
+		<title>Hive Query Designing</title>
+	</head>
+	<body>
+		<h1 id="query">
+			<span>Hive Query Designing</span></h1>
+		<h2>
+			<span>In this chapter</span></h2>
+		<p>
+			This chapter explains about creating a Hive based query and format the result of Hive adhoc analysis.</p>
+		<ul>
+			<li>
+				<a href="#execute">Creating Hive Queries</a></li>
+		</ul>
+		<h1 id="execute">
+			<span>Creating Hive Queries</span></h1>
+		<p>
+			Query Designer provides interface to create Hive queries easily and provide extra file filters and validation conditions. Following are the steps to build Hive query:</p>
+		<h3>
+			Compose Hive Query</h3>
+		<p>
+			After you have added Hive data defination, its time to query the results generated after Hive adhoc analysis of selected file format.</p>
+		<img alt="query-builder" src="images/screenshots/query-hive-db.png" />
+		<img alt="query-builder" src="images/screenshots/query-hive-saved.png" />
+		<img alt="query-builder" src="images/screenshots/query-hive-result.png" />
+		<img alt="query-builder" src="images/screenshots/query-hive-result-table.png" />
+		<ul>
+			<li>
+				<p>
+					Goto &quot;Analytics &gt; Query Manager&quot; and click <b>Add</b> to create new query.</p>
+			</li>
+			<li>
+				<p>
+					Provide appropriate QueryID and description for the query.</p>
+			</li>
+			<li>
+				<p>
+					In Query builder section, select &quot;Database&quot; as <b>Hive</b>.</p>
+			</li>
+			<li>
+				<p>
+					<b>Input Path Filter:&nbsp;</b>&nbsp;By default, Hive processes all the files present on your cluster. To process only selected files from a multitude of files you can specify path filters. This way, you can save your computing cycles by not processing the unrelated or already-processed files. For example, if you want to process only the files present in &#39;/usa&#39; directory, enter &#39;/usa&#39; in the path filter text box.</p>
+			</li>
+			<li>
+				<p>
+					Click on <b>SELECT</b> textbox to select the names of the columns you want to fetch with the query.</p>
+			</li>
+			<li>
+				<p>
+					Click on <b>FROM</b> textbox to select the name of the Hive data definition table to execute particular Hive adhoc analysis.</p>
+			</li>
+			<li>
+				<p>
+					<b>Persist Result: </b> Select the check box if you want QueryIO to save the result of the Hive query for future reference. When you execute a query in Hive, it retreives all the files from the HDFS cluster and processes those files. This is a very time consuming and costly operation. You can choose to save the result of your query in the database so that you can query it again without having the need for Hive to process all those previously processed files again. It saves a lot time and bandwidth if you have millions of files on the cluster. This way, you need to execute Hive query only for new files.</p>
+			</li>
+			<li>
+				<p>
+					<b>Result Table: </b> If &quot;persist result&quot; is enabled, then result will be saved to table specified here.</p>
+			</li>
+			<li>
+				<p>
+					Click on <b>WHERE</b> textbox to add any conditional clauses to your query. Only those records that fulfill the specified criteria will be included in the result.</p>
+			</li>
+			<li>
+				<p>
+					Click on <b>GROUP BY</b> textbox to select the names of the columns that you want to group your result set by. It is used in conjunction with the aggregate functions to group the result-set by one or more columns. For example, the query &quot;SELECT owner,sum(len) FROM hdfs_metadata GROUP BY owner&quot; would return the total storage space utilized by each user.</p>
+			</li>
+			<li>
+				<p>
+					Click on <b>ORDER BY</b> textbox to select the names of the columns that you want to sort your result set by.</p>
+			</li>
+			<li>
+				<p>
+					Click on <b>HAVING</b> textbox to provide conditions on aggregate functions.</p>
+			</li>
+			<li>
+				<p>
+					Once you have constructed the query, click on <b>Save</b> button to save the generated query so that you can re-use it later.</p>
+			</li>
+			<li>
+				<p>
+					Click on <b>View</b> to execute the query. On executing the query, you will be taken to a new tab.</p>
+			</li>
+			<li>
+				<p>
+					In &quot;Query Viewer&quot; section, you can see processing of MapReduce job execution and finally the report is generated.</p>
+			</li>
+			<li>
+				<p>
+					If you have selected &quot;Persist Table&quot; option, then once Hive query has executed, then you can see &quot;Result Table&quot; in the Hive database tables.</p>
+			</li>
+		</ul>
+		<br />
+		<hr align="center" class="whs4" />
+		<h4 class="whs5">
+			Copyright &copy; 2015 QueryIO Corporation. All Rights Reserved.</h4>
+		<h4 class="whs5">
+			QueryIO, &quot;Big Data Intelligence&quot; and the QueryIO Logo are trademarks of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+	</body>
+</html>

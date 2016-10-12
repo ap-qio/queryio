@@ -1,0 +1,76 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop Journal Naode</title>
+</head>
+<body>
+
+<h1><span>Journal Node</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains how to configure and manage an HA HDFS cluster, using the journal node.</p>
+<ul>
+	<li><a href="#intro">What is Journal Node</a></li>
+	<li><a href="#details">Journal Node Details</a></li>
+	<li><a href="#add">Add Journal Node</a></li>
+	<li><a href="#config">Configure Journal Node</a></li>
+	<li><a href="#op">Start, Stop, Delete Journal Node</a></li>
+</ul>
+<h2 id="intro"><span>What is Journal Node</span></h2>
+	<p>This guide provides an overview of the <a href="hadoop-high-availability.html">HDFS High Availability (HA) feature</a> and how to configure and manage an HA HDFS cluster, using the Quorum Journal Manager (QJM) feature.</p>
+	<p>In a HA cluster, there are two NameNodes configured : Active and Standby. The Active NameNode is responsible for all client operations in the cluster, 
+	while the Standby is simply acting as a slave, maintaining enough state to provide a fast failover if necessary.
+	<br>For standby NameNode to be synchronized with active NameNode, both communicate with each other through <b>Journal Node</b>.
+	 When any namespace modification is performed by the Active node, it durably logs a record of the modification to a majority of these JNs. 
+	 Standby NameNode constantly monitors edit logs at journal nodes and updates its namespace accordingly.<br>
+	 In the event of failover, standby NameNode will ensure that its namespace is completely updated according to edit logs before it is changes to Active state. 
+	 Thus namespace is fully synchronized before a failover. 
+	</p>
+
+
+<h2 id="details"><span>Journal Node Details</span></h2>
+<p>Following details about Journal Node are displayed.</p>
+<ul>
+	<li>Journal Node: Unique Id of the journal node.</li>
+	<li>Host: Host machine on which journal node is configured.</li>
+	<li>JMX: JMX monitoring port.</li>
+	<li>Status: State of Journal Node as 'Started' or 'Stopped'.</li>
+</ul>
+<img src="images/screenshots/jn.png"/>
+	
+	
+<h2 id="add"><span>Add Journal Node</span></h2>
+	<p>To add a new Journal Node, click on <b>Add</b> button on Journal Node page.</p>
+	<p>Enter following details.</p>
+	<ul>
+		
+		<li><b>HostName/IP: </b>Select host on which Journal Node will be configured.</li>
+		<li><b>NodeId: </b>Unique identifier for the Journal Node.</li>
+		<img alt="NM-add1" src="images/screenshots/jn-add1.png" >
+		<li><b>Directory path: </b>Installation path for the Journal Node on selected host.</li>
+		<li><b>Http Port: </b>HTTP port for the journal node.</li>
+		<li><b>Server Port	: </b>Port on which journal node server os working.</li>
+		<li><b>JMX Port: </b>JMX monitoring port.</li>
+		<li><b>Start Journal Node after installation.: </b>Select check box to start Journal Node after installation.</li>
+		<img alt="NM-add2" src="images/screenshots/jn-add2.png" >
+		</br></br>	
+	</ul>
+	
+<h2 id="config"><span>Configure Journal Node</span></h2>
+<p>To configure the properties of Journal Node, select the check-box against target Journal Node and click Configure. All configurable properties of Journal Node will be displayed.</p>
+
+<h2 id="op"><span>Start, Stop, Delete Journal Node</span></h2>
+<p>Select the Journal Node and click on <b>Start</b>, <b>Stop</b> or <b>Delete</b> to perform respective operation.</p>
+	
+	
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>	
+</body>
+</html>
+
+

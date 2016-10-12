@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+
+<project default="do.all" basedir=".">
+
+	<target name="create.tomcat.structure">
+		<copy todir="${QueryIOBuildRoot}/tomcat/conf">
+			<fileset dir="${dir.source}/QueryIO/tomcatconf">
+				<include name="context.xml" />
+				<include name="server.xml" />
+			</fileset>
+		</copy>
+		<copy todir="${QueryIOBuildRoot}/tomcat/lib">
+					<fileset dir="${dir.source}/lib/Authenticate">
+						<include name="Authenticate.jar" />
+						<include name="Webapploader.jar" />
+					</fileset>
+		</copy>
+		<copy todir="${QueryIOBuild}/tomcat">
+	 		<fileset dir="${QueryIOBuildRoot}/tomcat">
+	 			<include name="**/*" />
+	 		</fileset>
+	 	</copy>
+	</target>
+	
+	
+	<target name="create.querio.structure">
+		<copy todir="${dir.queryio}" >
+	 		<fileset dir="${dir.source}/QueryIO">
+	 			<exclude name="**/.svn" />
+	 			<exclude name="**/src/**" />
+	 			<exclude name="**/tomcatconf/**" />
+	 			<exclude name="**/hdfs-over-ftp/**" />
+	 			<exclude name="**/database/**" />
+	 			<exclude name="**/Documents/**" />
+	 		</fileset>
+	 	</copy>
+		<mkdir dir="${dir.queryio}/docs" />
+		<delete dir="${dir.queryio}/src"/>
+		<delete dir="${dir.queryio}/database" />
+		<delete dir="${dir.queryio}/tomcatconf" />
+		<delete dir="${dir.queryio}/hdfs-over-ftp" />
+		<delete dir="${dir.queryio}/Documents" />
+		<delete>
+			<fileset dir="${dir.queryio}/WEB-INF/lib/" >
+				<include name="**/*.jar" />
+			</fileset>
+		</delete>
+	</target>
+	
+	<target name="create.service.structure">
+		<copy todir="${dir.hadoop.service}">
+	 		<fileset dir="${dir.source}/QueryIOBuild/service">
+	 			<include name="**/*" />
+	 			<exclude name="**/hadoop-2.0.3-alpha/**" />
+	 			<exclude name="**/hive-0.10.0/**" />
+	 		</fileset>
+	 	</copy>
+		<copy todir="${QueryIOBuild}/service/QueryIOServers/lib">
+			<fileset dir="${dir.source}/lib/QueryIOJars">
+				<include name="json_simple-1.1.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${QueryIOBuild}/service/QueryIOServers/lib">
+			<fileset dir="${dir.source}/QueryIODemo/lib">
+				<include name="commons-jexl-2.1.1.jar" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="create.agent.structure">
+		<copy todir="${dir.queryio.agent}" >
+	 		<fileset dir="${dir.source}/QueryIOAgent">
+	 			<exclude name="**/.svn"/>
+	 			<exclude name="**/src/**"/>
+	 			<exclude name="**/lib/**"/>
+	 			<exclude name="**/conf/dbconfig.xml"/>
+	 		</fileset>
+	 	</copy>
+		
+		<delete dir="${dir.queryio.agent}/lib" />
+		<delete dir="${dir.queryio.agent}/src" />
+	</target>
+	
+	
+	<target name="create.database.structure">
+		<!--copy todir="${QueryIOBuild}/database">
+			<fileset dir="${dir.source}/QueryIO/database">
+				<include name="**/*" />
+			</fileset>
+		</copy-->
+
+		<!--copy todir="${QueryIOBuild}/postgres_linux">
+			<fileset dir="${dir.source}/QueryIOBuild/postgres_linux">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${QueryIOBuild}/postgres_mac">
+			<fileset dir="${dir.source}/QueryIOBuild/postgres_mac">
+				<include name="**/*" />
+			</fileset>
+		</copy-->
+		<!--copy todir="${QueryIOBuild}/postgres_windows">
+			<fileset dir="${dir.source}/QueryIOBuild/postgres_windows">
+				<include name="**/*" />
+			</fileset>
+		</copy-->
+		<copy todir="${QueryIOBuild}/database">
+				<fileset dir="${dir.source}/QueryIOBuild/database">
+					<include name="**/*" />
+				</fileset>
+		</copy>
+	</target>
+	
+	
+	<target name="create.os3server.structure">
+		<copy todir="${dir.queryio.os3server}" >
+			<fileset dir="${dir.source}/os3server/WebContent">
+				<include name="**/*" />
+				<exclude name="**/lib/**" />
+			</fileset>
+		</copy>
+		<delete dir="${dir.queryio.os3server}/WEB-INF/lib" />
+	</target>
+	
+	
+	<target name="create.ftpserver.structure">
+			<copy todir="${dir.queryio.ftpserver}" >
+				<fileset dir="${dir.source}/HDFSFTPServer/WebContent">
+					<include name="**/*" />
+					<exclude name="**/lib/**" />
+				</fileset>
+			</copy>
+			<delete dir="${dir.queryio.ftpserver}/WEB-INF/lib" />
+		</target>
+	
+
+	<target name="create.bin.dir">
+		<mkdir dir="${QueryIOBuild}/bin" />
+		<copy todir="${QueryIOBuild}/bin">
+			<fileset dir="${dir.source}/QueryIOBuild/bin">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+	
+	
+	<target name="create.installer.structure">
+		<copy todir="${QueryIOBuildRoot}/SupportedFiles" >
+			<fileset dir="${dir.source}/QueryIOBuild/SupportedFiles">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${QueryIOBuildRoot}/Scripts" >
+			<fileset dir="${dir.source}/QueryIOBuild/Scripts">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${QueryIOBuildRoot}" >
+			<fileset dir="${dir.source}/QueryIOBuild/logo">
+				<include name="hpcs.jpg" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${QueryIOBuildRoot}/Icon" >
+			<fileset dir="${dir.source}/QueryIOBuild/logo">
+				<exclude name="hpcs.jpg" />
+				<include name="**/*" />
+			</fileset>
+		</copy>
+				
+		
+		<copy todir="${QueryIOBuild}/docs" >
+			<fileset dir="${dir.source}/QueryIO/Documents">
+				<include name="**/*" />
+			</fileset>
+		</copy>	
+		<copy todir="${QueryIOBuild}/Readme" >
+			<fileset dir="${dir.source}/QueryIOBuild/Readme">
+				<include name="**/*" />
+			</fileset>
+		</copy>	
+	</target>
+	
+	<target name="do.all" >
+		<antcall target="create.tomcat.structure" />
+		<antcall target="create.querio.structure" />
+		<antcall target="create.service.structure" />
+		<antcall target="create.agent.structure" />
+		<antcall target="create.database.structure" />
+		<antcall target="create.bin.dir" />
+		<antcall target="create.os3server.structure" />
+		<antcall target="create.ftpserver.structure" />		
+		<antcall target="create.installer.structure" />				 
+  	</target>
+  
+</project>

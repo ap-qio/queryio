@@ -1,0 +1,87 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop AdHoc - Content Processor</title>
+</head>
+
+<body>
+
+<h1><span>AdHoc - Content Processor</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains about AdHoc content processing and how to use it. </p>
+<ul>
+	<li><a href="#what">What is AdHoc Analytics</a></li>
+	<li><a href="#csv">CSV MapReduce Job with AdHoc Support</a></li>
+</ul>
+
+<h2 id="what"><span>What is AdHoc - Content Processor</span></h2>
+<p>QueryIO provides AdHoc query feature. AdHoc query allows you to execute MapReduce jobs through analytics query manager and store parsed data in result table.<br>
+For ad hoc querying, no filter expressions are provided when job is added. 
+Instead filter expressions are provided using query builder's WHERE block. 
+
+When a query is fired on these tables, respective mapreduce job is executed and result is displayed.</p>
+
+
+<p>You can also write your own MapReduce Jobs for different file types that you want to analyze.
+To see how you can write your own <b>Job</b>, refer to the <a href="../../hadoop-big-data-developer-guide/index.html" target="_blank">developer documentation</a>. </p>
+
+<h2 id="csv"><span>CSV MapReduce Job with AdHoc Support</span></h2>
+<p>Following are the steps for CSV MapReduce job:</p>
+<ul>
+	<li>Before any mapreduce job is added, there will be only no adhoc table [AdHocDB] in the QueryManager.</li>
+	<li>Now go to <b>Data > Manage Datasources > Manage Content Processor</b> and click <b>Add</b>.</li>
+	<li>In the <b>Job Name</b> textbox, enter <b>CSVParser</b>.</li>
+	<li>In the <b>Parser Class</b> textbox, enter the main class name for your parser. For demo CSV parser, enter <b>com.queryio.demo.adhoc.csv.CSVParserJob</b>.</li>
+	<li>In the <b>Source Path</b> textbox, you can specify the path from where files will be parsed.</li>
+	<li>In the <b>Path Pattern</b> textbox, specify file filter pattern.(For example : *.csv or /Data/*.csv)</li>
+	<li>In the <b>Arguments</b> textbox, provide any extra arguments required by your parser. For sample job, provide <b>/</b>.</li>
+	
+	<li>Filter expressions can be applied using WHERE block of query designer.</li>	
+	<li>Select NameNode and ResourceManager to be linked with job.</li>
+	<li>Select <b>$INSTALL_HOME/demo/CSVAdHocJob.jar</b> file.</li>
+	
+	<li>For CSV parser job, we do not need to add any dependency libraries or native files.</li>
+	<li>Click <b>Save</b>.</li>
+	<img src="images/screenshots/adhoc-job-csv.jpeg" /><br><br>
+	<li>Go to <b>Analytics > Query Designer</b></li>
+	<li>There will be a new <b>ADHOC-CSVPARSERJOB</b> table added in the FROM section.</li>
+	<img src="images/screenshots/adhoc-csv.jpeg" /><br><br>
+	<li>Result Table : If persisted, it displays name of the table in which result of the job execution will be saved in database. It can be manually changed.</li>
+	<li>To provide <b>filter expressions</b>, use <b>WHERE</b> block. Select the attribute to be filtered and specify expression value through UI.</li>
+	<li>Click "View" to execute query.</li>
+	<li>Job will be automatically executed and result is displayed accordingly.</li>
+	<li>Once the query has executed, &lt;Result Table&gt; will be added to your FROM list and can be used further for querying.</li>
+	<img src="images/screenshots/adhoc-table.jpeg"/><br><br>
+</ul>
+
+<!--h2 id="csv"><span>Persisting / Non-persisting the results</span></h2>
+
+<p>
+Hive provides the facility to persist / non-persist the results while running an adhoc query.
+</p>
+
+<h3>Persisting the results</h3>
+<p>
+While running an adhoc query, if user keeps the <b>Persist Result</b> checkbox checked, a result table is created. Moreover, the data which has been queried gets stored in 
+<b>Data Browser</b> under the folder <b>/Hive/&lt;result_table_name&gt;</b>. Now whenever the result table gets queried, data gets fetched directly from there, making it much faster
+than regular MapReduce query. 
+</p>
+
+<h3>Non-Persisting the results</h3>
+<p>
+While running an adhoc query, if user keeps the <b>Persist Result</b> checkbox unchecked, no result table is created.
+</p-->
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

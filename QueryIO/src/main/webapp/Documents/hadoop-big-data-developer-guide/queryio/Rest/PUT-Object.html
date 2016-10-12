@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>PUT Object</title>
+</head>
+<body>
+	<div>
+	<h1><span>PUT Object</h1>	
+	<h2 ><span>Description</span></h2>
+	
+	<p>PUT operation of the QueryIO Server provides services to add an object to a bucket. </p>
+	
+	<h2><span>Requests</span></h2>
+	<h3>Syntax</h3>
+	<ul>
+	<li>
+	<pre>
+PUT /queryio/&lt;BucketName&gt;/<em><code>&lt;ObjectName&gt;</code></em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;Token&gt;</code></em></pre>
+	</li>
+		<li>&lt;BucketName&gt;: Name of the bucket in which object will be added.</li>
+		<li>&lt;ObjectName&gt;: Name of the object which has to be added to BucketName.</li>
+		<li>authorization: Token for authorization. </li>
+	</ul>
+		
+	<h3>Request Headers</h3><p>The PUT operation in QueryIO server uses following request headers: </p>
+	<table cellspacing="0" border="1" width="100%">
+	<tr><th> Header Name </th><th> Description </th><th> Type </th><th> Required </th></tr>
+	<tr>
+	
+					<tr><td align="center">
+								<em ><code>Content-Length</code></em>
+							</td><td>
+								<p>Gives the size of the object, in bytes.</p>								
+								
+							</td>
+							<td> String 	</td>
+							<td> No </td></tr>
+					<tr><td align="center">
+								<em ><code>Content-MD5</code></em>
+							</td>
+							<td>
+								<p>The MD5 digest of the message. This header is used to check consistency of the data by comparing with original data.</p>								
+							</td>
+							<td> String </td>
+							<td> No </td></tr>
+							
+					<tr><td align="center">
+								<em ><code>x-amz-server-side-encryption</code></em>
+							</td><td>
+								<p>Server-side encryption algorithm to be used.</p>
+								
+								<p>Value: <code >AES256</code></p>
+
+							</td><td> String </td><td> No </td></tr>
+							
+					<tr><td align="center">
+								<em ><code>x-amz-server-side-compression</code></em>
+							</td><td>
+								<p>Server-side compression algorithm to be used.</p>
+								
+								<p>Value: <code >SNAPPY, GZ, LZ4</code></p>
+
+							</td><td> String </td><td> No </td></tr>
+					<tr><td align="center">
+								<em ><code>unzip</code></em>
+							</td><td>
+								<p>To extract contents of archive file.</p>
+								
+								<p>Value: <code >true or false</code></p>
+
+							</td><td> Boolean </td><td> No </td></tr>
+					<tr><td align="center">
+								<em ><code>x-amz-meta-xxx</code></em>
+							</td><td>
+								<p>Add extended metadata to the object. Header starting with prefix <b>x-amz-meta-</b> is considered as user metadata.</p>
+								
+								<p>Value: <code >true or false</code></p>
+
+							</td><td> String </td><td> No </td></tr>
+					<tr><td align="center">
+								<em ><code>owner</code></em>
+							</td><td>
+								<p>Set owner of the object.</p>
+								
+							</td><td> String </td><td> No </td></tr>
+					<tr><td align="center">
+								<em ><code>group</code></em>
+							</td><td>
+								<p>Set group of the object.</p>
+								
+							</td><td> String </td><td> No </td></tr>
+					<tr><td align="center">
+								<em ><code>permission</code></em>
+							</td><td>
+								<p>Permissions to be granted on object in octal format.</p>
+								
+							</td><td> OctalFormat </td><td> No </td></tr>
+					</table>
+			
+	<h2><span>Examples</span></h2>
+		<h3>Sample Request with the Content-Length Header</h3>
+		<p>The following request will create object File1.txt in bucket DIR1 :</p>
+		<ul>
+		<li>
+		<pre>
+PUT /queryio/DIR1/File1.txt HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+Content-Length: 11434</pre></li>
+		</ul>
+		
+		<h3>Sample Request with the Content-MD5 Header</h3>
+		<p>The following request will add myfile.txt to bucket DIR1 :</p>
+		<ul>
+		<li>
+		<pre>
+PUT /queryio/DIR1/myfile.txt HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+x-amz-server-side-compression: GZ
+x-amz-server-side-encryption: AES256
+Content-MD5: appp</pre></li>
+		</ul>
+		
+		<h3>Sample Request with the unzip Header</h3>
+		<p>The following request will extract and add archive file demo.zip to bucket DIR1 :</p>
+		<ul>
+		<li>
+		<pre>
+PUT /queryio/DIR1/demo.zip HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+unzip: true</pre></li>
+		</ul>
+		
+		
+		<h3>Sample Request with the x-amz-meta- Header</h3>
+		<p>The following request will add File2.txt to bucket DIR2 :</p>
+		<ul>
+		<li>
+		<pre>
+PUT /queryio/DIR2/File2.txt HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+x-amz-meta-author: QueryIO
+x-amz-meta-priority: high</pre></li>
+		</ul>
+	
+		
+		
+		
+	
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

@@ -1,0 +1,192 @@
+div.lightbox {
+	font: serif;
+	font-size: .8em;
+	background-color: #fff;
+	border: 1px solid #999;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.25) 5px 5px 12px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	width: 450px;
+	padding: 0;
+	margin: 0 auto
+}
+
+div.lightbox tr:first-child td {
+	-moz-border-top-left-radius: 8px;
+	-moz-border-top-right-radius: 8px;
+	-webkit-border-top-left-radius: 8px;
+	-webkit-border-top-right-radius: 8px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	padding: 10px;
+	text-align: center
+}
+
+div.lightbox tr:last-child td:last-child {
+	-moz-border-bottom-left-radius: 8px;
+	-moz-border-bottom-right-radius: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+div.close {
+	position: absolute;
+	margin-left: -15px;
+	margin-top: -12px
+}
+
+div.topic_info {
+	border: 1;
+	border-color: #DDD;
+	border-style: solid;
+	margin: 0px 20px
+}
+
+div.lightbox table.outer {
+	width: 100%;
+	height: 20%;
+	font-size: 9pt;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px
+}
+
+div.lightbox table.inner {
+	border: 2;
+	width: 100%;
+	height: 20%;
+	border-color: #ddd
+}
+
+div.lightbox table.site_table {
+	border: 2;
+	width: 100%;
+	height: 20%;
+	border-color: #ddd;
+	align: center
+}
+
+div.lightbox td.topic_info {
+	padding: 10px;
+	font-size: 0.7em;
+	text-align: right
+}
+
+div.lightbox th {
+	font-size: 13px
+}
+
+div.lightbox td {
+	padding: 10px
+}
+
+div.lightbox table.outer tr {
+	background-color: #fff;
+	color: #000;
+}
+
+div.lightbox table.outer>tbody>tr:first-child {
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#579),
+		to(#246) );
+	background: #579;
+	background: -moz-linear-gradient(top, #579 0%, #246 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #579),
+		color-stop(100%, #246) );
+	background: -webkit-linear-gradient(top, #579 0%, #246 100%);
+	background: -o-linear-gradient(top, #579 0%, #246 100%);
+	background: -ms-linear-gradient(top, #579 0%, #246 100%);
+	background: linear-gradient(to bottom, #579 0%, #246 100%);
+	color: white;
+	line-height: 75%;
+	font-size: 10pt;
+}
+
+div.lightbox .instructional,div.lightbox .otherinstruction {
+	width: 88%;
+	margin: 0px auto;
+	font-size: 11px;
+}
+
+div.lightbox td#buttons {
+	padding-top: 0;
+}
+
+div.lightbox div#buttons {
+	text-align: right;
+	padding-right: 8px;
+}
+
+div.lightbox div#buttons span {
+	padding: 0px 3px
+}
+
+div.lightbox hr {
+	border: none;
+	border-top: 1px solid #ddd
+}
+
+div.lightbox div#buttons button {
+	padding-right: 20px;
+	padding-left: 20px;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#579),
+		to(#246) );
+	background: #579;
+	background: -moz-linear-gradient(top, #579 0%, #246 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #579),
+		color-stop(100%, #246) );
+	background: -webkit-linear-gradient(top, #579 0%, #246 100%);
+	background: -o-linear-gradient(top, #579 0%, #246 100%);
+	background: -ms-linear-gradient(top, #579 0%, #246 100%);
+	background: linear-gradient(to bottom, #579 0%, #246 100%)
+}
+
+div.lightbox input[type="button"],input[type="submit"] {
+	width: auto;
+	color: white;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	background: #579;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#579),
+		to(#246) );
+	background: -moz-linear-gradient(top, #579 0%, #246 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #579),
+		color-stop(100%, #246) );
+	background: -webkit-linear-gradient(top, #579 0%, #246 100%);
+	background: -o-linear-gradient(top, #579 0%, #246 100%);
+	background: -ms-linear-gradient(top, #579 0%, #246 100%);
+	background: linear-gradient(to bottom, #579 0%, #246 100%)
+}
+
+div.lightbox input[type="button"][disabled] {
+	background: gray
+}
+
+.form_table {
+	margin: 0 auto;
+	text-align: left
+}
+
+.form_table th {
+	margin: 0 auto;
+	text-align: center
+}
+
+.form_table tr:first-child td {
+	text-align: left
+}
+
+.form_table input {
+	width: 100%
+}
+
+.form_table input[type="button"],input[type="checkbox"] {
+	width: auto
+}
+
+.lightbox input[type="text"],input[type="password"] {
+ 	width: 90%;	
+}

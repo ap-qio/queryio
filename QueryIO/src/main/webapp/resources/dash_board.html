@@ -1,0 +1,125 @@
+<script src="scripts/dashBoard.js"></script>
+
+<div id="summary_div">
+<div id="overallStorageView" style="margin: 20 0 0 0;">	
+	<table id="storageOverviewTable" cellpadding="0" cellspacing="1" width="100%">
+		<tbody>
+			<tr>
+				<td>
+					<div class="chart_header">
+						<span class="chart_text" style="margin: 0pt 0pt 0pt 15px;">Storage
+							Overview</span>
+					</div>
+				</td>
+				<td>
+				</td>
+				<td>
+					<div class="chart_header">
+						<span class="chart_text" style="margin: 0pt 0pt 0pt 15px;">Status summary</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div id="usableStorageDiv" class="chart_header">
+						<span class="chart_text" style="margin: 0pt 0pt 0pt 15px;">Usable
+							storage</span>
+					</div>
+				</td>
+				<td>
+					<div>
+						<table cellpadding="3" cellspacing="0" width="100%" border="0" summary="">
+							<tbody>
+								<tr>
+									<td>
+										<img src="/images/spacer_green.gif" alt="" align="bottom" width="10" height="10"> &nbsp;Used
+									</td>
+									<td>
+										<span id="usedSpace"> <!-- Usabel Used space -->
+										</span>
+									</td>
+									<td>
+										<span id="usedSpacePercentage"> <!-- Usabel Used space % -->
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<img src="/images/spacer_gray.gif" alt="" align="bottom" width="10" height="10">&nbsp;Free
+									</td>
+									<td>
+										<span id="freeSpace"><!-- Free Used space -->
+										</span>
+									</td>
+									<td>
+										<span id="freeSpacePercentage"><!-- Free Used space %-->
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										&nbsp;&nbsp;Total Usable</td> <!-- total  space %-->
+									<td>
+										<span id="totalUsableSpace"></span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</td>
+				<td>
+					<div>
+						<table id="statusSummaryTable">
+						</table>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>	
+</div>
+<br>
+<br>
+<hr>
+<br>
+									
+											
+
+<div>
+	<strong>NameNode Details</strong>&nbsp;
+	<br>
+	<br>
+	<div id="nameNodeDetails">
+	<table class="buttonTable" style="border: 1px solid #DDD; width: 100%;">
+		<tbody><tr>
+			<td><input type="button" id="addNameNode" value="Add" onclick="javascript:addNameNodeClicked();">
+<input type="button" class="buttonAdmin" id="deleteNameNode" value="Delete" onclick="javascript:deleteNameNodeClicked();" style="margin: 0 0 0 10pt;"></td>
+	</tr></tbody></table>
+		<div id="nameNodeDetailsTableDiv" style=" border: 1px solid #DDD; height: 100px;">
+		<span>NameNode details not available.</span>
+		</div>
+	</div>
+</div>
+<br><br>
+<hr>
+<br>
+<div>
+	<strong>DataNode Details</strong>&nbsp;
+	<br>
+	<br>
+	<div id="dataNodeDetails">
+	<table class="buttonTable" style="border: 1px solid #DDD; width: 100%;">
+		<tbody><tr>
+			<td><input type="button" id="addDataNode" value="Add" onclick="javascript:addDataNodeClicked();">
+			<input type="button" class="buttonAdmin" id="deleteDataNode" value="Delete" onclick="javascript:deleteDataNodeClicked();" style="margin: 0 0 0 10pt;"></td>
+	</tr></tbody></table>
+	<div id="nameNodeDetailsTableDiv" style="border: 1px solid #DDD; height: 100px;">
+		<table id="dataNodeDetailsTable">
+		</table>
+		<span>DataNode details not available.</span>
+	</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+DashBoard.fillDashBoard()
+</script>

@@ -1,0 +1,161 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>YARN Resource Manager</title>
+</head>
+
+<body>
+<h1><span>YARN ResourceManager</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains about ResourceManager and its related features</p>
+<ul>
+	<li><a href="#intro">What is ResourceManager</a></li>
+	<li><a href="#details">ResourceManager Details</a></li>
+	<li><a href="#add">Add ResourceManager</a></li>
+	<li><a href="#config">Configure ResourceManager</a></li>
+	<li><a href="#op">Start, Stop, Delete ResourceManager</a></li>
+	<li><a href="#monitor">Start/Stop Monitoring</a></li>
+	<li><a href="#summary">ResourceManager Summary</a></li>
+</ul>
+
+<h2 id=intro><span>What is ResourceManager</span></h2>
+<p>Hadoop MapReduce is a YARN-based system for parallel processing of large data sets.</p>
+<p>
+A ResourceManager (RM) manages the global assignment of computing resources to applications. The ResourceManager is the ultimate authority that arbitrates resources among all the applications in the system. 
+All MapReduce applications are submitted to ResourceManager. The ResourceManager is the sole authority to allocate any <a href="glossary.html#container">container</a> to <a href="glossary.html#applications">applications</a>. 
+The allocated Container is always on a single node and has a unique ContainerID. It has a specific amount of Resource allocated.</p>
+
+<img alt="name-node" src="images/screenshots/resource-manager.jpeg">
+
+<h2 id="details"><span>ResourceManager Details</span></h2>
+<p>Following details about ResourceManager are displayed.</p>
+
+<ul>
+	<li>Application Summary: A pie chart displaying application information.</li>
+	<li>Status Summary: Application details are displayed here.</li>
+	<li>ResourceManager Summary</li>
+</ul>
+
+	
+<h3><span>Status Summary</span></h3>
+<p></p>
+	<ul>
+		<li><b>Total Apps Submitted:</b> Number of <a href="glossary.html#applications">MapReduce Applications</a> submitted to cluster. </li>
+		<li><b>Total Apps Running:</b> Number of MapReduce Applications running on cluster. </li>
+		<li><b>Total Apps Pending:</b> Number of MapReduce Applications pending. </li>
+		<li><b>Total Apps Completed:</b> Number of MapReduce Applications completed processing. </li>
+		<li><b>Total Apps Killed:</b> Number of MapReduce Applications killed. </li>
+	</ul>
+
+
+<h3><span>ResourceManager Summary</span></h3>
+	<ul>
+		<li><b>Node: </b>Unique Identifier of the ResourceManager. Click on ResourceManager name to view detailed <a href="#summary">summary</a>. </li>
+		<li><b>Host: </b>IP address of the host on which ResourceManager is configured.</li>
+		<li><b>Submitted: </b>Total applications submitted.</li>
+		<li><b>Pending: </b>Number of applications still running.</li>
+		<li><b>Completed: </b>Number of applications finished.</li>
+		<li><b>Containers Running: </b>Number of <a href="glossary.html#container">containers</a> running.</li>
+		<li><b>Memory Allocated: </b>Memory space allocated to ResourceManager for running applications.</li>
+		<li><b>Memory Available: </b>Memory space available for containers.</li>
+		<li><b>Memory Pending: </b>The amount of memory pending.</li>
+		<li><b>Memory Reserved: </b>The amount of memory reserved for containers.</li>
+		<li><b>Active Nodes: </b>Number of active NodeManagers.</li>
+		<li><b>Decommissioned Nodes: </b>Number of decommissioned NodeManagers.</li>
+		<li><b>Lost Nodes: </b>Number of NodeManagers lost.</li>
+		<li><b>Unhealthy Nodes: </b>Number of unhealthy NMs.</li>
+		<li><b>Rebooted Nodes: </b>Number of NMs rebooted.</li>
+		<li><b>Logs: </b>Click to view full log file of stdout/stderr logs of ResourceManager.</li>
+		<li><b>Status: </b>Status of Resource Manager as 'Started' or 'Stopped'.</li>
+		<li><b>Monitoring:</b> State of Resource Manager monitoring i.e. whether Resource Manager monitoring is started or stopped or not responding.</li>
+	</ul>
+
+
+
+<h2 id="add"><span>Add ResourceManager</span></h2>
+	<p>To add a new ResourceManager, click on <b>Add</b> button on ResourceManager page.</p>
+	<p>Enter following ResourceManager details.</p>
+	<ul>
+		<li><b>Unique Identifier: </b>Unique ID of the ResourceManager. </li>
+		<li><b>HostName/IP: </b>Select host on which ResourceManager will be configured. </li>
+		<li>Click Next.</li>
+		<img alt="RM-add1" src="images/screenshots/rm-add1.jpeg" >
+		<li><b>Configure Ports:</b> Enter ports for following.</li>
+		<ul>
+			<li>Server: The port for applications manager interface in the RM.</li>
+			<li>Scheduler: The port for scheduler interface.</li>
+			<li>WebApp: The port for RM web application.</li>
+			<li>Admin: The port for RM admin interface.</li>
+			<li>ResourceTracker: The port for RM Resource Tracker.</li>
+			<li>JMX: JMX monitoring port.</li>
+		</ul>
+		<li><b>Job History Ports: </b>Enter following job related ports.</li>
+		<ul>
+			<li>Server: MapReduce JobHistory Server IPC port.</li>
+			<li>WebApp: MapReduce JobHistory Server Web UI port.</li>
+		</ul>
+		
+		<img alt="RM-add2" src="images/screenshots/rm-add2.jpeg" >
+		<li><b>Dir Path: </b>Installation path for the ResourceManager on selected host.</li>
+		<li><b>Start Resource Manager after installation: </b>Select check box to start ResourceManager after installation.</li>
+		<li>Click <b>Save</b> to install resource manager.</li>
+		<img alt="RM-add3" src="images/screenshots/rm-add3.jpeg" >
+		</br></br>		
+	</ul>
+	
+	
+<h2 id="config"><span>Configure ResourceManager</span></h2>
+<p>To configure the properties of ResourceManager, select the checkbox against target ResourceManager and click <b>Configure</b>. All configurable properties of ResourceManager will be displayed.</br>
+Update the properties and click on save for changes to take effect.</p>
+
+<h2 id="op"><span>Start, Stop, Delete ResourceManager</span></h2>
+<p>Select the ResourceManager and click on <b>Start</b>, <b>Stop</b> or <b>Delete</b> to perform respective function.</p>
+
+<h2 id="monitor"><span>Start/Stop Monitoring</span></h2>
+<p>	JMX monitoring takes place which checks ResourceManager's status, Submitted, Pending and Completed applications, Containers Running, Memory Allocated, Memory Available, Memory Reserved, Memory Pending, Active Nodes, Decommissioned Nodes, Lost Nodes, Unhealthy Nodes and Rebooted Nodes.
+	To start or stop ResourceManager Monitoring, select the check box against the node and click on <b>Start Monitoring</b> or <b>Stop Monitoring</b> button respectively.</p> 
+
+<h2 id="summary"><span>ResourceManager Summary</span></h2>
+<p>ResourceManager summary contains:</p>
+<ul>
+	<li><b>Application Summary:</b> A pie chart displaying resource information.</li>
+	<li><b>Status Summary:</b> It has various details about ResourceManager:
+		<ul>
+			<li><b>Total Apps Submitted:</b> Number of <a href="glossary.html#applications">MapReduce Applications</a> submitted to cluster. </li>
+			<li><b>Total Apps Running:</b> Number of MapReduce Applications running on cluster. </li>
+			<li><b>Total Apps Pending:</b> Number of MapReduce Applications pending. </li>
+			<li><b>Total Apps Completed:</b> Number of MapReduce Applications completed processing. </li>
+			<li><b>Total Apps Killed:</b> Number of MapReduce Applications killed. </li>
+		</ul> 
+	</li>
+	<li><b>Monitoring Data:</b> Shows monitoring data of the ResourceManager host machine. It uses JVM matrix to display data in form of charts. Time interval between which data is displayed can be varied from 1 day to 360 days.
+	This data is further used to generate reports and forecast. It can also be used diagnostic purposes.
+	Various charts displayed are: 
+		<ul>
+			<li><b>Containers:</b>Number of Launched, Completed, Failed, Killed, Initiating, Running, Allocated, Pending, Reserved containers.	</li>
+			<li><b>Apps:</b> Number of 	Submitted, Running, Pending, Completed, Killed, Active applications .</li>
+			<li><b>Node Managers:</b> Number of Active, Decommissioned, Lost, Unhealthy, Rebooted NodeManagers.</li>
+			<li><b>Users:</b> Number of active users with respect to time.</li>
+			<li><b>Memory:</b> Amount of Allocated, Available, Pending, Reserved Memory with respect to time.</li>
+			<li><b>Threads:</b> Number of Running, Blocked, Waiting, Timed Waiting, Terminated, New threads with respect to time period.</li>
+			<li><b>Heap Memory:</b> Heap memory committed and heap memory used with respect to time in MB.</li>
+			<li><b>Non Heap Memory:</b> Non heap memory committed and used with respect to time in MB.</li>
+			<li><b>GC Count:</b> Total GC Count with respect to time.</li>
+			<li><b>GC Time:</b> Total time required for GC in ms.</li>
+			<li><b>Network:</b> Bytes received and sent through network in bytes/s.</li>
+			<li><b>Disk:</b> Bytes read and bytes written by user in Bytes/s.</li>
+			<li><b>CPU Usage:</b> Amount of CPU usage</li>
+		</ul>
+	</li>
+</ul>
+<img alt="name-node" src="images/screenshots/resource-manager-charts.jpeg">
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

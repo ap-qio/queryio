@@ -1,0 +1,35 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop Big Data Performance</title>
+</head>
+
+<body>
+<h1><span>Performance<span></h1>
+
+<h2><span>Configuration Parameters<span></h2>
+<h3>File descriptor limits</h3>
+<p>A busy Hadoop process might need to open a lot of files. The open files limit [ulimit] in Linux is 1024 by default, which might be too low. 
+You should set to a higher value [let's say 16384].</p>
+<p>You can view your ulimits in bash by running:</p>
+<p>
+ $ ulimit -a
+</p>
+<p>To set the fd ulimit for a process, you'll need to be logged in as root. As root user, open a shell, and run:</p>
+
+<p> # ulimit -n 16384</p>
+<p>You can also set the ulimit for the hadoop user in /etc/security/limits.conf; it will set the value persistently. </p>
+
+<div style="position: absolute; bottom: 0px; width:99%">
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</div>
+
+
+</body>
+</html>

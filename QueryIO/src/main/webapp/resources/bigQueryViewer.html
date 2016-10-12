@@ -1,0 +1,43 @@
+
+
+<script type="text/javascript" src="scripts/bigQueryViewer.js"></script>
+<script type="text/javascript" src="scripts/data_analyzerTab.js"></script>
+<script type="text/javascript" src="scripts/data-analyzer.js"></script>
+<!--<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<script type="text/javascript" src="scripts/data-analyzer.js"></script> -->
+
+
+<div id="queryTabs" style="border: none;">
+	<div>
+		<ul class="tabs customTagsClass" style="min-height: 30px;">
+		 	<span style="margin-top: 5px;float: right;"><span style="color: #555;" id="bigQueryIdsspan" >Query: <select id="bigQueryIds" style="width: 100px;"></select>
+				<button class = "button" id="queryExecute" onclick="javascript:BQV.executeSeletedQuery();" disabled="disabled" >View</button></span>
+				<button class = "button" id="printReport" onclick="javascript:BQV.printReport();" disabled="disabled">Print</button>
+				<button class = "button" id="exportReport" onclick="javascript:BQV.exportReport();" disabled="disabled">Export</button>
+				<button class = "button" id="emailReport" onclick="javascript:BQV.emailReport();" disabled="disabled">Email</button>
+			</span>
+			
+		</ul>
+		<span id="firstmsg">Please select a query from Analytics Query drop down and click on View button to generate report.</span>
+		<!-- <div>
+			<table>
+				<tr>
+					<td>
+						<a href="javascript:void(0)" onclick="DAT.addTab()"> <span class='ui-icon ui-icon-newwin'></span> </a>
+					</td>
+				</tr>
+			</table>
+		</div> -->
+	</div>
+	
+	
+  	
+</div>
+
+<script>
+BQV.loadLastViewedQuery();
+</script>
+<script type="text/javascript" src="scripts/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.tabs.js"></script>
+<script type="text/javascript" src="scripts/js/ui.tabs.paging.js"></script>

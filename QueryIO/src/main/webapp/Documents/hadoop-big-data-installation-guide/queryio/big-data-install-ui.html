@@ -1,0 +1,219 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop Big Data Install UI</title>
+</head>
+
+<body>
+<h1><span>QueryIO: Big Data Analytics - UI Based Installation</span></h1>
+
+<h2><span>In this chapter </span></h2>
+<p>This chapter explains <!-- various modes of--> how to install QueryIO through user interface. When you 
+install QueryIO, a number of components are installed, including Hadoop,
+databases, libraries, services, agents, etc. </p>
+
+<!-- p>Two main modes of installing QueryIO are:</p>
+<ul>
+	<li><a href="#local">Local Installation</a></li>
+	<li><a href="#remote">Remote Installation</a></li>
+</ul-->
+
+<p>
+Launch QueryIO installer by double-clicking on the downloaded executable file (e.g. QueryIOv4_5_mac_x64.dmg or QueryIO_v4_5_windows_x64.exe). <!-- or QueryIOv2_0_0_mac_x86.dmg or QueryIO_v2_0_0-linux.sh or  or QueryIO_v2_0_0_windows_x86.exe).--> 
+A wizard will show up and take you through the installation process.</p>
+
+<!-- p class="note">NOTE: For remote installation to windows machine,  SSH Server must be configured on it.</p-->
+<h2><span>Introduction</span></h2>
+	
+	<ul>
+		<li>Please go through the "Introduction" screen. This will brief you about the installation process and details about the QueryIO and its version that will be installed. Click on the "Next" button.</li> 
+		<br><img alt="introduction" src="images/install/start.jpeg"><br><br>
+	</ul>
+
+<h2><span>License Agreement</span></h2>
+	
+	<ul>
+		<li>Please go through the "License Agreement for QueryIO". Accept the agreement to continue installation.</li> 
+		<br><img alt="introduction" src="images/install/license.jpeg"><br><br>
+	</ul>
+
+ 
+<h2 id="local"><span>QueryIO Installation</span></h2>
+
+<ul>	
+	<br><li><b>QueryIO User Registration Details: </b></li>
+	<ul>
+		<li>Give details to make first admin account in QueryIO. Remember this username and password for logging in after server starts.</li>
+	</ul>
+	<br><img alt="destination" src="images/install/user-registration.jpeg"><br><br>
+	<!-- <li>Please select this option if you want to install QueryIO server to local machine and click Next.</li>
+	<br><img alt="type" src="images/install/install-type-local.jpeg"><br><br> -->
+	<br><li><b>Select Destination Directory</b></li>
+	<ul>
+		<li>Select a folder where you want to install QueryIO. We recommend using the default installation location.</li>
+    	<li>To specify your own location, click on "Browse..." button and select a location for installation. Click on the "Next" button to proceed further.</li>
+    	<li><b>JRE Home</b>: Root folder for JRE on local machine.To specify your own location, click on Check Box</li>
+	</ul>
+	<br><img alt="destination" src="images/install/destination.jpeg"><br><br>
+	
+	<!-- <br><li><b>Select Start Menu Folder(Only for windows and linux platform)</b></li>
+	<ul>
+    	
+    	<li>There are a number of options available for creating application shortcuts. Select option where you want to create the application shortcuts. You can also choose if you want to create shortcuts for All Users or only for the logged in user.</li>
+    	<li>It is recommended that you use the default selection. Click on the "Next" button to proceed further.</li>
+	</ul> -->
+	<br><li><b>Configure QueryIO Server Details</b></li>
+	
+	<ul>
+		<li>Specify the QueryIO Server port settings. The QueryIO Services requires following ports: </li>
+		<ul>
+			<li>Startup and Shutdown port: Ports on which QueryIO server will work.</li>
+			<li>System port: Ports for QueryIO database.</li>
+		</ul>
+		<li>We recommend using the default ports provided by QueryIO.</li>
+		<li>Click next to proceed to cluster setup.</li> 
+	</ul>
+	<br><img alt="additional task" src="images/install/ports.jpeg"><br><br>
+	
+	<li><b>Automatic Hadoop Cluster Setup</b></li>
+	<ul>
+		<li>This will install hadoop cluster on chosen machine and make all nodes automatically on that machine (on default ports).</li>
+		<li>Click yes to proceed with automatic cluster setup.</li>
+		<li>Click no to complete setup without setting up cluster (complete cluster setup manually after server starts).</li> 
+	</ul>
+	<br><img alt="additional task" src="images/install/clusture-confirm.jpeg"><br><br>
+		
+	<li><b>Filling Hadoop Cluster Setup Form</b></li>
+	<ul>
+		<li>Setup Hadoop cluster on local machine : Select this if you want to setup cluster on local machine.</li>
+		<li>Setup Hadoop cluster on remote machine : Select this if you want to setup cluster on remote machine.</li>
+		<li>SSH Details</li>
+		<ul>
+			<li>HostName/IP: IP address or name of the host to be added.</li>
+			<li>Username: Username of the host.</li>
+			<li>Password: Password for account whose username was provided.</li>			
+		</ul>
+		<li>Click on next to install QueryIO</li>
+	</ul>
+	<br><img alt="additional task" src="images/install/clusture-setup.jpeg"><br><br>
+
+	
+	<li><b>Setting up properties for continuing installation</b></li>
+	<ul>
+		<li>Setup fixes issues like, no mapping found for hostname automatically (if required).</li>
+		<li>Please provide machine <b>Admin Username</b> and <b>Password</b> to run commands required to fix these issues.</li>
+		<br><img alt="additional task" src="images/install/issuesfixing.jpeg"><br><br>
+		<li>If settings are updated successfully, confirmation is shown.</li>
+		<br><img alt="additional task" src="images/install/confirmation.jpeg"><br><br>
+	</ul>
+	
+	<li><b>Installing</b></li>
+	
+	<ul>
+    	<li>This tab displays progress of the installation.</li>
+    </ul>
+    <li><b>Installation Complete</b></li>
+  
+    <ul>
+    	<li>On successful installation a message "Finished installing QueryIO" is displayed</li>
+    	<li>Select <b>Start QueryIO Server</b> check box to start QueryIO server automatically after installation is finished. You can <a href="start-big-data-server.html">start QueryIO server manually</a> also.</li>
+    	<!--li>Select <b>Yes, I would like to view the README file</b> check box to open readme file after installation process in completed.</li-->
+    	<!-- <li>Select <b>Start Automatically on System Reboot</b> check box to start QueryIO server every time system is restarted.</li> -->
+    	<li>Click on the "Finish" button.</li>
+    </ul>
+      <br><img alt="finish" src="images/install/finish-local.jpeg"><br><br>
+</ul>
+<p><a href="../../hadoop-big-data-tutorial/index.html" target="_blank">Click here</a> to see how quickly you can setup a cluster using QueryIO, perform data read/write operations and use standard SQL to query your BigData. </p>
+
+<!-- h2 id="remote"><span>Remote Installation</span></h2>
+<ul>
+	<li>Please select this option if you want to install the QueryIO server on some remote machine on your local network. You will need SSH connection details of remote machine for this kind of installation.</li>
+	<br><img alt="type" src="images/install/install-type-remote.jpeg"><br><br>
+	<br><li><b>Remote Installation - Step 1</b></li>
+	<ul>
+		<li>Provide SSH details of the machine where setup QueryIO server:</li>
+		<ul>
+			<li><b>Remote Machine OS</b>: Select from "Mac OS X", "Unix", "Windows".</li>
+			
+			<li><b>HostName/IP</b>: IP address or hostname of the remote machine.</li>
+			<li><b>Port</b>: Port which will be used for connection to remote machine.</li>
+			<li><b>Username</b>: Username of the remote machine for ssh.</li>
+			<li><b>Password</b>: Password for the above provided username.</li>
+			<li>Click "Next" to continue. QueryIO installer will try to connect to remote machine, and if above provided details are incorrect, an error message will be displayed.</li>			
+		</ul>
+	</ul>
+	<br><img alt="type" src="images/install/ssh-details.jpeg"><br><br>
+	
+	<br><li><b>Remote Installation - Step 2</b></li>
+	<ul>
+		<li>Provide installation directory of remote machine where you want to install QueryIO.</li>
+		<ul>
+			<li><b>Remote Machine Installation Directory</b>: Installation location for QueryIO Server on remote machine.</li>
+			<li><b>Remote Machine JRE Home</b>: Root folder for JRE on remote machine.</li>
+			<li><b>Local Machine Temp Directory</b>: Temporary files will be extracted to this location during installation. This is directory on local machine.</li>			
+		</ul>
+	</ul>
+	<br><img alt="type" src="images/install/ssh-details1.jpeg"><br><br>	
+	
+	<li><b>Configure QueryIO Server Details</b></li>
+	<ul>
+		<li>Specify the QueryIO Server port settings. The QueryIO Services requires following ports: </li>
+		<ul>
+			<li>Startup and Shutdown port: Ports on which QueryIO server will work.</li>
+			<li>System, MetaData/Tagging, AdHoc Analysis Database port: Ports for QueryIO database.</li>
+		</ul>
+		<li>We recommend using the default ports provided by QueryIO.</li>
+		<li>Click next to install QueryIO</li> 
+	</ul>
+	<br><img alt="additional task" src="images/install/ports.jpeg"><br><br>
+	
+	
+	<li><b>Automatic Hadoop Cluster Setup</b></li>
+	<ul>
+		<li>This will install hadoop cluster on chosen machine and make all nodes automatically on that machine (on default ports).</li>
+		<li>Click yes to proceed with automatic cluster setup.</li>
+		<li>Click no to complete setup without setting up cluster (complete cluster setup manually after server starts).</li> 
+	</ul>
+	<br><img alt="additional task" src="images/install/clusture-confirm.jpeg"><br><br>
+		
+	<li><b>Filling Hadoop Cluster Setup Form</b></li>
+	<ul>
+		<li>QueryIO User Registration Details: Give details to make first user account in QueryIO. Remember this username and password for logging in after server starts.</li>
+		
+		<li>SSH Details</li>
+		<ul>
+			<li>HostName/IP: IP address or name of the host to be added.</li>
+			<li>Username: Username of the host.</li>
+			<li>Password: Password for account whose username was provided.</li>			
+		</ul>
+		<li>Click on next to install QueryIO</li>
+	</ul>
+	<br><img alt="additional task" src="images/install/clusture-setup.jpeg"><br><br>
+	
+	
+	
+	<li><b>Installing:</b></li>
+	
+	<ul>
+    	<li>This tab displays progress of the installation.</li>
+    </ul>
+    <li><b>Installation Complete:</b></li>
+  
+    <ul>
+    	<li>On successful installation a message "Finished installing QueryIO" is displayed. QueryIO server will be started automatically.</li>
+    </ul>
+</ul> 
+<p><a href="../../hadoop-big-data-tutorial/index.html" target="_blank">Click here</a> to see how quickly you can setup a cluster using QueryIO, perform data read/write operations and use standard SQL to query your BigData. </p-->
+
+	
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+</body>
+</html>

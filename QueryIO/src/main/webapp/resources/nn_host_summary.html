@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="styles/nn_summary.css" type="text/css" />
+
+
+
+
+<link rel="stylesheet" href="styles/jquery.jqplot.min.css" type="text/css" />
+<script src="scripts/jquery.jqplot.js?version=1"></script>
+<script src="scripts/jqplot.pieRenderer.js?version=1"></script>
+<script src="scripts/util.js"></script>
+<script src="scripts/nn_host.js"></script>
+
+
+<div id='nn_summary' class="viewDiv">
+	<div id="nn_summary_chart_div">
+		<span id="nn_summary_title" class="header" style="width: 99%;">I/O Summary</span>
+		<div id="nn_summary_chart" ></div>
+	</div>
+	<div id="nn_status_table_div">
+		<div class="table_header_div" id="header" style="width: 99%;">Status Summary</div>
+		<div class="row even">Total File Reads:<span id ="nn_status_fileread"></span> </div>
+        <div class="row odd">Total File Writes:<span id ="nn_status_filewrite"></span> </div>
+        <div class="row even">File Read Latency:<span id ="nn_latency_fileread"></span></div>
+        <div class="row odd">File Write Latency: <span id ="nn_latency_filewrite"></span></div>
+	</div>
+	
+	<form action="">
+		<div id="nn_summary_table_div">
+			<br>
+			<div class="table_header_div" ><span style=";"> NameNode Summary</span></div>
+			<table  id="nn_summary_table" style="font-size: 9pt;"></table>
+			</div>
+		
+			
+		</div></form>
+</div>
+
+<script type="text/javascript">
+	NN_HOST.ready();
+</script>

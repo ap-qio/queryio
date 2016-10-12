@@ -1,0 +1,226 @@
+.ui-jqgrid .ui-jqgrid-bdiv {
+	table-layout: fixed;
+	margin: 0;
+	background-color: #FFF
+}
+
+.ui-jqgrid td {
+	text-overflow: ellipsis;
+	-moz-binding: url('ellipsis-xbl.xml#ellipsis')
+}
+
+.ui-widget-content.jqgrow.ui-row-ltr {
+	border: none
+}
+
+.ui-widget-content.jqgrow.ui-row-ltr.altrowsclass {
+	background: none;
+	background-color: #fff
+}
+
+.ui-widget-content.jqgrow.ui-row-ltr.altrowsclass.ui-state-hover {
+	background: none;
+	background-color: #fff
+}
+
+.ui-widget-content.jqgrow.ui-row-ltr.ui-state-hover {
+	background: none;
+	background-color: #ECECEC;
+	cursor: pointer
+}
+
+.ui-widget-content.jqgrow.ui-row-ltr.ui-state-highlight {
+	border: 1px solid #CCC;
+	background: #E4E4E4;
+	opacity: 1;
+	filter: Alpha(Opacity = 100);
+	color: white
+}
+
+.ui-widget-content.jqgrow.ui-row-ltr.ui-state-highlight.ui-state-hover {
+	border: 1px solid #ccc;
+	background: #ECECEC;
+	color: white
+}
+
+.ui-jqgrid .ui-jqgrid-bdiv {
+	table-layout: fixed;
+	margin: 0;
+	background-color: #FFF
+}
+
+.ui-jqgrid tr.jqgrow td {
+	padding: 3px 10px;
+	border-bottom: 1px solid #969696;
+	color: #555
+}
+
+.ui-jqgrid tr:FOCUS {
+	outline: none
+}
+
+.ui-jqgrid tr td.grayOut {
+	color: gray
+}
+
+.ui-jqgrid tr.ui-state-highlight td.grayOut {
+	color: white;
+	background-color: gray
+}
+
+.ui-th-column,.ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
+	height: auto;
+	padding: 0 2px 0 2px;
+	color: black;
+	font-size: 10px
+}
+
+.ui-jqgrid-view .ui-state-disabled.ui-icon-desc,.ui-jqgrid-view .ui-state-disabled.ui-icon-asc
+	{
+	display: none
+}
+
+.ui-jqgrid-sortable .s-ico .ui-icon-desc {
+	margin-top: -3px;
+	float: right
+}
+
+.appleGrey .ui-jqgrid-htable th.ui-state-default {
+	background: -webkit-gradient(linear, 0% 20%, 0% 100%, from(white),
+		to(#EBEBEB) )
+}
+
+.appleGrey .ui-jqgrid-htable th.ui-state-default.ui-state-hover {
+	background: #ddd;
+	color: #000
+}
+
+.appleGrey .ui-jqgrid-htable th.ui-state-default.ui-state-highlight {
+	background: -webkit-gradient(linear, 0 0%, 0 100%, from(white),
+		to(#EBEBEB) );
+	color: #000
+}
+
+.appleGrey .ui-jqgrid-hbox {
+	background: #ddd;
+	padding-right: 0px
+}
+
+.appleGrey .ui-pager-control {
+	background: #ddd
+}
+
+.appleGrey .ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default
+	{
+	border: 1px solid #ccc
+}
+
+.appleGrey .ui-jqgrid .ui-jqgrid-pager .ui-pg-div {
+	border: 1px solid #ccc
+}
+
+.appleGrey .ui-pg-button.ui-corner-all.ui-state-hover {
+	background: #ddd;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	border: 1px solid #fff
+}
+
+.appleGrey .ui-dialog-titlebar.ui-widget-header {
+	background: -webkit-gradient(linear, 0% 30%, 0% 90%, from(#4B649C),
+		to(#263453) );
+	font-size: 1.2em
+}
+
+.appleGrey .ui-dialog,.appleGrey .ui-jqdialog {
+	overflow: visible
+}
+
+.appleGrey .ui-dialog .ui-dialog-titlebar-close,.appleGrey .ui-jqdialog-titlebar .ui-jqdialog-titlebar-close
+	{
+	
+}
+
+.appleGrey .ui-jqdialog .ui-jqdialog-title {
+	margin-left: 40%
+}
+
+.appleGrey .ui-state-default {
+	color: #000;
+	background-color: #DDD
+}
+
+.appleGrey .ui-state-default.ui-state-hover {
+	background: #ddd;
+	background-color:#FFFFFF;
+	color: #000
+}
+
+.appleGrey .ui-state-active {
+	
+}
+
+.appleGrey .ui-tabs {
+	border: 0px
+}
+
+.appleGrey .loading.ui-state-default.ui-state-active {
+	color: #fff
+}
+
+.appleGrey .ui-searchFilter .ui-widget-header {
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#435888),
+		to(#263453) )
+}
+
+.appleGrey .ui-searchFilter div.ui-closer {
+	width: 18px;
+	margin-left: -12px;
+	margin-top: -10px;
+	background: #ccc
+}
+
+.appleGrey .ui-jqgrid-titlebar.ui-widget-header,.appleGrey .ui-jqdialog-titlebar.ui-widget-header
+	{
+	background: -webkit-gradient(linear, 0% 0%, 0% 80%, from(#579), to(#246));
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.appleGrey .ui-datepicker .ui-datepicker-header.ui-widget-header {
+	background: -webkit-gradient(linear, 0% 0%, 0% 80%, from(#579), to(#246));
+}
+
+.appleGrey .ui-datepicker .ui-state-active {
+	color: grey;
+}
+
+.appleGrey .ui-grid-icon.ui-icon {
+	background-image: url(../images/ui-icons_1c2a3b_256x240.png)
+}
+
+.appleGrey .ui-searchFilter .ui-icon.ui-icon-search,.appleGrey .EditTable .ui-icon.ui-icon-search
+	{
+	background: none;
+	background-position: -160px -112px;
+	background-image: url(../images/ui-icons_263746_256x240.png)
+}
+
+.appleGrey .ui-searchFilter .ui-icon.ui-icon-arrowreturnthick-1-w,.appleGrey .EditTable .ui-icon.ui-icon-arrowreturnthick-1-w
+	{
+	background: none;
+	background-position: -64px -80px;
+	background-image: url(../images/ui-icons_263746_256x240.png)
+}
+
+.spinnerBackground {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2000;
+	background: white;
+	opacity: 0.3
+}

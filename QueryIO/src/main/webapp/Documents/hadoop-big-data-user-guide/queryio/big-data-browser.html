@@ -1,0 +1,70 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Big Data Browser</title>
+</head>
+<body>
+<div width="100%">
+<h1><span>Big Data Browser</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains how to access data stored on the cluster and perform operations on data.</p>
+<ul>
+	<li><a href="#intro">How to access data</a></li>
+	<li><a href="#details">Data Browser Details</a></li>
+	<li><a href="#delete">Delete File/Directory</a></li>
+	<li><a href="#config">Configure Permissions</a></li>
+</ul>
+
+<h2 id="intro"><span>How to access data</span></h2>
+<p>Data Browser is a file explorer. It allows you to access all the directories and files stored in QueryIO.</p>
+
+<p>Files and folders displayed are retrieved from all the DataNodes in the cluster. By default, data browser shows all the files and directories in root directory i.e "/" and allows you 
+to access files or navigate through the directories.</p>
+<p>Using Data Browser, you can also <b>download</b> files from HDFS to your local file system.</p>
+
+<img alt="data-browser" src="images/screenshots/data-browser.jpeg" >
+
+<h2 id="details"><span>Data Browser Details</span></h2>
+<p>Data browser displays various details about file and directories:</p>
+<ul>
+	<li><b>NameNode: </b>The data from the cluster belonging to the selected namenode will be displayed.</li>
+	<li><b>Contents of Directory: </b>It displays the path of the current directory being accessed. By default, it is "/". But as you navigate through the directories, it gets updated and displays the path of the current directory.
+	You can click on any directory in the path to access it.</li>
+	<li>It displays the current directory details in a tabular form as:
+		<ul>
+			<li><b>Name:</b> Names of the files and directories in the current directory.</li>
+			<li><b>Size:</b> Size of the file.</li>
+			<li><b>Replicas:</b> Number of replicas of file created.</li>
+			<li><b>Last Read:</b> Time when the file was last read.</li>
+			<li><b>Last Write:</b> Time when the file was last modified.</li>
+			<li><b>Permissions:</b> Access permissions on the file or directory. Permissions are displayed in unix format.</li>
+			<li><b>Owner:</b> Owner of the file of directory.</li>
+			<li><b>Group:</b> The group of the owner of the file.</li>
+			<li><b>Compression:</b> Type of compression that has been applied.</li>
+			<li><b>Encryption:</b> Type of encryption that has been applied.</li>
+		</ul>
+	</li> 
+	<li>Data browser allows you to view 25, 50, 100 or 200 files on single page. If there are more files than a page can accommodate, they can be viewed by changing page numbers.</li>
+	<li>It also provides a refresh button to reload the grid.</li>
+	<li>You can also sort the data according to any of the attribute details. To sort data, click on the attribute headers.</li>
+	<li>Number of files and directories of current folder is displayed at left bottom.</li>
+</ul>
+
+<h2 id="delete"><span>Delete File/Directories</span></h2>
+<p>Select check-box against the file or directory to be deleted and click on <b>Delete</b> button.</p>
+
+<h2 id="config"><span>Configure Permission</span></h2>
+<p>User can configure file sharing permissions by clicking <b>Configure Permission</b>. For more details about file sharing and settings, <a href="acl.html">click here</a>.</p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</div>
+</body>
+</html>

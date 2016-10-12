@@ -1,0 +1,59 @@
+
+
+/* Add dash board specific style sheets in here*/
+
+#data_migration .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+#data_migration_table
+{
+	border: solid 1px #CCC;
+	float: left;
+	width: 100%;
+	margin-top: 7px;
+}
+
+#data_migration_table_div table thead th,
+#rdata_migration_table_div table tbody tr td
+{
+	
+}
+	
+.centerDiv{
+	
+}
+
+#FileSelectTablebody tr td
+{
+	padding: 5px;
+}
+
+input[type = "file"]
+{
+	border: 0px;
+	margin-top: 5px;
+}
+.filtersBlock
+{
+    background: rgba(255, 255, 255, 0.93);
+    position: absolute;
+    z-index: 1000;
+    color: black;
+    border-radius: 6px;
+    box-shadow: 1px 1px 6px 2px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    width: 50px;
+    height: 150px;
+    overflow-x: auto;
+    overflow-y: auto;
+    min-width: 213px;
+    min-height: 25px;
+    border: 1px solid #9A9A9A;
+    display: none;
+	/* top: 28px; */
+	/* left: 180px; */
+	/* width: 104px; */
+}

@@ -1,0 +1,18 @@
+#nn_config .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+#nn_config_table_div {
+	border: solid 1px #ccc;
+	float: left;
+	width: 75%;
+}
+
+#nn_config_table_div table thead th,
+#nn_config_table_div table tbody tr td
+{
+	font-size: 9pt;
+}
+	

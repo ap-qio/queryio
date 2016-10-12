@@ -1,0 +1,80 @@
+<div id="new_spreadsheet" class="lightbox">
+<div id="close" class="close">
+	<a href="javascript:SPS.closeNewSpreadSheetView();"><img src="images/light-box-close.png"></a>
+</div>
+    <table id="new_spreadsheet_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">New Spreadsheet</span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td id="msg_td">
+                	<div id ="hostDiv" class="instructional" style="text-align: center; width: 100%;">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+									<div class="instructional" style="">
+										Select the query Id to open the new sheet or leave blank for an empty sheet.
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<hr>
+									<div class="otherinstruction">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>	
+							<form id="new_spreadsheet_form" method="post" action="javascript:void(0);"	onsubmit="">
+								<table width="100%" class="form_table" >
+									<tbody>
+										
+										<tr>
+											<td style="text-align: left;">Query Id</td>
+											<td style="text-align: left;"><span>
+												<select id="bigQueryIdsForNewSpreadSheet">
+												</select>
+											</span></td>
+										</tr>
+										<tr>
+											<td colspan="2">
+											<hr>
+												<div class="otherinstruction">
+													
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="2" style="text-align: right;">
+												<input type="button" class="buttonAdmin" id="open" value="Open" onclick="javascript:SPS.newSpreadSheet(false);"  /> 
+												<input type="button" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:SPS.closeNewSpreadSheetView();" />
+											</td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</form>
+							</td>
+							</tr>	
+						</table>
+					</div>
+            	</td>
+        	</tr>
+    	</tbody>
+	</table>
+<script type="text/javascript">
+SPS.fillQueryIds();
+SPS.isExecuteQuery = false;
+</script>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,201 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop Disaster Recovery</title>
+</head>
+<body>
+<h1><span>Disaster Recovery</span></h1>
+
+<h2><span>In This Chapter</span></h2>
+<p>This chapter is based on diagnosis, backup and recovery of data on case disasters or failures.</p>
+<ul>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#dr">Diagnose & Repair</a></li>
+	<li><a href="#br">Backup & Restore</a></li>
+	<li><a href="#rh">Restore History</a></li>
+</ul> 
+
+
+<h2 id="intro"><span>Introduction</span></h2>
+<p>QueryIO provides recovery of your valuable data in case of catastrophic disasters. In case of failures, QueryIO allows you to restore from the stored backups.</p>
+<p>QueryIO provides various functionalities of Disaster Recovery.</p>
+<ul>
+	<li><a href="#dr">Diagnose & Repair</a></li>
+	<li><a href="#br">Backup & Restore</a></li>
+	<li><a href="#rh">Restore History</a></li>
+</ul>
+
+<h1 id="dr"><span>Diagnose & Repair</span></h1>
+<p>QueryIO stores metadata of all the files ingested on HDFS cluster in a relational database. It is very vital to keep the metadata information stored in relational DB to be in synch with the NameNode's FSImage.</p>
+<p>Diagnose & Repair view helps you diagnose and repair the MetaStore DB if it ever goes out of synch with the NameNode's FSImage.</p> 
+
+<img alt="diagnose" src="images/screenshots/diagnose1.png" >
+
+<p><b>Diagnose</b> process compares NameNode's FSImage and MetaStore DB and checks if they are in sync or not. If they are not in sync, then <b>Repair</b> process will perform necessary operation according to 
+result of diagnose process, so that both database and namespace are in sync.</p>
+<p>Following details are specified about diagnose process:</p>
+<ul>
+	<li><b>Diagnosis ID</b> : Unique Id of the process</li>
+	<li><b>NameNode</b> : Namespace on which diagnose or repair process was initiated.</li>
+	<li><b>Start Time</b> : Starting time of the process.</li>
+	<li><b>End Time</b> : Finish time of the process.</li>
+	<li><b>Diagnosis Report</b> : Click here to view the final report of the diagnose or repair process.</li>
+	<li><b>Status</b> : Final status of the initiated diagnose or repair process. (<i>Repair Complete, Diagnosis Complete</i>)</li> 
+</ul>
+ 
+<h2><span>Diagnose</span></h2>
+<p>Click on <b>Diagnose</b> button on <B>Diagnose & Repair</B> tab to start diagnose operation.</p>
+<ul>
+	<li><b>Diagnosis Id : </b>Unique ID for the diagnose process.</li>
+	<li><b>NameNode : </b>Select namespace to be diagnosed.</li>
+	<li><b>Stop Diagnosis after N conflicts where N = </b> Select this checkbox to stop diagnose process if there are more than specified number of conflicts between namespace and metadata database.
+	 You can specify maximum allowed conflicts in the textbox.</li> 
+	 <li>Click <b>Diagnose</b> button to start the process.</li>
+	 
+	 	 
+</ul>
+<p>You can view the final report of the diagnose process by clicking on the <b>View</b> Diagnosis Report for respective process.</p>
+
+<h3>Diagnose Report</h3>
+<ul>
+	<li>It shows the conflicts found during sync process.</li>
+	<li>List of files in which conflict was found are displayed along with type of conflict found.</li>
+	<li>Following type of conflicts can be found : </li>
+		<ul>
+			<li>No conflict</li>	
+			<li>Metadata is different</li>
+			<li>Entry missing in namespace</li>
+			<li>Entry missing in database</li>
+		</ul>
+	<img alt="diagnose" src="images/screenshots/diagnose-report.png" >
+</ul>
+
+<h2><span>Repair</span></h2>
+<p>Repair process will resolve all the conflicts found during diagnose process. </p>
+<p>Select a diagnose entry from the table and click on <b>Repair</b> button on <B>Diagnose & Repair</B> tab to start <b>Repair</b> operation.</p>
+<p>Following operations are performed to sync namespace and database, according to the type of conflict generated on diagnose process :</p> 
+<ul>
+	<li><b>Metadata is different</b> : Conflict in namespace and database. Irrelevent entries from database are removed.</li>
+	<li><b>Entry missing in namespace</b> : Entries which are not found in FSImage of namespace are removed from database.</li>
+	<li><b>Entry missing in database</b>  : Entries not found in database are added to it according to FSImage of NameNode.</li> 
+</ul>
+<p>You can view the final report of the repair process by clicking on the <b>View</b> Diagnosis Report for respective process. After the repair process is completed, status changes to "Repair Complete".</p>
+
+<p>You can also <b>Delete</b> diagnose or repair processes executed on QueryIO.</p>
+
+
+
+<h1 id="br"><span>Backup & Restore</span></h1>
+<p>QueryIO stores metadata of all the files ingested on HDFS cluster in a relational database. 
+QueryIO can leverage this metadata information stored in database to recreate the FSimage file of the NameNode. 
+Since metadata is stored in a relational database, you can leverage efficient means of backup and recovery tools provided by the database vendors. </p>
+<p>QueryIO allows you to take backups of configured metadata DB and restore it to create FSImage of namespace.</p>
+<p>Backup & Restore view is an efficient solution for Disaster Recovery. 
+It helps you take the <b>backup of the metadata DB</b>, <b>schedule backups</b> and also provides all the important feature to <b>recreate the NameNode's FSImage</b> from scratch using the information stored in metadata DB. 
+You can recreate the FSImage from any backed up copy or can use <b>Hot Restore</b> feature to restore from live MetaStore DB. 
+It is useful in recovering from cases where NameNode's FSImage is lost or has got corrupted. </p>
+
+<p>Following details about Backup and Restore are displayed : </p>
+<ul>
+	<li><b>Backup ID</b> : Unique identifier of the backup process.</li>
+	<li><b>NameNode</b> : Id of the backup namespace.</li>
+	<li><b>Backup Type</b> : Type of the backup taken. It can be <b>Database</b> or <b>FileSystem</b></li>
+	<li><b>Backup Location : </b>Destination location of backup. In case, backup is on database, backup location is name of database on which backup is stored. In case of file system, it is destination directory.</li> 
+	<li><b>Start Time</b> : Starting time of the backup process.</li>
+	<li><b>End Time</b> : Finish time of the backup process.</li>
+	<li><b>Status</b> : Final state of the backup process.</li>
+</ul>
+<img alt="backup" src="images/screenshots/backup.png" >
+
+<h2><span>Backup</span></h2>
+<p>Click on <b>Backup</b> button on <B>Backup &  Restore</B> tab to start backup operation.</p>
+<ul>
+	<li><b>Backup Id</b> : A unique identifier for the backup process.</li>
+	<li><b>NameNode</b> : Select namespace whose backup will be taken.</li>
+	<li><b>Backup on</b> : Backup type. (<i>FileSystem or Database</i>).</li>
+	<li> In case of backup type is file system
+	<ul>
+		<li><b>Host Name / IP</b> :  Select the configured host on which backup will be saved.</li>
+		<li><b>Directory Path</b> : Specify the  destination location of backup files.</li>
+	</ul></li>
+	<li> In case of backup type is database
+	<ul>
+		<li><b>Destination Database</b>: Select the configured database on which backup is saved.</li>
+	</ul></li>
+	<li><b>Auto diagnose & repair before taking backup</b> : Select checkbox to run diagnose and repair process before backup will be taken.</li>
+	<img alt="backup" src="images/screenshots/backup-backup.png" >
+</ul>
+
+<h2><span>Schedule</span></h2>
+<p>Click on <b>Schedule</b> button on <B>Backup &  Restore</B> tab to schedule backup operation.</p>
+<ul>
+	<li><b>Schedule ID</b> : A unique identifier for the schedule process.</li>
+	<li><b>Backup Id</b> : A unique identifier for the backup process.</li>
+	<li><b>NameNode</b> : Select namespace whose backup will be taken.</li>
+	<li><b>Backup on</b> : Backup type. (<i>FileSystem or Database</i>).</li>
+	<li> In case of backup type is file system
+	<ul>
+		<li><b>Host Name / IP</b> :  Select the configured host on which backup will be saved.</li>
+		<li><b>Directory Path</b> : Specify the  destination location of backup files.</li>
+	</ul></li>
+	<li> In case of backup type is database
+	<ul>
+		<li><b>Destination Database</b>: Select the configured database on which backup is saved.</li>
+	</ul></li>
+	<li><b>Interval</b> : Select from Once, Twelve Hours, Daily, Weekly.</li>
+	<li><b>Schedule Time</b> : Select the schedule time from data time picker.</li>
+	<li><b>Send Notification</b> : Select checkbox if you want receive notification about backup process.</li> 
+	<li>Click "Next" to configure notification setting or "Finish" to complete scheduling backup process.</li>
+	<img alt="backup" src="images/screenshots/backup-schedule.png" >
+</ul>
+
+<h2><span>Restore</span></h2>
+<p>Select the backup from the list and click <b>Restore</b> on <B>Backup &  Restore</B> tab to start restore process.</p>
+<p>Restore process will recreate the NameNode's FSImage from scratch using the backup information stored in metadata DB.</p>
+
+<ul>
+	<li>Select the namespace on which selected backup will be restored.</li>
+	<li>Click <b>Restore</b> to start the process.</li>
+	<li>You can view the status of restore process in <b>Restore History</b> tab.</li>
+	<img alt="backup" src="images/screenshots/backup-restore.png" >
+</ul>
+
+<p>You can also <b>Delete</b> backups.</p>
+
+<h2><span>Hot Restore</span></h2>
+<p>Hot Restore provides you to restore using live metadata DB. Restore will done from the current state of the metadata DB.<a></a>
+<ul>
+	<li>Select the namespace to be restored from live metadata db.</li>
+	<li>Click <b>Submit</b> to start the process.</li>
+	<img alt="backup" src="images/screenshots/backup-hot-restore.png" >
+</ul>
+
+
+<h1><span>Restore History</span></h1>
+<p>Restore History view maintains history of all the restores done in past or are currently in progress. You can control and track the progress of a recovery process using this view. </p>
+<p>Following details are displayed : </p>
+<ul>
+	<li><b>Restore ID</b> : Unique identifier of the restore process.</li>
+	<li><b>Backup ID</b> : Unique identifier for the backup which was restored.</li>
+	<li><b>NameNode</b> : Namespace which was restored.</li>
+	<li><b>Start Time</b> : Starting time of the restore process.</li>
+	<li><b>End Time</b> : Finish time of the restore process.</li>
+	<li><b>Status</b> : Final state of the restore process.</li>
+</ul>
+
+<p>You can also <b>Stop</b> ongoing restore process and <b>Delete</b> entries from history table.</p>
+<img alt="backup" src="images/screenshots/restore4.png" >
+
+
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

@@ -1,0 +1,230 @@
+
+=============
+   Build
+============
+	
+https://cwiki.apache.org/confluence/display/Hive/GettingStarted#GettingStarted-BuildingHivefromSource
+
+Compile Hive on Hadoop 0.23
+To build the current Hive code on Hadoop 0.23 or later:
+
+
+
+export HIVE_SRC_DIR=/Users/heshang/Desktop/QueryIO/Hive-1.2.1
+export HIVE_TARGET_DIR=/Users/heshang/QueryIOPackage/hive-1.2.1
+
+cd $HIVE_SRC_DIR
+mvn clean install -Phadoop-2,dist -DskipTests
+cd /apache-hive-1.2.1-src/packaging/target/apache-hive-1.2.1-bin/apache-hive-1.2.1-bin
+ls
+  LICENSE
+  NOTICE
+  README.txt
+  RELEASE_NOTES.txt
+  bin/ (all the shell scripts)
+  lib/ (required jar files)
+  conf/ (configuration files)
+  examples/ (sample input and query files)
+  hcatalog / (hcatalog installation)
+  scripts / (upgrade scripts for hive-metastore)
+  
+cp $HIVE_SRC_DIR/packaging/target/apache-hive-1.2.1-bin/apache-hive-1.2.1-bin/lib/hive-exec-1.2.1.jar $HIVE_TARGET_DIR/lib
+
+->After installation and compilation, transfer the startHive.sh from hive-1.2.0/bin to hive-1.2.1/bin and hive-env.sh and hive-site.xml from hive-1.2.0/conf to hive-1.2.0/conf.
+
+====================
+	Offline build 
+====================
+	
+mvn dependency:go-offline
+mvn clean install -o -Phadoop-2,dist -DskipTests
+
+
+====================
+	Hadoop version 
+====================
+
+vi pom.xml and edit <hadoop-23.version>2.7.1</hadoop-23.version>	
+
+  
+=====================================
+  Exceptions occurred during upgrade  
+=====================================
+
+1. testSyncRpc(org.apache.hive.spark.client.TestSparkClient)  Time elapsed: 30.347 sec  <<< ERROR!
+	java.util.concurrent.TimeoutException: null
+		at io.netty.util.concurrent.AbstractFuture.get(AbstractFuture.java:49)
+		at org.apache.hive.spark.client.TestSparkClient$4.call(TestSparkClient.java:144)
+		at org.apache.hive.spark.client.TestSparkClient.runTest(TestSparkClient.java:275)
+		at org.apache.hive.spark.client.TestSparkClient.testSyncRpc(TestSparkClient.java:140)
+		
+		
+	Skip tests using -DskipTests option.	
+	
+	
+2. bin/hive --service hiveserver -hiveconf hive.root.logger=FATAL,console
+	Starting Hive Thrift Server
+	Exception in thread "main" java.lang.ClassNotFoundException: org.apache.hadoop.hive.service.HiveServer
+		at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+		at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+		at java.security.AccessController.doPrivileged(Native Method)
+		at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+		at java.lang.ClassLoader.loadClass(ClassLoader.java:425)
+		at java.lang.ClassLoader.loadClass(ClassLoader.java:358)
+		at java.lang.Class.forName0(Native Method)
+		at java.lang.Class.forName(Class.java:270)
+		at org.apache.hadoop.util.RunJar.run(RunJar.java:214)
+		at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
+		
+	Run bin/hive --service hiveserver2 instead of hive --service hiveserver for this version (v1.2) of apache hive
+	
+	
+	
+3. Unable to start hive.  (https://cwiki.apache.org/confluence/display/Hive/HiveServer2+Clients)
+	
+		In hive 1.2 we are running hiveserver2  so we need to use following.
+		
+		Class.forName("org.apache.hive.jdbc.HiveDriver");     (Optional) (Previous was "org.apache.hadoop.hive.jdbc.HiveDriver")
+		Connection con = DriverManager.getConnection("jdbc:hive2://localhost:10000/default", "", "");		 	
+	
+	
+=================================================
+
+We have done customization for 3 functionality.
+	1. Add files recursively
+	2. Filter files based on file paths stored in custom metastore db
+	3. Filter files based on file name (any regex)
+
+
+Module	: ql
+Class	: org.apache.hadoop.hive.ql.exec.FetchOperator
+
+  /*@QueryIO@*/
+  private boolean queryIOProcessed = false;
+  
+  
+Method	:  protected FetchInputFormatSplit[] getNextSplits()
+
+  /*@QueryIO@*/
+  private boolean queryIOProcessed = false;
+  
+  
+  //while (getNextPath()) {
+	getNextPath();
+	
+	if (!queryIOProcessed && currPath != null) {
+	
+	
+	/* QueryIO */
+      boolean isRecursive = job.getBoolean("queryio.hive.parse.recursive", false);
+      LOG.info("isRecursive: " + isRecursive);
+      boolean isFilterQuery = job.getBoolean("queryio.hive.filter.apply", false);
+      LOG.info("isFilterQuery: " + isFilterQuery);
+      String filePathPattern = job.get("queryio.hive.filepath.filter", "*.*");
+      LOG.info("filePathPattern: " + filePathPattern);
+      /* QueryIO */
+      
+      Pattern pattern = null;
+      if(filePathPattern == null || filePathPattern.equals("*.*")){
+    	  // ignore (pattern will be null in this case)
+      }else{
+    	  filePathPattern = filePathPattern.replaceAll("\\.", "\\\\.");
+    	  filePathPattern = filePathPattern.replaceAll("\\*", ".*");
+    	  pattern = Pattern.compile(filePathPattern);
+      }
+	  
+	  /*@QueryIO@*/
+	  String parentPath = StringUtils.escapeString(currPath.toString());
+	  
+	  /*@QueryIO@*/
+	  Set<Path> pathsProcessed = new HashSet<Path>();
+	  List<Path> pathsToAdd = new LinkedList<Path>();
+	  
+	  /*@QueryIO@*/
+	  if (isFilterQuery)
+      {
+    	  List<String> recPaths = new ArrayList<String>();
+    	  addFilterQueryPaths(job, job, recPaths, parentPath, pattern);
+          String filePath = null;
+          for (int i=0; i<recPaths.size(); i++)
+          {
+        	  filePath = recPaths.get(i);
+        	  LOG.info("recPaths i: " + i + " recPaths.get(i): " + filePath);
+        	  
+              // Multiple aliases can point to the same path - it should be
+              // processed only once
+        	  Path filePathObject = new Path(filePath);
+              if (pathsProcessed.contains(filePathObject)) {
+                continue;
+              }
+              
+              LOG.info("Adding input file " + filePath);
+              pathsProcessed.add(filePathObject);
+              
+              if(filePathObject != null)
+            	  pathsToAdd.add(filePathObject);
+          }
+      }
+      else
+      {
+    	// TODO Check path
+          Path tempPath = currPath;
+          
+          if (isRecursive)
+          {
+        	  List<String> recPaths = new ArrayList<String>();
+              addPaths(job, tempPath, recPaths, pattern, true);
+              
+              String filePath = null;
+              for (int i=0; i<recPaths.size(); i++)
+              {
+            	  filePath = recPaths.get(i);
+            	  LOG.info("recPaths i: " + i + " recPaths.get(i): " + filePath);
+            	  
+                  // Multiple aliases can point to the same path - it should be
+                  // processed only once
+                  if (pathsProcessed.contains(new Path(filePath))) {
+                    continue;
+                  }
+                  
+                  pathsProcessed.add(new Path(filePath));
+                  
+                  LOG.info("Adding input file " + filePath);
+                  
+                  Path filePathObject = new Path(filePath);
+
+                  if(filePathObject != null)
+                	  pathsToAdd.add(filePathObject);
+              }
+          }
+          else
+          {  
+        	  List<String> paths = new ArrayList<String>();
+              addPaths(job, tempPath, paths, pattern, false);
+              
+              String filePath = null;
+              for (int i=0; i<paths.size(); i++)
+              {
+            	  filePath = paths.get(i);
+            	  
+            	  LOG.info("Adding input file " + filePath);
+            	  
+                  Path filePathObject = new Path(filePath);
+
+                  if(filePathObject != null)
+                	  pathsToAdd.add(filePathObject);
+              }
+          }
+      }
+	  
+	  if(pathsToAdd.size() == 0){
+		  queryIOProcessed = true;
+		  return null;
+	  }else{
+		  setInputPaths(job, pathsToAdd);		  
+	  }
+	
+  
+  
+		
+

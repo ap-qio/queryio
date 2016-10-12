@@ -1,0 +1,85 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>GET Hadoop SQL Query</title>
+	
+</head>
+<h1><span>GET a given Hadoop SQL Query</span></h1>
+<p>GET Hadoop SQL operation is used to fetch given Hadoop SQL Query from the database.</p>
+
+<h2 id="s3"><span>S3 Compatible REST API</span></h2>
+<p>Following code is used to fetch a Hadoop SQL Query.</p>
+<p><code>java.net.HttpURLConnection</code> is used to create a GET request "hadoopsql" appended to the URL. Request property(hadoopsql-id) is set to id of the Hadoop SQL Query to be retrieved. </p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.apache.http.HttpStatus;
+
+public class QueryOperations {
+	
+		/*
+	 	 * This program fetches a given Hadoop SQL Query
+		 * @param serverURL: URL of s3 server.
+		 * @param token: authorization token.
+		 * @param queryId: Id of the query to be retrieved
+		 */
+	public void getHadoopSQL(String serverURL, String token, String queryId)
+			throws Exception {
+		URL url = null;
+		HttpURLConnection httpCon = null;
+		InputStream is = null;
+		try {
+			/* append "/" at end of serverURL */
+			if (!serverURL.endsWith("/")) {
+				serverURL = serverURL + "/";
+			}
+			url = new URL(serverURL + "hadoopsql");	//append "hadoopsql" to the serverURL and create a new URL object
+
+			//Returns a URLConnection object that represents a connection to the remote object referred to by the URL.
+			httpCon = (HttpURLConnection) url.openConnection();
+
+			httpCon.setDoOutput(true);	// to use the URL connection for output
+			httpCon.setRequestMethod("GET");	//GET request is used
+
+			httpCon.setRequestProperty("authorization", token);	//provides authorization token for authentication
+			httpCon.setRequestProperty("hadoopsql-id", queryId);	//provides id of the query to be retrieved
+			
+			httpCon.connect();	//Opens a communications link to the resource reference by the URL
+
+			if (httpCon.getResponseCode() == HttpStatus.SC_OK) {	//check for OK response
+				is = httpCon.getInputStream();
+				// Process response here
+			}
+		} finally {
+			try {
+				if (is != null)
+					is.close();	//close InputStream
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (httpCon != null) {
+				httpCon.disconnect();	//close connection
+			}
+		}
+	}
+}
+	</pre>
+</div>
+
+
+<body>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

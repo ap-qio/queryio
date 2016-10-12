@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="styles/tagManager.css" type="text/css" />
+
+<script src="scripts/tagManager.js"></script>
+
+<div id='tagManager' style=" overflow: auto; min-width: 950px;">
+	<div id="tagsIngestDiv" style="width: 98%">
+	<!-- div class = "headerTag" style="text-align: left;">Extended Metadata</div-->
+		<div class="buttons">
+			<button style="width: 60px" class="button" id ="addButton" onclick="javascript:TagManager.addTag();">Add</button>
+			<button style="width: 60px" class="button" id ="editButton" onclick="javascript: Util.addLightbox('edittag', 'resources/editIngest.html', null, null);">Edit</button>
+			<button style="width: 60px" class="button" id ="deleteButton" onclick="javascript:TagManager.deleteTag();">Delete</button>
+		</div>
+		<div>
+			<table id="tagsIngestTable" class="dataTable" style="font-size: 9pt;"></table>
+		</div>
+	</div>
+	
+	<div id="tagsPostIngestDiv" style="width: 98%; display: none;">
+		<div class = "headerTag" style="text-align: left;">Post-Ingest</div>
+		<div class="buttons">
+			<button class="button" id ="addPostButton" onclick="javascript:TagManager.addPostTag();">Add</button>
+			<button class="button" id ="editPostButton" onclick="javascript: Util.addLightbox('editPostIngesttag', 'resources/editPostIngest.html', null, null);">Edit</button>
+			<button class="button" id ="deletePostButton" onclick="javascript:TagManager.deletePostIngestTag();">Delete</button>
+		</div>
+		<form action="">
+			<table id="tagsPostIngestTable" class="dataTable" style="font-size: 9pt;"></table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	TagManager.ready();
+
+
+function fillPopUp(){
+	console.log(TagManager.parserType);
+	TagManager.populateDeleteTag(true, null);
+}
+
+function closePopUpBox(){
+	Util.removeLightbox("delete_pop_up");
+	Navbar.refreshView();
+	TagManager.resetFields();
+}
+</script>

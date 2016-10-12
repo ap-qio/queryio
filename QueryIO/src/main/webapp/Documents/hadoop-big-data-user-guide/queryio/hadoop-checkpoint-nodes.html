@@ -1,0 +1,115 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>CheckPoint Node</title>
+</head>
+<body>
+<h1 id="NameNode"><span>CheckPoint Node</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains checkpoint node and how to configure a checkpoint node to create checkpoints of namespace periodically.</p>
+<ul>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#add">Adding CheckPoint Nodes</a></li>
+	<li><a href="#config">Configuring CheckPoint Nodes</a></li>
+	<li><a href="#start">Start/Stop CheckPoint Nodes</a></li>
+	
+</ul>
+
+<h2 id="intro"><span>Introduction</span></h2>
+<p>NameNode persists its namespace using two files: fsimage, which is the latest checkpoint of the namespace 
+and edits, a journal (log) of changes to the namespace since the checkpoint. When a NameNode starts up, 
+it merges the fsimage and edits journal to provide an up-to-date view of the file system meta-data. 
+The NameNode then overwrites fsimage with the new HDFS state and begins a new edits journal.</p>
+<p>The Checkpoint node periodically creates checkpoints of the namespace. 
+It downloads fsimage and edits from the active NameNode, merges them locally, and uploads the new image back to the active NameNode. The Checkpoint node 
+usually runs on a different machine than the NameNode since its memory requirements are on the same order as the NameNode.</p>
+
+<p>The Checkpoint node stores the latest checkpoint in a directory that is structured the same as the NameNode's directory. 
+This allows the check-pointed image to be always available for reading by the NameNode if necessary.</p>
+<p>
+Multiple CheckPoint nodes may be configured on the cluster.
+</p>
+
+<p>
+To configure CheckPoint nodes or perform start/stop operations on them, navigate to <b>CheckPoint Node</b> tab.</p>
+<img alt="name_node" src="images/screenshots/checkpoint-nodes-list.jpeg" >
+
+
+<h2 id="add"><span>Adding CheckPoint Nodes</span></h2>
+<p>To add checkpoint nodes to your cluster, follow the guidelines mentioned below</p>
+<ul>
+	<p> To add a CheckPoint node, click on <b>Add</b> button. You will see the following dialog box. </p>
+		<img alt="name_node" src="images/screenshots/add-checkpoint-node.jpeg" >
+	</li>
+	<li>
+	<p> Select host-name for the host on which you want to install the CheckPoint node. It is recommended that you install 
+	your CheckPoint node on a different machine than the NameNode since its memory requirements are on the same order as the NameNode.</p>
+	</li>
+	<li>
+	<p> Select node id for the NameNode you want to associate your CheckPoint node with.</p>
+	</li>
+	<li>
+	<p> Enter unique identifier for your CheckPoint node.</p>
+	</li>
+	<li>
+	<p> Click <b> Next</b>.</p>
+	</li>
+	<img alt="name_node" src="images/screenshots/add-checkpoint-node1.jpeg" >
+	<li>
+	<p> Enter path for the directory where you want your CheckPoint node to store its data.</p>
+	</li>
+	<li>
+	<p> Enter port for the web services of CheckPoint node.</p>
+	</li>
+	<li>
+	<p> Enter JMX port for CheckPoint node. QueryIO monitors its nodes via JMX.</p>
+	</li>
+	<li>
+	<p> Click <b> Save</b>.</p>
+	</li>
+</ul>
+
+<h2 id=config><span>Configuring CheckPoint Nodes</span></h2>
+<p>To configure existing CheckPoint nodes, follow the guidelines mentioned below</p>
+<ul>
+	<li>
+	<p> At this point, it is assumed that you have already added CheckPoint node to your cluster. The table in the CheckPoint node view
+	lists all the CheckPoint nodes.</p>		
+	</li>
+</ul>
+	
+<ul>	
+	<li>
+	<p> Select the check-box adjacent to the CheckPoint node that you want to configure and click on <b>Configure</b>. 
+		Here you can edit various node specific properties. Once you are done, click <b>Save</b>.
+	</p>
+	
+	</li>
+</ul>
+	<img alt="name_node" src="images/screenshots/checkpoint-nodes-config.jpeg" >
+
+<h2 id="start"><span>Start/Stop CheckPoint Nodes</span></h2>
+<p>To start/stop existing CheckPoint nodes, follow the guidelines mentioned below</p>
+<ul>
+	<li>
+	<p> Select the check-box adjacent to the CheckPoint node that you want to start/stop and click on <b>Start</b>/<b>Stop</b> buttons respectively. 
+	</p>
+	</li>
+	<li>
+	<p> Same way you can delete your existing CheckPoint nodes.
+	</p>
+	</li>
+</ul>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+</body>
+</html>

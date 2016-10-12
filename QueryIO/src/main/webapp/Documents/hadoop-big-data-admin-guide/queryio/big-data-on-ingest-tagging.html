@@ -1,0 +1,56 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Big Data - On Ingest Tagging</title>
+</head>
+
+<body>
+
+
+<h1><span>Big data - On Ingest Tagging</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>Following documents explain On Ingest Tagging:</p>
+<ul>
+	<li><a href="#on">Description</a></li>
+	<li><a href="#add">Add On Ingest Parser</a></li>
+</ul>
+
+<h2 id="on"><span>Description</span></h2>
+<p>On Ingest Parser parses the file and extracts <a href="hadoop-big-data-architecture.html#Extended Metadata">extended metadata</a> while it is being written onto the cluster. 
+Extended metadata refers to the file metadata that is not interpreted by file system. It is used to associate files with some extra information. 
+Typical usage can be storing the author of a document, the character encoding of a plain-text document, a checksum or digital signature. These metadata about files are saved in the database.</p>
+
+<p> To add on ingest parser to the cluster, navigate to <b>Data > Manage Datasources > Manage Data Tagging</b> view.</p>
+
+<h2 id="add"><span>Add On Ingest Parser</span></h2>
+<p>Use following guidelines to add an On Ingest parser</p>
+	<ul>
+		<li>Click on <b>Add</b> button in the On Ingest view to add new On Ingest parser.</li>
+		<li><b>Name</b>: Enter name for the parser.</li>
+		<li><b>Description</b>: Provide description for the parser.</li>
+		<li><b>Class Name</b>: Provide main class for the parser.</li>
+		<li><b>File Extensions</b>: Provide file extensions that you want to associate with the parser.</li>
+		<li><b>Tag Parser JAR</b>: Select jar file which has implementation of com.queryio.plugin.datatags.IUserDefinedParser interface. Click on <b>Choose File</b> to browse and select the Tag Parser JAR file.</li>
+		<li><b>Extra JAR(s)</b>: You can upload number of dependent jar files, if required.</li>
+		<li><b>Is Active</b>: Check box to activate or deactivate On Ingest parser.</li>
+		<li>Click on <b>Add</b> to add the parser.</li>
+		<img alt="NM-add3" src="images/screenshots/data-tag-manager-add-oningest.jpeg" >	<br><br>
+		<li>All tables related to file extensions will be automatically created. You can see them in <b>Manage Databases</b>.</li>
+		
+	</ul>
+	
+	<p>You can use <a href="hadoop-sql-designer.html" > Query Manager</a> to query the metadata extracted using these parsers.</p>
+	<p>To see how to write your own parser, refer to the <a href="../../hadoop-big-data-developer-guide/queryio/WritingOnIngestParser.html" target="_blank">developer documentation</a></p>
+	
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+	
+
+</body>
+</html>

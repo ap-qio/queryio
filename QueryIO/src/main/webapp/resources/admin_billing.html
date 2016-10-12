@@ -1,0 +1,35 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<script src="scripts/jquery.alerts.js"></script>-->
+<script src="scripts/admin_billing.js"></script>
+
+<link rel="stylesheet" href="styles/lightbox.css" type="text/css" />
+<div style=" overflow: auto; min-width: 950px;">
+<form id = "admin_billing" name="admin_billing" action="">
+	<div class="buttons">
+	
+	<button class = "button" type="button" name="view"  onClick="javascript:Billing.viewReport();" >View</button>
+	<button class = "button" type="button" name="email"  onClick="javascript:Billing.emailReport();" >Email</button>
+	<button class = "button" type="button" name="schedule" value="Schedule" onClick="javascript:Billing.schedule();">Schedule</button>
+	<span style="float: right;">Billing Interval
+	 <select id = "billingInterval" onchange="javascript:Billing.billingIntervalChanged();">
+			 <option selected=""  value="currentmonth">Current Month</option>
+			<option value="0.0416666667">1 hours</option>
+			<option value="1">1 day</option>
+			<option value="7">7 days</option>
+			<option value="30">30 days</option>
+			<option value="90">90 days</option>
+			<option value="180">180 days</option>
+			<option value="360">360 days</option>
+	 </select>
+	 </span>
+	</div>
+	<br>
+	<div id ="admin_billing_table_div">
+	<table id="admin_billing_table" style="font-size: 9pt;"></table>
+	</div>
+</form>
+</div>
+<script>
+Billing.ready();
+</script>

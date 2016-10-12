@@ -1,0 +1,152 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>YARN Job Manager</title>
+</head>
+
+<body>
+
+<h1><span>YARN Job Manager</span></h1>
+<h2><span>In this chapter</span></h2>
+	<p>Using QueryIO, you can easily submit your MapReduce jobs for execution.</p>
+	<p>In the status view, you can also track the status of the applications that you have submitted for execution.</p>
+<ul>
+	<li><a href="#add-job">MapReduce Job</a></li>
+	<li><a href="#details">Job Manager Details</a></li>
+	<li><a href="#add">Add MapReduce Job</a></li>
+	<li><a href="#config">Configure MapReduce Job</a></li>
+	<li><a href="#op">Start/Remove/Stop  MapReduce Job</a></li>
+	<li><a href="#sch">Schedule MapReduce Job</a></li>
+	<li><a href="#add-adhoc">Add AdHoc Job</a></li>
+	<li><a href="#config-adhoc">Configure AdHoc Job</a></li>
+	<li><a href="#op-adhoc">Start/Remove/Stop AdHoc Job</a></li>
+	<li><a href="#sch-adhoc">Schedule AdHoc Job</a></li>
+</ul>
+
+
+<h2 id="add-job"><span>MapReduce Job</span></h2>
+<p>QueryIO provides facility to execute MapReduce application in form of a JAR file. QueryIO supports single JAR file for a job.</p>
+
+<p>Use following guidelines to create a MapReduce application</p>
+	<ul>
+		<li>There must be at least three classes in your job:</li>
+			<ul>
+				<li><b>Job execution class(Main class)</b></li>
+				<li><b>Mapper Class</b></li>
+				<li><b>Reducer Class</b></li>
+			</ul>
+		<li>If there are any dependent JAR files which are required for job execution, then dependent classes must be added to Application JAR.</li>
+		<li>Since only one JAR is supported, all classes should be combined in a single JAR file.</li>		
+	</ul>
+
+
+<h2 id="details"><span>Job Manager Details</span></h2>
+	<p>Following details are displayed: </p>
+	<ul>
+		<li>Jobs: Details of jobs submitted by user.</li>
+		<img alt="name-node" src="images/screenshots/job-browser.jpeg" >
+		<li>Jobs Execution History: Detailed history of jobs executed.</li>
+		<img alt="name-node" src="images/screenshots/execution-history.jpeg" >
+	</ul>
+	
+<h3><span>Jobs</span></h3>
+	<p>Following details about jobs are displayed:</p>
+	<ul>
+		<li><b>Job Name</b>: Unique name of the job.</li>
+		<li><b>Main Class</b>: Main class name.</li>
+		<li><b>Arguments</b>: Arguments provided at time of adding new job.</li>
+		<li><b>Jar File</b>: Name of the Jar file.</li>
+		<li><b>NameNode</b>: NameNode associated with the job.</li>
+		<li><b>ResourceManager</b>: ResourceManager associated with the job.</li>
+		<li><b>Lib Jar(s)</b>: Depenedent library  jar files required by job.</li>
+		<li><b>Native File(s)</b>: Native files added along with job.</li>
+	</ul>
+
+<h3><span>Execution History</span></h3>
+	<p>Detailed history of all the jobs are displayed here.</p>
+	<ul>
+		<li><b>ID</b>: Unique ID of the job.</li>
+		<li><b>User</b>: Name of the user who created job.</li>
+		<li><b>Name</b>: Name of the job.</li>
+		<li><b>Queue</b>: Queue in which application was submitted to execute.</li>
+		<li><b>StartTime</b>: Starting time of the job.</li>
+		<li><b>FinishTime</b>: Finishing time of the job.</li>
+		<li><b>State</b>: Current state of the job.</li>
+		<li><b>Final Status</b>: Final status of the job as Successful or Failed.</li>
+		<li><b>Container Logs</b>: Click here to view logs of all containers for debugging.</li>		
+	</ul>
+<p class="note">NOTE: Restarting ResourceManager or QueryIO server will reset "Job execution  History".</p>
+
+
+<h2 id="add"><span>Add MapReduce Job</span></h2>
+	<ul>
+		<li>Click on <b>Add</b> button to add new job.</li>
+		<li><b>Job Name</b>: Enter a job name.</li>
+		<li><b>Main Class</b>: Provide main class for the job to execute.</li>
+		<li><b>Arguments</b>: Provide arguments required by main class of job.</li>
+		<li><b>NameNode</b>: Select NameNode on which job will be executed.</li>
+		<li><b>ResourceManager</b>: Select ResourceManager for the job.</li>
+		<li><b>Jar File</b>: Click on <b>Choose File</b> to browse and select the MapReduce Application JAR file.</li>
+		<img alt="job-add3" src="images/screenshots/job-add.jpeg" >	<br><br>
+		<li><b>Lib Jar</b>:Any dependent library jar files required by the job can be added here.</li> 
+		<li><b>Native File</b>: Any related native files can be added for the job.</li>
+		<img alt="job-add3" src="images/screenshots/add-job2.jpeg" >	<br><br>
+		<li>Click on <b>Save</b> to add new job.</li>
+		
+	</ul>
+	
+	
+<h2 id="config"><span>Configure MapReduce Job</span></h2>
+<p>To configure a Job, select the checkbox against target job and click <b>Configure</b>. All configurable properties of Job will be displayed. You can change the JAR file for the job.</br>
+Update the properties and click on <b>Save</b> for changes to take affect.</p>
+
+
+<h2 id="op"><span>Start/Remove/Stop MapReduce Job</span></h2>
+<p>Select the Job and click on <b>Start</b> or <b>Remove</b> to perform respective function.</p>
+<p>Select the job from the "Jobs Execution History" table and click <b>Stop</b> to stop the job.</p>
+
+<h2 id="sch"><span>Schedule MapReduce Job</span></h2>
+<p>Select the Job and click on <b>Schedule</b> to set the frequency of job execution. Select the time interval after which job execution must be repeated and starting time for the job.</p>
+
+
+
+<h2 id="add-adhoc"><span>Add Job for Ad-Hoc query </span></h2>
+	<ul>
+		<li>Click on <b>Add</b> button to add new job.</li>
+		<li><b>Job Name</b>: Enter a job name.</li>
+		<li><b>Source Path</b>: Provide source for the job to execute.</li>
+		<li><b>NameNode</b>: Select NameNode on which job will be executed.</li>
+		<li><b>ResourceManager</b>: Select ResourceManager for the job.</li>
+		<li><b>Jar File</b>: Click on <b>Choose File</b> to browse and select the MapReduce Application JAR file.</li>
+		<img alt="job-add3" src="images/screenshots/addhoc-mapreduce-job-add.jpeg" >	<br><br>
+		<li><b>Lib Jar</b>:Any dependent library jar files required by the job can be added here.</li> 
+		<li><b>Native File</b>: Any related native files can be added for the job.</li>
+		<img alt="job-add3" src="images/screenshots/addhoc-mapreduce-job-add2.jpeg" >	<br><br>
+		<li>Click on <b>Save</b> to add new job.</li>
+		
+	</ul>
+	
+	
+<h2 id="config-adhoc"><span>Configure Ad-Hoc Job</span></h2>
+<p>To configure a Job, select the checkbox against target job and click <b>Configure</b>. All configurable properties of Job will be displayed. You can change the JAR file for the job.</br>
+Update the properties and click on <b>Save</b> for changes to take affect.</p>
+
+
+<h2 id="op-adhoc"><span>Start/Remove/Stop Ad-Hoc Job</span></h2>
+<p>Select the Job and click on <b>Start</b> or <b>Remove</b> to perform respective function.</p>
+<p>Select the job from the "Jobs Execution History" table and click <b>Stop</b> to stop the job.</p>
+
+<h2 id="sch-adhoc"><span>Schedule Ad-Hoc Job</span></h2>
+<p>Select the Job and click on <b>Schedule</b> to set the frequency of job execution. Select the time interval after which job execution must be repeated and starting time for the job.</p>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

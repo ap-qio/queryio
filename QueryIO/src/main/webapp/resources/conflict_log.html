@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="styles/ui.jqgrid.css" type="text/css" />
+<link rel="stylesheet" href="styles/nd.css" type="text/css" />
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />-->
+
+<link rel="stylesheet" href="styles/nd.css" type="text/css" />
+
+
+<script src="scripts/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="scripts/jquery.jqGrid.min.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+
+<style type = "text/css">
+	#conflict_detail_table td
+	{
+		padding: 2px;
+		text-align: left;
+	}
+	#jqgrid_container td
+	{
+		padding: 2px;
+		text-align: left;
+	}
+</style>
+<div id="host_create" class="lightbox" style="width:550px;">
+<div id="close" class="close">
+	<a href="javascript:BAR.closeBox(false);"><img src="images/light-box-close.png"></a>
+</div>
+
+<table class="outer">
+       <tbody>
+       	<tr>
+           	<td id="hdr_td" style="padding: 0pt;">
+           		<h4 style="font-weight: normal;"><span id ="headerspan">Conflict</span></h4>
+           	</td>
+       	</tr>
+       	<tr>
+			<td>
+				<table align="center" width="100%" style="border-collapse: collapse;">
+					<tbody>
+						<tr>
+							<td id="msg_td">
+								<div class="instructional" id="inst">
+								
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<hr>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							 	<div id='data_browser' class="">
+									
+									<div id ="jqgrid_container">
+										<table id="conflict_browser_table"></table>
+										<div id="pager"></div>
+									</div>
+									<div style="width:550px; max-width: 550px; overflow: auto; margin-top: 10px;">
+										<table id = "conflict_detail_table" class = "dataTable"></table>
+									</div>
+									</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<hr>
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align: right; padding: 15px 5px 10px 0px;">
+								<input type="button" class="buttonAdmin" id="cancelbtn" value="Cancel" onclick="javascript:BAR.closeBox(false);" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+</div>
+
+<script type="text/javascript">
+var startIndex = 0;
+var endIndex = 50;
+	BAR.populateConflictTable();
+</script>

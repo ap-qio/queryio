@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="styles/adhocJobs.css" type="text/css" />
+
+<script type="text/javascript" src="scripts/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.tabs.js"></script>
+<script type="text/javascript" src="scripts/js/ui.tabs.paging.js"></script>
+<script src="scripts/job_browser.js"></script>
+
+<div id='adhocJob' style=" overflow: auto; min-width: 950px;">
+	<div id="adhocJobDiv" style="width: 98%">
+	
+		<div class="buttons">
+			<button class="button" type="button" name="Add" id="addButtonAdhoc" onClick="javascript:JB.addApplication(true);">Add</button>
+			<button class="button" type="button" name="Edit" id="editButtonAdhoc" disabled="disabled" onClick="javascript:JB.editApplication(true);">Configure</button>
+			<button class="button" type="button" name="Delete" id="deleteButtonAdhoc" disabled="disabled" onClick="javascript:JB.deleteApplication(true);">Remove</button>
+		</div>
+		<div>
+			<table id="JobBrowserAdhoc_summary_table" class="dataTable" style="font-size: 9pt;"></table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	JB.ready();
+
+	function fillPopUp(flag)
+	{
+		var id = JB.jobName;
+		
+		if (JB.currentOperation == 'stopJob')
+			id = JB.appName;
+		
+		dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+		dwr.util.byId('pop.pattern'+id).style.display = '';
+		dwr.util.byId('popup.image.processing'+id).style.display = '';
+		dwr.util.setValue('popup.component','Job');
+		dwr.util.setValue('popup.host'+id,id);
+		dwr.util.setValue('popup.message'+id,'Processing Request...');
+		dwr.util.setValue('popup.status'+id,'');
+		
+		if (JB.currentOperation == 'startJob')
+		{
+			RemoteManager.runJob(JB.jobName, JB.startCallbackResponse);
+			dwr.util.setValue('popup.status'+id,'Job start in progress..');
+		}
+	 	else if (JB.currentOperation == 'editJob')
+		{
+	 		if(JB.isAdhoc)
+	 		{
+	 			RemoteManager.updateAdhocJobDetails(JB.jobName, JB.newJobName, JB.mainClass, JB.arguments, JB.pathPattern, JB.sourcePath, JB.selectedNN, JB.selectedRM, JB.callbackResponse);
+	 		}
+	 		else
+	 		{
+				RemoteManager.updateJobDetails(JB.jobName, JB.newJobName, JB.mainClass, JB.arguments, JB.selectedNN, JB.selectedRM, JB.callbackResponse);
+	 		}
+		}
+	 	else if (JB.currentOperation == 'deleteJob')
+		{
+			dwr.util.setValue('popup.host'+id,JB.selectedJobsList);
+			RemoteManager.deleteAllAdHocJobs(JB.selectedJobsList, JB.callbackDeleteResponse);
+		}
+		else if (JB.currentOperation == 'stopJob')
+		{
+			RemoteManager.killApplication(JB.appName, JB.callbackResponse);
+		}
+	}
+		
+	function closePopUpBox()
+	{
+		JB.closeBox(true);
+	}
+</script>

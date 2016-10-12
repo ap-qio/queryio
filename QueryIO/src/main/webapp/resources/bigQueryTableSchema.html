@@ -1,0 +1,33 @@
+<div id="rightOverlay" style="height: auto; ">
+	<table align="center" style="border-collapse: collapse;">
+		<tbody>
+			<tr>
+				<td colspan="2">
+					<div id="msg_td" class="queryHeader" style="font-size: 12px;">
+						Shows the schema of the selected table.
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 245px; font-size: 12px;">Table Selected</td>
+				<td>
+					<span><input type="text" id="selectedTable" disabled="disabled" style="width: 96%;"></span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div>
+						<table id="schemaTable"></table>
+						<br>
+					</div>
+				</td>  
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+
+RemoteManager.viewSchemaBigQueryTable(DB_Config.selectedDBId, BQT.selectedTable, BQT.plotSchema);
+
+
+</script>

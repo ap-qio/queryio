@@ -1,0 +1,82 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>Getting Started: Delete Bucket</title>
+	
+</head>
+<body>
+<h1><span>Delete Bucket</span></h1>
+<p>DELETE bucket operation deletes a bucket from the QueryIO cluster.</p>
+
+<h2 id="s3"><span>Delete bucket using S3 Compatible REST API</span></h2>
+<p>Following code is used to delete a bucket from QueryIO server.</p>
+<p>HttpURLConnection object is used to create a DELETE request with bucket name appended to the URL. HttpStatus is used to compare the response code to SC_NO_CONTENT i.e. no content found at bucket location.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.apache.http.HttpStatus;
+
+public class BucketOperations {
+	
+	/*
+	 * This program will delete the given bucket
+	 * @param serverURL: URL of S3 Compatible REST server(http://&lt;S3 server IP&gt; : &lt;S3 server port&gt; /queryio/). For example: http://192.168.0.1:5667/queryio/
+	 * @param token: authorization token.
+	 * @bucketName: Name of the bucket to be deleted.
+	 */	
+	public void deleteBucket(String serverURL, String token, String bucketName)
+			throws Exception {
+		URL url = null;
+		HttpURLConnection httpCon = null;
+
+		try {
+			/* append "/" at end of serverURL */
+			if (!serverURL.endsWith("/")) {
+				serverURL = serverURL + "/";
+			}
+			url = new URL(serverURL + bucketName); 	//creates a URL with appending bucket name at end
+
+			//Returns a URLConnection object that represents a connection to the remote object referred to by the URL.
+			httpCon = (HttpURLConnection) url.openConnection();			
+
+			httpCon.setDoOutput(true);	// to use the URL connection for output
+			httpCon.setRequestMethod("DELETE");	//DELETE request is used.
+
+			httpCon.setRequestProperty("authorization", token);	//Provides token for authorization
+
+			httpCon.connect();	//Opens a communications link to the resource reference by the URL
+
+			if (httpCon.getResponseCode() == HttpStatus.SC_NO_CONTENT) {	//Bucket deleted if response code is HttpStatus.SC_NO_CONTENT
+					System.out.println("\nBucket Deleted Succesfully...");
+			}
+			else
+			{
+				System.out.println("\nBucket not Deleted..!");
+			}
+		} finally {	//close connection
+			if (httpCon != null) {
+				httpCon.disconnect();
+			}
+		}
+	}
+}
+	</pre>
+</div>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>
+

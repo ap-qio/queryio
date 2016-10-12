@@ -1,0 +1,59 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Disk Monitoring</title>
+</head>
+
+<body>
+<h1><span>Disk Monitoring</span></h1>
+<p>QueryIO provides disk monitoring to ensure that data stored in cluster is always safe.</p>
+<p>All the disks configured in the cluster are monitored by QueryIO. <b>S.M.A.R.T.</b> disk monitoring tools are used by QueryIO to control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) which is built using ATA and SCSI hard disks. 
+These utilities provide advanced warning of disk degradation and failure in many cases.</p>
+<p>S.M.A.R.T. (Self-Monitoring, Analysis and Reporting Technology) is a system which monitors computer hard disk drives to detect and report various indicators of reliability, in the hope of expecting failures.
+The aim of S.M.A.R.T. is to warn a user about expecting drive failure while there is still time to copy the data to a replacement device.</p>
+
+<p>QueryIO monitors all the configured hard disks on the host machines in every 15 minutes and checks for the disk failure by checking various disk parameters like bad sectors, temperature of disk, seek error rate, spin count, power on hours, seek time performance, spin up count etc.</br> </p>
+<p>If any faulty disk is found, a mail alert is generated immediately informing fault in the disk with details. Thus necessary action can be taken before data is lost.
+</br>Various details about the faulty disk attached in the mail are :</p>
+<ul>
+	<li>IP Address of the host machine.</li>
+	<li>Device ID</li>
+	<li>Disk Serial Number</li>
+	<li>Model Number</li>
+	<li>Disk Capacity</li>
+	<li>Bad Sector Count</li>
+	<li>Mount Information</li>
+</ul>
+
+<p style="text-align: left;"> You can also see the disk status for individual data nodes in the <b>Dashboard</b> and <b>DataNode details</b> view.
+
+<img src="images/screenshots/disk-monitoring-view.jpeg" width="100%"/>
+
+<p>Here, you can see the status of the disks in the <b>Disk</b> column. 
+<ul>
+	<br>
+	<p>
+	<img src="images/screenshots/diskstatus-ok.jpeg" style="border:0px;" /> Disk Ok
+	</p>
+	<p>
+	<img style="border:0px;" src="images/screenshots/diskstatus-failure.jpeg" /> Disk failure
+	</p>
+	<p>
+	<img style="border:0px;" src="images/screenshots/diskstatus-unavailable.jpeg" /> Disk status unavailable
+	</p>
+		<br>
+
+</ul>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN"
+    "http://getahead.org/dwr/dwr30.dtd">
+
+<dwr>
+  <allow>
+  	<create creator="new">
+    	<param name="class" value="com.queryio.core.conf.RemoteManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.datasources.DataSourceManager"/>
+    </create>
+        
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.monitor.managers.ChartManager"/>
+    </create>
+    
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.applications.ApplicationManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.monitor.managers.StatusManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.monitor.controllers.ControllerManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.reports.ReportManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.notification.NotificationSettingsManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.monitor.managers.RuleManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.monitor.managers.AlertManager"/>
+    </create>
+     <create creator="new">
+    	<param name="class" value="com.queryio.scheduler.service.ScheduleManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.snapshots.SnapshotManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.queryioservices.QueryIOServicesManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.customtags.BigQueryManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.permissions.PermissionsManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.config.db.DBConfigManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.config.db.GenericDBConfigManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.namespace.DiagnosisAndRepairManager"/>
+    </create>
+    <create creator="new">
+    	<param name="class" value="com.queryio.core.adhoc.AdHocQueryManager"/>
+    </create>
+        <create creator="new">
+    	<param name="class" value="com.queryio.core.bean.SearchedHostDetail"/>
+    </create>
+    
+    <convert converter="bean" match="com.queryio.config.db.DBConfigBean"/>
+    <convert converter="bean" match="com.queryio.core.monitor.controllers.ControllerAttribute"/>
+    <convert converter="bean" match="com.queryio.core.bean.BigQuery" />
+    <convert converter="bean" match="com.queryio.core.bean.BillingReportInfo" />
+    <convert converter="bean" match="com.queryio.core.bean.CheckpointNode" />
+    <convert converter="bean" match="com.queryio.core.bean.CusomTagDatabase" />
+    <convert converter="bean" match="com.queryio.core.bean.DashboardCell" />
+    <convert converter="bean" match="com.queryio.core.bean.DiskMonitoredData" />
+    <convert converter="bean" match="com.queryio.core.bean.DWRResponse" />
+    <convert converter="bean" match="com.queryio.core.bean.HadoopConfig" />
+    <convert converter="bean" match="com.queryio.core.bean.HadoopService" />
+    <convert converter="bean" match="com.queryio.core.bean.HAStatus" />
+    <convert converter="bean" match="com.queryio.core.bean.Host" />
+    <convert converter="bean" match="com.queryio.core.bean.MapRedJobConfig" />
+    <convert converter="bean" match="com.queryio.core.bean.MigrationInfo" />
+    <convert converter="bean" match="com.queryio.core.bean.Node" />
+    <convert converter="bean" match="com.queryio.core.bean.NotifyBean" />
+    <convert converter="bean" match="com.queryio.core.bean.QueryExecution" />
+    <convert converter="bean" match="com.queryio.core.bean.QueryIOService" />
+    <convert converter="bean" match="com.queryio.core.bean.RuleBean" />
+    <convert converter="bean" match="com.queryio.core.bean.RuleItem" />
+    <convert converter="bean" match="com.queryio.core.bean.DiagnosisStatusBean"/>
+    <convert converter="bean" match="com.queryio.core.bean.Snapshot" />
+    <convert converter="bean" match="com.queryio.core.bean.Status" />
+    <convert converter="bean" match="com.queryio.core.bean.StatusTreeBean" />
+    <convert converter="bean" match="com.queryio.core.bean.TagParser" />
+    <convert converter="bean" match="com.queryio.core.bean.TagParserConfig" />
+    <convert converter="bean" match="com.queryio.core.bean.TreeBean" />
+    <convert converter="bean" match="com.queryio.core.bean.User" />
+    <convert converter="bean" match="com.queryio.core.bean.Volume" />
+    <convert converter="bean" match="com.queryio.core.monitor.charts.ChartData"/>    
+    <convert converter="bean" match="com.queryio.core.monitor.beans.AttributeData" />
+    <convert converter="bean" match="com.queryio.core.monitor.beans.LiveAttribute" />
+    <convert converter="bean" match="com.queryio.core.monitor.beans.MonitorData" />
+    <convert converter="bean" match="com.queryio.core.monitor.beans.Parameter" />
+    <convert converter="bean" match="com.queryio.core.monitor.beans.SummaryTable" />
+    <convert converter="bean" match="com.queryio.core.monitor.beans.SystemAttribute" />
+    <convert converter="bean" match="com.queryio.core.monitor.charts.Series"/>
+    <convert converter="bean" match="com.queryio.core.monitor.dstruct.Rule"/>
+    <convert converter="bean" match="com.queryio.core.monitor.dstruct.RuleExpression"/>
+    <convert converter="bean" match="com.queryio.core.monitor.alerts.evaluator.AlertEvaluationManager" />
+    <convert converter="bean" match="com.queryio.core.monitor.dstruct.Alert"/>    
+	<convert converter="bean" match="com.queryio.scheduler.service.SchedulerBean"/>
+	<convert converter="bean" match="com.queryio.scheduler.service.QuerySchedulerBean"/>
+	<convert converter="bean" match="com.queryio.scheduler.service.TriggerDetailBean"/>
+	<convert converter="bean" match="com.queryio.common.beans.NNDBMigrationInfo"/>
+	<convert converter="bean" match="com.queryio.common.beans.NNRestoreInfo"/>
+	<convert converter="bean" match="com.queryio.core.bean.AdHocQueryBean"/>
+	<convert converter="bean" match="com.queryio.core.datasources.FTPDataSource"/>
+	<convert converter="bean" match="com.queryio.core.datasources.S3DataSource"/>
+	<convert converter="bean" match="com.queryio.core.datasources.HTTPDataSource"/>
+	<convert converter="bean" match="com.queryio.core.datasources.EmailDataSource"/>
+	<convert converter="bean" match="com.queryio.core.datasources.HDFSDataSource"/>
+	<convert converter="bean" match="com.queryio.core.datasources.SSHDataSource"/>
+	<convert converter="bean" match="com.queryio.core.datasources.SFTPDataSource"/>
+	<convert converter="bean" match="com.queryio.core.datasources.DataConnection"/>
+	<convert converter="bean" match="com.queryio.core.datasources.DataBaseDataSource"/>
+	<convert converter="bean" match="com.queryio.core.bean.SearchedHostDetail"/>
+  </allow>
+</dwr>

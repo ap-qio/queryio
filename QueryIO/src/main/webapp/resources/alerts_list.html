@@ -1,0 +1,25 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />
+<script src="scripts/jquery.alerts.js"></script>
+<script src="scripts/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+-->
+<link rel="stylesheet" href="styles/alerts_list.css" type="text/css" />
+<script src="scripts/alerts_list.js"></script>
+
+
+<div id='alerts_list' class="viewDiv">
+	<div id="alerts_table_div" class="detailDivView">
+		<div id="alert_buttons" class="buttons">
+			<button class = "button" id="alert.delete" onclick="javascript:AlertList.deleteAlerts();" style="margin-left: 4px;">Delete</button>
+		</div>
+		<form action="">
+		<table id="alerts_list_table"></table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	var tableList=[];
+	var selectedAlert=[];
+	var alertArray = [];
+	AlertList.ready();
+</script>

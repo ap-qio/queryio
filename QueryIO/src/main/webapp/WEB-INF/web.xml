@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:javaee="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="3.0">
+  <display-name>QueryIO</display-name>
+  <welcome-file-list>
+    <welcome-file>pages/index.jsp</welcome-file>
+  </welcome-file-list>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/applicationContext.xml</param-value>
+  </context-param>
+  <listener>
+        <listener-class>com.queryio.web.listener.StartupListener</listener-class>
+  </listener>
+  
+	<servlet>
+  		<display-name>DWR Servlet</display-name>
+  		<servlet-name>dwr-invoker</servlet-name>  
+  		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+ 		<init-param>
+      		<param-name>accessLogLevel</param-name>
+      		<param-value>ERROR</param-value>
+		</init-param>
+<!--		<init-param>
+ 			<param-name>org.directwebremoting.extend.Remoter</param-name> 
+			<param-value>com.kf.javascriptservice.ExtendedRemoter</param-value> 
+		</init-param>
+ -->	</servlet>
+	
+	<servlet>
+    	<servlet-name>FileDownload</servlet-name>
+    	<servlet-class>com.queryio.file.download.FileDownload</servlet-class>
+  	</servlet>
+	<servlet-mapping>
+		<servlet-name>FileDownload</servlet-name>
+		<url-pattern>/FileDownload</url-pattern>
+  	</servlet-mapping>
+  	
+  	<servlet>
+    	<servlet-name>DDLDownloadServlet</servlet-name>
+    	<servlet-class>com.queryio.common.database.DDLDownloadServlet</servlet-class>
+  	</servlet>
+	<servlet-mapping>
+		<servlet-name>DDLDownloadServlet</servlet-name>
+		<url-pattern>/DDLDownloadServlet</url-pattern>
+  	</servlet-mapping>
+
+	<servlet>
+    	<servlet-name>ServerLogViewer</servlet-name>
+    	<servlet-class>com.queryio.common.servlet.ServerLogViewer</servlet-class>
+  	</servlet>
+	<servlet-mapping>
+		<servlet-name>ServerLogViewer</servlet-name>
+		<url-pattern>/GetServerLog</url-pattern>
+  	</servlet-mapping>
+
+
+  	
+  <servlet>
+    <servlet-name>SubmitJob</servlet-name>
+    <servlet-class>com.queryio.core.jobs.SubmitJob</servlet-class>
+  </servlet>
+	
+	
+	<servlet-mapping>
+		<servlet-name>SubmitJob</servlet-name>
+		<url-pattern>/SubmitJob</url-pattern>
+  	</servlet-mapping>
+	
+	
+	<servlet>
+    <servlet-name>SaveDBConnection</servlet-name>
+    <servlet-class>com.queryio.config.db.DBConnectionManager</servlet-class>
+  </servlet>
+	
+	
+	<servlet-mapping>
+		<servlet-name>SaveDBConnection</servlet-name>
+		<url-pattern>/AddDBConnection.do</url-pattern>
+  	</servlet-mapping>
+	
+	
+	
+	
+  	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+  	</servlet-mapping>
+  	
+  	<servlet>
+    <servlet-name>GroupInformationProvider</servlet-name>
+    <servlet-class>com.queryio.core.permissions.GroupInformationProvider</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GroupInformationProvider</servlet-name>
+    <url-pattern>/GetUserGroupInformation</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>FileUpload</servlet-name>
+    <servlet-class>com.queryio.file.upload.FileUpload</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FileUpload</servlet-name>
+    <url-pattern>/FileUpload</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>DataBaseJarFileUpload</servlet-name>
+    <servlet-class>com.queryio.core.file.upload.DataBaseJarFileUpload</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DataBaseJarFileUpload</servlet-name>
+    <url-pattern>/DataBaseJarFileUpload</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SchemaDetection</servlet-name>
+    <servlet-class>com.queryio.core.file.upload.SchemaDetection</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SchemaDetection</servlet-name>
+    <url-pattern>/SchemaDetection</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>GenerateReport</servlet-name>
+    <servlet-class>com.queryio.common.report.GenerateReportServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GenerateReport</servlet-name>
+    <url-pattern>/GenerateReport</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>AddHiveDefinition</servlet-name>
+    <servlet-class>com.queryio.common.servlet.AddHiveDefinitionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddHiveDefinition</servlet-name>
+    <url-pattern>/AddHiveDefinition</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AdHocQuerySampleFileUpload</servlet-name>
+    <servlet-class>com.queryio.core.adhoc.AdHocQuerySampleFileUpload</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdHocQuerySampleFileUpload</servlet-name>
+    <url-pattern>/AdHocQuerySampleFileUpload</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>TagParserFileUpload</servlet-name>
+    <servlet-class>com.queryio.file.upload.TagParserFileUpload</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TagParserFileUpload</servlet-name>
+    <url-pattern>/TagParserFileUpload</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>dataAnalyzerServlet</servlet-name>
+    <servlet-class>com.queryio.core.dataanalyzer.DataAnalyzerManager</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dataAnalyzerServlet</servlet-name>
+    <url-pattern>/dataanalyzer.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adHocQueryServlet</servlet-name>
+    <servlet-class>com.queryio.core.adhoc.AdHocQueryServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adHocQueryServlet</servlet-name>
+    <url-pattern>/adHocQuery.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>spreadSheetServlet</servlet-name>
+    <servlet-class>com.queryio.core.customtags.SpreadSheetServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>spreadSheetServlet</servlet-name>
+    <url-pattern>/spreadSheet.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>addUserServlet</servlet-name>
+    <servlet-class>com.queryio.common.servlet.AddUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addUserServlet</servlet-name>
+    <url-pattern>/addUser.do</url-pattern>
+  </servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>error.jsp</servlet-name>
+    	<jsp-file>/error.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>error.jsp</servlet-name>
+    	<url-pattern>/j_security_check</url-pattern>
+	</servlet-mapping>
+  	<servlet>
+    <servlet-name>GetDiagnosisReport</servlet-name>
+    <servlet-class>com.queryio.core.namespace.GetDiagnosisReport</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetDiagnosisReport</servlet-name>
+    <url-pattern>/getDiagnosisReport.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>dataBrowserServlet</servlet-name>
+    <servlet-class>com.queryio.core.databrowser.DataBrowserManager</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dataBrowserServlet</servlet-name>
+    <url-pattern>/databrowser.do</url-pattern>
+  </servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<web-resource-collection>
+		<web-resource-name>Home</web-resource-name>
+      	<url-pattern>/index.jsp</url-pattern>
+    </web-resource-collection>
+    <web-resource-collection>
+      	<web-resource-name>Home</web-resource-name>
+      	<url-pattern>/admin.jsp</url-pattern>
+    </web-resource-collection>
+    <web-resource-collection>
+      	<web-resource-name>Login</web-resource-name>
+      	<url-pattern>/login.jsp</url-pattern>
+    </web-resource-collection>
+    <web-resource-collection>
+      	<web-resource-name>FirstUserRegistration</web-resource-name>
+      	<url-pattern>/firstUserRegistration.jsp</url-pattern>
+    </web-resource-collection>
+    <web-resource-collection>
+      	<web-resource-name>DemoUserRegistration</web-resource-name>
+      	<url-pattern>/demoUserRegistration.jsp</url-pattern> 
+    </web-resource-collection>
+    <web-resource-collection>
+      	<web-resource-name>Logout</web-resource-name>
+      	<url-pattern>/logout.jsp</url-pattern>
+    </web-resource-collection>
+    
+    <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Protected Area</web-resource-name>
+			<!-- Define the context-relative URL(s) to be protected -->
+			<url-pattern>/*</url-pattern>
+			<http-method>DELETE</http-method>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
+		</web-resource-collection>
+
+		<auth-constraint>
+			<role-name>Admin</role-name>
+			<role-name>User</role-name>
+		</auth-constraint>
+
+	
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+  <web-resource-collection>
+    <web-resource-name>Open Pages</web-resource-name>
+    <url-pattern>/images/*</url-pattern>
+    <url-pattern>/scripts/*</url-pattern>
+    <url-pattern>/css/*</url-pattern>
+    <url-pattern>/styles/*</url-pattern>
+    <url-pattern>/GetUserGroupInformation</url-pattern>
+    <url-pattern>/AddHiveDefinition</url-pattern>
+    <url-pattern>/firstUserRegistration.jsp</url-pattern>
+    <url-pattern>/demoUserRegistration.jsp</url-pattern>
+    <url-pattern>/addUser.do</url-pattern>
+    <url-pattern>/GenerateReport</url-pattern>
+    <url-pattern>/docs/*</url-pattern>
+    <url-pattern>/README.html</url-pattern>
+    <url-pattern>/demo/README.html</url-pattern>
+    <url-pattern>/license.html</url-pattern>
+  </web-resource-collection>
+</security-constraint>
+
+	<!-- Default login configuration uses form-based authentication -->
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>CustomAuthenticatorRealm</realm-name>
+		<form-login-config>
+			<form-login-page>/login.jsp</form-login-page>
+			<form-error-page>/error.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<security-role> 
+		<role-name>Admin</role-name>
+		<role-name>User</role-name> 
+	</security-role>
+	 
+	 <session-config>
+    	<session-timeout>60</session-timeout>
+  	</session-config>
+  
+</web-app>

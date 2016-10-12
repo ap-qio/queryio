@@ -1,0 +1,128 @@
+<script type="text/javascript" src="scripts/jpicker-1.1.6.min.js"></script>
+<link rel="Stylesheet" type="text/css" href="styles/jPicker-1.1.6.min.css" />
+	<div>
+		<table id="commonTable" style="text-align: left;">
+
+				<tr>
+					<td style="font-weight: bold;">
+						Common
+					</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap">
+						Background
+					</td>
+					<td>
+						<input type = 'text' id = 'commonBackgroundColor1' size="7" style="display: none">
+					</td>
+				
+					<td nowrap="nowrap">
+						Wall Background
+					</td>
+					<td>
+						<input type = 'text' id = 'commonBackgroundColor2'  size="7" style="display: none">
+					</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap">
+						Floor Background
+					</td>
+					<td>
+						<input type = 'text' id = 'commonBackgroundColor3'  size="7" style="display: none">
+					</td>
+				
+					<td nowrap="nowrap">
+						Client Background
+					</td>
+					<td>
+						<input type = 'text' id = 'commonBackgroundColor4'  size="7" style="display: none">
+					</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap">
+						Include Axes Background
+					</td>
+					<td>
+						<input type = 'text' id = 'commonBackgroundColor5'  size="7" style="display: none">
+					</td>
+				
+					<td nowrap="nowrap">
+						Within Axes Background
+					</td>
+					<td>
+						<input type = 'text' id = 'commonBackgroundColor6'  size="7" style="display: none">
+					</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap">
+						Plot Background
+					</td>
+					<td>
+						<input type = 'text' id = 'commonBackgroundColor7'  size="7" style="display: none">
+					</td>
+				
+					<td nowrap="nowrap">
+						Empty chart message
+					</td>
+					<td>
+						<input type = 'text' id = 'labelsEmptyChartMessage'>
+					</td>
+				</tr>
+				
+				<tr>
+				
+				<td style="text-align: right;" colspan="4">
+					<input type="button" class="buttonAdmin" id="save.host" value="Save" onclick="javascript:CHARTPR.finishStyling();"  /> 
+				
+					<input type="button" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:closePreferncesBox();" />
+				</td>
+			</tr>
+
+
+		</table>
+		
+		
+	
+	</div>
+	
+	<script type="text/javascript">
+
+function bind(){
+	
+	$("#commonBackgroundColor1,#commonBackgroundColor2,#commonBackgroundColor3,#commonBackgroundColor4,#commonBackgroundColor5,#commonBackgroundColor6,#commonBackgroundColor7").jPicker(
+			{  window: // used to define the position of the popup window only useful in binded mode
+			  {
+			    title: null, // any title for the jPicker window itself - displays "Drag Markers To Pick A Color" if left null
+			    effects:
+			    {
+			      type: 'slide', // effect used to show/hide an expandable picker. Acceptable values "slide", "show", "fade"
+			      speed:
+			      {
+			        show: 'fast', // duration of "show" effect. Acceptable values are "fast", "slow", or time in ms
+			        hide: 'fast' // duration of "hide" effect. Acceptable value are "fast", "slow", or time in ms
+			      }
+			    },
+			    position:
+			    {
+			      x: 'center', // acceptable values "left", "center", "right", "screenCenter", or relative px value
+			      y: 'center', // acceptable values "top", "bottom", "center", or relative px value
+			    },
+			    expandable: false, // default to large static picker - set to true to make an expandable picker (small icon with popup) - set
+			                       // automatically when binded to input element
+			    liveUpdate: true, // set false if you want the user to click "OK" before the binded input box updates values (always "true"
+			                      // for expandable picker)
+			    alphaSupport: false, // set to true to enable alpha picking
+			    alphaPrecision: 0, // set decimal precision for alpha percentage display - hex codes do not map directly to percentage
+			                       // integers - range 0-2
+			    updateInputColor: true // set to false to prevent binded input colors from changing
+			  },
+				
+			images:{clientPath:'images/'}
+		});
+}
+
+
+bind();
+
+
+</script>

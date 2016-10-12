@@ -1,0 +1,142 @@
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css"
+	type="text/css">
+<title>Add Hive Data</title>
+</head>
+<body>
+	<div>
+		<h1>
+			<span>Add Hive Data Definition</span>
+		</h1>
+		<h2>
+			<span>Description</span>
+		</h2>
+		<p>Add Hive DataDefinition operation is used to add given hive
+			datadefinition details to the database</p>
+
+		<h2>
+			<span>Requests</span>
+		</h2>
+		<h3>Syntax</h3>
+		<ul>
+			<li><pre>
+POST <em><code>/queryio/hive/</code></em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;Token&gt;</code></em>
+				</pre></li>
+			<li>authorization: Token for authorization.</li>
+		</ul>
+
+		<h3>Request Headers</h3>
+		<p>The POST hive definition operation in Os3/QueryIO Server uses
+			following request header:</p>
+
+		<h3 id="json">Hive JSON</h3>
+		<table cellspacing="0" border="1" width="100%">
+			<tr>
+				<th>Key</th>
+				<th>Value</th>
+				<th>Type</th>
+				<th>Required</th>
+			</tr>
+			<tr>
+				<td>hiveId</td>
+				<td>Unique identifier for the Hive ID. <br>Example:
+					"adhocId": "Hive1"
+				</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>namenode</td>
+				<td>ID of the NameNode on which data will be queried. <br>Example:
+					"nameNodeId": "NameNode1",
+				</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>resourceManager</td>
+				<td>ID of the ResourceManager on which data will be queried. <br>Example:
+					"nameNodeId": "NameNode1",
+				</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>source Path</td>
+				<td>HDFS path where files exists</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>adHocTableName</td>
+				<td>Name of the table which gets created in database with
+					fields you pass in JSON format.</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>fileName</td>
+				<td>Name of the sample file</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>filePathPattern</td>
+				<td>Pattern of the sample file (Extension of file)</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>fields</td>
+				<td>Table columns details</td>
+				<td>JSONObject</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>encoding</td>
+				<td>Type of encoding.<br> For example : UTF-8
+				</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>First Row Header</a></td>
+				<td>Does Sample file first row is header or not.</td>
+				<td>Boolean</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>delimiter</td>
+				<td>Sequence of one or more characters used to specify the
+					boundary between separate, independent regions in plain text or
+					other data streams</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+			<tr>
+				<td>Value Separator</td>
+				<td>(Optional)Sequence of one or more characters used to
+					specify the boundary between separate, independent regions in plain
+					text or other data streams</td>
+				<td>String</td>
+				<td>Yes</td>
+			</tr>
+		</table>
+		<h3>Sample Json Object</h3>
+		<ul>{\"fileType\":\"CSV\",\"adHocId\":\"Hive5\",\"nameNodeId\":\"NameNode1\",\"rmId\":\"ResourceManager1\",\"sourcePath\":\"/Data/csv\",\"parseRecursive\":true,\"adHocTableName\":\"HiveCSVTable5\",\"filePathPattern\":\".*\\.csv\",\"fields\":\"[{\"colName\":\"FILEPATH\",\"colType\":\"STRING(1280)\",\"colIndex\":0},{\"colName\":\"IP\",\"colType\":\"STRING(255)\",\"colIndex\":1},{\"colName\":\"CPU\",\"colType\":\"INTEGER\",\"colIndex\":2},{\"colName\":\"RAM\",\"colType\":\"INTEGER\",\"colIndex\":3},{\"colName\":\"DISKREAD\",\"colType\":\"INTEGER\",\"colIndex\":4},{\"colName\":\"DISKWRITE\",\"colType\":\"INTEGER\",\"colIndex\":5},{\"colName\":\"NETREAD\",\"colType\":\"INTEGER\",\"colIndex\":6},{\"colName\":\"NETWRITE\",\"colType\":\"INTEGER\",\"colIndex\":7}]\",\"delimiter\":\",\",\"valueSeparator\":\"\",\"isFirstRowHeader\":true,\"pattern\":\"%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\",\"encoding\":\"UTF-8\",\"isSkipAllRecordsString\":null}"</ul>
+	</div>
+	<br>
+	<hr align="center" class="whs4">
+	<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights
+		Reserved.</h4>
+	<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO
+		Logo are trademarks of QueryIO Corporation. Apache, Hadoop and HDFS
+		are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

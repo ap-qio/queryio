@@ -1,0 +1,53 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop Big Data Security</title>
+</head>
+
+<body>
+
+<h1><span>Hadoop Big Data Security</span></h1>
+<h2><span>In this chapter</span></h2>
+<p>Data Security means protecting a data from destructive forces and the unwanted actions of unauthorized users.</p>
+<p>QueryIO provides data security by means of encryption and using kerberos.</p>
+
+<ul>
+	<li><a href="#encrypt">Encryption</a></li>
+	<li><a href="#kerberos">Kerberos</a></li>
+</ul>
+
+<p>You can encrypt Big Data while <a href="big-data-import-export.html#import">data import</a> OR use S3 compatible REST api.</p>
+
+<h2 id="encrypt"><span>Encryption</span></h2>
+<p>Encryption is the process of transforming information (referred to as plain text) using an algorithm (called a cipher) to make it unreadable to anyone, usually referred to as a cipher text. 
+The result of the process is encrypted information (in cryptography, referred to as cipher text). 
+The reverse process, i.e., to make the encrypted information readable again, is referred to as decryption (i.e. to make it unencrypted)</p>
+<p>QueryIO supports following encryption algorithm :</p>
+<ul>
+	<li>AES256</li>
+</ul>
+<h3><span>AES256</span></h3>
+<p>The Advanced Encryption Standard (AES) algorithm uses one of three cipher key strengths: a 128-, 192- or 256-bit encryption key (password). 
+Each encryption key size causes the algorithm to behave slightly differently, so the increasing key sizes not only offer a larger number of bits with which you can scramble the data, 
+but also increase the complexity of the cipher algorithm.</p>
+<p>QueryIO supports AES with 256-bit encryption key. The key size used for an AES cipher specifies the number of repetitions of transformation rounds that convert the input, called the plain text, into the final output, called the cipher text.
+For a 256-bit key, there are 14 cycles of repetitions.</p>
+<p><a href="../../hadoop-big-data-developer-guide/queryio/Rest/PUT-Object.html" >Click here</a> to see how to use encryption using S3 compatible REST API.</p>
+
+<h2 id="kerberos"><span>Kerberos</span></h2>
+<p>QueryIO uses kerberos protocol to provide security.</p>
+<p>Kerberos is a computer network authentication protocol which works on the basis of "tickets" to allow nodes communicating over a non-secure network to prove their identity to one another in a secure manner.</br>
+<a href="hadoop-security-setup-kerberos.html">Click here</a> to know more about kerberos setup.
+</p>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

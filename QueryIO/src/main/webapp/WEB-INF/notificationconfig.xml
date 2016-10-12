@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NotificationConfig>
+	<EnableSocketComm>false</EnableSocketComm>
+	<IP>192.168.0.1</IP>
+	<SocketPort>6666</SocketPort>
+	<NotificationEvents>
+		<NotificationEvent type="AlertRaisedNotification">
+			<EventNotifier>MCEmailNotifier</EventNotifier>
+			<EventNotifier>MCSmsNotifier</EventNotifier>
+			<EventNotifier>MCCustomNotifier</EventNotifier>
+			<EventNotifier>MCLogNotifier</EventNotifier>
+			<EventNotifier>MCDatabaseNotifier</EventNotifier>
+		</NotificationEvent>
+	</NotificationEvents>
+	<Notifiers>
+		<Notifier name="MCEmailNotifier" className="com.queryio.core.notifier.notifiers.impl.MCEmailNotifier"/>
+		<Notifier name="MCCustomNotifier" className="com.queryio.core.notifier.notifiers.impl.CustomProgramNotifier"/>
+		<Notifier name="MCLogNotifier" className="com.queryio.core.notifier.notifiers.impl.LogNotifier"/>
+		<Notifier name="MCDatabaseNotifier" className="com.queryio.core.notifier.notifiers.impl.DatabaseNotifier"/>
+		<Notifier name="MCSmsNotifier" className="com.queryio.core.notifier.notifiers.impl.MCSmsNotifier"/>
+	</Notifiers>
+</NotificationConfig>
