@@ -17,6 +17,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.queryio.common.EnvironmentalConstants;
+import com.queryio.common.HadoopConstants;
 import com.queryio.common.database.CoreDBManager;
 
 public class BigQueryManager {
@@ -30,7 +31,7 @@ public class BigQueryManager {
 			JSONParser parser = new JSONParser();
 			JSONObject properties = (JSONObject)parser.parse(jsonProperties);
 			
-			properties.put("namenode", EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
+			properties.put("namenode", HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
 			properties.put("username", user);
 			String dbName = (String) properties.get(BigQueryIdentifiers.DBNAME);
 			
@@ -94,7 +95,7 @@ public class BigQueryManager {
 		int responseCode = 500;
 		try
 		{
-			String urlPrefix = EnvironmentalConstants.getHadoopConf().get("queryio.server.url");
+			String urlPrefix = HadoopConstants.getHadoopConf().get("queryio.server.url");
 			if(urlPrefix==null){
 				urlPrefix = "http://localhost:5678/queryio/";
 			}
@@ -107,7 +108,7 @@ public class BigQueryManager {
 
 			httpCon.addRequestProperty("queryId", queryId);
 			httpCon.addRequestProperty("format", format);
-			httpCon.addRequestProperty("namenode", EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
+			httpCon.addRequestProperty("namenode", HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
 			httpCon.addRequestProperty("username", user);
 			
 			httpCon.connect();

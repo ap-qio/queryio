@@ -21,6 +21,7 @@ import com.os3.server.common.StreamWriteStatus;
 import com.os3.server.hadoop.BucketFilter;
 import com.os3.server.hadoop.DFSManager;
 import com.queryio.common.EnvironmentalConstants;
+import com.queryio.common.HadoopConstants;
 import com.queryio.common.database.CoreDBManager;
 import com.queryio.common.database.DatabaseFunctions;
 import com.queryio.common.util.AppLogger;
@@ -155,11 +156,11 @@ public class DataManager {
 		try {
 			connection = UserDefinedTagResourceFactory
 					.getConnectionWithPoolInit(
-							EnvironmentalConstants.getHadoopConf(), true);
+							HadoopConstants.getHadoopConf(), true);
 
 			IDataTagParser tagParser = UserDefinedTagResourceFactory
 					.getParserFromConstructor(
-							EnvironmentalConstants.getHadoopConf(), filePath,
+							HadoopConstants.getHadoopConf(), filePath,
 							null, null);
 
 			stmt = connection.prepareStatement("SELECT * FROM "

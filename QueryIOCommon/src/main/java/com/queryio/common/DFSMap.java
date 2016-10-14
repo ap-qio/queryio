@@ -25,7 +25,7 @@ public class DFSMap {
 			FileSystem fs;
 			try {
 				Thread.currentThread().setName(user);
-				fs = FileSystem.get(EnvironmentalConstants.getHadoopConf());
+				fs = FileSystem.get(HadoopConstants.getHadoopConf());
 				dfsMap.remove(user);
 				dfsMap.put(user, fs);
 				System.out.println("updated dfs instance for user " + user);
@@ -81,12 +81,12 @@ public class DFSMap {
 	public static HdfsConfiguration getConfiguration(){
 		HdfsConfiguration conf = new HdfsConfiguration();
         
-		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
-        conf.set(DFSConfigKeys.DFS_REPLICATION_KEY, EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_REPLICATION_KEY));
+		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, HadoopConstants.getHadoopConf().get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
+        conf.set(DFSConfigKeys.DFS_REPLICATION_KEY, HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_REPLICATION_KEY));
         
         // Set customtagdb properties
 
-        Iterator<Entry<String,String>> i = EnvironmentalConstants.getHadoopConf().iterator();
+        Iterator<Entry<String,String>> i = HadoopConstants.getHadoopConf().iterator();
         Entry<String, String> entry;
         while(i.hasNext()){
         	entry = i.next();       
