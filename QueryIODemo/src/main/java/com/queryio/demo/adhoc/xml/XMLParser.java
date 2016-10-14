@@ -32,8 +32,8 @@ import com.queryio.plugin.dstruct.IDataDefinition;
 public class XMLParser implements IAdHocParser{
 
 	private static final Log LOG = LogFactory.getLog(XMLParser.class);
-	String ADHOC_PARSER_XML_NODE_NAME = "nodeName";
-	String ADHOC_PARSER_XML_NEW_LINE = "\n";
+	final String ADHOC_PARSER_XML_NODE_NAME = "nodeName";
+	final String ADHOC_PARSER_XML_NEW_LINE = "\n";
 	
 	private Map<Integer, String> columns = new TreeMap<Integer, String>();
 	private Map<Integer, Class> columnTypes = new TreeMap<Integer, Class>();

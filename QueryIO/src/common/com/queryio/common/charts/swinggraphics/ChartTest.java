@@ -39,7 +39,7 @@ import com.queryio.common.exporter.dstruct.Color;
  */
 public class ChartTest
 {
-	private static final Random rndGenerator = new Random();
+	private static final Random RNDGENERATOR = new Random();
 
 	public static void main(final String[] args)
 	{
@@ -138,7 +138,7 @@ public class ChartTest
 
 	private static int getNextInt()
 	{
-		return rndGenerator.nextInt(256);
+		return RNDGENERATOR.nextInt(256);
 	}
 
 }

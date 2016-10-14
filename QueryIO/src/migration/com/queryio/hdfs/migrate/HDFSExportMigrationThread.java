@@ -50,8 +50,8 @@ public class HDFSExportMigrationThread extends Thread {
 	private String loginUser;
 	private String loginUserGroup;
 	
-	private String HDFSUser;
-	private String HDFSUserGroup;
+	private String hdfsUser;
+	private String hdfsUserGroup;
 	
 	public HDFSExportMigrationThread(String user, String group, MigrationInfo migrationInfo, String host, String path, String userHDFS, String groupHDFS, Configuration conf, boolean overwrite) throws Exception
 	{
@@ -63,8 +63,8 @@ public class HDFSExportMigrationThread extends Thread {
 		this.loginUser = user;
 		this.loginUserGroup = group;
 		
-		this.HDFSUser = userHDFS;
-		this.HDFSUserGroup = groupHDFS;
+		this.hdfsUser = userHDFS;
+		this.hdfsUserGroup = groupHDFS;
 		
 		this.overwrite = overwrite;
 		
@@ -354,7 +354,7 @@ public class HDFSExportMigrationThread extends Thread {
 		{
 			DistributedFileSystem fs = (DistributedFileSystem) client;
 			dfsOutputStream = (DFSOutputStream) fs.getClient().create(objectPath.toUri().getPath(), true); 
-			client.setOwner(objectPath, this.HDFSUser, this.HDFSUserGroup);
+			client.setOwner(objectPath, this.hdfsUser, this.hdfsUserGroup);
 			writeToStream(inputStream, dfsOutputStream);			
 		}
 		finally

@@ -29,7 +29,7 @@ import com.queryio.plugin.dstruct.IDataDefinition;
 public class MBoxParser implements IAdHocParser{
 	
 	private static final Log LOG = LogFactory.getLog(MBoxParser.class);
-	String ADHOC_PARSER_ENCODING = "encoding";
+	final String ADHOC_PARSER_ENCODING = "encoding";
 
 	private Map<Integer, String> columns = new TreeMap<Integer, String>();
 	private Map<Integer, Class> columnTypes = new TreeMap<Integer, Class>();

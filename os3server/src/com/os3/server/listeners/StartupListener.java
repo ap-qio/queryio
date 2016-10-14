@@ -21,7 +21,6 @@ import com.os3.server.common.Settings;
 import com.os3.server.userinfo.UserInfoManager;
 import com.queryio.common.ClassPathUtility;
 import com.queryio.common.EnvironmentalConstants;
-import com.queryio.common.HadoopConstants;
 import com.queryio.common.QueryIOConstants;
 import com.queryio.common.database.CoreDBManager;
 import com.queryio.common.database.DatabaseConfigParser;
@@ -75,15 +74,15 @@ public class StartupListener implements ServletContextListener {
 			EnvironmentalConstants.setHadoopConfPath(hadoopConfigPath);
 			ReinitializeHadoopConf.initialize();
 			ClassPathUtility.recycleClassLoder();
-			OS3Constants.POOL_NAME = HadoopConstants.getHadoopConf().get(QueryIOConstants.CUSTOM_TAG_DB_DBSOURCEID, "");
+			OS3Constants.poolName = EnvironmentalConstants.getHadoopConf().get(QueryIOConstants.CUSTOM_TAG_DB_DBSOURCEID, "");
 			
-			if(HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID)==null){
+			if(EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID)==null){
 				throw new Error("NameNode configuration could not be loaded");
 			}
 			
 			logger.debug("Setting namenodeid");
 			
-			EnvironmentalConstants.setNameNodeId(HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
+			EnvironmentalConstants.setNameNodeId(EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
 			
 			EnvironmentalConstants.setEncryptionType(Settings.get(OS3Constants.ENCRYPTION_TYPE));
 			EnvironmentalConstants.setStreamBufferSize(Integer.parseInt(Settings.get(OS3Constants.STREAM_BUFFER_SIZE)));

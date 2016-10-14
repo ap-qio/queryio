@@ -15,7 +15,7 @@ public class StreamPumper extends Thread
 {
 	private final Reader reader;
 	private boolean endOfStream = false;
-	static int ID = 0;
+	static int id = 0;
 //	private final int SLEEP_TIME = 100;
 	private Writer writer;
 	public static final int BUFFER_SIZE = 512;

@@ -28,11 +28,11 @@ import com.queryio.plugin.dstruct.IDataDefinition;
 public class CSVParser implements IAdHocParser{
 	
 	private static final Log LOG = LogFactory.getLog(CSVParser.class);
-	String ADHOC_PARSER_ENCODING = "encoding";
-	String ADHOC_PARSER_DELIMITER = "delimiter";
-	String ADHOC_PARSER_VALUESEPARATOR = "valueSeparator";
-	String ADHOC_PARSER_ISFIRSTROWHEADER = "isFirstRowHeader";
-	String ADHOC_PARSER_SKIP_ALL_RECORDS = "isSkipAllRecords";
+	final String ADHOC_PARSER_ENCODING = "encoding";
+	final String  ADHOC_PARSER_DELIMITER = "delimiter";
+	final String ADHOC_PARSER_VALUESEPARATOR = "valueSeparator";
+	final String ADHOC_PARSER_ISFIRSTROWHEADER = "isFirstRowHeader";
+	final String ADHOC_PARSER_SKIP_ALL_RECORDS = "isSkipAllRecords";
 	
 	private Map<Integer, String> columns = new TreeMap<Integer, String>();
 	private Map<Integer, Class> columnTypes = new TreeMap<Integer, Class>();

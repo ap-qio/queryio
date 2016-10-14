@@ -218,7 +218,7 @@ public class GenericParserJob extends Configured implements Tool{
 					startTime = conf.getLong("startTime", 0);
 					endTime = conf.getLong("endTime", System.currentTimeMillis());
 					filters = new ArrayList<PathFilter>();
-					filters.add(CustomInputFormat.hiddenFileFilter);
+					filters.add(CustomInputFormat.HIDDEN_FILE_FILTER);
 					filters.add(new FileTypePathFilter(filesToPick));
 //					PathFilter jobFilter = FileInputFormat.getInputPathFilter(job);
 //					if (jobFilter != null) {

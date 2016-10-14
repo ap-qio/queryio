@@ -16,7 +16,7 @@ import com.queryio.common.DFSMap;
 
 public class GetBucketAction extends BaseAction {
 
-	protected final Logger logger = Logger.getLogger(getClass());
+	protected final Logger LOGGER = Logger.getLogger(getClass());
 	
 	public void execute(String operation, HttpServletRequest request, HttpServletResponse response, Map<String, Object> helperMap, int apiType) throws Exception {
 		String bucketName = (String)helperMap.get(OS3Constants.X_OS3_BUCKET_NAME);
@@ -43,17 +43,17 @@ public class GetBucketAction extends BaseAction {
 		} else{
 			String prefix = (String) request.getParameter(OS3Constants.GETBUCKET_REQUEST_PARAM_PREFIX);
 			String delimiter = (String) request.getParameter(OS3Constants.GETBUCKET_REQUEST_PARAM_DELIMITER);
-			String s_maxKeys = (String) request.getParameter(OS3Constants.GETBUCKET_REQUEST_PARAM_MAXKEYS);
+			String sMaxKeys = (String) request.getParameter(OS3Constants.GETBUCKET_REQUEST_PARAM_MAXKEYS);
 			String marker = (String) request.getParameter(OS3Constants.GETBUCKET_REQUEST_PARAM_MARKER);
 			
-			logger.debug("prefix: " + prefix);
-			logger.debug("delimiter: " + delimiter);
-			logger.debug("s_maxKeys: " + s_maxKeys);
-			logger.debug("marker: " + marker);
+			LOGGER.debug("prefix: " + prefix);
+			LOGGER.debug("delimiter: " + delimiter);
+			LOGGER.debug("s_maxKeys: " + sMaxKeys);
+			LOGGER.debug("marker: " + marker);
 			
 			int maxKeys = OS3Constants.GETBUCKET_MAXKEYS_DEFAULT;
-			if(s_maxKeys != null){
-				maxKeys = Integer.parseInt(s_maxKeys);
+			if(sMaxKeys != null){
+				maxKeys = Integer.parseInt(sMaxKeys);
 			}
 			
 			BucketFilter filter = new BucketFilter(dfs, prefix, delimiter, maxKeys, marker);

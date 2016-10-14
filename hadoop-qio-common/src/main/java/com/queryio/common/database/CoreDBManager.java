@@ -48,10 +48,11 @@ import com.queryio.common.util.AppLogger;
  * 
  * @author Exceed Consultancy Services
  */
+@SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 public class CoreDBManager {
-	protected static final Logger logger = Logger.getLogger(CoreDBManager.class);
+	protected static final Logger LOGGER = Logger.getLogger(CoreDBManager.class);
 	/* database configuration of QueryIO data base */
-	private static DBConfig QueryIODBConfig = null;
+	private static DBConfig queryIODBConfig = null;
 	private static boolean isPerfect = false;
 
 	/**
@@ -82,7 +83,7 @@ public class CoreDBManager {
 				c.getMaxDBWaitTime(), c.getMaxDBIdleConnections(), driver, dbConfig.getCustomTagUrl(),
 				dbConfig.getCustomTagUserName(), dbConfig.getCustomTagPassword(), false);
 
-		logger.debug("CustomTag Database, class: " + driver.getClass().getName() + " Major: " + driver.getMajorVersion()
+		LOGGER.debug("CustomTag Database, class: " + driver.getClass().getName() + " Major: " + driver.getMajorVersion()
 				+ " minor: " + driver.getMinorVersion());
 
 	}
@@ -108,7 +109,7 @@ public class CoreDBManager {
 					dbConfig.getCustomTagUrl(), dbConfig.getCustomTagUserName(), dbConfig.getCustomTagPassword(),
 					false);
 
-			logger.debug("CustomTag Database, class: " + driver.getClass().getName() + " Major: "
+			LOGGER.debug("CustomTag Database, class: " + driver.getClass().getName() + " Major: "
 					+ driver.getMajorVersion() + " minor: " + driver.getMinorVersion());
 
 		}
@@ -173,26 +174,26 @@ public class CoreDBManager {
 				EnvironmentalConstants.getQueryIODatabaseMaxIdleConn(),
 				EnvironmentalConstants.getQueryIODatabaseMaxWaitTime(), GenericObjectPool.WHEN_EXHAUSTED_GROW);
 
-		if (!QueryIODBConfig.getConnectionName().equals(QueryIOConstants.DEFAULT_MONITOR_DB)) {
-			if (logger.isDebugEnabled())
-				logger.debug("set isPerfect to true");
+		if (!queryIODBConfig.getConnectionName().equals(QueryIOConstants.DEFAULT_MONITOR_DB)) {
+			if (LOGGER.isDebugEnabled())
+				LOGGER.debug("set isPerfect to true");
 			isPerfect = true;
 		}
 //		CryptManager cm = new CryptManager(EnvironmentalConstants.getQueryIODatabasePassword());
 //		final String password = cm.decryptData(EnvironmentalConstants.getQueryIODatabasePassword());
 
-		DatabaseManager.setInitialProperties(QueryIODBConfig.getConnectionName(), QueryIODBConfig.getMaxDBConnections(),
-				QueryIODBConfig.getWaitStrategyForDB(), QueryIODBConfig.getMaxDBWaitTime(),
-				QueryIODBConfig.getMaxDBIdleConnections(), driver, EnvironmentalConstants.getQueryIODatabaseURL(),
+		DatabaseManager.setInitialProperties(queryIODBConfig.getConnectionName(), queryIODBConfig.getMaxDBConnections(),
+				queryIODBConfig.getWaitStrategyForDB(), queryIODBConfig.getMaxDBWaitTime(),
+				queryIODBConfig.getMaxDBIdleConnections(), driver, EnvironmentalConstants.getQueryIODatabaseURL(),
 				EnvironmentalConstants.getQueryIODatabaseUserName(), EnvironmentalConstants.getQueryIODatabasePassword(), false);
 
-		logger.debug("QueryIO Database, class: " + driver.getClass().getName() + " Major: " + driver.getMajorVersion()
+		LOGGER.debug("QueryIO Database, class: " + driver.getClass().getName() + " Major: " + driver.getMajorVersion()
 				+ " minor: " + driver.getMinorVersion());
 	}
 
 	public static void createQueryIODBConfig(final String connectionName, final int MaxConn, final int MaxIdleConn,
 			final long MaxWaitTime, final byte strategy) {
-		QueryIODBConfig = new DBConfig(connectionName, MaxConn, MaxIdleConn, MaxWaitTime, strategy);
+		queryIODBConfig = new DBConfig(connectionName, MaxConn, MaxIdleConn, MaxWaitTime, strategy);
 	}
 
 	/**
@@ -214,7 +215,7 @@ public class CoreDBManager {
 	 */
 	public static Connection getQueryIODBConnection() throws Exception {
 		Connection connection = null;
-		connection = DatabaseManager.getConnection(QueryIODBConfig.getConnectionName());
+		connection = DatabaseManager.getConnection(queryIODBConfig.getConnectionName());
 		if ((connection != null) && !connection.getAutoCommit()) {
 			setAutoCommitOnConnection(connection, true);
 		}
@@ -227,7 +228,7 @@ public class CoreDBManager {
 	 */
 	public static Connection getQueryIODBConnectionOnStartup() throws Exception {
 		Connection connection = null;
-		connection = DatabaseManager.getConnectionOnStartup(QueryIODBConfig.getConnectionName());
+		connection = DatabaseManager.getConnectionOnStartup(queryIODBConfig.getConnectionName());
 		if ((connection != null) && !connection.getAutoCommit()) {
 			setAutoCommitOnConnection(connection, true);
 		}
@@ -235,7 +236,7 @@ public class CoreDBManager {
 	}
 
 	public static Connection getCustomTagDBConnectionOnStartup(String poolName) throws Exception {
-		logger.info("public static Connection getCustomTagDBConnection() throws Exception: " + poolName);
+		LOGGER.info("public static Connection getCustomTagDBConnection() throws Exception: " + poolName);
 
 		Connection connection = null;
 		connection = DatabaseManager.getConnectionOnStartup(poolName);
@@ -246,7 +247,7 @@ public class CoreDBManager {
 	}
 
 	public static Connection getCustomTagDBConnection(String poolName) throws Exception {
-		logger.info("public static Connection getCustomTagDBConnection() throws Exception: " + poolName);
+		LOGGER.info("public static Connection getCustomTagDBConnection() throws Exception: " + poolName);
 
 		Connection connection = null;
 		connection = DatabaseManager.getConnection(poolName);
@@ -310,7 +311,7 @@ public class CoreDBManager {
 	 * @param isMigrating
 	 */
 	public static void setQueryIODatabaseMigrating(final boolean isMigrating) {
-		QueryIODBConfig.setBDatabaseMigrating(isMigrating);
+		queryIODBConfig.setBDatabaseMigrating(isMigrating);
 	}
 
 	/**

@@ -39,7 +39,7 @@ import com.queryio.ftpserver.userinfo.UserInfoContainer;
  */
 public class HdfsUserManager extends AbstractUserManager {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(HdfsUserManager.class);
 
 	private final static String PREFIX = "ftpserver.user.";
@@ -230,12 +230,12 @@ public class HdfsUserManager extends AbstractUserManager {
 				password = "";
 			}
 			
-			log.debug("Authenticating user: " + user);
+			LOG.debug("Authenticating user: " + user);
 			
 			if(authenticate(user, password)){
-				log.debug("User authenticated successfully");
+				LOG.debug("User authenticated successfully");
 				User us = getUserByName(user);
-				log.debug("User: " + us.getName());
+				LOG.debug("User: " + us.getName());
 				return us;
 			} else {
 				throw new AuthenticationFailedException("Authentication failed");
@@ -259,18 +259,18 @@ public class HdfsUserManager extends AbstractUserManager {
 		user.setPassword(password);
 		user.setDefaultGroup(UserInfoContainer.getDefaultGroupForUser(username));
 		
-		log.debug("Processing authenticate request");
+		LOG.debug("Processing authenticate request");
 		
 		LoginRequest request = new LoginRequest(user, null);
 		FileSystem fs = null;
 		try {
 			fs = (FileSystem) request.process();
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 		}
 		
-		log.debug("authenticate(): username: " + username + ", password: " + password + ", success: " + fs != null);
-		log.debug("dfs: " + fs);
+		LOG.debug("authenticate(): username: " + username + ", password: " + password + ", success: " + fs != null);
+		LOG.debug("dfs: " + fs);
 		
 		if(fs != null){
 			DFSMap.addDFS(username, fs);

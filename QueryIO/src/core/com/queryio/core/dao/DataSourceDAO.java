@@ -21,6 +21,7 @@ import com.queryio.core.datasources.SFTPDataSource;
 import com.queryio.core.datasources.SSHDataSource;
 import com.queryio.database.migrate.DBAcivator;
 
+@SuppressWarnings({ "PMD.AvoidUsingShortType", "PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal"})
 public class DataSourceDAO {
 	public static short getDataConnectionType(final Connection connection, final String id) throws Exception {
 		short type = -1;

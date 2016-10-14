@@ -43,105 +43,105 @@ public class JTLParser {
 	private Map<String, Long> orderPlacementTotalCallsMap = null;
 	private Map<String, Long> orderStatusTotalCallsMap = null;
 
-	private static final Set<String> skipLabels = new HashSet<String>();
+	private static final Set<String> SKIP_LABELS = new HashSet<String>();
 	static {
-		skipLabels.add("75-25 DIVISION");
-		skipLabels.add("PRETESTSAMPLER_US");
-		skipLabels.add("30-70 DIVISION");
-		skipLabels.add("LOG_SINGLE_SELECTION");
-		skipLabels.add("50-50 DIVISION");
-		skipLabels.add("ENGRAVED_ITEM_SELECTION");
-		skipLabels.add("NON_ENGRAVED_ITEM_SELECTION");
-		skipLabels.add("90 DIVISION");
-		skipLabels.add("US-CHECKOUT-SINGLE");
-		skipLabels.add("US-DN");
-		skipLabels.add("LOG_MULTI_SELECTION");
-		skipLabels.add("80-20 DIVISION");
-		skipLabels.add("IPAD+SMARTCOVER");
-		skipLabels.add("IPAD+SMARTCOVER+APPLECARE");
-		skipLabels.add("ENGRAVED");
-		skipLabels.add("NON-ENGRAVED");
-		skipLabels.add("MULTI CHECKOUT");
-		skipLabels.add("US-MULTI-DN");
-		skipLabels.add("LOGGING");
-		skipLabels.add("BEANSHELL SAMPLER");
-		skipLabels.add("90-10 DIVISION");
-		skipLabels.add("PRETESTSAMPLER_UK");
-		skipLabels.add("UK-DN");
-		skipLabels.add("UK-MULTI-DN");
-		skipLabels.add("UK-CHECKOUT-SINGLE");
-		skipLabels.add("PRETESTSAMPLER_FR");
-		skipLabels.add("FR-DN");
-		skipLabels.add("FR-MULTI-DN");
-		skipLabels.add("FR-CHECKOUT-SINGLE");
-		skipLabels.add("PRETESTSAMPLER_SG");
-		skipLabels.add("SG-DN");
-		skipLabels.add("SG-MULTI-DN");
-		skipLabels.add("SG-CHECKOUT-SINGLE");
-		skipLabels.add("PRETESTSAMPLER_CN");
-		skipLabels.add("CN-DN");
-		skipLabels.add("CN-MULTI-DN");
-		skipLabels.add("CN-CHECKOUT-SINGLE");
-		skipLabels.add("PRETESTSAMPLER_AU");
-		skipLabels.add("AU-DN");
-		skipLabels.add("AU-MULTI-DN");
-		skipLabels.add("AU-CHECKOUT-SINGLE");
-		skipLabels.add("PRETESTSAMPLER_DE");
-		skipLabels.add("DE-DN");
-		skipLabels.add("DE-MULTI-DN");
-		skipLabels.add("DE-CHECKOUT-SINGLE");
-		skipLabels.add("PRETESTSAMPLER_CA");
-		skipLabels.add("CA-DN");
-		skipLabels.add("CA-MULTI-DN");
-		skipLabels.add("CA-CHECKOUT-SINGLE");
-		skipLabels.add("PRINT CARTID");
-		skipLabels.add("UPDATE PARTID");
-		skipLabels.add("LINE ITEM SEQUENCE EDITOR");
-		skipLabels.add("SG-MULTI CHECKOUT");
-		skipLabels.add("PRODUCT DISTRIBUTION");
-		skipLabels.add("LINEITEM DIVISION");
-		skipLabels.add("50-50 DIVISION");
-		skipLabels.add("ENGRAVED_ITEM_SELECTION");
-		skipLabels.add("NOT_ENGRAVED_ITEM_SELECTION");
-		skipLabels.add("1-LINEITEM SAMPLER");
-		skipLabels.add("2-LINEITEMS SAMPLER");
-		skipLabels.add("3-LINEITEMS SAMPLER");
-		skipLabels.add("4-LINEITEMS SAMPLER");
-		skipLabels.add("UPDATE FOR 1 LINEITEM");
-		skipLabels.add("THREE_LINEITEM_CHOICE DIVISION");
-		skipLabels.add("FOUR_LINEITEM_CHOICE DIVISION");
-		skipLabels.add("UPDATE LINEITEMID");
-		skipLabels.add("90 DIVISION");
-		skipLabels.add("PRINT DISA");
-		skipLabels.add("PRINT CH");
-		skipLabels.add("UPDATE HERO1LOCATIONTYPE");
-		skipLabels.add("UPDATE HERO2LOCATIONTYPE");
-		skipLabels.add("UPDATE PICKUP QUOTES");
-		skipLabels.add("PRINT CARTID");
-		skipLabels.add("RSP PERCENTAGE");
-		skipLabels.add("PRINT REC DETAILS");
-		skipLabels.add("OPTION SAMPLER");
-		skipLabels.add("LOG");
-		skipLabels.add("BEANSHELL PREPROCESSOR");
-		skipLabels.add("BEANSHELL SAMPLER");
-		skipLabels.add("DIVISION");
-		skipLabels.add("PRE SAMPLER");
-		skipLabels.add("CATEGORY-BEAN-SHELL-SAMPLER");
-		skipLabels.add("BEAN-SHELL-SAMPLER");
-		skipLabels.add("ADD-TO-CART-PARAM CONFIG");
-		skipLabels.add("IPHONE SELECT PARAMS");
-		skipLabels.add("IPOD ENGRAVED SAMPLER");
-		skipLabels.add("IPOD NOT ENGRAVED SAMPLER");
-		skipLabels.add("MAC REQUEST PARAMS CONFIG");
-		skipLabels.add("MULTILINE PARAM CONFIG");
-		skipLabels.add("MULTILINE BOPIS PARAM CONFIG");
-		skipLabels.add("UPDATE PICKUP QUOTES HERO1");
-		skipLabels.add("UPDATE PICKUP QUOTES HERO2");
-		skipLabels.add("CHECKOUT REQUEST PARAMS");
-		skipLabels.add("REQUEST PARAM CONFIG");
-		skipLabels.add("IPAD ENGRAVED SAMPLER");
-		skipLabels.add("IPAD NOT ENGRAVED SAMPLER");
-		skipLabels.add("IPHONE TYPE");
+		SKIP_LABELS.add("75-25 DIVISION");
+		SKIP_LABELS.add("PRETESTSAMPLER_US");
+		SKIP_LABELS.add("30-70 DIVISION");
+		SKIP_LABELS.add("LOG_SINGLE_SELECTION");
+		SKIP_LABELS.add("50-50 DIVISION");
+		SKIP_LABELS.add("ENGRAVED_ITEM_SELECTION");
+		SKIP_LABELS.add("NON_ENGRAVED_ITEM_SELECTION");
+		SKIP_LABELS.add("90 DIVISION");
+		SKIP_LABELS.add("US-CHECKOUT-SINGLE");
+		SKIP_LABELS.add("US-DN");
+		SKIP_LABELS.add("LOG_MULTI_SELECTION");
+		SKIP_LABELS.add("80-20 DIVISION");
+		SKIP_LABELS.add("IPAD+SMARTCOVER");
+		SKIP_LABELS.add("IPAD+SMARTCOVER+APPLECARE");
+		SKIP_LABELS.add("ENGRAVED");
+		SKIP_LABELS.add("NON-ENGRAVED");
+		SKIP_LABELS.add("MULTI CHECKOUT");
+		SKIP_LABELS.add("US-MULTI-DN");
+		SKIP_LABELS.add("LOGGING");
+		SKIP_LABELS.add("BEANSHELL SAMPLER");
+		SKIP_LABELS.add("90-10 DIVISION");
+		SKIP_LABELS.add("PRETESTSAMPLER_UK");
+		SKIP_LABELS.add("UK-DN");
+		SKIP_LABELS.add("UK-MULTI-DN");
+		SKIP_LABELS.add("UK-CHECKOUT-SINGLE");
+		SKIP_LABELS.add("PRETESTSAMPLER_FR");
+		SKIP_LABELS.add("FR-DN");
+		SKIP_LABELS.add("FR-MULTI-DN");
+		SKIP_LABELS.add("FR-CHECKOUT-SINGLE");
+		SKIP_LABELS.add("PRETESTSAMPLER_SG");
+		SKIP_LABELS.add("SG-DN");
+		SKIP_LABELS.add("SG-MULTI-DN");
+		SKIP_LABELS.add("SG-CHECKOUT-SINGLE");
+		SKIP_LABELS.add("PRETESTSAMPLER_CN");
+		SKIP_LABELS.add("CN-DN");
+		SKIP_LABELS.add("CN-MULTI-DN");
+		SKIP_LABELS.add("CN-CHECKOUT-SINGLE");
+		SKIP_LABELS.add("PRETESTSAMPLER_AU");
+		SKIP_LABELS.add("AU-DN");
+		SKIP_LABELS.add("AU-MULTI-DN");
+		SKIP_LABELS.add("AU-CHECKOUT-SINGLE");
+		SKIP_LABELS.add("PRETESTSAMPLER_DE");
+		SKIP_LABELS.add("DE-DN");
+		SKIP_LABELS.add("DE-MULTI-DN");
+		SKIP_LABELS.add("DE-CHECKOUT-SINGLE");
+		SKIP_LABELS.add("PRETESTSAMPLER_CA");
+		SKIP_LABELS.add("CA-DN");
+		SKIP_LABELS.add("CA-MULTI-DN");
+		SKIP_LABELS.add("CA-CHECKOUT-SINGLE");
+		SKIP_LABELS.add("PRINT CARTID");
+		SKIP_LABELS.add("UPDATE PARTID");
+		SKIP_LABELS.add("LINE ITEM SEQUENCE EDITOR");
+		SKIP_LABELS.add("SG-MULTI CHECKOUT");
+		SKIP_LABELS.add("PRODUCT DISTRIBUTION");
+		SKIP_LABELS.add("LINEITEM DIVISION");
+		SKIP_LABELS.add("50-50 DIVISION");
+		SKIP_LABELS.add("ENGRAVED_ITEM_SELECTION");
+		SKIP_LABELS.add("NOT_ENGRAVED_ITEM_SELECTION");
+		SKIP_LABELS.add("1-LINEITEM SAMPLER");
+		SKIP_LABELS.add("2-LINEITEMS SAMPLER");
+		SKIP_LABELS.add("3-LINEITEMS SAMPLER");
+		SKIP_LABELS.add("4-LINEITEMS SAMPLER");
+		SKIP_LABELS.add("UPDATE FOR 1 LINEITEM");
+		SKIP_LABELS.add("THREE_LINEITEM_CHOICE DIVISION");
+		SKIP_LABELS.add("FOUR_LINEITEM_CHOICE DIVISION");
+		SKIP_LABELS.add("UPDATE LINEITEMID");
+		SKIP_LABELS.add("90 DIVISION");
+		SKIP_LABELS.add("PRINT DISA");
+		SKIP_LABELS.add("PRINT CH");
+		SKIP_LABELS.add("UPDATE HERO1LOCATIONTYPE");
+		SKIP_LABELS.add("UPDATE HERO2LOCATIONTYPE");
+		SKIP_LABELS.add("UPDATE PICKUP QUOTES");
+		SKIP_LABELS.add("PRINT CARTID");
+		SKIP_LABELS.add("RSP PERCENTAGE");
+		SKIP_LABELS.add("PRINT REC DETAILS");
+		SKIP_LABELS.add("OPTION SAMPLER");
+		SKIP_LABELS.add("LOG");
+		SKIP_LABELS.add("BEANSHELL PREPROCESSOR");
+		SKIP_LABELS.add("BEANSHELL SAMPLER");
+		SKIP_LABELS.add("DIVISION");
+		SKIP_LABELS.add("PRE SAMPLER");
+		SKIP_LABELS.add("CATEGORY-BEAN-SHELL-SAMPLER");
+		SKIP_LABELS.add("BEAN-SHELL-SAMPLER");
+		SKIP_LABELS.add("ADD-TO-CART-PARAM CONFIG");
+		SKIP_LABELS.add("IPHONE SELECT PARAMS");
+		SKIP_LABELS.add("IPOD ENGRAVED SAMPLER");
+		SKIP_LABELS.add("IPOD NOT ENGRAVED SAMPLER");
+		SKIP_LABELS.add("MAC REQUEST PARAMS CONFIG");
+		SKIP_LABELS.add("MULTILINE PARAM CONFIG");
+		SKIP_LABELS.add("MULTILINE BOPIS PARAM CONFIG");
+		SKIP_LABELS.add("UPDATE PICKUP QUOTES HERO1");
+		SKIP_LABELS.add("UPDATE PICKUP QUOTES HERO2");
+		SKIP_LABELS.add("CHECKOUT REQUEST PARAMS");
+		SKIP_LABELS.add("REQUEST PARAM CONFIG");
+		SKIP_LABELS.add("IPAD ENGRAVED SAMPLER");
+		SKIP_LABELS.add("IPAD NOT ENGRAVED SAMPLER");
+		SKIP_LABELS.add("IPHONE TYPE");
 	}
 	
 	private static ArrayList<String> dummyEntryLablesListEndsWith = new ArrayList<String>();
@@ -203,7 +203,7 @@ public class JTLParser {
 	Set<String> insertDummyRowSet = null;
 	
 	Connection connection = null;
-	PreparedStatement PST = null;
+	PreparedStatement pst = null;
 	String tableName = null;
 	int maxBatchSize; 
 	FileStatus fileStatus = null;
@@ -251,15 +251,15 @@ public class JTLParser {
 			}
 
 			if (currentBatchSize > 0) {
-				PST.executeBatch();
+				pst.executeBatch();
 			}
 		} catch (final Exception e) {
 			LOG.fatal("Exception: " + e.getLocalizedMessage(), e);
 			throw new IOException(e);
 		} finally {
-			if (PST != null) {
+			if (pst != null) {
 				try {
-					PST.close();
+					pst.close();
 				} catch (final SQLException e) {
 					LOG.fatal("Error Closing PreparedStatement", e);
 				}
@@ -280,7 +280,7 @@ public class JTLParser {
 			label = values[this.labelIndex];
 			if (label != null) {
 				labelUpperCase = label.toUpperCase();
-				if (skipLabels.contains(labelUpperCase)) {
+				if (SKIP_LABELS.contains(labelUpperCase)) {
 					return;
 				}
 			}
@@ -504,7 +504,7 @@ public class JTLParser {
 		query.append(COL_TAG_VALUES_FILEPATH).append(") VALUES (").append(valueBuf.toString());
 		query.append("?)");
 
-		PST = connection.prepareStatement(query.toString());
+		pst = connection.prepareStatement(query.toString());
 	}
 
 
@@ -535,36 +535,36 @@ public class JTLParser {
 				+ " SuccessPer: " + successPer);
 
 		int index = 0;
-		PST.setString(++index, label);// sample_label
-		PST.setInt(++index, sampleValue);// sample_value
-		PST.setTimestamp(++index, new Timestamp(startTime));// start_timestamp
-		PST.setTimestamp(++index, new Timestamp(endTime));// end_timestamp
-		PST.setInt(++index, taskCount);// task_count
-		PST.setDouble(++index, minLatency);// min_latency
-		PST.setDouble(++index, maxLatency);// max_latency
-		PST.setDouble(++index, avgLatency);// avg_latency
-		PST.setDouble(++index, avgTps);// avg_tps
-		PST.setDouble(++index, percentileLatency999);// tp_999_latency
-		PST.setDouble(++index, percentileLatency99);// tp_99_latency
-		PST.setDouble(++index, percentileLatency95);// tp_95_latency
-		PST.setDouble(++index, percentileLatency90);// tp_90_latency
-		PST.setDouble(++index, percentileLatency80);// tp_80_latency
-		PST.setDouble(++index, totalBytes);// total_bytes
-		PST.setInt(++index, errorCount);// errors_count
-		PST.setInt(++index, (taskCount - errorCount));// success_count
-		PST.setDouble(++index, successPer);// success_percentage
-		PST.setString(++index, this.filePath);
-		PST.addBatch();
+		pst.setString(++index, label);// sample_label
+		pst.setInt(++index, sampleValue);// sample_value
+		pst.setTimestamp(++index, new Timestamp(startTime));// start_timestamp
+		pst.setTimestamp(++index, new Timestamp(endTime));// end_timestamp
+		pst.setInt(++index, taskCount);// task_count
+		pst.setDouble(++index, minLatency);// min_latency
+		pst.setDouble(++index, maxLatency);// max_latency
+		pst.setDouble(++index, avgLatency);// avg_latency
+		pst.setDouble(++index, avgTps);// avg_tps
+		pst.setDouble(++index, percentileLatency999);// tp_999_latency
+		pst.setDouble(++index, percentileLatency99);// tp_99_latency
+		pst.setDouble(++index, percentileLatency95);// tp_95_latency
+		pst.setDouble(++index, percentileLatency90);// tp_90_latency
+		pst.setDouble(++index, percentileLatency80);// tp_80_latency
+		pst.setDouble(++index, totalBytes);// total_bytes
+		pst.setInt(++index, errorCount);// errors_count
+		pst.setInt(++index, (taskCount - errorCount));// success_count
+		pst.setDouble(++index, successPer);// success_percentage
+		pst.setString(++index, this.filePath);
+		pst.addBatch();
 
 		if (++currentBatchSize % maxBatchSize == 0) {
-			PST.executeBatch();
-			PST.clearBatch();
+			pst.executeBatch();
+			pst.clearBatch();
 			currentBatchSize = 0;
 		}
 	}
 
 	private void insertEntry(final boolean isInsertTotal) throws Exception {
-		if (PST == null) {
+		if (pst == null) {
 			prepareStatement();
 		}
 

@@ -9,7 +9,7 @@ public class TriggerDetailBean
 	private String  endTime = null;
 	private String  status = null;
 	private String reasonForFailure = null;
-	private Integer ID = null;
+	private Integer id = null;
 	
 	
 	
@@ -22,11 +22,11 @@ public class TriggerDetailBean
 	}
 	
 	public Integer getID() {
-		return ID;
+		return id;
 	}
 
-	public void setID(Integer ID) {
-		this.ID = ID;
+	public void setID(Integer id) {
+		this.id = id;
 	}
 
 	public String getReasonForFailure() {

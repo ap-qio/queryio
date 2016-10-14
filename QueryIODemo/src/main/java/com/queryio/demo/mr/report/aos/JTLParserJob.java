@@ -65,9 +65,9 @@ public class JTLParserJob extends Configured implements Tool{
 //		FileInputFormat.addInputPath(job, fs.getFileStatus(path).getPath());
 
 		//get the FileStatus list from given dir
-		FileStatus[] status_list = fs.listStatus(path);
-		if(status_list != null){
-		    for(FileStatus status : status_list){
+		FileStatus[] statusList = fs.listStatus(path);
+		if(statusList != null){
+		    for(FileStatus status : statusList){
 		    	if(status.isDirectory() || !status.getPath().getName().endsWith(".jtl")) {
 		    		System.out.println("Skipping "  + status.getPath().getName());
 		    		continue;

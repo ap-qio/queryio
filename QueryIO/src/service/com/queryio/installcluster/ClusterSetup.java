@@ -22,8 +22,8 @@ public class ClusterSetup
 	String userName;
 	String password;
 	String sshPrivateKey;
-	String qio_username;
-	String qio_password;
+	String qioUsername;
+	String qioPassword;
 	String sshPort;
 	HashMap hostid;
 	ArrayList disk;
@@ -44,8 +44,8 @@ public class ClusterSetup
 		userName = cUsername;
 		password = cPassword;
 		sshPrivateKey = ipPrivateKey;
-		qio_username = queryioUser;
-		qio_password = queryioPassword;
+		qioUsername = queryioUser;
+		qioPassword = queryioPassword;
 		sshPort = port;
 		
 		AppLogger.getLogger().fatal("Installing Host...");
@@ -273,7 +273,7 @@ public class ClusterSetup
 			System.out.println("NameNode Installed successfully.");
 			AppLogger.getLogger().fatal("Starting NameNode...");
 			System.out.println("Starting NameNode...");
-			response = RemoteManager.startNodeInstaller( "NameNode1" , qio_username, false);
+			response = RemoteManager.startNodeInstaller( "NameNode1" , qioUsername, false);
 			if(response.isTaskSuccess())
 			{
 				AppLogger.getLogger().fatal("NameNode started successfully.");
@@ -352,7 +352,7 @@ public class ClusterSetup
 			System.out.println("DataNode installed successfully");
 			AppLogger.getLogger().fatal("Starting DataNode...");
 			System.out.println("Starting DataNode...");
-			response = RemoteManager.startNodeInstaller( "DataNode1" ,qio_username, false);
+			response = RemoteManager.startNodeInstaller( "DataNode1" ,qioUsername, false);
 			if(response.isTaskSuccess())
 			{
 				AppLogger.getLogger().fatal("DataNode started successfully.");
@@ -448,7 +448,7 @@ public class ClusterSetup
 			System.out.println("ResourceManager installed successfully.");
 			AppLogger.getLogger().fatal("Starting ResourceManager...");
 			System.out.println("Starting ResourceManager...");
-			response = RemoteManager.startNodeInstaller( "ResourceManager1" , qio_username, false);
+			response = RemoteManager.startNodeInstaller( "ResourceManager1" , qioUsername, false);
 			if(response.isTaskSuccess())
 			{
 				AppLogger.getLogger().fatal("ResourceManager started successfully");
@@ -512,7 +512,7 @@ public class ClusterSetup
 			System.out.println("NodeManager installed successfully");
 			AppLogger.getLogger().fatal("Starting NodeManager...");
 			System.out.println("Starting NodeManager...");
-			response = RemoteManager.startNodeInstaller( "NodeManager1" ,qio_username, false);
+			response = RemoteManager.startNodeInstaller( "NodeManager1" ,qioUsername, false);
 			if(response.isTaskSuccess())
 			{
 				AppLogger.getLogger().fatal("NodeManager started successfully");

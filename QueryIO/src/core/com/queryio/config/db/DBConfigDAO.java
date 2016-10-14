@@ -376,7 +376,7 @@ public class DBConfigDAO {
 
 	private static void createMonitoringXMLNode(Document document,
 			Element newConnection, String connectionURL, String username,
-			String Password, String driverName, String jarFileName,
+			String passwordStr, String driverName, String jarFileName,
 			long maxConnections2, long maxIdleConnections2, long waitTimeMilliSeconds, String connectionName) {
 
 		Element driver = document.createElement("driver");
@@ -392,7 +392,7 @@ public class DBConfigDAO {
 		newConnection.appendChild(userName);
 
 		Element password = document.createElement("password");
-		password.appendChild(document.createTextNode(Password));
+		password.appendChild(document.createTextNode(passwordStr));
 		newConnection.appendChild(password);
 
 		Element poolName = document.createElement("poolname");

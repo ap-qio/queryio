@@ -50,7 +50,7 @@ public class NamespaceVSDBDiagnosisRequest extends RequestProcessorCore {
 	SummaryTable filesList = new SummaryTable();
 	String nodeId;
 	
-	static String QUERY_START = "SELECT "
+	static String queryStart = "SELECT "
 			+ ColumnConstants.COL_TAG_VALUES_FILEPATH + ","
 			+ ColumnConstants.COL_TAG_VALUES_LENGTH + ","
 			+ ColumnConstants.COL_TAG_VALUES_OWNER + ","
@@ -61,7 +61,7 @@ public class NamespaceVSDBDiagnosisRequest extends RequestProcessorCore {
 			+ ColumnConstants.COL_TAG_VALUES_MODIFICATIONTIME + ","
 			+ ColumnConstants.COL_TAG_VALUES_REPLICATION
 			+ " FROM ";
-	static String QUERY_END = " WHERE FILEPATH=?";
+	static String queryEnd = " WHERE FILEPATH=?";
 	
 	private long startIndex;
 	
@@ -357,7 +357,7 @@ public class NamespaceVSDBDiagnosisRequest extends RequestProcessorCore {
 			     new String[] {"TABLE"});
 			while (res.next()) {
 				if(res.getString("TABLE_NAME").toUpperCase().startsWith(tableName)){
-					stmt = connection.prepareStatement(QUERY_START + res.getString("TABLE_NAME") + QUERY_END);
+					stmt = connection.prepareStatement(queryStart + res.getString("TABLE_NAME") + queryEnd);
 					
 					stmt.setString(1, filePath);
 					

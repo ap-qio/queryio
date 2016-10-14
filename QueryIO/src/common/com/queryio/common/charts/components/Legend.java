@@ -29,13 +29,13 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  */
 public final class Legend
 {
-	public static final int iStrikeThroughLength = 10;
+	public static final int ISTRIKETHROUGHLENGTH = 10;
 
 	private final String text;
 
 	private final Color seriesColor;
 
-	private static final int gapBetweenRectAndText = 10 + 3;
+	private static final int GAPBETWEENRECTANDTEXT = 10 + 3;
 
 	public Font legendFont;
 
@@ -125,11 +125,11 @@ public final class Legend
 		
 		if (graphics.showSeriesSelector())
 		{
-			graphics.drawString(this.text, x + gapBetweenRectAndText, y, true);
+			graphics.drawString(this.text, x + GAPBETWEENRECTANDTEXT, y, true);
 		}
 		else
 		{
-			graphics.drawString(this.text, x + gapBetweenRectAndText, y + 1, true);
+			graphics.drawString(this.text, x + GAPBETWEENRECTANDTEXT, y + 1, true);
 		}
 		
 		graphics.setForeground(foreground);

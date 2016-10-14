@@ -97,11 +97,11 @@ public class NodeConsolidationThread extends Thread
 					String consoldationTableName = QueryIOConstants.MONITORDATA_TABLE_PREFIX + node.getId() + "_" +node.getNodeType()+ "_CONSOLIDATEDDATA";				
 					
 					connection = CoreDBManager.getQueryIODBConnection();		
-					ConsolidationUtility.purgeTable(connection, monitoringTableName, ColumnConstants.COL_MONITORDATA_MONITOR_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.purgeIntervalForDataTable));
-					ConsolidationUtility.purgeTable(connection, consoldationTableName, ColumnConstants.COL_MONITORDATA_MONITOR_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.purgeIntervalForConsolidatedDataTable));
+					ConsolidationUtility.purgeTable(connection, monitoringTableName, ColumnConstants.COL_MONITORDATA_MONITOR_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.PURGEINTERVALFORDATATABLE));
+					ConsolidationUtility.purgeTable(connection, consoldationTableName, ColumnConstants.COL_MONITORDATA_MONITOR_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.PURGEINTERVALFORCONSOLIDATEDDATATABLE));
 					
-					ConsolidationUtility.purgeTable(connection, TableConstants.TABLE_NODESTATUS, ColumnConstants.COL_NODESTATUS_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.purgeIntervalForDataTable), ColumnConstants.COL_NODESTATUS_NODEID, node.getId());
-					ConsolidationUtility.purgeTable(connection, TableConstants.TABLE_NODESTATUS_CONSOLIDATEDDATA, ColumnConstants.COL_NODESTATUS_CONSOLIDATEDDATA_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.purgeIntervalForConsolidatedDataTable), ColumnConstants.COL_NODESTATUS_CONSOLIDATEDDATA_ID, node.getId());
+					ConsolidationUtility.purgeTable(connection, TableConstants.TABLE_NODESTATUS, ColumnConstants.COL_NODESTATUS_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.PURGEINTERVALFORDATATABLE), ColumnConstants.COL_NODESTATUS_NODEID, node.getId());
+					ConsolidationUtility.purgeTable(connection, TableConstants.TABLE_NODESTATUS_CONSOLIDATEDDATA, ColumnConstants.COL_NODESTATUS_CONSOLIDATEDDATA_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.PURGEINTERVALFORCONSOLIDATEDDATATABLE), ColumnConstants.COL_NODESTATUS_CONSOLIDATEDDATA_ID, node.getId());
 				} catch (Exception e) {
 					flag = false;
 				} finally {

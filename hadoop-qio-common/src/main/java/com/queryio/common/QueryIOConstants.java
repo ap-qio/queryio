@@ -3,7 +3,7 @@ package com.queryio.common;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public interface QueryIOConstants
 {
 	String DEFAULT_GROUP_NAME ="queryio";
@@ -326,8 +326,8 @@ public interface QueryIOConstants
 	String ALERT_WARNING = "Warning";
 	
 	/** Purge time limits in millis. */
-	public static final long purgeIntervalForConsolidatedDataTable = 31104000000L; // = 360 days
-	public static final long purgeIntervalForDataTable = 86400000L; // = 1 days
+	public static final long PURGEINTERVALFORCONSOLIDATEDDATATABLE = 31104000000L; // = 360 days
+	public static final long PURGEINTERVALFORDATATABLE = 86400000L; // = 1 days
 
 	String SNAPSHOT_STATUS_COMPLETED = "Completed";
 	
@@ -670,7 +670,7 @@ public interface QueryIOConstants
     String METADATA_FILE_NM = "NodeManager";
     String METADATA_FILE_JN = "JournalNode";
     String METADATA_FILE_CPN = "CheckpointNode";
-    String isUPGRADE = "isUpgrade";
+    String ISUPGRADE = "isUpgrade";
     String QUERYIO_INSTALL_LOC = "installLoc";
     String UPGRADE_CLUSTERHOSTS = "clusterHosts";
     String UPGRADE_HOST_CREDENTIALS = "/tomcat/webapps/queryio/WEB-INF/UpgradeHostList.properties";
@@ -704,7 +704,7 @@ public interface QueryIOConstants
     String DATATAGGING_GENERIC_PARSER_JOB_LIB_JAR_NAME = "Plugins/tika-app-1.3-modified.jar";
     String DATATAGGING_GENERIC_FILE_TYPES_PARSERS_KEY = "queryio.generic.parser.filetypes.class.map";
     
-    String hiveTypePath = "hiveTypePath";
+    String HIVETYPEPATH = "hiveTypePath";
     
 	String SNAPPY = "SNAPPY";
 	String GZ = "GZ";

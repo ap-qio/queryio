@@ -30,7 +30,7 @@ import com.queryio.plugin.datatags.UserDefinedTag;
 
 public class PutObjectAction extends BaseAction {
 
-	protected final Logger logger = Logger.getLogger(getClass());
+	protected final Logger LOGGER = Logger.getLogger(getClass());
 	
 	@Override
 	public void execute(String operation, HttpServletRequest request, HttpServletResponse response, Map<String, Object> helperMap, int apiType) throws Exception {
@@ -41,10 +41,10 @@ public class PutObjectAction extends BaseAction {
 		String token =  (String)request.getHeader(OS3Constants.AUTHORIZATION);
 		String unzip = (String)request.getHeader(OS3Constants.UNZIP);
 		
-		logger.debug("PutObjectAction: request received, unzip=" + unzip);
+		LOGGER.debug("PutObjectAction: request received, unzip=" + unzip);
 		
-		logger.debug("Bucket: " + bucketName);
-		logger.debug("Object: " + objectName);
+		LOGGER.debug("Bucket: " + bucketName);
+		LOGGER.debug("Object: " + objectName);
 		
 		boolean deflate = false;
 		try{
@@ -53,7 +53,7 @@ public class PutObjectAction extends BaseAction {
 			// IGNORE
 		}
 		
-		logger.debug("Deflate: " + deflate);
+		LOGGER.debug("Deflate: " + deflate);
 		
 		FileSystem dfs = null;
 		
@@ -81,6 +81,7 @@ public class PutObjectAction extends BaseAction {
 		String bucketGroup = request.getHeader(OS3Constants.GROUP);
 		String permission = request.getHeader(OS3Constants.PERMISSION);
 		
+		@SuppressWarnings("PMD.AvoidUsingShortType")
 		short permissionValue = 0;
 		if(permission!=null) {
 			try {
@@ -156,7 +157,7 @@ public class PutObjectAction extends BaseAction {
 						try{
 							stream.close();
 						} catch(Exception e){
-							logger.fatal(e.getMessage(), e);
+							LOGGER.fatal(e.getMessage(), e);
 						}
 					}
 				}
@@ -184,7 +185,7 @@ public class PutObjectAction extends BaseAction {
 						try{
 							stream.close();
 						} catch(Exception e){
-							logger.fatal(e.getMessage(), e);
+							LOGGER.fatal(e.getMessage(), e);
 						}
 					}
 				}

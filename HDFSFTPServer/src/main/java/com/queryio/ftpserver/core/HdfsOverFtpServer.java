@@ -15,7 +15,6 @@ import org.apache.ftpserver.ssl.SslConfigurationFactory;
 import org.apache.log4j.Logger;
 
 import com.queryio.common.EnvironmentalConstants;
-import com.queryio.common.HadoopConstants;
 import com.queryio.common.QueryIOConstants;
 
 public class HdfsOverFtpServer {
@@ -29,12 +28,12 @@ public class HdfsOverFtpServer {
 	private static boolean useKerberos = false;
 	private static boolean sslEnabled = false;
 
-	public static String HDFS_OVER_FTP_CONF_FILE_NAME = "hdfs-over-ftp.conf";
-	public static String LOG4J_PROPERTIES_FILE = "/WEB-INF/log4j.properties";
+	public static final String HDFS_OVER_FTP_CONF_FILE_NAME = "hdfs-over-ftp.conf";
+	public static final String LOG4J_PROPERTIES_FILE = "/WEB-INF/log4j.properties";
 	public static String keystoreFile = null;
-	// public static String FTP_JKS_FILE_NAME = "ftp.jks";
-	public static String USERS_CONF_FILE_NAME = "users.conf";
-	public static String HADOOP_CONFIG_PATH = "";
+
+	public static final String USERS_CONF_FILE_NAME = "users.conf";
+	public static String hadoopConfigPath = "";
 
 	public static void launch(String configFileContainer) throws Exception {
 		log.info("Starting...");
@@ -54,24 +53,24 @@ public class HdfsOverFtpServer {
 				+ HDFS_OVER_FTP_CONF_FILE_NAME));
 
 		// queryio.ftpserver.port
-		port = Integer.parseInt(HadoopConstants.getHadoopConf()
+		port = Integer.parseInt(EnvironmentalConstants.getHadoopConf()
 				.get(QueryIOConstants.QUERYIO_FTPSERVER_PORT));
 		passivePorts = (port + 1) + "-" + (port + 3);
 		log.info("port: " + port);
 		log.info("passivePorts: " + passivePorts);
 		log.info("sslEnabled: "
-				+ HadoopConstants.getHadoopConf()
+				+ EnvironmentalConstants.getHadoopConf()
 						.get(QueryIOConstants.QUERYIO_FTPSERVER_SSLENABLED));
-		sslEnabled = Boolean.parseBoolean(HadoopConstants.getHadoopConf().get(
+		sslEnabled = Boolean.parseBoolean(EnvironmentalConstants.getHadoopConf().get(
 				QueryIOConstants.QUERYIO_FTPSERVER_SSLENABLED, "false"));
 		
 		if (sslEnabled) {
-			sslPort = Integer.parseInt(HadoopConstants.getHadoopConf()
+			sslPort = Integer.parseInt(EnvironmentalConstants.getHadoopConf()
 					.get(QueryIOConstants.QUERYIO_FTPSERVER_SSLPORT));
 			sslPassivePorts = (sslPort + 1) + "-" + (sslPort + 3);
-			sslPassword = HadoopConstants.getHadoopConf()
+			sslPassword = EnvironmentalConstants.getHadoopConf()
 					.get(QueryIOConstants.QUERYIO_FTPSERVER_SSLPASSWORD);
-			keystoreFile = HadoopConstants.getHadoopConf()
+			keystoreFile = EnvironmentalConstants.getHadoopConf()
 					.get(QueryIOConstants.QUERYIO_FTPSERVER_SSLKEYSTORE);
 			log.info("sslPort: " + sslPort);
 			log.info("sslPassivePorts: " + sslPassivePorts);

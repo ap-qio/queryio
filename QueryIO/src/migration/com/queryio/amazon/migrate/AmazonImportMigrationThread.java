@@ -548,7 +548,7 @@ public class AmazonImportMigrationThread extends Thread {
 		
 		FileStatus[] statusList = dfs.listStatus(new Path("/"));
 		for(int i=0; i<statusList.length; i++){
-			System.out.println(statusList[i].getPath());
+			// System.out.println(statusList[i].getPath());
 		}
 	}
 }

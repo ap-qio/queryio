@@ -40,7 +40,7 @@ public abstract class AppSimpleChart extends AppChart
 	private XAxisSeries xAxisSeries = null;
 	private Series[] yAxisSeries = null;
 
-	protected static final double angle = Math.PI * 0.5;
+	protected static final double ANGLE = Math.PI * 0.5;
 
 	protected Rectangle xAxisTitleRect = null;
 	protected Rectangle yAxisTitleRect = null;

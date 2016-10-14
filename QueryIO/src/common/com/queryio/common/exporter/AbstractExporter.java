@@ -55,7 +55,7 @@ public abstract class AbstractExporter
 
 	protected String sCurrentProject;
 	protected String sHeaderImagePath;
-	protected int iWidth;
+	protected int iWidth; 
 	protected int iHeight;
 	protected boolean bExportingResult = false;
 	protected AbstractExportableNode node;

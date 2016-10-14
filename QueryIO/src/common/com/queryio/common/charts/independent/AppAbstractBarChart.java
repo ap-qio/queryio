@@ -36,7 +36,7 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 	private static final int TICKMARK = 1;
 	private static final int TICKMARKVALUEINSET = 2;
 	private static final int DEFAULT_MAX_CHARS_ON_YAXIS = 3;
-	protected int INSET_FOR_BAR_ON_ONESIDE = 2;
+	protected int insetForBarOnOneside = 2;
 
 	private int iMinWidthReqdDefaultFont = 0;
 	private int iMinWidthReqd8Font = 0;
@@ -155,7 +155,7 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 		int yCor = this.plotRect.y + this.plotRect.height - this.shiftXAxisAbove;
 
 		this.eachDataWidth = (this.plotRect.x + this.plotRect.width - startXpx) / series.getCapacity();
-		this.INSET_FOR_BAR_ON_ONESIDE = this.eachDataWidth / 4; // 25% space wud
+		this.insetForBarOnOneside = this.eachDataWidth / 4; // 25% space wud
 		// be left at
 		// one side of
 		// the bar.

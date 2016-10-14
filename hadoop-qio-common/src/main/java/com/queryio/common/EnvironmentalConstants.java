@@ -39,7 +39,7 @@ public class EnvironmentalConstants {
 	
 	private static ArrayList<String> commomFileTypeNames;
 	
-	private static String DDLFileContainer;
+	private static String ddlFileContainer;
 
 	public static boolean isDemoVersion() {
 		return isDemoVersion;
@@ -50,11 +50,11 @@ public class EnvironmentalConstants {
 	}
 
 	public static String getDDLFileContainer() {
-		return DDLFileContainer;
+		return ddlFileContainer;
 	}
 
 	public static void setDDLFileContainer(String dDLFileContainer) {
-		DDLFileContainer = dDLFileContainer;
+		ddlFileContainer = dDLFileContainer;
 	}
 
 	public static ArrayList<String> getCommomFileTypeNames() {
@@ -65,7 +65,7 @@ public class EnvironmentalConstants {
 		EnvironmentalConstants.commomFileTypeNames = commomFileTypeNames;
 	}
 
-	protected static final Logger logger = Logger.getLogger(EnvironmentalConstants.class);
+	protected static final Logger LOGGER = Logger.getLogger(EnvironmentalConstants.class);
 	
 	
 	public static String getDbConfigFilePath() {

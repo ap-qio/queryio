@@ -38,7 +38,7 @@ public class MBOXFileParser extends IFileParser{
         skipAll = Boolean.parseBoolean(String.valueOf(parsingDetailsJSON.get(ERROR_ACTION_KEY)));	
 	}
 
-	String ADHOC_PARSER_ENCODING = "encoding";
+	String adhocParserEncoding = "encoding";
 	
 	private HashMap<String, String> curValueMap = new HashMap<String, String>();
 	private Map<Integer, String> columns = new TreeMap<Integer, String>();

@@ -48,7 +48,7 @@ public class CustomInputFormat extends
 		fileTypesToPick = fileType;
 	}
 
-	public static final PathFilter hiddenFileFilter = new PathFilter() {
+	public static final PathFilter HIDDEN_FILE_FILTER = new PathFilter() {
 		public boolean accept(Path p) {
 			String name = p.getName();
 			return !name.startsWith("_") && !name.startsWith(".")
@@ -206,7 +206,7 @@ public class CustomInputFormat extends
 		// creates a MultiPathFilter with the hiddenFileFilter and the
 		// user provided one (if any).
 		List<PathFilter> filters = new ArrayList<PathFilter>();
-		filters.add(hiddenFileFilter);
+		filters.add(HIDDEN_FILE_FILTER);
 		PathFilter jobFilter = getInputPathFilter(job);
 		if (jobFilter != null) {
 			filters.add(jobFilter);

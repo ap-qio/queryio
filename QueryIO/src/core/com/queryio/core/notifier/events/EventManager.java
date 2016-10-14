@@ -28,7 +28,7 @@ import com.queryio.core.notifier.common.NotificationEvent;
  *
  * @author Exceed Consultancy Services
  */
-public class EventManager
+public final class EventManager
 {
 	private static EventManager evtMgr = null;
 	private String sConfigXMLFilePath = null;

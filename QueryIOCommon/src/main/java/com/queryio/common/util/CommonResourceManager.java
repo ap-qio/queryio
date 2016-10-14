@@ -2,6 +2,7 @@ package com.queryio.common.util;
 
 import java.util.ResourceBundle;
 
+@SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 public class CommonResourceManager extends ResourceManager
 {
 	private CommonResourceManager(final ResourceBundle resourceBundle)

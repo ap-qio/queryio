@@ -18,7 +18,7 @@ import com.queryio.core.notifier.dstruct.PropertySet;
 import com.queryio.core.notifier.notifiers.NotificationManager;
 
 
-public class NotificationHandler 
+public final class NotificationHandler 
 {
 	private NotificationHandler()
 	{

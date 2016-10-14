@@ -30,7 +30,7 @@ import com.queryio.common.charts.independent.ChartConstants;
 import com.queryio.common.charts.series.YAxisSeries;
 import com.queryio.common.exporter.dstruct.Color;
 
-public class ChartFormatting
+public final class ChartFormatting
 {
 	// chart series colours
 	private static final Color CLR_SUCCESSFUL = new Color(0x00, 0xff, 0x00); // green

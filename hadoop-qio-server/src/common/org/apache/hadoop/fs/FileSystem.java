@@ -370,7 +370,7 @@ public abstract class FileSystem extends Configured implements Closeable {
 
     return CACHE.get(uri, conf);
   }
-
+  
   /**
    * Returns the FileSystem for this URI's scheme and authority and the 
    * passed user. Internally invokes {@link #newInstance(URI, Configuration)}
@@ -3308,5 +3308,9 @@ public abstract class FileSystem extends Configured implements Closeable {
   @VisibleForTesting
   public static void enableSymlinks() {
     symlinksEnabled = true;
+  }
+  
+  /* @QUERYIO@ */	
+  public void setOwnerModified(Path path, String user, String group) {
   }
 }

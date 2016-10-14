@@ -36,7 +36,7 @@ public class StringMatcher
 	/* boundary value beyond which we don't need to search in the text */
 	protected int fBound = 0;
 
-	protected static final char fSingleWildCard = '\u0000';
+	protected static final char FSINGLEWILDCARD = '\u0000';
 
 	public static class Position
 	{
@@ -284,7 +284,7 @@ public class StringMatcher
 		{
 			current = this.fSegments[i];
 			int currentMatch;
-			final int k = current.indexOf(fSingleWildCard);
+			final int k = current.indexOf(FSINGLEWILDCARD);
 			if (k < 0)
 			{
 				currentMatch = this.textPosIn(text, tCurPos, end, current);
@@ -388,7 +388,7 @@ public class StringMatcher
 					 * append special character representing single match
 					 * wildcard
 					 */
-					buf.append(fSingleWildCard);
+					buf.append(FSINGLEWILDCARD);
 					break;
 				default:
 					buf.append(c);
@@ -479,7 +479,7 @@ public class StringMatcher
 			if (!this.fIgnoreWildCards)
 			{
 				/* skip single wild cards */
-				if (pchar == fSingleWildCard)
+				if (pchar == FSINGLEWILDCARD)
 				{
 					continue;
 				}

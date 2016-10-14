@@ -1,3 +1,4 @@
+
 package com.queryio.ftpserver.core;
 
 import java.io.IOException;
@@ -8,7 +9,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.permission.FsAction;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.security.UserGroupInformation;
-
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public class QIODFSUtils {
 	public static FileSystem getFileSystemAs(final String username, final String group,
 			final Configuration conf) throws IOException, InterruptedException {

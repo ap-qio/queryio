@@ -27,7 +27,7 @@ import com.queryio.plugin.dstruct.IDataDefinition;
 public class JSONAdHocParser implements IAdHocParser{
 	
 	private static final Log LOG = LogFactory.getLog(JSONAdHocParser.class);
-	String ADHOC_PARSER_ENCODING = "encoding";
+	final String ADHOC_PARSER_ENCODING = "encoding";
 	
 	private Map<Integer, String> columns = new HashMap<Integer, String>();
 	private Map<Integer, Class> columnTypes = new HashMap<Integer, Class>();

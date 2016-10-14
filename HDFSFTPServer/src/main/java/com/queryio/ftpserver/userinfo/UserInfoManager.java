@@ -15,10 +15,10 @@ import com.queryio.common.database.QueryConstants;
 import com.queryio.common.util.AppLogger;
 
 public class UserInfoManager {
-	protected static final Logger logger = Logger.getLogger(UserInfoManager.class);
+	protected static final Logger LOGGER = Logger.getLogger(UserInfoManager.class);
 	
 	public static void fetchUserInformation() throws Exception {
-		logger.debug("Fetching user information");
+		LOGGER.debug("Fetching user information");
 		HashMap<String, String> userMap = new HashMap<String, String>();
 		HashMap<String, String> groupMap = new HashMap<String, String>();
 		
@@ -34,7 +34,7 @@ public class UserInfoManager {
 			rs = CoreDBManager.getQueryResultsForStatement(statement, QueryConstants.QRY_GET_ALL_USERNAMES_PASSWORDS);
 			while(rs.next())
 			{
-				logger.debug("User: " + rs.getString(ColumnConstants.COL_USER_USERNAME) + " : " + rs.getString(ColumnConstants.COL_USER_PASSWORD));
+				LOGGER.debug("User: " + rs.getString(ColumnConstants.COL_USER_USERNAME) + " : " + rs.getString(ColumnConstants.COL_USER_PASSWORD));
 				userMap.put(rs.getString(ColumnConstants.COL_USER_USERNAME), rs.getString(ColumnConstants.COL_USER_PASSWORD));
 				groupMap.put(rs.getString(ColumnConstants.COL_USER_USERNAME), getDefaultGroupForUser(connection, rs.getString(ColumnConstants.COL_USER_USERNAME)));
 			}

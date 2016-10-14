@@ -38,9 +38,9 @@ public class MBeanParameter implements Serializable
 
 	private boolean isSupported(final String dataType)
 	{
-		for (int i = 0; i < MbeanAttribute.supportedDataType.length; i++)
+		for (int i = 0; i < MbeanAttribute.SUPPORTEDDATATYPE.length; i++)
 		{
-			if (dataType.equals(MbeanAttribute.supportedDataType[i]))
+			if (dataType.equals(MbeanAttribute.SUPPORTEDDATATYPE[i]))
 			{
 				return true;
 			}

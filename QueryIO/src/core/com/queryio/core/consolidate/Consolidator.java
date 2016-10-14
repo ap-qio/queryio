@@ -56,8 +56,8 @@ public class Consolidator {
 	 * @param currentTimestamp current timestamp
 	 * @throws Exception the exception
 	 */
-	public void consolidate(Timestamp currentTimestamp, String id, String Type, boolean consolidateNodeStatusData) throws Exception{
-		consolidateMonitorData(currentTimestamp, id, Type);
+	public void consolidate(Timestamp currentTimestamp, String id, String type, boolean consolidateNodeStatusData) throws Exception{
+		consolidateMonitorData(currentTimestamp, id, type);
 		
 		if(consolidateNodeStatusData)
 			consolidateNodeStatusData(currentTimestamp, id);

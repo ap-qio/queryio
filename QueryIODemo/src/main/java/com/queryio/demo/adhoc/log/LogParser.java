@@ -29,8 +29,8 @@ import com.queryio.plugin.dstruct.IDataDefinition;
 public class LogParser implements IAdHocParser{
 
 	private static final Log LOG = LogFactory.getLog(LogParser.class);
-	String ADHOC_PARSER_ENCODING = "encoding";
-	String ADHOC_PARSER_LOG_PATTERN = "pattern";
+	final String ADHOC_PARSER_ENCODING = "encoding";
+	final String ADHOC_PARSER_LOG_PATTERN = "pattern";
 
 	private static final String CONVERSION_CHARS = "cCdFlLmMnprtxX";
 	private static final String NEW_LINE = System.getProperty("line.separator");

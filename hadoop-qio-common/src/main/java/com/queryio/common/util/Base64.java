@@ -30,7 +30,7 @@ package com.queryio.common.util;
 public class Base64
 {
 
-	private static final byte equalSign = (byte) '=';
+	private static final byte EQUALSIGN = (byte) '=';
 
 	static char digits[] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', //
 			'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', //
@@ -53,7 +53,7 @@ public class Base64
 			return data;
 		}
 		int lastRealDataIndex = data.length - 1;
-		while (data[lastRealDataIndex] == equalSign)
+		while (data[lastRealDataIndex] == EQUALSIGN)
 		{
 			lastRealDataIndex--;
 		}

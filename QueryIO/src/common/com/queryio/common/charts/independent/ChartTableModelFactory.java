@@ -19,6 +19,7 @@ package com.queryio.common.charts.independent;
 
 import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 public class ChartTableModelFactory
 {
 	private ChartTableModelFactory()

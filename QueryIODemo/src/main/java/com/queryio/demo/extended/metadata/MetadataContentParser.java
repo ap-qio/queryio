@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import com.queryio.files.tagging.Tag;
 import com.queryio.plugin.extended.metadata.TableMetadata;
 
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public class MetadataContentParser extends IContentParser {
 	final String WHITESPACE = " ";
 	

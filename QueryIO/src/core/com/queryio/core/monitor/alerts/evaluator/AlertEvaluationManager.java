@@ -34,7 +34,7 @@ import com.queryio.core.monitor.events.EventQueueManager;
  * 
  * @author Exceed Consultancy Services
  */
-public class AlertEvaluationManager
+public final class AlertEvaluationManager
 {
 	// CONSTANT FOR RANGEMONITORING RULE
 	public static final String RULE_RANGEMONITORING="_RM";
@@ -58,7 +58,7 @@ public class AlertEvaluationManager
 	public static final String EXPR_VALID_TOKENS = "<>=!|&+-*/()^%" + EXPR_ATTRIBUTE_ID_ENCAPSULATOR;
 
 //	private static EventDispatcherImpl eventDispatcher = null;
-	private static final Map durationRulesCache;
+	private static final Map DURATION_RULES_CACHE;
 	private static EventDispatcherImpl eventDispatcher = null;
 	
 
@@ -72,7 +72,7 @@ public class AlertEvaluationManager
 	{
 		eventDispatcher = new EventDispatcherImpl();
 		
-		durationRulesCache = new HashMap();
+		DURATION_RULES_CACHE = new HashMap();
 	}
 
 	public static void fireAlertResetEvent(final String nodeId, final ArrayList resetRules,
@@ -93,13 +93,13 @@ public class AlertEvaluationManager
 	
 	public static Map getDurationRulesCache()
 	{
-		return durationRulesCache;
+		return DURATION_RULES_CACHE;
 		
 	}
 
 	public static void ruleDeleted(String ruleId)
 	{
-		Iterator itr = durationRulesCache.keySet().iterator();
+		Iterator itr = DURATION_RULES_CACHE.keySet().iterator();
 		while (itr.hasNext())
 		{
 			String key = (String)itr.next();

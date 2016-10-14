@@ -19,10 +19,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.queryio.common.QueryIOConstants;
-import com.queryio.common.database.DatabaseFunctions;
-import com.queryio.common.database.TableConstants;
-import com.queryio.common.util.AppLogger;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsAction;
@@ -31,11 +27,15 @@ import org.apache.hadoop.hdfs.protocol.Block;
 import org.apache.hadoop.hdfs.server.namenode.FSImageUtils;
 import org.apache.hadoop.hdfs.server.namenode.FileStatusTreeModel;
 
+import com.queryio.common.QueryIOConstants;
 import com.queryio.common.database.ColumnConstants;
+import com.queryio.common.database.DatabaseFunctions;
 import com.queryio.common.database.HDFSMetadata;
 import com.queryio.common.database.HDFSMetadataReader;
 import com.queryio.common.database.NSMetadata;
 import com.queryio.common.database.NSMetadataReader;
+import com.queryio.common.database.TableConstants;
+import com.queryio.common.util.AppLogger;
 import com.queryio.plugin.datatags.TableMetadata;
 import com.queryio.userdefinedtags.common.UserDefinedTagUtils;
 
@@ -186,7 +186,6 @@ public class QIOFsImageUtils {
 			
 			while(rs.next()){
 				Path path = new Path(rs.getString(TableMetadata.DEFAULT_TAG_FILEPATH));
-//				System.out.println("reading path: " + path);
 				long mTime = format.parse(rs.getString(TableMetadata.DEFAULT_TAG_MODIFICATIONTIME)).getTime();
 				long aTime = format.parse(rs.getString(TableMetadata.DEFAULT_TAG_ACCESSTIME)).getTime();
 				String owner = rs.getString(TableMetadata.DEFAULT_TAG_OWNER);

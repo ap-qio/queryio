@@ -27,7 +27,7 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public class SWINGTypeConverter extends SWINGTypeConversionManager
+public final class SWINGTypeConverter extends SWINGTypeConversionManager
 {
 	private static SWINGTypeConverter typeConverter;
 

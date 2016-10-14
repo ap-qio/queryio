@@ -253,8 +253,7 @@ public abstract class AbstractDataParser
 		//Empty implementation
 	}
 
-	public void parseProcStat(String output) throws ResultParsingException
-	{
+	public void parseProcStat(String output) throws ResultParsingException {
 		//Empty implementation
 	}
 

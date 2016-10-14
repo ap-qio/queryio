@@ -53,14 +53,14 @@ public class DBRepairRequest extends RequestProcessorCore {
 	SummaryTable filesList = new SummaryTable();
 	String nodeId;
 	
-	static String QUERY_START = "SELECT "
+	static String queryStart = "SELECT "
 			+ ColumnConstants.COL_TAG_VALUES_FILEPATH + ","
 			+ ColumnConstants.COL_TAG_VALUES_ACCESSTIME + ","
 			+ ColumnConstants.COL_TAG_VALUES_BLOCKSIZE + ","
 			+ ColumnConstants.COL_TAG_VALUES_MODIFICATIONTIME + ","
 			+ ColumnConstants.COL_TAG_VALUES_REPLICATION
 			+ " FROM ";
-	static String QUERY_END = " WHERE FILEPATH=?";
+	static String queryEnd = " WHERE FILEPATH=?";
 	
 	private ArrayList conflicts = new ArrayList();
 	
@@ -222,7 +222,7 @@ public class DBRepairRequest extends RequestProcessorCore {
 			FileStatus stat = null;
 			Long blockSize = null;
 			for(int i=0; i<tableNames.size(); i++) {
-				String query = QUERY_START + tableNames.get(i);
+				String query = queryStart + tableNames.get(i);
 				
 				try {
 					rs = DatabaseFunctions.getQueryResultsForStatement(stmt, query);

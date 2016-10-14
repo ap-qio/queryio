@@ -104,7 +104,7 @@ public class JobExecutor implements Job
 		JobDataMap jDataMap = jobExecutionContext.getMergedJobDataMap(); 
 		String notificationEnable = null;
 		String reportIds = null;
-		String notification_type = null;
+		String notificationType = null;
 		String endDate = null;
 		String startDate = null;
 		try{
@@ -123,11 +123,11 @@ public class JobExecutor implements Job
 				exportFormatList.add(formatType.trim());
 			}
 			notificationEnable = (String)jDataMap.get(SchedulerConstants.NOTIFICATION_ENABLE);
-			notification_type = null;
+			notificationType = null;
 			if(Boolean.parseBoolean(notificationEnable))
 			{
-				notification_type =  (String)jDataMap.get(SchedulerConstants.NOTIFICATION_TYPE);
-				if(notification_type.equals(SchedulerConstants.NOTIFICATION_EMAIL))
+				notificationType =  (String)jDataMap.get(SchedulerConstants.NOTIFICATION_TYPE);
+				if(notificationType.equals(SchedulerConstants.NOTIFICATION_EMAIL))
 				{
 					usersIdList = new ArrayList();
 					String userIds = (String)jDataMap.get(SchedulerConstants.EMAIL_ADDRESS);
@@ -167,7 +167,7 @@ public class JobExecutor implements Job
 			{
 				if (reportTypeList.contains(Integer.toString(QueryIOConstants.NN_DETAIL)) || reportTypeList.contains(Integer.toString(QueryIOConstants.DN_DETAIL)) || reportTypeList.contains(Integer.toString(QueryIOConstants.REPORT_RM_DETAIL)) || reportTypeList.contains(Integer.toString(QueryIOConstants.REPORT_NM_DETAIL)))
 				{
-					if(notification_type.equals(SchedulerConstants.NOTIFICATION_EMAIL))
+					if(notificationType.equals(SchedulerConstants.NOTIFICATION_EMAIL))
 					{
 						dwrResponse = ReportManager.mailNodeReport((String)jDataMap.get(SchedulerConstants.NODE_ID), exportFormatList, usersIdList,jobExecutionContext.getJobDetail().getKey().getName(), startDate, endDate);
 					}
@@ -177,7 +177,7 @@ public class JobExecutor implements Job
 				}
 				else
 				{
-					if(notification_type.equals(SchedulerConstants.NOTIFICATION_EMAIL))
+					if(notificationType.equals(SchedulerConstants.NOTIFICATION_EMAIL))
 					{
 						dwrResponse  = ReportManager.mailGeneralReport(reportTypeList,exportFormatList, usersIdList, jobExecutionContext.getJobDetail().getKey().getName(), startDate, endDate);
 					}

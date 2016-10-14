@@ -74,9 +74,9 @@ public class ChartManager
 			MonitorData monitorData = MonitorDAO.getNameNodeMonitorData(connection, nodeId, startTimestamp, endTimestamp);
 			
 			ArrayList hostSystemAttributes = MonitorDAO.getHostSystemAttributes(connection);
-			MonitorData HostMonitorData = MonitorDAO.getHostMonitorData(connection, host.getId(), startTimestamp, endTimestamp);
+			MonitorData hostMonitorData = MonitorDAO.getHostMonitorData(connection, host.getId(), startTimestamp, endTimestamp);
 			
-			chartDataList = (ArrayList) getChartDataList(systemAttributes, monitorData, hostSystemAttributes, HostMonitorData);
+			chartDataList = (ArrayList) getChartDataList(systemAttributes, monitorData, hostSystemAttributes, hostMonitorData);
 			
 			return chartDataList;
 		}
@@ -150,9 +150,9 @@ public class ChartManager
 			MonitorData monitorData = MonitorDAO.getDataNodeMonitorData(connection, nodeId, startTimestamp, endTimestamp);
 			
 			ArrayList hostSystemAttributes = MonitorDAO.getHostSystemAttributes(connection);
-			MonitorData HostMonitorData = MonitorDAO.getHostMonitorData(connection, host.getId(), startTimestamp, endTimestamp);
+			MonitorData hostMonitorData = MonitorDAO.getHostMonitorData(connection, host.getId(), startTimestamp, endTimestamp);
 			
-			chartDataList = (ArrayList) getChartDataList(monitorAttributes, monitorData, hostSystemAttributes, HostMonitorData);
+			chartDataList = (ArrayList) getChartDataList(monitorAttributes, monitorData, hostSystemAttributes, hostMonitorData);
 		}
 		catch (Exception e)
 		{
@@ -224,9 +224,9 @@ public class ChartManager
 			MonitorData monitorData = MonitorDAO.getResourceManagerMonitorData(connection, nodeId, startTimestamp, endTimestamp);
 			
 			ArrayList hostSystemAttributes = MonitorDAO.getHostSystemAttributes(connection);
-			MonitorData HostMonitorData = MonitorDAO.getHostMonitorData(connection, host.getId(), startTimestamp, endTimestamp);
+			MonitorData hostMonitorData = MonitorDAO.getHostMonitorData(connection, host.getId(), startTimestamp, endTimestamp);
 			
-			chartDataList = (ArrayList) getChartDataList(monitorAttributes, monitorData, hostSystemAttributes, HostMonitorData);
+			chartDataList = (ArrayList) getChartDataList(monitorAttributes, monitorData, hostSystemAttributes, hostMonitorData);
 		}
 		catch (Exception e)
 		{
@@ -298,9 +298,9 @@ public class ChartManager
 			MonitorData monitorData = MonitorDAO.getNodeManagerMonitorData(connection, nodeId, startTimestamp, endTimestamp);
 			
 			ArrayList hostSystemAttributes = MonitorDAO.getHostSystemAttributes(connection);
-			MonitorData HostMonitorData = MonitorDAO.getHostMonitorData(connection, host.getId(), startTimestamp, endTimestamp);
+			MonitorData hostMonitorData = MonitorDAO.getHostMonitorData(connection, host.getId(), startTimestamp, endTimestamp);
 			
-			chartDataList = (ArrayList) getChartDataList(monitorAttributes, monitorData, hostSystemAttributes, HostMonitorData);
+			chartDataList = (ArrayList) getChartDataList(monitorAttributes, monitorData, hostSystemAttributes, hostMonitorData);
 		}
 		catch (Exception e)
 		{

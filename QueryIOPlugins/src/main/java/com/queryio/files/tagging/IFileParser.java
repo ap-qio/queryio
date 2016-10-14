@@ -20,34 +20,34 @@ import org.json.simple.JSONObject;
 public abstract class IFileParser {
 	protected Logger logger = Logger.getLogger(this.getClass());
 	
-	private int METHOD_NONE = 0;
-	private int METHOD_COUNT = 1;
-	private int METHOD_SUM = 2;
-	private int METHOD_AVG = 3;
-	private int METHOD_BOOLEAN = 4;
-	private int METHOD_MAX = 5;
-	private int METHOD_MIN = 6;
-	private int METHOD_DISTINCT_COUNT = 7;
-	private int METHOD_WORD_EXIST= 8;
-	private int METHOD_WORD_OCCURRENCE_COUNT = 9;
-	private int METHOD_PATTERN_EXIST = 10;
-	private int METHOD_PATTERN_MATCH_COUNT = 11;
-	private int METHOD_TOTAL_WORD_COUNT = 12;
-	private int METHOD_TOTAL_LINE_COUNT = 13;
+	private final int METHOD_NONE = 0;
+	private final int METHOD_COUNT = 1;
+	private final int METHOD_SUM = 2;
+	private final int METHOD_AVG = 3;
+	private final int METHOD_BOOLEAN = 4;
+	private final int METHOD_MAX = 5;
+	private final int METHOD_MIN = 6;
+	private final int METHOD_DISTINCT_COUNT = 7;
+	private final int METHOD_WORD_EXIST= 8;
+	private final int METHOD_WORD_OCCURRENCE_COUNT = 9;
+	private final int METHOD_PATTERN_EXIST = 10;
+	private final int METHOD_PATTERN_MATCH_COUNT = 11;
+	private final int METHOD_TOTAL_WORD_COUNT = 12;
+	private final int METHOD_TOTAL_LINE_COUNT = 13;
 	
-	protected String ENCODING_KEY = "encoding";
-	protected String HAS_HEADER_KEY = "hasHeader";
-	protected String DELIMITER_KEY = "delimiter";
-	protected String VALUE_SEPERATOR_KEY = "valueSeperator";
-	protected String ERROR_ACTION_KEY = "ifErrorOccur";
+	protected final String ENCODING_KEY = "encoding";
+	protected final String HAS_HEADER_KEY = "hasHeader";
+	protected final String DELIMITER_KEY = "delimiter";
+	protected final String VALUE_SEPERATOR_KEY = "valueSeperator";
+	protected final String ERROR_ACTION_KEY = "ifErrorOccur";
 	
-	protected String LOG_PATTERN_KEY = "pattern";
+	protected final String LOG_PATTERN_KEY = "pattern";
 	
-	protected String PARSE_DETAILS_KEY = "ParseDetails";
-	protected String FIELDS_KEY = "Attributes";
+	protected final String PARSE_DETAILS_KEY = "ParseDetails";
+	protected final String FIELDS_KEY = "Attributes";
 	
-	protected String COL_NAME_KEY = "colName";
-	protected String COL_INDEX_KEY = "colIndex";
+	protected final String COL_NAME_KEY = "colName";
+	protected final String COL_INDEX_KEY = "colIndex";
 	
 	final String WHITESPACE = " ";
 	

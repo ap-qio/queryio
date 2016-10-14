@@ -8,7 +8,7 @@ public class FileUploadListener implements ProgressListener {
     bytesRead = 0L,
     contentLength = 0L,
     item = 0L;
-	private String ErrorMsg;
+	private String errorMsgStr;
 	private String status;
 	
 	
@@ -31,11 +31,11 @@ public class FileUploadListener implements ProgressListener {
 	}
 	
 	public String getErrorMsg() {
-		return ErrorMsg;
+		return errorMsgStr;
 	}
 
 	public void setErrorMsg(String errorMsg) {
-		ErrorMsg = errorMsg;
+		errorMsgStr = errorMsg;
 	}
 
 	public String getStatus() {

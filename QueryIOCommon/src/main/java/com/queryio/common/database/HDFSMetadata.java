@@ -1,6 +1,6 @@
 package com.queryio.common.database;
 
-
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public class HDFSMetadata {
 	String filePath;
 	long accessTime;

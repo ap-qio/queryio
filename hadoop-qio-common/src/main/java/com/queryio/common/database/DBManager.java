@@ -43,7 +43,7 @@ import org.apache.log4j.Logger;
  */
 public final class DBManager
 {
-	protected static final Logger logger = Logger.getLogger(DBManager.class);
+	protected static final Logger LOGGER = Logger.getLogger(DBManager.class);
 	
 	// for saving DB
 	public static final String BIT = "BIT"; //$NON-NLS-1$
@@ -110,7 +110,7 @@ public final class DBManager
 		}
 		catch (final SQLException e)
 		{
-			logger.fatal(e.getMessage(), e); //$NON-NLS-1$
+			LOGGER.fatal(e.getMessage(), e); //$NON-NLS-1$
 		}
 	}
 
@@ -139,7 +139,7 @@ public final class DBManager
 		}
 		catch (final SQLException e)
 		{
-			logger.fatal(e.getMessage(), e); //$NON-NLS-1$
+			LOGGER.fatal(e.getMessage(), e); //$NON-NLS-1$
 		}
 		finally
 		{

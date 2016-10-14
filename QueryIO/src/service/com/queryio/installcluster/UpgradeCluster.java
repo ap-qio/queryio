@@ -316,10 +316,10 @@ public class UpgradeCluster {
 		        	String etcDir = installDir + "QueryIOPackage/" + QueryIOConstants.HADOOP_DIR_NAME +" ";
 					String etcBackUpDir = installDir + "QueryIOPackage_bak/" + oldHodoopDir + "/etc";
 					String hiveConf = installDir + "QueryIOPackage/" + QueryIOConstants.HIVE_DIR_NAME + "/conf";
-					String hiveSite_bak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/conf/hive-env.sh";
-					String hiveEnv_bak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/conf/hive-site.xml";
-					String hiveLog_bak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/logs/out.log";
-		        	command = "cp -r "+etcBackUpDir+" "+etcDir+"; cp -r "+hiveSite_bak+" "+hiveConf+"; cp -r "+hiveEnv_bak+" "+hiveConf+"; cp -r "+hiveLog_bak+" "+hiveConf+"/../logs;";		          
+					String hiveSiteBak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/conf/hive-env.sh";
+					String hiveEnvBak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/conf/hive-site.xml";
+					String hiveLogBak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/logs/out.log";
+		        	command = "cp -r "+etcBackUpDir+" "+etcDir+"; cp -r "+hiveSiteBak+" "+hiveConf+"; cp -r "+hiveEnvBak+" "+hiveConf+"; cp -r "+hiveLogBak+" "+hiveConf+"/../logs;";		          
 		        }
 //	        	System.out.println(command);
 		        executeCommand(session, command);
@@ -343,18 +343,18 @@ public class UpgradeCluster {
 					String etcBackUpDir = installDir + "QueryIOPackage_bak/" + oldHadoopDir + "/etc";
 					String hiveConf = installDir + "QueryIOPackage/" + QueryIOConstants.HIVE_DIR_NAME + "/conf";
 					String hiveHome = installDir + "QueryIOPackage/" + QueryIOConstants.HIVE_DIR_NAME;
-					String hiveSite_bak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/conf/hive-env.sh";
-					String hiveEnv_bak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/conf/hive-site.xml";
-					String hiveLog_bak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/logs/out.log";
+					String hiveSiteBak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/conf/hive-env.sh";
+					String hiveEnvBak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/conf/hive-site.xml";
+					String hiveLogBak = installDir + "QueryIOPackage_bak/" + oldHiveDir + "/logs/out.log";
 		        	command = "cp -r "+etcBackUpDir+" "+etcDir+" ";
 		        	executeCommand(command);
-		        	command = "cp -r "+hiveSite_bak+" "+hiveConf+" ";
+		        	command = "cp -r "+hiveSiteBak+" "+hiveConf+" ";
 		        	executeCommand(command);
-		        	command = "cp -r "+hiveEnv_bak+" "+hiveConf+" ";
+		        	command = "cp -r "+hiveEnvBak+" "+hiveConf+" ";
 		        	executeCommand(command);
 		        	command = "mkdir "+hiveHome+"/logs";
 		        	executeCommand(command);
-		        	command = "cp -r "+hiveLog_bak+" "+hiveHome+"/logs ";
+		        	command = "cp -r "+hiveLogBak+" "+hiveHome+"/logs ";
 		        	executeCommand(command);
 		        	
 		        }

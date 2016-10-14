@@ -52,7 +52,8 @@ import com.queryio.common.util.StaticUtilities;
  * @author Exceed Consultancy Services
  * @version 9.0
  */
-public class XLSExporter extends AbstractExporter
+@SuppressWarnings("PMD.AvoidUsingShortType")
+public final class XLSExporter extends AbstractExporter
 {
 	private static XLSExporter thisInstance = null;
 

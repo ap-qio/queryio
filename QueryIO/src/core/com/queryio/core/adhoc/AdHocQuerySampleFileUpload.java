@@ -54,15 +54,15 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 	 */
 	private static final long serialVersionUID = 1L;
 
-	static String COL_FILEPATH = "FILEPATH";
-	static String DT_VARCHAR = MetadataConstants.GENERIC_DATA_TYPE_STRING;
-	static String DT_VARCHAR_DEFAULT [] = {"(128)" , "(255)" , "(512)" , "(1280)"};
-	static int MAX_LENGTH = 1;
-	static String DT_DATETIME = MetadataConstants.GENERIC_DATA_TYPE_TIMESTAMP;
-	static String DT_DECIMAL = MetadataConstants.GENERIC_DATA_TYPE_DECIMAL;
-	static String DT_INTEGER = MetadataConstants.GENERIC_DATA_TYPE_INTEGER;
-	static String DT_BOOLEAN = MetadataConstants.GENERIC_DATA_TYPE_BOOLEAN;
-	static int MAX_DATA_ROWS = 10;
+	static String colFilepath = "FILEPATH";
+	static String dtVarchar = MetadataConstants.GENERIC_DATA_TYPE_STRING;
+	static String dtVarcharDefault [] = {"(128)" , "(255)" , "(512)" , "(1280)"};
+	static int maxLength = 1;
+	static String dtDatetime = MetadataConstants.GENERIC_DATA_TYPE_TIMESTAMP;
+	static String dtDecimal = MetadataConstants.GENERIC_DATA_TYPE_DECIMAL;
+	static String dtInteger = MetadataConstants.GENERIC_DATA_TYPE_INTEGER;
+	static String dtBoolean = MetadataConstants.GENERIC_DATA_TYPE_BOOLEAN;
+	static int maxDataRows = 10;
 	
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
@@ -271,7 +271,7 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 							JSONObject header = new JSONObject();
 							List<String> headers =  parseLine(line, delimiter, separatorValue);
 							
-							header.put(0, COL_FILEPATH);
+							header.put(0, colFilepath);
 							String str = null;
 							
 							for (int i=0; i<headers.size(); i++)
@@ -337,24 +337,24 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 									
 	
 									isString[i] = true;
-									if(records.get(i).toString().length() < 128 && (tempMax < MAX_LENGTH))
+									if(records.get(i).toString().length() < 128 && (tempMax < maxLength))
 									{
-										MAX_LENGTH = 1;
+										maxLength = 1;
 										tempMax = 1;
 									}
-									else if(records.get(i).toString().length() < 255 && (tempMax < MAX_LENGTH))
+									else if(records.get(i).toString().length() < 255 && (tempMax < maxLength))
 									{
-										MAX_LENGTH = 2;
+										maxLength = 2;
 										tempMax = 2;
 									}
-									else if(records.get(i).toString().length() < 512 && (tempMax < MAX_LENGTH))
+									else if(records.get(i).toString().length() < 512 && (tempMax < maxLength))
 									{
-										MAX_LENGTH = 3;
+										maxLength = 3;
 										tempMax = 3;
 									}
-									else if(records.get(i).toString().length() < 1280 && (tempMax < MAX_LENGTH))
+									else if(records.get(i).toString().length() < 1280 && (tempMax < maxLength))
 									{
-										MAX_LENGTH = 4;
+										maxLength = 4;
 										tempMax = 4;
 									}
 									
@@ -389,23 +389,23 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 							
 							obj = new JSONObject();
 							obj.put("index", 0);
-							obj.put("type", DT_VARCHAR + DT_VARCHAR_DEFAULT[3]);
+							obj.put("type", dtVarchar + dtVarcharDefault[3]);
 							jsonArray.add(obj);
 							
 							for(int i=0; i<columnTypes.length; i++) {
 								if(isString[i]==true) {
-									columnTypes[i] = (DT_VARCHAR + DT_VARCHAR_DEFAULT[1]);
+									columnTypes[i] = (dtVarchar + dtVarcharDefault[1]);
 								} else if(isDateTime[i]==true) {
 									if (QueryIOConstants.ADHOC_TYPE_IISLOG.equalsIgnoreCase(adHocType))
-										columnTypes[i] = (DT_VARCHAR + DT_VARCHAR_DEFAULT[1]);
+										columnTypes[i] = (dtVarchar + dtVarcharDefault[1]);
 									else
-										columnTypes[i] = DT_DATETIME;
+										columnTypes[i] = dtDatetime;
 								} else if(isDecimal[i]==true) {
-									columnTypes[i] = DT_DECIMAL;
+									columnTypes[i] = dtDecimal;
 								} else if(isInteger[i]==true) {
-									columnTypes[i] = DT_INTEGER;
+									columnTypes[i] = dtInteger;
 								} else if(isBoolean[i]==true) {
-									columnTypes[i] = DT_BOOLEAN;
+									columnTypes[i] = dtBoolean;
 								}
 								
 								obj = new JSONObject();
@@ -500,7 +500,7 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 		NodeList nList = doc.getElementsByTagName(xmlData);
 	 
 		JSONObject headerObject = new JSONObject();
-		headerObject.put(0, COL_FILEPATH);
+		headerObject.put(0, colFilepath);
 
 		JSONArray dataArray = new JSONArray();
 		List<String> records = new ArrayList<String>();
@@ -551,15 +551,15 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 	
 	private static String appendLength(int length) {
 		
-		String size = DT_VARCHAR_DEFAULT[0];
+		String size = dtVarcharDefault[0];
 		if (length < 128)
-			size = DT_VARCHAR_DEFAULT[0];
+			size = dtVarcharDefault[0];
 		else if (length < 255)
-			size = DT_VARCHAR_DEFAULT[1];
+			size = dtVarcharDefault[1];
 		else if (length < 512)
-			size = DT_VARCHAR_DEFAULT[2];
+			size = dtVarcharDefault[2];
 		else 
-			size = DT_VARCHAR_DEFAULT[3];
+			size = dtVarcharDefault[3];
 		
 		return size;
 	}
@@ -575,7 +575,7 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 		String appendLenth = "(128)";
 
 		object.put("index", 0);
-		object.put("type", DT_VARCHAR + DT_VARCHAR_DEFAULT[3]);
+		object.put("type", dtVarchar + dtVarcharDefault[3]);
 		
 		jsonArray.add(0 , object);
 		
@@ -593,14 +593,14 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 				
 					value = records.get(i);
 					if (value == null)
-						type = new String(DT_VARCHAR + DT_VARCHAR_DEFAULT[0]);
+						type = new String(dtVarchar + dtVarcharDefault[0]);
 					else
 					{
 						type = parseDataType(value);
-						if (DT_VARCHAR.equalsIgnoreCase(type))
+						if (dtVarchar.equalsIgnoreCase(type))
 						{
 							appendLenth = appendLength(value.length());
-							type = new String(DT_VARCHAR + appendLenth);
+							type = new String(dtVarchar + appendLenth);
 						}
 					}
 					existingDataType.add(type);
@@ -616,21 +616,21 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 					appendLenth = "(128)";
 					value = records.get(i);
 					if (value == null)
-						type = new String(DT_VARCHAR + DT_VARCHAR_DEFAULT[0]);
+						type = new String(dtVarchar + dtVarcharDefault[0]);
 					else
 					{
 						type = parseDataType(value);
-						if (DT_VARCHAR.equalsIgnoreCase(type))
+						if (dtVarchar.equalsIgnoreCase(type))
 						{
 							appendLenth = appendLength(value.length());
-							type = new String(DT_VARCHAR + appendLenth);
+							type = new String(dtVarchar + appendLenth);
 						}
 					}
 					String existingType = existingDataType.get(count);
 					if (!existingType.equalsIgnoreCase(type))
 					{
 						appendLenth = appendLength(value.length());
-						type = new String(DT_VARCHAR + appendLenth);
+						type = new String(dtVarchar + appendLenth);
 						existingDataType.set(count, type);
 					}
 					count++;
@@ -693,15 +693,15 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 		}
 		
 		if(isInt)
-			type = DT_INTEGER;
+			type = dtInteger;
 		else if(isDate)
-			type = DT_DATETIME;
+			type = dtDatetime;
 		else if(isDouble)
-			type = DT_DECIMAL;
+			type = dtDecimal;
 		else if(isBool)
-			type = DT_BOOLEAN;
+			type = dtBoolean;
 		else
-			type = DT_VARCHAR;
+			type = dtVarchar;
 		
 		return type;
 		
@@ -722,13 +722,13 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 			JSONArray details = new JSONArray();
 			JSONObject obj = new JSONObject();
 			obj.put("index", 0);
-			obj.put("type", DT_VARCHAR + DT_VARCHAR_DEFAULT[3]);
+			obj.put("type", dtVarchar + dtVarcharDefault[3]);
 			details.add(0 , obj);
 			ArrayList <ArrayList> tempRecords = new ArrayList<ArrayList>();
 			
 			JSONObject headerObj = new JSONObject();
 			
-			headerObj.put(0, COL_FILEPATH);
+			headerObj.put(0, colFilepath);
 			int count = 1;
 			String str[] = null;
 			
@@ -760,7 +760,7 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 							headerObj.put(count, key);							
 							obj = new JSONObject();
 							obj.put("index" , count);
-							obj.put("type", DT_VARCHAR + DT_VARCHAR_DEFAULT[1]);
+							obj.put("type", dtVarchar + dtVarcharDefault[1]);
 							
 							details.add(count, obj);
 							count ++;
@@ -823,7 +823,7 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 			JSONArray dataArray = new JSONArray();
 			List<String> records = new ArrayList<String>();
 			List<String> tempRecords = new ArrayList<String>();
-			headerObject.put(0, COL_FILEPATH);
+			headerObject.put(0, colFilepath);
 			regex = regex.trim();
 			
 			int counter = 0;
@@ -970,7 +970,7 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 	        JSONObject headerObj = new JSONObject();
 	        List <Class> klass = new ArrayList<Class>();
 	        
-	        headerObj.put(0, COL_FILEPATH);
+	        headerObj.put(0, colFilepath);
 	        boolean setHeader = true;
 	        int index = 0;
 	        int numRecords = 0;
@@ -1000,14 +1000,14 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 				}
 				
 				setHeader = false;
-				if(numRecords < MAX_DATA_ROWS)
+				if(numRecords < maxDataRows)
 					dataArray.add(numRecords, records);
 				numRecords ++;
 			}
 			
 			JSONObject detailsObject = new JSONObject();
 			detailsObject.put("index", 0);
-			detailsObject.put("type", DT_VARCHAR + DT_VARCHAR_DEFAULT[3]);
+			detailsObject.put("type", dtVarchar + dtVarcharDefault[3]);
 			
 			detailsArray.add(0, detailsObject);
 			
@@ -1015,32 +1015,32 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 			{
 				detailsObject = new JSONObject();
 				
-				String dataType = DT_BOOLEAN;
+				String dataType = dtBoolean;
 				Class classObject = klass.get(i);
 				
-				if (classObject == Boolean.class && (!DT_VARCHAR.equalsIgnoreCase(dataType)))
+				if (classObject == Boolean.class && (!dtVarchar.equalsIgnoreCase(dataType)))
 				{
-					dataType = DT_BOOLEAN;
+					dataType = dtBoolean;
 				}
-				else if ((classObject == Integer.class || classObject == Long.class) && (!DT_VARCHAR.equalsIgnoreCase(dataType)))
+				else if ((classObject == Integer.class || classObject == Long.class) && (!dtVarchar.equalsIgnoreCase(dataType)))
 				{
-					dataType = DT_INTEGER;
+					dataType = dtInteger;
 				}
-				else if (classObject == Double.class && (!DT_VARCHAR.equalsIgnoreCase(dataType)))
+				else if (classObject == Double.class && (!dtVarchar.equalsIgnoreCase(dataType)))
 				{
-					dataType = DT_DECIMAL;
+					dataType = dtDecimal;
 				}
-				else if (classObject == Date.class && (!DT_VARCHAR.equalsIgnoreCase(dataType)))
+				else if (classObject == Date.class && (!dtVarchar.equalsIgnoreCase(dataType)))
 				{
-					dataType = DT_DATETIME;
+					dataType = dtDatetime;
 				}
 				else
-					dataType = DT_VARCHAR;
+					dataType = dtVarchar;
 				
 				detailsObject.put("index", i%index + 1);
 				
-				if (DT_VARCHAR.equalsIgnoreCase(dataType))
-					dataType = dataType.concat(DT_VARCHAR_DEFAULT[1]);
+				if (dtVarchar.equalsIgnoreCase(dataType))
+					dataType = dataType.concat(dtVarcharDefault[1]);
 				
 				detailsObject.put("type", dataType);
 				if (i>=index)
@@ -1094,7 +1094,7 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 	        JSONArray jsonArray = new JSONArray();
 	        JSONObject obj = new JSONObject();
 	        obj.put("index",0);
-	        obj.put("type", DT_VARCHAR + DT_VARCHAR_DEFAULT[3]);
+	        obj.put("type", dtVarchar + dtVarcharDefault[3]);
 	        jsonArray.add(obj);
 	        for (int i=1; i<=18; i++)
 	        {
@@ -1102,15 +1102,15 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 	        	obj.put("index", i);
 	        	if (i==13 || i==16)
 	        	{
-	        		obj.put("type", DT_DATETIME);
+	        		obj.put("type", dtDatetime);
 	        	}
 	        	else if (i == 10 || i == 12 || i == 18)
 	        	{
-	        		obj.put("type", DT_INTEGER);
+	        		obj.put("type", dtInteger);
 	        	}
 	        	else
 	        	{
-	        		obj.put("type", DT_VARCHAR + DT_VARCHAR_DEFAULT[1]);
+	        		obj.put("type", dtVarchar + dtVarcharDefault[1]);
 	        	}
 	        	jsonArray.add(obj);
 	        }
@@ -1170,7 +1170,7 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 	        
 	        //Inserting Header
 	        JSONObject header = new JSONObject();
-			header.put(0, COL_FILEPATH);
+			header.put(0, colFilepath);
 			
 			header.put(1, "CONTENT_ID");
 			header.put(2, "CONTENT_LANGUAGE");	//Array
@@ -1219,8 +1219,8 @@ public class AdHocQuerySampleFileUpload extends HttpServlet
 		//jsonParser(new File("/home/hiper/QueryIOUIServer/demo/Data/json/json_10.json"), "UTF-8"  , 100);
 //		JSONObject jsono = apacheLog4JFileParser(new File("/home/hiper/QueryIOUIServer/demo/Data/log/Log_1356009249380.log"), "UTF-8", "%d{dd MMM,HH:mm:ss:SSS} [%t] [%c] [%x] [%X] [%p] [%l] [%r] %C{3} %F-%L [%M] - %m%n");
 //		JSONObject JSON = apacheAccessLog(new File("/home/hiper/QueryIOUIServer/tomcat/logs/localhost_access_log (copy).2013-02-26.txt"), "UTF-8", "%h %l %u %t \"%r\" %>s %b", 10);
-		JSONObject JSon = keyValueFileParser(new File("/AppPerfect/QueryIO/demo/Data/keyvalue/KeyValueMachineLogs_1364898811823.txt"), "UTF-8", ";", ":", 4);
-		System.out.println(JSon.toJSONString());
+		JSONObject json = keyValueFileParser(new File("/AppPerfect/QueryIO/demo/Data/keyvalue/KeyValueMachineLogs_1364898811823.txt"), "UTF-8", ";", ":", 4);
+		System.out.println(json.toJSONString());
 //		System.out.println(JSON.toJSONString());
 	//	emlParser();
         //keyValueFileParser(new File("/AppPerfect/HiperCloudStore/HiperCloudStore/demo/1.properties") , "\n" , "=");

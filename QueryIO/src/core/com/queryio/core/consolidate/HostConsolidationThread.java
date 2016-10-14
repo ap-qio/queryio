@@ -96,8 +96,8 @@ public class HostConsolidationThread extends Thread
 					String consoldationTableName = QueryIOConstants.MONITORDATA_TABLE_PREFIX + host.getId() + "_" +"HOST_CONSOLIDATEDDATA";				
 					
 					connection = CoreDBManager.getQueryIODBConnection();		
-					ConsolidationUtility.purgeTable(connection, monitoringTableName, ColumnConstants.COL_MONITORDATA_MONITOR_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.purgeIntervalForDataTable));
-					ConsolidationUtility.purgeTable(connection, consoldationTableName, ColumnConstants.COL_MONITORDATA_MONITOR_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.purgeIntervalForConsolidatedDataTable));					
+					ConsolidationUtility.purgeTable(connection, monitoringTableName, ColumnConstants.COL_MONITORDATA_MONITOR_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.PURGEINTERVALFORDATATABLE));
+					ConsolidationUtility.purgeTable(connection, consoldationTableName, ColumnConstants.COL_MONITORDATA_MONITOR_TIME, currentTimestampLowerBoundary, new Long(QueryIOConstants.PURGEINTERVALFORCONSOLIDATEDDATATABLE));					
 					
 				} catch (Exception e) {
 					flag = false;

@@ -24,7 +24,6 @@ import java.util.Iterator;
 import com.queryio.common.IOSProtocolConstants;
 import com.queryio.common.util.AppLogger;
 import com.queryio.common.util.IntHashMap;
-
 import com.queryio.sysmoncommon.sysmon.dstruct.AIXProcessInfo;
 import com.queryio.sysmoncommon.sysmon.dstruct.DiskInfo;
 import com.queryio.sysmoncommon.sysmon.dstruct.DriveInfo;

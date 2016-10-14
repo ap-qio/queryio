@@ -38,7 +38,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	private static final int TICKMARK = 1;
 	private static final int TICKMARKVALUEINSET = 2;
 	private static final int DEFAULT_MAX_CHARS_ON_YAXIS = 3;
-	protected int INSET_FOR_BAR_ON_ONESIDE = 2;
+	protected int insetForBarOnOneside = 2;
 
 	private int iMinWidthReqdDefaultFont = 0;
 
@@ -167,7 +167,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 			graphics.setClipping(this.yAxisTitleRect);
 			axisTitle.setBackgroundColor(this.chartProperties.getYAxisTitleBackgroundColour());
 			axisTitle.setTextColor(this.chartProperties.getYAxisTitleTextColour());
-			axisTitle.draw(graphics, -angle);
+			axisTitle.draw(graphics, -ANGLE);
 		}
 
 		axisTitle = this.chartProperties.getXAxisTitle();
@@ -296,7 +296,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		final int yCor = this.plotRect.y + this.plotRect.height - this.shiftXAxisAbove;
 		final int startXpxOnY = this.plotRect.y;
 
-		this.INSET_FOR_BAR_ON_ONESIDE = this.eachDataWidth / 4; // 25% space wud
+		this.insetForBarOnOneside = this.eachDataWidth / 4; // 25% space wud
 		// be left at
 		// one side of
 		// the bar.
@@ -421,7 +421,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		// int yCor = plotRect.y + plotRect.height - shiftXAxisAbove;
 		final int yCor = maximum;
 
-		this.INSET_FOR_BAR_ON_ONESIDE = this.eachDataWidth / 4; // 25% space wud
+		this.insetForBarOnOneside = this.eachDataWidth / 4; // 25% space wud
 		// be left at
 		// one side of
 		// the bar.

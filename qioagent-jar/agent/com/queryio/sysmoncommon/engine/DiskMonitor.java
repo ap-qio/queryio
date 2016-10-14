@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import com.queryio.common.util.AppLogger;
-
 import com.queryio.disk.manager.DiskManager;
 
 public class DiskMonitor {
@@ -61,7 +60,6 @@ public class DiskMonitor {
 						// /usr/local/sbin/
 						healthStatusProcess = Runtime.getRuntime().exec("smartctl -H " + hardDiskNames.get(i));
 						
-//						System.out.println("smartctl is here without complete path");
 						inputStreamStatus = new BufferedReader(new InputStreamReader(healthStatusProcess.getInputStream()));
 						
 						boolean isPermissionDenied = true;
@@ -116,85 +114,4 @@ public class DiskMonitor {
 		new DiskMonitor().getDiskHealthStatistics();
 	}
 	
-//	public static void getFailureDiskDetail(String diskName, ArrayList<String []> failureHardDiskDetails) throws IOException
-//	{
-////		get attributes of particular hard disk specified in diskName parameter
-//		Process diskAttributeStatus = Runtime.getRuntime().exec("/usr/local/sbin/smartctl -a " + diskName);
-//		BufferedReader inputStream = new BufferedReader(new InputStreamReader(diskAttributeStatus.getInputStream()));
-//		String line = null;
-//		String [] diskDetails = new String[TOTAL_NUMBER_OF_INFORMATION];
-//		
-//		while((line = inputStream.readLine()) != null)
-//		{
-//			if(diskDetails[DEVICE_ID] == null && line.contains("Device Id:"))
-//			{
-//				diskDetails[DEVICE_ID] = line.split(":")[1].trim();
-//			}
-//			else if(diskDetails[DISK_SERIAL_NUMBER] == null && line.startsWith("Serial Number:"))
-//			{
-//				diskDetails[DISK_SERIAL_NUMBER] = line.split(":")[1].trim();
-//			}	
-//			else if(diskDetails[MODEL_NUMBER] == null && line.startsWith("Device Model:"))
-//			{
-//				diskDetails[MODEL_NUMBER] = line.split(":")[1].trim();
-//			}
-//			else if(diskDetails[DISK_CAPACITY] == null && line.startsWith("User Capacity:"))
-//			{
-//				diskDetails[DISK_CAPACITY] = line.split(":")[1].trim();
-//			}
-//			else if(diskDetails[BAD_SECTOR_COUNT] == null && line.contains("Reallocated_Sector_Ct"))
-//			{
-//				String [] lineToken = line.split(" ");
-//				diskDetails[BAD_SECTOR_COUNT] = lineToken[lineToken.length - 1];
-//				break;
-//			}
-//		}
-//		
-////		get mounting information
-//		Process mountInfo = Runtime.getRuntime().exec("df");
-//		inputStream = new BufferedReader(new InputStreamReader(mountInfo.getInputStream()));
-//		while((line = inputStream.readLine()) != null)
-//		{
-	
-//			if(line.startsWith(diskName))
-//			{
-//				String [] lineToken = line.split(" ");
-//				diskDetails[MOUNT_INFO] = lineToken[lineToken.length - 1];
-//				break;
-//			}
-//		}
-//		
-//		diskDetails[IP_ADDRESS] = getIPAddress();
-//		
-//		failureHardDiskDetails.add(diskDetails);
-//	}
-//	
-//	public static void sendNotification(String IPAddress, ArrayList<String []> failureHardDiskDetails)
-//	{
-////		failureHardDiskDetails contains all the required information for hard disks which are imminent to failure
-//	}
-//	
-//	public static String getIPAddress()
-//	{
-//		NetworkInterface ni = null;
-//		try 
-//		{
-//			ni = NetworkInterface.getByName("eth0");
-//		} 
-//		catch (SocketException e) 
-//		{
-//			AppLogger.getLogger().fatal("Could not fetch system IP, Exception: " + e.getMessage(), e);
-//		}
-//        Enumeration<InetAddress> inetAddresses =  ni.getInetAddresses();
-//        
-//        while(inetAddresses.hasMoreElements()) 
-//        {
-//            InetAddress ia = inetAddresses.nextElement();
-//            if(!ia.isLinkLocalAddress()) 
-//            {
-//            	return ia.getHostAddress();
-//            }
-//        }
-//        return "";
-//	}
 }

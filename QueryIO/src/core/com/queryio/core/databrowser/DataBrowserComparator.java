@@ -16,8 +16,8 @@ public class DataBrowserComparator implements Comparator<ArrayList>{
 	public int compare(ArrayList list1, ArrayList list2) {
 		
 		if(sindex==2){
-			short s1= (Short) list1.get(sindex);
-			short s2= (Short) list2.get(sindex);
+			int s1= (Short) list1.get(sindex);
+			int s2= (Short) list2.get(sindex);
 			return s1>s2?1:0;
 		}
 		String str1 = (String) list1.get(sindex);

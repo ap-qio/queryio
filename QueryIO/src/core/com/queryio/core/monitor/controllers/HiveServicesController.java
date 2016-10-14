@@ -23,7 +23,7 @@ public class HiveServicesController extends Thread {
 		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Starting HiveServicesController for node: " + nodeId);
 		flag = true;
 
-		String status_hive = null;
+		String statusHive = null;
 		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 		} catch (Exception e) {
@@ -44,14 +44,14 @@ public class HiveServicesController extends Thread {
 				
 				try {
 					AdHocHiveClient.isHiveStarted(nodeId);
-					status_hive = QueryIOConstants.STATUS_STARTED;
+					statusHive = QueryIOConstants.STATUS_STARTED;
 				}
 				catch(Exception e) {
-					status_hive = QueryIOConstants.STATUS_NOT_RESPONDING;
+					statusHive = QueryIOConstants.STATUS_NOT_RESPONDING;
 				}
 				
 				QueryIOServiceDAO.updateStatus(connection, nodeId,
-						QueryIOConstants.SERVICE_HIVE, status_hive);
+						QueryIOConstants.SERVICE_HIVE, statusHive);
 
 			} catch (Exception e) {
 				if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(

@@ -171,7 +171,7 @@ public class OS3Constants {
 	
 	public static final String META_TAG_PREFIX = "x-amz-meta-";
 	
-	public static String POOL_NAME = "";
+	public static String poolName = "";
 	
 	public static final String OWNER = "owner";
 	public static final String GROUP = "group";

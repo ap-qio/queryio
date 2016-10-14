@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import com.os3.server.data.manager.DataManager;
 
 public class BucketFilter implements PathFilter {
-	protected final Logger logger = Logger.getLogger(getClass());
+	protected final Logger LOGGER = Logger.getLogger(getClass());
 	
 	private String prefix;
 	private String delimiter;
@@ -45,17 +45,17 @@ public class BucketFilter implements PathFilter {
 
 	public boolean accept(Path path) {
 		
-		try{
-			if(!DataManager.isFile(dfs, path)){
+		try {
+			if (!DataManager.isFile(dfs, path)) {
 				return false;
 			}
-		}catch(IOException ioe){
+		} catch (IOException ioe) {
 			throw new Error(ioe);
 		}
 
 		String objectName = path.getName();
 		
-		logger.debug("objectName: " + objectName);
+		LOGGER.debug("objectName: " + objectName);
 		
 		//If we have already reached maxKeys
 		if(count >= maxKeys){
@@ -93,7 +93,7 @@ public class BucketFilter implements PathFilter {
 					commonPrefix = objectName.substring(0, delimIndex + 1);
 				}
 			}
-			logger.debug("commonPrefix: " + commonPrefix);
+			LOGGER.debug("commonPrefix: " + commonPrefix);
 			if(commonPrefix != null){
 				if(commonPrefixes.get(commonPrefix) == null){
 					commonPrefixes.put(commonPrefix, commonPrefix);

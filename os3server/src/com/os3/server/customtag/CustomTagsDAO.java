@@ -17,12 +17,12 @@ import com.queryio.common.database.DatabaseFunctions;
 import com.queryio.common.util.StaticUtilities;
 
 public class CustomTagsDAO {
-	protected static final Logger logger = Logger
+	protected static final Logger LOGGER = Logger
 			.getLogger(CustomTagsDAO.class);
 
 	public static TableModel getBigQueryResults(Connection connection,
 			String query) {
-		logger.debug("Query: " + query);
+		LOGGER.debug("Query: " + query);
 		
 		DefaultTableModel tableModel = null;
 		ArrayList colNames = new ArrayList();
@@ -59,17 +59,17 @@ public class CustomTagsDAO {
 				tableModel.addRow(object);
 			}
 		} catch(Exception e){
-			logger.fatal(e.getMessage(), e);
+			LOGGER.fatal(e.getMessage(), e);
 		} finally {
 			try {
 				DatabaseFunctions.closeResultSet(rs);
 			} catch (Exception e) {
-				logger.fatal(e.getMessage(), e);
+				LOGGER.fatal(e.getMessage(), e);
 			}
 			try {
 				DatabaseFunctions.closeStatement(stmt);
 			} catch (Exception e) {
-				logger.fatal(e.getMessage(), e);
+				LOGGER.fatal(e.getMessage(), e);
 			}
 		}
 		return tableModel;

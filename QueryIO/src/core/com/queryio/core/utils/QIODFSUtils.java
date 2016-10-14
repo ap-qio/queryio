@@ -11,6 +11,7 @@ import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.hdfs.DFSClient;
 import org.apache.hadoop.security.UserGroupInformation;
 
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public class QIODFSUtils {
 	
 	public static FileSystem getFileSystemAs(final String username, final String group,

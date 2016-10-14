@@ -14,22 +14,22 @@ public class LogEntry extends AdHocEntry{
 	
 	private static final Log LOG = LogFactory.getLog(LogEntry.class);
 	
-	static String FILEPATH = "FILEPATH";
-	static String CATEGORY = "CATEGORY";
-	static String CLASS = "CLASS";
-	static String DATE = "DATE";
-	static String FILE = "FILE";
-	static String LINE = "LINE";
-	static String LOCATION = "LOCATION";
-	static String MDC = "MDC";
-	static String MESSAGE = "MESSAGE";
-	static String METHOD = "METHOD";
-	static String ELAPSED = "ELAPSED";
-	static String NDC = "NDC";
-	static String PRIORITY = "PRIORITY";
-	static String SEQUENCE = "SEQUENCE";
-	static String THREAD = "THREAD";
-	static String LINE_SEPERATOR = "LINE_SEPERATOR";
+	final static String FILEPATH = "FILEPATH";
+	final static String CATEGORY = "CATEGORY";
+	final static String CLASS = "CLASS";
+	final static String DATE = "DATE";
+	final static String FILE = "FILE";
+	final static String LINE = "LINE";
+	final static String LOCATION = "LOCATION";
+	final static String MDC = "MDC";
+	final static String MESSAGE = "MESSAGE";
+	final static String METHOD = "METHOD";
+	final static String ELAPSED = "ELAPSED";
+	final static String NDC = "NDC";
+	final static String PRIORITY = "PRIORITY";
+	final static String SEQUENCE = "SEQUENCE";
+	final static String THREAD = "THREAD";
+	final static String LINE_SEPERATOR = "LINE_SEPERATOR";
 	
 	private String filePath = "";
 	private String category = "";

@@ -64,15 +64,15 @@ public final class AppVerticalStackChart extends AppAbstractBarChart
 							ht = this.yStart - yCor;
 							if (this.bShowToolTip)
 							{
-								final Rectangle marker = new Rectangle(xCor + 1 + this.INSET_FOR_BAR_ON_ONESIDE,
-										prevYCor - ht + 1, this.eachDataWidth - (this.INSET_FOR_BAR_ON_ONESIDE * 2), ht);
+								final Rectangle marker = new Rectangle(xCor + 1 + this.insetForBarOnOneside,
+										prevYCor - ht + 1, this.eachDataWidth - (this.insetForBarOnOneside * 2), ht);
 								final String xValue = this.getXAxisSeries().getFormattedValue(i);
 								final String formattedYValue = String.valueOf(yValue);
 								this.addMarkerObject(new MarkerObject(marker, formattedYValue, xValue, i, j));
 							}
 							graphics.setBackground(getColorForIndex(j, this.chartProperties));
-							graphics.fillRectangle(xCor + 1 + this.INSET_FOR_BAR_ON_ONESIDE, prevYCor - ht + 1,
-									this.eachDataWidth - (this.INSET_FOR_BAR_ON_ONESIDE * 2), ht);
+							graphics.fillRectangle(xCor + 1 + this.insetForBarOnOneside, prevYCor - ht + 1,
+									this.eachDataWidth - (this.insetForBarOnOneside * 2), ht);
 							prevYCor -= ht;
 						}
 					}

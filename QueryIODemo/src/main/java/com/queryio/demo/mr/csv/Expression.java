@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public class Expression {
 	public static final int GT = 0;
 	public static final int LT = 1;
@@ -371,6 +371,7 @@ public class Expression {
 			break;
 		case MATCHES:
 			op = "MATCHES";
+			break;
 		case LIKE:
 			op = "LIKE";
 			break;

@@ -10,10 +10,10 @@ public class ResetRootPermissionsThread extends Thread {
 	Node node;
 	String path;
 	String group;
-	short permissions;
+	int permissions;
 	boolean recursive;
 	
-	public ResetRootPermissionsThread(Host host, Node node, String path, String group, short permissions, boolean recursive){
+	public ResetRootPermissionsThread(Host host, Node node, String path, String group, int permissions, boolean recursive){
 		this.host = host;
 		this.node = node;
 		this.path = path;

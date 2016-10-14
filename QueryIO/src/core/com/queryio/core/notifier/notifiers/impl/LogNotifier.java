@@ -15,7 +15,7 @@ import com.queryio.core.notifier.notifiers.INotifier;
 
 public class LogNotifier implements INotifier 
 {
-	private static Object MUTEX = new Object();
+	private static Object mutex = new Object();
 
 	private String logFileName = null;
 
@@ -46,7 +46,7 @@ public class LogNotifier implements INotifier
 		buffer.append("] ");
 		buffer.append(StaticUtilities.replaceAll(message, PlatformHandler.LINE_SEPARATOR, " "));
 		
-		synchronized (MUTEX) 
+		synchronized (mutex) 
 		{
 			// Write to the log file here.
 			BufferedWriter writer = new BufferedWriter(new FileWriter(logFileName, true));

@@ -31,22 +31,22 @@ public class EncryptionHandler {
 	private static Logger logger = Logger.getLogger(EncryptionHandler.class);
 
 	//FIXME Hardcoded for now, should be moved to some secure file with restricted access.
-	private static char[] PASSWORD = "QueryIO123456qwert".toCharArray();
+	private static char[] password = "QueryIO123456qwert".toCharArray();
 
 	
-	private static byte[] INIT_VECTOR = new byte[] {
+	private static byte[] initVector = new byte[] {
 			  (byte) 0x8E, 0x12, 0x39, (byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A,
 			  (byte) 0x8E, 0x12, 0x39, (byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A
 			};
 	
-	private static byte[] SALT = null; // Created using SecureRandom.getSeed(8);
+	private static byte[] salt = null; // Created using SecureRandom.getSeed(8);
 	
-	private static int ITERATION_COUNT = 65536; 
-	private static int KEY_LEN = 256;
+	private static int iterationCount = 65536; 
+	private static final int KEY_LEN = 256;
 	
-	private static String SECRETKEY_ALGO = "PBKDF2WithHmacSHA1";
-	private static String SECRETKEYSPEC_ALGO = "AES";
-	private static String  TRANSFORMATION = "AES/CBC/PKCS5Padding";
+	private static final String SECRETKEY_ALGO = "PBKDF2WithHmacSHA1";
+	private static final String SECRETKEYSPEC_ALGO = "AES";
+	private static final String  TRANSFORMATION = "AES/CBC/PKCS5Padding";
 	
 	public static final int COMPRESSION_TYPE_NONE = 0;
 	public static final int COMPRESSION_TYPE_GZIP = 1;
@@ -55,7 +55,7 @@ public class EncryptionHandler {
 	
 	static {
 		try{
-			SALT = "3���8O������*".getBytes("UTF-8"); // Created using
+			salt = "3���8O������*".getBytes("UTF-8"); // Created using
 			// SecureRandom.getSeed(8);
 		} catch(Exception e){
 			throw new Error(e);
@@ -72,7 +72,7 @@ public class EncryptionHandler {
 			//TODO check if these are thread safe
 			
 				SecretKeyFactory factory = SecretKeyFactory.getInstance(SECRETKEY_ALGO);
-				KeySpec spec = new PBEKeySpec(PASSWORD, SALT, ITERATION_COUNT, KEY_LEN);
+				KeySpec spec = new PBEKeySpec(password, salt, iterationCount, KEY_LEN);
 				SecretKey tmp = factory.generateSecret(spec);
 				secret = new SecretKeySpec(tmp.getEncoded(), SECRETKEYSPEC_ALGO);
 		
@@ -85,7 +85,7 @@ public class EncryptionHandler {
 		
 			if(encrypt){
 				cipher = Cipher.getInstance(TRANSFORMATION);
-				cipher.init(mode, secret, new IvParameterSpec(INIT_VECTOR));
+				cipher.init(mode, secret, new IvParameterSpec(initVector));
 			}
 		
 	}

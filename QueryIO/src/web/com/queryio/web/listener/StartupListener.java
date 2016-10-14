@@ -379,20 +379,20 @@ public class StartupListener implements ServletContextListener
 	            String isSetup = prop.getProperty(QueryIOConstants.CLUSTER_SETUP);
 	            String qioUsername = "";
 	            String qioPassword = "";
-	            boolean user_added = true;
+	            boolean userAdded = true;
 	            try {
-		            user_added = Boolean.valueOf(prop.getProperty(QueryIOConstants.CLUSTER_SETUP_USER).trim());
+		            userAdded = Boolean.valueOf(prop.getProperty(QueryIOConstants.CLUSTER_SETUP_USER).trim());
 		             qioUsername = prop.getProperty(QueryIOConstants.CLUSTER_QIO_USERNAME);
 	            	 qioPassword = prop.getProperty(QueryIOConstants.CLUSTER_QIO_PASSWORD);
 	            	String qioFname = prop.getProperty(QueryIOConstants.CLUSTER_QIO_FNAME);
 	            	String qioLname = prop.getProperty(QueryIOConstants.CLUSTER_QIO_LNAME);
 	            	String qioEmail = prop.getProperty(QueryIOConstants.CLUSTER_QIO_EMAIL);
-	            	if (!user_added)
+	            	if (!userAdded)
 	            	{
 	            		
 	            		AppLogger.getLogger().fatal("Registering new User...");
 	            		if(new ClusterSetup().addUser(qioUsername, qioPassword, qioFname, qioLname, qioEmail)) {
-	            			user_added = true;
+	            			userAdded = true;
 	            			prop.setProperty(QueryIOConstants.CLUSTER_SETUP_USER, "true");
 	            			AppLogger.getLogger().fatal("User added successfully");
 	            		} else {
@@ -416,7 +416,7 @@ public class StartupListener implements ServletContextListener
 	             	String installJavaHome = prop.getProperty(QueryIOConstants.CLUSTER_SETUP_JAVAHOME);
 	             	
 	             	
-	             	if (isSetupNN && isSetupDN && isSetupRM && isSetupNM && user_added)
+	             	if (isSetupNN && isSetupDN && isSetupRM && isSetupNM && userAdded)
 	             	{
 	             		clear = true;
 	             	}
@@ -450,7 +450,7 @@ public class StartupListener implements ServletContextListener
 		            				success = false;
 		            			}
 		            		}
-		            		if(success && user_added) {
+		            		if(success && userAdded) {
 	            				clear = true;
 		            		} else {
 		            			if(flag.get(QueryIOConstants.HOST))
@@ -535,7 +535,7 @@ public class StartupListener implements ServletContextListener
 			     prop = new Properties();
 			     fisCluster = new FileInputStream(sbFileName.toString());  
 			     prop.load(fisCluster);
-			     boolean isUpgrade = Boolean.valueOf(prop.getProperty(QueryIOConstants.isUPGRADE).trim()); 
+			     boolean isUpgrade = Boolean.valueOf(prop.getProperty(QueryIOConstants.ISUPGRADE).trim()); 
 			     
 			     if(isUpgrade)
 			     {
@@ -547,7 +547,7 @@ public class StartupListener implements ServletContextListener
 			    		 String installDir = prop.getProperty(QueryIOConstants.QUERYIO_INSTALL_LOC);
 			    		 if(new UpgradeCluster().startUpgrade(installDir))
 			    		 {
-			    			 prop.setProperty(QueryIOConstants.isUPGRADE, "false");
+			    			 prop.setProperty(QueryIOConstants.ISUPGRADE, "false");
 			    		 }
 			    	 } finally {
 			    		 if(conn != null) {

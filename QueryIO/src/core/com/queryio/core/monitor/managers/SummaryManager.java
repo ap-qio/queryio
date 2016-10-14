@@ -1222,14 +1222,14 @@ public class SummaryManager
 		return null;
 	}
 
-	public static SummaryTable getSummaryTableForNameNodeBasedOnIP(String IP){
+	public static SummaryTable getSummaryTableForNameNodeBasedOnIP(String ipStr){
 		Connection connection = null;
 		Host host = null;
 		ArrayList namenodeList = null; 
 		try
 		{
 			connection = CoreDBManager.getQueryIODBConnection();
-			host = HostDAO.getHostDetail(connection,IP);
+			host = HostDAO.getHostDetail(connection,ipStr);
 			namenodeList = NodeDAO.getAllNameNodesForHost(connection, host.getId());
 			return MonitorDAO.getNameNodeSummaryDataBasedOnList(connection, namenodeList);
 		}
@@ -1253,7 +1253,7 @@ public class SummaryManager
 	}
 
 	
-	public static ArrayList getNameNodeStatusSummaryBasedOnIP(String IP)
+	public static ArrayList getNameNodeStatusSummaryBasedOnIP(String ipStr)
 	{
 		Connection connection = null;
 		Host host = null;
@@ -1261,7 +1261,7 @@ public class SummaryManager
 		try
 		{
 			connection = CoreDBManager.getQueryIODBConnection();
-			host = HostDAO.getHostDetail(connection,IP);
+			host = HostDAO.getHostDetail(connection,ipStr);
 			namenodeList = NodeDAO.getAllNameNodesForHost(connection, host.getId());
 			return MonitorDAO.getNameNodeSummaryDataBasedOnNNList(connection,namenodeList);
 		}
@@ -1284,7 +1284,7 @@ public class SummaryManager
 		return null;
 	}
 	
-	public static ArrayList getAllNameNodeReadWritesBasedOnIP(String IP)
+	public static ArrayList getAllNameNodeReadWritesBasedOnIP(String ipStr)
 	{
 		Connection connection = null;
 		Host host = null;
@@ -1292,7 +1292,7 @@ public class SummaryManager
 		try
 		{
 			connection = CoreDBManager.getQueryIODBConnection();
-			host = HostDAO.getHostDetail(connection,IP);
+			host = HostDAO.getHostDetail(connection,ipStr);
 			namenodeList = NodeDAO.getAllNameNodesForHost(connection, host.getId());
 			return MonitorDAO.getNameNodeReadWritesBasedOnNNList(connection,namenodeList);
 		}

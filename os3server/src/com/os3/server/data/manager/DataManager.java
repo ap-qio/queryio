@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import com.os3.server.common.StreamWriteStatus;
 import com.os3.server.hadoop.BucketFilter;
 import com.os3.server.hadoop.DFSManager;
-import com.queryio.common.HadoopConstants;
+import com.queryio.common.EnvironmentalConstants;
 import com.queryio.common.database.CoreDBManager;
 import com.queryio.common.database.DatabaseFunctions;
 import com.queryio.common.util.AppLogger;
@@ -29,7 +29,7 @@ import com.queryio.plugin.datatags.UserDefinedTag;
 import com.queryio.userdefinedtags.common.UserDefinedTagResourceFactory;
 
 public class DataManager {
-	protected final static Logger logger = Logger.getLogger(DataManager.class);
+	protected final static Logger LOGGER = Logger.getLogger(DataManager.class);
 
 	public static boolean isFile(FileSystem dfs, Path path) throws IOException {
 		return DFSManager.isFile(dfs, path);
@@ -69,6 +69,7 @@ public class DataManager {
 		DFSManager.setOwner(dfs, path, owner, group);
 	}
 
+	@SuppressWarnings("PMD.AvoidUsingShortType")
 	public static void setPermissions(FileSystem dfs, Path path,
 			short permissions) throws IOException {
 		DFSManager.setPermissions(dfs, path, permissions);
@@ -112,6 +113,7 @@ public class DataManager {
 		return DFSManager.deleteObject(dfs, bucketName, objectName);
 	}
 
+	@SuppressWarnings("PMD.AvoidUsingShortType")
 	public static boolean createBucket(FileSystem dfs, String bucketName,
 			String username, String group, short permission) throws IOException {
 		return DFSManager.createBucket(dfs, bucketName, username, group,
@@ -133,6 +135,7 @@ public class DataManager {
 				encryptionType);
 	}
 
+	@SuppressWarnings("PMD.AvoidUsingShortType")
 	public static StreamWriteStatus createObject(String username, String group,
 			short permission, FileSystem dfs, String bucketName,
 			String objectName, long contentLength, InputStream inputStream,
@@ -152,11 +155,11 @@ public class DataManager {
 		try {
 			connection = UserDefinedTagResourceFactory
 					.getConnectionWithPoolInit(
-							HadoopConstants.getHadoopConf(), true);
+							EnvironmentalConstants.getHadoopConf(), true);
 
 			IDataTagParser tagParser = UserDefinedTagResourceFactory
 					.getParserFromConstructor(
-							HadoopConstants.getHadoopConf(), filePath,
+							EnvironmentalConstants.getHadoopConf(), filePath,
 							null, null);
 
 			stmt = connection.prepareStatement("SELECT * FROM "

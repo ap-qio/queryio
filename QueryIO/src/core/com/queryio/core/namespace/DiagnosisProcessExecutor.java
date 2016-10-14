@@ -91,8 +91,8 @@ public class DiagnosisProcessExecutor implements Job {
 		String message = null;
 		ArrayList usersIdList = null;
 		String loggedInUser = null;
-		String notification_Enable = null;
-		String notification_type = null;
+		String notificationEnable = null;
+		String notificationType = null;
 		
 		String jobName = jDataMap.getString(SchedulerConstants.MAPRED_JOB_NAME);
 		String namenodeId = jDataMap.getString("NAMENODEID");
@@ -100,12 +100,12 @@ public class DiagnosisProcessExecutor implements Job {
 		long endIndex = Long.parseLong(jDataMap.getString("ENDINDEX"));
 		loggedInUser = jDataMap.getString("LOGGEDINUSER");
 		try{
-			notification_Enable = (String)jDataMap.get(SchedulerConstants.NOTIFICATION_ENABLE);
-			if(Boolean.parseBoolean(notification_Enable))
+			notificationEnable = (String)jDataMap.get(SchedulerConstants.NOTIFICATION_ENABLE);
+			if(Boolean.parseBoolean(notificationEnable))
 			{
 				message = jDataMap.getString(SchedulerConstants.NOTIFICATION_MESSAGE);
-				notification_type =  (String)jDataMap.get(SchedulerConstants.NOTIFICATION_TYPE);
-				if(notification_type.equals(SchedulerConstants.NOTIFICATION_EMAIL))
+				notificationType =  (String)jDataMap.get(SchedulerConstants.NOTIFICATION_TYPE);
+				if(notificationType.equals(SchedulerConstants.NOTIFICATION_EMAIL))
 				{
 					String userIds = (String)jDataMap.get(SchedulerConstants.EMAIL_ADDRESS);
 					String userList[] = userIds.substring(1,userIds.length()-1).split(",");
@@ -127,9 +127,9 @@ public class DiagnosisProcessExecutor implements Job {
 		
 		status  = startDiagnosisProcess(jobName, message, diagnosisId, namenodeId, startIndex, endIndex,loggedInUser);
 		try{
-			if(Boolean.parseBoolean(notification_Enable))
+			if(Boolean.parseBoolean(notificationEnable))
 			{
-				if(notification_type.equals(SchedulerConstants.NOTIFICATION_EMAIL))
+				if(notificationType.equals(SchedulerConstants.NOTIFICATION_EMAIL))
 				{
 					mailStatus(message, status, usersIdList);
 				}

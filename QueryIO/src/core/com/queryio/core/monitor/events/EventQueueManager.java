@@ -29,13 +29,13 @@ import com.queryio.common.util.QueueManager;
  * 
  * @author Exceed Consultancy Services
  */
-public class EventQueueManager
+public final class EventQueueManager
 {
 	private static final String EVENT_QUEUE_NAME = "AppPerfect Event Queue";
 
 	private static Queue eventQueue;
 	
-	private static Object MUTEX = new Object();
+	private static Object mutex = new Object();
 
 	// default constructor is private as this class has all static methods
 	private EventQueueManager()
@@ -69,7 +69,7 @@ public class EventQueueManager
 	 */
 	public static void postEvent(final BaseEvent event)
 	{
-		synchronized (MUTEX) 
+		synchronized (mutex) 
 		{
 			init();
 			final EventQueueItem eqi = new EventQueueItem(event);

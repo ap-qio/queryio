@@ -25,7 +25,7 @@ import com.queryio.common.util.IntHashMap;
  * 
  * @author Exceed Consultancy Services
  */
-public class ChartPropertiesManager
+public final class ChartPropertiesManager
 {
 	private static IntHashMap products;
 	public static final transient String PROPERTIES_FILE = "chartProperties.xml"; //$NON-NLS-1$

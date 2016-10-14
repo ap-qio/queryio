@@ -6,13 +6,13 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.queryio.common.QueryIOConstants;
-import com.queryio.common.database.CoreDBManager;
-import com.queryio.common.util.AppLogger;
 import org.apache.hadoop.fs.Path;
 
+import com.queryio.common.QueryIOConstants;
 import com.queryio.common.dao.NNMIgrationInfoDAO;
+import com.queryio.common.database.CoreDBManager;
 import com.queryio.common.database.DBBackupTools;
+import com.queryio.common.util.AppLogger;
 import com.queryio.common.util.StaticUtilities;
 
 public class DBOperationsManager {
@@ -47,7 +47,7 @@ public class DBOperationsManager {
 		if((thread = threadMap.get(migrationID))!=null) {
 			thread.interrupt();
 		}
-		threadMap.remove(thread);
+		threadMap.remove(migrationID);
 	}
 	
 	public static void updateDBMigrationStatus(String migrationID, Timestamp endTime, String status, String error) {

@@ -36,12 +36,10 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
@@ -62,10 +60,6 @@ import jregex.Pattern;
 import jregex.Replacer;
 
 import org.apache.commons.lang.StringUtils;
-import com.queryio.common.QueryIOConstants;
-import com.queryio.common.util.AppLogger;
-import com.queryio.common.util.DataTypes;
-import com.queryio.common.util.PlatformHandler;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -77,6 +71,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.queryio.common.IProductConstants;
 import com.queryio.common.ImageConstants;
+import com.queryio.common.QueryIOConstants;
 
 
 /**
@@ -85,14 +80,15 @@ import com.queryio.common.ImageConstants;
  * @author Exceed consultancy Services
  * @version 1.0 Sep 18, 2003
  */
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public final class StaticUtilities
 {
 	private static Logger logger = Logger.getLogger(StaticUtilities.class);
 	private static final int FIRST_USED_DEVSUITE_PORT = 8670;
 	private static final String DEFUALT_FORMAT = "HH:mm:ss"; //$NON-NLS-1$
-	private static final SimpleDateFormat sdf = new SimpleDateFormat();
-	private static Date DATE = null;
-	private static final DateFormat dtDateTimeFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+	private static final SimpleDateFormat SDF = new SimpleDateFormat();
+	private static Date date = null;
+	private static final DateFormat DTDATETIMEFORMAT = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
 			DateFormat.MEDIUM);
 	private static NumberFormat floatNumberFormat = null;
 	private static NumberFormat intNumberFormat = null;
@@ -103,42 +99,42 @@ public final class StaticUtilities
 	/**
 	 * Constant used to define browser test device
 	 */
-	public static int TEST_DEVICE_BROWSER = 0;
+	public static final int TEST_DEVICE_BROWSER = 0;
 	
 	/**
 	 * Constant used to define iPhone test device
 	 */
-	public static int TEST_DEVICE_IPHONE = 1;
+	public static final int TEST_DEVICE_IPHONE = 1;
 	
 	/**
 	 * Constant used to define Blackberry test device
 	 */
-	public static int TEST_DEVICE_BLACKBERRY = 2;
+	public static final int TEST_DEVICE_BLACKBERRY = 2;
 	
 	/**
 	 * Constant used to define Android test device
 	 */
-	public static int TEST_DEVICE_ANDROID = 3;
+	public static final int TEST_DEVICE_ANDROID = 3;
 	
 	/**
 	 * Constant used to define Phone device horizontal orientation
 	 */
-	public static int DEVICE_ORIENTATION_HORIZONTAL = 0;
+	public static final int DEVICE_ORIENTATION_HORIZONTAL = 0;
 	
 	/**
 	 * Constant used to define Phone device vertical orientation
 	 */
-	public static int DEVICE_ORIENTATION_VERTICAL = 1;
+	public static final int DEVICE_ORIENTATION_VERTICAL = 1;
 	
 	/**
 	 * Constant used to define Blackberry Model 9000
 	 */
-	public static int BLACKBERRY_MODEL_9000 = 0;
+	public static final int BLACKBERRY_MODEL_9000 = 0;
 	
 	/**
 	 * Constant used to define Blackberry Model 9700
 	 */
-	public static int BLACKBERRY_MODEL_9700 = 1;
+	public static final int BLACKBERRY_MODEL_9700 = 1;
 	
 	/**
 	 * Constructor for StaticMethods.
@@ -655,7 +651,7 @@ public final class StaticUtilities
 	 * This method is used to provide String representation of ArrayList
 	 * contnets, eliminating enclosing square brackets.
 	 */
-	public static String ArrayListToString(final ArrayList alStringList)
+	public static String arrayListToString(final ArrayList alStringList)
 	{
 		if ((alStringList != null) && !alStringList.isEmpty())
 		{
@@ -672,7 +668,7 @@ public final class StaticUtilities
 	 * This method is used to provide String representation of Vector contnets,
 	 * eliminating enclosing square brackets.
 	 */
-	public static String VectorToString(final Vector vStringList)
+	public static String vectorToString(final Vector vStringList)
 	{
 		if ((vStringList != null) && !vStringList.isEmpty())
 		{
@@ -1110,7 +1106,7 @@ public final class StaticUtilities
 	 */
 	public static DateFormat getDateTimeFormat()
 	{
-		return dtDateTimeFormat;
+		return DTDATETIMEFORMAT;
 	}
 
 	/**
@@ -1119,7 +1115,7 @@ public final class StaticUtilities
 	 */
 	public static String getTimeStampFormated(final Timestamp time)
 	{
-		return dtDateTimeFormat.format(new Date(time.getTime()));
+		return DTDATETIMEFORMAT.format(new Date(time.getTime()));
 	}
 
 	/**
@@ -1128,7 +1124,7 @@ public final class StaticUtilities
 	 */
 	public static String getTimeStampFormated(final long time)
 	{
-		return dtDateTimeFormat.format(new Date(time));
+		return DTDATETIMEFORMAT.format(new Date(time));
 	}
 
 	/**
@@ -1147,18 +1143,18 @@ public final class StaticUtilities
 	 */
 	public static String formatTime(final long time, final String pattern)
 	{
-		sdf.applyPattern(pattern);
+		SDF.applyPattern(pattern);
 
-		if (DATE == null)
+		if (date == null)
 		{
-			DATE = new Date(time);
+			date = new Date(time);
 		}
 		else
 		{
-			DATE.setTime(time);
+			date.setTime(time);
 		}
 
-		return sdf.format(DATE);
+		return SDF.format(date);
 	}
 
 	/**
@@ -2159,14 +2155,14 @@ public final class StaticUtilities
 	}
 
 	// @TODO: move this method to RepositoryUtils
-	private static final String[] primitiveDataTypes = new String[] {
+	private static final String[] PRIMITIVEDATATYPES = new String[] {
 			"void", "int", "long", "float", "double", "byte", "char", "short", "boolean" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
 
 	public static boolean isPrimitiveDataType(final String string)
 	{
-		for (int i = 0; i < primitiveDataTypes.length; i++)
+		for (int i = 0; i < PRIMITIVEDATATYPES.length; i++)
 		{
-			if (primitiveDataTypes[i].equals(string))
+			if (PRIMITIVEDATATYPES[i].equals(string))
 			{
 				return true;
 			}

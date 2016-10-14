@@ -36,15 +36,15 @@ import com.queryio.common.util.AppLogger;
 
 public class SchemaDetection extends HttpServlet {
 
-	static String COL_FILEPATH = "FILEPATH";
-	static String DT_VARCHAR = "VARCHAR";
-	static String DT_VARCHAR_DEFAULT [] = {"(128)" , "(255)" , "(512)" , "(1280)"};
-	static int MAX_LENGTH = 1;
-	static String DT_DATETIME = "DATETIME";
-	static String DT_DECIMAL = "DECIMAL";
-	static String DT_INTEGER = "INTEGER";
-	static String DT_BOOLEAN = "BOOLEAN";
-	static int MAX_DATA_ROWS = 10;
+	static String colFilepath = "FILEPATH";
+	static String dtVarchar = "VARCHAR";
+	static String dtVarcharDefault [] = {"(128)" , "(255)" , "(512)" , "(1280)"};
+	static int maxLength = 1;
+	static String dtDatetime = "DATETIME";
+	static String dtDecimal = "DECIMAL";
+	static String dtInteger = "INTEGER";
+	static String dtBoolean = "BOOLEAN";
+	static int maxDataRows = 10;
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException
@@ -204,7 +204,7 @@ public class SchemaDetection extends HttpServlet {
 						JSONObject header = new JSONObject();
 						List<String> headers =  parseLine(line, delimiter, separatorValue);
 						
-						header.put(0, COL_FILEPATH);
+						header.put(0, colFilepath);
 						String str = null;
 						
 						for (int i=0; i<headers.size(); i++)
@@ -269,24 +269,24 @@ public class SchemaDetection extends HttpServlet {
 								
 
 								isString[i] = true;
-								if(records.get(i).toString().length() < 128 && (tempMax < MAX_LENGTH))
+								if(records.get(i).toString().length() < 128 && (tempMax < maxLength))
 								{
-									MAX_LENGTH = 1;
+									maxLength = 1;
 									tempMax = 1;
 								}
-								else if(records.get(i).toString().length() < 255 && (tempMax < MAX_LENGTH))
+								else if(records.get(i).toString().length() < 255 && (tempMax < maxLength))
 								{
-									MAX_LENGTH = 2;
+									maxLength = 2;
 									tempMax = 2;
 								}
-								else if(records.get(i).toString().length() < 512 && (tempMax < MAX_LENGTH))
+								else if(records.get(i).toString().length() < 512 && (tempMax < maxLength))
 								{
-									MAX_LENGTH = 3;
+									maxLength = 3;
 									tempMax = 3;
 								}
-								else if(records.get(i).toString().length() < 1280 && (tempMax < MAX_LENGTH))
+								else if(records.get(i).toString().length() < 1280 && (tempMax < maxLength))
 								{
-									MAX_LENGTH = 4;
+									maxLength = 4;
 									tempMax = 4;
 								}
 								
@@ -308,20 +308,20 @@ public class SchemaDetection extends HttpServlet {
 						
 						obj = new JSONObject();
 						obj.put("index", 0);
-						obj.put("type", DT_VARCHAR + DT_VARCHAR_DEFAULT[3]);
+						obj.put("type", dtVarchar + dtVarcharDefault[3]);
 						jsonArray.add(obj);
 						
 						for(int i=0; i<columnTypes.length; i++) {
 							if(isString[i]==true) {
-								columnTypes[i] = (DT_VARCHAR + DT_VARCHAR_DEFAULT[1]);
+								columnTypes[i] = (dtVarchar + dtVarcharDefault[1]);
 							} else if(isDateTime[i]==true) {
-								columnTypes[i] = DT_DATETIME;
+								columnTypes[i] = dtDatetime;
 							} else if(isDecimal[i]==true) {
-								columnTypes[i] = DT_DECIMAL;
+								columnTypes[i] = dtDecimal;
 							} else if(isInteger[i]==true) {
-								columnTypes[i] = DT_INTEGER;
+								columnTypes[i] = dtInteger;
 							} else if(isBoolean[i]==true) {
-								columnTypes[i] = DT_BOOLEAN;
+								columnTypes[i] = dtBoolean;
 							}
 							
 							obj = new JSONObject();

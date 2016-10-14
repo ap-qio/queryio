@@ -46,7 +46,7 @@ public class RecordLevelTagCombiner extends Reducer<Text, TagDataBean, Text, Tag
 	
 	private static final Log LOG = LogFactory.getLog(RecordLevelTagCombiner.class);
 	
-	private static String TABLE_HDFS_METADATA = "HDFS_METADATA";
+	private static final  String TABLE_HDFS_METADATA = "HDFS_METADATA";
 	
 	public static final String COL_COMPRESSION_TYPE = "COMPRESSION_TYPE";
 	public static final String COL_ENCRYPTION_TYPE = "ENCRYPTION_TYPE";
@@ -58,12 +58,12 @@ public class RecordLevelTagCombiner extends Reducer<Text, TagDataBean, Text, Tag
 	public static final String NONE = "NONE";
 	public static final String AES256 = "AES256";
 	
-	private static String QUERY_START = "SELECT "
+	private final static String QUERY_START = "SELECT "
 			+ COL_COMPRESSION_TYPE + ","
 			+ COL_ENCRYPTION_TYPE + ","
 			+ COL_TAG_VALUES_BLOCKS
 			+ " FROM ";
-	private static String QUERY_END = " WHERE FILEPATH=?";
+	private final static String QUERY_END = " WHERE FILEPATH=?";
 	
 	private static JSONObject tagJSON = null;
 	private static JSONObject fileTypeParsers = new JSONObject();

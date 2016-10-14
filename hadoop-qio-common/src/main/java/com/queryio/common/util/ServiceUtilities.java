@@ -24,9 +24,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import com.queryio.common.util.PlatformHandler;
-import com.queryio.common.util.StreamPumper;
-
 
 public class ServiceUtilities
 {
@@ -63,7 +60,7 @@ public class ServiceUtilities
 
 	private static final String FILE_SEPARATOR = File.separator;
 //	private static final String WRAPPER_DIR = "wrapper";
-	private static String USER_JDK_HOME = null;
+	private static String userJdkHome = null;
 	private static final String TRUNCATED = "..."; //$NON-NLS-1$
 
 	// used for development system
@@ -364,7 +361,7 @@ public class ServiceUtilities
 	 */
 	public static String getUserJdkHome(final String productHome)
 	{
-		if (USER_JDK_HOME == null)
+		if (userJdkHome == null)
 		{
 			File file = new File(productHome, ".install4j" + File.separatorChar + "variables.properties");
 			if (!file.exists())
@@ -380,7 +377,7 @@ public class ServiceUtilities
 					fis = new FileInputStream(file);
 					props.load(fis);
 					fis.close();
-					USER_JDK_HOME = props.getProperty("USER_JDK_HOME");
+					userJdkHome = props.getProperty("USER_JDK_HOME");
 				}
 				catch (final Exception e)
 				{
@@ -388,7 +385,7 @@ public class ServiceUtilities
 				}
 			}
 		}
-		return USER_JDK_HOME;
+		return userJdkHome;
 	}
 
 	/**

@@ -51,7 +51,7 @@ public interface BigQueryIdentifiers {
 	String X_SERIES_SORT_COLUMN = "xseriesSortColumn";
 	String X_SERIES_SORT_TYPE_NONE = "None";
 	String X_SERIES_SORT_TYPE_ASCENDING = "Ascending";
-	String X_SERIES_SORT_TYPE_Descending = "Descending";
+	String X_SERIES_SORT_TYPE_DESCENDING = "Descending";
 	
 	int REPORT_ROWS_LIMIT = 300;
 }

@@ -57,7 +57,7 @@ import com.queryio.core.reports.ReportManager;
 public class SchedulerDAO 
 {
 	private static Scheduler scheduler;
-	private static String SCHED_QUERYIO_TRIGGER_NAME = "QueryIO_Trigger"; //$NON-NLS-1$
+	private static String schedQueryioTriggerName = "QueryIO_Trigger"; //$NON-NLS-1$
     private static final String SCHED_SYS_REPORT_JOB_NAME = "SYS_REPORT"; //$NON-NLS-1$
     private static final String SCHED_BIG_QUERY_JOB_NAME = "BIG_QUERY"; //$NON-NLS-1$
     private static final String SCHED_MAPRED_GROUP = "MAPRED";
@@ -66,46 +66,46 @@ public class SchedulerDAO
     private static int lastJobId = 0;
     private static boolean initialized = false;
     
-	private static String COUNT_JOB = "SELECT count(*) FROM " + SchedulerConstants.TABLE_PREFIX 
+	private static String countJob = "SELECT count(*) FROM " + SchedulerConstants.TABLE_PREFIX 
 			+ StdJDBCConstants.TABLE_JOB_DETAILS + " WHERE " + StdJDBCConstants.COL_SCHEDULER_NAME + " = '" 
 			+ SchedulerConstants.SCHEDULER_NAME + "' AND " + StdJDBCConstants.COL_JOB_GROUP + " LIKE ?";
 
-	private static String GET_ALL_JOB_DETAILS_SYS_REPORTS = "SELECT * FROM " + SchedulerConstants.TABLE_PREFIX 
+	private static String getAllJobDetailsSysReports = "SELECT * FROM " + SchedulerConstants.TABLE_PREFIX 
 			+ StdJDBCConstants.TABLE_JOB_DETAILS + " WHERE " + StdJDBCConstants.COL_SCHEDULER_NAME + " = '" 
 			+ SchedulerConstants.SCHEDULER_NAME + "' AND " + StdJDBCConstants.COL_JOB_GROUP + " LIKE '" 
 					+ SCHED_SYS_REPORT_JOB_NAME + "%'";
 	
 	
 	
-	private static String GET_ALL_JOB_DETAILS_BIG_QUERY = "SELECT * FROM " + SchedulerConstants.TABLE_PREFIX 
+	private static String getAllJobDetailsBigQuery = "SELECT * FROM " + SchedulerConstants.TABLE_PREFIX 
 			+ StdJDBCConstants.TABLE_JOB_DETAILS + " WHERE " + StdJDBCConstants.COL_SCHEDULER_NAME + " = '" 
 			+ SchedulerConstants.SCHEDULER_NAME + "' AND " + StdJDBCConstants.COL_JOB_GROUP + " LIKE '" 
 					+ SCHED_BIG_QUERY_JOB_NAME + "%'";
 	
 	
-	private static String GET_ALL_JOB_DETAILS_MAPRED = "SELECT * FROM " + SchedulerConstants.TABLE_PREFIX 
+	private static String getAllJobDetailsMapred = "SELECT * FROM " + SchedulerConstants.TABLE_PREFIX 
 			+ StdJDBCConstants.TABLE_JOB_DETAILS + " WHERE " + StdJDBCConstants.COL_SCHEDULER_NAME + " = '" 
 			+ SchedulerConstants.SCHEDULER_NAME + "' AND " + StdJDBCConstants.COL_JOB_GROUP + " = '" 
 					+ SCHED_MAPRED_GROUP + "'";
 	
 	
-	private static String GET_ALL_JOB_DETAILS_BY_JOB_NAME_JOB_GROUP = "SELECT * FROM " + SchedulerConstants.TABLE_PREFIX 
+	private static String getAllJobDetailsByJobNameJobGroup = "SELECT * FROM " + SchedulerConstants.TABLE_PREFIX 
 			+ StdJDBCConstants.TABLE_JOB_DETAILS + " WHERE " + StdJDBCConstants.COL_SCHEDULER_NAME + " = '" 
 			+ SchedulerConstants.SCHEDULER_NAME + "' AND " + StdJDBCConstants.COL_JOB_NAME + " =  ? " +
 			"AND " + StdJDBCConstants.COL_JOB_GROUP + " = ?";
 	
-	private static String GET_TRIGGER_DETAILS = "SELECT "+  SchedulerConstants.ID  +", " + SchedulerConstants.STARTTIME +", " 
+	private static String getTriggerDetails = "SELECT "+  SchedulerConstants.ID  +", " + SchedulerConstants.STARTTIME +", " 
 			+ SchedulerConstants.ENDTIME + ", " + SchedulerConstants.STATUS + ", " + SchedulerConstants.REASON_FOR_FAILURE + " FROM " 
 			+ TableConstants.TABLE_TRIGGERED_SCHEDULEJOB_STATE + " WHERE " + StdJDBCConstants.COL_JOB_GROUP 
 			+ " = ? AND " + StdJDBCConstants.COL_JOB_NAME + " = ? ";
 	
-	private static String GET_ALL_TRIGGER_DETAILS = "SELECT "+  SchedulerConstants.ID +", " + SchedulerConstants.JOB_NAME +", "
+	private static String getAllTriggerDetails = "SELECT "+  SchedulerConstants.ID +", " + SchedulerConstants.JOB_NAME +", "
 			+  SchedulerConstants.JOB_GROUP +", " + SchedulerConstants.STARTTIME +", "  
 			+ SchedulerConstants.ENDTIME + ", " + SchedulerConstants.STATUS + ", " + SchedulerConstants.REASON_FOR_FAILURE + " FROM " 
 			+ TableConstants.TABLE_TRIGGERED_SCHEDULEJOB_STATE;
 	
 	
-	private static String DELETE_SELECTED_TRIGGERS = "DELETE FROM "+TableConstants.TABLE_TRIGGERED_SCHEDULEJOB_STATE + " WHERE "+ SchedulerConstants.ID + " = ?";
+	private static String deleteSelectedTriggers = "DELETE FROM "+TableConstants.TABLE_TRIGGERED_SCHEDULEJOB_STATE + " WHERE "+ SchedulerConstants.ID + " = ?";
 	
 	
 	public static void initializeScheduler(){
@@ -214,7 +214,7 @@ public class SchedulerDAO
     	try{
     	Trigger trigger = null;
     	String grpName = schedule.getGroup();
-    	String triggerName = SCHED_QUERYIO_TRIGGER_NAME+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
+    	String triggerName = schedQueryioTriggerName+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
     	
     	if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Scheduling mapred job, group: " + grpName + ", trigger: " + triggerName);
     	
@@ -263,7 +263,7 @@ public class SchedulerDAO
     public static void scheduleJob(JobDetailImpl jobDetailImpl,SchedulerBean schedule, String grpName) throws Exception{
     	try{
     	Trigger trigger = null;
-    	String triggerName = SCHED_QUERYIO_TRIGGER_NAME+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
+    	String triggerName = schedQueryioTriggerName+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
     	switch (schedule.getInterval())
          {
 	         case SchedulerConstants.SCH_FREQUENCY_TWELVE_HOURS:
@@ -306,7 +306,7 @@ public class SchedulerDAO
     	try{
     	Trigger trigger = null;
     	String grpName=SCHED_BIG_QUERY_JOB_NAME+SchedulerConstants.HIPHEN+String.valueOf(querySchedule.getQuery());
-    	String triggerName = SCHED_QUERYIO_TRIGGER_NAME+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
+    	String triggerName = schedQueryioTriggerName+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
     	switch (querySchedule.getInterval())
          {
              case SchedulerConstants.SCH_FREQUENCY_DAILY:		//Daily
@@ -353,7 +353,7 @@ public class SchedulerDAO
     	ResultSet rs = null;
 	        try {
 	        	conn = CoreDBManager.getQueryIODBConnection();
-	        	ps = conn.prepareStatement(COUNT_JOB);
+	        	ps = conn.prepareStatement(countJob);
 	    		ps.setString(1,grpName);
     			rs=ps.executeQuery();
 	            while(rs.next()){
@@ -506,7 +506,7 @@ public class SchedulerDAO
     	PreparedStatement st = null;
     	ResultSet rs = null;
     	try{
-    		st=connection.prepareStatement(GET_ALL_JOB_DETAILS_BY_JOB_NAME_JOB_GROUP);
+    		st=connection.prepareStatement(getAllJobDetailsByJobNameJobGroup);
     		st.setString(1, jobName);
     		st.setString(2, SCHED_MAPRED_GROUP);
     		rs=st.executeQuery();
@@ -544,8 +544,8 @@ public class SchedulerDAO
     	try{
     		conn = CoreDBManager.getQueryIODBConnection();
     		st=conn.createStatement();
-    		rs=st.executeQuery(GET_ALL_JOB_DETAILS_SYS_REPORTS);
-    		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("GET_ALL_JOB_DETAILS_SYS_REPORTS"+GET_ALL_JOB_DETAILS_SYS_REPORTS);
+    		rs=st.executeQuery(getAllJobDetailsSysReports);
+    		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("GET_ALL_JOB_DETAILS_SYS_REPORTS"+getAllJobDetailsSysReports);
     		while(rs.next()){
      			SchedulerBean sBean = new SchedulerBean();
     			JobDetail jdetail = scheduler.getJobDetail(new JobKey(rs.getString(StdJDBCDelegate.COL_JOB_NAME),rs.getString(StdJDBCDelegate.COL_JOB_GROUP)));
@@ -609,8 +609,8 @@ public class SchedulerDAO
     	try{
     		conn = CoreDBManager.getQueryIODBConnection();
     		st=conn.createStatement();
-    		rs=st.executeQuery(GET_ALL_JOB_DETAILS_BIG_QUERY);
-    		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("GET_ALL_JOB_DETAILS_BIG_QUERY: "+GET_ALL_JOB_DETAILS_BIG_QUERY);
+    		rs=st.executeQuery(getAllJobDetailsBigQuery);
+    		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("GET_ALL_JOB_DETAILS_BIG_QUERY: "+getAllJobDetailsBigQuery);
     		while(rs.next()){
     			QuerySchedulerBean qBean = new QuerySchedulerBean();
     			JobDetail jdetail = scheduler.getJobDetail(new JobKey(rs.getString(StdJDBCDelegate.COL_JOB_NAME),rs.getString(StdJDBCDelegate.COL_JOB_GROUP)));
@@ -666,7 +666,7 @@ public class SchedulerDAO
     	try{
     		conn = CoreDBManager.getQueryIODBConnection();
     		st=conn.createStatement();
-    		rs=st.executeQuery(GET_ALL_JOB_DETAILS_MAPRED);
+    		rs=st.executeQuery(getAllJobDetailsMapred);
     		while(rs.next()){
      			SchedulerBean sBean = new SchedulerBean();
     			JobDetail jdetail = scheduler.getJobDetail(new JobKey(rs.getString(StdJDBCDelegate.COL_JOB_NAME),rs.getString(StdJDBCDelegate.COL_JOB_GROUP)));
@@ -798,7 +798,7 @@ public class SchedulerDAO
     	try{
     	Trigger trigger = null;
     	
-    	String triggerName = SCHED_QUERYIO_TRIGGER_NAME+SchedulerConstants.HIPHEN+(schedule.getName().substring(schedule.getName().indexOf(SchedulerConstants.HIPHEN)+1));
+    	String triggerName = schedQueryioTriggerName+SchedulerConstants.HIPHEN+(schedule.getName().substring(schedule.getName().indexOf(SchedulerConstants.HIPHEN)+1));
     	trigger = scheduler.getTrigger(new TriggerKey(triggerName,schedule.getGroup()));
     	switch (schedule.getInterval())
          {
@@ -842,7 +842,7 @@ public class SchedulerDAO
     	try{
         	Trigger trigger = null;
         	String grpName=SCHED_BIG_QUERY_JOB_NAME+SchedulerConstants.HIPHEN+String.valueOf(querySchedule.getQuery());
-        	String triggerName = SCHED_QUERYIO_TRIGGER_NAME+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
+        	String triggerName = schedQueryioTriggerName+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
         	switch (querySchedule.getInterval())
              {
                  case SchedulerConstants.SCH_FREQUENCY_DAILY:		//Daily
@@ -885,7 +885,7 @@ public class SchedulerDAO
     public static void updateMRTrigger(JobDetailImpl jobDetailImpl,SchedulerBean schedule){
     	try{
     	Trigger trigger = null;
-    	String triggerName = SCHED_QUERYIO_TRIGGER_NAME+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
+    	String triggerName = schedQueryioTriggerName+SchedulerConstants.HIPHEN+String.valueOf(getLastJobId());
     	trigger = scheduler.getTrigger(new TriggerKey(triggerName,schedule.getGroup()));
     	switch (schedule.getInterval())
          {
@@ -995,7 +995,7 @@ public class SchedulerDAO
     	{
     		arr = new ArrayList();
     		con = CoreDBManager.getQueryIODBConnection();
-    		ps = con.prepareStatement(GET_TRIGGER_DETAILS);
+    		ps = con.prepareStatement(getTriggerDetails);
     		ps.setString(1, jobGroup);
     		ps.setString(2, jobName);
     		rs = ps.executeQuery();
@@ -1062,7 +1062,7 @@ public class SchedulerDAO
     		arr = new ArrayList();
     		con = CoreDBManager.getQueryIODBConnection();
     		stmt = con.createStatement();
-    		rs = stmt.executeQuery(GET_ALL_TRIGGER_DETAILS);
+    		rs = stmt.executeQuery(getAllTriggerDetails);
     		while(rs.next())
     		{
     			TriggerDetailBean tgBean = new TriggerDetailBean();
@@ -1123,7 +1123,7 @@ public class SchedulerDAO
     		con = CoreDBManager.getQueryIODBConnection();
     		for(int i=0;i<triggerList.size();i++)
     		{
-	    		ps = con.prepareStatement(DELETE_SELECTED_TRIGGERS);
+	    		ps = con.prepareStatement(deleteSelectedTriggers);
 	    		ps.setInt(1, Integer.parseInt(((String)triggerList.get(i))));
 	    		ps.executeUpdate();
 	    		try{

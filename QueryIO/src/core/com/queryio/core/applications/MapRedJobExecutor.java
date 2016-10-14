@@ -100,8 +100,8 @@ public class MapRedJobExecutor implements Job {
 		String message = null;
 		ArrayList usersIdList = null;
 		ArrayList jobIdList = null;
-		String notification_Enable = null;
-		String notification_type = null;
+		String notificationEnable = null;
+		String notificationType = null;
 		try{
 			String jobIds = (String)jDataMap.get(SchedulerConstants.MAPRED_JOB_NAME);
 			String jobList[] = jobIds.substring(1,jobIds.length()-1).split(",");
@@ -110,12 +110,12 @@ public class MapRedJobExecutor implements Job {
 			{
 				jobIdList.add(userID.trim());	
 			}
-			notification_Enable = (String)jDataMap.get(SchedulerConstants.NOTIFICATION_ENABLE);
-			if(Boolean.parseBoolean(notification_Enable))
+			notificationEnable = (String)jDataMap.get(SchedulerConstants.NOTIFICATION_ENABLE);
+			if(Boolean.parseBoolean(notificationEnable))
 			{
 				message = jDataMap.getString(SchedulerConstants.NOTIFICATION_MESSAGE);
-				notification_type =  (String)jDataMap.get(SchedulerConstants.NOTIFICATION_TYPE);
-				if(notification_type.equals(SchedulerConstants.NOTIFICATION_EMAIL))
+				notificationType =  (String)jDataMap.get(SchedulerConstants.NOTIFICATION_TYPE);
+				if(notificationType.equals(SchedulerConstants.NOTIFICATION_EMAIL))
 				{
 					String userIds = (String)jDataMap.get(SchedulerConstants.EMAIL_ADDRESS);
 					String userList[] = userIds.substring(1,userIds.length()-1).split(",");
@@ -137,9 +137,9 @@ public class MapRedJobExecutor implements Job {
 			String jobName = (String)jobIdList.get(i);
 			status  = executeMapReduceJob(jobName, message);
 			try{
-				if(Boolean.parseBoolean(notification_Enable))
+				if(Boolean.parseBoolean(notificationEnable))
 				{
-					if(notification_type.equals(SchedulerConstants.NOTIFICATION_EMAIL))
+					if(notificationType.equals(SchedulerConstants.NOTIFICATION_EMAIL))
 					{
 						mailStatus(message, status, usersIdList);
 					}

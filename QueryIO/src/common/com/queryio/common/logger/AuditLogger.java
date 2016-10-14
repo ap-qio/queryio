@@ -14,12 +14,12 @@ import com.queryio.common.ExtendedPatternLayout;
 
 public final class AuditLogger {
 
-	private final static String logFileLocation = EnvironmentalConstants.getAppHome() + "../../logs/user/";
+	private final static String LOGFILELOCATION = EnvironmentalConstants.getAppHome() + "../../logs/user/";
 	
 	
 	public static Logger getUserLogger(String userName) {
 		final String logFileName = userName + "_User_Activity.log";
-		File logFile = new File(logFileLocation + logFileName);
+		File logFile = new File(LOGFILELOCATION + logFileName);
 		if (!logFile.getParentFile().exists())
 			logFile.getParentFile().mkdirs();
 		return configureLogger(logFile.getAbsolutePath());
@@ -29,11 +29,11 @@ public final class AuditLogger {
 		Logger logger = Logger.getLogger(logFileLocation);
 		logger.setLevel(Level.INFO);
 		logger.removeAllAppenders();
-		logger.addAppender(GetDailyRollingFileAppender(logFileLocation));
+		logger.addAppender(getDailyRollingFileAppender(logFileLocation));
 		return logger;		
 	}
 	
-	private static DailyRollingFileAppender GetDailyRollingFileAppender(String logFilePath) {
+	private static DailyRollingFileAppender getDailyRollingFileAppender(String logFilePath) {
 		DailyRollingFileAppender appender = null;
 		PatternLayout layout = new ExtendedPatternLayout("%d{dd MMM,HH:mm:ss:SSS} - %m%n");				
 		try {

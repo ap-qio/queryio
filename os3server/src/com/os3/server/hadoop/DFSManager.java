@@ -28,7 +28,7 @@ import com.queryio.stream.util.QIODFSOutputStream;
 
 public class DFSManager 
 {
-	private static Logger logger = Logger.getLogger(DFSManager.class);
+	private static final Logger LOGGER = Logger.getLogger(DFSManager.class);
 	public static final String ROOT_PATH = "/";
 	
 	public static boolean isValidBucketName(String bucketName)
@@ -55,6 +55,7 @@ public class DFSManager
 		dfs.setOwner(path, owner, group);
 	}
 	
+	@SuppressWarnings("PMD.AvoidUsingShortType")
 	public static void setPermissions(FileSystem dfs, Path path, short permission) throws IOException {
 		dfs.setPermission(path, DFSManager.parsePermissions(permission)); 
 	}
@@ -103,6 +104,7 @@ public class DFSManager
 		return dfs.listStatus(new Path(ROOT_PATH, bucketName), filter);
 	}
 	
+	@SuppressWarnings("PMD.AvoidUsingShortType")
 	public static boolean createBucket(FileSystem dfs, String bucketName, String username, String group, short permission) throws IOException
 	{
 		if(dfs.mkdirs(new Path(ROOT_PATH, bucketName), DFSManager.parsePermissions(permission))){
@@ -121,6 +123,7 @@ public class DFSManager
 		return false;
 	}
 	
+	@SuppressWarnings("PMD.AvoidUsingShortType")
 	public static StreamWriteStatus createObject(String username, String group, short permission, FileSystem dfs, String bucketName, String objectName, long contentLength, InputStream is, List<UserDefinedTag> tags, String compressionType, String encryptionType) throws IOException, NoSuchAlgorithmException {
 		StreamWriteStatus status = createObject(username, group, dfs, bucketName, objectName, contentLength, is, tags, compressionType, encryptionType);
 		dfs.setPermission(new Path(ROOT_PATH + bucketName, objectName), DFSManager.parsePermissions(permission));
@@ -130,7 +133,7 @@ public class DFSManager
 	public static StreamWriteStatus createObject(String username, String group, FileSystem dfs, String bucketName, String objectName, long contentLength, InputStream is, List<UserDefinedTag> tags, String compressionType, String encryptionType) throws IOException, NoSuchAlgorithmException
 	{
 		Path objectPath = new Path(ROOT_PATH + bucketName, objectName);
-		logger.debug("Creating object: " + objectPath);
+		LOGGER.debug("Creating object: " + objectPath);
 		OutputStream cipherOutputStream = null;
 		StreamWriteStatus status = null;
 		DFSOutputStream dfsOutputStream = null;
@@ -154,14 +157,14 @@ public class DFSManager
 			status = StreamUtilities.writeToStream(is, cipherOutputStream,
 					contentLength);
 			
-			logger.debug("Tags for " + objectPath + " are: " + tags);
+			LOGGER.debug("Tags for " + objectPath + " are: " + tags);
 			
 			cipherOutputStream.flush();
 		} finally {
 			try{
 				if(cipherOutputStream!=null)	cipherOutputStream.close();
 			} catch(Exception e){
-				logger.fatal(e.getMessage(), e);
+				LOGGER.fatal(e.getMessage(), e);
 			}
 		}
 		
@@ -205,6 +208,7 @@ public class DFSManager
 ////		}
 //	}
 //	
+	@SuppressWarnings("PMD.AvoidUsingShortType")
 	public static FsPermission parsePermissions(short permissions)
 	{
 		FsAction u = getAction(permissions / 100);
@@ -269,7 +273,7 @@ public class DFSManager
 		}
 		catch (Exception e1) 
 		{
-			logger.error(e1.getMessage(), e1);
+			LOGGER.error(e1.getMessage(), e1);
 		}
 		return null;
 	}

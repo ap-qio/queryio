@@ -19,7 +19,7 @@ package com.queryio.core.monitor.alerts.generator;
 
 import com.queryio.core.monitor.events.AlertListenerImpl;
 
-public class AlertGenerationManager
+public final class AlertGenerationManager
 {
 	// notification's constants
 	public static final String NOTIF_EMAIL = "Email";

@@ -29,9 +29,9 @@ import com.queryio.core.dao.HostDAO;
 import com.queryio.core.dao.NodeDAO;
 
 public class HOFManager {
-	private static String CONF_FILE = EnvironmentalConstants.getAppHome() + "../../../" + "hdfs-over-ftp/hdfs-over-ftp.conf";
-	private static String HADOOP_PROP_FILE = EnvironmentalConstants.getAppHome() + "../../../" + "hdfs-over-ftp/hadoop.properties";
-	private static String USER_FILE =  EnvironmentalConstants.getAppHome() + "../../../" + "hdfs-over-ftp/users.conf";
+	private static String confFile = EnvironmentalConstants.getAppHome() + "../../../" + "hdfs-over-ftp/hdfs-over-ftp.conf";
+	private static String hadoopPropFile = EnvironmentalConstants.getAppHome() + "../../../" + "hdfs-over-ftp/hadoop.properties";
+	private static String userFile =  EnvironmentalConstants.getAppHome() + "../../../" + "hdfs-over-ftp/users.conf";
 	private static Properties props = null;
 	private static Properties hadoopProps = null;
 	private static boolean serverStarted = false;
@@ -49,19 +49,19 @@ public class HOFManager {
 		props.setProperty(prefix + username + ".uploadrate", "0");
 		props.setProperty(prefix + username + ".downloadrate", "0");
 		props.setProperty(prefix + username + ".groups", username + ",users");
-		props.store(new FileOutputStream(USER_FILE), null);		
+		props.store(new FileOutputStream(userFile), null);		
 	}
 	
 	public static void storeConfig() throws Exception{
-		props.store(new FileOutputStream(CONF_FILE), null);
-		hadoopProps.store(new FileOutputStream(HADOOP_PROP_FILE), null);
+		props.store(new FileOutputStream(confFile), null);
+		hadoopProps.store(new FileOutputStream(hadoopPropFile), null);
 	}
 	
 	public static void initConfig() throws Exception{	
 		props = new Properties();
 		hadoopProps = new Properties();
-	    props.load(new FileInputStream(CONF_FILE));
-	    hadoopProps.load(new FileInputStream(HADOOP_PROP_FILE));
+	    props.load(new FileInputStream(confFile));
+	    hadoopProps.load(new FileInputStream(hadoopPropFile));
 	}
 	
 	public static DWRResponse startServer(){

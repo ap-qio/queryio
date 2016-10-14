@@ -59,7 +59,7 @@ public class AdHocInputFormat extends InputFormat<IntWritable, List<FileStatus>>
 		pathFilter = Pattern.compile(filePathFilter);
 	}
 
-	private static final PathFilter hiddenFileFilter = new PathFilter() {
+	private static final PathFilter HIDDEN_FILE_FILTER = new PathFilter() {
 		public boolean accept(Path p) {
 			String name = p.getName();
 			return !name.startsWith("_") && !name.startsWith(".") && !name.startsWith("job_");
@@ -212,7 +212,7 @@ public class AdHocInputFormat extends InputFormat<IntWritable, List<FileStatus>>
 		// creates a MultiPathFilter with the hiddenFileFilter and the
 		// user provided one (if any).
 		List<PathFilter> filters = new ArrayList<PathFilter>();
-		filters.add(hiddenFileFilter);
+		filters.add(HIDDEN_FILE_FILTER);
 		PathFilter jobFilter = getInputPathFilter(job);
 		if (jobFilter != null) {
 			filters.add(jobFilter);

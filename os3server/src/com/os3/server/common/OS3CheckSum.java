@@ -12,7 +12,7 @@ public class OS3CheckSum {
 	private MessageDigest mdigest;
 	private StringBuilder result;
 	// Hexadecimal digits
-	final static char[] hexdigits = { '0', '1', '2', '3', '4', '5', '6', '7',
+	final static char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7',
 			'8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
 	/**
@@ -83,8 +83,8 @@ public class OS3CheckSum {
 				result.setLength(0);
 			}
 			for (int i = 0; i < value.length; i++) {
-				result.append(hexdigits[(value[i] & 0xf0) >>> 4]);
-				result.append(hexdigits[(value[i] & 0x0f)]);
+				result.append(HEX_DIGITS[(value[i] & 0xf0) >>> 4]);
+				result.append(HEX_DIGITS[(value[i] & 0x0f)]);
 			}
 			return result.toString();
 		}

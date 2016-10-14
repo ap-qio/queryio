@@ -30,7 +30,7 @@ public class NCDCParser {
 	StringTokenizer token = null; 
 	
 	Connection connection = null;
-	PreparedStatement PST = null;
+	PreparedStatement pst = null;
 	String tableName = null;
 	FileStatus fileStatus = null;
 	NCDCExpressions ncdcExpressions;
@@ -129,13 +129,13 @@ public class NCDCParser {
 			} catch (Exception e) {
 				LOG.fatal(e.getMessage(), e);
 			}
-			if (PST != null){
+			if (pst != null){
 				try{
 					if(currentBatchSize > 0)
-						PST.executeBatch();
+						pst.executeBatch();
 				}finally{
 					try {
-						PST.close();
+						pst.close();
 					} catch (SQLException e) {
 						LOG.fatal("Error Closing PreparedStatement", e);
 					}	
@@ -226,8 +226,8 @@ public class NCDCParser {
 
 			try {
 				LOG.info(query.toString());
-				if (PST == null)
-					PST = connection.prepareStatement(query.toString());
+				if (pst == null)
+					pst = connection.prepareStatement(query.toString());
 			} catch (SQLException e) {
 				LOG.fatal(e.getMessage(), e);
 			}
@@ -243,7 +243,7 @@ public class NCDCParser {
 					
 					try{
 						boolean value = Boolean.parseBoolean(entry.getValues().get(i));
-						PST.setObject(i+1, value);
+						pst.setObject(i+1, value);
 						parsed = true;
 					} catch(Exception e){
 						// NOT A BOOLEAN
@@ -251,7 +251,7 @@ public class NCDCParser {
 					
 					try{
 						int value = Integer.parseInt(entry.getValues().get(i));
-						PST.setObject(i+1, value);
+						pst.setObject(i+1, value);
 						parsed = true;
 					} catch(Exception e) {
 						// NOT AN INTEGER
@@ -259,23 +259,23 @@ public class NCDCParser {
 					
 					try{
 						double value = Double.parseDouble(entry.getValues().get(i));
-						PST.setObject(i+1, value);
+						pst.setObject(i+1, value);
 						parsed = true;
 					} catch(Exception e) {
 						// NOT A DOUBLE
 					}
 					
-					if( ! parsed )	PST.setObject(i+1, entry.getValues().get(i));
+					if( ! parsed )	pst.setObject(i+1, entry.getValues().get(i));
 				}
-				PST.setString(entry.getColumns().size() + 1, this.fileStatus.getPath().toUri().getPath());
+				pst.setString(entry.getColumns().size() + 1, this.fileStatus.getPath().toUri().getPath());
 				
-				PST.addBatch();
+				pst.addBatch();
 				currentBatchSize++;
 				
 				if (currentBatchSize % maxBatchSize == 0)
 				{
-					PST.executeBatch();
-					PST.clearBatch();
+					pst.executeBatch();
+					pst.clearBatch();
 					currentBatchSize = 0;
 				}
 			} catch (SQLException e) {
