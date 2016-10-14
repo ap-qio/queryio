@@ -68,5 +68,9 @@ public class AIXProcessInfo extends ProcessInfo
 		}
 		return false;
 	}
+	
+	public int hashCode(){
+		return super.hashCode();
+	}
 
 }

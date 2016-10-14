@@ -294,8 +294,8 @@ public class FileUpload extends HttpServlet {
 
 				if (logicalTagsJSONString != null) {
 					tempJSONObj = (JSONObject) new JSONParser().parse(logicalTagsJSONString);
-					if (tempJSONObj.get(QueryIOConstants.hiveTypePath) != null) {
-						String tagPath = (String) tempJSONObj.get(QueryIOConstants.hiveTypePath);
+					if (tempJSONObj.get(QueryIOConstants.HIVETYPEPATH) != null) {
+						String tagPath = (String) tempJSONObj.get(QueryIOConstants.HIVETYPEPATH);
 						if (!filePath.startsWith(tagPath)) {
 							continue;
 						}
@@ -308,8 +308,6 @@ public class FileUpload extends HttpServlet {
 						for (Object tagArr : (JSONArray) tempJSONObj.get("Tags")) {
 							tagsArray.add((JSONObject) tagArr);
 						}
-						// tagsArray.add(((JSONArray)
-						// tempJSONObj.get("Tags")).get(0));
 						if ((logicalTagsJSON.get("ParseDetails") == null)
 								&& (tempJSONObj.get("ParseDetails") != null)) {
 							logicalTagsJSON.put("ParseDetails", tempJSONObj.get("ParseDetails"));

@@ -207,9 +207,9 @@ public class HostMonitorController extends Thread{
 					Map<String, String []> fanMap = systemStatistics.getIpmiFanMap();
 					Map<String, String []> voltageMap = systemStatistics.getIpmiVoltageMap();
 
-					String TEMPERATURE_PREFIX = "TEMP";
-					String FAN_PREFIX = "FAN";
-					String VOLTAGE_PREFIX = "VOLTAGE";
+					String temperaturePrefix = "TEMP";
+					String fanPrefix = "FAN";
+					String voltagePrefix = "VOLTAGE";
 					
 					String tableNameMonitor = QueryIOConstants.MONITORDATA_TABLE_PREFIX + this.host.getId() + "_HOST_MONITORDATA";
 			
@@ -217,19 +217,19 @@ public class HostMonitorController extends Thread{
 					
 					if(temperatureMap != null)
 					{
-						addSensorValues(this.controllerHistoricalData, connection, temperatureMap, "Temperature", this.controllerHistoricalData.getColumnNames(), tableNameMonitor, TEMPERATURE_PREFIX);
-						addSensorValues(this.controllerSummaryData, connection, temperatureMap, "Temperature", this.controllerSummaryData.getColumnNames(), tableNameSummary, TEMPERATURE_PREFIX);
+						addSensorValues(this.controllerHistoricalData, connection, temperatureMap, "Temperature", this.controllerHistoricalData.getColumnNames(), tableNameMonitor, temperaturePrefix);
+						addSensorValues(this.controllerSummaryData, connection, temperatureMap, "Temperature", this.controllerSummaryData.getColumnNames(), tableNameSummary, temperaturePrefix);
 					}
 					
 					if(fanMap != null)
 					{
-						addSensorValues(this.controllerHistoricalData, connection, fanMap, "Fan", this.controllerHistoricalData.getColumnNames(), tableNameMonitor, FAN_PREFIX);
-						addSensorValues(this.controllerSummaryData, connection, fanMap, "Fan",  this.controllerSummaryData.getColumnNames(), tableNameSummary, FAN_PREFIX);
+						addSensorValues(this.controllerHistoricalData, connection, fanMap, "Fan", this.controllerHistoricalData.getColumnNames(), tableNameMonitor, fanPrefix);
+						addSensorValues(this.controllerSummaryData, connection, fanMap, "Fan",  this.controllerSummaryData.getColumnNames(), tableNameSummary, fanPrefix);
 					}
 					if(voltageMap != null)
 					{
-						addSensorValues(this.controllerHistoricalData, connection, voltageMap, "Voltage", this.controllerHistoricalData.getColumnNames(), tableNameMonitor, VOLTAGE_PREFIX);
-						addSensorValues(this.controllerSummaryData, connection, voltageMap, "Voltage",  this.controllerSummaryData.getColumnNames(), tableNameSummary, VOLTAGE_PREFIX);
+						addSensorValues(this.controllerHistoricalData, connection, voltageMap, "Voltage", this.controllerHistoricalData.getColumnNames(), tableNameMonitor, voltagePrefix);
+						addSensorValues(this.controllerSummaryData, connection, voltageMap, "Voltage",  this.controllerSummaryData.getColumnNames(), tableNameSummary, voltagePrefix);
 					}
 						
 //					IPMI Monitoring end
@@ -322,7 +322,7 @@ public class HostMonitorController extends Thread{
 	}
 	
 	
-	private void addSensorValues(ControllerData controllerData, Connection connection, Map<String, String []> map, String groupName, ArrayList<String> columnNames, String tableName, String ColumnPrefix)
+	private void addSensorValues(ControllerData controllerData, Connection connection, Map<String, String []> map, String groupName, ArrayList<String> columnNames, String tableName, String columnPrefix)
 	{
 		Set<String> set = map.keySet();
 		Iterator<String> it = set.iterator();
@@ -331,7 +331,7 @@ public class HostMonitorController extends Thread{
 		{
 			String key = it.next();
 			String objectName = key;
-			key = ColumnPrefix + key.replaceAll("[^a-zA-Z0-9]+","").toUpperCase();
+			key = columnPrefix + key.replaceAll("[^a-zA-Z0-9]+","").toUpperCase();
 			String[] values = map.get(objectName);
 			String keyStatus = key + "STATUS";
 			String statusGroupName = groupName + " Status";

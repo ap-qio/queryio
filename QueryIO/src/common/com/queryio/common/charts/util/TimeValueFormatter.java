@@ -27,7 +27,7 @@ import com.queryio.common.IProductConstants;
  * 
  * @author Exceed Consultancy Services
  */
-public class TimeValueFormatter
+public final class TimeValueFormatter
 {
 	private static final DateFormat DAY_TIME = new SimpleDateFormat(System.getProperty("chart.datetime", "EEE, h:mm a")); // Wed, 12:03 AM
 	private static final int INDEX_HOUR = 0;

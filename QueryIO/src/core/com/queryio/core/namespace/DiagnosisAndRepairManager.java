@@ -30,19 +30,19 @@ import com.queryio.core.requestprocessor.DBVSNamespaceDiagnosisRequest;
 import com.queryio.core.requestprocessor.NamespaceVSDBDiagnosisRequest;
 
 public class DiagnosisAndRepairManager {
-	static final Map<String, Thread> syncThreadMap = new HashMap<String, Thread>(); 
+	static final Map<String, Thread> SYNCTHREADMAP = new HashMap<String, Thread>(); 
 	
 	public static boolean terminateDiagnosticProcess(final String diagnosisId) {
-		if(syncThreadMap.containsKey(diagnosisId)) {
-			syncThreadMap.get(diagnosisId).interrupt();
+		if(SYNCTHREADMAP.containsKey(diagnosisId)) {
+			SYNCTHREADMAP.get(diagnosisId).interrupt();
 			return true;
 		}
 		return false;
 	}
 	
 	public static boolean terminateRepairProcess(final String diagnosisId) {
-		if(syncThreadMap.containsKey("Repair_" + diagnosisId)) {
-			syncThreadMap.get("Repair_" + diagnosisId).interrupt();
+		if(SYNCTHREADMAP.containsKey("Repair_" + diagnosisId)) {
+			SYNCTHREADMAP.get("Repair_" + diagnosisId).interrupt();
 			return true;
 		}
 		return false;
@@ -111,7 +111,7 @@ public class DiagnosisAndRepairManager {
 				}
 			};
 			
-			syncThreadMap.put(diagnosisId, thread);
+			SYNCTHREADMAP.put(diagnosisId, thread);
 			thread.start();
 			
 			isSuccess = true;
@@ -267,7 +267,7 @@ public class DiagnosisAndRepairManager {
 				}
 			};
 			
-			syncThreadMap.put("Repair_" + diagnosisId, thread);
+			SYNCTHREADMAP.put("Repair_" + diagnosisId, thread);
 			thread.start();
 			
 			dwrResponse.setDwrResponse(true, "Repair operation performed successfully", 200);

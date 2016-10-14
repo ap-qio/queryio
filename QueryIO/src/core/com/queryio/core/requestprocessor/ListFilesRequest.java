@@ -50,8 +50,8 @@ public class ListFilesRequest extends RequestProcessorCore {
 	int pageNo;
 	String nodeId;
 	
-	static String QUERY_START = "SELECT " + EncryptionHandler.COL_COMPRESSION_TYPE + "," + EncryptionHandler.COL_ENCRYPTION_TYPE + " FROM ";
-	static String QUERY_END = " WHERE FILEPATH=?";
+	static String queryStart = "SELECT " + EncryptionHandler.COL_COMPRESSION_TYPE + "," + EncryptionHandler.COL_ENCRYPTION_TYPE + " FROM ";
+	static String queryEnd = " WHERE FILEPATH=?";
 	
 	public ListFilesRequest(String nodeId, String user, Path path, int rows, int pageNo) {
 		super(user, null, path);
@@ -288,7 +288,7 @@ public class ListFilesRequest extends RequestProcessorCore {
 				return null;
 			}
 			  
-			stmt = connection.prepareStatement(QUERY_START + tableName + QUERY_END);
+			stmt = connection.prepareStatement(queryStart + tableName + queryEnd);
 			
 			stmt.setString(1, filePath);
 			

@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
  * 
  * @author Exceed Consultancy Services
  */
+@SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 class EmailSender
 {
 	/**

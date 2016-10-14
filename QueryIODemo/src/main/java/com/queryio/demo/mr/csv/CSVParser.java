@@ -27,7 +27,7 @@ public class CSVParser {
 	StringTokenizer token = null; 
 	
 	Connection connection = null;
-	PreparedStatement PST = null;
+	PreparedStatement pst = null;
 	String tableName = null;
 	int maxBatchSize; 
 	FileStatus fileStatus = null;
@@ -114,13 +114,13 @@ public class CSVParser {
 			throw new IOException(e);
 		} finally {
 			
-			if (PST != null){
+			if (pst != null){
 				try{
 					if(currentBatchSize > 0)
-						PST.executeBatch();
+						pst.executeBatch();
 				}finally{
 					try {
-						PST.close();
+						pst.close();
 					} catch (SQLException e) {
 						LOG.fatal("Error Closing PreparedStatement", e);
 					}	
@@ -168,23 +168,23 @@ public class CSVParser {
 			query.append(COL_TAG_VALUES_FILEPATH).append(") VALUES (").append(valueBuf.toString());
 			query.append("?)");			
 
-			if (PST == null)
-				PST = connection.prepareStatement(query.toString());
+			if (pst == null)
+				pst = connection.prepareStatement(query.toString());
 		}
 		
 		if(valid){
 			for(int i=0; i<entry.getColumns().size(); i++){
-				PST.setObject(i+1, entry.getValues().get(i));				
+				pst.setObject(i+1, entry.getValues().get(i));				
 			}
-			PST.setString(entry.getColumns().size() + 1, this.fileStatus.getPath().toUri().getPath());
+			pst.setString(entry.getColumns().size() + 1, this.fileStatus.getPath().toUri().getPath());
 			
-			PST.addBatch();
+			pst.addBatch();
 			currentBatchSize++;
 			
 			if (currentBatchSize % maxBatchSize == 0)
 			{
-				PST.executeBatch();
-				PST.clearBatch();
+				pst.executeBatch();
+				pst.clearBatch();
 				currentBatchSize = 0;
 			}
 			

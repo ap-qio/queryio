@@ -69,7 +69,7 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 			graphics.setClipping(this.yAxisTitleRect);
 			axisTitle.setBackgroundColor(this.chartProperties.getYAxisTitleBackgroundColour());
 			axisTitle.setTextColor(this.chartProperties.getYAxisTitleTextColour());
-			axisTitle.draw(graphics, -angle);
+			axisTitle.draw(graphics, -ANGLE);
 		}
 
 		graphics.setBackground(background);

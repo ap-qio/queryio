@@ -62,19 +62,19 @@ public abstract class AbstractDataTagParser implements IDataTagParser {
 	private final int OPERATION_COPY = 8;
 	private final int OPERATION_META_EXIST = 9;
 	
-	protected String ENCODING_KEY = "encoding";
-	protected String HAS_HEADER_KEY = "hasHeader";
-	protected String DELIMITER_KEY = "delimiter";
-	protected String VALUE_SEPERATOR_KEY = "valueSeperator";
-	protected String ERROR_ACTION_KEY = "ifErrorOccur";
+	protected final String ENCODING_KEY = "encoding";
+	protected final String HAS_HEADER_KEY = "hasHeader";
+	protected final String DELIMITER_KEY = "delimiter";
+	protected final String VALUE_SEPERATOR_KEY = "valueSeperator";
+	protected final String ERROR_ACTION_KEY = "ifErrorOccur";
 	
-	protected String LOG_PATTERN_KEY = "pattern";
+	protected final String LOG_PATTERN_KEY = "pattern";
 	
-	protected String PARSE_DETAILS_KEY = "ParseDetails";
-	protected String FIELDS_KEY = "Attributes";
+	protected final String PARSE_DETAILS_KEY = "ParseDetails";
+	protected final String FIELDS_KEY = "Attributes";
 	
-	protected String COL_NAME_KEY = "colName";
-	protected String COL_INDEX_KEY = "colIndex";
+	protected final String COL_NAME_KEY = "colName";
+	protected final String COL_INDEX_KEY = "colIndex";
 	
 	final String WHITESPACE = " ";
 	
@@ -520,8 +520,8 @@ public abstract class AbstractDataTagParser implements IDataTagParser {
 					break;
 				case METHOD_PATTERN_EXIST:
 				case METHOD_PATTERN_MATCH_COUNT:
-					Pattern pattern_match = Pattern.compile(operatorColumnNames.get(tag.getName()));
-					Matcher  matcherPattern = pattern_match.matcher(line);
+					Pattern patternMatch = Pattern.compile(operatorColumnNames.get(tag.getName()));
+					Matcher  matcherPattern = patternMatch.matcher(line);
 					int matchCountPattern = 0;
 			        while (matcherPattern.find()) {
 			        	matchCountPattern++;
@@ -886,6 +886,7 @@ public abstract class AbstractDataTagParser implements IDataTagParser {
 		return this.tags;
 	}
 	
+	@Override
 	public List<UserDefinedTag> getCustomTagList() {
 		List<UserDefinedTag> tagList = new ArrayList<UserDefinedTag>();
 		

@@ -49,14 +49,14 @@ public final class AppVerticalBarChart extends AppAbstractBarChart
 		}
 		if (lenYAxisSeries > 0)
 		{
-			this.width = Math.max(1, (this.eachDataWidth - this.INSET_FOR_BAR_ON_ONESIDE * 2) / lenYAxisSeries);
+			this.width = Math.max(1, (this.eachDataWidth - this.insetForBarOnOneside * 2) / lenYAxisSeries);
 			int each = 0;
 			for (int i = 0; i < yAxisSeries.length; i++)
 			{
 				if (this.shouldDrawSeries(i))
 				{
 					this.drawSeries(graphics, i, (YAxisSeries) yAxisSeries[i], each * this.width
-							+ this.INSET_FOR_BAR_ON_ONESIDE);
+							+ this.insetForBarOnOneside);
 					each++;
 				}
 			}

@@ -33,8 +33,6 @@ import org.apache.commons.dbcp.SQLNestedException;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
 
-import com.queryio.common.util.AppLogger;
-
 
 /**
  * The Database Manager class is the interface to the database. It allows for
@@ -51,7 +49,7 @@ public final class DatabaseManager
 	private static final String USER = "user"; //$NON-NLS-1$
 	private static final String PASSWORD = "password"; //$NON-NLS-1$
 
-	protected static final Logger logger = Logger.getLogger(DatabaseManager.class);
+	protected static final Logger LOGGER = Logger.getLogger(DatabaseManager.class);
 	
 	private DatabaseManager()
 	{

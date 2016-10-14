@@ -7,11 +7,12 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+@SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 public class Settings {
 
-	private static Logger logger = Logger.getLogger(Settings.class);
+	private static final Logger LOGGER = Logger.getLogger(Settings.class);
 
-	private final static Properties properties = new Properties();
+	private final static Properties PROPERTIES = new Properties();
 	
 	private Settings() {
 		// This class has only static methods
@@ -28,10 +29,10 @@ public class Settings {
 			FileInputStream fis = null;
 			try {
 				fis = new FileInputStream(file);
-				properties.load(fis); // No need for BufferInputStream as Properties internally creates a Buffered stream
+				PROPERTIES.load(fis); // No need for BufferInputStream as Properties internally creates a Buffered stream
 			}
 			catch (IOException ioe) {
-				logger.error("Error loading properties" + ioe.getMessage(), ioe);
+				LOGGER.error("Error loading properties" + ioe.getMessage(), ioe);
 			}
 			finally {
 				if (fis != null) {
@@ -39,7 +40,7 @@ public class Settings {
 						fis.close();
 					} catch (IOException e) {
 						// ignore this silently
-						logger.error("Ignore - Error in loading properties file.");
+						LOGGER.error("Ignore - Error in loading properties file.");
 					}
 				}
 			}
@@ -57,7 +58,7 @@ public class Settings {
 				props.load(fis); // No need for BufferInputStream as Properties internally creates a Buffered stream
 			}
 			catch (IOException ioe) {
-				logger.error("Error loading properties" + ioe.getMessage(), ioe);
+				LOGGER.error("Error loading properties" + ioe.getMessage(), ioe);
 			}
 			finally {
 				if (fis != null) {
@@ -65,7 +66,7 @@ public class Settings {
 						fis.close();
 					} catch (IOException e) {
 						// ignore this silently
-						logger.error("Ignore - Error in loading properties file.");
+						LOGGER.error("Ignore - Error in loading properties file.");
 					}
 				}
 			}
@@ -75,34 +76,34 @@ public class Settings {
 	}
 	
 	public static Properties getProperties() {
-		return properties;
+		return PROPERTIES;
 	}
 	
 	public static int getIntProperty(String name, int defaultValue)
 	{
 		try {
-			if (name != null && properties.getProperty(name) != null) {
-				return Integer.parseInt(properties.getProperty(name));
+			if (name != null && PROPERTIES.getProperty(name) != null) {
+				return Integer.parseInt(PROPERTIES.getProperty(name));
 			}
 		} catch (Exception ex) {
 			// ignore the exception
-			if(logger.isInfoEnabled()) logger.info("Ignore - Error while getting IntProperty " + name + " , will return default value " + defaultValue, ex);
+			if(LOGGER.isInfoEnabled()) LOGGER.info("Ignore - Error while getting IntProperty " + name + " , will return default value " + defaultValue, ex);
 		}
 		return defaultValue;
 	}
 	
 	public static boolean getBoolean(String name)
 	{
-		return Boolean.parseBoolean(properties.getProperty(name, "false"));
+		return Boolean.parseBoolean(PROPERTIES.getProperty(name, "false"));
 	}
 	
 	public static String get(String name)
 	{
-		return properties.getProperty(name);
+		return PROPERTIES.getProperty(name);
 	}
 	
 	public static int getInt(String name)
 	{
-		return Integer.parseInt(properties.getProperty(name, "10240"));
+		return Integer.parseInt(PROPERTIES.getProperty(name, "10240"));
 	}
 }

@@ -21,9 +21,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
-import com.queryio.common.database.CustomTagDBConfig;
-import com.queryio.common.database.CustomTagDBConfigManager;
-import com.queryio.common.database.DBTypeProperties;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -44,7 +41,7 @@ import com.queryio.common.util.CryptManager;
  */
 public class DatabaseConfigParser extends DefaultHandler implements ErrorHandler {
 
-	protected static final Logger logger = Logger.getLogger(EnvironmentalConstants.class);
+	protected static final Logger LOGGER = Logger.getLogger(EnvironmentalConstants.class);
 	CustomTagDBConfig dbConfig = null;
 	DBTypeProperties dbTypeProperties = null;
 	String name = null;
@@ -56,17 +53,17 @@ public class DatabaseConfigParser extends DefaultHandler implements ErrorHandler
 	 */
 	private boolean isCustomTagDB;
 
-	private transient String TAG_DRIVER;
-	private transient String TAG_DBTYPE;
-	private transient String TAG_URL;
-	private transient String TAG_USERNAME;
-	private transient String TAG_PASSWORD;
-	private transient String TAG_DRIVER_JAR;
+	private transient String tagDriver;
+	private transient String tagDbtype;
+	private transient String tagUrl;
+	private transient String tagUsername;
+	private transient String tagPassword;
+	private transient String tagDriverJar;
 
-	private transient String TAG_POOLNAME;
-	private transient String TAG_MAXCONN;
-	private transient String TAG_MAXIDLECONN;
-	private transient String TAG_MAXWAITTIME;
+	private transient String tagPoolname;
+	private transient String tagMaxconn;
+	private transient String tagMaxidleconn;
+	private transient String tagMaxwaittime;
 
 	private transient String currentVal = null;
 	private boolean isDBType = false;
@@ -138,13 +135,13 @@ public class DatabaseConfigParser extends DefaultHandler implements ErrorHandler
 		if (!isDBType) {
 			// Handling for DBConfiguration
 			if (isCustomTagDB) {
-				if (this.TAG_DRIVER.equals(qualifiedName)) {
+				if (this.tagDriver.equals(qualifiedName)) {
 					dbConfig.setCustomTagDriverClass(this.currentVal);
-				} else if (this.TAG_URL.equals(qualifiedName)) {
+				} else if (this.tagUrl.equals(qualifiedName)) {
 					dbConfig.setCustomTagUrl(this.currentVal);
-				} else if (this.TAG_USERNAME.equals(qualifiedName)) {
+				} else if (this.tagUsername.equals(qualifiedName)) {
 					dbConfig.setCustomTagUserName(this.currentVal);
-				} else if (this.TAG_PASSWORD.equals(qualifiedName)) {
+				} else if (this.tagPassword.equals(qualifiedName)) {
 
 					try {
 						String encryptedPassword = this.currentVal;
@@ -156,15 +153,15 @@ public class DatabaseConfigParser extends DefaultHandler implements ErrorHandler
 						e.printStackTrace();
 					}
 
-				} else if (this.TAG_POOLNAME.equals(qualifiedName)) {
+				} else if (this.tagPoolname.equals(qualifiedName)) {
 					dbConfig.setCustomTagPoolName(this.currentVal);
-				} else if (this.TAG_MAXCONN.equals(qualifiedName)) {
+				} else if (this.tagMaxconn.equals(qualifiedName)) {
 					dbConfig.setCustomTagMaxConn(Integer.parseInt(this.currentVal));
-				} else if (this.TAG_MAXIDLECONN.equals(qualifiedName)) {
+				} else if (this.tagMaxidleconn.equals(qualifiedName)) {
 					dbConfig.setCustomTagMaxIdleConn(Integer.parseInt(this.currentVal));
-				} else if (this.TAG_MAXWAITTIME.equals(qualifiedName)) {
+				} else if (this.tagMaxwaittime.equals(qualifiedName)) {
 					dbConfig.setCustomTagMaxWaitTime(Integer.parseInt(this.currentVal));
-				} else if (this.TAG_DRIVER_JAR.equals(qualifiedName)) {
+				} else if (this.tagDriverJar.equals(qualifiedName)) {
 					dbConfig.setCustomTagDriverJarPath(
 							EnvironmentalConstants.getJdbcDriverPath() + File.separator + this.currentVal);
 				} else if (this.name != null && this.name.equals(qualifiedName)) {
@@ -173,15 +170,15 @@ public class DatabaseConfigParser extends DefaultHandler implements ErrorHandler
 					name = null;
 				}
 			} else {
-				if (this.TAG_DRIVER.equals(qualifiedName)) {
+				if (this.tagDriver.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabaseDriverClass(this.currentVal);
-				} else if (this.TAG_URL.equals(qualifiedName)) {
+				} else if (this.tagUrl.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabaseURL(this.currentVal);
-				} else if (this.TAG_USERNAME.equals(qualifiedName)) {
+				} else if (this.tagUsername.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabaseUserName(this.currentVal);
-				} else if (this.TAG_DBTYPE.equals(qualifiedName)) {
+				} else if (this.tagDbtype.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabaseType(this.currentVal);
-				} else if (this.TAG_PASSWORD.equals(qualifiedName)) {
+				} else if (this.tagPassword.equals(qualifiedName)) {
 
 					try {
 						String encryptedPassword = this.currentVal;
@@ -194,15 +191,15 @@ public class DatabaseConfigParser extends DefaultHandler implements ErrorHandler
 					}
 
 //					EnvironmentalConstants.setQueryIODatabasePassword(this.currentVal);
-				} else if (this.TAG_POOLNAME.equals(qualifiedName)) {
+				} else if (this.tagPoolname.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabasePoolName(this.currentVal);
-				} else if (this.TAG_MAXCONN.equals(qualifiedName)) {
+				} else if (this.tagMaxconn.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabaseMaxConn(Integer.parseInt(this.currentVal));
-				} else if (this.TAG_MAXIDLECONN.equals(qualifiedName)) {
+				} else if (this.tagMaxidleconn.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabaseMaxIdleConn(Integer.parseInt(this.currentVal));
-				} else if (this.TAG_MAXWAITTIME.equals(qualifiedName)) {
+				} else if (this.tagMaxwaittime.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabaseMaxWaitTime(Integer.parseInt(this.currentVal));
-				} else if (this.TAG_DRIVER_JAR.equals(qualifiedName)) {
+				} else if (this.tagDriverJar.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabaseDriverPath(
 							EnvironmentalConstants.getJdbcDriverPath() + File.separator + this.currentVal);
 				}
@@ -243,16 +240,16 @@ public class DatabaseConfigParser extends DefaultHandler implements ErrorHandler
 	 * 
 	 */
 	private void allocateTags() {
-		this.TAG_DRIVER = "driver";
-		this.TAG_URL = "url";
-		this.TAG_USERNAME = "userName";
-		this.TAG_PASSWORD = "password";
-		this.TAG_DRIVER_JAR = "driverJar";
-		this.TAG_POOLNAME = "poolname";
-		this.TAG_MAXCONN = "maxconnections";
-		this.TAG_MAXIDLECONN = "maxidleconnections";
-		this.TAG_MAXWAITTIME = "waittimeinmillis";
-		this.TAG_DBTYPE = "type";
+		this.tagDriver = "driver";
+		this.tagUrl = "url";
+		this.tagUsername = "userName";
+		this.tagPassword = "password";
+		this.tagDriverJar = "driverJar";
+		this.tagPoolname = "poolname";
+		this.tagMaxconn = "maxconnections";
+		this.tagMaxidleconn = "maxidleconnections";
+		this.tagMaxwaittime = "waittimeinmillis";
+		this.tagDbtype = "type";
 	}
 
 	public static void main(String[] args) throws Exception {

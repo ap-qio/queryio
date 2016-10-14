@@ -37,7 +37,7 @@ import com.queryio.common.IOSProtocolConstants;
  */
 public final class PlatformHandler
 {
-	private static String EMPTY_STRING = ""; //$NON-NLS-1$
+	private static String emptyString = ""; //$NON-NLS-1$
 	private static File nativeLibDirectory;
 	private static Map envVars;
 	private static String scriptSuffixes[];
@@ -524,7 +524,7 @@ public final class PlatformHandler
 		{
 			path += FILE_SEPARATOR;
 		}
-		String sCommand = EMPTY_STRING;
+		String sCommand = emptyString;
 		if (isMacOS())
 		{
 			if (path.indexOf("Home") == -1) //$NON-NLS-1$
@@ -568,7 +568,7 @@ public final class PlatformHandler
 		{
 			path += FILE_SEPARATOR;
 		}
-		String sCommand = EMPTY_STRING;
+		String sCommand = emptyString;
 		if (isMacOS())
 		{
 			if (path.indexOf("Home") == -1) //$NON-NLS-1$

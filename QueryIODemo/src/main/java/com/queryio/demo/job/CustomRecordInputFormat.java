@@ -55,8 +55,8 @@ public class CustomRecordInputFormat extends
 
 	public static final String COL_COMPRESSION_TYPE = "COMPRESSION_TYPE";
 	public static final String COL_ENCRYPTION_TYPE = "ENCRYPTION_TYPE";
-	static String QUERY_START = "SELECT " + COL_COMPRESSION_TYPE + "," + COL_ENCRYPTION_TYPE + " FROM ";
-	static String QUERY_END = " WHERE FILEPATH=?";
+	final static String QUERY_START = "SELECT " + COL_COMPRESSION_TYPE + "," + COL_ENCRYPTION_TYPE + " FROM ";
+	final static String QUERY_END = " WHERE FILEPATH=?";
 	private static final Log LOG = LogFactory.getLog(CustomRecordInputFormat.class);
 	
 	private static JobContext context = null; 
@@ -108,7 +108,7 @@ public class CustomRecordInputFormat extends
 	    // creates a MultiPathFilter with the hiddenFileFilter and the
 	    // user provided one (if any).
 	    List<PathFilter> filters = new ArrayList<PathFilter>();
-	    filters.add(CustomInputFormat.hiddenFileFilter);
+	    filters.add(CustomInputFormat.HIDDEN_FILE_FILTER);
 	    PathFilter jobFilter = getInputPathFilter(job);
 	    if (jobFilter != null) {
 	      filters.add(jobFilter);

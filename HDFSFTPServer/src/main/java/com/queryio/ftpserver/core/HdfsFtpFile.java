@@ -26,10 +26,10 @@ import com.queryio.ftpserver.requestprocessor.MKDIRRequest;
 import com.queryio.ftpserver.requestprocessor.MoveRequest;
 
 public class HdfsFtpFile implements FtpFile {
-	/* 21 */private final Logger log = Logger.getLogger(HdfsFtpFile.class);
+	private final Logger log = Logger.getLogger(HdfsFtpFile.class);
 	private final Path path;
 	private final HdfsUser user;
-	
+
 	public HdfsFtpFile(String path, HdfsUser user) {
 		this.path = new Path(path);
 		this.user = user;
@@ -40,16 +40,16 @@ public class HdfsFtpFile implements FtpFile {
 	}
 
 	public String getName() {
-		/* 45 */String full = getAbsolutePath();
-		/* 46 */int pos = full.lastIndexOf("/");
-		/* 47 */if (full.length() == 1) {
-			/* 48 */return "/";
+		String full = getAbsolutePath();
+		int pos = full.lastIndexOf("/");
+		if (full.length() == 1) {
+			return "/";
 		}
-		/* 50 */return full.substring(pos + 1);
+		return full.substring(pos + 1);
 	}
 
 	public boolean isHidden() {
-		/* 59 */return false;
+		return false;
 	}
 
 	public boolean isDirectory() {
@@ -98,69 +98,69 @@ public class HdfsFtpFile implements FtpFile {
 
 	public boolean isReadable() {
 		try {
-			/* 125 */FsPermission permissions = getPermissions();
-			/* 126 */if (this.user.getName().equals(getOwnerName())) {
-				/* 127 */if (permissions.toString().substring(0, 1).equals("r")) {
-					/* 128 */System.out.println("PERMISSIONS: " + this.path + " - "
+			FsPermission permissions = getPermissions();
+			if (this.user.getName().equals(getOwnerName())) {
+				if (permissions.toString().substring(0, 1).equals("r")) {
+					System.out.println("PERMISSIONS: " + this.path + " - "
 							+ " read allowed for user");
-					/* 129 */return true;
+					return true;
 				}
 
 			}
-			/* 137 */else if (permissions.toString().substring(6, 7)
+			else if (permissions.toString().substring(6, 7)
 					.equals("r")) {
-				/* 138 */System.out.println("PERMISSIONS: " + this.path + " - "
+				System.out.println("PERMISSIONS: " + this.path + " - "
 						+ " read allowed for others");
-				/* 139 */return true;
+				return true;
 			}
 
-			/* 142 */System.out.println("PERMISSIONS: " + this.path + " - "
+			System.out.println("PERMISSIONS: " + this.path + " - "
 					+ " read denied");
-			/* 143 */return false;
+			return false;
 		} catch (IOException e) {
-			/* 145 */log.fatal(e.getMessage(), e);
-			/* 146 */}
+			log.fatal(e.getMessage(), e);
+			}
 		return false;
 	}
 
 	private HdfsFtpFile getParent() {
-		/* 151 */String pathS = this.path.toString();
-		/* 152 */String parentS = "/";
-		/* 153 */int pos = pathS.lastIndexOf("/");
-		/* 154 */if (pos > 0) {
-			/* 155 */parentS = pathS.substring(0, pos);
+		String pathS = this.path.toString();
+		String parentS = "/";
+		int pos = pathS.lastIndexOf("/");
+		if (pos > 0) {
+			parentS = pathS.substring(0, pos);
 		}
-		/* 157 */return new HdfsFtpFile(parentS, this.user);
+		return new HdfsFtpFile(parentS, this.user);
 	}
 
 	public boolean isWritable() {
 		try {
-			/* 167 */FsPermission permissions = getPermissions();
-			/* 168 */if (this.user.getName().equals(getOwnerName())) {
-				/* 169 */if (permissions.toString().substring(1, 2).equals("w")) {
-					/* 170 */System.out.println("PERMISSIONS: " + this.path + " - "
+			FsPermission permissions = getPermissions();
+			if (this.user.getName().equals(getOwnerName())) {
+				if (permissions.toString().substring(1, 2).equals("w")) {
+					System.out.println("PERMISSIONS: " + this.path + " - "
 							+ " write allowed for user");
-					/* 171 */return true;
+					return true;
 				}
 
 			}
-			/* 179 */else if (permissions.toString().substring(7, 8)
+			else if (permissions.toString().substring(7, 8)
 					.equals("w")) {
-				/* 180 */System.out.println("PERMISSIONS: " + this.path + " - "
+				System.out.println("PERMISSIONS: " + this.path + " - "
 						+ " write allowed for others");
-				/* 181 */return true;
+				return true;
 			}
 
-			/* 184 */System.out.println("PERMISSIONS: " + this.path + " - "
+			System.out.println("PERMISSIONS: " + this.path + " - "
 					+ " write denied");
-			/* 185 */return false;
+			return false;
 		} catch (IOException e) {
 		}
-		/* 187 */return getParent().isWritable();
+		return getParent().isWritable();
 	}
 
 	public boolean isRemovable() {
-		/* 197 */return isWritable();
+		return isWritable();
 	}
 
 	public String getOwnerName() {
@@ -186,7 +186,7 @@ public class HdfsFtpFile implements FtpFile {
 	}
 
 	public int getLinkCount() {
-		/* 236 */return isDirectory() ? 3 : 1;
+		return isDirectory() ? 3 : 1;
 	}
 
 	public long getLastModified() {
@@ -201,7 +201,7 @@ public class HdfsFtpFile implements FtpFile {
 	}
 
 	public boolean setLastModified(long l) {
-		/* 255 */return false;
+		return false;
 	}
 
 	public long getSize() {
@@ -223,7 +223,7 @@ public class HdfsFtpFile implements FtpFile {
 		final MKDIRRequest request = new MKDIRRequest(this.user, path);
 		try {
 			final Object response = request.process();
-			return response != null ? (Boolean) response : null;
+			return response != null ? (Boolean) response : false;
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -234,7 +234,7 @@ public class HdfsFtpFile implements FtpFile {
 		final DeleteRequest request = new DeleteRequest(this.user, path);
 		try {
 			final Object response = request.process();
-			return response != null ? (Boolean) response : null;
+			return response != null ? (Boolean) response : false;
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -245,7 +245,7 @@ public class HdfsFtpFile implements FtpFile {
 		final MoveRequest request = new MoveRequest(this.user, path, fileObject);
 		try {
 			final Object response = request.process();
-			return response != null ? (Boolean) response : null;
+			return response != null ? (Boolean) response : false;
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -258,7 +258,7 @@ public class HdfsFtpFile implements FtpFile {
 			System.out.println("No read permission : " + this.path);
 			return null;
 		}
-		
+
 		final ListFilesRequest request = new ListFilesRequest(this.user, path);
 		try {
 			final Object response = request.process();
@@ -270,10 +270,10 @@ public class HdfsFtpFile implements FtpFile {
 	}
 
 	public OutputStream createOutputStream(long l) throws IOException {
-		/* 363 */if (!isWritable()) {
-			/* 364 */throw new IOException("No write permission : " + this.path);
+		if (!isWritable()) {
+			throw new IOException("No write permission : " + this.path);
 		}
-		
+
 		final CreateOutputStreamRequest request = new CreateOutputStreamRequest(this.user, path);
 		try {
 			final Object response = request.process();
@@ -285,9 +285,9 @@ public class HdfsFtpFile implements FtpFile {
 	}
 
 	public InputStream createInputStream(long l) throws IOException {
-		/* 386 */if (!isReadable())
-			/* 387 */throw new IOException("No read permission : " + this.path);
-		
+		if (!isReadable())
+			throw new IOException("No read permission : " + this.path);
+
 		final CreateInputStreamRequest request = new CreateInputStreamRequest(this.user, path);
 		try {
 			final Object response = request.process();

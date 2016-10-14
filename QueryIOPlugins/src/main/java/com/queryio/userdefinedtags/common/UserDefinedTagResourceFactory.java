@@ -26,11 +26,11 @@ import com.queryio.plugin.datatags.AbstractDataTagParser;
 import com.queryio.plugin.datatags.IDataTagParser;
 
 public class UserDefinedTagResourceFactory {
-	private static String DEFAULTCREATESTATEMENT = "CREATE TABLE";
-	private static String DEFAULTNAMENODEID = "";
-	private static Log LOG = LogFactory
+	private static final String DEFAULTCREATESTATEMENT = "CREATE TABLE";
+	private static final String DEFAULTNAMENODEID = "";
+	private static final Log LOG = LogFactory
 			.getLog(UserDefinedTagResourceFactory.class);
-	private static CustomTagDBConfig _DBCONFIG = null;
+	private static CustomTagDBConfig dbConfig = null;
 
 	public static void initConnectionPool(Configuration conf, boolean isMetadata) throws Exception {
 		LOG.info("initConnectionPool");
@@ -70,10 +70,10 @@ public class UserDefinedTagResourceFactory {
 		EnvironmentalConstants.setJdbcDriverPath(jdbcDriverPath);
 		LOG.info("jdbcDriverPath: " + jdbcDriverPath);
 		new DatabaseConfigParser().loadDatabaseConfiguration(xmlFilePath);
-		_DBCONFIG = CustomTagDBConfigManager.getConfig(dbPoolName);
+		dbConfig = CustomTagDBConfigManager.getConfig(dbPoolName);
 
-		DBManager.getDriver(_DBCONFIG.getCustomTagDriverJarPath(),
-				_DBCONFIG.getCustomTagDriverClass());
+		DBManager.getDriver(dbConfig.getCustomTagDriverJarPath(),
+				dbConfig.getCustomTagDriverClass());
 	}
 
 	public static Connection getConnectionWithPoolInit(Configuration conf, boolean isMetadata)
@@ -108,9 +108,9 @@ public class UserDefinedTagResourceFactory {
 	public static Connection getConnectionWithoutPoolInit(Configuration conf)
 			throws Exception {
 		Connection connection = null;
-		connection = DriverManager.getConnection(_DBCONFIG.getCustomTagUrl(),
-				_DBCONFIG.getCustomTagUserName(),
-				_DBCONFIG.getCustomTagPassword());
+		connection = DriverManager.getConnection(dbConfig.getCustomTagUrl(),
+				dbConfig.getCustomTagUserName(),
+				dbConfig.getCustomTagPassword());
 		return connection;
 	}
 

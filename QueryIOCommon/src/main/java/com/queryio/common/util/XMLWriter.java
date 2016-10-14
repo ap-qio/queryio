@@ -117,7 +117,7 @@ public class XMLWriter
 	private boolean bBodyChars = false;
 
 	/** flag to know whether to encode the given string or not. */
-	private static final boolean bEncode = true;
+	private static final boolean B_ENCODE = true;
 
 	/** to pretty indent the XML document */
 	private boolean bPrettyPrint = true;
@@ -305,7 +305,7 @@ public class XMLWriter
 				this.write(key);
 				this.write('=');
 				this.write(QUOTATION);
-				if (bEncode)
+				if (B_ENCODE)
 				{
 					this.write(xmlEncode(value));
 				}
@@ -429,7 +429,7 @@ public class XMLWriter
 					this.write(key);
 					this.write('=');
 					this.write(QUOTATION);
-					if (bEncode)
+					if (B_ENCODE)
 					{
 						this.write(xmlEncode(value));
 					}
@@ -496,7 +496,7 @@ public class XMLWriter
 					this.write(key);
 					this.write('=');
 					this.write(QUOTATION);
-					if (bEncode)
+					if (B_ENCODE)
 					{
 						this.write(xmlEncode(value));
 					}
@@ -556,7 +556,7 @@ public class XMLWriter
 			this.write(key);
 			this.write('=');
 			this.write(QUOTATION);
-			if (bEncode)
+			if (B_ENCODE)
 			{
 				this.write(xmlEncode(value));
 			}
@@ -612,7 +612,7 @@ public class XMLWriter
 			this.write(key);
 			this.write('=');
 			this.write(QUOTATION);
-			if (bEncode)
+			if (B_ENCODE)
 			{
 				this.write(xmlEncode(value));
 			}

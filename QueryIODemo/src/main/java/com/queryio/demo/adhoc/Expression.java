@@ -2,7 +2,6 @@ package com.queryio.demo.adhoc;
 
 
 public class Expression {
-	public static final int i=0;
 	public static final int GT=0;
 	public static final int LT=1;
 	public static final int GTEQ=2;

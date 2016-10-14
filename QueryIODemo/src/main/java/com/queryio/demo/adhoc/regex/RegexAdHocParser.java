@@ -28,8 +28,8 @@ import com.queryio.plugin.dstruct.IDataDefinition;
 public class RegexAdHocParser implements IAdHocParser{
 	
 	private static final Log LOG = LogFactory.getLog(RegexAdHocParser.class);
-	String ADHOC_PARSER_ENCODING = "encoding";
-	String ADHOC_PARSER_REGEX_PATTERN = "regex";
+	final String ADHOC_PARSER_ENCODING = "encoding";
+	final String ADHOC_PARSER_REGEX_PATTERN = "regex";
 	
 	private Map<Integer, String> columns = new TreeMap<Integer, String>();
 	private Map<Integer, Class> columnTypes = new TreeMap<Integer, Class>();

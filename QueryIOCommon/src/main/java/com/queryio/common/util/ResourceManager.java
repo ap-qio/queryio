@@ -24,19 +24,19 @@ import java.util.ResourceBundle;
 
 public class ResourceManager
 {
-	protected static final Locale locale = Locale.getDefault();
+	protected static final Locale LOCALE = Locale.getDefault();
 
-	protected static final String sLanguage = locale.getLanguage();
+	protected static final String SLANGUAGE = LOCALE.getLanguage();
 
-	protected static final String sCountry = locale.getCountry();
+	protected static final String SCOUNTRY = LOCALE.getCountry();
 
-	protected static final String sVariant = locale.getVariant();
+	protected static final String SVARIANT = LOCALE.getVariant();
 
-	private ResourceBundle RESOURCE_BUNDLE = null;
+	private ResourceBundle resourceBundle = null;
 
 	protected ResourceManager(final ResourceBundle resourceBundle)
 	{
-		this.RESOURCE_BUNDLE = resourceBundle;
+		this.resourceBundle = resourceBundle;
 	}
 
 	/*
@@ -46,19 +46,19 @@ public class ResourceManager
 
 	protected static ResourceBundle getBundle(String resource)
 	{
-		int n = (sLanguage.length() > 0) ? 2 : 1;
-		n += (sCountry.length() > 0) ? 1 : 0;
-		n += (sVariant.length() > 0) ? 1 : 0;
+		int n = (SLANGUAGE.length() > 0) ? 2 : 1;
+		n += (SCOUNTRY.length() > 0) ? 1 : 0;
+		n += (SVARIANT.length() > 0) ? 1 : 0;
 
 		final String[] resourceNames = new String[n];
-		final String[] names = { resource, "_" + sLanguage, "_" + sCountry, "__" + sVariant }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		final String[] names = { resource, "_" + SLANGUAGE, "_" + SCOUNTRY, "__" + SVARIANT }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		resourceNames[0] = names[0];
 		for (int i = 1; i < n; i++)
 		{
 			resourceNames[i] = resourceNames[i - 1] + names[i];
 		}
 		boolean bFound = false;
-		ResourceBundle temp_bundle = null;
+		ResourceBundle tempBundle = null;
 		for (int i = n - 1; i >= 0; i--)
 		{
 			resource = resourceNames[i];
@@ -69,15 +69,15 @@ public class ResourceManager
 				// not providing the files with locales appended.
 				if (i == 0)
 				{
-					temp_bundle = ResourceBundle.getBundle(resource, new Locale("",
+					tempBundle = ResourceBundle.getBundle(resource, new Locale("",
 							"", ""));
 				}
 				else
 				{
 					// This call internally adds Locale.getDefault()
-					temp_bundle = ResourceBundle.getBundle(resource);
+					tempBundle = ResourceBundle.getBundle(resource);
 				}
-				if ((temp_bundle != null) && temp_bundle.getKeys().hasMoreElements())
+				if ((tempBundle != null) && tempBundle.getKeys().hasMoreElements())
 				{
 					bFound = true;
 					break;
@@ -92,7 +92,7 @@ public class ResourceManager
 
 		if (bFound)
 		{
-			return temp_bundle;
+			return tempBundle;
 		}
 		System.out.println("Cannot proceed without loading resources.\nTerminating...\n" + resource); //$NON-NLS-1$
 		System.exit(0); // $IGN_Use_System_dot_exit_with_care$
@@ -103,7 +103,7 @@ public class ResourceManager
 	{
 		try
 		{
-			return this.RESOURCE_BUNDLE.getString(key);
+			return this.resourceBundle.getString(key);
 		}
 		catch (final MissingResourceException e)
 		{

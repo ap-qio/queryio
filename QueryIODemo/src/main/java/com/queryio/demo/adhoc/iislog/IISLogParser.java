@@ -27,9 +27,9 @@ import com.queryio.plugin.dstruct.IDataDefinition;
 public class IISLogParser implements IAdHocParser{
 	
 	private static final Log LOG = LogFactory.getLog(IISLogParser.class);
-	String ADHOC_PARSER_ENCODING = "encoding";
-	String ADHOC_PARSER_DELIMITER = "delimiter";
-	String ADHOC_PARSER_ISFIRSTROWHEADER = "isFirstRowHeader";
+	final String ADHOC_PARSER_ENCODING = "encoding";
+	final String ADHOC_PARSER_DELIMITER = "delimiter";
+	final String ADHOC_PARSER_ISFIRSTROWHEADER = "isFirstRowHeader";
 
 	private Map<Integer, String> columns = new TreeMap<Integer, String>();
 	private Map<Integer, Class> columnTypes = new TreeMap<Integer, Class>();

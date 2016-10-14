@@ -14,7 +14,7 @@ import com.queryio.common.util.SecurityHandler;
 
 public class UserInfoUpdater extends HttpServlet {
 	
-	protected static final Logger logger = Logger.getLogger(UserInfoUpdater.class);
+	protected static final Logger LOGGER = Logger.getLogger(UserInfoUpdater.class);
 	
 	private static final long serialVersionUID = 1L;
 
@@ -31,7 +31,7 @@ public class UserInfoUpdater extends HttpServlet {
 	}
 	
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		logger.debug("User information update request received");
+		LOGGER.debug("User information update request received");
 		
 		String userInfo = request.getHeader(QueryIOConstants.USER_INFO_REQUEST_HEADER_KEY);
 		
@@ -43,11 +43,11 @@ public class UserInfoUpdater extends HttpServlet {
 		try{
 			UserInfoContainer.setUserInfo(SecurityHandler.decryptData(userInfo));
 		} catch (Exception e){
-			logger.fatal(e.getMessage(), e);
+			LOGGER.fatal(e.getMessage(), e);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "FTP Server User Information could not be updated");
 			return;
 		}
 		
-		logger.debug("User Information updated");
+		LOGGER.debug("User Information updated");
 	}
 }

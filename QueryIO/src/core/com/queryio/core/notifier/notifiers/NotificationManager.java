@@ -32,7 +32,7 @@ import com.queryio.core.notifier.dstruct.Notifier;
  *
  * @author Exceed Consultancy Services
  */
-public class NotificationManager
+public final class NotificationManager
 {
 	private static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
 

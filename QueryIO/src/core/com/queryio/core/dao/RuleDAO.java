@@ -28,6 +28,8 @@ import com.queryio.core.monitor.dstruct.RuleExpression;
  * 
  * @author Exceed Consultancy Services
  */
+
+@SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
 public class RuleDAO
 {
 	private RuleDAO()

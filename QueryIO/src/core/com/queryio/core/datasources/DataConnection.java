@@ -1,7 +1,7 @@
 package com.queryio.core.datasources;
 
 import java.io.Serializable;
-
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public class DataConnection implements Serializable {
 	/**
 	 * 

@@ -26,7 +26,7 @@ public class Log4JParser
 {
 	private static final Log LOG = LogFactory.getLog(Log4JParser.class);
 	private static final String CONVERSION_CHARS = "cCdFlLmMnprtxX";
-	private static String FILE_NAME = null;
+	private static String fileName = null;
 	private String tokens[];
 	
 	private Map<Integer, String> nativeColumnNames = new TreeMap<Integer, String>();
@@ -36,7 +36,7 @@ public class Log4JParser
 	
 	private static boolean isFirstTime = false;
 	
-	private static String  ENCODING_TYPE="UTF-8";
+	private static String  encodingType="UTF-8";
 	
 	private static int  dataCounter = 0;
 	
@@ -44,14 +44,14 @@ public class Log4JParser
 	
 	private StringBuffer lastMessage = new StringBuffer();
 	
-	static final String NEW_LINE = System.getProperty("line.separator");
+	public static final String NEW_LINE = System.getProperty("line.separator");
 
 	private static LogEntry logEntry = null;
 	
 	SimpleDateFormat dateFormat = null;
 	
-	static String DT_VARCHAR = MetadataConstants.GENERIC_DATA_TYPE_STRING;
-	static String DT_VARCHAR_DEFAULT [] = {"(128)" , "(255)" , "(512)" , "(1024)" , "(1280)" , "(5000)"};
+	public static final String DT_VARCHAR = MetadataConstants.GENERIC_DATA_TYPE_STRING;
+	public static final String DT_VARCHAR_DEFAULT [] = {"(128)" , "(255)" , "(512)" , "(1024)" , "(1280)" , "(5000)"};
 	
 	private JSONArray data = new JSONArray();
 	private JSONObject header = new JSONObject();
@@ -60,8 +60,8 @@ public class Log4JParser
 	@SuppressWarnings("unchecked")
 	public Log4JParser(String pattern ,String name , String encoding, int noOfRecords)
 	{
-		FILE_NAME = name;
-		ENCODING_TYPE = encoding;
+		fileName = name;
+		encodingType = encoding;
 		StringTokenizer st = new StringTokenizer(pattern, "%");
 		tokens = new String[st.countTokens()];
 		logEntry = new LogEntry();
@@ -382,7 +382,7 @@ public class Log4JParser
 		BufferedReader rd = null;
 		String str;
 		try {
-			InputStreamReader in = new InputStreamReader(is , ENCODING_TYPE);
+			InputStreamReader in = new InputStreamReader(is , encodingType);
 
 			rd = new BufferedReader(in);
 			
@@ -400,7 +400,7 @@ public class Log4JParser
 						
 						List<String> rowdata = new ArrayList<String>();
 						
-						rowdata.add(FILE_NAME);
+						rowdata.add(fileName);
 						for (int k=0; k<tokens.length; k++)
 						{
 							rowdata.add(getColValueFromConversionChar(tokens[k].toCharArray()[0]));

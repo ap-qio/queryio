@@ -42,9 +42,6 @@ public class SQLScriptRunner {
 	private boolean stopOnError;
 	private boolean autoCommit;
 
-	//private PrintWriter logWriter = new PrintWriter(System.out);
-	//private PrintWriter errorLogWriter = new PrintWriter(System.err);
-	
 	
 	StringBuilder logWriter = new StringBuilder();
 	StringBuilder errorLogWriter = new StringBuilder();

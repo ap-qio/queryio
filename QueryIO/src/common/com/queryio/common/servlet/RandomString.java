@@ -4,16 +4,16 @@ import java.util.Random;
 
 public class RandomString {
 
-	private static final char[] symbols = new char[62];
-	private static final char[] digits = new char[10];
+	private static final char[] SYMBOLS = new char[62];
+	private static final char[] DIGITS = new char[10];
 
 	static {
 		for (int idx = 0; idx < 10; ++idx)
-			digits[idx] = (char) ('0' + idx);
+			DIGITS[idx] = (char) ('0' + idx);
 		for (int idx = 0; idx < 26; ++idx)
-			symbols[idx] = (char) ('a' + idx);
+			SYMBOLS[idx] = (char) ('a' + idx);
 		for (int idx = 26; idx < 52; ++idx)
-			symbols[idx] = (char) ('A' + idx - 26);
+			SYMBOLS[idx] = (char) ('A' + idx - 26);
 	}
 
 	private final Random random = new Random();
@@ -29,11 +29,11 @@ public class RandomString {
 	public String nextString() {
 		for (int idx = 0; idx < buf.length - 1; ++idx) {
 			if (idx % 2 == 0)
-				buf[idx] = symbols[26 + random.nextInt(26)];
+				buf[idx] = SYMBOLS[26 + random.nextInt(26)];
 			else
-				buf[idx] = symbols[random.nextInt(26)];
+				buf[idx] = SYMBOLS[random.nextInt(26)];
 		}
-		buf[buf.length - 1] = digits[random.nextInt(digits.length)];
+		buf[buf.length - 1] = DIGITS[random.nextInt(DIGITS.length)];
 		return new String(buf);
 	}
 

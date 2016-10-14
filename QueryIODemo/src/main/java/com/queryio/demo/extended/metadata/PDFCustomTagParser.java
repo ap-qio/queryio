@@ -21,7 +21,7 @@ import com.queryio.plugin.extended.metadata.UserDefinedTag;
 public class PDFCustomTagParser implements IUserDefinedParser {
 	List<UserDefinedTag> list = new ArrayList<UserDefinedTag>();
 	String tableName = "";
-	Log LOG = LogFactory.getLog(PDFCustomTagParser.class);
+	private static final Log LOG = LogFactory.getLog(PDFCustomTagParser.class);
 	private static Map<String,TableMetadata> map = new HashMap<String, TableMetadata>();
 	static {		
 		System.out.println("PDFCustomTagParser Class is loaded");

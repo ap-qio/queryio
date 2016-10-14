@@ -47,7 +47,7 @@ public class DBVSNamespaceDiagnosisRequest extends RequestProcessorCore {
 	SummaryTable filesList = new SummaryTable();
 	String nodeId;
 	
-	static String QUERY_START = "SELECT "
+	static String queryStart = "SELECT "
 			+ ColumnConstants.COL_TAG_VALUES_FILEPATH + ","
 			+ ColumnConstants.COL_TAG_VALUES_ACCESSTIME + ","
 			+ ColumnConstants.COL_TAG_VALUES_BLOCKSIZE + ","
@@ -176,7 +176,7 @@ public class DBVSNamespaceDiagnosisRequest extends RequestProcessorCore {
 			FileStatus stat = null;
 			Long blockSize = null;
 			for(int i=0; i<tableNames.size(); i++) {
-				String query = QUERY_START + tableNames.get(i);
+				String query = queryStart + tableNames.get(i);
 				
 				try {
 					stmt = DatabaseFunctions.getStatement(connection);

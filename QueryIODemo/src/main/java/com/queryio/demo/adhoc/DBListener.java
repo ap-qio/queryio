@@ -20,20 +20,20 @@ public class DBListener {
 	private String tableName;
 	private int maxBatchSize;
 	private int currentBatchSize = 0;
-	private PreparedStatement PST = null;
+	private PreparedStatement pst = null;
 	public DBListener(Connection connection, String tableName, int maxBatchSize){
 		this.connection = connection;
 		this.tableName = tableName;
 		this.maxBatchSize = maxBatchSize;
 	}
 	public void close() throws SQLException{
-		if (PST != null){
+		if (pst != null){
 			try{
 				if(currentBatchSize > 0)
-					PST.executeBatch();
+					pst.executeBatch();
 			}finally{
 				try {
-					PST.close();
+					pst.close();
 				} catch (SQLException e) {
 					LOG.fatal("Error Closing PreparedStatement", e);
 				}	
@@ -68,8 +68,8 @@ public class DBListener {
 		
 		LOG.info("query: " + query.toString());
 		
-		if (PST == null)
-			PST = connection.prepareStatement(query.toString());
+		if (pst == null)
+			pst = connection.prepareStatement(query.toString());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -79,17 +79,17 @@ public class DBListener {
 		int i = 0;
 		while(it.hasNext()){
 			Integer index = it.next();
-			PST.setObject(++i, entry.getValues().get(index), getDataType(entry.getColumnTypes().get(index)));
+			pst.setObject(++i, entry.getValues().get(index), getDataType(entry.getColumnTypes().get(index)));
 		}
 		
-		PST.addBatch();
+		pst.addBatch();
 		currentBatchSize++;
 		
 		if (currentBatchSize % maxBatchSize == 0)
 		{
 			try
 			{
-				PST.executeBatch();
+				pst.executeBatch();
 			}
 			catch (Exception e)
 			{
@@ -99,7 +99,7 @@ public class DBListener {
 					throw ((BatchUpdateException) e).getNextException();
 				}
 			}
-			PST.clearBatch();
+			pst.clearBatch();
 			currentBatchSize = 0;
 		}
 	}

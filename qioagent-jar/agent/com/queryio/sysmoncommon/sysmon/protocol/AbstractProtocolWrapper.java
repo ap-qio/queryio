@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.queryio.common.IOSProtocolConstants;
-
-import com.queryio.sysmoncommon.sysmon.dstruct.LogInfo;
-
 import jregex.Pattern;
 import jregex.Replacer;
+
+import com.queryio.common.IOSProtocolConstants;
+import com.queryio.sysmoncommon.sysmon.dstruct.LogInfo;
 
 public abstract class AbstractProtocolWrapper
 {
@@ -315,65 +314,5 @@ public abstract class AbstractProtocolWrapper
 	{
 		return lineReader;
 	}
-
-	// this.LOGFILECOMMAND + lastLine + " " +
-	/*
-	// This method does not fire "tail" command again to check if file was reset etc. It assumes that the
-	// file will not be deleted and lines will be added to it in append mode.
-	public LogInfo searchInLogFile(String command, String [] searchArray, long lastLine) throws Exception
-	{
-		//long totalLines = lastLine;
-		String sshWait = System.getProperty("ssh.wait", "500");
-		long lWait = 500;
-		try
-		{
-			lWait = Long.parseLong(sshWait);
-		}
-		catch (Exception exx)
-		{
-			
-		}
-		//AppLogger.getLogger().fatal(command);
-		final LogInfo logInfo = new LogInfo();
-		send(command);
-		String line = readLine();
-		while (line != null)
-		{
-			if (!logInfo.isFound())
-			{
-				for (int i = 0; i < searchArray.length; i++) 
-				{
-					if(line.indexOf(searchArray[i]) != -1)
-					{
-						logInfo.setFound(true);
-						logInfo.setLineNum(lastLine);
-						logInfo.setLine(line);
-						logInfo.setSearchString(searchArray[i]);
-						break;
-					}
-				}
-				lastLine++;
-			}
-			line = readLine();
-			if (line == null)
-			{
-				try
-				{
-					Thread.sleep(lWait);
-				}
-				catch (InterruptedException ie)
-				{
-					// do nothing
-				}
-				line = readLine();
-				//AppLogger.getLogger().fatal("Tried once more, line count so far: " + totalLines);
-			}
-			//totalLines ++;
-		}
-		logInfo.setLastLineRead(lastLine);
-		//AppLogger.getLogger().fatal("Last line: " + totalLines);
-		return logInfo;
-	}
-	*/
 
 }

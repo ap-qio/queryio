@@ -46,7 +46,7 @@ import com.queryio.common.util.ResourceManager;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class ExportManager
+public final class ExportManager
 {
 	public static final transient ResourceManager RM = CommonResourceManager.loadResources("Common_Exporter"); //$NON-NLS-1$
 

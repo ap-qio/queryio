@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import com.queryio.common.util.SecurityHandler;
 
 public class UserInfoContainer {
-	protected static final Logger logger = Logger.getLogger(UserInfoContainer.class);
+	protected static final Logger LOGGER = Logger.getLogger(UserInfoContainer.class);
 
 	private static HashMap<String, String> userInfoMap = new HashMap<String, String>();
 	private static HashMap<String, String> userGroupMap = new HashMap<String, String>();
@@ -21,10 +21,10 @@ public class UserInfoContainer {
 	}
 	
 	public static void setUserInfo(String userInfo) {
-		logger.debug("Updating user info");
+		LOGGER.debug("Updating user info");
 		
 		if (userInfo == null) {
-			logger.debug("User information is not available");
+			LOGGER.debug("User information is not available");
 		}
 
 		if (userInfo != null) {
@@ -43,7 +43,7 @@ public class UserInfoContainer {
 				users.put(userName, password);
 				groups.put(userName, group);
 
-				logger.debug("USER: " + userName + " : " + password + " : " + group);
+				LOGGER.debug("USER: " + userName + " : " + password + " : " + group);
 			}
 			
 			synchronized(userInfoMap){

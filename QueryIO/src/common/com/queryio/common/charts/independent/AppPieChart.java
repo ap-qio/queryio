@@ -33,7 +33,7 @@ public class AppPieChart extends AppChart
 	 */
 	private static final int CAPACITY = 1;
 	/* Since pie charts have only one cpacity, the index to refer it is 0. */
-	private static final int YAxisIndex = 0;
+	private static final int Y_AXIS_INDEX = 0;
 	private static final int ZERO = 0;
 	private YAxisSeries[] yAxisSeries = null;
 
@@ -114,7 +114,7 @@ public class AppPieChart extends AppChart
 	{
 		if ((index >= 0) && (index < this.yAxisSeries.length))
 		{
-			this.yAxisSeries[index].setValue(YAxisIndex, Math.max(ZERO, value));
+			this.yAxisSeries[index].setValue(Y_AXIS_INDEX, Math.max(ZERO, value));
 		}
 	}
 
@@ -276,7 +276,7 @@ public class AppPieChart extends AppChart
 		{
 			if (this.shouldDrawSeries(i))
 			{
-				totalValue += this.yAxisSeries[i].getValue(YAxisIndex);
+				totalValue += this.yAxisSeries[i].getValue(Y_AXIS_INDEX);
 			}
 		}
 
@@ -284,9 +284,9 @@ public class AppPieChart extends AppChart
 		{
 			if (this.shouldDrawSeries(i))
 			{
-				this.arcPercentages[i] = Math.round(this.getPercentage(this.yAxisSeries[i].getValue(YAxisIndex),
+				this.arcPercentages[i] = Math.round(this.getPercentage(this.yAxisSeries[i].getValue(Y_AXIS_INDEX),
 						totalValue, 100));
-				this.arcAngles[i] = this.getPercentage(this.yAxisSeries[i].getValue(YAxisIndex), totalValue, 360);
+				this.arcAngles[i] = this.getPercentage(this.yAxisSeries[i].getValue(Y_AXIS_INDEX), totalValue, 360);
 			}
 		}
 	}

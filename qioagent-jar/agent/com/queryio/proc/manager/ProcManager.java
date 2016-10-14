@@ -11,8 +11,10 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 
 import org.apache.hadoop.conf.Configuration;
+
 import com.queryio.common.QueryIOConstants;
 import com.queryio.common.util.AppLogger;
+import com.queryio.common.util.StartupParameters;
 import com.queryio.common.util.StreamPumper;
 
 public class ProcManager 

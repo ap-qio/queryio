@@ -11,23 +11,23 @@ import com.amazon.s3.Utils;
 
 public class S3StressTest {
 
-	static final String awsAccessKeyId = "AKIAIJN3NGFEZZ2SMBHQ";
-	static final String awsSecretAccessKey = "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";
+	public static final String AWSACCESSKEYID = "AKIAIJN3NGFEZZ2SMBHQ";
+	public static final String AWSSECRETACCESSKEY = "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";
 	
-	static final String bucketName = awsAccessKeyId.toLowerCase() + "-test-bucket3";
+	public static final String BUCKET_NAME = AWSACCESSKEYID.toLowerCase() + "-test-bucket3";
 	
-	static final int UnspecifiedMaxKeys = -1;
+	public static final int UNSPECIFIEDMAXKEYS = -1;
 	
-    static int assertionCount = 0;
+	static int assertionCount = 0;
 	
     static AWSAuthConnection conn;
     
-	public static int THREAD_COUNT = 1;
-	public static int OBJECT_SIZE = 1024 * 10; // 10 KB
-	public static int WAIT_INTERVAL_BETWEEN_EACH_OPERATION_MS = 1000;
+    public static final int THREAD_COUNT = 1;
+	public static final int OBJECT_SIZE = 1024 * 10; // 10 KB
+	public static final int WAIT_INTERVAL_BETWEEN_EACH_OPERATION_MS = 1000;
 	
-	private static boolean RUN_DELETE = false;
-	private static boolean RUN_GET = true;
+	public static final boolean RUN_DELETE = false;
+	public static final boolean RUN_GET = true;
 	
 	protected static final Random SEEDED_RANDOM = new Random(19873482373L);
 	
@@ -93,7 +93,7 @@ System.out.println("Nishant Jain");
 	
 	
 	private static void init(CallingFormat format, boolean secure, String server) throws Exception{		 
-    	conn = new AWSAuthConnection(awsAccessKeyId, awsSecretAccessKey, secure, server, format);        
+    	conn = new AWSAuthConnection(AWSACCESSKEYID, AWSSECRETACCESSKEY, secure, server, format);        
 	}
 	
 //	private static void verifyBucketResponseParameters( ListBucketResponse listBucketResponse,

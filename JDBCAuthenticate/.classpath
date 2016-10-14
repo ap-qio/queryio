@@ -18,10 +18,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/catalina/6.0.36/catalina-6.0.36.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/servlet-api/6.0.36/servlet-api-6.0.36.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/juli/6.0.36/juli-6.0.36.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/annotations-api/6.0.36/annotations-api-6.0.36.jar"/>
 	<classpathentry kind="lib" path="lib/catalina.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>

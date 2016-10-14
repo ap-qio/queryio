@@ -1,9 +1,11 @@
 package com.queryio.disk.manager;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,9 +13,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.queryio.common.util.AppLogger;
-
 import com.queryio.common.DiskInfo;
+import com.queryio.common.util.AppLogger;
 import com.queryio.sysmoncommon.engine.SystemMonitor;
 
 public class DiskManager 
@@ -495,18 +496,8 @@ public class DiskManager
 		for(Object str : getPhysicalDiskNamesMacOS()) {
 			System.out.println(str);
 		}
-//		String disk = "/dev/sdb";
-//		String volume = "/";
-		
+
 		HashMap physicalDiskMap = DiskManager.getPhysicalDiskMap();
-		
-//		HashMap physicalDiskMap = new LinkedHashMap();
-//		
-//		physicalDiskMap.put("/dev/sdb2", "/des/vd/s/");
-//		physicalDiskMap.put("/dev/sda2", "/dec/");
-//		physicalDiskMap.put("/dev/sdb1", "/dess/");
-//		physicalDiskMap.put("/dev/sdb3", "/desaa/");
-//		physicalDiskMap.put("/dev/sda1", "/");
 		
 		Set set = physicalDiskMap.entrySet(); 
 		Iterator i = set.iterator(); 
@@ -518,7 +509,6 @@ public class DiskManager
 			System.out.println(me.getValue()); 
 		} 
 		
-//		System.out.println(disk + " : " + volume + " : " + validateVolumeDiskMapping(physicalDiskMap, disk, volume));
 		System.out.println("System : "+System.getProperty("os.name").toLowerCase());
 		System.out.println(executeCommand("pwd"));
 	}

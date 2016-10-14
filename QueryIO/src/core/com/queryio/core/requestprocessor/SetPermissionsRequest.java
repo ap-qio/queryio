@@ -29,12 +29,12 @@ import com.queryio.core.dao.UserDAO;
 import com.queryio.core.utils.QIODFSUtils;
 
 public class SetPermissionsRequest extends RequestProcessorCore{
-	private short permissions;
+	private int permissions;
 	private String owner;
 	private String group;
 	private boolean recursive;
 	private String nodeId;
-	public SetPermissionsRequest(String nodeId, String user, Path path, String owner, String group, short permissions, boolean recursive) {
+	public SetPermissionsRequest(String nodeId, String user, Path path, String owner, String group, int permissions, boolean recursive) {
 		super(user, null, path);
 		this.nodeId = nodeId;
 		this.owner = owner;
@@ -117,7 +117,7 @@ public class SetPermissionsRequest extends RequestProcessorCore{
 		}
 	}
 
-	private void setPermissions(FileSystem dfs, Path path, String owner, String group, short permissions) throws IOException {
+	private void setPermissions(FileSystem dfs, Path path, String owner, String group, int permissions) throws IOException {
 		dfs.setOwner(path, owner, group);
 		
 		FsPermission fsP = parsePermissions(permissions);
@@ -133,7 +133,7 @@ public class SetPermissionsRequest extends RequestProcessorCore{
 		}
 	}
 	
-	private FsPermission parsePermissions(short permissions)
+	private FsPermission parsePermissions(int permissions)
 	{
 		FsAction u = getAction(permissions / 100);
 		int t = permissions % 100;

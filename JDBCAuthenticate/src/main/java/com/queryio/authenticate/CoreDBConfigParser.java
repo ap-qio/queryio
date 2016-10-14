@@ -29,11 +29,11 @@ public class CoreDBConfigParser extends DefaultHandler implements ErrorHandler
 	 */
 	private DetailBean dbBean;
 	
-	private transient String TAG_DRIVER;
-	private transient String TAG_URL;
-	private transient String TAG_USERNAME;
-	private transient String TAG_PASSWORD;
-	private transient String TAG_DRIVER_JAR;
+	private transient String tagDriver;
+	private transient String tagUrl;
+	private transient String tagUsername;
+	private transient String tagPassword;
+	private transient String tagDriverJar;
 	private boolean isCustomTagDB;
 	private transient String currentVal = null;
 
@@ -91,19 +91,19 @@ public class CoreDBConfigParser extends DefaultHandler implements ErrorHandler
 	public void endElement(final String namespaceURI, final String localName, final String qualifiedName)
 	{
 		if(!isCustomTagDB){
-			if (this.TAG_DRIVER.equals(qualifiedName))
+			if (this.tagDriver.equals(qualifiedName))
 			{
 				dbBean.setDriverName(this.currentVal);
 			}
-			else if (this.TAG_URL.equals(qualifiedName))
+			else if (this.tagUrl.equals(qualifiedName))
 			{			
 				dbBean.setUrl(this.currentVal);
 			}
-			else if (this.TAG_USERNAME.equals(qualifiedName))
+			else if (this.tagUsername.equals(qualifiedName))
 			{
 				dbBean.setUserName(this.currentVal);
 			}
-			else if (this.TAG_PASSWORD.equals(qualifiedName))
+			else if (this.tagPassword.equals(qualifiedName))
 			{
 				try {
 					String encryptedPassword = this.currentVal;
@@ -114,7 +114,7 @@ public class CoreDBConfigParser extends DefaultHandler implements ErrorHandler
 					e.printStackTrace();
 				}
 			}
-			else if (this.TAG_DRIVER_JAR.equals(qualifiedName))
+			else if (this.tagDriverJar.equals(qualifiedName))
 			{
 				dbBean.setDriverJar(this.currentVal);
 			}
@@ -127,10 +127,10 @@ public class CoreDBConfigParser extends DefaultHandler implements ErrorHandler
 	 */
 	private void allocateTags()
 	{
-		this.TAG_DRIVER = "driver";
-		this.TAG_URL = "url";
-		this.TAG_USERNAME = "userName";
-		this.TAG_PASSWORD = "password";
-		this.TAG_DRIVER_JAR = "driverJar";
+		this.tagDriver = "driver";
+		this.tagUrl = "url";
+		this.tagUsername = "userName";
+		this.tagPassword = "password";
+		this.tagDriverJar = "driverJar";
 	}
 }

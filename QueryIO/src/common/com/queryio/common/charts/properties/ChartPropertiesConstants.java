@@ -20,7 +20,7 @@ package com.queryio.common.charts.properties;
  * 
  * @author Exceed Consultancy Services
  */
-class ChartPropertiesConstants
+public final class ChartPropertiesConstants
 {
 	private static int i = 0;
 

@@ -31,18 +31,18 @@ import com.queryio.common.util.SecurityHandler;
 public class CustomEncryptionHandler {
 	private static final Log LOG = LogFactory.getLog(CustomEncryptionHandler.class);
 	
-	private static byte[] INIT_VECTOR = new byte[] { (byte) 0x8E, 0x12, 0x39,
+	private final static byte[] INIT_VECTOR = new byte[] { (byte) 0x8E, 0x12, 0x39,
 			(byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A, (byte) 0x8E, 0x12, 0x39,
 			(byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A };
 
-	private static byte[] SALT = null;
+	private static byte[] salt = null;
 
-	private static int ITERATION_COUNT = 65536;
-	private static int KEY_LEN = 256;
+	private static final int ITERATION_COUNT = 65536;
+	private static final int KEY_LEN = 256;
 
-	private static String SECRETKEY_ALGO = "PBKDF2WithHmacSHA1";
-	private static String SECRETKEYSPEC_ALGO = "AES";
-	private static String TRANSFORMATION = "AES/CBC/PKCS5Padding";
+	private static final String SECRETKEY_ALGO = "PBKDF2WithHmacSHA1";
+	private static final String SECRETKEYSPEC_ALGO = "AES";
+	private static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
 
 	public static final int COMPRESSION_TYPE_NONE = 0;
 	public static final int COMPRESSION_TYPE_GZIP = 1;
@@ -60,7 +60,7 @@ public class CustomEncryptionHandler {
 
 	static {
 		try{
-			SALT = "3�8O��*".getBytes("UTF-8"); // Created using
+			salt = "3�8O��*".getBytes("UTF-8"); // Created using
 			// SecureRandom.getSeed(8);
 		} catch(Exception e){
 			throw new Error(e);
@@ -122,7 +122,7 @@ public class CustomEncryptionHandler {
 			if( ! secretKeyMap.containsKey(encryptionKey)){
 				SecretKeyFactory factory = SecretKeyFactory
 						.getInstance(SECRETKEY_ALGO);
-				KeySpec spec = new PBEKeySpec(encryptionKey.toCharArray(), SALT, ITERATION_COUNT,
+				KeySpec spec = new PBEKeySpec(encryptionKey.toCharArray(), salt, ITERATION_COUNT,
 						KEY_LEN);
 				SecretKey tmp = factory.generateSecret(spec);
 				SecretKey secret = new SecretKeySpec(tmp.getEncoded(), SECRETKEYSPEC_ALGO);

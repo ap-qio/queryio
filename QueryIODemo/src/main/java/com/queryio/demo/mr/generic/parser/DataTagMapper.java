@@ -44,7 +44,7 @@ import com.queryio.userdefinedtags.common.UserDefinedTagUtils;
 public class DataTagMapper extends Mapper<List<FileStatus>, List<InputStream>, FileStatus, TagEntry>{
 	private static final Log LOG = LogFactory.getLog(DataTagMapper.class);
 	
-	private static String TABLE_HDFS_METADATA = "HDFS_METADATA";
+	private static final String TABLE_HDFS_METADATA = "HDFS_METADATA";
 
 	public static final String COL_COMPRESSION_TYPE = "COMPRESSION_TYPE";
 	public static final String COL_ENCRYPTION_TYPE = "ENCRYPTION_TYPE";
@@ -56,12 +56,12 @@ public class DataTagMapper extends Mapper<List<FileStatus>, List<InputStream>, F
 	public static final String NONE = "NONE";
 	public static final String AES256 = "AES256";
 	
-	private static String QUERY_START = "SELECT "
+	private static final String QUERY_START = "SELECT "
 			+ COL_COMPRESSION_TYPE + ","
 			+ COL_ENCRYPTION_TYPE + ","
 			+ COL_TAG_VALUES_BLOCKS
 			+ " FROM ";
-	private static String QUERY_END = " WHERE FILEPATH=?";
+	private static final String QUERY_END = " WHERE FILEPATH=?";
 	
 	@Override 
 	public void map(List<FileStatus> fileStatuses, List<InputStream> streams, final Context context)
@@ -369,7 +369,7 @@ public class DataTagMapper extends Mapper<List<FileStatus>, List<InputStream>, F
 		PreparedStatement stmt = null;
 		try {
 			
-			StringBuffer QUERY = new StringBuffer();
+			StringBuffer query = new StringBuffer();
 			if (!tagEntryExists) {
 				
 				StringBuffer colNmStr = new StringBuffer();
@@ -382,39 +382,39 @@ public class DataTagMapper extends Mapper<List<FileStatus>, List<InputStream>, F
 					colNmStr.append(colNames.get(i));
 					valueStr.append("?");
 				}
-				QUERY.append("INSERT INTO ");
-				QUERY.append(tableName).append(" (");
-				QUERY.append(colNmStr);
+				query.append("INSERT INTO ");
+				query.append(tableName).append(" (");
+				query.append(colNmStr);
 //				if(colNames.size()>0) {
 //					QUERY.append(", ");
 //				}
 //				QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);// UserDefinedTagUtils.DEFAULT_TAG_FILEPATH
-				QUERY.append(") VALUES (");
-				QUERY.append(valueStr);
+				query.append(") VALUES (");
+				query.append(valueStr);
 //				if (colNames.size() != 0) {
 //					QUERY.append(", ");
 //				}
-				QUERY.append(")");
+				query.append(")");
 				
 			} else {
-				QUERY.append("UPDATE ");
-				QUERY.append(tableName);
-				QUERY.append(" SET ");
+				query.append("UPDATE ");
+				query.append(tableName);
+				query.append(" SET ");
 				for (int i = 0; i < colNames.size(); i++) {
 					if (i != 0)
-						QUERY.append(", ");
-					QUERY.append(colNames.get(i));
-					QUERY.append(" = ?");
+						query.append(", ");
+					query.append(colNames.get(i));
+					query.append(" = ?");
 				}
-				QUERY.append(" WHERE ");
-				QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-				QUERY.append(" =? ");
+				query.append(" WHERE ");
+				query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+				query.append(" =? ");
 			
 			}
-			LOG.info("query : " + QUERY);
+			LOG.info("query : " + query);
 			LOG.info("FilePath : " + filePath);
 			stmt = DatabaseFunctions.getPreparedStatement(connection,
-					QUERY.toString());
+					query.toString());
 			
 			int i = 1;
 			for (Object tagValueObj : tagValueObjs) {
@@ -513,16 +513,16 @@ public class DataTagMapper extends Mapper<List<FileStatus>, List<InputStream>, F
 	
 	private static void deleteFromTable(Connection connection,
 			String tableName, String filePath) throws SQLException {
-		StringBuffer QUERY = new StringBuffer();
-		QUERY.append("DELETE FROM ");
-		QUERY.append(tableName);
-		QUERY.append(" WHERE ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		QUERY.append(" LIKE '" + filePath + "%' ");
+		StringBuffer query = new StringBuffer();
+		query.append("DELETE FROM ");
+		query.append(tableName);
+		query.append(" WHERE ");
+		query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+		query.append(" LIKE '" + filePath + "%' ");
 		Statement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getStatement(connection);
-			stmt.execute(QUERY.toString());
+			stmt.execute(query.toString());
 		} catch(Exception e){
 			AppLogger.getLogger().fatal("Exception : " , e);
 		}finally {
@@ -542,17 +542,17 @@ public class DataTagMapper extends Mapper<List<FileStatus>, List<InputStream>, F
 	
 	private static boolean tagEntryExists(Connection connection,
 			String tableName, String filePath) throws SQLException {
-		StringBuffer QUERY = new StringBuffer();
-		QUERY.append("SELECT " + TableMetadata.DEFAULT_TAG_FILEPATH + " FROM ");
-		QUERY.append(tableName);
-		QUERY.append(" WHERE ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		QUERY.append(" ='"+filePath+"' ");
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT " + TableMetadata.DEFAULT_TAG_FILEPATH + " FROM ");
+		query.append(tableName);
+		query.append(" WHERE ");
+		query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+		query.append(" ='"+filePath+"' ");
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			stmt = DatabaseFunctions.getStatement(connection);
-			rs = stmt.executeQuery(QUERY.toString());
+			rs = stmt.executeQuery(query.toString());
 			if (rs.next())
 				return true;
 		} finally {

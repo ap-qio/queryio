@@ -500,7 +500,7 @@ public class AWSAuthConnection {
     /**
      * Make a new HttpURLConnection.
      * @param method The HTTP method to use (GET, PUT, DELETE)
-     * @param bucketName The bucket name this request affects
+     * @param BUCKET_NAME The bucket name this request affects
      * @param key The key this request is for
      * @param pathArgs parameters if any to be sent along this request
      * @param headers A Map of String to List of Strings representing the http

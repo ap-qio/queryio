@@ -61,8 +61,8 @@ public class TagParserFileUpload extends HttpServlet {
 			String name = "";
 			String desc = "";
 			String jar = "";
-			String class_name = "";
-			String file_type = "";
+			String className = "";
+			String fileType = "";
 			String interval = "";
 			String scheduleTime = "";
 			String nameNode = "";
@@ -87,10 +87,10 @@ public class TagParserFileUpload extends HttpServlet {
 						desc = getValue(item);
 					}
 					else if(item.getFieldName().equals("class_name")){
-						class_name = getValue(item);
+						className = getValue(item);
 					}
 					else if(item.getFieldName().equals("file_type")){
-						file_type = getValue(item);
+						fileType = getValue(item);
 					}
 					else if(item.getFieldName().equals("labelIngest")){
 						isIngest = Boolean.parseBoolean(getValue(item));
@@ -236,7 +236,7 @@ public class TagParserFileUpload extends HttpServlet {
 			
 			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("jarFile: " + jarFile);
 			if(jarFile != null && !jarFile.isEmpty()){
-				TagParserDBSchemaUpdator dbUpdator = new TagParserDBSchemaUpdator(jarFile, class_name, nameNode, file_type);
+				TagParserDBSchemaUpdator dbUpdator = new TagParserDBSchemaUpdator(jarFile, className, nameNode, fileType);
 				QueryIOResponse resp = dbUpdator.parse();
 				if(!resp.isSuccessful()){
 					Connection connection = null;
@@ -273,7 +273,7 @@ public class TagParserFileUpload extends HttpServlet {
 									jarName = EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE + "/"+ jarName;
 								}
 								
-								TagParserDBSchemaUpdator dbUpdator = new TagParserDBSchemaUpdator(jarName, class_name, nameNode, file_type);
+								TagParserDBSchemaUpdator dbUpdator = new TagParserDBSchemaUpdator(jarName, className, nameNode, fileType);
 								QueryIOResponse resp = dbUpdator.parse();
 								if(resp.isSuccessful()){								
 									break;
@@ -329,12 +329,12 @@ public class TagParserFileUpload extends HttpServlet {
 				}
 			}
 			
-			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Data - name: " + name + " desc: " + desc + " jar: " + jar + " class_name: " + class_name + " file_type: " + file_type + " isIngest: " + isIngest + " isActive: " + isActive + " interval: " + interval + " scheduleTime: " + scheduleTime+" nameNode: "+nameNode + " resourceManager: " + resourceManager + " extraJarsString: " + extraJarsString.toString());
+			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Data - name: " + name + " desc: " + desc + " jar: " + jar + " class_name: " + className + " file_type: " + fileType + " isIngest: " + isIngest + " isActive: " + isActive + " interval: " + interval + " scheduleTime: " + scheduleTime+" nameNode: "+nameNode + " resourceManager: " + resourceManager + " extraJarsString: " + extraJarsString.toString());
 			
 			if(isIngest)
-				RemoteManager.insertOnIngestTagParserConfig(name, desc, extraJarsString.toString(), file_type, class_name, nameNode, isActive);
+				RemoteManager.insertOnIngestTagParserConfig(name, desc, extraJarsString.toString(), fileType, className, nameNode, isActive);
 			else
-				RemoteManager.insertPostIngestTagParserConfig(name, desc, extraJarsString.toString(), file_type, class_name, nameNode, resourceManager);
+				RemoteManager.insertPostIngestTagParserConfig(name, desc, extraJarsString.toString(), fileType, className, nameNode, resourceManager);
 			
 			if(!success){
 				throw new Exception("Upload failed.");

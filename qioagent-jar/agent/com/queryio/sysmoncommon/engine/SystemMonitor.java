@@ -458,8 +458,6 @@ public class SystemMonitor
 				Thread.sleep(1000);
 				diff = (System.currentTimeMillis() - start)/1000;
 				
-//				if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Time remaining for monitor thread " + Thread.currentThread().getName() + " is " + (15-diff+1) + " seconds.");
-				
 				if( ! monitorThread.isAlive()) {
 					networkInfo = monitor.getNetworkInfo();
 					diskInfo = monitor.getPhysicalDiskInfo();
@@ -525,7 +523,6 @@ public class SystemMonitor
 			DataParserFactory.initialize("/Users/aos/QueryIO/QueryIOPackage/QueryIOAgent/webapps/agentqueryio");
 			AppLogger.setLogger(Logger.getLogger("Test"));
 			BasicConfigurator.configure();
-//			startWindowsMonitoring(args[0], "administrator", "admin");
 			startMonitoring();
 			SystemStatistics s = getSystemStatistics();
 			System.out.println("ram free   : "  + s.getRamFree());

@@ -12,20 +12,20 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.queryio.common.HadoopConstants;
+import com.queryio.common.EnvironmentalConstants;
 import com.queryio.common.database.ColumnConstants;
 import com.queryio.common.database.DatabaseFunctions;
 import com.queryio.common.database.QueryConstants;
 
 public class BigQueryDAO {
-	protected static final Logger logger = Logger.getLogger(BigQueryDAO.class);
+	protected static final Logger LOGGER = Logger.getLogger(BigQueryDAO.class);
 	
 	public static void deleteBigQuery(final Connection connection, String id, String user) throws SQLException{
 		PreparedStatement stmt = null;
 		try{
 			stmt =  DatabaseFunctions.getPreparedStatement(connection, QueryConstants.DELETE_BIG_QUERY);
 			stmt.setString(1, id);
-			stmt.setString(2, HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
+			stmt.setString(2, EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
 			stmt.setString(3, user);
 			
 			DatabaseFunctions.executeUpdateStatement(stmt);
@@ -33,7 +33,7 @@ public class BigQueryDAO {
 			try {
 				DatabaseFunctions.closeStatement(stmt);
 			} catch (SQLException e) {
-				logger.fatal(e.getMessage(), e);
+				LOGGER.fatal(e.getMessage(), e);
 			}
 		}
 	}
@@ -45,7 +45,7 @@ public class BigQueryDAO {
 			stmt.setString(1, id);
 			stmt.setString(2, properties.toJSONString());
 			stmt.setString(3, description);
-			stmt.setString(4, HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
+			stmt.setString(4, EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
 			stmt.setString(5, dbName);
 			stmt.setString(6, user);
 			
@@ -54,7 +54,7 @@ public class BigQueryDAO {
 			try {
 				DatabaseFunctions.closeStatement(stmt);
 			} catch (SQLException e) {
-				logger.fatal(e.getMessage(), e);
+				LOGGER.fatal(e.getMessage(), e);
 			}
 		}
 	}
@@ -67,7 +67,7 @@ public class BigQueryDAO {
 		ResultSet rs = null;
 		try {
 			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_ALL_BIGQUERIES);
-			stmt.setString(1, HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
+			stmt.setString(1, EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
 			
 			rs = DatabaseFunctions.getQueryResultsForPreparedStatement(stmt);
 
@@ -86,7 +86,7 @@ public class BigQueryDAO {
 					try {
 						if(is!=null)	is.close();
 					} catch (Exception e) {
-						logger.fatal(e.getMessage(), e);
+						LOGGER.fatal(e.getMessage(), e);
 					}
 				}
 			}
@@ -94,12 +94,12 @@ public class BigQueryDAO {
 			try {
 				DatabaseFunctions.closeResultSet(rs);
 			} catch (SQLException e) {
-				logger.fatal(e.getMessage(), e);
+				LOGGER.fatal(e.getMessage(), e);
 			}
 			try {
 				DatabaseFunctions.closeStatement(stmt);
 			} catch (SQLException e) {
-				logger.fatal(e.getMessage(), e);
+				LOGGER.fatal(e.getMessage(), e);
 			}
 		}
 		JSONObject queryList = new JSONObject();
@@ -117,7 +117,7 @@ public class BigQueryDAO {
 		try {
 			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_BIGQUERIES);
 			stmt.setString(1, searchQueryId);
-			stmt.setString(2, HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
+			stmt.setString(2, EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
 			stmt.setString(3, user);
 			
 			rs = DatabaseFunctions.getQueryResultsForPreparedStatement(stmt);
@@ -143,7 +143,7 @@ public class BigQueryDAO {
 					try {
 						if(is!=null)	is.close();
 					} catch (Exception e) {
-						logger.fatal(e.getMessage(), e);
+						LOGGER.fatal(e.getMessage(), e);
 					}
 				}
 			}
@@ -151,12 +151,12 @@ public class BigQueryDAO {
 			try {
 				DatabaseFunctions.closeResultSet(rs);
 			} catch (SQLException e) {
-				logger.fatal(e.getMessage(), e);
+				LOGGER.fatal(e.getMessage(), e);
 			}
 			try {
 				DatabaseFunctions.closeStatement(stmt);
 			} catch (SQLException e) {
-				logger.fatal(e.getMessage(), e);
+				LOGGER.fatal(e.getMessage(), e);
 			}
 		}
 		JSONObject queryList = new JSONObject();

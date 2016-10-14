@@ -903,7 +903,7 @@ public class BigQueryDAO {
 			writer.write(':');
 			writer.write('[');
 			boolean addComma = false;
-			ArrayList<String> DataTypeList = new ArrayList<String>();
+			ArrayList<String> dataTypeList = new ArrayList<String>();
 			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 				if ((isHive) && ColumnConstants.COL_TAG_VALUES_FILEPATH.equalsIgnoreCase(rsmd.getColumnName(i)))
 					continue;
@@ -913,7 +913,7 @@ public class BigQueryDAO {
 					writer.write(',');
 				if (QueryIOConstants.HIVE_FILEPATH_COLUMN_NAME.equalsIgnoreCase(rsmd.getColumnName(i))) {
 					columnList.put(i, ColumnConstants.COL_TAG_VALUES_FILEPATH.toLowerCase());
-					DataTypeList.add(rsmd.getColumnTypeName(i));
+					dataTypeList.add(rsmd.getColumnTypeName(i));
 
 					writer.write('"');
 					writer.write(ColumnConstants.COL_TAG_VALUES_FILEPATH.toLowerCase());
@@ -932,7 +932,7 @@ public class BigQueryDAO {
 															// 6=hivecsvtable1.diskwrite,
 															// 7=hivecsvtable1.netread,
 															// 8=hivecsvtable1.netwrite}
-					DataTypeList.add(rsmd.getColumnTypeName(i));
+					dataTypeList.add(rsmd.getColumnTypeName(i));
 					writer.write('"');
 					writer.write(columnNameTrimmed);
 					writer.write('"');
@@ -1011,8 +1011,8 @@ public class BigQueryDAO {
 					// value = rs.getString(colIndex);
 					// }
 					if (value == null || value.equalsIgnoreCase("null") || value.isEmpty() || value.length() == 0) {
-						if (DataTypeList.get(colIndex - 1).contains("int")
-								|| DataTypeList.get(colIndex - 1).contains("INT"))
+						if (dataTypeList.get(colIndex - 1).contains("int")
+								|| dataTypeList.get(colIndex - 1).contains("INT"))
 							value = "0";
 					}
 					if (k == index) {

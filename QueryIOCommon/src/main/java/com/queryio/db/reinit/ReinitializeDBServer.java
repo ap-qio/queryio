@@ -13,7 +13,7 @@ import com.queryio.common.database.DatabaseManager;
 
 public class ReinitializeDBServer extends HttpServlet
 {
-	protected static final Logger logger = Logger.getLogger(ReinitializeDBServer.class);
+	protected static final Logger LOGGER = Logger.getLogger(ReinitializeDBServer.class);
 	/**
 	 * 
 	 */
@@ -25,7 +25,7 @@ public class ReinitializeDBServer extends HttpServlet
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 	{
-		logger.debug("Found DB re-initailize request.");
+		LOGGER.debug("Found DB re-initailize request.");
 		String isCustomTagDB =  req.getParameter("isCustomTagDB");
 		try{
 			String currentQueryIOConnection = EnvironmentalConstants.getQueryIODatabasePoolName();
@@ -42,7 +42,7 @@ public class ReinitializeDBServer extends HttpServlet
 		}
 		catch (Exception e) 
 		{
-			logger.fatal(e.getMessage(),e);
+			LOGGER.fatal(e.getMessage(),e);
 		}
 	}
 	

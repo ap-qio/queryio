@@ -140,7 +140,6 @@
 	<classpathentry kind="var" path="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar"/>
 	<classpathentry kind="src" path="/QueryIOPlugins"/>
 	<classpathentry kind="src" path="/hadoop-qio-server"/>
-	<classpathentry kind="lib" path="/Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/lib/tools.jar"/>
 	<classpathentry kind="lib" path="lib/wikixmlj-r43.jar"/>
 	<classpathentry kind="var" path="M2_REPO/jdiff/jdiff/1.0.9/jdiff-1.0.9.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/curator/curator-recipes/3.2.0/curator-recipes-3.2.0.jar"/>

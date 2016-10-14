@@ -43,7 +43,7 @@ public class ImportFromDataBase implements Runnable {
 	 String tableName = "";
 	private PoolingDataSource ps;
 	
-	public static String SELECT_QUERY = "SELECT * FROM ";
+	public static String selectQuery = "SELECT * FROM ";
 	
 	public ImportFromDataBase(String user, String group , MigrationInfo migrationInfo, PoolingDataSource ps, String table,  Configuration conf ,String uri, boolean overwrite) throws Exception{
 		
@@ -109,7 +109,7 @@ public class ImportFromDataBase implements Runnable {
 	}
 
 	public void impl(String tableName ,  String path, String encryptionType, String compressionType){		//make it as run
-		String query = SELECT_QUERY + tableName;
+		String query = selectQuery + tableName;
 		AppLogger.getLogger().debug("firing query: " + query);
 		ResultSet rs = null;
 		ResultSetMetaData rsmd = null;

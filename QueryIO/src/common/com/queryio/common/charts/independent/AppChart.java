@@ -53,8 +53,8 @@ public abstract class AppChart
 
 	protected boolean bShowAlternateBackground;
 
-	private static final int LEGENDITEMINSET = 8 + Legend.iStrikeThroughLength;
-	private static final int LEGENDITEMINSET_SELECT = 20 + Legend.iStrikeThroughLength;
+	private static final int LEGENDITEMINSET = 8 + Legend.ISTRIKETHROUGHLENGTH;
+	private static final int LEGENDITEMINSET_SELECT = 20 + Legend.ISTRIKETHROUGHLENGTH;
 	protected static final int LEGENDSTARTINSET = 5;
 
 	protected static final int TICK_MARK_LENGTH = 3;

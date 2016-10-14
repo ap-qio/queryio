@@ -15,15 +15,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.queryio.common.database.CoreDBManager;
-import com.queryio.common.database.CustomTagDBConfigManager;
-import com.queryio.common.database.DBTypeProperties;
-import com.queryio.common.database.DatabaseFunctions;
-import com.queryio.common.database.TableConstants;
 import com.queryio.common.util.AppLogger;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public class DBBackupTools {
 	private static ArrayList<String> getTableNames(final Connection connection, DBTypeProperties props) throws SQLException {
 		ArrayList<String> tables = new ArrayList<String>();

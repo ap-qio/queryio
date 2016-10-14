@@ -58,11 +58,11 @@ public class ExportFromHDFSToDataBase implements Runnable{
 	
 	private String responseJson = null;
 	
-	public StringBuilder Binding = null;
+	public StringBuilder binding = null;
 	
-	public StringBuilder InsertQuery = null;
+	public StringBuilder insertQuery = null;
 	
-	public String CreateTableString = null;
+	public String createTableString = null;
 	
 	public Path path;
 	
@@ -82,7 +82,7 @@ public class ExportFromHDFSToDataBase implements Runnable{
 		hdfsuri = this.conf.get(DFSConfigKeys.FS_DEFAULT_NAME_KEY);
 		AppLogger.getLogger().debug("Original Conf hdfs uri  : " + conf.get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
 		AppLogger.getLogger().debug("After Assigning : " + this.conf.get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
-		CreateTableString = getCreateTableString(this.responseJson, "");
+		createTableString = getCreateTableString(this.responseJson, "");
 		this.path = path;
 		
 	}
@@ -146,7 +146,7 @@ public class ExportFromHDFSToDataBase implements Runnable{
 	}
 	public  String getCreateTableString(String json , String tableName)throws Exception{
 		
-		StringBuilder QUERY = new StringBuilder();
+		StringBuilder query = new StringBuilder();
 		
 		 JSONArray jsonObj = (JSONArray)new JSONParser().parse(json);
 		 JSONObject obj = (JSONObject)jsonObj.get(0);
@@ -164,10 +164,10 @@ public class ExportFromHDFSToDataBase implements Runnable{
 		 this.tableName = tableName;
 		 AppLogger.getLogger().debug("Table NAme : " + tableName);
 		 
-		 QUERY.append("CREATE TABLE ");
-		 QUERY.append(tableName);
-		 QUERY.append("\n");
-		 QUERY.append("(");
+		 query.append("CREATE TABLE ");
+		 query.append(tableName);
+		 query.append("\n");
+		 query.append("(");
 		 
 		 
 		 JSONArray detailsArray = (JSONArray)metaObject.get("details");
@@ -193,39 +193,39 @@ public class ExportFromHDFSToDataBase implements Runnable{
 			 colNames[arrayIndex] = name;
 		 }
 		 
-		 Binding = new StringBuilder();
+		 binding = new StringBuilder();
 		 
-		 InsertQuery = new StringBuilder();
-		 InsertQuery.append("INSERT INTO ");
-		 InsertQuery.append(tableName + " ( ");
+		 insertQuery = new StringBuilder();
+		 insertQuery.append("INSERT INTO ");
+		 insertQuery.append(tableName + " ( ");
 		 
-		 Binding.append("");
+		 binding.append("");
 		 for(int i=1;i<length;i++){
 			 String name = colNames[i];
-			 QUERY.append("\n" + colNames[i] + " ");
-			 InsertQuery.append(name + " , ");
-			 Binding.append("?,");
+			 query.append("\n" + colNames[i] + " ");
+			 insertQuery.append(name + " , ");
+			 binding.append("?,");
 			 
-			 QUERY.append(dataType[i] + ",");
+			 query.append(dataType[i] + ",");
 		 }
-		 QUERY.deleteCharAt(QUERY.length()-1);
-		 QUERY.append("\n");
-		 QUERY.append(");");
+		 query.deleteCharAt(query.length()-1);
+		 query.append("\n");
+		 query.append(");");
 		 
-		 InsertQuery.deleteCharAt(InsertQuery.length()-1);
-		 InsertQuery.deleteCharAt(InsertQuery.length()-1);
-		 InsertQuery.append(") VALUES (");
-		 Binding.deleteCharAt(Binding.length()-1);
+		 insertQuery.deleteCharAt(insertQuery.length()-1);
+		 insertQuery.deleteCharAt(insertQuery.length()-1);
+		 insertQuery.append(") VALUES (");
+		 binding.deleteCharAt(binding.length()-1);
 		 
-		 InsertQuery.append(Binding + " ) ;");
+		 insertQuery.append(binding + " ) ;");
 		 
-		 AppLogger.getLogger().debug("Insert Query : " + InsertQuery);
+		 AppLogger.getLogger().debug("Insert Query : " + insertQuery);
 		 
-		 AppLogger.getLogger().debug("Creating Table Query : " + QUERY.toString());
+		 AppLogger.getLogger().debug("Creating Table Query : " + query.toString());
 		 
 		 
 		 
-		 return QUERY.toString();
+		 return query.toString();
 		 
 	}
 	public void exportingToDataBase(Path path) throws Exception {
@@ -240,12 +240,12 @@ public class ExportFromHDFSToDataBase implements Runnable{
 				try{
 					dbstatement = dbconnection.createStatement();
 					if(!UserDefinedTagDAO.checkIfTableExists(dbconnection, this.tableName))
-						dbstatement.executeUpdate(CreateTableString);
+						dbstatement.executeUpdate(createTableString);
 				}catch(Exception e){
 					AppLogger.getLogger().debug("Error occurred while creating table " , e);
 				}
 			
-			ps = dbconnection.prepareStatement(InsertQuery.toString());
+			ps = dbconnection.prepareStatement(insertQuery.toString());
 			is= dfs.open(path);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String line;

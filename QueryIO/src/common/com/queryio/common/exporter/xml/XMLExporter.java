@@ -40,7 +40,7 @@ import com.queryio.common.util.XMLWriter;
  * @author Exceed Consultancy Services
  * @version 9.0
  */
-public class XMLExporter extends AbstractExporter
+public final class XMLExporter extends AbstractExporter
 {
 	private XMLWriter writer = null;
 	private static XMLExporter thisInstance = null;

@@ -49,7 +49,7 @@ public class StartupListener implements ServletContextListener {
 		try{
 			logger.debug("FTPSERVER: " + log4j);
 			String hadoopConfigPath = (String) context.getAttribute("hadoop_conf");
-			HdfsOverFtpServer.HADOOP_CONFIG_PATH = hadoopConfigPath;
+			HdfsOverFtpServer.hadoopConfigPath = hadoopConfigPath;
 			
 			EnvironmentalConstants.setAppHome(context.getRealPath("/"));		
 			EnvironmentalConstants.setWebinfDirectory(context.getRealPath("/WEB-INF"));

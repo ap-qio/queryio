@@ -10,11 +10,10 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.hdfs.DFSConfigKeys;
 import org.apache.hadoop.hdfs.HdfsConfiguration;
 import org.apache.log4j.Logger;
-import com.queryio.common.EnvironmentalConstants;
 
 public class DFSMap {
 	
-	protected final static Logger logger = Logger.getLogger(DFSMap.class);
+	protected final static Logger LOGGER = Logger.getLogger(DFSMap.class);
 
 	private static HashMap<String, FileSystem> dfsMap = new HashMap<String, FileSystem>();
 	private static HashMap<String, String> tokenMap = new HashMap<String, String>();
@@ -26,7 +25,7 @@ public class DFSMap {
 			FileSystem fs;
 			try {
 				Thread.currentThread().setName(user);
-				fs = FileSystem.get(HadoopConstants.getHadoopConf());
+				fs = FileSystem.get(EnvironmentalConstants.getHadoopConf());
 				dfsMap.remove(user);
 				dfsMap.put(user, fs);
 				System.out.println("updated dfs instance for user " + user);
@@ -82,12 +81,12 @@ public class DFSMap {
 	public static HdfsConfiguration getConfiguration(){
 		HdfsConfiguration conf = new HdfsConfiguration();
         
-		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, HadoopConstants.getHadoopConf().get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
-        conf.set(DFSConfigKeys.DFS_REPLICATION_KEY, HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_REPLICATION_KEY));
+		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
+        conf.set(DFSConfigKeys.DFS_REPLICATION_KEY, EnvironmentalConstants.getHadoopConf().get(DFSConfigKeys.DFS_REPLICATION_KEY));
         
         // Set customtagdb properties
 
-        Iterator<Entry<String,String>> i = HadoopConstants.getHadoopConf().iterator();
+        Iterator<Entry<String,String>> i = EnvironmentalConstants.getHadoopConf().iterator();
         Entry<String, String> entry;
         while(i.hasNext()){
         	entry = i.next();       

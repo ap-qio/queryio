@@ -18,7 +18,6 @@
 package com.queryio.sysmoncommon.samples;
 
 import com.queryio.common.IOSProtocolConstants;
-
 import com.queryio.sysmoncommon.sysmon.DataParserFactory;
 import com.queryio.sysmoncommon.sysmon.ResultParsingException;
 import com.queryio.sysmoncommon.sysmon.UnixMonitor;
@@ -79,43 +78,9 @@ public class SolarisMonitor
 			{
 				System.out.println("Collecting data, iteration count: " + (i + 1));
 
-//				final NetworkInfo[] networkInfo = monitor.getNetworkInfo();
-//				for (int i1 = 0; i1 < networkInfo.length; i1++)
-//				{
-//					System.out.println("Network interface: " + networkInfo[i1].getName() + ", Reads/sec: "
-//							+ networkInfo[i1].getRecdPacketsPerSec() + ", Writes/sec: "
-//							+ networkInfo[i1].getSentPacketsPerSec());
-//				}
 				monitor.collectDataFromTop();
 				
-//				System.out.println("Load Avg: " + monitor.get1MinLoadAverage() + ", " + monitor.get5MinLoadAverage() + ", " + monitor.get15MinLoadAverage());
 				System.out.println("CPU: " + monitor.getTotalCPUUsage() + " user: " + monitor.getUserCPUUsage() + " sys: " + monitor.getSystemCPUUsage() + " wait: " + monitor.getWaitCPUUsage());
-//				System.out.println("Available Physical Memory: " + monitor.getPhysicalMemoryInfo().getAvailable());
-//				System.out.println("Available Virtual Memory: " + monitor.getVirtualMemoryInfo().getAvailable());
-//				System.out.println("collecting disk activity info");
-//				final DiskInfo[] info = monitor.getPhysicalDiskInfo();
-//				for (int i1 = 0; i1 < info.length; i1++)
-//				{
-//					System.out.println("Physical Disk: " + info[i1].getName() + ", Reads/sec: "
-//							+ info[i1].getReadsPerSec() + ", Writes/sec: " + info[i1].getWritesPerSec());
-//				}
-//
-//				System.out.println("collecting logical disk info");
-//				final DriveInfo[] drvInfo = monitor.getLogicalDiskInfo();
-//				for (int i1 = 0; i1 < drvInfo.length; i1++)
-//				{
-//					System.out.println("Drive: " + drvInfo[i1].getName() + ", Used space: "
-//							+ drvInfo[i1].getUsedSpace() + ", Total space: " + drvInfo[i1].getTotalSpace());
-//				}
-				
-				/*
-				System.out.println("collecting Process Info");
-				final ProcessInfo[] processes = monitor.getProcessInfo();
-				for (int i1 = 0; i1 < processes.length; i1++)
-				{
-					System.out.println(processes[i1].getName() + " Memory " + processes[i1].getMemoryUsage());
-				}
-				*/
 				Thread.sleep(1000);
 			}
 			monitor.disconnect();

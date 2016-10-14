@@ -157,6 +157,7 @@ import com.queryio.stream.util.EncryptionHandler;
 import com.queryio.userdefinedtags.common.UserDefinedTagResourceFactory;
 import com.queryio.userdefinedtags.common.UserDefinedTagUtils;
 
+@SuppressWarnings("PMD.AvoidUsingShortType")
 public class RemoteManager {
 
 	private static String parseDetailsKey = "ParseDetails";
@@ -2903,7 +2904,7 @@ public class RemoteManager {
 			try {
 				if (!dfs.exists(filePath)) {
 					dfs.mkdirs(filePath);
-					short s = 777;
+					int s = 777;
 					dfs.setPermission(filePath, parsePermissions(s));
 				}
 			} catch (Exception e) {
@@ -2929,7 +2930,7 @@ public class RemoteManager {
 		}
 	}
 	
-	private static FsPermission parsePermissions(short permissions)
+	private static FsPermission parsePermissions(int permissions)
 	{
 		FsAction u = getAction(permissions / 100);
 		int t = permissions % 100;
@@ -5903,14 +5904,14 @@ public class RemoteManager {
 		return dbName;
 	}
 
-	public static DWRResponse getNameNodeForDBNameMapping(String DBName) {
+	public static DWRResponse getNameNodeForDBNameMapping(String dbName) {
 		DWRResponse dwrResponse = new DWRResponse();
 		dwrResponse.setDwrResponse(false, "", 500);
 		String nameNodeId = null;
 		Connection connection = null;
 		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-			nameNodeId = NodeDAO.getNameNodeForDBNameMapping(connection, DBName);
+			nameNodeId = NodeDAO.getNameNodeForDBNameMapping(connection, dbName);
 			dwrResponse.setDwrResponse(true, "", 200);
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal("Error fetching namenode configuration.", e);
@@ -5926,14 +5927,14 @@ public class RemoteManager {
 		return dwrResponse;
 	}
 
-	public static DWRResponse getNameNodeForAnalyticsDBNameMapping(String DBName) {
+	public static DWRResponse getNameNodeForAnalyticsDBNameMapping(String dBName) {
 		DWRResponse dwrResponse = new DWRResponse();
 		dwrResponse.setDwrResponse(false, "", 500);
 		String nameNodeId = null;
 		Connection connection = null;
 		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-			nameNodeId = NodeDAO.getNameNodeForAnalyticsDBNameMapping(connection, DBName);
+			nameNodeId = NodeDAO.getNameNodeForAnalyticsDBNameMapping(connection, dBName);
 			dwrResponse.setDwrResponse(true, "", 200);
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal("Error fetching namenode configuration.", e);
@@ -9098,7 +9099,7 @@ public class RemoteManager {
 			if (isHive) {
 				defaultPath = AdHocQueryDAO.getAdHocInfoFromTable(connection, namenodeId, hiveTableName).getSourcePath();
 				JSONObject metaJSON = (JSONObject) jsonParser.parse(metadata);
-				metaJSON.put(QueryIOConstants.hiveTypePath, defaultPath);
+				metaJSON.put(QueryIOConstants.HIVETYPEPATH, defaultPath);
 				metadata = metaJSON.toString();
 			}
 			AppLogger.getLogger().debug("updateHiveMetadata(metadata): " + metadata);
@@ -9123,7 +9124,7 @@ public class RemoteManager {
 								frequency = String.valueOf(min);
 							}
 						}
-						if (!(frequency.equals(null))) {
+						if (!(frequency == null)) {
 							freq = Integer.parseInt(frequency);
 							endTime = startTime.getTime() + (freq * 60 * 1000); // milliseconds
 						}
@@ -9698,16 +9699,16 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 		return SummaryManager.getNameNodeSummary(nodeId, interval);
 	}
 
-	public static ArrayList getAllNameNodeReadWritesBasedOnIP(String IP) {
-		return SummaryManager.getAllNameNodeReadWritesBasedOnIP(IP);
+	public static ArrayList getAllNameNodeReadWritesBasedOnIP(String ipStr) {
+		return SummaryManager.getAllNameNodeReadWritesBasedOnIP(ipStr);
 	}
 
-	public static SummaryTable getSummaryTableForNameNodeBasedOnIP(String IP) {
-		return SummaryManager.getSummaryTableForNameNodeBasedOnIP(IP);
+	public static SummaryTable getSummaryTableForNameNodeBasedOnIP(String ip) {
+		return SummaryManager.getSummaryTableForNameNodeBasedOnIP(ip);
 	}
 
-	public static ArrayList getNameNodeStatusSummaryBasedOnIP(String IP) {
-		return SummaryManager.getNameNodeStatusSummaryBasedOnIP(IP);
+	public static ArrayList getNameNodeStatusSummaryBasedOnIP(String ip) {
+		return SummaryManager.getNameNodeStatusSummaryBasedOnIP(ip);
 	}
 
 	public static SummaryTable getAllNodeManagersSummaryTableForHost(String hostIP) {
@@ -10082,7 +10083,7 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 	}
 
 	public static DWRResponse setOwnerAndPermissions(String nodeId, String path, String owner, String group,
-			short permissions, boolean recursive) {
+			int permissions, boolean recursive) {
 		return PermissionsManager.setOwnerAndPermissions(nodeId, path, owner, group, permissions, recursive);
 	}
 
@@ -10363,23 +10364,23 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 
 	public static boolean updateJob(String interval, String reportTime, ArrayList selectedFormat,
 			String notificationType, String notificationMessage, ArrayList userList, ArrayList reportId, String name,
-			String group, String nodeId, Boolean notification_enable) {
+			String group, String nodeId, Boolean notificationEnable) {
 		return ScheduleManager.updateJob(interval, reportTime, selectedFormat, notificationType, notificationMessage,
-				userList, reportId, name, group, nodeId, notification_enable);
+				userList, reportId, name, group, nodeId, notificationEnable);
 	}
 
 	public static boolean updateQueryJob(String interval, String reportTime, ArrayList selectedFormat,
 			String notificationType, String notificationMessage, ArrayList userList, String schedName, String group,
-			ArrayList query, String nameNode, Boolean notification_enable) {
+			ArrayList query, String nameNode, Boolean notificationEnable) {
 		return ScheduleManager.updateQueryJob(interval, reportTime, selectedFormat, notificationType,
-				notificationMessage, userList, schedName, group, query, nameNode, notification_enable);
+				notificationMessage, userList, schedName, group, query, nameNode, notificationEnable);
 	}
 
 	public static boolean updateMapRedJob(String interval, String scheduleTime, ArrayList mapRedJobName,
 			String scheduleName, String notificationType, String notificationMessage, ArrayList userList, String group,
-			Boolean notification_enable) {
+			Boolean notificationEnable) {
 		return ScheduleManager.updateMapRedJob(interval, scheduleTime, mapRedJobName, scheduleName, notificationType,
-				notificationMessage, userList, group, notification_enable);
+				notificationMessage, userList, group, notificationEnable);
 	}
 
 	public static boolean scheduleJobWithoutNotification(String interval, String reportTime, ArrayList selectedFormat,
@@ -10388,8 +10389,8 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 				schedName);
 	}
 
-	public static boolean checkSysReportScheduleId(String Id) {
-		return ScheduleManager.checkSysReportScheduleId(Id);
+	public static boolean checkSysReportScheduleId(String id) {
+		return ScheduleManager.checkSysReportScheduleId(id);
 	}
 
 	public static DWRResponse deleteTriggers(ArrayList triggerList) {
@@ -10429,8 +10430,8 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 				query, nameNode);
 	}
 
-	public static boolean checkMapRedScheduleId(String Id) {
-		return ScheduleManager.checkMapRedScheduleId(Id);
+	public static boolean checkMapRedScheduleId(String ip) {
+		return ScheduleManager.checkMapRedScheduleId(ip);
 	}
 
 	public static boolean scheduleMapRedJob(String interval, String scheduleTime, ArrayList mapRedJobName,
@@ -10452,8 +10453,8 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 				scheduleName, isNotitificationEnable, notificationType, notificationMessage,userList);
 	}
 
-	public static boolean checkBigQueryScheduleId(String Id) {
-		return ScheduleManager.checkBigQueryScheduleId(Id);
+	public static boolean checkBigQueryScheduleId(String id) {
+		return ScheduleManager.checkBigQueryScheduleId(id);
 	}
 	
 	// Added by Ranjana

@@ -31,7 +31,7 @@ public class UserDefinedTagDAO {
 
 	private static final String DEFAULT_TABLE = TableConstants.TABLE_HDFS_METADATA;
 
-	public static int NEGATIVE = -1;
+	public static final int NEGATIVE = -1;
 
 	public static synchronized Map<String, Boolean> getAllColumns(Connection connection,
 			String tableName) throws SQLException {
@@ -288,7 +288,7 @@ public class UserDefinedTagDAO {
 		PreparedStatement stmt = null;
 		try {
 			
-			StringBuffer QUERY = new StringBuffer();
+			StringBuffer query = new StringBuffer();
 			if (!tagEntryExists) {
 				StringBuffer colNmStr = new StringBuffer();
 				StringBuffer valueStr = new StringBuffer();
@@ -300,37 +300,37 @@ public class UserDefinedTagDAO {
 					colNmStr.append(colNames.get(i));
 					valueStr.append("?");
 				}
-				QUERY.append("INSERT INTO ");
-				QUERY.append(tableName).append(" (");
-				QUERY.append(colNmStr);
+				query.append("INSERT INTO ");
+				query.append(tableName).append(" (");
+				query.append(colNmStr);
 				if(colNames.size()>0) {
-					QUERY.append(", ");
+					query.append(", ");
 				}
-				QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);// UserDefinedTagUtils.DEFAULT_TAG_FILEPATH
-				QUERY.append(") VALUES (");
-				QUERY.append(valueStr);
+				query.append(TableMetadata.DEFAULT_TAG_FILEPATH);// UserDefinedTagUtils.DEFAULT_TAG_FILEPATH
+				query.append(") VALUES (");
+				query.append(valueStr);
 				if (colNames.size() != 0) {
-					QUERY.append(", ");
+					query.append(", ");
 				}
-				QUERY.append("?)");
+				query.append("?)");
 			} else {
 				
-				QUERY.append("UPDATE ");
-				QUERY.append(tableName);
-				QUERY.append(" SET ");
+				query.append("UPDATE ");
+				query.append(tableName);
+				query.append(" SET ");
 				for (int i = 0; i < colNames.size(); i++) {
 					if (i != 0)
-						QUERY.append(", ");
-					QUERY.append(colNames.get(i));
-					QUERY.append(" = ?");
+						query.append(", ");
+					query.append(colNames.get(i));
+					query.append(" = ?");
 				}
-				QUERY.append(" WHERE ");
-				QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-				QUERY.append(" =? ");
+				query.append(" WHERE ");
+				query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+				query.append(" =? ");
 			}
 			
 			stmt = DatabaseFunctions.getPreparedStatement(connection,
-					QUERY.toString());
+					query.toString());
 			int i = 1;
 			for (Object tagValueObj : tagValueObjs) {
 				if (tagValueObj instanceof byte[]) {
@@ -388,17 +388,17 @@ public class UserDefinedTagDAO {
 	
 	private static boolean tagEntryExists(Connection connection,
 			String tableName, String filePath) throws SQLException {
-		StringBuffer QUERY = new StringBuffer();
-		QUERY.append("SELECT " + TableMetadata.DEFAULT_TAG_FILEPATH + " FROM ");
-		QUERY.append(tableName);
-		QUERY.append(" WHERE ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		QUERY.append(" ='"+filePath+"' ");
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT " + TableMetadata.DEFAULT_TAG_FILEPATH + " FROM ");
+		query.append(tableName);
+		query.append(" WHERE ");
+		query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+		query.append(" ='"+filePath+"' ");
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			stmt = DatabaseFunctions.getStatement(connection);
-			rs = stmt.executeQuery(QUERY.toString());
+			rs = stmt.executeQuery(query.toString());
 			if (rs.next())
 				return true;
 		} finally {
@@ -466,16 +466,16 @@ public class UserDefinedTagDAO {
 	
 	private static void deleteFromTable(Connection connection,
 			String tableName, String filePath) throws SQLException {
-		StringBuffer QUERY = new StringBuffer();
-		QUERY.append("DELETE FROM ");
-		QUERY.append(tableName);
-		QUERY.append(" WHERE ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		QUERY.append(" LIKE '" + filePath + "%' ");
+		StringBuffer query = new StringBuffer();
+		query.append("DELETE FROM ");
+		query.append(tableName);
+		query.append(" WHERE ");
+		query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+		query.append(" LIKE '" + filePath + "%' ");
 		Statement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getStatement(connection);
-			stmt.execute(QUERY.toString());
+			stmt.execute(query.toString());
 		} catch(Exception e){
 			LOG.fatal("Exception : " , e);
 		} finally {
@@ -534,19 +534,19 @@ public class UserDefinedTagDAO {
 	private static void updatePermission(Connection connection,
 			String tableName, String filePath, String permissions)
 			throws SQLException {
-		StringBuffer QUERY = new StringBuffer();
-		QUERY.append("UPDATE ");
-		QUERY.append(tableName);
-		QUERY.append(" SET ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_PERMISSION);
-		QUERY.append(" = '" + permissions + "' ");
-		QUERY.append(" WHERE ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		QUERY.append(" = '" + filePath + "' ");
+		StringBuffer query = new StringBuffer();
+		query.append("UPDATE ");
+		query.append(tableName);
+		query.append(" SET ");
+		query.append(TableMetadata.DEFAULT_TAG_PERMISSION);
+		query.append(" = '" + permissions + "' ");
+		query.append(" WHERE ");
+		query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+		query.append(" = '" + filePath + "' ");
 		Statement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getStatement(connection);
-			stmt.execute(QUERY.toString());
+			stmt.execute(query.toString());
 		} finally {
 			try {
 				DatabaseFunctions.closeStatement(stmt);
@@ -595,19 +595,19 @@ public class UserDefinedTagDAO {
 			while (rs.next()) {
 				String oldValue = rs
 						.getString(TableMetadata.DEFAULT_TAG_FILEPATH);
-				StringBuffer QUERY = new StringBuffer();
-				QUERY.append("UPDATE ");
-				QUERY.append(tableName);
-				QUERY.append(" SET ");
-				QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-				QUERY.append(" = '" + filePath
+				StringBuffer q = new StringBuffer();
+				q.append("UPDATE ");
+				q.append(tableName);
+				q.append(" SET ");
+				q.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+				q.append(" = '" + filePath
 						+ oldValue.substring(oldFilePath.length()) + "'");
-				QUERY.append(" WHERE ");
-				QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-				QUERY.append(" = '" + oldValue + "' ");
+				q.append(" WHERE ");
+				q.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+				q.append(" = '" + oldValue + "' ");
 				try {
 					st2 = DatabaseFunctions.getStatement(connection);
-					st2.execute(QUERY.toString());
+					st2.execute(q.toString());
 				} finally {
 					DatabaseFunctions.closeStatement(st2);
 				}
@@ -642,19 +642,19 @@ public class UserDefinedTagDAO {
 	private static void updateReplication(Connection connection,
 			String tableName, String filePath, short replication)
 			throws SQLException {
-		StringBuffer QUERY = new StringBuffer();
-		QUERY.append("UPDATE ");
-		QUERY.append(tableName);
-		QUERY.append(" SET ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_REPLICATION);
-		QUERY.append(" = " + replication);
-		QUERY.append(" WHERE ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		QUERY.append(" = '" + filePath + "' ");
+		StringBuffer query = new StringBuffer();
+		query.append("UPDATE ");
+		query.append(tableName);
+		query.append(" SET ");
+		query.append(TableMetadata.DEFAULT_TAG_REPLICATION);
+		query.append(" = " + replication);
+		query.append(" WHERE ");
+		query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+		query.append(" = '" + filePath + "' ");
 		Statement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getStatement(connection);
-			stmt.execute(QUERY.toString());
+			stmt.execute(query.toString());
 		} finally {
 			try {
 				DatabaseFunctions.closeStatement(stmt);
@@ -689,21 +689,21 @@ public class UserDefinedTagDAO {
 	private static void updateOwner(Connection connection, String tableName,
 			String filePath, String username, String groupname)
 			throws SQLException {
-		StringBuffer QUERY = new StringBuffer();
-		QUERY.append("UPDATE ");
-		QUERY.append(tableName);
-		QUERY.append(" SET ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_OWNER);
-		QUERY.append(" = '" + username + "', ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_GROUP);
-		QUERY.append(" = '" + groupname + "'");
-		QUERY.append(" WHERE ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		QUERY.append(" = '" + filePath + "' ");
+		StringBuffer query = new StringBuffer();
+		query.append("UPDATE ");
+		query.append(tableName);
+		query.append(" SET ");
+		query.append(TableMetadata.DEFAULT_TAG_OWNER);
+		query.append(" = '" + username + "', ");
+		query.append(TableMetadata.DEFAULT_TAG_GROUP);
+		query.append(" = '" + groupname + "'");
+		query.append(" WHERE ");
+		query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+		query.append(" = '" + filePath + "' ");
 		Statement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getStatement(connection);
-			stmt.execute(QUERY.toString());
+			stmt.execute(query.toString());
 		} finally {
 			try {
 				DatabaseFunctions.closeStatement(stmt);
@@ -741,21 +741,21 @@ public class UserDefinedTagDAO {
 
 	private static void updateTimes(Connection connection, String tableName,
 			String filePath, long mtime, long atime) throws SQLException {
-		StringBuffer QUERY = new StringBuffer();
-		QUERY.append("UPDATE ");
-		QUERY.append(tableName);
-		QUERY.append(" SET ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_MODIFICATIONTIME);
-		QUERY.append(" = " + mtime + ", ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_ACCESSTIME);
-		QUERY.append(" = " + atime);
-		QUERY.append(" WHERE ");
-		QUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		QUERY.append(" = '" + filePath + "' ");
+		StringBuffer query = new StringBuffer();
+		query.append("UPDATE ");
+		query.append(tableName);
+		query.append(" SET ");
+		query.append(TableMetadata.DEFAULT_TAG_MODIFICATIONTIME);
+		query.append(" = " + mtime + ", ");
+		query.append(TableMetadata.DEFAULT_TAG_ACCESSTIME);
+		query.append(" = " + atime);
+		query.append(" WHERE ");
+		query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+		query.append(" = '" + filePath + "' ");
 		Statement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getStatement(connection);
-			stmt.execute(QUERY.toString());
+			stmt.execute(query.toString());
 		} finally {
 			try {
 				DatabaseFunctions.closeStatement(stmt);

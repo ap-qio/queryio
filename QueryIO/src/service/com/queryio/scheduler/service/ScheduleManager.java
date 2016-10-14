@@ -13,8 +13,6 @@ public class ScheduleManager {
 			ArrayList userList, ArrayList reportId, String nodeId, String schedName){
 		SchedulerBean schedule = null;
 		try{
-//			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Report Time : "+reportTime+" SlectedFormat :"+selectedFormat+ " notification Type : "+notificationType+" notification Message "
-//					+notificationMessage+" userList "+userList+" reportId "+reportId+" schedule Name: "+schedName+"nodeId :"+nodeId);
 			schedule = new SchedulerBean();
 			schedule.setNotificationEnable(true);
 			if(userList!=null){
@@ -326,14 +324,14 @@ public class ScheduleManager {
 	
 	
 	public static boolean updateJob(String interval,String reportTime,ArrayList selectedFormat,String notificationType, String notificationMessage,
-			ArrayList userList, ArrayList reportId, String name, String group, String nodeId, Boolean notification_enable){
+			ArrayList userList, ArrayList reportId, String name, String group, String nodeId, Boolean notificationEnable){
 		SchedulerBean schedule = null;
 		try{
 			schedule = new SchedulerBean();
-			schedule.setNotificationEnable(notification_enable);
+			schedule.setNotificationEnable(notificationEnable);
 			schedule.setName(name);
 			schedule.setGroup(group);
-			if(notification_enable){
+			if(notificationEnable){
 				schedule.setNotificationMessage(notificationMessage);
 				schedule.setNotificationType(notificationType);
 				if(schedule.getNotificationType().equals(SchedulerConstants.NOTIFICATION_EMAIL))
@@ -360,12 +358,12 @@ public class ScheduleManager {
 	
 	
 	public static boolean updateQueryJob(String interval,String reportTime,ArrayList selectedFormat,String notificationType, String notificationMessage,
-			ArrayList userList, String schedName,  String group, ArrayList query, String nameNode, Boolean notification_enable){
+			ArrayList userList, String schedName,  String group, ArrayList query, String nameNode, Boolean notificationEnable){
 		QuerySchedulerBean queryScheduler = null;
 		try{
 			queryScheduler = new QuerySchedulerBean();
-			queryScheduler.setNotificationEnable(notification_enable);
-			if(notification_enable)
+			queryScheduler.setNotificationEnable(notificationEnable);
+			if(notificationEnable)
 			{
 				queryScheduler.setNotificationType(notificationType);
 				queryScheduler.setNotificationMessage(notificationMessage);
@@ -395,15 +393,15 @@ public class ScheduleManager {
 	
 	
 	public static boolean updateMapRedJob(String interval, String scheduleTime, ArrayList mapRedJobName, 
-			String scheduleName,String notificationType, String notificationMessage,ArrayList userList, String group, Boolean notification_enable)
+			String scheduleName,String notificationType, String notificationMessage,ArrayList userList, String group, Boolean notificationEnable)
 	{
 		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("group: "+group);
 		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("scheduleName: "+scheduleName);
 		SchedulerBean schedule = null;
 		try{
 			schedule = new SchedulerBean();
-			schedule.setNotificationEnable(notification_enable);
-			if(notification_enable)
+			schedule.setNotificationEnable(notificationEnable);
+			if(notificationEnable)
 			{
 				schedule.setNotificationMessage(notificationMessage);
 				schedule.setNotificationType(notificationType);
@@ -431,14 +429,14 @@ public class ScheduleManager {
 	
 	
 	
-	public static boolean checkSysReportScheduleId(String Id){
+	public static boolean checkSysReportScheduleId(String id){
 		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("checkScheduleId");
-		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Id: "+Id);
+		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Id: "+id);
 		boolean flag = false;
 		try{
 			ArrayList arr = SchedulerDAO.getAllSysReportsScheduleID();
 			for(int i=0;i<arr.size();i++){
-				if(Id.equals((String)arr.get(i))){
+				if(id.equals((String)arr.get(i))){
 					flag = true;
 					break;
 				}
@@ -450,14 +448,14 @@ public class ScheduleManager {
 		return flag;
 	}
 	
-	public static boolean checkBigQueryScheduleId(String Id){
+	public static boolean checkBigQueryScheduleId(String id){
 		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("checkScheduleId");
-		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Id: "+Id);
+		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Id: "+id);
 		boolean flag = false;
 		try{
 			ArrayList arr = SchedulerDAO.getAllBigQueryScheduleID();
 			for(int i=0;i<arr.size();i++){
-				if(Id.equals((String)arr.get(i))){
+				if(id.equals((String)arr.get(i))){
 					flag = true;
 					break;
 				}
@@ -469,14 +467,14 @@ public class ScheduleManager {
 		return flag;
 	}
 	
-	public static boolean checkMapRedScheduleId(String Id){
+	public static boolean checkMapRedScheduleId(String id){
 		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("checkScheduleId");
-		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Id: "+Id);
+		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Id: "+id);
 		boolean flag = false;
 		try{
 			ArrayList arr = SchedulerDAO.getAllMapRedScheduleID();
 			for(int i=0;i<arr.size();i++){
-				if(Id.equals((String)arr.get(i))){
+				if(id.equals((String)arr.get(i))){
 					flag = true;
 					break;
 				}

@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-
+@SuppressWarnings({"PMD.AvoidUsingShortType", "PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal" })
 public class Settings {
 
 	private static Logger log = Logger
 			.getLogger(Settings.class);
 
-	private final static Properties properties = new Properties();
+	private final static Properties PROPERTIES = new Properties();
 	
 	private Settings() {
 		// This class has only static methods
@@ -29,7 +29,7 @@ public class Settings {
 			FileInputStream fis = null;
 			try {
 				fis = new FileInputStream(file);
-				properties.load(fis); // No need for BufferInputStream as Properties internally creates a Buffered stream
+				PROPERTIES.load(fis); // No need for BufferInputStream as Properties internally creates a Buffered stream
 			}
 			catch (IOException ioe) {
 				log.error("Error loading properties" + ioe.getMessage(), ioe);
@@ -76,14 +76,14 @@ public class Settings {
 	}
 	
 	public static Properties getProperties() {
-		return properties;
+		return PROPERTIES;
 	}
 	
 	public static int getIntProperty(String name, int defaultValue)
 	{
 		try {
-			if (name != null && properties.getProperty(name) != null) {
-				return Integer.parseInt(properties.getProperty(name));
+			if (name != null && PROPERTIES.getProperty(name) != null) {
+				return Integer.parseInt(PROPERTIES.getProperty(name));
 			}
 		} catch (Exception ex) {
 			// ignore the exception
@@ -94,15 +94,15 @@ public class Settings {
 	
 	public static boolean getBoolean(String name)
 	{
-		return Boolean.parseBoolean(properties.getProperty(name, "false"));
+		return Boolean.parseBoolean(PROPERTIES.getProperty(name, "false"));
 	}
 	
 	public static String get(String name)
 	{
-		return properties.getProperty(name);
+		return PROPERTIES.getProperty(name);
 	}
 	public static int getInt(String name)
     {
-        return Integer.parseInt(properties.getProperty(name, "10240"));
+        return Integer.parseInt(PROPERTIES.getProperty(name, "10240"));
     }
 }

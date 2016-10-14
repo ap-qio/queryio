@@ -21,11 +21,11 @@ import com.queryio.plugin.extended.metadata.TableMetadata;
 public abstract class IContentParser {
 	protected Logger logger = Logger.getLogger(this.getClass());
 	
-	protected String PARSE_DETAILS_KEY = "ParseDetails";
-	protected String FIELDS_KEY = "Attributes";
+	protected final String PARSE_DETAILS_KEY = "ParseDetails";
+	protected final String FIELDS_KEY = "Attributes";
 	
-	protected String COL_NAME_KEY = "colName";
-	protected String COL_INDEX_KEY = "colIndex";
+	protected final String COL_NAME_KEY = "colName";
+	protected final String COL_INDEX_KEY = "colIndex";
 	
 	private List<Tag> tags;
 	protected Map<String, String> coreTags;

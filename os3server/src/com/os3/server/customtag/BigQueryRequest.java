@@ -20,7 +20,7 @@ public class BigQueryRequest extends Thread{
 	
 	public void run(){
 		try{
-			this.bigQueryResult = CustomTagsManager.getBigQueryResults(OS3Constants.POOL_NAME, query);
+			this.bigQueryResult = CustomTagsManager.getBigQueryResults(OS3Constants.poolName, query);
 			this.success = true;
 		} catch(Exception e){
 			logger.fatal(e.getMessage(), e);

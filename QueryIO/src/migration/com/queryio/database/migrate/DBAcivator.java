@@ -44,11 +44,11 @@ public class DBAcivator {
 			md = connection.getMetaData();
 			rs = md.getTables(null, null, "%", new String[] {"TABLE"});
 			while(rs.next()){
-				String table_name;
-				table_name = rs.getString(3);
-				AppLogger.getLogger().debug(table_name);
-				if(table_name!=null && !table_name.trim().equalsIgnoreCase(""));
-					tables.add(table_name);
+				String tableName;
+				tableName = rs.getString(3);
+				AppLogger.getLogger().debug(tableName);
+				if(tableName!=null && !tableName.trim().equalsIgnoreCase(""));
+					tables.add(tableName);
 			}
 		}catch(Exception e){
 			AppLogger.getLogger().fatal("Error while fetching tables from database.", e);

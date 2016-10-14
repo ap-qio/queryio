@@ -75,8 +75,8 @@ public class ControlProperties implements Serializable
 	private int iWidth;
 	protected int iHeight;
 	protected int iSection = -1;
-	protected int X = Integer.MAX_VALUE;
-	protected int Y = Integer.MAX_VALUE;
+	protected int xVal = Integer.MAX_VALUE;
+	protected int yVal = Integer.MAX_VALUE;
 
 	public int getSection()
 	{
@@ -868,22 +868,22 @@ public class ControlProperties implements Serializable
 
 	public final int getY()
 	{
-		return this.Y;
+		return this.yVal;
 	}
 
 	public void setY(final int position)
 	{
-		this.Y = position;
+		this.yVal = position;
 	}
 
 	public final int getX()
 	{
-		return this.X;
+		return this.xVal;
 	}
 
 	public void setX(final int position)
 	{
-		this.X = position;
+		this.xVal = position;
 	}
 
 	// public static void setDefaultProperties(DefaultProperties defProps)

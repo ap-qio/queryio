@@ -300,7 +300,7 @@ public class PermissionsManager {
 		
 	}
 	
-	public static DWRResponse setOwnerAndPermissions(String nodeId, String path, String owner, String group, short permissions, boolean recursive){
+	public static DWRResponse setOwnerAndPermissions(String nodeId, String path, String owner, String group, int permissions, boolean recursive){
 		
 		DWRResponse dwrResponse = new DWRResponse();
 		
@@ -366,7 +366,7 @@ public class PermissionsManager {
 		return dwrResponse;
 	}
 	
-	public static boolean setFileOwnerAndPermissions(String nodeId, String username, String path, String owner, String group, short permissions, boolean recursive){
+	public static boolean setFileOwnerAndPermissions(String nodeId, String username, String path, String owner, String group, int permissions, boolean recursive){
 		SetPermissionsRequest request = new SetPermissionsRequest(nodeId, username, new Path(path), owner, group, permissions, recursive);
 		
 		try {

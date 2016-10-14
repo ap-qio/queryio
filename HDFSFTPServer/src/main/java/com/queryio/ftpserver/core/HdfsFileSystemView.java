@@ -6,22 +6,22 @@ import org.apache.ftpserver.ftplet.FtpFile;
 import org.apache.log4j.Logger;
 
 public class HdfsFileSystemView implements FileSystemView {
-	protected static final Logger logger = Logger.getLogger(HdfsFileSystemView.class);
-	/* 16 */private String currDir = "/";
+	protected static final Logger LOGGER = Logger.getLogger(HdfsFileSystemView.class);
+	private String currDir = "/";
 	private HdfsUser user;
 
 	protected HdfsFileSystemView(HdfsUser user) throws FtpException {
-		/* 25 */if (user == null) {
-			/* 26 */throw new IllegalArgumentException("user can not be null");
+		if (user == null) {
+			throw new IllegalArgumentException("user can not be null");
 		}
-		/* 28 */if (user.getHomeDirectory() == null) {
-			/* 29 */throw new IllegalArgumentException(
+		if (user.getHomeDirectory() == null) {
+			throw new IllegalArgumentException(
 					"HdfsUser home directory can not be null");
 		}
 
-		logger.debug("HdfsFileSystemView created for user: " + user.getName());
+		LOGGER.debug("HdfsFileSystemView created for user: " + user.getName());
 		
-		/* 36 */this.user = user;
+		this.user = user;
 	}
 
 	public FtpFile getHomeDirectory() {
@@ -34,37 +34,37 @@ public class HdfsFileSystemView implements FileSystemView {
 
 	public FtpFile getFile(String file) {
 		String path;
-		/* 60 */if (file.startsWith("/")) {
-			/* 61 */path = file;
+		if (file.startsWith("/")) {
+			path = file;
 		} else {
 			if (this.currDir.length() > 1)
-				/* 63 */path = this.currDir + "/" + file;
+				path = this.currDir + "/" + file;
 			else
-				/* 65 */path = "/" + file;
+				path = "/" + file;
 		}
-		/* 67 */return new HdfsFtpFile(path, this.user);
+		return new HdfsFtpFile(path, this.user);
 	}
 
 	public boolean changeWorkingDirectory(String dir) {
 		String path;
 		if (dir.startsWith("/")) {
-			/* 76 */path = dir;
+			path = dir;
 		} else {
 			if (this.currDir.length() > 1)
-				/* 78 */path = this.currDir + "/" + dir;
+				path = this.currDir + "/" + dir;
 			else
-				/* 80 */path = "/" + dir;
+				path = "/" + dir;
 		}
-		/* 82 */HdfsFtpFile file = new HdfsFtpFile(path, this.user);
-		/* 83 */if ((file.isDirectory()) && (file.isReadable())) {
-			/* 84 */this.currDir = path;
-			/* 85 */return true;
+		HdfsFtpFile file = new HdfsFtpFile(path, this.user);
+		if ((file.isDirectory()) && (file.isReadable())) {
+			this.currDir = path;
+			return true;
 		}
-		/* 87 */return false;
+		return false;
 	}
 
 	public boolean isRandomAccessible() {
-		/* 95 */return true;
+		return true;
 	}
 
 	public void dispose() {

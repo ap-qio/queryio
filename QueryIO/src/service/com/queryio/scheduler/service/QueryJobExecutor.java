@@ -50,9 +50,9 @@ import com.queryio.core.notifier.notifiers.NotificationManager;
 
 public class QueryJobExecutor implements Job 
 {
-	public static String TYPE_HTML = "html";
-	public static String TYPE_PDF = "pdf";
-	public static String TYPE_XLS = "xls";
+	public static String typeHtml = "html";
+	public static String typePdf = "pdf";
+	public static String typeXls = "xls";
 	
 	public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException
 	{
@@ -111,8 +111,8 @@ public class QueryJobExecutor implements Job
 		ArrayList queryIDLists = null;
 		String message = null;
 		String nameNode = null;
-		String notification_Enable = null;
-		String notification_type = null;
+		String notificationEnable = null;
+		String notificationType = null;
 		String username = null;
 		try{
 			exportFormatList = new ArrayList();
@@ -134,13 +134,13 @@ public class QueryJobExecutor implements Job
 			for(String formatType:formatList){
 				exportFormatList.add(formatType.trim());
 			}
-			notification_Enable = (String)jDataMap.get(SchedulerConstants.NOTIFICATION_ENABLE);
-			notification_type = null;
-			if(Boolean.parseBoolean(notification_Enable))
+			notificationEnable = (String)jDataMap.get(SchedulerConstants.NOTIFICATION_ENABLE);
+			notificationType = null;
+			if(Boolean.parseBoolean(notificationEnable))
 			{
 				message = (String)jDataMap.get(SchedulerConstants.NOTIFICATION_MESSAGE);
-				notification_type =  (String)jDataMap.get(SchedulerConstants.NOTIFICATION_TYPE);
-				if(notification_type.equals(SchedulerConstants.NOTIFICATION_EMAIL))
+				notificationType =  (String)jDataMap.get(SchedulerConstants.NOTIFICATION_TYPE);
+				if(notificationType.equals(SchedulerConstants.NOTIFICATION_EMAIL))
 				{
 					usersIdList = new ArrayList();
 					String userIds = (String)jDataMap.get(SchedulerConstants.EMAIL_ADDRESS);
@@ -203,9 +203,9 @@ public class QueryJobExecutor implements Job
 				throw new Exception("Error Executing Query");
 			}
 			try{
-				if(Boolean.parseBoolean(notification_Enable))
+				if(Boolean.parseBoolean(notificationEnable))
 				{
-					if(notification_type.equals(SchedulerConstants.NOTIFICATION_EMAIL))
+					if(notificationType.equals(SchedulerConstants.NOTIFICATION_EMAIL))
 					{
 						mailGeneratedBigQueryReport(fileList, message, finalUsersIdList);
 					}
@@ -248,13 +248,13 @@ public class QueryJobExecutor implements Job
 	private String findFormat(String val)
 	{
 		if(val.equals("0")){
-			return TYPE_HTML;
+			return typeHtml;
 		}
 		else if(val.equals("1")){
-			return TYPE_PDF;
+			return typePdf;
 		}
 		else{
-			return TYPE_XLS;
+			return typeXls;
 		}
 	}
 	

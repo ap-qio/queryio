@@ -45,8 +45,8 @@ public class LogParser
 	private Date endDate = null;
 	private String searchString = null;
 	
-	private PreparedStatement INSERTPST = null;
-	private PreparedStatement DELETEPST = null;
+	private PreparedStatement insertPst = null;
+	private PreparedStatement deletePst = null;
 	
 	int maxBatchSize; 
 	int currentBatchSize = 0;
@@ -84,34 +84,34 @@ public class LogParser
 		LOG.info("StartDate: " + this.startDate);
 		LOG.info("EndDate: " + this.endDate);
 		
-		StringBuffer QUERY = new StringBuffer("INSERT INTO " + tableName + " (");
+		StringBuffer query = new StringBuffer("INSERT INTO " + tableName + " (");
 		
 //		"FILEPATH", "CATEGORY", "CLASS_NAME", "DATE", "FILE_NAME", "LINE_NUMBER", "LOCATION", "MDC", "MESSAGE", "METHOD", "ELAPSED", "NDC", "PRIORITY", "SEQUENCE", "THREAD"
 		
-		QUERY.append("FILEPATH,");
-		QUERY.append("CATEGORY,");
-		QUERY.append("CLASS_NAME,");
-		QUERY.append("DATE,");
-		QUERY.append("FILE_NAME,");
-		QUERY.append("LINE_NUMBER,");
-		QUERY.append("LOCATION,");
-		QUERY.append("MDC,");
-		QUERY.append("MESSAGE,");
-		QUERY.append("METHOD,");
-		QUERY.append("ELAPSED,");
-		QUERY.append("NDC,");
-		QUERY.append("PRIORITY,");
-		QUERY.append("SEQUENCE,");
-		QUERY.append("THREAD");
-		QUERY.append(") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		LOG.info("QUERY: " + QUERY);
-		INSERTPST = connection.prepareStatement(QUERY.toString());
+		query.append("FILEPATH,");
+		query.append("CATEGORY,");
+		query.append("CLASS_NAME,");
+		query.append("DATE,");
+		query.append("FILE_NAME,");
+		query.append("LINE_NUMBER,");
+		query.append("LOCATION,");
+		query.append("MDC,");
+		query.append("MESSAGE,");
+		query.append("METHOD,");
+		query.append("ELAPSED,");
+		query.append("NDC,");
+		query.append("PRIORITY,");
+		query.append("SEQUENCE,");
+		query.append("THREAD");
+		query.append(") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		LOG.info("QUERY: " + query);
+		insertPst = connection.prepareStatement(query.toString());
 		
-		StringBuffer DELETEQUERY = new StringBuffer("DELETE FROM " + tableName + " WHERE ");
-		DELETEQUERY.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		DELETEQUERY.append(" = ?");		
-		LOG.info("DELETEQUERY: " + DELETEQUERY);
-		DELETEPST = connection.prepareStatement(DELETEQUERY.toString());
+		StringBuffer deletequery = new StringBuffer("DELETE FROM " + tableName + " WHERE ");
+		deletequery.append(TableMetadata.DEFAULT_TAG_FILEPATH);
+		deletequery.append(" = ?");		
+		LOG.info("DELETEQUERY: " + deletequery);
+		deletePst = connection.prepareStatement(deletequery.toString());
 		
 		this.fileStatus = fileStatus;
 	}
@@ -204,26 +204,26 @@ public class LogParser
 					}
 					
 					if(incl && LogParser.this.includeDate){
-						DELETEPST.setString(1, fileStatus.getPath().toUri().getPath());
-						DELETEPST.execute();
+						deletePst.setString(1, fileStatus.getPath().toUri().getPath());
+						deletePst.execute();
 						
 						int i=1;						
-						INSERTPST.setString(i ++, fileStatus.getPath().toUri().getPath());
-						INSERTPST.setString(i ++, logEntry.getCategory());
-						INSERTPST.setString(i ++, logEntry.getClassName());
-						INSERTPST.setString(i ++, logEntry.getDate());
-						INSERTPST.setString(i ++, logEntry.getFileName());
-						INSERTPST.setString(i ++, logEntry.getLineNumber());
-						INSERTPST.setString(i ++, logEntry.getLocation());
-						INSERTPST.setString(i ++, logEntry.getMdc());
-						INSERTPST.setString(i ++, logEntry.getMessage());
-						INSERTPST.setString(i ++, logEntry.getMethod());
-						INSERTPST.setString(i ++, logEntry.getMsElapsed());
-						INSERTPST.setString(i ++, logEntry.getNdc());
-						INSERTPST.setString(i ++, logEntry.getPriority());
-						INSERTPST.setString(i ++, logEntry.getSequence());
-						INSERTPST.setString(i ++, logEntry.getThread());
-						INSERTPST.addBatch();
+						insertPst.setString(i ++, fileStatus.getPath().toUri().getPath());
+						insertPst.setString(i ++, logEntry.getCategory());
+						insertPst.setString(i ++, logEntry.getClassName());
+						insertPst.setString(i ++, logEntry.getDate());
+						insertPst.setString(i ++, logEntry.getFileName());
+						insertPst.setString(i ++, logEntry.getLineNumber());
+						insertPst.setString(i ++, logEntry.getLocation());
+						insertPst.setString(i ++, logEntry.getMdc());
+						insertPst.setString(i ++, logEntry.getMessage());
+						insertPst.setString(i ++, logEntry.getMethod());
+						insertPst.setString(i ++, logEntry.getMsElapsed());
+						insertPst.setString(i ++, logEntry.getNdc());
+						insertPst.setString(i ++, logEntry.getPriority());
+						insertPst.setString(i ++, logEntry.getSequence());
+						insertPst.setString(i ++, logEntry.getThread());
+						insertPst.addBatch();
 						currentBatchSize ++;
 						
 						
@@ -232,7 +232,7 @@ public class LogParser
 						{
 							try
 							{
-								INSERTPST.executeBatch();
+								insertPst.executeBatch();
 							}
 							catch (Exception e)
 							{
@@ -242,7 +242,7 @@ public class LogParser
 									throw ((BatchUpdateException) e).getNextException();
 								}
 							}
-							INSERTPST.clearBatch();
+							insertPst.clearBatch();
 							currentBatchSize = 0;
 						}	
 						
@@ -257,7 +257,7 @@ public class LogParser
 			}
 			try
 			{
-				INSERTPST.executeBatch();
+				insertPst.executeBatch();
 			}
 			catch (Exception e)
 			{
@@ -268,10 +268,10 @@ public class LogParser
 				}
 			}
 		} finally {
-			if (INSERTPST != null){
+			if (insertPst != null){
 				try{
 					if(currentBatchSize > 0)
-						INSERTPST.executeBatch();
+						insertPst.executeBatch();
 				} catch (Exception e) {
 					LOG.fatal("Exception in executeBatch: ", e);
 					if (e instanceof BatchUpdateException)
@@ -281,14 +281,14 @@ public class LogParser
 				}
 				finally{
 					try {
-						INSERTPST.close();
+						insertPst.close();
 					} catch (SQLException e) {
 						LOG.fatal("Error Closing PreparedStatement", e);
 					}	
 				}
 			}
-			if(DELETEPST != null)
-				DELETEPST.close();
+			if(deletePst != null)
+				deletePst.close();
 			try {
 				if (rd != null)
 					rd.close();

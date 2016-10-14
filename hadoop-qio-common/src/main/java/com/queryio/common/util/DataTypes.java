@@ -25,6 +25,7 @@ import java.sql.Date;
  * 
  * @author Exceed Consultancy Services
  */
+@SuppressWarnings({"PMD.AvoidUsingShortType" , "PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal"})
 public class DataTypes
 {
 	/* any object having this data type is not of defined type */

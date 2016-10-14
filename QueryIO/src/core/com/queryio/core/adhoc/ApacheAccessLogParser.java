@@ -19,10 +19,10 @@ public class ApacheAccessLogParser {
 	
 	private static final Log LOG = LogFactory.getLog(ApacheAccessLogParser.class);
 	
-	private static String FILE_NAME = null;
+	private static String fileName = null;
 	
 	
-	private static String  PATTERN = "";
+	private static String  patternStr = "";
 
 //	"%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
 	
@@ -36,18 +36,18 @@ public class ApacheAccessLogParser {
 	private static final String REFERRER = "{Referer}i";
 	private static final String AGENT = "{User-agent}i";
 	
-	static String DT_VARCHAR = MetadataConstants.GENERIC_DATA_TYPE_STRING;
-	static String DT_VARCHAR_DEFAULT [] = {"(128)" , "(255)" , "(512)" , "(1280)"};
-	static String DT_INTEGER = MetadataConstants.GENERIC_DATA_TYPE_INTEGER;
+	public static final String DT_VARCHAR = MetadataConstants.GENERIC_DATA_TYPE_STRING;
+	public static final String DT_VARCHAR_DEFAULT [] = {"(128)" , "(255)" , "(512)" , "(1280)"};
+	public static final String DT_INTEGER = MetadataConstants.GENERIC_DATA_TYPE_INTEGER;
 	
 	private int index;
 	private char start;
 	
 	private static boolean isFirstTime = false;
 	
-	private static String  ENCODING_TYPE="UTF-8";
+	private static String  encodingType="UTF-8";
 	
-	private static int MAX_DATA_PROCESS = 10;
+	private static int maxDataProcess = 10;
 	
 	private static int  dataCounter = 0;
 	
@@ -58,13 +58,13 @@ public class ApacheAccessLogParser {
 	
 	public ApacheAccessLogParser(String pattern , String name, String encoding, int noOfRecords) {
 		
-		PATTERN = pattern;
-		FILE_NAME = name;
-		ENCODING_TYPE = encoding;
+		patternStr = pattern;
+		fileName = name;
+		encodingType = encoding;
 		dataCounter = 0;
 		isFirstTime = false;
-		ENCODING_TYPE="UTF-8";
-		MAX_DATA_PROCESS = noOfRecords;
+		encodingType="UTF-8";
+		maxDataProcess = noOfRecords;
 	}
 	
 	public JSONArray getData() {
@@ -115,7 +115,7 @@ public class ApacheAccessLogParser {
 		ArrayList<String> recordsPerLine = new ArrayList<String>();
 
 		String tokens[];
-		tokens = PATTERN.split("%");
+		tokens = patternStr.split("%");
 		int differenceCounter = 0;
 		for(int count=0;count<tokens.length;count++)
 		{
@@ -148,17 +148,17 @@ public class ApacheAccessLogParser {
 		
 		JSONArray jsonDataArray = new JSONArray();
 		
-		tempRec.set(0 , FILE_NAME) ;
+		tempRec.set(0 , fileName) ;
 		
-		AppLogger.getLogger().debug(PATTERN.indexOf(IP));
-		AppLogger.getLogger().debug(PATTERN.indexOf(BLANK));
-		AppLogger.getLogger().debug(PATTERN.indexOf(USERID));
-		AppLogger.getLogger().debug(PATTERN.indexOf(TIMEDATE));
-		AppLogger.getLogger().debug(PATTERN.indexOf(REQUESTED_LINE));
-		AppLogger.getLogger().debug(PATTERN.indexOf(STATUS_CODE));
-		AppLogger.getLogger().debug(PATTERN.indexOf(OBJ_SIZE));
-		AppLogger.getLogger().debug(PATTERN.indexOf(REFERRER));
-		AppLogger.getLogger().debug(PATTERN.indexOf(AGENT));
+		AppLogger.getLogger().debug(patternStr.indexOf(IP));
+		AppLogger.getLogger().debug(patternStr.indexOf(BLANK));
+		AppLogger.getLogger().debug(patternStr.indexOf(USERID));
+		AppLogger.getLogger().debug(patternStr.indexOf(TIMEDATE));
+		AppLogger.getLogger().debug(patternStr.indexOf(REQUESTED_LINE));
+		AppLogger.getLogger().debug(patternStr.indexOf(STATUS_CODE));
+		AppLogger.getLogger().debug(patternStr.indexOf(OBJ_SIZE));
+		AppLogger.getLogger().debug(patternStr.indexOf(REFERRER));
+		AppLogger.getLogger().debug(patternStr.indexOf(AGENT));
 		
 		JSONObject iIndices = new JSONObject();
 		
@@ -195,7 +195,7 @@ public class ApacheAccessLogParser {
 			}
 		}
 
-		if(PATTERN.indexOf(IP)!=-1){
+		if(patternStr.indexOf(IP)!=-1){
 			i++;
 			int ind = Integer.parseInt(iIndices.get(IP).toString());
 			if(!isFirstTime){
@@ -210,7 +210,7 @@ public class ApacheAccessLogParser {
 			}
 				tempRec.set(ind , recordsPerLine.get(ind-1));
 		}
-		if(PATTERN.indexOf(BLANK)!=-1){
+		if(patternStr.indexOf(BLANK)!=-1){
 			i++;
 			int ind = Integer.parseInt(iIndices.get(BLANK).toString());
 			if(!isFirstTime){
@@ -226,7 +226,7 @@ public class ApacheAccessLogParser {
 			}
 				tempRec.set(ind , recordsPerLine.get(ind-1));
 		}
-		if(PATTERN.indexOf(USERID)!=-1){
+		if(patternStr.indexOf(USERID)!=-1){
 			i++;
 			int ind = Integer.parseInt(iIndices.get(USERID).toString());
 			if(!isFirstTime){
@@ -243,7 +243,7 @@ public class ApacheAccessLogParser {
 			}
 				tempRec.set(ind , recordsPerLine.get(ind-1));
 		}
-		if(PATTERN.indexOf("%t") != -1){
+		if(patternStr.indexOf("%t") != -1){
 			i++;
 			int ind = Integer.parseInt(iIndices.get(TIMEDATE).toString());
 			if(!isFirstTime){
@@ -258,7 +258,7 @@ public class ApacheAccessLogParser {
 			}
 				tempRec.set(ind , recordsPerLine.get(ind-1));
 		}
-		if ((PATTERN.indexOf(REQUESTED_LINE)!=-1)){
+		if ((patternStr.indexOf(REQUESTED_LINE)!=-1)){
 			i++;
 			int ind = Integer.parseInt(iIndices.get(REQUESTED_LINE).toString());
 			if(!isFirstTime){
@@ -273,7 +273,7 @@ public class ApacheAccessLogParser {
 			}
 				tempRec.set(ind , recordsPerLine.get(ind-1));
 		}
-		if(PATTERN.indexOf(STATUS_CODE)!=-1){
+		if(patternStr.indexOf(STATUS_CODE)!=-1){
 			i++;
 			int ind = Integer.parseInt(iIndices.get(STATUS_CODE).toString());
 			if(!isFirstTime){
@@ -289,7 +289,7 @@ public class ApacheAccessLogParser {
 			}
 				tempRec.set(ind , recordsPerLine.get(ind-1));
 		}
-		if(PATTERN.indexOf(OBJ_SIZE)!=-1){
+		if(patternStr.indexOf(OBJ_SIZE)!=-1){
 			i++;
 			int ind = Integer.parseInt(iIndices.get(OBJ_SIZE).toString());
 			if(!isFirstTime){
@@ -304,7 +304,7 @@ public class ApacheAccessLogParser {
 			}
 			tempRec.set(ind , recordsPerLine.get(ind-1));
 		}
-		if(PATTERN.indexOf(REFERRER)!=-1){
+		if(patternStr.indexOf(REFERRER)!=-1){
 			i++;
 			int ind = Integer.parseInt(iIndices.get(REFERRER).toString());
 			if(!isFirstTime){
@@ -320,7 +320,7 @@ public class ApacheAccessLogParser {
 			}
 				tempRec.set(ind , recordsPerLine.get(ind-1));
 		}
-		if(PATTERN.indexOf(AGENT)!=-1){
+		if(patternStr.indexOf(AGENT)!=-1){
 			i++;
 			int ind = Integer.parseInt(iIndices.get(AGENT).toString());
 			if(!isFirstTime){
@@ -337,7 +337,7 @@ public class ApacheAccessLogParser {
 				tempRec.set(ind , recordsPerLine.get(ind-1));
 		}
 		//Adding array into json array
-		AppLogger.getLogger().debug(PATTERN + " : " + REQUESTED_LINE + " : " + PATTERN.indexOf(REQUESTED_LINE));
+		AppLogger.getLogger().debug(patternStr + " : " + REQUESTED_LINE + " : " + patternStr.indexOf(REQUESTED_LINE));
 		data.add(tempRec);
 		isFirstTime = true;
 		
@@ -348,11 +348,11 @@ public class ApacheAccessLogParser {
 		BufferedReader br = null;
 		String str;
 		try {
-			InputStreamReader in = new InputStreamReader(is , ENCODING_TYPE);
+			InputStreamReader in = new InputStreamReader(is , encodingType);
 
 			br = new BufferedReader(in);
 			
-			while((str = br.readLine())!=null && dataCounter<MAX_DATA_PROCESS){
+			while((str = br.readLine())!=null && dataCounter<maxDataProcess){
 				AppLogger.getLogger().debug("DataCounter = " + dataCounter + " : String = " + str);
 				this.parseLine(str);
 			}

@@ -9,11 +9,11 @@ import org.apache.hadoop.hdfs.DFSConfigKeys;
 
 public class Custom {
 		
-	public static String HDFS_URL = "hdfs://192.168.0.9:9000";
+	public static final String HDFS_URL = "hdfs://192.168.0.9:9000";
 	
-	public static String REPLICATION_COUNT = "2";
+	public static final String REPLICATION_COUNT = "2";
 	
-	public static int OBJECT_SIZE = 10 * 1024; // 10 kb 
+	public static final int OBJECT_SIZE = 10 * 1024; // 10 kb 
 	
 	private static byte[] staticBuffer;
 	

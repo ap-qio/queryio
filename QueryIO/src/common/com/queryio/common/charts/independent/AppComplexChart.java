@@ -38,7 +38,7 @@ import com.queryio.common.util.PlatformHandler;
  */
 public class AppComplexChart extends AppChart implements IScrollableChart
 {
-	private static final double angle = Math.PI * 0.5;
+	private static final double ANGLE = Math.PI * 0.5;
 
 	private Rectangle yAxisRect = null;
 
@@ -269,7 +269,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 			axisTitle.setOrientation(Title.ORIENTATION_VERTICAL);
 			axisTitle.setBackgroundColor(this.chartProperties.getXAxisTitleBackgroundColour());
 			axisTitle.setTextColor(this.chartProperties.getXAxisTitleTextColour());
-			axisTitle.draw(graphics, -angle);
+			axisTitle.draw(graphics, -ANGLE);
 		}
 
 		if (this.isYAxisTitle())

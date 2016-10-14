@@ -26,12 +26,12 @@ import java.io.Serializable;
 public class MbeanAttribute implements Serializable
 {
 	private static final long serialVersionUID = -1619548766130922177L;
-	public static int BOOLEAN_DATATYPE = 1;
-	public static int NONBOOLEAN_PRIMITIVE_DATATYPE = 2;
-	public static int NONPRIMITIVE_DATATYPE = 3;
-	public static String READ_ONLY = "ReadOnly";
-	public static String WRITE_ONLY = "WriteOnly";
-	public static String READWRITE = "ReadWrite";
+	public static final int BOOLEAN_DATATYPE = 1;
+	public static final int NONBOOLEAN_PRIMITIVE_DATATYPE = 2;
+	public static int nonprimitiveDatatype = 3;
+	public static final String READ_ONLY = "ReadOnly";
+	public static final String WRITE_ONLY = "WriteOnly";
+	public static final String READWRITE = "ReadWrite";
 
 	private String name;
 	// private Object previousValue;
@@ -41,19 +41,19 @@ public class MbeanAttribute implements Serializable
 	private boolean editable;
 	private int dataTypeSupported;
 
-	static String INTEGER = "java.lang.Integer";
-	static String PRIMITIVE_INT = "int";
-	static String DOUBLE = "java.lang.Double";
-	static String PRIMITIVE_DOUBLE = "double";
-	static String PRIMITIVE_FLOAT = "float";
-	static String FLOAT = "java.lang.float";
-	static String LONG = "java.lang.Long";
-	static String PRIMITIVE_LONG = "long";
-	static String PRIMITIVE_BOOLEAN = "boolean";
-	static String BOOLEAN = "java.lang.Boolean";
-	static String STRING = "java.lang.String";
+	public static final String INTEGER = "java.lang.Integer";
+	public static final String PRIMITIVE_INT = "int";
+	public static final String DOUBLE = "java.lang.Double";
+	public static final String PRIMITIVE_DOUBLE = "double";
+	public static final String PRIMITIVE_FLOAT = "float";
+	public static final String FLOAT = "java.lang.float";
+	public static final String LONG = "java.lang.Long";
+	public static final String PRIMITIVE_LONG = "long";
+	public static final String PRIMITIVE_BOOLEAN = "boolean";
+	public static final String BOOLEAN = "java.lang.Boolean";
+	public static final String STRING = "java.lang.String";
 
-	public static final String[] supportedDataType = { "int", "double", "long", "float", "String", "java.lang.Integer",
+	public static final String[] SUPPORTEDDATATYPE = { "int", "double", "long", "float", "String", "java.lang.Integer",
 			"java.lang.Double", "java.lang.Float", "java.lang.String", "java.lang.Long" };
 
 	/**
@@ -93,10 +93,10 @@ public class MbeanAttribute implements Serializable
 			this.dataTypeSupported = BOOLEAN_DATATYPE;
 			return true;
 		}
-		this.dataTypeSupported = NONPRIMITIVE_DATATYPE;
-		for (int i = 0; i < supportedDataType.length; i++)
+		this.dataTypeSupported = nonprimitiveDatatype;
+		for (int i = 0; i < SUPPORTEDDATATYPE.length; i++)
 		{
-			if (dataType.equals(supportedDataType[i]))
+			if (dataType.equals(SUPPORTEDDATATYPE[i]))
 			{
 				this.dataTypeSupported = NONBOOLEAN_PRIMITIVE_DATATYPE;
 				return true;
