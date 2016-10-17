@@ -34,7 +34,7 @@
 					<groupId>com.queryio</groupId>
 					<artifactId>hadoop-qio-server</artifactId>
 				</exclusion>
-				</exclusions>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -268,13 +268,13 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.2.2</version>
 		</dependency>
-		 <dependency>
-        <groupId>LZ4</groupId>
-        <artifactId>LZ4-java</artifactId>
-        <version>1.0</version>
-        <scope>system</scope>
-        <systemPath>${basedir}/lib/LZ4-java/LZ4Java.jar</systemPath>
-    </dependency>
+		<dependency>
+			<groupId>LZ4</groupId>
+			<artifactId>LZ4-java</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/LZ4-java/LZ4Java.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -308,7 +308,7 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
 		<pluginManagement>
 			<plugins>

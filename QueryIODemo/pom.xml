@@ -47,20 +47,20 @@
 			<artifactId>hadoop-mapreduce-client-core</artifactId>
 			<version>2.7.3</version>
 		</dependency>
-		 <dependency>
-        <groupId>LZ4Java</groupId>
-        <artifactId>LZ4Java</artifactId>
-        <version>1.0</version>
-        <scope>system</scope>
-        <systemPath>${basedir}/lib/LZ4Java.jar</systemPath>
-    </dependency>
-     <dependency>
-        <groupId>wikixmlj-r43</groupId>
-        <artifactId>wikixmlj-r43</artifactId>
-        <version>1.0</version>
-        <scope>system</scope>
-        <systemPath>${basedir}/lib/wikixmlj-r43.jar</systemPath>
-    </dependency>
+		<dependency>
+			<groupId>LZ4Java</groupId>
+			<artifactId>LZ4Java</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/LZ4Java.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>wikixmlj-r43</groupId>
+			<artifactId>wikixmlj-r43</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/wikixmlj-r43.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

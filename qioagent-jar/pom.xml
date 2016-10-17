@@ -25,6 +25,17 @@
 			<groupId>com.queryio</groupId>
 			<artifactId>QueryIOPlugins</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+
+
+
+
+
+
+
+
+
+
+
 			<exclusions>
 				<exclusion>
 					<groupId>com.queryio</groupId>

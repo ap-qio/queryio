@@ -1,20 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.queryio</groupId>
-  <artifactId>HDFSFTPServer</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>HDFSFTPServer Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.queryio</groupId>
+	<artifactId>HDFSFTPServer</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>HDFSFTPServer Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.queryio</groupId>
 			<artifactId>QueryIOPlugins</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -23,7 +23,7 @@
 					<groupId>com.queryio</groupId>
 					<artifactId>hadoop-qio-server</artifactId>
 				</exclusion>
-				</exclusions>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.queryio</groupId>
@@ -36,21 +36,21 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.apache.ftpserver</groupId>
-    		<artifactId>ftplet-api</artifactId>
-    		<version>1.0.6</version>
+			<groupId>org.apache.ftpserver</groupId>
+			<artifactId>ftplet-api</artifactId>
+			<version>1.0.6</version>
 		</dependency>
 		<dependency>
-    <groupId>org.apache.ftpserver</groupId>
-    <artifactId>ftpserver-core</artifactId>
-    <version>1.0.4</version>
-</dependency>
-		
-  </dependencies>
-  <build>
-    <finalName>HDFSFTPServer</finalName>
-    <plugins>
-    <plugin>
+			<groupId>org.apache.ftpserver</groupId>
+			<artifactId>ftpserver-core</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+
+	</dependencies>
+	<build>
+		<finalName>HDFSFTPServer</finalName>
+		<plugins>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
@@ -60,5 +60,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-  </build>
+	</build>
 </project>

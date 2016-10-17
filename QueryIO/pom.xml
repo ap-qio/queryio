@@ -66,30 +66,30 @@
 			<version>2.1.7</version>
 		</dependency>
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.queryio</groupId> -->
-<!-- 			<artifactId>qioagent-jar</artifactId> -->
-<!-- 			<version>0.0.1-SNAPSHOT</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.queryio</groupId> -->
+		<!-- <artifactId>qioagent-jar</artifactId> -->
+		<!-- <version>0.0.1-SNAPSHOT</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-		 <dependency>
-        <groupId>impression-1.0.1-alfa</groupId>
-        <artifactId>impression-1.0.1-alfa</artifactId>
-        <version>1.0</version>
-        <scope>system</scope>
-        <systemPath>${basedir}/lib/impression-1.0.1-alfa.jar</systemPath>
-    </dependency>
-     <dependency>
-        <groupId>smslib-3.3.3</groupId>
-        <artifactId>smslib-3.3.3</artifactId>
-        <version>1.0</version>
-        <scope>system</scope>
-        <systemPath>${basedir}/lib/smslib-3.3.3.jar</systemPath>
-    </dependency>
+		<dependency>
+			<groupId>impression-1.0.1-alfa</groupId>
+			<artifactId>impression-1.0.1-alfa</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/impression-1.0.1-alfa.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>smslib-3.3.3</groupId>
+			<artifactId>smslib-3.3.3</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/smslib-3.3.3.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>QueryIO</finalName>
@@ -122,7 +122,7 @@
 				<version>2.1.1</version>
 				<configuration>
 					<attachClasses>true</attachClasses>
-					 <webXml>${project.basedir}\src\main\webapp\WEB-INF\web.xml</webXml>
+					<webXml>${project.basedir}\src\main\webapp\WEB-INF\web.xml</webXml>
 				</configuration>
 			</plugin>
 			<plugin>
