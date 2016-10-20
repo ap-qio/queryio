@@ -1,0 +1,77 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />
+<link rel="stylesheet" href="styles/alerts_list.css" type="text/css" />
+<script src="scripts/host_config.js"></script>
+<script src="scripts/host.js"></script>
+
+-->
+
+<script src="scripts/bigQuerySummary.js"></script>
+<script src="scripts/data-analyzer.js"></script>
+
+<div id='query_list' class="viewDiv">
+	<div id="query_table_div" class="detailDivView">
+		<div id="query_buttons" class="buttons">
+			<button class="button" id="queryAdd" onclick="javascript:BQS.addNewQuery();" >Add</button>
+			<button class="button" id="queryEdit" onclick="javascript:BQS.editSelectedQuery();" disabled="disabled">Design</button>
+			<button class="button" id="queryExecute" onclick="javascipt:BQS.executeSelectedQuery();" disabled="disabled">View</button>
+			<button class="button" id="queryDelete" onclick="javascript:BQS.deleteSelectedQuery();" disabled="disabled">Delete</button>
+			<button class="button" id="queryClone" onclick="javascipt:BQS.cloneSelectedQuery();" disabled="disabled">Clone</button>
+			<button class="button" id="queryExport" onclick="javascript:BQS.exportSelectedReport();" disabled="disabled">Export</button>
+			<button class="button" id="queryEmail" onclick="javascript:BQS.emailSelectedReport();" disabled="disabled">Email</button>
+			<button class="button" id="querySchedule" onclick="javascript:BQS.scheduleSelectedReport();" disabled="disabled">Schedule</button>
+			 
+		</div>
+		<form action="">
+		<div id ="query_list_table_div" style="width: 100%;">
+			<table id="query_list_table" class="dataTable" style="font-size: 9pt; width: 100%"></table>
+		</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+Navbar.isFromsummaryView=true;
+	BQS.ready();
+	var count=1;
+	function fillPopUp(flag)
+	{
+		var id = DA.selectedQueryId;
+		
+		dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+		dwr.util.byId('pop.pattern'+id).style.display = '';
+		dwr.util.byId('popup.image.processing'+id).style.display = '';
+		dwr.util.setValue('popup.component','Query ID');
+		dwr.util.setValue('popup.host'+id,id);
+		dwr.util.setValue('popup.message'+id,'Processing Request...');
+		
+		var str = JSON.stringify(DA.queryInfo);
+		
+		if (DA.isDelete)
+		{
+			dwr.util.setValue('popup.status'+id,'Deleting..');
+			RemoteManager.deleteBigQuery(DA.selectedNameNode, DA.selectedQueryId, DA.querySaveResponse);
+			
+		}
+		else if(DA.isClone)
+		{
+			dwr.util.setValue('popup.status'+id,'Cloning..');	
+			var str = JSON.stringify(DA.cloneData);
+			var dbName = DA.cloneData["dbName"];
+			RemoteManager.saveBigQuery(DA.selectedNameNode, dbName, str, DA.querySaveResponse);
+			DA.isClone = false;
+		}
+		else
+		{
+			dwr.util.setValue('popup.status'+id,'Saving..');
+			RemoteManager.saveBigQuery(DA.selectedNameNode, DA.selectedDbName, str, DA.querySaveResponse);
+		}
+	}
+
+	function closePopUpBox()
+	{
+	    DA.closeBox(true);
+	    Navbar.refreshView();
+	}
+
+</script>
+<script type="text/javascript" src="scripts/data_analyzerTab.js"></script>
+<script type="text/javascript" src="scripts/report_schedules.js"></script>

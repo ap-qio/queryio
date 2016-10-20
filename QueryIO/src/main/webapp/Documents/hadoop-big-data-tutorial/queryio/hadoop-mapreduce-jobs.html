@@ -1,0 +1,100 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Managing Hadoop MapReduce jobs</title>
+</head>
+<body>
+
+<h1 id="configure"><span>Managing MapReduce jobs</span></h1>
+<h2><span>In this chapter</span></h2>
+<p>MapReduce is a programming model for processing large data sets.</p>
+<p>This document will show you how easily you can add and execute MapReduce jobs using QueryIO. It is assumed that you have already 
+configured ResourceManager and NodeManager nodes along with NameNode and DataNode.</p>
+<ul>
+	
+	<li><a href="#add-host">Adding MapReduce Job</a></li>
+	<li><a href="#exe">Executing MapReduce Job</a></li>
+	<li><a href="#status">Checking Job Status</a></li>
+</ul>
+
+<p>QueryIO ships with MapReduce jobs for parsing CSV and LOG file types. 
+The job for CSV file types lets you apply filter expressions on the contents of the file data and inserts the results in the database.
+The job for LOG file types lets you search for particular messages or exceptions and inserts the results in the database.
+CSV and LOG parser jobs are bundled in <b>$INSTALL_HOME/demo/CSVParserJob.jar</b> and <b>$INSTALL_HOME/demo/LOGParserMRJob.jar</b> files respectively.</p>
+
+<p>QueryIO exposes various interfaces to allow traditional programmers to write their own custom MapReduce jobs. 
+To see how you can write your own <b>MapReduce</b> jobs, refer to the <a href="../../hadoop-big-data-developer-guide/index.html" target="_blank">developer documentation</a>. </p>
+
+<p>This document will guide you through adding and executing MapReduce job for parsing LOG file types.</p>
+
+<h2 id="add-host"><span>Adding MapReduce Job</span></h2>
+	<ul>
+		<li>Go to <b>Hadoop > MapReduce > Job Manager > Standard MapReduce</b> tab.</li>
+		<li>Click on <b>Add</b> button to add a new job</b>. You will see the following window.</li>
+		<img src="images/screenshots/log-job.jpeg" />
+		<li>In <b>Job Name</b> textbox, enter <b>LOGParserJob</b>.</li>
+		<li>In <b>Main Class</b> textbox, enter the main class for your job. For LOG parser job, enter <b>com.queryio.demo.mr.log.LogParserJob</b>.</li>
+		<li>In <b>Arguments</b> textbox, you can specify any argument that you want to pass to the main class of the job.
+		<p>
+		LOG parser job allows you to extract selected data from the LOG files using filter expressions.
+		<br>
+		The format for the argument is: [generic options]  &lt;input-folder&gt; [&lt;result-table-name&gt;]  [&lt;search-string&gt;] [&lt;log-pattern&gt;] [&lt;start-time-ms&gt;] [&lt;end-time-ms&gt;]
+		<br>
+		<br>
+		<b>
+		&lt;input-folder&gt;:</b> Job parser will parse the contents of the directory specified by input-folder. Let it be / for the LOG parser job.
+		<br>
+		<br>
+		<b>	
+		&lt;result-table-name&gt;:</b> Name of the table in which result of the job execution will be saved.
+		<br>
+		<br>
+		<b>
+		&lt;search-string&gt;:</b> String to be searched in files.
+		<br>
+		<br>
+		<b>	
+		&lt;log-pattern&gt;:</b> Project layout pattern string. Example: %d{dd MMM,HH:mm:ss:SSS} %C{3} - %m%n. Its not mandatory to provide log-pattern.
+		<br>
+		<br>
+		<b>	
+		&lt;start-time-ms&gt;  &lt;end-time-ms&gt;:</b> Time between which logs will be parsed. Time must be specified in <b>yyyy-MM-dd HH:mm:ss</b> format.
+		<br>
+		<br>
+		<b>Sample Arguments: </b>/ RESULT_LOG_JOB java.lang.Exception
+		</p>
+		<li>Select <b>$INSTALL_HOME/demo/LOGParserMRJob.jar</b> file.</li>
+		
+		<li>You can also add any dependent libraries and native files along with the job.</li>
+		<li>For LOG parser job, we do not need to add any dependency libraries or files.</li>
+		<li>Click <b>Save</b>.</li>
+	</ul>
+	
+<h2 id="exe"><span>Executing MapReduce Job</span></h2>
+	<ul>
+		<li>Go to <b>Hadoop > MapReduce > Job Manager > Standard MapReduce</b> tab. Here you can see the list of jobs that you have added.</li>
+		<li>Select the check box adjacent to the jobs that you want to execute. For LOG parser job, enable <b>LOGParserMRJob</b> checkbox.</li>
+		<li>Click <b>Start</b>.</li>
+		<li>You can also schedule jobs if you want to execute job after specific time interval.</li>
+		<li>You can see the status of the job in the <b>Jobs Execution History</b> table.</li> 
+	</ul>	
+	
+<h2 id="status"><span>Checking Job Status</span></h2>	
+	<ul>
+		<li>Go to <b>Hadoop > MapReduce > Job Manager > Execution History</b> tab. </li>
+		<li>In the <b>Jobs Execution History</b> view, you can see the status of the jobs that you have submitted for execution.</b></li>
+		<!--img alt="report-designer" src="images/screenshots/job-browser-status-window.jpeg" -->	
+		</ul>
+
+	<p>You can use Query Manager to query the information extracted using MapReduce jobs.</p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

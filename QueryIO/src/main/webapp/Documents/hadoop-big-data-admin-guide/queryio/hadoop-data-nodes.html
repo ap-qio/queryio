@@ -1,0 +1,160 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop DataNode</title>
+</head>
+<body>
+<h1><span>Hadoop DataNode</span><span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>Following aspects of DataNode are explained in this chapter</p>
+<ul>
+	<li><a href="#intro">What is DataNode</a></li>
+	<li><a href="#summary">DataNode Summary</a></li>
+	<li><a href="#new">Add DataNode</a></li>
+	<li><a href="#start">Start/Stop DataNode</a></li>
+	<li><a href="#delete">Delete DataNode</a></li>
+	<li><a href="#monitor">Start/Stop Monitoring</a></li>
+	<li><a href="#decommission">Decommission</a></li>
+	<li><a href="#details">DataNode Details</a></li>
+</ul>
+
+<h2 id="intro"><span>What is DataNode ?</span></h2>
+<p>A DataNode stores data in the HDFS. A functional filesystem has more than one DataNode, with data replicated across them.
+On start-up, a NameNode connects to the DataNodes. It then responds to requests from the NameNode for filesystem operations. 
+Client applications can talk directly to a DataNode, once the NameNode has provided the location of the data.</p>
+
+<p>To manage DataNodes on your cluster, go to <b>HDFS > DataNode</b>.</p>
+
+<img alt="data-node" src="images/screenshots/data-node.jpeg" >
+
+<h2 id="summary"><span>DataNode Summary</span></h2>
+<p>Following details are displayed in DataNode summary: </p>
+<ul>
+	<li>Storage Summary: A pie chart displaying amount of free storage versus used storage.</li>
+	<li>Status Summary:
+		<ul>
+			<li><b>Total Files and Directories:</b> Total amount of files and directories present in all DataNodes.</li>
+			<li><b>Total Blocks:</b> Total amount of blocks present in all DataNodes.</li>
+			<li><b>Total Storage:</b> Total amount of storage space available for storage from all DataNodes.</li>
+			<li><b>Used Storage:</b> Amount of data stored on cluster. </li>
+			<li><b>Free Storage:</b> Amount of storage space free to use.</li>
+			<li><b>DataNodes:</b> Number of DataNode in the cluster.</li>
+			<li><b>Volumes:</b> Number of local repositories of DataNodes in cluster.</li>
+		</ul>
+	<li>Details of all DataNodes in the HDFS cluster:
+		<ul>
+			<li><b>DataNode:</b> Unique identifier and IP address name of the DataNode.</li>
+			<li><b>Rack Name:</b> Name of the rack in which DataNode is present.</li>
+			<li><b>JVM Heap:</b> The Java virtual machine heap is the area of memory used by the JVM, for dynamic memory allocation.</li>
+			<li><b>Volume:</b> Local repository of DataNode on that host.</li>
+			<li><b>Disk:</b> Label of the hard disk on which volume is mounted.</li>
+			<li><b>Size:</b> Total storage space available in the DataNode.</li>
+			<li><b>Disk Reads:</b> Rate of data read from cluster in bytes/s.</li>
+			<li><b>Disk Writes:</b> Rate of data written to cluster in bytes/s.</li>
+			<li><b>Disk Usage: </b> Percentage of disk used.</li>
+			<li><b>Bytes Read:</b> Amount of data retrieved from DataNode.</li>
+			<li><b>Bytes Written:</b> Amount of data stored on DataNode.</li>
+			<li><b>Alerts:</b> <a href="big-data-alerts.html">Alerts</a> are generated when rules defined by user violates. It displays number of <a href="big-data-alerts.html">alerts</a> generated.</li>
+			<li><b>CPU Usage:</b> Memory usage of DataNode system.</li>
+			<li><b>RAM:</b> Amount of random access memory available at DataNode.</li>
+			<li><b>N/W Rcvd:</b> Rate of data received through network in bytes/s.</li>
+			<li><b>N/W Sent:</b> Rate of data sent through network in bytes/s.</li>		
+			<li><b>Logs:</b> Click on respective link to view 'stdout/stderr' logs or 'full log file'..</li>	
+			<li><b>Status:</b> State of the DataNode i.e started or stopped.</li>
+			<li><b>Monitoring:</b> State of DataNode monitoring i.e. whether DataNode monitoring is started or stopped or not responding.</li>
+		</ul>
+	</li>
+</ul>
+
+<h2 id="new"><span>Add DataNode</span></h2>
+<p>Click on "Add" button to add DataNode to the cluster.</p>
+<ul>
+	<li><b>Hostname/IP:</b> Select the host from the drop down list. </li>
+	<li><b>Unique Indetifier:</b> A unique name for the node.</li>
+	<img alt="DataNode-add" src="images/screenshots/data-node-add1.jpeg" >
+	<li><b>Server Port:</b> The port where the DataNode server will listen to.</li> 	
+	<li><b>HTTP Port:</b> The DataNode http server port.</li>
+	<li><b>HTTPS Port:</b> The DataNode https server port.</li>
+	<li><b>IPC Port:</b> The DataNode inter-process communication port. </li>
+	<li><b>JMX Port:</b> The DataNode jmx monitoring port.</li>
+	<li>Click on next button to continue.</li>
+	<img alt="DataNode-add" src="images/screenshots/data-node-add2.jpeg" >
+
+	<li>Next screen will ask to add volumes for DataNode.</li>
+	<li><b>Disk:</b> Now select the disk in which data should be stored. All disks available at the host are displayed in a drop down list.</li>
+	<li><b>Volume Path:</b> Enter the volume path where data should be stored. This is local repository of DataNode on that host.</li>
+	<li>Click on "<b>+</b>" icon next to the volume path if you want to add more than one local repositories.</li>
+	<li>Click on "<b>-</b>" icon to remove volume path.</li>
+	<li><b>Start node after installation: </b>Select check box, if you want to start the DataNode just after it is installed. You can start the node later also.</li>
+	<li>Click <b>Save</b> to complete the process.</li></br>
+	<img alt="DataNode-add1" src="images/screenshots/data-node-add3.jpeg" >
+	</br></br>
+</ul>
+
+<h2 id="start"><span>Start/Stop DataNode</span></h2>
+<p>To start or stop a DataNode, select the check box against the node and click on <b>Start</b> or <b>Stop</b> button respectively.</p>
+
+<h2 id="delete"><span>Delete DataNode</span></h2>
+<p>To delete a DataNode from the cluster, select the check box against the the DataNode and click <b>Delete</b>. 
+But to delete a DataNode, it must be first decommissioned. 
+ </br>
+ <a href="node-replacement.html">Click here</a> to know more about node replacement and deleting a DataNode.</p>
+
+<h2 id="monitor"><span>Start/Stop Monitoring</span></h2>
+<p>JMX monitoring takes place which checks DataNode's status, CPU Usage, RAM, N/W Rcvd, N/W Sent, Disk Read, Disk Write, Disk Usage, Bytes Read and Bytes Written. To start or stop DataNode Monitoring, select the check box against the node and click on <b>Start Monitoring</b> or <b>Stop Monitoring</b> button respectively.</p> 
+
+<h2 id="decommission"><span>Decommission</span></h2>
+<p>Before a node can be deleted, it must be decommissioned. When a DataNode is decommissioned, HDFS will copy all its data to other DataNodes(if any) and updates the NameNode data.
+Decommissioned node will no longer be valid for storing data, but will be a part of cluster until it is deleted.</br>To decommission a node, select the DataNode and click <b>Decommission</b>.</p>
+
+<h2 id="details"><span>DataNode Details </span></h2>
+<p>DataNode in the menu displays all the DataNodes in the HDFS cluster. Just click on the DataNode name in the menu to get all the details of the DataNode system. Details are displayed in form of charts.</p>
+<p>DataNode details contain:</p>
+<ul>
+	<li>Storage Summary: A pie chart displaying amount of free storage versus used storage.</li>
+	<li>Status summary: It has various details about DataNode:
+		<ul>
+			<li><b>JVM Heap Used:</b> Amount of storage used by java virtual machine for dynamic memory allocation.</li>
+			<li><b>JVM Started On:</b> Time when java virtual machine was started on DataNode.</li>
+			<li><b>Total Bytes Read:</b> Amount of data retrieved from DataNode.</li>
+			<li><b>Total Bytes Written:</b> Amount of data imported to DataNode.</li>
+			<li><b>Total Blocks Read:</b> Number of blocks read from DataNode.</li>
+			<li><b>Total Blocks Written:</b> Number of blocks written to DataNode.</li>
+			<li><b>Total Storage:</b> Total amount of storage space available.</li>
+			<li><b>Used Storage:</b> Amount of storage space used. </li>
+			<li><b>Free Storage:</b> Amount of storage space free to use.</li>
+			<li><b>Total Alerts:</b> Number of <a href="big-data-alerts.html">alerts</a> generated on DataNode.
+		</ul> 
+	</li>
+	<li>Shows monitoring data of the DataNode host machine. It uses JVM matrix to display data in the form of charts. Time interval between which data is displayed can be varied from 1 day to 360 days.
+	This data is further used to generate reports and forecast. It can also be used diagnostic purposes.
+	Various charts displayed are: 
+		<ul>
+			<li><b>Block Operations:</b> Shows Number of blocks added with respect to time.</li>
+			<li><b>File Operations:</b> Number of file operations like Create File, Delete File, List File, Total Files Read, Total Files Written performed.</li>
+			<li><b>Storage:</b> Used and Free storage space available with respect to time.</li>
+			<li><b>CPU Usage:</b> Amount of CPU usage</li>
+			<li><b>Heap Memory:</b> Heap memory committed and used with respect to time in MB.</li>
+			<li><b>Non Heap Memory:</b> Non heap memory committed and used with respect to time in MB. </li>
+			<li><b>Threads:</b> Number of Running, Blocked, Waiting, Timed Waiting, Terminated, New threads with respect to time period.</li>
+			<li><b>Network:</b> Bytes received and sent through network in bytes/s.</li>
+			<li><b>GC Count:</b> Total GC Count with respect to time.</li>
+			<li><b>GC Time:</b> Total time required for GC in ms.</li>			
+			<li><b>Disk:</b> Bytes read and written on disk in Bytes/s.</li>
+		</ul>
+	</li>
+	
+</ul>
+<img alt="DataNode-charts" src="images/screenshots/data-node-charts.jpeg" >
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

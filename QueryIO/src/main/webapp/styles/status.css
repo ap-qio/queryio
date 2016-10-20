@@ -1,0 +1,105 @@
+
+.dashbrdcell_td
+{
+	background-color:#F0F0F0;
+	cursor:pointer;
+	cursor:hand;
+	font-size:8pt;
+	font-family:Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.empty_dashbrdcell_td
+{
+	background-color:#c0c0c0;
+	cursor:pointer;
+	cursor:hand;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.ok_dashbrdcell_td
+{
+	background-color:#0a0;
+	cursor:pointer;
+	cursor:hand;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.suspended_dashbrdcell_td
+{
+	background-color:#8db3e2;
+	cursor:pointer;
+	cursor:hand;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.polling_dashbrdcell_td
+{
+	background-color:#c00;
+	cursor:pointer;
+	cursor:hand;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.warning_dashbrdcell_td
+{
+	background-color:#FFD700;
+	cursor:pointer;
+	cursor:hand;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.error_dashbrdcell_td
+{
+	background-color:#FD6347;
+	cursor:pointer;
+	cursor:hand;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.empty_dashbrdcell_legend
+{
+	background-color:#c0c0c0;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.ok_dashbrdcell_legend
+{
+	background-color:#0a0;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.suspended_dashbrdcell_legend
+{
+	background-color:#8db3e2;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.polling_dashbrdcell_legend
+{
+	background-color:#c00;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.warning_dashbrdcell_legend
+{
+	background-color:#FFD700;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.error_dashbrdcell_legend
+{
+	background-color:#FD6347;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}

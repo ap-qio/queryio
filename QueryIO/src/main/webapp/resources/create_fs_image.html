@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+
+<div id="host_create" class="lightbox" style="width:550px;">
+<div id="close" class="close">
+	<a href="javascript:BAR.closeBox(false);"><img src="images/light-box-close.png"></a>
+</div>
+
+<table class="outer">
+       <tbody>
+       	<tr>
+           	<td id="hdr_td" style="padding: 0pt;">
+           		<h4 style="font-weight: normal;"><span id ="headerspan">Create FS Image</span></h4>
+           	</td>
+       	</tr>
+       	<tr>
+			<td>
+				<table align="center" width="100%" style="border-collapse: collapse;">
+					<tbody>
+						<tr>
+							<td id="msg_td">
+								<div class="instructional" id="inst">
+								To create Namenode's FSImage using the metadata stored in currently configured metadata DB.
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<hr>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							 	<table width="100%" class="form_table" id="table" style="display: ">
+									<tbody>
+										<tr style="display: none;">
+											<td style="text-align:left; width: 25%;">Backup Id*</td>
+											<td colspan = "2" style="text-align:left; width: 55%;" >
+												<span>
+													<input style = "width: 250px;" type="text" name="backupId" id="backupId" value="" onkeypress="javascript:Util.blockSpecialChar(event);">
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<td style = "width: 25%;">NameNode*</td>
+											<td style = "width: 55%;" colspan = "2"><select id="nameNodeId" name="nameNodeId" style="width: 250px;"></select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<hr>
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align: right; padding: 15px 5px 10px 0px;">
+								<input type="button" class="buttonAdmin" id="nextbtn" value="Submit" onclick="javascript:BAR.createFSImageForNN();" /> 
+								<input type="button" class="buttonAdmin" id="cancelbtn" value="Cancel" onclick="javascript:BAR.closeBox(false);" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+</div>
+<script>
+
+$('#backupId').val(selectedBAR[0]);
+RemoteManager.getAllNameNodeForDBNameMapping(BAR.populateClusterNameNodeIds);
+
+</script>

@@ -1,0 +1,77 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>NCDC Weather Data : AdHoc - Content Processing</title>
+</head>
+
+<body>
+
+<h1><span>NCDC Weather Data : AdHoc - Content Processing</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains about importing <a href="http://www.ncdc.noaa.gov/" target="_blank">NCDC weather data</a> and querying it using mapreduce job. </p>
+<ul>
+
+	<li><a href="#import">Importing NCDC Weather Data</li>
+	<li><a href="#ncdc">NCDC MapReduce Job with AdHoc Analytics Support</a></li>	
+</ul>
+
+
+
+<h2 id="import"><span>Importing NCDC Weather Data</span></h2>
+<p>NCDC (National Climate Data Center) data consist of weather related from 1929 to 2013.
+You can import this data through FTP service of QueryIO.</p>
+<p>Go to <b>Data > Data Import/Export</b> and click "Import". FTP Import details are : </p>
+<ul>
+	<li>Host: ftp.ncdc.noaa.gov</li>
+	<li>Port: 21</li>
+	<li>User: anonymous</li>
+	<li>No password is required for anonymous user.</li>
+	<li>FTP Source Path: /pub/data/gsod</li>
+	<img src="images/screenshots/ncdc.jpeg" /><br><br>
+</ul>
+<p>Import process will take multiple hours to complete. In case you need to test with lesser number of files, Import data for a particular year rather than all the data.</p>
+<p>Provide <B>FTP Source Path</B> as /pub/data/gsod/2012 or /pub/data/gsod/2013.</p>
+
+<h2 id="ncdc"><span>NCDC MapReduce Job with AdHoc Analytics Support</span></h2>
+
+<p>Following are the steps for executing NCDC MapReduce job:</p>
+<ul>
+	<li>Go to <b>Data > AdHoc - Content Processor</b> tab and click <b>Add</b>.</li>
+	<li>In the <b>Job Name</b> textbox, enter <b>NCDCJob</b>.</li>
+	<li>In the <b>Main Class</b> textbox, enter the class name for your parser. For CSV parser, enter <b>com.queryio.demo.mr.ncdcgsod.NCDCParserJob</b>.</li>
+	<li>In the <b>Arguments</b> textbox, you can specify any arguments that you want to pass to the main class of the job.<br>
+	<ul>
+		<li>The format for the argument is: &lt;input-folder&gt; [&lt;result-table-name&gt;] [&lt;column1=value1&gt; &lt;column2=value2&gt; ... ] </li>
+		<li>Arguments for ad hoc querying NCDC job is : [ / ]</li>
+	</ul>		
+	</li>
+	<li>Select NameNode and ResourceManager to be linked with job.</li>
+	<li>Select <b>$INSTALL_HOME/demo/NCDCAdHocJob.jar</b> file.</li>
+	
+	<li>For NCDC parser job, we do not need to add any dependency libraries or native files.</li>
+	<li>Click <b>Save</b> to add job.</li>
+	<img src="images/screenshots/adhoc-job-ncdc.jpeg" /><br><br>
+	<li>Go to <b>Analytics > Query Designer</b></li>
+	<li>There will be a new <b>ADHOC_NCDCPARSERJOB</b> table added in the FROM section.</li>
+	<img src="images/screenshots/adhoc-ncdc.jpeg" /><br><br>
+	<li>Result Table : It displays name of the table in which result of the job execution will be saved in database. It can be manually changed.</li>
+	<li>To provide <b>filter expressions</b>, use <b>WHERE</b> block. Select the attribute to be filtered and specify expression value through UI.</li>
+	<li>Click "View" to execute query.</li>
+	<li>Job will be automatically executed and result is displayed accordingly.</li>
+	<li>Once the query has executed, &lt;Result Table&gt; will be added to your FROM list and can be used further for querying.</li>
+</ul>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

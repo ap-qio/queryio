@@ -1,0 +1,177 @@
+<!-- <script src="scripts/jquery.alerts.js"></script>
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+-->
+
+
+
+<!-- <script type="text/javascript" src="scripts/datetimepicker.js"></script> -->
+
+<div id="addIngest" class="lightbox" style="width: 550px;">
+	<div id="close" class="close">
+		<a href="javascript:TagManager.closePostTagBox();"><img src="images/light-box-close.png"></a>
+	</div>
+	<form id="tagForm" method="post" action="" onsubmit="">
+	<table id="addIngestTable" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Add Post Ingest Tag Parser</span>
+					</h4>
+				</td>
+			</tr>
+			<tr id="error_msg_row">
+			</tr>
+			<tr>
+				<td>
+					<div id="tagDiv" style="display: ">
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">	
+									<div class="instructional" style="">Post Ingest Parser parses the file at specified time interval after it is written onto the cluster and extracts extended metadata from it. 
+									Files with extensions specified here will be processed by this parser.</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div>
+									<hr>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table id="table" class="viewTable" style=" width: 100%; display:">
+										<tbody>
+											<tr>
+												<td style="text-align: left; vertical-align: top; width: 25%;">Name*</td>
+												<td colspan = "2" style="width: 75%; text-align: left;">
+													<span>
+														<input id = "labelIngest" name = "labelIngest" value = "false" style = "display: none;">
+														<input style = "width: 250px;" type="text" name="tagName" id="tagName" onkeypress="javascript:Util.blockSpecialChar(event);">
+													</span>
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align: left;vertical-align: top; width: 25%;">Description*</td>
+												<td colspan = "2" style = "width: 75%;">
+													<span>
+														<input style = "width: 250px;" type="text" name="tagDesc" id="tagDesc">
+													</span>
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align: left; width: 25%; vertical-align: top;">NameNode*</td>
+												<td colspan = "2" style="width: 75%;"><select id="NameNodeId" name="NameNodeId" style="width: 262px;"></select>
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align: left; width: 25%; vertical-align: top;">ResourceManager*</td>
+												<td colspan = "2" style="width: 75%;"><select id="ResourceManagerId" name="ResourceManagerId" style="width: 262px;"></select>
+												</td>
+											</tr>
+											<tr>
+												<td style = "width: 25%;">
+													Class Name*
+												</td>
+												<td colspan = "2" style = "width: 75%;">
+													<input type="text" name="class_name" id="class_name" style = "width: 250px;">
+												</td>
+											</tr>
+											<tr id = "form_row1">
+												<td style = "width: 25%;">
+													File Extensions*
+												</td>
+												<td colspan = "2" style = "width: 75%;">
+													<input type="text" name="file_type" id="file_type" style = "width: 250px;">
+												</td>
+											</tr>
+											<tr>
+												<td style = "font-size: 9px; padding-top: 0px;" colspan = "3">Please provide comma separated File Extensions. (Example- pdf,doc,csv,png)
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align: left; width: 25%; vertical-align: top;">Tag Parser JAR*</td>
+												<td colspan = "2" style="width: 75%;" id="addTagJar">
+													<input name="fileTag" id="fileTag" type="file" onclick = "" style="width: 250px">
+												</td>
+											</tr>
+											<tr>
+												<td style = "font-size: 9px; padding-top: 0px;" colspan = "3">Select jar containing implementation of com.queryio.plugin.datatags.IUserDefinedParser interface
+												</td>
+											</tr>
+											<tr id="fileTagRow1">
+												<td style="text-align: left; width: 10%; vertical-align: top;">Extra JAR(s)</td>
+												<td style="text-align: left; width: 80%;">
+												
+													<input type="text" id="fileTagText1" name="fileTagText1" value="" style="width: 60%; display: none;">
+													<input type="file" id="fileTag1" name="fileTag1" onchange="javascript:TagManager.updatedFileTag(1, this.id, this.value);" style="width: 250px;">
+													<input type="text" id="fileTagFT1" name="fileTagFT1" readonly="readonly" value="" style="width: 75%; display: none;">
+													<a href="javascript:TagManager.removeLibClicked(1);" style="color: white; float: right; padding-top: 7px;">
+														<img alt="Remove Jar" src="images/minus_sign_brown.png" id="minusImage" style="height: 10px; width: 20px;">
+													</a>
+													<a href="javascript:TagManager.addLibClicked();" style = "float: right; padding-top: 7px;">
+														<img alt="Add More Jar" src="images/plus_sign_brown.png" id="plusImage" style="height: 12px;">
+													</a>
+												</td>
+												<td style = "text-align: left; width: 20%;">
+													<input type="button" class="buttonAdmin" id="chooseFileTagFile1" value="Change" onclick="javascript:TagManager.showFileTagChooseFile(1);" style="width: 100px; font-size: 10px; float: right; margin: 0px; display: none;"/>
+												</td>
+											</tr>
+											<tr>
+												<td colspan = "3">
+													<hr>
+												</td>
+											</tr>
+											
+											<tr>
+												<td colspan="3" style="text-align: right; padding: 15px 5px 10px 0px;">
+													<input type="button" style="width: 70px" class="buttonAdmin" id="saveFileTypes" value="Add" onclick="javascript:TagManager.saveTag();" />
+													<input type="button" style="width: 70px" class="buttonAdmin" id="cancelFileTypes" value="Cancel" onclick="javascript:TagManager.closePostTagBox();" />	
+												</td>
+											</tr>
+											
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="processingDiv" style="display: none;">
+					<table align="center" width="100%" style="border-collapse: collapse; text-align: center;">
+							<tr>
+								<th><span >Tag Parser</span></th>
+								<th><span id="popup.message">Message</span></th>
+								<th><span id="popup.status">Status</span></th>
+								<th><span id="popup.image">	</span></th>
+							</tr>
+							<tr id="pop.pattern" style="">
+								<td><span id="parser"></span></td>
+								<td><span id="respMessage"></span><br><div id="log_div" style="display: none;"></div></td>
+								<td><span id="respStatus"></span></td>
+								<td>
+									<span id="respFail" style="display:none;"><img src="images/Fail_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+									<span id="respSuccess" style="display:none;"><img  src="images/Success_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+									<span id="respProcessing"><img  src="images/process.gif" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+								</td>
+								
+							</tr>
+							<tr>
+							<td colspan="4">
+								<input type="button" disabled="disabled" class="buttonAdmin" id="okpopup" value="Ok" onclick="TagManager.closePopUp();">
+								<!-- <input type="button" disabled="true" class="buttonAdmin" id="viewreason.popup" value="Reason For Failure" onclick="javascript:showReasonForFailure();" style="margin: 0 0 0 10pt;">-->
+							</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+	
+	<script type="text/javascript">
+	TagManager.fillClusterNameNodeID(false, false);
+	TagManager.fillResourceManagerIds();
+	</script>
+</div>

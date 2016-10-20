@@ -1,0 +1,145 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Big Data - System Schedules</title>
+</head>
+
+<body>
+<h1><span>System Schedules</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This page displays all schedules.</p>
+<ul>
+	<li><a href="#all">Schedules</a></li>
+	<li><a href="#add">Managing Schedule</a></li>
+</ul>
+
+
+<h2 id="all"><span>Schedules</span></h2>
+<p>Schedules page displays all the Scheduled reports, SQL Queries and MapReduce jobs. You can also manage these schedules by editing previous ones, creating new schedules or deleting schedules.</p>
+
+<h2 id="add"><span>Managing Schedule</span></h2>
+<p>System Schedules are divided into three tabs : System Reports, Analytics Queries, MapReduce Jobs.</p>
+<p>Click on <b>Add</b> button for type of schedule you want to add and fill in the required details.</p>
+<h3>Schedule System Reports</h3>
+<p>Add/Edit/Delete report schedules.</p>
+<ul>
+	<li><b>Add Report Schedule</b></li>
+	<ul>
+		<li>Report Type: Select the type of report to be generated.</li>
+		<li>Select Host: Select host for the "Detail Reports".</li>
+		<li>Schedule Id: Provide a unique identifier for the schedule.</li>
+		<li>Interval: Frequency of generating reports.</li>
+		<li>Schedule Time: time to send email.</li>
+		<li>Select Format: Format in which report will be generated. (HTML, PDF, XLS)</li>
+		<li>Send Notification: Select check box if you want to receive notification.</li>
+		<li>If "Send Notification" is checked:
+			<ul> 
+			<li>Notification Type: Select from "Email" or "Log".</li>
+			<li>Message : Provide message for to be included in notification.</li>
+			<li>Select from the available registered users to send notification (only for Email notification).</li>
+			</ul>
+		<li>Click <b>Finish</b></li>
+	</ul>
+	<img alt="schedules" src="images/screenshots/sch-report.jpeg" > 
+	<li><b>Edit Report Schedule</b></li>
+	<ul>
+		<li>Select the report from the list and click <b>Edit</b></li>
+		<li>All previous saved settings are displayed, edit the settings and click <b>Finish</b></li>
+	</ul>
+	<li><b>Delete Schedule</b></li>
+	<ul>
+		<li>Select the schedule and click <b>Delete</b></li>
+	</ul>
+</ul>
+
+
+<h3>Schedule Query</h3>
+<p>Add/Edit/Delete Hadoop SQL schedules.</p>
+<ul>
+	<li><b>Add Hadoop SQL Schedule</b></li>
+	<ul>
+		<li>Schedule Id: Provide a unique identifier for the schedule.</li>
+		<li>NameNode ID: Select namespace whose Hadoop SQL query will be scheduled.</li>
+		<li>Query ID: Select Hadoop SQL query to be executed.</li>
+		<li>Interval: Frequency of generating reports.</li>
+		<li>Schedule Time: time to send email.</li>
+		<li>Select Format: Format in which report will be generated. (HTML, PDF, XLS)</li>
+		<li>Send Notification: Select check box if you want to receive notification.</li>
+		<li>If "Send Notification" is checked:
+			<ul> 
+			<li>Notification Type: Select from "Email" or "Log".</li>
+			<li>Message : Provide message for to be included in notification.</li>
+			<li>Select from the available registered users to send notification (only for Email notification).</li>
+			</ul>
+		<li>Click <b>Finish</b></li>
+	</ul>
+	<img alt="schedules" src="images/screenshots/sch-sql.jpeg" > 
+	<li><b>Edit Hadoop SQL Schedule</b></li>
+	<ul>
+		<li>Select the Hadoop SQL query from the list and click <b>Edit</b></li>
+		<li>All previous saved settings are displayed, edit the settings and click <b>Finish</b></li>
+	</ul>
+	<li><b>Delete Schedule</b></li>
+	<ul>
+		<li>Select the schedule and click <b>Delete</b></li>
+	</ul>
+</ul>
+
+<h3 id="job">Schedule MapReduce Jobs</h3>
+<p>Schedule MapReduce Job will start the selected job and sends notification email containing the final status of job execution.</p>
+<p>Add/Edit/Delete MapReduce job schedules.</p>
+<ul>
+	<li><b>Add MapReduce Job Schedule</b></li>
+	<ul>
+		<li>Schedule Id: Provide a unique identifier for the schedule.</li>
+		<li>Job Name: Select MapReduce job to be executed.</li>
+		<li>Interval: Frequency of generating reports.</li>
+		<li>Schedule Time: time to send email.</li>
+		<li>Send Notification: Select check box if you want to receive notification.</li>
+		<li>If "Send Notification" is checked:
+			<ul> 
+			<li>Notification Type: Select from "Email" or "Log".</li>
+			<li>Message : Provide message for to be included in notification.</li>
+			<li>Select from the available registered users to send notification (only for Email notification).</li>
+			</ul>
+		<li>Click <b>Finish</b></li>
+	</ul>
+	<img alt="schedules" src="images/screenshots/sch-job.jpeg" > 
+	<li><b>Edit MapReduce Job Schedule</b></li>
+	<ul>
+		<li>Select the job from the list and click <b>Edit</b></li>
+		<li>All previous saved settings are displayed, edit the settings and click <b>Finish</b></li>
+	</ul>
+	<li><b>Delete MapReduce Job Schedule</b></li>
+	<ul>
+		<li>Select the schedule and click <b>Delete</b></li>
+	</ul>
+</ul>
+
+<h3 id="status">Schedules Status</h3>
+<p>Schedules Status section shows the current status of all the Schedule types discussed above.</p>
+<p><b>Schedule Status Details</b></p>
+<ul>
+	<li>Checkbox: To select a schedule status.</li>
+	<li><b>Schedule ID:</b> Unique Schedule ID of the schedule.</li>
+	<li><b>Schedule Type:</b> Type of Schedule: <b>System Reports</b>, <b>Hadoop SQL</b> or <b>MapReduce Jobs.</b></li>
+	<li><b>Start Time:</b> Starting time of the schedule.</li>
+	<li><b>End Time:</b> Ending time of the schedule.</li>
+	<li><b>Status:</b> Status time of the schedule- <b>Success</b> or <b>Failure</b></li>
+	<li><b>Reason For Failure:</b> Reason behind failing of schedule, if failed.</li>
+</ul>
+<img alt="Schedule Status" src="images/screenshots/scheduleStatus.jpeg" > 
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

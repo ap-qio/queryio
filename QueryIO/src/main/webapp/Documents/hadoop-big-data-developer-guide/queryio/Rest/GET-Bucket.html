@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>GET Bucket</title>
+</head>
+<body>
+	<div>
+	<h1><span>GET Bucket</span></h1>	
+	<h2><span>Description</span></h2>
+	<p>GET Bucket operation of QueryIO server will fetch all the objects from the bucket. Request Parameters can be used to retrieve subset of objects from bucket.</p>
+	
+	<h2><span>Requests</span></h2>
+	<h3>Syntax</h3>
+	<ul>
+	<li>
+	<pre>
+GET <em><code>/queryio/&lt;BucketName&gt;</code></em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;Token&gt;</code></em></pre></li>
+		<li>BucketName: Name of the bucket from which objects will be returned.</li>
+		<li>authorization: Token for authorization. </li>
+	</ul>
+	
+	<h3>Request Headers</h3>
+	<p>The GET operation in QueryIO Server uses following request headers: </p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr><th> Header Name </th><th> Description </th><th> Type </th><th> Default </th><th> Required </th></tr>
+		<tr>
+			<td align="center">
+				<em ><code>prefix</code></em>
+			</td>
+			<td>
+				<p>Only keys that begin with specified prefix are returned.</p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> No </td>
+		</tr>		
+		<tr>
+			<td align="center">
+				<em ><code>delimiter</code></em>
+			</td>
+			<td>
+				<p>Delimiter is used to group keys together as CommonPrefix.Keys that contain same string between the prefix and delimiter are grouped together.</p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> No </td>
+		</tr>	
+		<tr>
+			<td align="center">
+				<em ><code>max-keys</code></em>
+			</td>
+			<td>
+				<p>Sets the upper limit to the keys returned in response. There might be fewer keys than max-keys</p>	
+			</td>
+			<td> String	</td>
+			<td> 100 </td>
+			<td> No </td>
+		</tr>	
+		<tr>
+			<td align="center">
+				<em ><code>marker</code></em>
+			</td>
+			<td>
+				<p>It is used to specify the order of keys displayed.(Alphabetically) </p>								
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> No </td>
+		</tr>						
+	</table>
+	
+	<h2><span>Responses</span></h2>
+	<h3>Response Elements</h3>
+	<p>The GET operation in QueryIO Server uses following response elements: </p>
+	
+	
+	<table cellspacing="0" border="1" width="100%">
+		<tr><th> Name </th><th> Description </th><th> Type </th></tr>
+		<tr>
+			<td align="center">
+				<code>Contents</code>
+			</td>
+			<td>
+				<p>Contains metadata about each object.</p>
+			</td>
+			<td> XML metadata </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>CommonPrefixes</code>
+			</td>
+			<td>
+				<p>CommonPrefixes exist only if a delimiter is specified. It contain all keys that contains substring between prefix and delimiter.</p>. 
+				
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>Delimiter</code>
+			</td>
+			<td>
+				<p>Delimiter which is used to group keys. Keys that contain same string between the prefix and delimiter are grouped together as CommonPrefixes.</p>
+			</td>
+			<td> String </td> 
+		</tr>
+		<tr>
+			<td align="center">
+				<code>DisplayName</code>
+			</td>
+			<td>
+							<p>Name of Object's owner.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+					<code>ETag</code>
+			</td><td>
+					<p>Etag is MD5 hash result of the object.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>ID</code>
+			</td>
+			<td>
+				<p>ID of the Object's owner.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>IsTruncated</code>
+			</td>
+			<td>
+					<p>Is true if result is truncated due to max-keys.Otherwise it is true.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>Key</code>
+			</td>
+			<td>
+				<p>The object's key.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>LastModified</code>
+			</td>
+			<td>
+					<p>Last modified date and time of Object.</p>
+			</td>
+			<td> Date </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>Marker</code>
+			</td>
+			<td>
+				<p>Indicates where in the bucket to begin listing.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>MaxKeys</code>
+			</td><td>
+				<p>Specifies the maximum number of keys that will be returned.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+					<code>Name</code>
+			</td>
+			<td>
+					<p>Name of the bucket.</p>
+			</td>
+			<td> String </td>					
+		</tr>
+		<tr>
+			<td align="center">
+				<code>Owner</code>
+			</td>
+			<td>
+					<p>Owner of the bucket.</p>
+					<p>Children: DisplayName, ID</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>Prefix</code>
+			</td>
+			<td>
+				<p>Keys that begin with the specified prefix.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>Size</code>
+			</td>
+			<td>
+					<p>Size of the object in bytes</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>StorageClass</code>
+			</td>
+			<td>
+				<p>It is always STANDARD.</p>
+			</td>
+			<td> String </td>
+		</tr>
+	</table>
+	
+	
+	
+	<h2><span>Examples</span></h2>
+		<h3>Sample Request </h3>
+		<p>The following request will fetch objects from NewBucket.</p>
+		<ul>
+		<li>
+		<pre>
+GET /queryio/DIR1 HTTP/1.1
+Host: QueryIO
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm</pre></li>
+		</ul>
+		
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+&lt;xml version="1.0" encoding="UTF-8"&gt;
+&lt;ListBucketResult xmlns="http://QueryIO/DIR1"&gt;
+    &lt;Name&gt;DIR1&lt;/Name&gt;
+    &lt;Prefix&gt;&lt;/Prefix&gt;
+    &lt;Marker&gt;&lt;/Marker&gt;
+    &lt;MaxKeys&gt;1000&lt;/MaxKeys&gt;
+    &lt;IsTruncated&gt;false&lt;/IsTruncated&gt;
+    &lt;Contents&gt;
+        &lt;Key&gt;hdfs.txt&lt;/Key&gt;
+        &lt;LastModified&gt;2012-10-17 23:00:30&lt;/LastModified&gt;
+        &lt;ETag&gt;ss23kgfd5f27731c9771293j7853216&lt;/ETag&gt;
+        &lt;Size&gt;128&lt;/Size&gt;
+        &lt;StorageClass&gt;STANDARD&lt;/StorageClass&gt;
+        &lt;Owner&gt;
+            &lt;ID&gt;75aa57f09aa0c8caeab4f8c24e99d10f8e7faeebf76c078efc7c6caea54ba06a&lt;/ID&gt;
+            &lt;DisplayName&gt;abc&lt;/DisplayName&gt;
+        &lt;/Owner&gt;
+    &lt;/Contents&gt;
+    &lt;Contents&gt;
+       &lt;Key&gt;myfile.jpg&lt;/Key&gt;
+         &lt;LastModified&gt;2012-09-27 12:21:30&lt;/LastModified&gt;
+        &lt;ETag&gt;ak234e5fd5f27731c9771645a7853216&lt;/ETag&gt;
+        &lt;Size&gt;64994&lt;/Size&gt;
+        &lt;StorageClass&gt;STANDARD&lt;/StorageClass&gt;
+        &lt;Owner&gt;
+            &lt;ID&gt;1350306728657652000_719148673&lt;/ID&gt;
+            &lt;DisplayName&gt;hdfs&lt;/DisplayName&gt;
+        &lt;/Owner&gt;
+    &lt;/Contents&gt;
+&lt;/ListBucketResult&gt;</pre></li>
+		</ul>
+		
+		<h3>Sample Request </h3>
+		<p>This example lists up to 10 keys in the "NewBucket" bucket that start with "A" and occur alphabetically after "App".</p>
+		<ul>
+		<li>
+		<pre>
+GET prefix=A&marker=App&max-keys=10 /queryio/DIR1 HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm</pre></li>
+		</ul>
+		
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+&lt;xml version="1.0" encoding="UTF-8"&gt;
+&lt;ListBucketResult xmlns="http://QueryIO/DIR1"&gt;
+  &lt;Name&gt;AppPerfect&lt;/Name&gt;
+  &lt;Prefix&gt;A&lt;/Prefix&gt;
+  &lt;Marker&gt;App&lt;/Marker&gt;
+  &lt;MaxKeys&gt;10&lt;/MaxKeys&gt;
+  &lt;IsTruncated&gt;false&lt;/IsTruncated&gt;
+  &lt;Contents&gt;
+    &lt;Key&gt;App4evr&lt;/Key&gt;
+    &lt;LastModified&gt;2012-10-15 22:46:30&lt;/LastModified&gt;
+    &lt;ETag&gt;assdj23fd5f27731c977as23e7853216&lt;/ETag&gt;
+    &lt;Size&gt;256&lt;/Size&gt;
+    &lt;StorageClass&gt;STANDARD&lt;/StorageClass&gt;
+    &lt;Owner&gt;
+      &lt;ID&gt;135030564667652000_719148673&lt;/ID&gt;
+      &lt;DisplayName&gt;Appforyou&lt;/DisplayName&gt;
+     &lt;/Owner&gt;
+  &lt;/Contents&gt;
+  &lt;Contents&gt;
+    &lt;Key&gt;Apple&lt;/Key&gt;
+    &lt;LastModified&gt;2012-09-27 20:24:11&lt;/LastModified&gt;
+    &lt;ETag&gt;qs345tsk3m27731c97725sd57853216&lt;/ETag&gt;
+    &lt;Size&gt;10248&lt;/Size&gt;
+    &lt;StorageClass&gt;STANDARD&lt;/StorageClass&gt;
+     &lt;Owner&gt;
+      &lt;ID&gt;1350306721234562000_719148673&lt;/ID&gt;
+      &lt;DisplayName&gt;webfile&lt;/DisplayName&gt;
+    &lt;/Owner&gt;
+ &lt;/Contents&gt;
+&lt;/ListBucketResult&gt;</pre></li>
+		</ul>
+	
+	
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

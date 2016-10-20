@@ -1,0 +1,99 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Dashboard View</title>
+</head>
+
+<body>
+<h1><span>Dashboard - HDFS Overview</span></h1>
+<h2><span>In this Chapter</span></h2>
+<p class="whs5">Dashboard shows the monitoring details for QueryIO cluster.</p>
+<p>Dashboard displays: </p>
+<ul>
+	<li><a href="#hdfs">HDFS Overview</a></li>
+</ul> 
+
+<h1 id="hdfs"><span>HDFS Overview</span></h1>
+<p class="whs5">HDFS Overview displays storage summary and I/O summary. It also displays the <a href="hadoop-name-nodes.html">NameNode</a> summary and <a href="hadoop-data-nodes.html">DataNode</a> summary.</p>
+<img alt="Dashboard" src="images/screenshots/dashboard.jpeg" >
+<h2><span>Storage Summary</span></h2>
+<p class="whs5">Storage summary is gathered from <a href="hadoop-data-nodes.html">DataNodes</a>. It has a storage pie chart which shows storage space used versus storage space available. 
+<ul>
+	<li><b>Total Files and Directories:</b> Total amount of files and directories present.</li>
+	<li><b>Total Blocks:</b> Total amount of blocks present.</li>
+	<li><b>Total Storage:</b> Total storage space available.</li>
+	<li><b>Used Storage:</b> Amount of storage space used. </li>
+	<li><b>Free Storage:</b> Amount of storage space free to use.</li>
+	<li><b>DataNodes:</b> Number of <a href="hadoop-data-nodes.html">DataNode</a> from which above data is gathered.</li>
+	<li><b>Volumes:</b> Number of volumes configured to cluster.</li>
+</ul> 
+<h2><span>I/O Summary</span></h2>
+<p class="whs5">I/O summary is gathered from <a href="hadoop-name-nodes.html">NameNode</a>. It has a pie chart which shows total file reads versus total file writes.</p> 
+<ul>
+	<li><b>Total Bytes Read:</b> Total number of bytes read.</li>
+	<li><b>Total Bytes Written:</b> Number of bytes written by user.</li>
+	<li><b>Total Blocks Read:</b> Total number of blocks read.</li>
+	<li><b>Total Blocks Written:</b> Number of blocks written to <a href="hadoop-data-nodes.html">DataNode</a>.</li>
+	<li><b>Total File Read:</b> Number of files read.</li>
+	<li><b>Total File Written:</b> Number of file writes.</li>
+	<li><b>Total File Appended:</b> Number of files appended on cluster.</li>
+	<li><b>Total File Renamed:</b> Number of file renamed on cluster.</li>
+	<li><b>Total List File Ops: </b> Number of list file operations.</li>
+	<li><b>Total Delete File Ops: </b>Number of file deletes.</li>	
+</ul>
+<h2><span>NameNode Summary</span></h2>
+<p class="whs5">It displays certain attributes about the <a href="hadoop-name-nodes.html">NameNode</a> in the cluster in a tabular form. </br>Summary attributes are:</p>
+<ul>
+	<li><b>NameNode:</b> Unique Identifier and IP address of the <a href="hadoop-name-nodes.html">NameNode</a>.</li>
+	<li><b>Type:</b> Type of the NameNode i.e <a href="hadoop-name-nodes.html#NameNode">Active</a> or <a href="hadoop-name-nodes.html#NameNode">StandBy</a>.</li>
+	<li><b>JVM Heap:</b> The Java virtual machine heap is the area of memory used by the JVM, for dynamic memory allocation.</li>
+	<li><b>File Reads:</b> Number of read operations performed on cluster.</li>
+	<li><b>File Writes:</b> Number of write operation performed on cluster.</li>
+	<li><b>Alerts:</b> <a href="big-data-alerts.html">Alerts</a> are generated when <a href="glossary.html#alert">rules</a> defined by user violates. It displays number of <a href="big-data-alerts.html">alerts</a> generated.</li>
+	<li><b>CPU Usage:</b> Memory usage of <a href="hadoop-name-nodes.html">NameNode</a> system.</li>
+	<li><b>RAM:</b> Amount of random access memory available at <a href="hadoop-name-nodes.html">NameNode</a>.</li>
+	<li><b>N/W Rcvd:</b> Rate of data received on network in bytes/s.</li>
+	<li><b>N/W Sent:</b> Rate of data sent on network in bytes/s.</li>
+	<li><b>Disk Reads:</b> Rate of data written to disk in bytes/s.</li>
+	<li><b>Disk Writes:</b> Rate of data read from disk in bytes/s.</li>
+	<li><b>Safemode:</b> <a href="hadoop-name-nodes.html#safemode">Safemode</a> status as On or Off.</li>
+	<li><b>Status:</b> State of the <a href="hadoop-name-nodes.html">NameNode</a> i.e started or stopped.</li>
+	<li><b>Monitoring:</b> State of NameNode monitoring i.e. whether NameNode monitoring is started or stopped or not responding.</li>
+</ul>
+
+<h2><span>DataNode Summary</span></h2>
+<p class="whs5">It displays certain attributes about the <a href="hadoop-data-nodes.html">DataNode</a> in a tabular form. It displays information about all the DataNodes in the cluster.
+</br>Summary attributes are:</p> 
+<ul >
+	<li><b>DataNode:</b> Unique Identifier and IP address of the <a href="hadoop-data-nodes.html">DataNode</a>.</li>
+	<li><b>Rack Name:</b> Name of the rack in which <a href="hadoop-data-nodes.html">DataNode</a> is present.</li>
+	<li><b>JVM Heap:</b> The Java virtual machine heap is the area of memory used by the JVM, for dynamic memory allocation.</li>
+	<li><b>Volume:</b> Local repository of <a href="hadoop-data-nodes.html">DataNode</a> on that host.</li>
+	<li><b>Disk:</b> Label of the hard disk on which volume is mounted.</li>
+	<li><b>Size:</b> Total storage space available on <a href="hadoop-data-nodes.html">DataNode</a>. </li>
+	<li><b>Usage %:</b> Percentage of disk used.</li>
+	<li><b>Bytes Read:</b> Number of bytes read from <a href="hadoop-data-nodes.html">DataNode</a>.</li>
+	<li><b>Bytes Written:</b> Number of bytes written to <a href="hadoop-data-nodes.html">DataNode</a>.</li>
+	<li><b>Alerts:</b> <a href="big-data-alerts.html">Alerts</a> are generated when rules defined by user violates. It displays number of <a href="big-data-alerts.html">alerts</a> generated.</li>
+	<li><b>CPU Usage:</b> Memory usage of <a href="hadoop-data-nodes.html">DataNode</a> system.</li>
+	<li><b>RAM:</b> Amount of random access memory available at <a href="hadoop-data-nodes.html">DataNode</a>.</li>
+	<li><b>N/W Rcvd:</b> Rate of data received on network in bytes/s.</li>
+	<li><b>N/W Sent:</b> Rate of data sent on network in bytes/s.</li>
+	<li><b>Disk Reads:</b> Rate of data written to disk in bytes/s.</li>
+	<li><b>Disk Writes:</b> Rate of data read from disk in bytes/s.</li>
+	<li><b>Status:</b> State of the <a href="hadoop-data-nodes.html">DataNode</a> i.e started or stopped.</li>
+	<li><b>Monitoring:</b> State of DataNode monitoring i.e. whether DataNode monitoring is started or stopped or not responding.</li>
+</ul>
+</br></br>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

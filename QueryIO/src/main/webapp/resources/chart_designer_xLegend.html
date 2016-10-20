@@ -1,0 +1,205 @@
+<script type="text/javascript" src="scripts/jpicker-1.1.6.min.js"></script>
+<link rel="Stylesheet" type="text/css" href="styles/jPicker-1.1.6.min.css" />
+	<div>
+		<table id="xLegendTable">
+			<tr>
+				<td style="font-weight: bold;">
+					X Legend
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Position
+				</td>
+				<td>
+					<select id = 'legendXPosition' style="width: 100px;">
+						<option value = 'above'>Above</option>
+						<option value = 'below'>Below</option>
+						<option value = 'inside'>Inside</option>
+						<option value = 'left'>Left</option>
+						<option value = 'right'>Right</option>
+					</select>
+				</td>
+			
+				<td nowrap="nowrap">
+					Font-size
+				</td>
+				<td>
+					<input type = 'text' id = 'xFontSize' style="width: 35px;">
+				
+					<select id = 'legendXFontSizeType'>
+						<option value = 'px'>px</option>
+						<option value = 'pt'>pt</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td nowrap="nowrap">
+					Font Family
+				</td>
+				<td>
+					<select style="width: 100px;" id="legendXFontFamily" class="fontFamilyContainer"><option value="Arial">Arial</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="Courier">Courier</option></select>
+				</td>
+			
+				<td nowrap="nowrap">
+					Font Color
+				</td>
+				<td style="float: left;">
+					<input type = 'text' id = 'legendXFontColor' class = 'applyJPicker' size="7" style="display: none">
+				</td>
+			</tr>
+			<tr>
+				<td nowrap="nowrap">
+					Text Align
+				</td>
+				<td>
+					<select id = 'legendXFontTextAlign' style="width: 100px;">
+						<option value = 'left'>Left</option>
+						<option value = 'center'>Center</option>
+						<option value = 'right'>Right</option>
+						<option value = 'justify'>Justify</option>
+					</select>
+				</td>
+			
+				<td nowrap="nowrap">
+					Font Style
+				</td>
+				<td>
+					<select id = 'legendXFontStyle' style="width: 100px;">
+						<option value = 'normal'>Normal</option>
+						<option value = 'bold'>Bold</option>
+						<option value = 'bolder'>Bolder</option>
+						<option value = 'lighter'>Lighter</option>
+					</select>
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<td style="font-weight: bold;">
+					Outline
+				</td>
+			</tr>
+			<tr>
+				<td >
+					Visible
+				</td>
+				<td>
+					<input type = "checkbox" id = 'xoutlineVisible' style="float: left;">
+				</td>
+				<td>
+					Style
+				</td>
+				<td>
+					<input type = 'text' id = 'xoutlineStyle'>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Width
+				</td>
+				<td>
+					<input type = 'text' id = 'xoutlineWidth'>
+				</td>
+			
+				<td>
+					Color
+				</td>
+				<td style="float: left;">
+					<input type = 'text' id = 'xoutlineColor'   class = 'applyJPicker' size="7" style="display: none">
+				</td>
+			</tr>
+			
+			<tr>
+				<td style="font-weight: bold;">
+					Insets
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Top
+				</td>
+				<td>
+					<input type = 'text' id = 'xinsetsTop'>
+				</td>
+			
+				<td>
+					Bottom
+				</td>
+				<td>
+					<input type = 'text' id = 'xinsetBottom'>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Left
+				</td>
+				<td>
+					<input type = 'text' id = 'xinsetLeft'>
+				</td>
+			
+				<td>
+					Right
+				</td>
+				<td>
+					<input type = 'text' id = 'xinsetRight'>
+				</td>
+			</tr>
+			
+			<tr>
+				
+				<td style="text-align: right;" colspan="4">
+					<input type="button" class="buttonAdmin" id="save.host" value="Save" onclick="javascript:CHARTPR.finishStyling();"  /> 
+				
+					<input type="button" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:closePreferncesBox();" />
+				</td>
+			</tr>
+									
+		</table>
+		
+		
+	
+	</div>
+	
+	<script type="text/javascript">
+
+function bind(){
+	
+	$(".applyJPicker").jPicker(
+			{  window: // used to define the position of the popup window only useful in binded mode
+			  {
+			    title: null, // any title for the jPicker window itself - displays "Drag Markers To Pick A Color" if left null
+			    effects:
+			    {
+			      type: 'slide', // effect used to show/hide an expandable picker. Acceptable values "slide", "show", "fade"
+			      speed:
+			      {
+			        show: 'fast', // duration of "show" effect. Acceptable values are "fast", "slow", or time in ms
+			        hide: 'fast' // duration of "hide" effect. Acceptable value are "fast", "slow", or time in ms
+			      }
+			    },
+			    position:
+			    {
+			      x: 'center', // acceptable values "left", "center", "right", "screenCenter", or relative px value
+			      y: 'center', // acceptable values "top", "bottom", "center", or relative px value
+			    },
+			    expandable: false, // default to large static picker - set to true to make an expandable picker (small icon with popup) - set
+			                       // automatically when binded to input element
+			    liveUpdate: true, // set false if you want the user to click "OK" before the binded input box updates values (always "true"
+			                      // for expandable picker)
+			    alphaSupport: false, // set to true to enable alpha picking
+			    alphaPrecision: 0, // set decimal precision for alpha percentage display - hex codes do not map directly to percentage
+			                       // integers - range 0-2
+			    updateInputColor: true // set to false to prevent binded input colors from changing
+			  },
+				
+			images:{clientPath:'images/'}
+		});
+}
+
+
+bind();
+
+
+</script>
+

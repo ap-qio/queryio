@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0">
+	<display-name>os3server</display-name>
+	<context-param>
+		<param-name>dbfile</param-name>
+		<param-value>database/queryio</param-value>
+	</context-param>
+	<context-param>
+		<param-name>dbname</param-name>
+		<param-value>queryio</param-value>
+	</context-param>
+	<context-param>
+		<param-name>dbport</param-name>
+		<param-value>5680</param-value>
+	</context-param>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<listener>
+		<display-name>StartupListener</display-name>
+		<listener-class>com.os3.server.listeners.StartupListener
+		</listener-class>
+	</listener>
+	<filter>
+		<display-name>SecurityFilter</display-name>
+		<filter-name>SecurityFilter</filter-name>
+		<filter-class>com.os3.server.filters.SecurityFilter</filter-class>
+		<async-supported>true</async-supported>
+	</filter>
+	<filter-mapping>
+		<filter-name>SecurityFilter</filter-name>
+		<servlet-name>ActionServlet</servlet-name>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>ActionServlet</servlet-name>
+		<servlet-class>com.os3.server.servlets.OS3ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>mapping-file</param-name>
+			<param-value>/WEB-INF/mappings.properties</param-value>
+		</init-param>
+		<async-supported>true</async-supported>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>UserInfoUpdater</servlet-name>
+		<servlet-class>com.os3.server.userinfo.UserInfoUpdater</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>UserInfoUpdater</servlet-name>
+		<url-pattern>/UpdateUserInfo</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>StatusProvider</servlet-name>
+		<servlet-class>com.queryio.servlets.StatusProvider</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StatusProvider</servlet-name>
+		<url-pattern>/GetStatus</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DBReInitialize</servlet-name>
+		<servlet-class>com.queryio.db.reinit.ReinitializeDBServer
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DBReInitialize</servlet-name>
+		<url-pattern>/reinitializeDB</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ReinitializeHadoopConf</servlet-name>
+		<servlet-class>com.queryio.servlets.ReinitializeHadoopConf</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReinitializeHadoopConf</servlet-name>
+		<url-pattern>/reinitializeHadoopConf</url-pattern>
+	</servlet-mapping>
+</web-app>

@@ -1,0 +1,488 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop Security Setup: Kerberos</title>
+</head>
+<body>
+
+<h1><span>Hadoop Security Setup: Kerberos</span></h1>
+
+<h2><span>In this Chapter</span></h2>
+<p>Following are the steps for Kerberos configuration:</p>
+<ul>
+	<li><a href="#introduction">Introduction</a></li>
+	<li><a href="#unpack">Install Kerberos</a></li>
+	<li><a href="#test">Testing the Kerberos</a></li>
+	<li><a href="#kdc">Installing Key Distribution Centers</a></li>
+	<li><a href="#master_kdc">Setup KDC</a></li>
+	<li><a href="#db">Create Database</a></li>
+	<li><a href="#add_admin">Add Administrators to the ACL File</a></li>
+	<li><a href="#add_admin_db">Add Administrators to the Kerberos Database</a></li>
+	<li><a href="#keytab">Create a kadmind Keytab</a>
+	<li><a href="#start_krb">Start the Kerberos Daemons on KDC</a>
+	<li><a href="#principal_queryio">Principals from QueryIO</a>
+	<li><a href="#shutdown_cluster">Shut Down the Cluster</a>
+	<li><a href="#enable_security">Enable Hadoop Security</a>
+	<li><a href="#configuration">Configure Cluster Components</a>
+	<li><a href="#integrate">Integrating Kerberos with QueryIO</a>
+	<li><a href="#start_node">Start up the Cluster</a>	
+</ul>
+
+
+
+
+<h2 id="introduction"><span>Introduction</span></h2>
+<p>Kerberos is a computer network authentication protocol which works on the basis of "tickets" to allow nodes communicating over a non-secure network to prove their identity to one another in a secure manner.</br>
+A Kerberos principal is a unique identity to which Kerberos can assign tickets. For Hadoop, the principals should be of the format username/fully.qualified.domain.name@REALM-NAME.COM. 
+The term username in the username/fully.qualified.domain.name@REALM-NAME.COM principal refers to the username of an existing Unix account, such as hdfs or mapred. </p>
+<p><a href="http://www.linuxfromscratch.org/blfs/view/svn/postlfs/mitkrb.html" target="_blank">Click here</a> to download Kerberos</p>
+
+<p class="note">NOTE: You must have Administrative privileges for kerberos setup.</p>
+<h2 id="unpack"><span>Install Kerberos</span></h2>
+<p>Start by unpacking the Kerberos source distribution to some directory(krb5-1.10.tar).</br> 
+For example, unpack kerberos to directory '/app/krb5-1.10'</p>
+
+<p>To create the build, use the following procedure:.</p>
+<ul>
+<code>
+ <li>cd /app/krb5-1.10/src</li>
+ <li>./configure</li>
+ <li>make</li>
+ </code>
+</ul>
+<p>Next step is to install the binaries. This can be done by executing the command:</p>
+<ul>
+	<li><code># make install</code></li>
+</ul>
+<p>To install binaries to destination directory, use following command:</p>
+<ul>
+	<code>
+	<li># make install DESTDIR=/path/to/destdir</li>
+	</code>
+</ul>
+
+
+<h2 id="test"><span>Testing the Kerberos</span></h2>
+<p>The Kerberos distribution provides built-in regression tests. To test the build, use following command:</p>
+<ul>
+	<code><li># make check</li></code>
+</ul>
+
+
+<h2 id="kdc"><span>Installing Key Distribution Centers(KDCs)</span></h2>
+<p>Work of KDCs is to issue Kerberos ticket. Master KDC has the master copy of the database which is distributed to the slave KDCs at regular intervals, thus each KDC has a copy of the Kerberos database.
+Any changes in database are reported to master KDC and Slave KDCs provide Kerberos ticket-granting services. </p>
+
+<h2 id="master_kdc"><span>Setup KDC</span></h2>
+<h3>Editing the Configuration Files</h3>
+<p>Modify the configuration files, /etc/krb5.conf and /usr/local/var/krb5kdc/kdc.conf to reflect the correct information (such as the hostnames and realm name). Most of the tags in configuration file have default values,
+but there are some tags in the krb5.conf file whose values must be specified.</p>
+
+<h3>krb5.conf</h3>
+<p>The krb5.conf file has information about Kerberos configuration which includes admin servers and the KDCs locations for the Kerberos, interest realms, current realm defaults and applications of Kerberos, 
+and hostnames mappings onto Kerberos realms. Default install directory of krb5.conf file is /etc. Environment variable 'KRB5_CONFIG' can be used to change it. </p>
+<p>Replace the contents of krb5.conf file with following code:</p>
+<ul>
+
+<li>Open krb5.conf file.</li>
+<ul>
+<code>
+	<li># vi /etc/krb5.conf</li>
+</code>
+</ul>
+<li>Replace the contents with following:</li>
+<ul>
+<code>
+	<li>[logging]</br>
+ default = FILE:/var/log/krb5lib.log</br>
+ kdc = FILE:/var/log/krb5kdc.log</br>
+ admin_server = FILE:/var/log/kadmin.log</br>
+</br>
+[libdefaults]</br>
+ default_realm = queryiorealm</br>
+ dns_lookup_realm = false</br>
+ dns_lookup_kdc = false</br>
+ ticket_lifetime = 24h</br>
+ renew_lifetime = 7d</br>
+ forwardable = true</br>
+ kdc_timesync = 0</br>
+[realms]</br>
+ queryiorealm = {</br>
+  kdc = 192.168.0.1</br>
+  admin_server = 192.168.0.1</br>
+ }</br></li>
+</code>
+</ul>
+</ul> 
+
+<h3>kdc.conf</h3>
+<p>The kdc.conf file has information about KDC configuration, which includes defaults used to issue Kerberos tickets. 
+By default install directory of kdc.conf file is /usr/local/var/krb5kdc. It can be changed by setting the environment variable 'KRB5_KDC_PROFILE'. You can also find kdc.conf file at location "/usr/local/share/examples/krb5/kdc.conf".</p>
+<p>Replace the contents of kdc.conf file with following code:</p>
+<ul>
+<code>
+	<li>[kdcdefaults]</br>
+kdc_ports = 88</br>
+</br>
+[realms]</br>
+queryiorealm = {</br>
+kadmind_port = 749</br>
+max_life = 12h 0m 0s</br>
+max_renewable_life = 7d 0h 0m 0s</br>
+master_key_type = des3-hmac-sha1</br>
+supported_enctypes = des3-hmac-sha1:normal des-cbc-crc:normal des-cbc-crc:v4</br>
+}</br>
+</br>
+[logging]</br>
+kdc = FILE:/usr/local/var/krb5kdc/kdc.log</br>
+admin_server = FILE:/usr/local/var/krb5kdc/kadmin.log</br></li>
+</code>
+</ul>
+
+<h2 id="db"><span>Create Database</span></h2>
+<p>The Kerberos database and the optional stash file can be created using "kdb5_util" command on the Master KDC .</br>
+The stash file, which is a local copy of the master key lies on the KDC's local disk in encrypted form. 
+To authenticate the KDC to itself automatically before starting the kadmind and krb5kdc daemons, the stash file is used. 
+If you choose to install a stash file, its access permission should be restricted to root only. You can also ignore to install stash file. 
+kdb5_util will prompt you for the master key for the Kerberos database. This key can be any string.</p>
+<p>The following is an example of how to create a Kerberos database and stash file on the KDC, using the kdb5_util command. </p>
+<ul>
+	<code><li># /usr/local/sbin/kdb5_util create -r queryiorealm -s </br>
+Initializing database '/usr/local/var/krb5kdc/principal' for realm 'queryiorealm',</br>
+master key name 'K/M@queryiorealm'</br>
+You will be prompted for the database Master Password. It is important that you NOT FORGET this password.</br>
+Enter KDC database master key: // Type the master password. </br>
+Re-enter KDC database master key to verify: //Type it again. </br>
+#</br></li>
+</code>
+</ul>
+<p>This will create five files in the directory specified in your kdc.conf file:</p> 
+<ul>
+	<li>Two Kerberos database files: principal.db and principal.ok</li>
+	<li>The Kerberos administrative database file: principal.kadm5</li>
+	<li>The administrative database lock file: principal.kadm5.lock</li>
+	<li>The stash file: .k5stash </li>
+</ul> 
+<p>(The default directory is /usr/local/var/krb5kdc.) If you do not want a stash file, run the above command without the -s option</p>
+
+<h2 id="add_admin"><span>Adding Administrators to the ACL File</span></h2>
+<p>Access Control List (acl) file needs to be created, and Kerberos principal of at least one of the administrators is put into it. 
+ACL file gets used by the kadmind daemon to restrict which principals can view and make privileged modifications to the Kerberos database files. 
+The filename should match the value that has been set for "acl file" in kdc.conf file. '/usr/local/var/krb5kdc/kadm5.acl' is the default file name.</p>
+<p>Format of the ACL file is:</p>
+<ul>
+	<li>Kerberos_principal permissions [target_principal] [restrictions]
+		<ul>
+			<li>To provide full permissions on the database, the Kerberos principal and target principal(optional) can include the "*" wildcard. For example, use "*/admin@REALM", where REALM is your kerberos realm
+			and "admin" is instance of any principal.</li>
+			<li>permissions: Permissions are: </br>
+				<ul>
+					<table border="1">
+					<tr><th>Permission</th><th>Description</th></tr>
+					<tr>
+						<td>a</td><td> allows the addition of principals or policies in the database.</td>
+					</tr>
+					<tr>
+						<td>A</td><td> disallows the addition of principals or policies in the database.</td>
+					</tr>
+					<tr>
+						<td>d</td><td> allows the deletion of principals or policies in the database.</td>
+					</tr>
+					<tr>
+						<td>D</td><td> disallows the deletion of principals or policies in the database.</td>
+					</tr>
+					<tr>
+						<td>m</td><td> allows the modification of principals or policies in the database.</td>
+					</tr>
+					<tr>
+						<td>M</td><td> disallows the modification of principals or policies in the database.</td>
+					</tr>
+					<tr>
+						<td>c</td><td> allows the changing of passwords for principals in the database.</td>
+					</tr>
+					<tr>
+						<td>C</td><td> disallows the changing of passwords for principals in the database.</td>
+					</tr>
+					<tr>
+						<td>i</td><td> allows inquiries to the database.</td>
+					</tr>
+					<tr>
+						<td>I</td><td> disallows inquiries to the database.</td>
+					</tr>
+					<tr>
+						<td>s</td><td> allows the explicit setting of the key for a principal</td>
+					</tr>
+					<tr>
+						<td>S</td><td> disallows the explicit setting of the key for a principal.</td>
+					</tr>
+					<tr>
+						<td>l</td><td> allows the listing of principals or policies in the database.</td>
+					</tr>
+					<tr>
+						<td>L</td><td> disallows the listing of principals or policies in the database.</td>
+					</tr>					
+					<tr>
+						<td>*</td><td> All privileges. </td>
+					</tr>
+					<tr>
+						<td>x</td><td> All privileges, identical to " * ".</td>
+					</tr>
+					</table>	
+					<li>Permissions are represented by single-alphabet, UPPER-CASE letters signify negative permissions.</li>
+				</ul>
+			</li>
+			<li>Restrictions: The restrictions are a string of flags. Allowed restrictions are:
+				<ul>
+					<li><b>[+ -]</b> flagname: flag is forced to indicated value. The permissible flags are the same as the + and - flags for the kadmin, addprinc and modprinc commands. </li>
+					<li><b>-clearpolicy</b>: policy is forced to clear</li>
+					<li><b>-policy</b> pol:  policy is forced to be pol</li>
+					<li><b>expire</b> time</li>  
+					<li><b>pwexpire</b> time</li>
+					<li><b>maxlife</b> time</li>
+					<li><b>maxrenewlife</b> time: associated value will be forced to MIN(time, requested value) </li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+<p>Example of a kadm5.acl file: Note that order is important; permissions are determined by the first matching entry. </p>
+<ul>
+<code>
+	<li>*/admin@queryiorealm *</br>
+*/root@queryiorealm *@queryiorealm cil *1/admin@queryiorealm</br>
+*/*@queryiorealm i</br>
+</code>
+     </li>
+
+</ul>
+
+
+<h2 id="add_admin_db"><span>Adding Administrators to the Kerberos Database</span></h2>
+<p>One needs to add administrator user to the kerberos database(atleast one). Use kadmin.local on the master KDC for this purpose. The administrative principal must be added to ACL list before it can be created.</p>
+<p>For example: </p>
+<ul>
+<code>
+	
+	 <li># /usr/local/sbin/kadmin.local</br>
+kadmin.local: addprinc admin/admin@queryiorealm</br>
+NOTICE: no policy specified for "admin/admin@queryiorealm"; assigning "default".</br>
+Enter password for principal admin/admin@queryiorealm: // Enter a password. </br>
+Re-enter password for principal admin/admin@queryiorealm: //Type it again.</br> 
+Principal "admin/admin@queryiorealm" created.</br>
+kadmin.local: </br>
+     </li>
+   </code>  
+</ul> 
+
+<h2 id=keytab><span>Creating a kadmind Keytab</span></h2>  
+<p>A keytab is a file containing pairs of Kerberos principals and an encrypted copy of that principal's key. The keytab files are unique to each host since their keys include the hostname. 
+This file is used to authenticate a principal on a host to Kerberos without human interaction or storing a password in a plain text file.
+The kadmind keytab is the key which is used by legacy administration daemons kadmind4 and v5passwdd to decrypt administrator's or client's Kerberos tickets to determine whether or not they should have access to the database.</p>
+<p>You need to create the kadmin keytab with entries for the principals kadmin/admin and kadmin/changepw. (These principals are automatically added to Kerberos database.) 
+To create the kadmin keytab, run kadmin.local and use the ktadd command as follows:</p>
+<ul>
+<code>
+	<li># /usr/local/sbin/kadmin.local</br>
+kadmin.local: ktadd -k /usr/local/var/krb5kdc/kadm5.keytab kadmin/admin kadmin/changepw</br>
+Entry for principal kadmin/admin with kvno 5, encryption type Triple DES cbc mode with HMAC/sha1 added to keytab WRFILE:/usr/local/var/krb5kdc/kadm5.keytab</br>
+Entry for principal kadmin/admin with kvno 5, encryption type DES cbc mode with CRC-32 added to keytab WRFILE:/usr/local/var/krb5kdc/kadm5.keytab</br>
+Entry for principal kadmin/changepw with kvno 5, encryption type Triple DES cbc mode with HMAC/sha1 added to keytab WRFILE:/usr/local/var/krb5kdc/kadm5.keytab</br>
+Entry for principal kadmin/changepw with kvno 5, encryption type DES cbc mode with CRC-32 added to keytab WRFILE:/usr/local/var/krb5kdc/kadm5.keytab</br>
+kadmin.local: quit</br>
+     #</br>
+     </li>
+     <li>using -k argument, ktadd will save the extracted keytab as /usr/local/var/krb5kdc/kadm5.keytab
+    </code>
+</ul>
+
+<h2 id="start_krb"><span>Starting the Kerberos Daemons on KDC</span></h2>
+<p>To start the kerberos at the master KDC, use following commands:</p>
+<ul>
+<code>
+	<li># /usr/local/sbin/krb5kdc</br>
+# /usr/local/sbin/krb5kdc </br>
+# /usr/local/sbin/kadmind</br>
+</code>
+     </li>
+</ul>
+<p>Each daemon will fork and run in the background.
+If you want the daemon to start automatically at boot time, add them to the KDC's /etc/rc or /etc/inittab file.(stash file required)</p>
+
+<h2 id="principal_queryio"><span>Principals from QueryIO</span></h2>
+<p>Adding kerberos principals from QueryIO is done automatically. All QueryIO users are added as principals in kerberos.</p>
+<p>To add a QueryIO user as principal, same user credentials as used by QueryIO are used to create principal in kerberos i.e same username and password are used for principal's username and password.</p>  
+
+
+<h2 id="shutdown_cluster"><span>Shut Down the Cluster </span></h2>
+<p>Stop all nodes in cluster to enable security and then change configuration properties. All nodes must be stopped because node restarted with security enabled can not communicate with the node running without security enabled.
+This can be done through QueryIO UI. All NameNodes and DataNodes should be stopped manually. To stop a node, select the node and click <b>Stop</b>.</p>
+
+
+<h2 id="enable_security"><span>Enable Hadoop Security</span></h2>
+<h3>core-site.xml</h3>
+<p>All configuration files throughout the cluster must have same content. To enable hadoop security, append the following properties to the core-site.xml file for all QueryIO components on every host.</p>
+<p>You can find core-site.xml on every registered host machine : $HOST_INSTALL_PATH/QueryIOPackage/hadoop-2.0.2-alpha/etc/$NODE_TYPE$-conf_$NODE_ID$/ </p><p> ($NODE_TYPE$ can be NameNode, DataNode, ResourceManager, NodeManager and $NODE_ID$ is the respective id of every node.)</p>
+<ul>
+	<li>
+<pre>&lt;property&gt;
+	&lt;name&gt;hadoop.security.authentication&lt;/name&gt;
+	&lt;value&gt;kerberos&lt;/value&gt; 
+	&lt;!-- Giving value as "simple" disables security.--&gt; 
+&lt;/property&gt;</pre>
+	</li> 
+	<li>
+<pre>&lt;property&gt; 
+	&lt;name&gt;hadoop.security.authorization&lt;/name&gt; 
+	&lt;value&gt;true&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li> 
+</ul>
+
+<h3>hdfs-site.xml</h3>
+<p>You can find hdfs-site.xml on every registered host machine : $HOST_INSTALL_PATH/QueryIOPackage/hadoop-2.0.2-alpha/etc/$NODE_TYPE$-conf_$NODE_ID$/ </p><p> ($NODE_TYPE$ can be NameNode, DataNode, ResourceManager, NodeManager and $NODE_ID$ is the respective id of every node.)</p>
+<p>Append the following properties to the hdfs-site.xml : </p>
+<ul>
+	<li>Change: "path to the HDFS keytab", "fully qualified domain name of NN" and "fully qualified domain name of Standby NN" with correct values accordingly.</li> 
+<p>&lt;!-- General HDFS security config --&gt;</p>
+	<li> 
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.block.access.token.enable&lt;/name&gt; 
+  	&lt;value&gt;true&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<p>&lt;!-- NameNode security config --&gt;</p>
+	<li> 
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.https.address&lt;/name&gt; 	
+	&lt;value&gt;&lt;fully qualified domain name of NN&gt;:50470&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li>
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.https.port&lt;/name&gt; 
+  	&lt;value&gt;50470&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li>
+ <pre>&lt;property&gt; 
+  	&lt;name&gt;dfs.namenode.keytab.file&lt;/name&gt; 
+	&lt;value&gt;/etc/hadoop/conf/hdfs.keytab&lt;/value&gt; &lt;!-- path to the HDFS keytab --&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li> 
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.namenode.kerberos.principal&lt;/name&gt; 
+	&lt;value&gt;admin/_HOST@queryiorealm&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li>
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.namenode.kerberos.https.principal&lt;/name&gt; 
+	&lt;value&gt;admin/_HOST@queryiorealm&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<p>&lt;!-- Secondary NameNode security config --&gt;</p>
+	<li> 
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.secondary.https.address&lt;/name&gt; 
+	&lt;value&gt;&lt;fully qualified domain name of Standby NN&gt;:50495&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li>
+<pre>&lt;property&gt; 
+  	&lt;name&gt;dfs.secondary.https.port&lt;/name&gt; 
+  	&lt;value&gt;50495&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li>	 
+<pre>&lt;property&gt;
+	&lt;name&gt;dfs.secondary.namenode.keytab.file&lt;/name&gt; 
+	&lt;value&gt;/etc/hadoop/conf/hdfs.keytab&lt;/value&gt; &lt;!-- path to the HDFS keytab --&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li>
+<pre> &lt;property&gt; 
+	&lt;name&gt;dfs.secondary.namenode.kerberos.principal&lt;/name&gt; 
+	&lt;value&gt;admin/_HOST@queryiorealm&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li>
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.secondary.namenode.kerberos.https.principal&lt;/name&gt; 
+	&lt;value&gt;admin/_HOST@queryiorealm&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<p>&lt;!-- DataNode security config --&gt; </p>
+	<li>
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.datanode.data.dir.perm&lt;/name&gt; 
+  	&lt;value&gt;700&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li> 
+<pre>&lt;property&gt; 
+  	&lt;name&gt;dfs.datanode.address&lt;/name&gt; 
+  	&lt;value&gt;0.0.0.0:1004&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li> 
+<pre>&lt;property&gt; 
+  	&lt;name&gt;dfs.datanode.http.address&lt;/name&gt; 
+  	&lt;value&gt;0.0.0.0:1006&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li>
+ <pre>&lt;property&gt; 
+  	&lt;name&gt;dfs.datanode.keytab.file&lt;/name&gt; 
+	&lt;value&gt;/etc/hadoop/conf/hdfs.keytab&lt;/value&gt; &lt;!-- path to the HDFS keytab --&gt; 
+&lt;/property&gt; </pre>
+	</li>
+	<li>
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.datanode.kerberos.principal&lt;/name&gt; 
+	&lt;value&gt;admin/_HOST@queryiorealm&lt;/value&gt; 
+&lt;/property&gt;</pre>
+	</li>
+	<li>
+<pre>&lt;property&gt; 
+	&lt;name&gt;dfs.datanode.kerberos.https.principal&lt;/name&gt; 
+	&lt;value&gt;admin/_HOST@queryiorealm&lt;/value&gt; 
+&lt;/property&gt;
+&lt;property&gt; 
+    &lt;name&gt;dfs.web.authentication.kerberos.principal&lt;/name&gt; 
+    &lt;value&gt;admin/_HOST@queryiorealm&lt;/value&gt; 
+&lt;/property&gt;
+</pre>
+	</li> 
+	
+</ul>
+<p>These properties has to be manually updated in the respective files.</p>
+
+
+<h2 id="configuration"><span>Configure Cluster Components</span></h2>
+<p>Append following options to <b>queryio.&lt;cluster_component&gt;.options</b> property for all cluster components.</p>
+<p><code>-Djava.security.krb5.realm=queryiorealm -Dsun.security.krb5.debug=true -Djava.security.krb5.kdc=192.168.0.1</code></p>
+<p> Select the component and click configure.  For example, in case of datanode, select the datanode and click on configure. Now append the property "queryio.datanode.options" and click save. Repeat the process for all components.</p> 
+
+
+
+
+<h2 id="integrate"><span>Integrating Kerberos with QueryIO</span></h2>
+<p>Once the Kerberos has been successfully configured, QueryIO can be integrated with kerberos by changing the property <b>useKerberos</b> to <b>true</b> in queryio.properties file which is stored at "tomcat/webapps/queryio/conf".</p>
+
+<h2 id="start_node"><span>Starting up the Cluster </span></h2>
+<p>Now you can start the Cluster through QueryIO UI. Start all the NamoNodes, DataNodes, ResourceManagers & NodeManagers. To <a href="hadoop-name-nodes.html#start">start</a> a <a href="hadoop-name-nodes.html">NameNode</a>, select NameNode and click <b>Start</b>.
+To <a href="hadoop-data-nodes.html#start">start</a> a <a href="hadoop-data-nodes.html">DataNode</a>, select DataNode and click <b>Start</b> and so on. </p>
+<p>If all the nodes in the cluster starts well, then your QueryIO cluster has been successfully configured with kerberos.</p>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

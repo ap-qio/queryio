@@ -1,0 +1,106 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Implementing AdHoc Queries</title>
+</head>
+
+<body>
+
+<h1><span>Implementing AdHoc Queries</span></h1>
+
+<p>Using AdHoc queries, you can perform standard SQL queries on your big data. 
+QueryIO exposes various interfaces to allow you to support AdHoc queries in your custom MapReduce jobs.</p>
+
+<p>This document will show you how to support AdHoc queries in your MapReduce jobs.</p>
+
+<h3>Implementing IDataDefinition interface</h3>
+<p> QueryIO server uses IDataDefinition methods to fetch the metadata of the table 
+in the database in which your MapReduce job will store the processed data.</p>
+
+<p>Code below shows implementation of this interface in CSV parser job.</p>
+
+<p><b>Implementing IDataDefinition interface [interface: com.queryio.plugin.dstruct.IDataDefinition]</b></p>
+<div id="code" style="background:EEE;">
+<pre>
+import java.util.ArrayList;
+
+import com.queryio.plugin.datatags.ColumnMetadata;
+import com.queryio.plugin.dstruct.IDataDefinition;
+
+public class CSVDataDefinitionImpl implements IDataDefinition {
+
+	@Override
+	public ArrayList&lt;ColumnMetadata&gt; getColumnMetadata() {
+		
+		// Here we return the metadata of the table in which our job will be storing the processed data.
+		
+		ArrayList&lt;ColumnMetadata&gt; colMetaDataList = new ArrayList&lt;ColumnMetadata&gt;();
+		colMetaDataList.add(new ColumnMetadata("FILEPATH", String.class, 1280));
+		colMetaDataList.add(new ColumnMetadata("IP", String.class, 128));
+		colMetaDataList.add(new ColumnMetadata("CPU", Float.class));
+		colMetaDataList.add(new ColumnMetadata("RAM", Float.class));
+		colMetaDataList.add(new ColumnMetadata("DISKREAD", Float.class));
+		colMetaDataList.add(new ColumnMetadata("DISKWRITE", Float.class));
+		colMetaDataList.add(new ColumnMetadata("NETREAD", Float.class));
+		colMetaDataList.add(new ColumnMetadata("NETWRITE", Float.class));
+		
+		return colMetaDataList;
+	}
+	@Override
+	public String getTableName() {
+		return "adhoc_csvparserjob";
+	}
+	
+	public static void main(String[] args){
+		System.out.println(new CSVDataDefinitionImpl().getColumnMetadata());
+	}
+}
+</pre>
+</div>
+<p><b>ColumnMetaData class definition [class: com.queryio.plugin.dstruct.ColumnMetaData]</b></p>
+<div id="code" style="background:EEE;">
+<pre>
+public class ColumnMetaData {
+	private String columnName;
+	private String columnSqlDataType;
+	
+	public ColumnMetaData(String columnName, String columnSqlDataType){
+		this.columnName = columnName;
+		this.columnSqlDataType = columnSqlDataType;
+	}
+	
+	public String getColumnName() {
+		return columnName;
+	}
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
+	}
+	public String getColumnSqlDataType() {
+		return columnSqlDataType;
+	}
+	public void setColumnSqlDataType(String columnSqlDataType) {
+		this.columnSqlDataType = columnSqlDataType;
+	}
+	public String toString(){
+		return columnName + " " + columnSqlDataType;
+	}
+}
+
+</div>
+</pre>
+
+
+<p>You should implement this interface and bundle it with your MapReduce job classes in a jar file.</p>
+<p>When you submit your job in QueryIO, it fetches table metadata using your implementation of IDataDefinition interface. It then creates
+table in the database with specified metadata. You can now create queries using SQL query builder interface and execute those queries on this table. 
+QueryIO starts the execution of the associated job in the backend. It passes the criteria for your query to your job as arguments. 
+You should handle those arguments in your MapReduce job implementation.</p>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

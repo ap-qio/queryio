@@ -1,0 +1,29 @@
+#alerts_list .right,
+#trigger_list .right
+{
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+#alerts_table_div, 
+#trigger_table_div
+{
+	border: solid 1px #CCC;
+	float: left;
+ 	width: 98.5%;
+}
+
+#alerts_table_div table thead th,
+#alerts_table_div table tbody tr td,
+#trigger_table_div table thead th
+#trigger_table_div table tbody tr td,
+{
+	font-size: 9pt;
+}
+
+#trigger_list_table_filter input,
+#alerts_list_table_filter input
+{
+	width: 60%
+}

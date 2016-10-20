@@ -1,0 +1,95 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop SQL Builder</title>
+</head>
+<body>
+
+<h1 id="query"><span>Hadoop Query Manager</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains about managing big queries based on metadata extracted.</p>
+<ul>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#execute">Managing Hadoop SQL Queries</a></li>
+</ul>
+<h2 id="intro"><span>Introduction</span></h2>
+	<p>QueryIO supports on the fly metadata extraction from the files written onto the cluster. Query manager views all the saved big queries according to selected namespace.</p>
+	
+	<p>You can easily manage and execute your saved big queries using Query Manager.</p>
+	<img src="images/screenshots/query-manager.jpeg"/>
+	
+	<p>Following details about big queries are displayed:</p>
+	<ul>
+		<li>Check box to perform operations on Hadoop SQL query.</li>
+		<li><b>QueryID</b>: A unique id for the Hadoop SQL query.</li>
+		<li><b>Description</b>: Description for the Hadoop SQL query.</li>
+		<li><b>Status</b>: Status of query as "Success", "Failed" or "Running" based on execution of query.</li>
+		<li><b>Database</b>: Type of the database. </li>
+	</ul>
+	
+	<p>You can also select <b>Namespace</b> from a drop down list each one of which has its own big queries. Database linked to the namespace will be displayed.</p>  
+	
+	<h2 id="execute"><span>Managing Hadoop SQL Queries</span></h2>
+	<p>Following actions can be performed on saved Hadoop SQL Queries.</p>
+	<ul>	
+		<li id="add"><b>Add </b></li>
+			<ul>
+				<li>To create a new Hadoop SQL query.</li>
+				<li>Use <a href="hadoop-sql-designer.html">Query Designer</a> to design, save and execute new Hadoop SQL query.</li>
+			</ul>
+		<li id="design"><b>Design</b></li>
+			<ul>
+				<li>To redesign a Hadoop SQL query.</li>
+				<li>Select a Hadoop SQL query and click "Design". This will take you to <a href="hadoop-sql-designer.html">Query Designer</a> with selected Hadoop SQL query details.</li>
+			</ul>
+		<li id="view"><b>View</b></li>	
+			<ul>
+				<li>To view the result of selected Hadoop SQL query.</li>
+				<li>Hadoop SQL query will viewed on <a href="hadoop-sql-viewer.html">Query Viewer</a> </li>
+			</ul>
+		<li id="delete"><b>Delete</b></li>
+			<ul>
+				<li>To delete selected Hadoop SQL query.</li>
+			</ul>
+		<li id="clone"><b>Clone</b></li>
+			<ul>
+				<li>To create exact copy of a Hadoop SQL query.</li>
+				<li>Select query to be cloned.</li>		
+				<li>Specify cloned query id and description and click "Save".</li>
+				<li>New exact copy of selected query will be created.</li>
+			</ul>
+		<li id="export"><b>Export</b></li>
+			<ul>
+				<li>Select Hadoop SQL query and click "Export". </li>
+				<li>In the window that will appear, specify query id and select the format(PDF, HTML, XLS) in which you want the report to be exported. </li>
+				<li>Click <b>Export</b>.</li>
+			</ul>
+		<li id="email"><b>Email</b></il>
+			<ul>
+				<li>Select Hadoop SQL query and click "Email". </li>
+				<li>Specify query name, select the format(PDF, HTML, XLS) in which you want the report to be emailed and specify record names.</li>
+				<li>Select mail recipient from the list of registered users. </li>
+				<li>Click <b>Email</b>.</li>
+			</ul>
+		<li id="sch"><b>Schedule</b></il>
+			<ul>
+				<li>Execute Hadoop SQL query at scheduled time.</li>
+				<li>Select Hadoop SQL query and click "Schedule". </li>
+				<li>Specify schedule id, frequency interval, schedule time,  select the format(PDF, HTML, XLS) in which you want the report of the Hadoop SQL query to be e-mailed.</li>
+				<li>Provide message to be included in email.</li>
+				<li>Select mail recipient from the list of registered users. </li>
+				<li>Click <b>Email</b>.</li>
+			</ul>
+	</ul>
+	
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<script src="scripts/dashboard.js"></script>
+<link rel="stylesheet" href="styles/jquery.jqplot.min.css" type="text/css" />
+<script src="scripts/jquery.jqplot.js?version=1"></script>
+<script src="scripts/jqplot.pieRenderer.js?version=1"></script>
+
+<script src="scripts/jquery.treeTable.js"></script>
+<script src="scripts/jquery.dataTables.js"></script>
+		
+
+<link rel="stylesheet" href="styles/dashboard.css" type="text/css" />
+
+<script src="scripts/excanvas.min.js"></script>
+
+<div id='dashboard' class="viewDiv">
+	<div style="float: left; width: 49%; margin: 10px 0px 0px 10px;">
+		<div class="header" style=" text-align: center; width: 99%; ; color: white;">Storage Summary</div>
+		<div id="dn_div" style=" float: left; border: 1px solid #DDD; width: 99.8%;">
+		
+			<a href="javascript:Navbar.changeTab('TreeDataNode','dn_summary');" style="text-decoration: none;">
+				<div id="dn_summary_chart_div" style="width: 50%">
+				<!-- 	<span id="dn_summary_title">Storage summary</span>-->
+					<div id="dn_summary_chart" ></div>
+				</div>
+			</a>
+			<div id="dn_status_table_div" style="width: 44%; margin-bottom: 10px;">
+				<!-- <div class="row header">Status summary</div>-->
+				<div class="row even">Total File Reads:<span id ="dn_status_fileread"></span> </div>
+		        <div class="row odd">Total File Writes:<span id ="dn_status_filewrite"></span> </div>
+		        <div class="row even">File Read Latency:<span id ="dn_latency_fileread"></span></div>
+		        <div class="row odd">File Write Latency: <span id ="dn_latency_filewrite"></span></div>
+			</div>
+		</div>
+	</div>
+
+	<div style="width: 48%; float: right; margin: 10px 10px 0px 0px;">
+		<div class=" header" style="width: 99%; float: left; text-align: center; ; color: white;">I/O Summary</div>
+		<div id = "nn_div" style="float: left; border: 1px solid #DDD; width: 99.8%;">
+			<a href="javascript:Navbar.changeTab('TreeNameNode','nn_summary');" style="text-decoration: none;">
+				<div id="nn_summary_chart_div" style="width: 50%">
+				<!-- 	<span id="nn_summary_title">I/O summary</span>-->
+					<div id="nn_summary_chart" ></div>
+				</div>
+			</a>
+			<div id="nn_status_table_div" style="width: 44% ;margin-bottom: 10px;">
+				<!-- <div class="row header">Status summary</div>-->
+				<div class="row even">Total File Reads:<span id ="nn_status_fileread"></span> </div>
+	        	<div class="row odd">Total File Writes:<span id ="nn_status_filewrite"></span> </div>
+	        	<div class="row even">File Read Latency:<span id ="nn_latency_fileread"></span></div>
+	        	<div class="row odd">File Write Latency: <span id ="nn_latency_filewrite"></span></div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="nn_summary_table_div" style="width: 98.6%;">
+		<div class="table_header_div"><span style=";">NameNode Summary</span></div>
+		<table id="nn_summary_table" class="dataTable"></table>
+	</div>
+
+	<div id="dn_summary_table_div" style="width: 98.6%;">
+		<div class="table_header_div"><span style=";">DataNode Summary</span></div>
+		<div style = "min-width: 1000px; overflow-x: auto;">
+			<table id="dn_summary_table" class="dataTable" style="width: 100%;"></table>
+		</div>
+	</div>
+	
+</div>
+<script type="text/javascript">
+Dashboard.ready();
+$('#dn_summary_table').ready( function() {
+	setWidth();
+	setBorder();
+} );
+
+function setBorder()
+{
+	$('#dn_summary_table').hover(function() {
+		  $(this).css('border','1px solid #687588');
+		});
+}
+function setWidth()
+{
+	var widthNameNode = $('#nn_summary_table_div').width();
+	$('#dn_summary_table').css('width' , widthNameNode+'px');
+	var width = $('#dn_summary_table').width();
+	$('#dn_summary_table_div').css('width' , width+'px');
+}
+$(window).resize(function() {
+	setWidth();	
+});
+</script>

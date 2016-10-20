@@ -1,0 +1,67 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop System Monitor</title>
+</head>
+
+<body>
+<h1><span>Hadoop System Monitor</h1>
+<p class="whs5">It displays status summary of all the NameNodes, DataNodes, ResourceManagers and NodeManagers in the QueryIO cluster. Status of nodes can be empty, suspended, ok, warning, error or failure.</p>
+<p class="whs5">Status view provides a quick color-coded view of the state of the host machines and NameNodes or DataNodes configured on host machines. Status is displayed in a graphical view with nodes against time. 
+Displayed status time windows can be changed to 1 hour, 1 day, 7 days, 30 days, 90 days, 180 days or 360 days from the drop down menu.  </p>
+<img alt="Status view" src="images/screenshots/big-data-cluster-status.png" >
+<p class="whs5">Status of monitors is processed and the result is represented in color-coded cells in the matrix. Color codes are defined as follows: </p>
+<table width="90%" cellspacing="0" cellpadding="5" bordercolor="#000000" border="1" style="border-collapse: collapse;">
+			<tbody><tr>
+				<td><b>State</b></td>
+
+				<td><b>Color</b></td>
+				<td><b>Description</b></td>
+			</tr>
+			
+			<tr>
+				<td>Empty</td>
+				<td width="1%" bgcolor="#c0c0c0" align="center"> </td>
+				<td>This state signifies there is no node.</td>
+
+			</tr>
+			<tr>
+
+				<td>Suspended</td>
+				<td width="1%" bgcolor="#8db3e2" align="center"> </td>
+				<td>The node has been manually suspended.</td>
+			</tr>
+			<tr>
+				<td>OK</td>
+				<td width="1%" bgcolor="#0a0" align="center"> </td>
+				<td>This status signifies that node is working fine.</td>
+			</tr>
+			
+			<tr>
+				<td>Warning</td>
+				<td width="1%" bgcolor="#FFD700" align="center"> </td>
+
+				<td>Signifies there is a warning for the node.</td>
+			</tr>
+			<tr>
+				<td>Error</td>
+				<td width="1%" bgcolor="#FD6347" align="center"> </td>
+				<td>Signifies the a error has occurred on node.</td>
+			</tr>
+			<tr>
+
+				<td>Failure</td>
+				<td width="1%" bgcolor="#C00" align="center"> </td>
+				<td>Signifies that node has failed.</td>
+			</tr>
+		</tbody></table>
+<p class="whs5">User can also click on <b>Refresh</b> button to get the latest details.</p>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

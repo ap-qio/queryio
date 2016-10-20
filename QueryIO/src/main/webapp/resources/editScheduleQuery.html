@@ -1,0 +1,231 @@
+<link href="styles/emailTable.css" rel="stylesheet" type="text/css" />
+<style>
+    .divStyle {float:left; margin: 0 0 0 250;}
+</style>
+<script>
+$('#reportDate').datetimepicker({
+	controlType: 'select',
+	timeFormat: 'HH:mm:ss'
+});
+</script>
+<div id="add_rule" class="lightbox" >
+	<div id="close" class="close">
+		<a href="javascript:ReportSchedules.closeBox(false);"><img src="images/light-box-close.png"></a>
+	</div>
+	<form id="scheduleReport">
+    <table id="add_schedule_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">Schedule Query Result</span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td>
+                	<div id ="reportdiv1">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td>
+									<div class="instructional">
+									Schedule report for Query result.  
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="msg_td_1" style="color:red">
+								</td>
+							</tr>
+							<tr>
+								<td>	
+									<div id="reportDiv" style="">
+										<table id="ruletbl1" width="100%" class="form_table" >
+											<tbody>
+											
+												
+												<tr id="ScheduleID">
+													<td style="text-align: left;">Schedule ID*</td>
+													
+													<td style="text-align: left;">
+														<input type="text" name="schedID" id="schedID" style="width:180px;" width="180px;">
+													</td>
+												</tr>
+												<tr id="NNID">
+													<td style="text-align: left;">NameNode ID*</td>
+													<td style="text-align: left;">
+														<select name="nameNodeID" id="nameNodeID" onChange="javascript:ReportSchedules.changeQueryId(this.options[this.selectedIndex].value)" style="width:192px;" width="192px;">
+														</select>
+													</td>
+												</tr>
+												<tr id="ReportSelect">
+													<td style="text-align: left;">Query ID*</td>
+													
+													<td style="text-align: left;">
+														<select multiple size="5" id="queryID" style="width:192px;" width="192px;">
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td style="text-align: left;">
+														Interval*
+													</td>
+													<td style="text-align: left;">
+														<select id="interval" name="interval" style="width:192px;" width="192px;">
+														<option value="0">Once</option>
+														<option value="1">Twelve Hours</option>
+														<option value="2">Daily</option>
+														<option value="3">Weekly</option>
+														</select>
+													</td>
+												</tr>	
+												<tr>
+													<td>Schedule Time</td>
+													<td>
+														<input type="text" id="reportDate"  readonly="readonly"  alt="Select date &amp; time..." name="reportDate" style="width:180px;" width="180px;"  >
+														<!-- <a href="javascript:NewCal('reportDate', 'MMddyyyy','arrow', true, '24', false);"><img src="images/calendar_16.gif"></img></a> -->
+													</td>
+												</tr>
+												<tr>
+													<td>Select Report Format</td>
+													<td>
+														<input id = "html" type="checkbox" name="html">HTML
+															&nbsp;<input  id = "pdf"  type="checkbox" name="pdf">PDF &nbsp;<input  id = "xls"  type="checkbox" name="xls">XLS
+													</td>
+												</tr>
+												<tr>
+													<td>Send Notification</td>
+													<td><input type="checkbox" checked id="notificationEnable" onClick="javascript:ReportSchedules.changeBQButton()"></td>
+												</tr>
+												<tr>
+													<td colspan="2" style="text-align: right;">
+														<input type="button" style="width:70px;" id="BQNext" value="Next" onclick="javascript:ReportSchedules.nextBigQueryScheduleStep(2);" class="buttonClass"> 
+														<input type="button" style="width:70px;" id="BQFinish" disabled name="rulenext" value="Finish" onclick="javascript:ReportSchedules.scheduleBQwithoutNotify();" class="buttonClass">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id ="reportdiv2" >
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td>
+									<div class="instructional">
+									Select notification type and add message.  
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="msg_td_2" style="color:red">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table width="100%" class="form_table">
+										<tbody>
+											<tr>
+												<td style="text-align: left;">Notification Type</td>
+												<td style="text-align: left;">
+													<select name="notificationType" id="notificationType" onChange="javascript:ReportSchedules.logBQSave();" style="width:180px;" width="180px;">
+														<option value="Email">Email</option>
+														<option value="Log">Log</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td class="form_td" valign="top">Message</td>
+												<td class="form_td">
+													<textarea name="alertRaisedNotificationMessage" id="alertRaisedNotificationMessage" cols="60" rows="5" class="list_td"></textarea>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align: right;">
+													<input type="button" style="width:70px;" id="EmailPrevious" name="rulenext" value="Back" onclick="javascript:ReportSchedules.nextBigQueryScheduleStep(1);" class="buttonClass">
+													<input type="button" style="width:70px;" id="EmailNext" name="rulenext" value="Next" onclick="javascript:ReportSchedules.nextBigQueryScheduleStep(3);" class="buttonClass">
+													<input type="button" style="width:70px;" id="logSave" disabled name="rulenext" value="Finish" onclick="javascript:ReportSchedules.saveBQLog();" class="buttonClass"> 
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="reportdiv3">
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td>
+									<div class="instructional">
+									Select members to send notification.  
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="msg_td_3" style="color:red"></td>
+							</tr>
+							<tr>
+								<td>
+									<table class="pickList" style="width:100%;">
+										<tbody>
+											<tr>
+												<th class="pickLabel">Available users</th>
+												<td></td>
+												<th class="pickLabel">Selected users</th>
+											</tr>
+											<tr>
+					    						<td>
+					        						<select name="user" style="width:100%" multiple="multiple" ondblclick="ReportSchedules.moveSelectedOptions('user','selected')" id="user" size="5">
+											        </select>
+					    						</td>
+						    					<td class="moveOptions">
+						       						<button class="button userMoveButton" name="moveRight" id="moveRight1" type="button" onclick="javascript:ReportSchedules.moveSelectedOptions('user','selected');">&nbsp;&gt;</button>
+						            				<br>
+						        					<button class="button userMoveButton" name="moveAllRight" id="moveAllRight1" type="button" onclick="javascript:ReportSchedules.moveAllOptions('user','selected');">&gt;&gt;</button>
+											        <br>
+											        <button class="button userMoveButton" name="moveLeft" id="moveLeft1" type="button" onclick="javascript:ReportSchedules.moveSelectedOptions('selected','user');">&nbsp;&lt;</button>
+													<br>
+											        <button class="button userMoveButton" name="moveAllLeft" id="moveAllLeft1" type="button" onclick="javascript:ReportSchedules.moveAllOptions('selected','user');">&lt;&lt;</button>
+												</td>
+											    <td>
+											        <select name="selected" style="width:100%" multiple="multiple" id="selected" size="5">
+					    					        </select>
+					    						</td>
+											</tr>
+											<tr>
+												<td colspan="4" style="text-align: right; width:100%;">
+													<input type="button" style="width:70px;" value="Back" name="back" onClick="javascript:ReportSchedules.nextBigQueryScheduleStep(2);">
+													<input type="button" style="width:70px;" value="Finish" name="email" onClick="javascript:ReportSchedules.performBigQueryOperation();">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script>
+if(ReportSchedules.currentOperation == "add"){
+	ReportSchedules.currentPage = 1;
+	RemoteManager.getNameNodes(ReportSchedules.fillBigQueryNameNodeScroll);
+	ReportSchedules.nextBigQueryScheduleStep(1);
+	$("#schedID").val("SQLQuerySchedule" + (parseInt(bigqueryschedule)+1));
+}
+else{
+	$("#ScheduleID").hide();
+	ReportSchedules.editBigQueryReady();
+}
+
+RemoteManager.getServerTime(callBackServerTime);
+function callBackServerTime(value)
+{
+	var dtToday = new Date(value.getTime());
+	document.getElementById('reportDate').value =  (dtToday.getMonth()+1)+"/"+dtToday.getDate()+"/"+dtToday.getFullYear()+" "+dtToday.getHours()+":"+dtToday.getMinutes()+":"+dtToday.getSeconds();
+}
+</script>

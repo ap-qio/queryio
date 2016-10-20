@@ -1,0 +1,725 @@
+
+
+<script type="text/javascript" src="scripts/data_migration.js" />
+<div id="adddm" class="lightbox">
+	<div id="close" class="close">
+		<a href="javascript:DataMigrate.closeBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<table id="data_migrate_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Data Migration: Export</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table align="center" width="100%" style="border-collapse: collapse;">
+						<tr>
+							<td id="msg_td">
+								<div class="instructional" style=""><span id="instruction"> Export data from HDFS cluster</span> 
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<hr>
+							</td>
+						</tr>
+						<tr>
+							<td id="msg_td_1" style="color:red;">
+								<div class="otherinstruction">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<form>
+									<div>
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Title</td>
+												<td style="text-align: left;"><input type="text" id ="title" name="title"></td>
+											</tr>
+											<tr>
+												<td>Source NameNode</td>
+												<td><select id="ClusterNameNodeId" style="width: 212px;"></select></td>
+											</tr>
+											<tr>
+												<td>HDFS Source Path</td>
+												<td><input type="text" id="hdfsPath" name="hdfsPath" value="/"></td>
+											</tr>
+											<tr>
+												<td>Data Store</td>
+												<td><select id="cloudStore" style="width: 212px;" onchange="javascript:DataMigrate.dataStoreChanged();">
+														<option value="Amazon">Amazon</option>
+														<option value="FTP">FTP</option>
+														<option value="HDFS">HDFS</option>
+														<option value="HTTP/HTTPS">HTTP/HTTPS</option>
+														<option value="SSH">SSH</option>	
+														<option value="SFTP">SFTP</option>
+														<option value="DB">DataBase</option>				
+													</select>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<!-- AMAZON -->
+									<div id = "cloudStoreDiv" style="display:">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Data Connection</td>
+												<td style="text-align: left;">
+													<select id = "connectionIdS3" style="width: 130px;" onchange = "javascript: DataMigrate.s3ConnectionChange(this.id, this.value);">
+													</select>
+													<button type="button" class="button" style = "width: 72px;" title = "Add a new Data Connection" onclick = "DataMigrate.addNewDataConnection();">Add</button>
+												</td>
+											</tr>
+											<tr id = "cloudStoreSubDiv" style="display: ;">
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('cloudStoreSubLink','cloudStoreSubDiv');" style="padding-right: 13px;">
+																		hide details
+																	</a>
+																</td>
+															</tr>
+															<tr>
+																<td style="text-align: left; width: 41%">Access Key</td>
+																<td style="text-align: left;"><input type="text" id="accessKey" name="accessKey" ></td>
+															</tr>
+															<tr>
+																<td>Secret Access Key</td>
+																<td><input type="text" id="secureAccessKey" name="secureAccessKey" ></td>
+															</tr>
+														</table>
+													</div>
+												</td>	
+											</tr>
+											
+											<tr id = "cloudStoreSubLink" style="display: none;">												
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('cloudStoreSubDiv','cloudStoreSubLink');" style="padding-right: 13px;">
+																		show details
+																	</a>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</td>
+											<tr>
+											<tr>
+												<td>Bucket Name</td>
+												<td><input type="text" id="bucketName" name="bucketName"></td>
+											</tr>
+											<tr>
+												<td>Inner Key</td>
+												<td><input type="text" id="innerKey" name="bucketName"></td>
+											</tr>
+											<tr>
+												<td colspan="2"><input type="checkbox" id = "secure" >&nbsp;Use SSL&nbsp;
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" style="padding: 10px 0px;">
+													<hr>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<input type="button" value="Export" name="migrate" style="float: right;" onClick="javascript:DataMigrate.migrateData('false');">
+													<input type="button" value="Cancel" name="cancel" style="float: right;" onClick="javascript:DataMigrate.cancelBox();">		
+												</td>
+											</tr>
+										</table>
+									</div>
+									<!-- FTP -->
+									<div id ="ftpStoreDiv" style="display: none">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Data Connection</td>
+												<td style="text-align: left;">
+													<select id = "connectionIdFTP" style="width: 130px;" onchange = "javascript: DataMigrate.ftpConnectionChange(this.id, this.value);">
+													</select>
+													<button type="button" class="button" style = "width: 72px;" title = "Add a new Data Connection" onclick = "DataMigrate.addNewDataConnection();">Add</button>
+												</td>
+											</tr>
+											<tr id = "ftpStoreSubDiv" style="display: ;">
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('ftpStoreSubLink','ftpStoreSubDiv');" style="padding-right: 13px;">
+																		hide details
+																	</a>
+																</td>
+															</tr>
+															<tr>
+																<td style="text-align:left; width: 41%;">FTP Host</td>
+																<td style="text-align: left;"><input type="text" id = "hostname" style="" >
+																	<!-- <select id="hostname" style="width: 130px;" ></select>-->
+																</td>
+															</tr>
+															<tr>
+																<td style="text-align:left;">FTP Port</td>
+																<td style="text-align: left;"><input type="text" id = "portnumber" style="" >
+																</td>
+															</tr>
+															<tr>
+																<td>Username</td>
+																<td><input type="text" id="username" name="username"></td>
+															</tr>
+															<tr>
+																<td>Password</td>
+																<td><input type="password" id="password" name="password" ></td>
+															</tr>																														
+														</table>
+													</div>
+												</td>	
+											</tr>
+											
+											<tr id = "ftpStoreSubLink" style="display: none;">												
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('ftpStoreSubDiv','ftpStoreSubLink');" style="padding-right: 13px;">
+																		show details
+																	</a>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</td>
+											<tr>
+											<tr>
+												<td>FTP Destination Path</td>
+												<td><input type="text" id="sourcePath" name="sourcePath"></td>
+											</tr>
+											<tr>
+												<td colspan="2" style="padding: 10px 0px;">
+													<hr>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<input type="button" value="Export" name="migrate" style="float: right;" onClick="javascript:DataMigrate.migrateFTPData('false');">
+													<input type="button" value="Cancel" name="cancel" style="float: right;" onClick="javascript:DataMigrate.cancelBox();">		
+												</td>
+											</tr>
+										</table>
+									</div>
+									
+									<!-- HTTP -->
+									<div id = "httpDiv" style="display: none;">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Data Connection</td>
+												<td style="text-align: left;">
+													<select id = "connectionIdHttp" style="width: 130px;" onchange = "javascript: DataMigrate.httpConnectionChange(this.id, this.value);">
+													</select>
+													<button type="button" class="button" style = "width: 72px;" title = "Add a new Data Connection" onclick = "DataMigrate.addNewDataConnection();">Add</button>
+												</td>
+											</tr>											
+											<tr id = "httpSubDiv" style="display: ;">
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('httpSubLink','httpSubDiv');" style="padding-right: 13px;">
+																		hide details
+																	</a>
+																</td>
+															</tr>
+															<tr>
+																<td style="width: 41%;">BaseURL</td>
+																<td><input type="text" id="httpBaseURL" name="httpBaseURL" value="http://"></td>
+															</tr>
+															<tr>
+																<td>User Name</td>
+																<td><input type="text" id="httpUser" name="httpUser"></td>
+															</tr>
+															<tr>
+																<td>Password</td>
+																<td><input type="password" id="httpPass" name="httpPass"></td>
+															</tr>
+														</table>
+													</div>
+												</td>	
+											</tr>
+											
+											<tr id = "httpSubLink" style="display: none;">												
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('httpSubDiv','httpSubLink');" style="padding-right: 13px;">
+																		show details
+																	</a>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</td>
+											<tr>
+											<tr>
+												<td style="text-align: left; width: 41%;">Destination Path</td>
+												<td style="text-align: left;">
+													<input type="text" id="fileFolderHttp" name="fileFolderHttp">
+												</td>
+											</tr>
+											<!-- tr>
+												<td style="text-align: left; width: 41%;">Parse Pattern</td>
+												<td style="text-align: left;">
+													<input type="text" id="parsePatternHttp" name="parsePatternHttp">
+												</td>
+											</tr-->
+											<tr>
+												<td style="text-align: left; width: 41%;">Character Encoding</td>
+												<td>
+													<select id="encodingHttp" name="encodingHttp" style="width: 212px;">
+														<option value="UTF-8">UTF-8</option>
+														<option value="Big5-HKSCS">Big5-HKSCS</option>
+														<option value="EUC-JP">EUC-JP</option>
+														<option value="EUC-KR">EUC-KR</option>
+														<option value="GB18030">GB18030</option>
+														<option value="GB2312">GB2312</option>
+														<option value="GBK">GBK</option>
+														<option value="IBM-Thai">IBM-Thai</option>
+														<option value="IBM00858">IBM00858</option>
+														<option value="IBM01140">IBM01140</option>
+														<option value="IBM01141">IBM01141</option>
+														<option value="IBM01142">IBM01142</option>
+														<option value="IBM01143">IBM01143</option>
+														<option value="IBM01145">IBM01145</option>
+														<option value="IBM01146">IBM01146</option>
+														<option value="IBM01147">IBM01147</option>
+														<option value="IBM01148">IBM01148</option>
+														<option value="IBM01149">IBM01149</option>
+														<option value="IBM037">IBM037</option>
+														<option value="IBM1026">IBM1026</option>
+														<option value="IBM1047">IBM1047</option>
+														<option value="IBM273">IBM273</option>
+														<option value="IBM277">IBM277</option>
+														<option value="IBM278">IBM278</option>
+														<option value="IBM280">IBM280</option>
+														<option value="IBM284">IBM284</option>
+														<option value="IBM285">IBM285</option>
+														<option value="IBM297">IBM297</option>
+														<option value="IBM420">IBM420</option>
+														<option value="IBM424">IBM424</option>
+														<option value="IBM437">IBM437</option>
+														<option value="ISO-2022-CN">ISO-2022-CN</option>
+														<option value="ISO-2022-JP">ISO-2022-JP</option>
+														<option value="ISO-2022-JP-2">ISO-2022-JP-2</option>
+														<option value="ISO-2022-KR">ISO-2022-KR</option>
+														<option value="ISO-8859-1">ISO-8859-1</option>
+														<option value="ISO-8859-13">ISO-8859-13</option>
+														<option value="ISO-8859-15">ISO-8859-15</option>
+														<option value="ISO-8859-2">ISO-8859-2</option>
+														<option value="ISO-8859-3">ISO-8859-3</option>
+														<option value="ISO-8859-4">ISO-8859-4</option>
+														<option value="ISO-8859-5">ISO-8859-5</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" style="padding: 10px 0px;">
+													<hr>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<input type="button" value="Export" name="migrate" style="float: right;" onClick="javascript:DataMigrate.migrateHTTPData('false');">
+													<input type="button" value="Cancel" name="cancel" style="float: right;" onClick="javascript:DataMigrate.cancelBox();">
+												</td>
+											</tr>
+										</table>
+									</div>				
+									
+									<!-- HDFS IMPORT -->
+									<div id = "HDFSDiv" style="display: none;">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Data Connection</td>
+												<td style="text-align: left;">
+													<select id = "connectionIdHDFS" style="width: 130px;" onchange = "javascript: DataMigrate.hdfsConnectionChange(this.id, this.value);">
+													</select>
+													<button type="button" class="button" style = "width: 72px;" title = "Add a new Data Connection" onclick = "DataMigrate.addNewDataConnection();">Add</button>
+												</td>
+											</tr>
+											<tr id = "HDFSSubDiv" style="display: ;">
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('HDFSSubLink','HDFSSubDiv');" style="padding-right: 13px;">
+																		hide details
+																	</a>
+																</td>
+															</tr>
+															<tr>
+																<td style="text-align: left; width: 41%;">Host</td>
+																<td style="text-align: left;"><input type="text" id="HDFShost" name="HDFShost" value="hdfs://" ></td>
+															</tr>
+															<tr>
+																<td>Port</td>
+																<td><input type="text" id="HDFSport" name="HDFSport" ></td>
+															</tr>
+															<tr>
+																<td>User Name</td>
+																<td><input type="text" id="HDFSuser" name="HDFSuser" ></td>
+															</tr><tr>
+																<td>Group</td>
+																<td><input type="text" id="HDFSgroup" name="HDFSgroup" ></td>
+															</tr>
+														</table>
+													</div>
+												</td>	
+											</tr>
+											
+											<tr id = "HDFSSubLink" style="display: none;">												
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('HDFSSubDiv','HDFSSubLink');" style="padding-right: 13px;">
+																		show details
+																	</a>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</td>
+											<tr>
+											<tr>
+												<td>Root Path Prefix</td>
+												<td><input type="text" id="HDFSroot" name="HDFSroot"></td>
+											</tr>
+											<!--tr>
+												<td colspan="2"><input checked type="checkbox" id="secure" >&nbsp;Use SSL&nbsp;
+												</td>
+											</tr-->
+											<tr>
+												<td colspan="2" style="padding: 10px 0px;">
+													<hr>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<input type="button" value="Export" name="migrate" style="float: right;" onClick="javascript:DataMigrate.migrateHDFSData('false');">
+													<input type="button" value="Cancel" name="cancel" style="float: right;" onClick="javascript:DataMigrate.cancelBox();">
+												</td>
+											</tr>
+										</table>
+									</div>
+
+									<!-- SSH IMPORT -->
+									<div id = "SSHDiv" style="display: none;">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Data Connection</td>
+												<td style="text-align: left;">
+													<select id = "connectionIdSSH" style="width: 130px;" onchange = "javascript: DataMigrate.sshConnectionChange(this.id, this.value);">
+													</select>
+													<button type="button" class="button" style = "width: 72px;" title = "Add a new Data Connection" onclick = "DataMigrate.addNewDataConnection();">Add</button>
+												</td>
+											</tr>
+											<tr id = "SSHSubDiv" style="display: ;">
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('SSHSubLink','SSHSubDiv');" style="padding-right: 13px;">
+																		hide details
+																	</a>
+																</td>
+															</tr>
+															<tr>
+																<td style="text-align: left; width: 41%;">Host</td>
+																<td style="text-align: left;"><input type="text" id="SSHhost" name="SSHhost" ></td>
+															</tr>
+															<tr>
+																<td>Port</td>
+																<td><input type="text" id="SSHport" name="SSHport" ></td>
+															</tr>
+															
+															<tr>
+																<td>User Name</td>
+																<td><input type="text" id="SSHuser" name="SSHuser"></td>
+															</tr>
+															<tr>
+																<td>Authentication Method</td>
+																<td><select id="authMethod" style="width: 95%" name="authMethod" onchange="javascript:authenticationMethodChangedMigrate();">
+																		<option selected value="SSHp">Password</option>
+																		<option value="SSHk">SSH Key</option>
+																	</select>
+																</td>
+															</tr>
+															
+															
+															<tr id="SSHpr" style="display: ">
+																<td>Password</td>
+																<td><input type="password" id="SSHpass" name="SSHpass"></td>
+															</tr>											
+															<tr id="SSHkr" style="display:none;">
+																<td>SSH Key</td>
+																<td><input type="text" id="SSHkey" name="SSHkey"></td>
+															</tr>																										
+														</table>
+													</div>
+												</td>	
+											</tr>
+											
+											<tr id = "SSHSubLink" style="display: none;">												
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('SSHSubDiv','SSHSubLink');" style="padding-right: 13px;">
+																		show details
+																	</a>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</td>
+											<tr>										
+											<tr>
+												<td>SSH Destination Path</td>
+												<td><input style="width: 199px;" rows="4" cols="50" id="SSHroot" name="SSHroot">
+												</td>
+											</tr>											
+											<tr>
+												<td colspan="2" style="padding: 10px 0px;">
+													<hr>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<input type="button" value="Export" name="migrate" style="float: right;" onClick="javascript:DataMigrate.migrateSSHData('false');">
+													<input type="button" value="Cancel" name="cancel" style="float: right;" onClick="javascript:DataMigrate.cancelBox();">
+												</td>
+											</tr>
+										</table>
+									</div>
+
+									<!-- SFTP IMPORT -->
+									<div id = "SFTPDiv" style="display: none;">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Data Connection</td>
+												<td style="text-align: left;">
+													<select id = "connectionIdSFTP" style="width: 130px;" onchange = "javascript: DataMigrate.sftpConnectionChange(this.id, this.value);">
+													</select>
+													<button type="button" class="button" style = "width: 72px;" title = "Add a new Data Connection" onclick = "DataMigrate.addNewDataConnection();">Add</button>
+												</td>
+											</tr>											
+											<tr id = "SFTPSubDiv" style="display: ;">
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('SFTPSubLink','SFTPSubDiv');" style="padding-right: 13px;">
+																		hide details
+																	</a>
+																</td>
+															</tr>
+															<tr>
+																<td style="text-align:left; width: 41%;">SFTP Host</td>
+																<td style="text-align: left;"><input type="text" id = "SFTPhost" style="" >
+																	<!-- <select id="hostname" style="width: 130px;" ></select>-->
+																</td>
+															</tr>
+															<tr>
+																<td style="text-align:left;">SFTP Port</td>
+																<td style="text-align: left;"><input type="text" id = "SFTPport" style="" >
+																</td>
+															</tr>
+															<tr>
+																<td>Username</td>
+																<td><input type="text" id="SFTPuser" name="SFTPuser"></td>
+															</tr>
+															<tr>
+																<td>Password</td>
+																<td><input type="password" id="SFTPpass" name="SFTPpass" ></td>
+															</tr>														
+														</table>
+													</div>
+												</td>	
+											</tr>
+											
+											<tr id = "SFTPSubLink" style="display: none;">												
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('SFTPSubDiv','SFTPSubLink');" style="padding-right: 13px;">
+																		show details
+																	</a>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</td>
+											<tr>
+											<tr>
+												<td>SFTP Destination Path</td>
+												<td><input type="text" id="SFTPpath" name="SFTPpath" value="/"></td>
+											</tr>
+											<tr>
+												<td colspan="2" style="padding: 10px 0px;">
+													<hr>
+												</td>
+											</tr>											
+											<tr>
+												<td colspan="2">
+													<input type="button" value="Export" name="migrate" style="float: right;" onClick="javascript:DataMigrate.migrateSFTPData('false');">
+													<input type="button" value="Cancel" name="cancel" style="float: right;" onClick="javascript:DataMigrate.cancelBox();">
+												</td>
+											</tr>
+										</table>
+									</div>
+									
+									<!-- DATABASE IMPORT -->
+									<div id = "DataBaseDiv" style="display: none;">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Data Connection</td>
+												<td style="text-align: left;">
+													<select id = "connectionIdDB" style="width: 130px;" onchange = "javascript: DataMigrate.dbConnectionChange(this.id, this.value);">
+													</select>
+													<button type="button" class="button"  style = "width: 72px;" title = "Add a new Data Connection" onclick = "DataMigrate.addNewDataConnection();">Add</button>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align: left;"><a  title = "Click Here to Define DataBase Schema" style="font-family: calibri; font-size: small; cursor: pointer; " onclick = "DataMigrate.defineDataBaseSchema();">Click here to define DataBase Schema </a></td>
+											</tr>
+											<tr id = "DataBaseSubDiv" style="display: none;">
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('DataBaseSubLink','DataBaseSubDiv');" style="padding-right: 13px;">
+																		hide details
+																	</a>
+																</td>
+															</tr>
+															<tr>
+																<td style="text-align:left; width: 41%;">DataBase Driver Class</td>
+																<td style="text-align: left;"><input type="text" id = "DBDriverClassMig" style="" >
+																</td>
+															</tr>
+															<tr>
+																<td>DataBase Connection URL</td>
+																<td style="text-align: left;"><input type="text" id = "DBConnectionURLMig" style="" >
+																</td>
+															</tr>
+															<tr>
+																<td>Username</td>
+																<td><input type="text" id="DataBaseUserMig" ></td>
+															</tr>
+															<tr>
+																<td>Password</td>
+																<td><input type="password" id="DataBasePassMig"  ></td>
+															</tr>
+														</table>
+													</div>
+												</td>	
+											</tr>
+											
+											<tr id = "DataBaseSubLink" style="display: ;">												
+												<td colspan="2" style="width: 100%; padding: 0px;">
+													<div>
+														<table style="width: 100%;">
+															<tr>
+																<td></td>
+																<td style="float: right;">
+																	<a href = "javascript: DataMigrate.showhide('DataBaseSubDiv','DataBaseSubLink');" style="padding-right: 13px;">
+																		show details
+																	</a>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</td>
+											<tr>
+											
+											<tr>
+												<td colspan="2">
+												<hr>
+													<div class="otherinstruction">
+														
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<input type="button" value="Export" name="migrate" disabled id="exportDB" style="float: right;" onClick="javascript:DataMigrate.migrateDBData('false');">
+													<input type="button" value="Cancel" name="cancel" id="cancelDB" style="float: right;" onClick="javascript:DataMigrate.cancelBox();">
+												</td>
+											</tr>											
+										</table>
+									</div>
+
+								</form> 
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script>
+$('#title').val("DataMigrate"+(totalMigration+1));
+DataMigrate.dataStoreChanged();
+DataMigrate.fillClusterNameNodeID();
+</script>
+<script type="text/javascript">
+	function authenticationMethodChanged(){
+		
+		if($('#authMethod').val()=='SSHp')
+		{			
+			$('#SSHpr').css('display','');
+			$('#SSHkr').css('display','none');
+		}
+		else if($('#authMethod').val()=='SSHk'){ 
+			$('#SSHpr').css('display','none');
+			$('#SSHkr').css('display','');
+		}		
+	} 
+</script>

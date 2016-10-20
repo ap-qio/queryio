@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="styles/job_browser.css" type="text/css" />
+
+<script type="text/javascript" src="scripts/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.tabs.js"></script>
+<script type="text/javascript" src="scripts/js/ui.tabs.paging.js"></script>
+
+<div>
+	<div id="manageTabs" style="border: none;">
+		<div>
+			<ul class="tabs customTagsClass" style="min-height: 30px;">
+				<li id="databasesHead" style="display: ;"><a id ="databasesLink" href="resources/database_config.html" style = "font-size: 13px;">Databases</a></li>
+				<li id="datasourceConnHead" style="display: ;"><a id ="datasourceConnLink" href="resources/dataConnections.html" style = "font-size: 13px;">Datasource Connection</a></li>
+			</ul>
+		</div>
+		<!-- <div id="databasesTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+		</div>
+		<div id="datasourceConnTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+		</div>
+		<div id="dataTaggingTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+		</div>
+		<div id="contentProcTab" style="overflow: auto; display:''; margin: 10px 5px 5px 5px;">
+		</div> -->
+	</div>
+</div>
+
+<script>
+var $tabs = $("#manageTabs").tabs();
+if (Navbar.currentManageTabSelected == '')
+	Navbar.currentManageTabSelected = 'ui-tabs-1';				/* for 'databasesHead' */
+$('#manageTabs').tabs({
+	select: function(event, ui)
+	{
+		if (Navbar.isSetButtonWidth)
+		{
+			Navbar.isSetButtonWidth = false;
+			Navbar.setButtonWidth();
+		}
+		Navbar.currentManageTabSelected = ui.panel.id;
+		if (Navbar.currentManageTabSelected != 'ui-tabs-1')						/* for 'databasesHead' */
+			document.getElementById("migrationStatusBtn").style.display = 'none';
+	}
+});
+$tabs.tabs("select", Navbar.currentManageTabSelected);
+</script>

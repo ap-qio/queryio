@@ -1,0 +1,120 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop Chart Designer</title>
+</head>
+<body>
+
+<h1 id="query"><span>Hadoop Chart Designer</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains about creating charts from the results of executed queries.</p>
+<ul>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#chart">Chart designer</a></li>
+	<li><a href="#chartpr">Chart Preferences</a></li>
+	
+</ul>
+<h2 id="intro"><span>Introduction</span></h2>
+	<p>Graphic visual representations of information, data or knowledge presents complex information clearly and effectively.
+	They can improve your understanding of your organizational data by utilizing graphics to enhance the your ability to see patterns and trends.
+	Graphical Representations makes it easy to understand and interpret data at a glance and also helps to do comparisons among many things. Moreover, it makes data easy to recall.</p>
+ 	<p>QueryIO helps you to use charts to obtain graphical representation of your query result. Chart designer is used to create charts that will be displayed with result of query viewed in query viewer.</p>
+
+<h2 id="chart"><span>Chart Designer</span></h2>
+		
+	<img alt="report-designer" src="images/screenshots/chart-designer.jpeg" >	
+	<ul>
+		<li>
+		<p>Chart types supported are:</p>
+			<ul>
+				<li>Line Chart</li>
+				<li>Bar Chart</li>
+				<li>Pie Chart</li>
+				<li>Area Chart</li>
+				<li>Bubble Chart</li>
+				<li>Scatter Chart</li>
+				<li>Meter Chart</li>
+				<li>Stock Chart</li>
+				<li>Difference Chart</li>
+				<li>Gantt Chart</li>
+				<li>Tube Chart</li>
+				<li>Cone Chart</li>
+				<li>Pyramid Chart</li>
+				<li>Radar Chart</li>
+			</ul>
+		
+		</li>
+	</ul>
+	<h3>Add Chart</h3>
+	<ul>
+		<li>To add a chart, select <b>Add</b> action from the dropdown at the top of charts tab.		</li>
+		
+		<li>
+		Select the type of the chart that you want to design from the <b>Chart Type</b> dropdown box.
+		</li>
+		
+		<li>
+		Select the section of the report where you want to place your chart <b>Section</b> dropdown box.
+		You can place your charts in report header, group header or group footer sections.
+		</li>
+		
+		<li>You can create 2D and 3D charts by changing the <b>Dimension</b> property of the charts.
+		</li>
+		
+		<li>If you want to add multiple charts to the same section, then you can specify custom layout for those charts by specifying custom
+		values for the <b>Row Position</b> and <b>Column Position</b> properties.
+		</li>
+		
+		<li>Click <b>Add</b> once you have configured all the chart related properties.
+	</ul>
+	
+	<h3>Clone Chart</h3>
+	<ul>
+		<li>Use this action to create exact copy of the selected chart.</li>
+	</ul>
+	
+	<h3>Delete Chart</h3>
+	<ul>
+		<li>Use this action to delete selected chart.</li>
+	</ul>
+	
+	
+	<br>
+	<h2 id="chartpr"><span>Chart Preferences</span></h2>
+	<p>QueryIO provides you highly customized your charts and make them the way you want them to look. This feature drastically improves overall report.</p>
+	<ul>
+		<li>Use <B>Chart Preference</B> action to define global chart settings which will be applied to all the charts added after chart preferences are saved.</li>
+		<li>To define preference settings for individual charts, select the chart, and click <b>Edit</b> or click on the chart preview shown.</li>
+	</ul>
+	<ul><img alt="chart-preferences" src="images/screenshots/chartpr.png" ></ul>	
+	
+	<p>Chart Preference UI is divided into three sections : </p>
+	<ul>
+		<li>First section shows the configurable categories.</li>
+		<li>Next section displays live preview of the chart. Any update in the properties are instantly reflected to the preview.</li>
+		<li>Next section displays all the configurable properties that can be applied on the chart, according to selected category.</li>  
+	</ul>
+	
+	<p>Chart Preferences include following configurable property categories </p>
+	<ul>
+		<li><b>Chart Area</b> : This section deals with the overall area of the chart like background colors, outside border etc.</li>
+		<li><b>Title</b> : This category deals with chart title related properties.</li>
+		<li><b>Leader Lines</b> : These properties are applicable only for pie charts. This section contains properties related to leader lines of the pie chart.</li>
+		<li><b>X-Axis</b> : Here you can update properties related to X-Axis labels like position above or below, colors, borders etc.</li>
+		<li><b>Y-Axis</b> : Here you can update properties related to Y-Axis labels like position left or right, colors, borders etc.</li>
+		<li><b>Labels</b> : This properties are related to data labels that shows the exact value of the quantity in chart.</li>
+		<li><b>Legend</b> : This section deals with the properties related to legend table like table position : left or right,table anchor: top, middle or bottom, borders, colors etc.</li> 
+	</ul>
+	<p class="note">Note : For global chart preferences, all categories are shown and preview contains pie chart and line chart. 
+	For individual chart preferences, categories not applicable on respective chart are not displayed and preview contains selected chart type.</p>
+	
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

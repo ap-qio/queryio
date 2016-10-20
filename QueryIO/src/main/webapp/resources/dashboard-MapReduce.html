@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="styles/dashboard.css" type="text/css" />
+<script src="scripts/MRdashboard.js"></script>
+<script src="scripts/jquery.treeTable.js"></script>
+<link rel="stylesheet" href="styles/jquery.jqplot.min.css" type="text/css" />
+<script src="scripts/jquery.jqplot.js?version=1"></script>
+<script src="scripts/jqplot.pieRenderer.js?version=1"></script>
+<script src="scripts/jquery.dataTables.js"></script>
+<div id='dashboard' class="viewDiv">
+	<div style="float: left; width: 49%; margin: 10px 0px 0px 10px;">
+		<div class="header" style=" text-align: center; width: 99%; ; color: white;">Container Summary</div>
+		<div id="dn_div" style=" float: left; border: 1px solid #DDD; width: 99.8%;">
+		
+			<a href="javascript:Navbar.changeTab('Hadoop','Hadoop', 'NodeManager');" style="text-decoration: none;">
+				<div id="dn_summary_chart_div" style="width: 50%">
+				<!-- 	<span id="dn_summary_title">Storage summary</span>-->
+					<div id="dn_summary_chart" ></div>
+				</div>
+			</a>
+			<div id="dn_status_table_div" style="width: 44%; margin-bottom: 10px;">
+				<div class="row even">Total Containers Launched: <span id ="NM_container_launched"></span></div>
+		        <div class="row odd">Total Containers Completed: <span id ="NM_container_completed"></span></div>
+		        <div class="row even">Total Containers Failed: <span id ="NM_container_failed"></span></div>
+		        <div class="row odd">Total Containers Killed: <span id ="NM_container_killed"></span></div>
+		        <div class="row even">Total Containers Running: <span id ="NM_container_running"></span></div>
+		        <div class="row odd">Total Containers Initing: <span id ="NM_container_initing"></span></div>
+			</div>
+		</div>
+	</div>
+
+	<div style="width: 48%; float: right; margin: 10px 10px 0px 0px;">
+		<div class=" header" style="width: 99%; float: left; text-align: center; color: white;">Application Summary</div>
+		<div id = "nn_div" style="float: left; border: 1px solid #DDD; width: 99.8%;">
+			<a href="javascript:Navbar.changeTab('Hadoop','Hadoop', 'ResourceManager');" style="text-decoration: none;">
+				<div id="nn_summary_chart_div" style="width: 50%">
+				<!-- 	<span id="nn_summary_title">I/O summary</span>-->
+					<div id="nn_summary_chart" ></div>
+				</div>
+			</a>
+			<div id="nn_status_table_div" style="width: 44% ;margin-bottom: 10px;">
+				<div class="row even">Total Apps Submitted: <span id ="RM_apps_submitted"></span></div>
+		        <div class="row odd">Total Apps Running: <span id ="RM_apps_running"></span></div>
+		        <div class="row even">Total Apps Pending: <span id ="RM_apps_pending"></span></div>
+		        <div class="row odd">Total Apps Completed: <span id ="RM_apps_completed"></span></div>
+		        <div class="row even">Total Apps Killed: <span id ="RM_apps_killed"></span></div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="nn_summary_table_div" style="width: 98.6%;">
+		<div class="table_header_div"><span style=";">ResourceManager Summary</span></div>
+		<div style = "min-width: 1000px; overflow-x: auto;">
+			<table id="nn_summary_table" class = "dataTable"></table>
+		</div>
+	</div>
+
+	<div id="dn_summary_table_div" style="width: 98.6%;">
+		<div class="table_header_div"><span style=";">NodeManager Summary</span></div>
+		<table id="dn_summary_table" class="dataTable" style="width: 100%;"></table>
+	</div>
+	
+</div>
+<script type="text/javascript">
+MRDashboard.ready();
+</script>

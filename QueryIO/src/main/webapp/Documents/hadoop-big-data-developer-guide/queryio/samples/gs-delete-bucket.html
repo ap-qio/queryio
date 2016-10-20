@@ -1,0 +1,107 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>Delete Directory</title>
+	
+</head>
+<body>
+<h1><span>Delete directory</span></h1>
+
+<p>DELETE directory operation can be implemented using following interfaces.</p>
+<ul>	
+	<li><a href="#java">DFS Client API</a></li>
+	<li><a href="#WEBHDFS">WEBHDFS API</a></li>
+</ul>
+
+<h2 id="java"><span>DFS Client API</span></h2>
+<p><code>FileSystem.delete(org.apache.hadoop.fs.Path)</code> is used to delete a directory from the QueryIO cluster. 
+NameNode URL and replication count are provided in the Hadoop configuration and it is used to create file system object.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.IOException;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hdfs.DFSConfigKeys;
+
+public class DeleteBucket {
+	/*
+	 * This program deletes the specified directory from HDFS.
+	 */
+	public static void main(String[] args) throws IOException{
+		Configuration conf = new Configuration(true);	//Create a configuration object to define hdfs properties
+		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, "hdfs://192.168.0.1:9000"); // URL for your namenode
+		conf.set(DFSConfigKeys.DFS_REPLICATION_KEY, "3"); // Replication count for files you write
+		
+		FileSystem dfs = FileSystem.get(conf);	//Initialize DFS FileSystem object with QueryIO configurations 
+		dfs.delete(new Path("/queryio/demo/"), true); // Deletes files in the folder recursively
+	}
+}
+	</pre>
+</div>
+
+
+<h2 id="WEBHDFS"><span>WEBHDFS API</span></h2>
+<p><code>HTTP DELETE</code> operation can be used for delete directory operation. Following sample is explained using <code>curl</code> command.</p>
+<p>Syntax of <code>curl</code> command used is</p>
+<code>curl -i -X DELETE "http://&lt;host&gt;:&lt;port&gt;/&lt;path&gt;?user.name=&lt;username&gt;&op=DELETE[&recursive=&lt;true|false&gt;]"</code>
+<ul>
+	<li> <code>-i option</code> : Include the HTTP-header in the output like server-name, date of the document, HTTP-version etc. </li>
+	<li> <code>-X option</code> :  (HTTP) Specifies a custom request method to use when communicating with the HTTP server.</li>
+	<li> <code>DELETE</code> : submit HTTP DELETE request.</li>
+	<li> <code>&lt;HOST&gt;</code>: QueryIO server hostname.</li>
+	<li> <code>&lt;PORT&gt;</code>: Port on which server is working.</li>
+	<li> <code>&lt;PATH&gt;</code>: A valid path to directory name.</li>
+	<li> <code>user.name=&lt;username&gt;</code>: QueryIO account username for authentication.</li>
+	<li> <code>op=DELETE</code> : DELETE directory operation.</li>
+	<li> <code>[&recursive=&lt;true|false&gt;]</code> : Optional. It signifies the operation act on the content in the subdirectories. Valid values are true/false. Default value is false.</li>
+</ul>
+
+<div id="code" style="background:EEE;">
+	<pre>
+<b>Sample Request:</b>
+curl -i -X DELETE "http://192.168.0.1:50070/webhdfs/v1/queryio/demo?user.name=admin&op=DELETE&resursive=true"
+	</pre>
+</div>
+<p>Above request will delete directory "demo" and all its subdirectories.</p>
+<p> </p>
+
+
+<p>The following is the actual HTTP request:</p>
+<div id="code" style="background:EEE;">
+	<pre>
+DELETE /webhdfs/v1/queryio/demo?user.name=admin&op=DELETE&resursive=true HTTP/1.1	
+User-Agent: curl/7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+Host: 192.168.0.1:50070
+Accept: */*
+	</pre>
+</div>
+
+<p>Delete directory operation using WEBHDFS api returns a JSON object. If successful, the HTTP 200 response code is returned. Following is the HTTP response sent when QueryIO Server successfully deletes a directory:</p>
+<div id="code" style="background:EEE;">
+	<pre>
+HTTP/1.1 200 OK
+Content-Type: application/json
+Expires: Thu, 01-Jan-1970 00:00:00 GMT
+Set-Cookie: hadoop.auth="u=admin&p=admin&t=simple&e=1356635081222&s=GrDdraO+6ZAYdridUnl3YsSqQGE=";Path=/
+Transfer-Encoding: chunked
+Server: Jetty(6.1.26)
+
+{"boolean":true}	
+	</pre>
+</div>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

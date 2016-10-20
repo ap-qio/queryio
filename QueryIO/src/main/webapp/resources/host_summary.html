@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="styles/host_summary.css" type="text/css" />
+<link rel="stylesheet" href="styles/jquery.jqplot.min.css" type="text/css" />
+<script src="scripts/jquery.jqplot.js?version=1"></script>
+<script src="scripts/jqplot.pieRenderer.js?version=1"></script>
+
+
+
+<script src="scripts/util.js"></script>
+<script src="scripts/host_summary.js"></script>
+<script src="scripts/dn_summary.js"></script>
+<script src="scripts/dn.js"></script>
+<script src="scripts/nn_config.js"></script>
+<script>
+	fillAllServices();
+</script>
+<div id='host_summary' class="viewDiv">
+	<div id="host_summary_chart_div">
+		<span id="host_summary_title" class="header" style="width: 99%">Storage Summary</span>
+		<div id="host_summary_chart" ></div>
+	</div>
+	<div id="dn_status_table_div">
+		<div id="host_status_title" class="header" style="width: 99%">Status Summary</div>
+		<div class="row even">Total File Reads:<span id ="dn_status_fileread"></span> </div>
+        <div class="row odd">Total File Writes:<span id ="dn_status_filewrite"></span> </div>
+        <div class="row even">File Read Latency:<span id ="dn_latency_fileread"></span></div>
+        <div class="row odd">File Write Latency: <span id ="dn_latency_filewrite"></span></div>
+	</div>
+	
+	<div id="host_summary_div" style="min-width: 1138px;">
+	<form action="">
+	<div id="host_summary_table_div" style="margin: 0; width: 100%;">
+		<br>
+		<div class="table_header_div" ><span> Host Summary</span></div>
+		<div class="buttons" style="min-width: 1026;">
+			<button class="button" id="add.service" type="button" onclick="javascript:DN_Summary.addHdfsNode();" name="Add" value="Add">Add</button>
+			<button class="button" id="delete.service" type="button" onclick="javascript:deleteHdfsNode(true);" name="Delete" value="Delete">Delete</button>
+			<button class="button" id="start.service" type="button" onclick="javascript:startHdfsNode(true);" name="Start" value="Start">Start Node</button>
+			<button class="button" id="stop.service" type="button" onclick="javascript:stopHdfsNode(true);" name="Stop" value="Stop">Stop Node</button> 
+			<button class="button" id="start.monitoringservice" type="button" onclick="javascript:startDataNodeMonitoring(true);" name="Start" value="Start">Start Monitoring</button>
+				<button class="button" id="stop.monitoringservice"  type="button" onclick="stopDataNodeMonitoring(true);" name="Stop" value="Stop">Stop Monitoring</button>
+			<button class="button" id="config.service" type="button" onclick="javascript:DN_Summary.showConfiguration();" name="Node Configuration" value="Node Configuration">Configure</button>
+			<button class="button" id="decommission.service" type="button" onclick="javascript:decommissionHdfsNode(true);" name="Decommission" value="Decommission">Decommission</button>
+		</div>
+		<div style = "min-width: 1000px; overflow-x: auto;">
+			<table id="host_summary_table" class="dataTable" style="font-size: 9pt;"></table>
+		</div>
+		
+	</div>
+	</form>	
+	</div>
+</div>
+
+
+
+<div id='host_summary_table_div' style="display: none">
+    <form action="">
+		<table id = "nnServiceListTable" class="viewTable"> 
+			<tr class="headerRow">
+				<th><input id='selectAll' type="checkbox" onclick="javascript:selectAllhdfsServiceRows(this);"></th>
+				<th>Host/IP</th>
+			</tr>
+			<tbody id="nodes">
+				<tr id="pattern" style="display:none;">
+					<td><input id='mark' type="checkbox" onclick="javascript:clickCheckBox(this.id)"></td>
+					<td><a id="node.loadChart" href=""><span id="node.host"></span></a></td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</form>
+</div>
+<script type="text/javascript">
+var config_nodeId='';
+Host_Summary.ready();
+</script>

@@ -1,0 +1,105 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Dashboard MapReduce Overvie</title>
+</head>
+
+<body>
+<h1><span>Dashboard - MapReduce Overview</span></h1>
+<h2><span>In this Chapter</span></h2>
+<p class="whs5">Dashboard shows the monitoring details for QueryIO cluster.</p>
+<p>Dashboard displays: </p>
+<ul>
+	<li><a href="#mapreduce">MapReduce Overview</a></li>
+</ul> 
+
+
+<h1 id="mapreduce"><span>MapReduce Overview</span></h1>
+<p>MapReduce is a framework for processing parallelizable problems across huge datasets using a large number of computers (nodes), collectively referred to as a cluster 
+(if all nodes are on the same local network and use similar hardware) or a grid 
+(if the nodes are shared across geographically and administratively distributed systems, and use more heterogenous hardware).
+</p>
+<p>
+A MapReduce job usually splits the input data-set into independent chunks which are processed by the map tasks in a completely parallel manner. The framework sorts the outputs of the maps, which are then input to the reduce tasks. Typically both the input and the output of the job are stored in a file-system. 
+The framework takes care of scheduling tasks, monitoring them and re-executes the failed tasks.
+</p>
+
+<p>
+The MapReduce framework consists of a single master ResourceManager and one NodeManager per cluster-node. 
+The ResourceManager is the ultimate authority that arbitrates resources among all the applications in the system.
+The NodeManager is the per-machine framework agent who is responsible for containers, monitoring their resource usage (cpu, memory, disk, network) and reporting the same to the ResourceManager/Scheduler.
+</p>
+
+<p>MapReduce Overview displays Container summary and Application Summary. It also displays <a href="yarn-resource-manager.html">ResourceManager</a> summary and <a href="yarn-node-manager.html">NodeManager</a> summary.</p>
+<img alt="Dashboard" src="images/screenshots/dashboard-mapreduce.jpeg" >
+
+<h2><span>Container Summary</span></h2>
+<p>Container Summary is gathered form <a href="yarn-node-manager.html">NodeManager</a>. It also displays a pie chart containing container information.</p>
+<ul>
+	<li><b>Total Containers Launched: </b>Number of containers launched.</li>
+	<li><b>Total Containers Completed: </b>Number of containers completed.</li>
+	<li><b>Total Containers Failed: </b>Number of containers failed.</li>
+	<li><b>Total Containers Killed: </b>Number of containers killed.</li>
+	<li><b>Total Containers Running: </b>Number of containers running.</li>
+	<li><b>Total Containers initing: </b>Number of containers initializing.</li>
+</ul>
+
+<h2><span>Application Summary</span></h2>
+<p>Application Summary is gathered from <a href="yarn-resource-manager.html">ResourceManager</a>. It also displays a pie chart showing application information.</p>
+<ul>
+	<li><b>Total Apps Submitted:</b> Number of <a href="glossary.html#applications">MapReduce Applications</a> submitted to cluster. </li>
+	<li><b>Total Apps Running:</b> Number of MapReduce Applications running on cluster. </li>
+	<li><b>Total Apps Pending:</b> Number of MapReduce Applications pending. </li>
+	<li><b>Total Apps Completed:</b> Number of MapReduce Applications completed processing. </li>
+	<li><b>Total Apps Killed:</b> Number of MapReduce Applications killed. </li>
+</ul>
+
+<h2><span>ResourceManager Summary</span></h2>
+<p>It displays certain attributes about the <a href="yarn-resource-manager.html">ResourceManager</a> in the cluster in a tabular form. </br>Summary attributes are: </p>
+<ul>
+	<li><b>Node: </b>Unique Identifier of the ResourceManager. Click on ResourceManager name to view detailed summary. </li>		
+	<li><b>Host: </b>IP address of the host on which ResourceManager is configured.</li>
+	<li><b>Apps Submitted: </b>Number of applications submitted.</li>
+	<li><b>Apps Pending: </b>Number of applications pending.</li>
+	<li><b>Apps Completed: </b>Number of applications completed.</li>
+	<li><b>Containers Running: </b>Number of <a href="glossary.html#container">containers</a> running.</li>
+	<li><b>Memory Allocated: </b>Memory space allocated to ResourceManager.</li>
+	<li><b>Memory Available: </b>Memory space available.</li>
+	<li><b>Memory Pending: </b>Memory space pending.</li>
+	<li><b>Memory Reserved: </b>Memory space reserved.</li>
+	<li><b>Active Nodes: </b>Number of active nodes.</li>
+	<li><b>Decommissioned Nodes: </b>Number of Decommissioned nodes.</li>
+	<li><b>Lost Nodes: </b>Number of nodes lost.</li>
+	<li><b>Unhealthy Nodes: </b>Number of unhealthy nodes.</li>
+	<li><b>Rebooted Nodes: </b>Number of nodes rebooted.</li>
+	<li><b>Status: </b>Status of Resource Manager as 'Started' or 'Stopped'</li>
+	<li><b>Monitoring:</b> State of Resource Manager monitoring i.e. whether Resource Manager monitoring is started or stopped or not responding.</li>
+</ul>
+
+<h2><span>NodeManager Summary</span></h2>
+<p>It displays certain attributes about the <a href="yarn-node-manager.html">NodeManager</a> in the cluster in a tabular form. </br>Summary attributes are: </p>
+<ul>
+	<li><b>Node: </b> Unique ID of the NodeManager. Click on NodeManager name to view detailed summary.</li>
+	<li><b>Host: </b>IP Address of the host machine on which NodeManager is configured.</li>
+	<li><b>Containers Launched: </b>Number of containers launched.</li>
+	<li><b>Containers Completed: </b>Number of containers completed.</li>
+	<li><b>Containers Failed: </b>Number of containers failed.</li>
+	<li><b>Containers Killed: </b>Number of containers killed.</li>
+	<li><b>Containers Running: </b>Number of containers running.</li>
+	<li><b>Containers initing: </b>Number of containers initializing.</li>
+	<li><b>Logs: </b>Click to view full log file of stdout/stderr logs of NodeManager.</li>
+	<li><b>Status: </b>Status of NodeManager as 'Started' or 'Stopped'.</li>
+	<li><b>Monitoring:</b> State of NodeManager monitoring i.e. whether NodeManager monitoring is started or stopped or not responding.</li>
+</ul>
+</br></br>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

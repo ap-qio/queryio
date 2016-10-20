@@ -1,0 +1,174 @@
+<link rel="stylesheet" href="styles/new_host_box.css" type="text/css" />
+<script src="scripts/dn_summary.js"></script>
+<script src="scripts/dn.js"></script>
+<script src="scripts/host.js"></script>
+<link rel="stylesheet" href="styles/new_host_box.css" type="text/css" />
+<div id="host_create" class="lightbox">
+
+<div id="close" class="close">
+	<a href="javascript:DN_Summary.closeHostBox();"><img src="images/light-box-close.png"></a>
+</div>
+    <table id="host_create_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">Add Host</span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td id="msg_td">
+                	<div id ="hostDiv" class="instructional" style="text-align: center; width: 100%;">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+									<div class="instructional" style="">Add machines to your cluster. You can create NameNodes, DataNodes, ResourceManagers and NodeManagers
+									 on the machines in your cluster.</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<hr>
+									<div class="otherinstruction">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>	
+									<form id="hostForm" method="post" action="javascript:void(0);"	onsubmit="">
+										<div id="hostStep1" style="display: none">
+										<table width="100%" class="form_table">
+											<tbody>
+												
+												<tr>
+													<td style="text-align: left;">HostName / IP</td>
+													<td style="text-align: left;"><span><input type="text" id="hostIP">
+													</span></td>
+												</tr>
+												<tr>
+													<td>SSH user</td>
+													<td><span><input type="text" id="hostUserName">
+													</span></td>
+												</tr>
+												<tr>
+													<td>Authentication Method</td>
+													<td><span>
+													<select id="authenticationMethod" onchange="javascript:authenticationMethodChanged();" style="width: 96%;">
+														<option value="password" selected="selected">Password </option>
+														<option value="privateKey">Private Key </option>
+													</select>
+													</span></td>
+												</tr>
+												
+												<tr id="password_tr" style="display: ">
+													<td>Password</td>
+													<td><span><input type="password" id="password"></span>
+													</td>
+												</tr>
+												
+												<tr id="privatekey_tr" style="display: none;">
+													<td>Private Key</td>
+													<td><span><input type="text" id="privateKey"></span>
+													</td>
+												</tr>
+												<tr id="port_tr" >
+													<td>SSH Port</td>
+													<td><span><input type="text" id="port" value="22"></span>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<div class="otherinstruction">
+															<hr>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2" style="text-align:right;">
+														<input type="button" class="buttonAdmin" id="next" value="Next" onclick="javascript:hostNextStep(2); " /> 
+														<input type="button" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:DN_Summary.closeHostBox();" />
+													</td>
+												</tr>
+												
+												</tbody>
+											</table>
+												
+												</div>
+												
+												<div id="hostStep2" style="display: none;">
+												<table align="center" width="100%" style="border-collapse: collapse; text-align: left;">
+												<tbody>
+												<tr>
+													<td style="text-align: left;">Installation Path</td>
+													<td style="text-align: left;"><span><input type="text" id="installDirPath" style="width: 80%;" onkeypress="javascript:Util.blockWhiteSpace(event);">
+													</span></td>
+												</tr>
+												<tr>
+													<td>
+														Rack Name
+													</td>				
+													<td>
+													<span><input type="text" id="rackName" value="/default-rack" style="width: 80%;"></span>
+													</td>
+												</tr>
+												<tr>
+													<td>QueryIO Agent Port</td>
+													<td><span><input type="text" id="agentPort" value="" style="width: 80%;" onkeydown="javascript:Util.maskNumericInput(event);"></span></td>
+												</tr>
+												<tr>
+													<td>System JAVA_HOME</td>
+													<td><span><input type="text" id="javaHome" value="" style="width: 80%;"></span></td>
+												</tr>
+												<tr>
+													<td colspan="2">
+													<hr>
+														<div class="otherinstruction">
+															
+														</div>
+													</td>
+												</tr>										
+												<tr>
+													<td colspan="2" style="text-align: right;">
+														<input type="button" class="buttonAdmin" id="back" value="Back" onclick="javascript:hostNextStep(1); " />
+														<input type="button" class="buttonAdmin" id="save.host" value="Save" onclick="javascript:validateJavaHomeBeforeSave(true, 'dn');" /> 
+														<input type="button" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:DN_Summary.closeBox(false);" />
+													</td>
+												</tr>
+												
+											</tbody>
+										</table>
+										</div>
+									</form>
+								</td>
+							</tr>
+								
+						</table>
+					</div>
+            	</td>
+        	</tr>
+    	</tbody>
+	</table>
+<script type="text/javascript">
+fillQueryIOAgentPort();
+hostNextStep(1);
+//$('#rackName').val('/default-rack'+$('#totalrack').text());
+$('#rackName').val('/default-rack');
+function authenticationMethodChanged(){
+	
+	if($('#authenticationMethod').val()=='password'){
+		
+		$('#password_tr').css('display','');
+		$('#privatekey_tr').css('display','none');
+		$('#privateKey').val('');
+		
+		
+	}else if($('#authenticationMethod').val()=='privateKey'){ 
+		$('#password_tr').css('display','none');
+		$('#privatekey_tr').css('display','');
+		$('#password').val('');
+		
+	}
+	
+} 
+</script>
+</div>

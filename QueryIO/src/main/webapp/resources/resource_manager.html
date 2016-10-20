@@ -1,0 +1,178 @@
+<link rel="stylesheet" href="styles/jquery.jqplot.min.css" type="text/css" />
+<script src="scripts/jquery.jqplot.js?version=1"></script>
+<script src="scripts/jqplot.pieRenderer.js?version=1"></script>
+
+
+<link rel="stylesheet" href="styles/resource_manager.css" type="text/css" />
+
+
+
+
+<script src="scripts/resource_manager.js"></script>
+
+<div id='ResourceManager_Div' class="viewDiv">
+	<div id="RM_summary_chart_div">
+		<span class="header" style="width: 99%;" id="RM_Summary_title">Application Summary</span>
+		<div id="RM_Summary_chart" ></div>
+	</div>
+	<div id="RM_status_table_div">
+		<div class="header" id="RM_Summary_title" style="width: 99%;">Status Summary</div>
+		<div class="row even">Total Apps Submitted:<span id ="RM_apps_submitted"></span> </div>
+        <div class="row odd">Total Apps Running:<span id ="RM_apps_running"></span> </div>
+        <div class="row even">Total Apps Pending:<span id ="RM_apps_pending"></span></div>
+        <div class="row odd">Total Apps Completed: <span id ="RM_apps_completed"></span></div>
+        <div class="row even">Total Apps Killed:<span id ="RM_apps_killed"></span></div>
+	</div>
+	
+
+<form action="">
+<div id="RM_summary_table_div">
+	<br>
+	<div class="table_header_div" ><span> ResourceManager Summary</span></div>
+	<div class="buttons">
+	
+	<button class = "button" type="button" name="Add"  onClick="javascript:Resource_Manager.addResourceManager();" >Add</button>
+	<button class = "button" type="button" name="Delete"  onClick="javascript:Resource_Manager.deleteResourceManager();">Delete</button>
+	<button class = "button" type="button" name="Start"  onClick="javascript:Resource_Manager.startResourceManager();" >Start Node</button>
+	<button class = "button" type="button" name="Stop"  onClick="javascript:Resource_Manager.stopResourceManager();">Stop Node</button>
+	<button class = "button" type="button" name="StartMonitoring"  onClick="javascript:Resource_Manager.startMonitoring();" >Start Monitoring</button>
+	<button class = "button" type="button" name="StopMonitoring"  onClick="javascript:Resource_Manager.stopMonitoring();">Stop Monitoring</button>
+	<button class = "button" type="button" name="Edit"  onClick="javascript:Resource_Manager.editResourceManager();" >Configure</button>
+	
+	
+	</div>
+	<div id="schedules_table_wrapper" class="dataTables_wrapper" role="grid" style = "min-width: 1000px; overflow-x: auto;" >
+		<table id="ResourceManager_table">
+	</table>
+	</div>
+	</div>
+</form>
+</div>
+<script type="text/javascript">
+	var resourceManagerIdArray = new Array();
+	Resource_Manager.ready();
+	setWidth();
+	function fillPopUp(flag)
+	{
+		
+		if(Resource_Manager.currentOperation == 'saveNode'){
+			var id = Resource_Manager.id;
+			dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+			dwr.util.byId('pop.pattern'+id).style.display = '';
+			dwr.util.byId('popup.image.processing'+id).style.display = '';
+			dwr.util.setValue('popup.component','ResourceManager');
+			dwr.util.setValue('popup.host'+id,id);
+			dwr.util.setValue('popup.message'+id,'Processing Request...');
+			dwr.util.setValue('popup.status'+id,'Saving..');
+			Resource_Manager.saveRM_DWRCall();
+		}
+		else{
+			var detail;
+			if(Resource_Manager.selectedNode.length> 0){
+				detail = rmCache[Resource_Manager.selectedNode[0].substring(4)];
+			}
+			if(Resource_Manager.currentOperation == 'startNode'){
+				var id ='start';
+				dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+				dwr.util.byId('pop.pattern'+id).style.display = '';
+				dwr.util.byId('popup.image.processing'+id).style.display = '';
+				dwr.util.setValue('popup.component','ResourceManager');
+				dwr.util.setValue('popup.message'+id,'Processing Request...');
+				dwr.util.setValue('popup.status'+id,'Starting..');
+				if(Resource_Manager.selectedNode.length > 0){
+					dwr.util.setValue('popup.host'+id,detail[0]);
+					RemoteManager.startNode(detail[0] , false ,Resource_Manager.start_RM);
+				}
+				else{
+					dwr.util.setValue('popup.host'+id,Resource_Manager.id);
+					RemoteManager.startNode(Resource_Manager.id , false ,Resource_Manager.start_RM);
+				}
+			}
+			else if(Resource_Manager.currentOperation == 'stopNode'){
+				var id ='stop';
+				dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+				dwr.util.byId('pop.pattern'+id).style.display = '';
+				dwr.util.byId('popup.image.processing'+id).style.display = '';
+				dwr.util.setValue('popup.component','ResourceManager');
+				dwr.util.setValue('popup.host'+id,detail[0]);
+				dwr.util.setValue('popup.message'+id,'Processing Request...');
+				dwr.util.setValue('popup.status'+id,'Stopping..');
+				
+				RemoteManager.stopNode(detail[0],Resource_Manager.stop_RM);
+			}
+			else if(Resource_Manager.currentOperation == 'stopMonitoring'){
+				var id ='stopMonitoring';
+				dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+				dwr.util.byId('pop.pattern'+id).style.display = '';
+				dwr.util.byId('popup.image.processing'+id).style.display = '';
+				dwr.util.setValue('popup.component','ResourceManager');
+				dwr.util.setValue('popup.host'+id,detail[0]);
+				dwr.util.setValue('popup.message'+id,'Monitoring Service is Stopped at '+detail[0]);
+				dwr.util.setValue('popup.status'+id,'Stopping..');
+				RemoteManager.setNodeMonitor(detail[0],false,Resource_Manager.handleStopMonitoringResponse);
+				//RemoteManager.stopNode(detail[0],Resource_Manager.handleStopMonitoringResponse);
+			}else if(Resource_Manager.currentOperation == 'startMonitoring'){
+				var id ='startMonitoring';
+				dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+				dwr.util.byId('pop.pattern'+id).style.display = '';
+				dwr.util.byId('popup.image.processing'+id).style.display = '';
+				dwr.util.setValue('popup.component','ResourceManager');
+				dwr.util.setValue('popup.host'+id,detail[0]);
+				dwr.util.setValue('popup.message'+id,'Monitoring Service is Started at '+detail[0]);
+				dwr.util.setValue('popup.status'+id,'Starting..');
+				RemoteManager.setNodeMonitor(detail[0],true,Resource_Manager.handleStartMonitoringResponse);
+				//RemoteManager./* stopNode */(detail[0],Resource_Manager.handleStartMonitoringResponse);
+			}
+			else{
+				var id ='delete';
+				dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+				dwr.util.byId('pop.pattern'+id).style.display = '';
+				dwr.util.byId('popup.image.processing'+id).style.display = '';
+				dwr.util.setValue('popup.component','ResourceManager');
+				dwr.util.setValue('popup.host'+id,detail[0]);
+				dwr.util.setValue('popup.message'+id,'Processing Request...');
+				dwr.util.setValue('popup.status'+id,'Deleting..');
+				RemoteManager.deleteNode(detail[0],Resource_Manager.delete_RM);
+			}
+		}
+	}
+	function closePopUpBox(){
+		Resource_Manager.closeBox();
+		Resource_Manager.id = null;
+		Resource_Manager.hostname = null;
+		Resource_Manager.nameNodeID = null;
+		Resource_Manager.serverPort = null; 
+		Resource_Manager.schedulerPort = null;
+		Resource_Manager.httpPort = null;
+		Resource_Manager.adminPort = null;
+		Resource_Manager.jmxPort = null;
+		Resource_Manager.rTrackerPort = null;
+		Resource_Manager.jobHistoryServer = null;
+		Resource_Manager.jobWebAppPort = null;
+		Resource_Manager.dirPath = null;
+		
+		//Navbar.changeTab('MapReduce','MapReduce', 'ResourceManager');
+	}
+	
+	$('#ResourceManager_table').ready( function() {
+
+		setWidth();
+	} );
+	
+	function setWidth(){
+		var widthChart = $('#RM_summary_chart_div').width();
+		var width1 = $('#RM_status_table_div').width();
+		var totalWidth = widthChart + width1+20;
+		var tableWidth = $('#ResourceManager_table').width();
+		/*
+		$('#RM_summary_table_div').css("width",tableWidth+"px");
+		$('#ResourceManager_table').css("width",totalWidth+"px");
+		*/
+		
+	}
+	
+	$(window).resize(function() {
+		setWidth();	
+	});
+	
+</script>

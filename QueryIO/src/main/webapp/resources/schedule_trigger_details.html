@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<div id="conf_alert" class="lightbox">
+	<div id="close" class="close">
+		<a href="javascript:ReportSchedules.closeBox();"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<table id="conf_log_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Schedules Status</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td id="msg_td">
+					<div id="confDiv" class="instructional"
+						style="text-align: center; width: 100%;">
+						<table align="center" width="100%"
+							style="border-collapse: collapse;">
+							<tr>
+								<td>
+									<form style="font-size: 0.8em">
+										<div id="alertView" style="width :  600px;">
+												<table id="schedules_trigger_table" style="font-size: 1.0em"></table>	
+										</div>
+									</form>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<script type="text/javascript">
+	ReportSchedules.populateTriggerDetail();
+	</script>
+</div>
+

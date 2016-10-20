@@ -1,0 +1,51 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />-->
+<link rel="stylesheet" href="styles/nn_config.css" type="text/css" />
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<script src="scripts/jquery.alerts.js"></script>
+<script src="scripts/jquery.dataTables.js"></script>
+<script src="scripts/rm_config.js"></script>
+
+
+
+
+<div id='rm_config' class="viewDiv detailDivView">
+	<div id="rm_config_table_div" style="width: 100%;">
+		<div class="buttons">
+			<button style="width:70px;" id ="config.save" class="button" onclick="javascript:RM_Config.saveSettings()">Save</button>
+			<button style="width:70px;" class="button" id ="addKeyBtn" onclick="javascript:RM_Config.addNewKey()">Add Key</button>
+			<button style="width:70px;" id ="config.back" class="button" onclick="javascript:RM_Config.backToSummary()">Back</button>
+			
+		</div>
+		<table id="rm_config_table" style="width: 100%;">
+		<tr> <td style="text-align: center;"><span>Please wait while request being processed.<img alt="" src="images/process.gif" style="height: 15px; width:15px;"> </span></td></tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	RM_Config.ready();
+	
+	function fillPopUp(flag)
+	{
+		if (RM_Config.isSaveCalled)
+		{
+			var id = 'Save';
+			
+			dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+			dwr.util.byId('pop.pattern'+id).style.display = '';
+			dwr.util.byId('popup.image.processing'+id).style.display = '';
+			dwr.util.setValue('popup.component','Update Settings');
+			dwr.util.setValue('popup.host'+id,id);
+			dwr.util.setValue('popup.message'+id,'Updating Settings...');
+			dwr.util.setValue('popup.status'+id,'');
+			
+			RM_Config.callForUpdate();
+		}
+	}
+		
+	function closePopUpBox()
+	{
+		RM_Config.isSaveCalled = false;
+		Util.removeLightbox('saveSettingsTab');
+		Navbar.refreshView();
+	}
+</script>

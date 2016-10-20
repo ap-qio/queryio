@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>Update Hadoop SQL</title>
+</head>
+<body>
+	<div>
+	<h1><span>Update Hadoop SQL</span></h1>	
+	<h2><span>Description</span></h2>
+	<p>Update Hadoop SQL operation of QueryIO server will add given Hadoop SQL query to the database.</p>
+	
+	<h2><span>Requests</span></h2>
+	<h3>Syntax</h3>
+	<ul>
+	<li>
+	<pre>
+GET <em><code>/queryio/hadoopsql/update/</code></em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;Token&gt;</code></em></pre></li>
+		<li>authorization: Token for authorization. </li>
+	</ul>
+	
+	<h3>Request Parameters</h3>
+	<p>The Update Hadoop SQL operation in QueryIO Server uses following request parameters: </p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr><th> Parameter Name </th><th> Description </th><th> Return Type </th><th> Default </th><th> Required </th></tr>
+		<tr>
+			<td align="center">
+				<em ><code>hadoopsql-properties</code></em>
+			</td>
+			<td>
+				<p>Query properties JSON</p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> Yes </td>
+		</tr>		
+	</table>
+	
+	
+	<h2><span>Examples</span></h2>
+		<h3>Sample Request </h3>
+		<p>The following request will fetch objects from NewBucket.</p>
+		<ul>
+		<li>
+		<pre>
+GET /hadoopsql/update/ HTTP/1.1
+Host: QueryIO
+Authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+hadoopsql-properties : {"sqlQuery":"SELECT *  FROM TAGS_NAMENODE1","chartDetail":{},"selectedOrderBy":[],"selectedTable":["TAGS_NAMENODE1"],"queryHeader":{"header":{"title":""}},"selectedWhere":{},"queryFooter":{"footer":{"title":""}},"groupHeader":{},"queryDesc":"","groupFooter":{},"colDetail":{},"colHeaderDetail":{},"selectedGroupBy":[],"selectedColumn":{"*":{}},"queryId":"Query1"}
+</pre></li>
+		</ul>
+		
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+&lt;xml version="1.0" encoding="UTF-8"&gt;
+&lt;UpdateHadoopSQL&gt;
+	&lt;Status&gt;&lt;true&gt;&lt;/Status&gt;
+&lt;/UpdateHadoopSQL&gt;
+
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

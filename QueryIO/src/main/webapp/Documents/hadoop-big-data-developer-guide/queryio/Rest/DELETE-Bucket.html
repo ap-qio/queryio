@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>DELETE Bucket</title>
+</head>
+<body>
+	<div>
+	<h1><span>DELETE Bucket</span></h1>	
+	<h2><span>Description</span></h2>
+	<p>DELETE Bucket operation of QueryIO server will delete an existing bucket. Bucket should be empty before it can be deleted.</p>
+	
+	<h2><span>Requests</span></h2>
+	<h3>Syntax</h3>
+
+	<ul>
+		<li><pre>
+DELETE <em><code>/queryio/&lt;BucketName&gt;</code></em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;Token&gt;</code></em></pre></li>
+		<li>&lt;BucketName&gt;: Name of the bucket to be deleted.</li>
+		<li>authorization: Token for authorization. </li>
+	
+	</ul>
+	
+	<h2><span>Examples</span></h2>
+		<h3>Sample Request</h3>
+		<p>The following request deletes a bucket named DIR1.</p>
+	<ul>
+		<li><pre>
+DELETE /queryio/DIR1 HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm</pre></li>
+		</ul>	
+	
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>Get Object</title>
+	
+</head>
+<body>
+<h1><span>Fetch an Object</span></h1>
+<p>GET Object operation is used to fetch an object from the QueryIO cluster.</p>
+
+
+
+<h2 id="s3"><span>Fetch object using S3 Compatible REST API</span></h2>
+<p>Following code is used to GET object from a bucket.</p>
+<p>HttpURLConnection object creates a GET request to access an object from the bucket. URL appended with objectName is used with HttpURLConnection object. On successful operation, a HttpStatus.SC_OK response code is received.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.apache.http.HttpStatus;
+
+public class ObjectOperations {
+		
+		/*
+	 	 * This program retreives a object from the bucket
+		 * @param serverURL: URL of S3 Compatible REST server(http://&lt;S3 server IP&gt; : &lt;S3 server port&gt; /queryio/). For example: http://192.168.0.1:5667/queryio/
+		 * @param token: authorization token.
+		 * @param bucketName: Name of the bucket from which object will be retrieved
+		 * @param objectName: Name of the object to be retrieved
+		 */
+		public void getObject(String serverURL, String token, String bucketName,
+			String objectName) throws Exception {
+		URL url = null;
+		HttpURLConnection httpCon = null;
+		InputStream is = null;OutputStream os = null;
+		try {
+			/* append "/" at end of serverURL */
+			if (!serverURL.endsWith("/")) {
+				serverURL = serverURL + "/";
+			}
+			url = new URL(serverURL + bucketName + "/" + objectName);	//creates a URL with appending bucket name and objectName
+
+			//Returns a URLConnection object that represents a connection to the remote object referred to by the URL.
+			httpCon = (HttpURLConnection) url.openConnection();			
+			
+			httpCon.setDoOutput(true);	// to use the URL connection for output
+			httpCon.setRequestMethod("GET");	//GET request is used
+
+			httpCon.setRequestProperty("authorization", token);	//Provides token for authorization
+
+			httpCon.connect();	//Opens a communications link to the resource reference by the URL
+
+			if (httpCon.getResponseCode() == HttpStatus.SC_OK) {	//OK response for successful GET Object request
+				is = httpCon.getInputStream();
+				// Process file data here
+				StringWriter writer = new StringWriter();                 
+				os = new FileOutputStream(new File("/QueryIO/a.txt"));	//Copy object to local system
+				IOUtils.copy(is, os);
+				System.out.println("GET object successful.");
+			}
+		} finally {
+			try {	//close streams and connections
+				if (is != null)
+					is.close();
+				if (os != null)
+					os.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (httpCon != null) {
+				httpCon.disconnect();
+			}
+		}
+	}
+}
+	</pre>
+</div>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

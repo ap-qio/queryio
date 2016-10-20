@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<project default="main" basedir=".">
+
+		<path id="queryio.lib.QueryIOCommonJars">
+				<fileset dir="${dir.source}/lib/QueryIOCommonJars">
+					<include name="**/*" />
+					<exclude name="hadoop-common-2.4.0.jar" />
+					<exclude name="hadoop-hdfs-2.4.0.jar" />
+				</fileset>	
+		</path>
+	
+		<path id="queryio.lib.hadoop">
+			<fileset dir="${temp.build}">
+				<include name="hadoop/**/*.class" />
+				<include name="hadoop/com/queryio/stream/util/**/*.class" />
+				<include name="QueryIOPlugins.jar" />
+				<include name="hadoop-custom-compiled.jar" />
+			</fileset>
+		</path>
+	
+		<path id="queryio.lib.os3server">
+			<fileset dir="${dir.source}/lib/os3server">
+				<include name="**/LZ4Java.jar" />
+				<include name="**/servlet-api.jar" />
+				<include name="**/json_simple-1.1.jar" />
+				<include name="**/httpcore-4.2.1.jar" />
+				<include name="**/httpclient-4.2.1.jar" />
+			</fileset>
+		</path>
+	
+		<path id="queryio.lib.others">
+				<fileset dir="${dir.source}/lib/others">
+					<include name="**/snappy-java-1.0.4.1.jar" />
+				</fileset>
+				<fileset dir="${dir.source}/lib/QueryIOJars">
+					<include name="json_simple-1.1.jar" />
+				</fileset>
+				<fileset dir="${dir.source}/QueryIODemo/lib">
+					<include name="commons-jexl-2.1.1.jar" />
+				</fileset>
+		</path>
+	
+		<path id="temp.build.queryiocommon">
+				<fileset dir="${temp.build}">
+					<include name="**/QueryIOCommon.jar" />
+				</fileset>
+		</path>
+	
+	
+	<target name="compile.os3">
+		<javac srcdir="${dir.source}/os3server/src" destdir="${temp.os3.classes}" debug="on"  nowarn="on" optimize="on" >
+			<include name="**/*.java" />
+			<classpath>
+				<fileset dir="${temp.os3.classes}" />
+			</classpath>
+			<classpath refid="queryio.lib.others" />
+			<classpath refid="queryio.lib.os3server" />
+			<classpath refid="queryio.lib.QueryIOCommonJars" />
+			<classpath refid="queryio.lib.hadoop" />
+			<classpath refid="temp.build.queryiocommon" />
+		</javac>
+	</target>
+
+	<target name="make.temp.os3folder">
+		<mkdir dir="${temp.os3.classes}" />
+	</target>
+	
+	<target name="create.os3server.jar">
+		<jar jarfile="${temp.build}/os3server.jar">
+			<fileset dir="${temp.os3.classes}">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+		
+	
+	
+	<target name="copy.jars">
+		<copy todir="${dir.queryio.os3server}/WEB-INF/lib">
+			<fileset dir="${temp.build}" >
+				<include name="os3server.jar" />
+			</fileset>	
+			<fileset dir="${dir.source}/lib/QueryIOJars">
+				<include name="**/protobuf-java-2.5.0.jar" />
+			</fileset>
+			<fileset dir="${dir.source}/lib/os3server">
+				<include name="**/httpclient-4.2.1.jar" />
+				<include name="**/httpcore-4.2.1.jar" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${temp.os3.classes}" />
+	</target>
+	
+	 <target name="main" depends="make.temp.os3folder">
+		<antcall target="compile.os3" />
+	 	<antcall target="create.os3server.jar" />
+	 	<antcall target="copy.jars" />
+	 	<antcall target="clean" />
+	 </target>
+  
+</project>

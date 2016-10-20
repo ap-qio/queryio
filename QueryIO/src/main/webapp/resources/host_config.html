@@ -1,0 +1,121 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />-->
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<link rel="stylesheet" href="styles/alerts_list.css" type="text/css" />
+<script src="scripts/host_config.js"></script>
+<script src="scripts/host.js"></script>
+<script src="scripts/jquery.alerts.js"></script>
+<script src="scripts/jquery.dataTables.js"></script>
+
+
+
+<div id='hosts_list' class="viewDiv">
+	<div id="hosts_table_div" class="detailDivView">
+		<div id="hosts_buttons" class="buttons">
+			<button class="button" id="host.add"
+				onclick="javascript:Hosts.addNewHost();">Add</button>
+			<button class="button" id="host.edit"
+				onclick="javascript:Hosts.editHost();">Edit</button>
+			<button class="button" id="host.delete"
+				onclick="javascript:Hosts.deleteHost();">Delete</button>
+			<button class="button" id="host.start"
+				onclick="javascript:Hosts.startHost();">Start Host</button>
+			<button class="button" id="host.stop"
+				onclick="javascript:Hosts.stopHost();">Stop Host</button>
+			<button class="button" id="startMonitoring"
+				onclick="javascript:Hosts.startHostMonitoring();">Start
+				Monitoring</button>
+			<button class="button" id="stopMonitoring"
+				onclick="javascript:Hosts.stopHostMonitoring();">Stop
+				Monitoring</button>
+			<button class="button" id="startNodes"
+				onclick="javascript:Hosts.startNodes(true);">Start Nodes</button>
+			<button class="button" id="stopNodes"
+				onclick="javascript:Hosts.stopNodes(true);">Stop Nodes</button>
+		</div>
+		<form action="">
+			<table id="hosts_list_table" class="dataTable"
+				style="font-size: 9pt; width: 100%"></table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	var selectedHost = [];
+
+	var hostMap = new Object();
+	Hosts.ready();
+	function fillPopUp(flag) {
+
+		populateServiceBox(flag, null);
+
+	}
+	function handleMonitoringResponse(response) {
+		populateServiceBox(false, response);
+
+	}
+	function populateServiceBox(flag, dwrResponse) {
+
+		var id = '';
+		var img_src = '';
+		var status = '';
+		id = selectedHost[0];
+		if (flag) {
+			dwr.util.setValue('popup.component', 'Host');
+
+			var nodeType = 'host';
+			var msg = '';
+			var hostIP = '';
+			var setMonitoringState = false;
+
+			dwr.util.cloneNode('pop.pattern', {
+				idSuffix : id
+			});
+
+			$('#hosts_list_table tbody tr').each(function() {
+				var row = this.cells;
+				if (row[0].firstChild.id == selectedHost[0]) {
+					hostIP = row[1].textContent;
+					dwr.util.setValue('popup.host' + id, hostIP);
+				}
+			});
+			if (Hosts.currentOperation == 'stopMonitoring') {
+				msg = 'Monitoring stopped at host ' + hostIP;
+				setMonitoringState = false;
+			} else {
+				msg = 'Monitoring started at host ' + hostIP;
+				setMonitoringState = true;
+			}
+
+			dwr.util.setValue('popup.message' + id, msg);
+			dwr.util.setValue('popup.status' + id, 'Processing');
+			dwr.util.byId('pop.pattern' + id).style.display = '';
+
+			RemoteManager.setHostMonitor(id, setMonitoringState,
+					handleMonitoringResponse);
+		} else {
+			if (dwrResponse.taskSuccess) {
+				img_src = 'images/Success_img.png'
+				status = 'Success';
+				dwr.util.byId('popup.image.success' + id).style.display = '';
+			} else {
+				img_src = 'images/Fail_img.png'
+				status = 'Fail';
+				dwr.util.byId('popup.image.fail' + id).style.display = '';
+				var log = '<a href="javascript:Navbar.showServerLog();">View Log</a>';
+				document.getElementById('log_div').innerHTML = log;
+				document.getElementById('log_div').style.display = "block";
+			}
+			dwr.util.byId('popup.image.processing' + id).style.display = 'none';
+			dwr.util
+					.setValue('popup.message' + id, dwrResponse.responseMessage);
+			dwr.util.setValue('popup.status' + id, status);
+			document.getElementById('ok.popup').disabled = false;
+			Navbar.refreshView();
+		}
+	}
+
+	function closePopUpBox() {
+		Util.removeLightbox("hostop");
+		Util.removeLightbox("adddn");
+
+	}
+</script>

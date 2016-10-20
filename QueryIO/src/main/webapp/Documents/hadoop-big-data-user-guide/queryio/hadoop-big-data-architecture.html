@@ -1,0 +1,252 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>QueryIO: Big Data Analytics -  Architecture</title>
+</head>
+
+<body>
+<h1><span>QueryIO: Big Data Analytics - Architecture</span></h1>
+<img alt="QueryIO Architecture" style="display: block; margin-left: auto; margin-right: auto; border:0px" src="images/big-data-architecture.png" >
+
+<p>
+The above figure shows the architecture of QueryIO: Big Data Analytics. QueryIO can be referred to as a software stack of different layers where each layer is a group 
+of several program components. Each layer in the architecture provides different services to the layer just above it. We will examine the features of each
+layer in detail.
+</p>
+
+<h2><span>Distributed Storage (HDFS)</span></h2>
+
+<p>
+The basic layer is HDFS (Hadoop Distributed File System). QueryIO is built on top of HDFS layer. 
+HDFS is a distributed file system designed to run on commodity hardware. It provides high throughput to 
+application data and is suitable for applications having large data sets. 
+</p>
+
+<p>HDFS has a master/slave architecture. An HDFS cluster consists of a single NameNode, 
+a master server that manages the file system namespace and regulates access to files by clients. 
+There are a number of DataNodes, usually one per node in the cluster, which manage storage 
+attached to the nodes that they run on. HDFS exposes a file system namespace and allows user data to be stored in files. 
+Internally, a file is split into one or more blocks and these blocks are stored in a set of DataNodes. The NameNode 
+executes file system namespace operations like opening, closing, and renaming files and directories. It also determines 
+the mapping of blocks to DataNodes. The DataNodes are responsible for serving read and write requests from the file system's clients. 
+The DataNodes also perform block creation, deletion, and replication upon instruction from the NameNode.
+</p>
+
+<h2><span>QueryIO MetaStore Repository - Data Intelligence</span></h2>
+<p>
+QueryIO key differentiator is the DB-based MetaStore framework. Depending on
+data and usage, perhaps 80% of the effort goes in to data preparation.
+
+It provides an extensive Data Intelligence framework which enables you to
+build structure/MetaData around your unstructured data as data is getting ingested
+into HDFS. This has two key advantages:
+
+<ol>
+	<li>
+		It enables you to reduce having to repeatedly process raw data for commonly
+		needed attributes. You can progressively build intelligence about your data and
+		store that in MetaStore. This avoids repeated processing of same data. This is
+		similar to Google building indexes for your search data instead of searching the
+		entire Internet when a search is performed. 
+	</li>
+	<li>
+		It enables you to use HSQL to perform data analysis. It reduces the
+		learning curve involved today in learning and implementing Hive/Pig/HBase and
+		also leverages existing SQL skills and BI tools investment. 
+	</li>
+</ol>
+
+</p>
+
+<h2><span>Distributed Computing Map Reduce v2(YARN)</span></h2>
+<p>MapReduce is a framework for processing parallelizable problems across huge datasets using a large number of computers.
+Map step of MapReduce framework involves master node taking the input, dividing it into smaller sub-problems, and distributing them to worker nodes.
+Reduce step of MapReduce involves master node then collecting the solutions to all the sub-problems and combining them in some way to form the output.</p>
+
+<p>QueryIO allows traditional programmers to submit their own MapReduce applications. It also provides the status of the application that you submit.</p>
+
+<p>
+In cases where your existing structured data in the DB is not sufficient, QueryIO
+runs Hive from your UI to process and analyze data. Hive converts HiveQL (mostly
+SQL) queries, and generates full-fledged MapReduce job that are run to process
+raw data.
+Most of this is done via extensive Web-based UI. Being able to drive MapReduce
+jobs via HSQL and UI is a great value-add to customer since Hadoop/MR skill sets 
+are hard to come by.
+</p>
+
+<h2><span>QueryIO Big Data Analytics Services</span></h2>
+
+<p>On top of MapReduce, QueryIO provides a framework which allows you to perform standard SQL queries on your Big Data. It also provides an easy to use interface through which 
+you can generate SQL queries and design reports to present your processed data.</p>
+
+<h2><span>QueryIO Data Integration Services</span></h2>
+<p>Using data integration services of QueryIO you can easily import/export data from/to various data sources. The data sources supported are:</p>
+<ul>
+    <li>
+    Amazon S3 : To import/export data from/to Amazon S3.
+    </li>
+    
+    <li>
+    FTP : To import/export data from/to FTP data source.
+    </li>
+    
+    <li>
+    Local : To import/export data from/to your local file system.
+    </li>
+
+    <li>
+    HDFS : To import/export data from/to other HDFS.
+    </li>
+
+    <li>
+    SSH : To import/export data from/to other file systems using SSH.
+    </li>
+
+    <li>
+    SFTP : To import/export data from/to SFTP data source.
+    </li>
+
+    <li>
+    HTTP / HTTPS : To import/export data from/to HTTP/HTTPS data source.
+    </li>
+
+    <li>
+    POP / IMAP : To import data from any POP/IMAP mail server.
+    </li>
+
+    <li>
+    Database : To import/export data from/to any database.
+    </li>
+</ul>
+
+<h2><span>QueryIO Management and Monitoring Services</span></h2>
+
+<p>QueryIO management features make it easy to configure a cluster having a large number of nodes in just a matter of minutes. You can easily perform operations like start, stop, balance, health check
+etc. on the nodes running in your cluster. It allows you to easily add new machines to your cluster. Using QueryIO, you can easily change the configuration parameters of 
+all the nodes from a very friendly user interface.</p>
+
+<p>QueryIO monitoring services constantly monitor all the nodes and machines in your cluster to check for any failures or alerts. QueryIO performs system monitoring to monitor various 
+machine statistics like disk read/write operations per second, network received/sent bytes per second, etc. These statistics provide you information about the performance of your hardware. 
+QueryIO monitors the status of nodes via JMX. Node related parameters provide you information about the operations performed on the cluster like total file reads/writes etc.
+QueryIO server automatically notifies the administrators via email in case of any hardware failure or alerts. This ensures that your data is always safe.</p>
+
+
+
+<h2><span>QueryIO Client Interfaces</span></h2>
+<p>QueryIO exposes various client interfaces which allow user to access HDFS. To see how you can use these client interfaces, refer to the <a href="../../hadoop-big-data-developer-guide/index.html" target="_blank">developer documentation</a>.</p>
+
+
+
+<h3><b>WebHDFS REST API</b></h3>
+<p>Apache Hadoop provides HTTP REST API which allows you to access HDFS using HTTP requests. Using WebHDFS, you can also write non-Java applications to interact with HDFS. 
+The FileSystem scheme of WebHDFS is "webhdfs://". A WebHDFS FileSystem URI has the following format.</p>
+<p>webhdfs://&lt;HOST>:&lt;HTTP_PORT>/&lt;PATH></p>
+
+<h3><b>JAVA API</b></h3>
+<p>Apache Hadoop provides DFS client APIs through which you can access HDFS using Java code.</p>
+
+<h3><b>Amazon S3 REST API</b></h3>
+<p>QueryIO software stack includes Amazon S3 compatibility API server which allows you to access HDFS using Amazon S3 REST interface.</p>
+
+<h3><b>HSQL</b></h3>
+<p>QueryIO provides advanced data tagging feature which allows you to write procedures to process files while they are being imported into HDFS.
+By default, QueryIO extracts basic metadata for uploaded files from the associated fsImage files. 
+The extracted metadata is stored in a relational database. You can execute standard SQL queries on the extracted metadata.</p>
+
+<h3><b>FTP</b></h3>
+<p>QueryIO software stack includes an FTP server which works on top of HDFS. It allows you to connect to HDFS using any FTP client. It also allows to use secure connection over SSL.</p>
+
+<h2><span>Databases in QueryIO</span></h2>
+<p>QueryIO uses databases for following modules:</p>
+
+<h3><b>Management and Monitoring</b></h3>
+<ul>
+	<li>
+		<p><b>Node configuration and Management</b></p>
+		<p>
+		This module maintains the cluster configuration information.
+		</p>
+	</li>
+	<li>
+		<p><b>Monitoring</b></p>
+		<p>
+		QueryIO constantly monitors all the configured nodes and systems to check for various parameters like file read/write operations, disk status etc. 
+		All of these monitoring data is saved in the database. QueryIO shows charts for this data in node details and dashboard view. Exploring this feature, 
+		you can make sure that your cluster remains up and running with efficiency at all times.
+		</p>
+	</li>
+</ul>
+<h3><b>Replicate MetaData</b></h3>
+<ul>
+	<li>
+		<p><b>HDFS Metadata</b></p>
+		<p>
+			HDFS metadata refers to the file system metadata in HDFS. QueryIO automatically extracts the namespace metadata for files that are imported into
+			HDFS and saves the extracted metadata in the database so that you can query the extracted metadata to extract information like file permissions, compression type etc.
+			
+		</p>
+	</li>
+</ul>
+<h3 id="Extended Metadata"><b>Manage Tags </b></h3>
+<ul>
+	<li>
+		<p>Tags are user specified or extracted from file content which can be set either on-ingest or post-ingest.  Tags are used to create extended metadata. </p>
+	</li>
+	<li>
+		<p><b>Extended Metadata</b></p>
+		<p>
+			Extended metadata refers to the file metadata that is not interpreted by file system. It is used to associate files with some extra information. 
+			Typical uses for this can be storing the author of a document, the character encoding of a plain-text document, a checksum, or digital signature.
+		</p>
+	</li>
+</ul>
+
+<h3><b>Data Parsing</b></h3>
+<ul>
+	<li>
+		<p><b>Data Parsing</b></p>
+		<p>
+			User must define content parsers before QueryIO parses and extracts data.
+			If you have configured any parser, QueryIO executes configured parsers to extract required information from imported files.
+			This extracted information is then saved in the database. 
+		</p>
+	</li>
+</ul>	
+
+<h3><b>MapReduce jobs</b></h3>
+<ul>
+	<li>
+		<p><b>MapReduce Jobs</b></p>
+		<p>
+			You can use databases in QueryIO as an output for your MapReduce jobs. 
+		</p>
+	</li>
+</ul>
+
+<h3><b>Analytics</b></h3>
+<ul>
+	<li>
+		<p><b>Analytics</b></p>
+		<p>
+			Using Analytics feature in QueryIO, you can easily construct SQL queries and execute those queries on the database.
+		</p>
+	</li>
+</ul>
+
+<p>In a typical Hadoop cluster, total number of files grows to the order of millions over a period of time. Thus with multiple NameNodes having millions of files each, HDFS cluster storage scales horizontally but the namespace does not.  
+In order to scale the name service horizontally, NameNode federation uses multiple independent namespaces. The Namenodes are federated, that is, the Namenodes are independent and don't require coordination with each other.
+The datanodes are used as common storage for blocks by all the federated Namenodes. Each datanode registers with all the Namenodes in the cluster. <br>
+QueryIO supports configuration of one database instance per namespace to support NameNode Federation. User can define a database configuration and link it to a namespace. All the metadata / tags associated with the data in given namespace is stored in this link in database.
+</p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

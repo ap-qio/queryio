@@ -1,0 +1,173 @@
+<div id="host_create" class="lightbox">
+<div id="close" class="close">
+	<a href="javascript:closeTagBox();"><img src="images/light-box-close.png"></a>
+</div>
+    <table id="host_create_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">Tags </span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td id="msg_td">
+                	<div id ="hostDiv" class="instructional" style="text-align: center; width: 100%;">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="error_td">
+									<div class="instructional" style=""></div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<hr>
+									<div class="otherinstruction">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>	
+									<div>
+										<table id="taqg_table" class="dataTable">
+											<thead>
+											<tr>
+												<th>
+													Tag Name	
+												</th>
+												<th>
+													Tag Value	
+												</th>
+												<th>
+												</th>
+											</tr>
+											</thead>
+											<tbody id="tag_table_body">
+												<tr id="tag_row1">
+														<td style="padding: 3px 10px;">
+															<input type="text" id="tagName1">
+														</td>
+														<td style="padding: 3px 10px;">
+															<input type="text" id="tagValue1">
+														</td>
+														<td style="padding: 3px 10px;">
+															<a href="javascript:addNewTag();"><img alt="Add Volume" src="images/plus_sign_brown.png" id="plusImage" style="height: 15px;"></a>
+															<a href="javascript:deleteTag(1);"><img alt="Remove Volume" src="images/minus_sign_brown.png" id="minusImage" style="height: 10px;visibility:hidden; width: 20px;"></a>
+														</td>
+												</tr>
+											</tbody>
+											<tbody>
+												<tr>
+													<td colspan="3" style="text-align: right;border: none;">
+														<input type="button" class="buttonAdmin" id="save.host" value="Save" onclick="javascript:saveTags();"  /> 
+														<input type="button" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:closeTagBox();" />
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								
+							</td>
+							</tr>	
+						</table>
+					</div>
+            	</td>
+        	</tr>
+    	</tbody>
+	</table>
+<script type="text/javascript">
+getAllTags();
+var counter=1;
+function closeTagBox(){
+	Util.removeLightbox("tagBox");		
+}
+var idArray = [];
+idArray.push(1);
+function addNewTag(){
+	++counter;
+	var data = '<tr id="tag_row'+counter+'"><td><input type="text" id="tagName'+counter+'"></td>'+
+				'<td><input type="text" id="tagValue'+counter+'"></td>'+
+				'<td><a href="javascript:addNewTag();"><img alt="Add Volume" src="images/plus_sign_brown.png" id="plusImage" style="height: 15px;"></a>'+
+				'<a href="javascript:deleteTag('+counter+');"><img alt="Remove Volume" src="images/minus_sign_brown.png" id="minusImage" style="height: 10px; width: 20px;"></a></td></tr>';
+	$('#tag_table_body').append(data);
+	idArray.push(counter);
+}
+function deleteTag(rowId){
+	$('#tag_row'+rowId).remove();
+	var index = idArray.indexOf(rowId);
+	idArray.splice(index,1);
+	
+}
+
+function getAllTags()
+{
+	var fullFilePath = $("#data_browser_path_bar_text").text();
+	var filePath = fullFilePath.substring(fullFilePath.indexOf('/'), fullFilePath.length);
+	var dirPath = DataBrowser.filePathForTags(filePath);
+	var nameNodeId = $("#queryIONameNodeId").val();
+	RemoteManager.getAllTagsForFile(dirPath, nameNodeId, callBackForGetTags);
+}
+
+function callBackForGetTags(response)
+{
+	//console.log("response: " , response);	
+	var count = 1;
+	for(var key in response)
+	{
+		var value = response[key];
+		if(count == 1)
+		{
+			$("#tagName1").val(key);
+			$("#tagValue1").val(value);	
+			count ++;			
+		}
+		else
+		{
+			addNewTag();
+			$("#tagName" + counter).val(key);
+			$("#tagValue" + counter).val(value);
+		}
+	}
+}
+
+function saveTags(){
+	var obj = new Object();
+	$('#error_td').text('');
+	$('#error_td').css('color','black');
+
+	for(var i=0;i<idArray.length;i++){
+		var key = $('#tagName'+idArray[i]).val();
+		var value = $('#tagValue'+idArray[i]).val();
+		
+		if(key == ''){
+			$('#error_td').text('Tag Name is not define.Please define a tag name before save.');
+			$('#error_td').css('color','red');
+			$('#tagName'+idArray[i]).focus();
+			return;
+		}	
+		
+		obj[key] = value;
+	}
+	var fullFilePath = $("#data_browser_path_bar_text").text();
+	var filePath = fullFilePath.substring(fullFilePath.indexOf('/'), fullFilePath.length);
+	var dirPath = DataBrowser.filePathForTags(filePath);
+	var nameNodeId = $("#queryIONameNodeId").val();
+	RemoteManager.saveTagsForFile(dirPath, nameNodeId, JSON.stringify(obj), callBackForSaveTags);
+}
+
+function callBackForSaveTags(response)
+{
+	if(response.taskSuccess)
+		jAlert(response.responseMessage, "Success");
+	else
+		jAlert(response.responseMessage, "Failure");
+	closeTagBox();
+}
+</script>
+</div>
+
+
+
+
+
+

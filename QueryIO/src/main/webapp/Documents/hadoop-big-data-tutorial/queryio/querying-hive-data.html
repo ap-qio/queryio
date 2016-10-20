@@ -1,0 +1,64 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Querying Hive Data</title>
+</head>
+
+<body>
+
+<h1><span>Querying Data: Hive</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains about Ad hoc analysis of different file formats. </p>
+<ul>
+	<li><a href="#csv">CSV Hive Querying</a></li>
+	<li><a href="#csvPersist">Persisting / Non-persisting the results</a></li>
+</ul>
+
+<h2 id="csv"><span>CSV Hive Querying</span></h2>
+	
+<ul>
+	<li>Go to <b>Analytics > Query Designer</b></li>
+	<li>Select <b>AdHocDB</b> in Database.</li>
+	<li>There will be a new table <b>adhoc1csvtable</b> added in the FROM section. Select that table.</li>
+	<li>The <b>Result Table</b> textbox will take its default value 'result_1_adhoc1csvtable'</li>
+	<img src="images/screenshots/adhoc-csv.jpeg" /><br><br>
+	<li>To provide <b>filter expressions</b>, use <b>WHERE</b> block. Select the attribute to be filtered and specify expression value through UI. (CPU > 50)</li>
+	<img src="images/screenshots/adhoc-dd-condition.png" /><br><br>
+	<li>Click <b>View</b> to fire query.</li>
+	<li>AdHoc query will be executed and result is displayed accordingly.</li>
+	<li>Once the query is executed and if the result is <a href = "#csvPersist">persisted</a>, &lt;Result Table&gt; will be added to your FROM list and can be used further for querying.</li>
+	<img src="images/screenshots/adhoc-table.jpeg"/><br><br>
+	<li>Also a folder with the same name (result_1_adhoc1csvtable) will be created on path <b>/hive/</b> in HDFS. To see the added folder go to <b>Data > Data Browser</b>.</li>
+	<li>This folder contains a file which contains the same result as in 'result_1_adhoc1csvtable'.</li>
+</ul>
+
+<h2 id="csvPersist"><span>Persisting / Non-persisting the results</span></h2>
+<p>
+Hive provides the facility to persist / non-persist the results while running an adhoc query.
+</p>
+	<img src="images/screenshots/csv-persist-results.jpeg"/><br>
+
+<h3>Persisting the results</h3>
+<p>
+While running an adhoc query, if user keeps the <b>Persist Result</b> checkbox checked, a result table is created. Moreover, the data which has been queried gets stored in 
+<b>Data Browser</b> under <b>/&lt;warehouse directory&gt;/&lt;result_table_name&gt;</b> where &lt;warehouse directory&gt; is a configurable property which is set to default value <b>hive</b>. Now whenever the result table gets queried, data gets fetched directly from there, making it much faster
+than regular MapReduce query.
+</p>
+<img src="images/screenshots/hive-data-browser.jpeg"/><br>
+
+<h3>Non-Persisting the results</h3>
+<p>
+While running an adhoc query, if user keeps the <b>Persist Result</b> checkbox unchecked, no result table is created.
+</p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+
+</html>

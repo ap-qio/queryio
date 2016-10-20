@@ -1,0 +1,86 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>Getting Started: Add Hadoop SQL Query</title>
+	
+</head>
+<h1><span>Add/Update Hadoop SQL Query</span></h1>
+<p>Add/Update Hadoop SQL operation is used to add given Hadoop SQL Query to the database or perform an update operation if the query already exists.</p>
+
+
+<h2 id="s3"><span>S3 Compatible REST API</span></h2>
+<p>Following code will add/update a Hadoop SQL Query to the database.</p>
+<p><code>java.net.HttpURLConnection</code> is used to create a PUT request to add/update a Hadoop SQL Query to the database. A request property (<code>hadoopsql-properties</code>) is set to <a href="../build_instructions.html">Hadoop SQL JSON</a> which will be saved in database.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.apache.http.HttpStatus;
+
+public class QueryOperations {
+	
+		/*
+	 	 * This program will add or update a Hadoop SQL Query to database.
+		 * @param serverURL: URL of s3 server.
+		 * @param token: authorization token.
+		 * @param queryJSON: JSON of the query to be added or updated
+		 */
+	public void PUTHadoopSQL(String serverURL, String token, String queryJSON)
+			throws Exception {
+		URL url = null;
+		HttpURLConnection httpCon = null;
+		InputStream is = null;
+		try {
+			/* append "/" at end of serverURL */
+			if (!serverURL.endsWith("/")) {
+				serverURL = serverURL + "/";
+			}
+			url = new URL(serverURL + "hadoopsql");	//append "hadoopsql" to the serverURL and create a new URL object
+
+			//Returns a URLConnection object that represents a connection to the remote object referred to by the URL.
+			httpCon = (HttpURLConnection) url.openConnection();
+
+			httpCon.setDoOutput(true);	// to use the URL connection for output
+			httpCon.setRequestMethod("PUT");	//PUT request is used
+
+			httpCon.setRequestProperty("authorization", token);	//provides authorization token for authentication
+			httpCon.setRequestProperty("hadoopsql-properties", queryJSON);	//set queryJSON property
+			
+			httpCon.connect();	//Opens a communications link to the resource reference by the URL
+
+			if (httpCon.getResponseCode() == HttpStatus.SC_OK) {	//check for OK response
+				is = httpCon.getInputStream();
+				// Process response here
+			}
+		} finally {
+			try {
+				if (is != null)
+					is.close();	//close stream
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (httpCon != null) {
+				httpCon.disconnect();	//close connection
+			}
+		}
+	}
+}
+	</pre>
+</div>
+
+
+<body>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

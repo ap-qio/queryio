@@ -1,0 +1,18 @@
+div.lightbox#new_host_box {
+	width: 400px;
+}
+
+
+div#new_site_box td#site_owner_grp_td,
+div#new_site_box td#site_desc_td,
+div#new_site_box td#site_name_td
+{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.input
+{
+	width: 88%;
+	margin: 0 40 0 40;
+}

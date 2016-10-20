@@ -1,0 +1,265 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>System Configuration</title>
+</head>
+<body>
+
+<h1><span>Configure MapReduce</h1>
+<p>System Configuration defines the computers, processes, and devices that compose the system and its boundary. 
+More general the system configuration is the specific definition of the elements that define and/or prescribe what a system is composed of.</p>
+<p>It consists of various configuration properties for MapReduce, ResourceManager and NodeManager.</p>
+
+<p>To configure ResourceManager, NodeManager or Mapreduce properties, click on <b>Configure MapReduce</b> under ADMIN menu tab. Change the properties according to requirements and click <b>Save</b> to update properties.</p>
+<p>Various properties that can be configured are: </p>
+
+<table width="100%" cellspacing="0" cellpadding="5" bordercolor="#000000" border="1" style="border-collapse: collapse;">
+	<tr>
+		<th width="7%">Type</th><th width="20%">Key</th><th width="20%">Default Value</th><th width="53%">Description</th>
+	</tr>
+	
+	<tr>
+		<td>Map Reduce</td>
+		<td>yarn.resourcemanager.address</td>
+		<td>0.0.0.0:8040	</td>
+		<td>The address of the applications manager interface in the RM.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>yarn.resourcemanager.scheduler.address</td>
+		<td>0.0.0.0:8141	</td>
+		<td>The address of the scheduler interface.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>yarn.resourcemanager.webapp.address	</td>
+		<td>0.0.0.0:8088</td>
+		<td>The address of the RM web application.	</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>yarn.resourcemanager.resource-tracker.address</td>
+		<td>0.0.0.0:8025</td>
+		<td>The address of the RM Resource Tracker.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>yarn.resourcemanager.admin.address</td>
+		<td>0.0.0.0:8141	</td>
+		<td>The address of the RM admin interface.	</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>mapreduce.job.hdfs-servers</td>
+		<td>${fs.default.name}</td>
+		<td>HDFS Server URI.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>mapreduce.framework.name</td>
+		<td>yarn</td>
+		<td>The runtime framework for executing MapReduce jobs. Can be one of local, classic or yarn.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>mapreduce.map.memory.mb	</td>
+		<td>1536</td>
+		<td>The amount of memory the MR AppMaster needs.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>mapreduce.reduce.memory.mb	</td>
+		<td>3072</td>
+		<td>Larger resource limit for reduces.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>mapreduce.task.io.sort.mb</td>
+		<td>512</td>
+		<td>The total amount of buffer memory to use while sorting files, in megabytes. By default, gives each merge stream 1MB, which should minimize seeks.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>mapreduce.task.io.sort.factor</td>
+		<td>100</td>
+		<td>The number of streams to merge at once while sorting files. This determines the number of open file handles.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>mapreduce.reduce.shuffle.parallelcopies		</td>
+		<td>50</td>
+		<td>The default number of parallel transfers run by reduce during the copy(shuffle) phase.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>queryio.yarn.log-dir</td>
+		<td></td>
+		<td>Where log files are stored. Used by queryio server for yarn runtime configuration.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>queryio.yarn.pid-dir</td>
+		<td></td>
+		<td>The directory where pid files are stored. Used by queryio server for yarn runtime configuration.</td>		
+	</tr>
+	<tr>
+		<td>Map Reduce</td>
+		<td>queryio.yarn.heap-size</td>
+		<td>4096</td>
+		<td>The maximum amount of heap to use, in MB. Used by queryio server for yarn runtime configuration.</td>		
+	</tr>
+	
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.address</td>
+		<td>0.0.0.0:0</td>
+		<td>Address of node manager IPC.</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.localizer.address</td>
+		<td>0.0.0.0:4344</td>
+		<td>Address where the localizer IPC is.</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.container-manager.thread-count</td>
+		<td>5</td>
+		<td>Number of threads container manager uses.</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.localizer.client.thread-count</td>
+		<td>5</td>
+		<td>Number of threads to handle localization requests.</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.heartbeat.interval-ms</td>
+		<td>1000</td>
+		<td>Heartbeat interval to RM</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.local-dirs</td>
+		<td>/tmp/nm-local-dir</td>
+		<td>List of directories to store localized files in.</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.log-dirs</td>
+		<td>/tmp/logs</td>
+		<td>Where to store container logs.</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.resource.memory-mb</td>
+		<td>8192</td>
+		<td>Amount of physical memory, in MB, that can be allocated for containers.</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.webapp.address</td>
+		<td>0.0.0.0:9999</td>
+		<td>NM Webapp address.</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>yarn.nodemanager.aux-services</td>
+		<td>mapreduce.shuffle</td>
+		<td>TShuffle service that needs to be set for Map Reduce applications.</td>		
+	</tr>
+	<tr>
+		<td>Node Manager</td>
+		<td>queryio.nodemanager.options</td>
+		<td>-Dcom.sun.management.jmxremote $YARN_NODEMANAGER_OPTS -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
+		<td>Node Manager specific runtime options. Used by queryio server for yarn runtime configuration.</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>yarn.resourcemanager.client.thread-count		</td>
+		<td>10</td>
+		<td>The number of threads used to handle applications manager requests.</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>yarn.resourcemanager.scheduler.client.thread-count		</td>
+		<td>10</td>
+		<td>Number of threads to handle scheduler interface.</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>yarn.resourcemanager.admin.client.thread-count		</td>
+		<td>1</td>
+		<td>Number of threads used to handle RM admin interface.</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>yarn.resourcemanager.resource-tracker.client.thread-count		</td>
+		<td>10</td>
+		<td>Number of threads to handle resource tracker calls.</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>yarn.scheduler.minimum-allocation-mb</td>
+		<td>128</td>
+		<td>The minimum allocation size for every container request at the RM, in MBs. Memory requests lower than this won</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>yarn.scheduler.maximum-allocation-mb</td>
+		<td>10240</td>
+		<td>The maximum allocation size for every container request at the RM, in MBs. Memory requests higher than this won</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>mapreduce.jobhistory.address</td>
+		<td>0.0.0.0:10020</td>
+		<td>MapReduce JobHistory Server IPC host:port</td>		
+	</tr><tr>
+		<td>Resource Manager</td>
+		<td>mapreduce.jobhistory.webapp.address</td>
+		<td>0.0.0.0:19888</td>
+		<td>MapReduce JobHistory Server Web UI host:port</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>mapreduce.jobhistory.intermediate-done-dir</td>
+		<td>/mr-history/tmp</td>
+		<td>Directory where history files are written by MapReduce jobs.</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>mapreduce.jobhistory.done-dir</td>
+		<td>/mr-history/done</td>
+		<td>Directory where history files are managed by the MR JobHistory Server.</td>		
+	</tr>
+	<tr>
+		<td>Resource Manager</td>
+		<td>queryio.unit.num.splits</td>
+		<td>100</td>
+		<td>Number of splits for each mapper.</td>		
+	</tr>	
+	<tr>
+		<td>Resource Manager</td>
+		<td>queryio.resourcemanager.options</td>
+		<td>-Dcom.sun.management.jmxremote $YARN_RESOURCEMANAGER_OPTS -Dcom.sun.management.jmxremote.port=9008 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
+		<td>Resource Manager specific runtime options. Used by queryio server for yarn runtime configuration.</td>		
+	</tr>	
+</table>
+<p class="note">NOTE: All descriptions are part of <a href="http://hadoop.apache.org/docs/current/" target="_blank">Apache Hadoop documentation.</a></p>
+
+<h2><span>Add Key</span></h2>
+<p>You can also add custom configuration properties related to any MapReduce cluster component.</p>
+<ul><img src="images/screenshots/add-key-mapreduce.jpeg"/></ul>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

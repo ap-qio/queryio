@@ -1,0 +1,46 @@
+<property>
+  <name>javax.jdo.option.ConnectionURL</name>
+  <value>jdbc:derby:;databaseName=metastore_db;create=true</value>
+  <description>JDBC connect string for a JDBC metastore</description>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionDriverName</name>
+  <value>org.apache.derby.jdbc.EmbeddedDriver</value>
+  <description>Driver class name for a JDBC metastore</description>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionUserName</name>
+  <value>APP</value>
+  <description>username to use against metastore database</description>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionPassword</name>
+  <value>mine</value>
+  <description>password to use against metastore database</description>
+</property>
+
+
+
+	<property>
+		<name>javax.jdo.option.ConnectionURL</name>
+		<value>jdbc:hsqldb:hsql://192.168.0.27:5682/adhocdb</value>
+		<description>JDBC connect string for a JDBC metastore</description>
+	</property>
+	<property>
+		<name>javax.jdo.option.ConnectionDriverName</name>
+		<value>org.hsqldb.jdbcDriver</value>
+		<description>Driver class name for a JDBC metastore</description>
+	</property>
+	<property>
+		<name>javax.jdo.option.ConnectionUserName</name>
+		<value>ADMIN</value>
+		<description>username to use against metastore database</description>
+	</property>
+	<property>
+		<name>javax.jdo.option.ConnectionPassword</name>
+		<value>ADMIN</value>
+		<description>password to use against metastore database</description>
+	</property>

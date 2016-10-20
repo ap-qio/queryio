@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>GET Service</title>
+</head>
+<body>
+	<div>
+	<h1><span>GET Service</span></h1>	
+	<h2><span>Description</span></h2>
+	<p>GET Service operation of QueryIO server will fetch list of all the buckets in root directory.</p>
+	
+	<h2><span>Requests</span></h2>
+	<h3>Syntax</h3>
+	<ul>
+	<li>
+	<pre>
+GET <em><code>/queryio/</code></em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;Token&gt;</code></em></pre></li>
+		<li>authorization: Token for authorization. </li>
+	</ul>
+	
+	<h2><span>Responses</span></h2>
+	<h3>Response Elements</h3>
+	<p>The GET operation in QueryIO Server uses following response elements: </p>
+	
+	
+	
+	
+	<table cellspacing="0" border="1" width="100%">
+		<tr><th> Name </th><th> Description </th><th> Type </th></tr>
+		<tr>
+			<td align="center">
+				<code>Bucket</code>
+			</td>
+			<td>
+				<p>Container for bucket information.</p>
+			</td>
+			<td> Container </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>Buckets</code>
+			</td>
+			<td>
+				<p>Container for one or more buckets.</p>
+				
+			</td>
+			<td> Container </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>CreationDate</code>
+			</td>
+			<td>
+				<p>Date the bucket was created.</p>
+			</td>
+			<td> Date </td> 
+		</tr>
+		<tr>
+			<td align="center">
+				<code>DisplayName</code>
+			</td>
+			<td>
+							<p>Name of Object's owner.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+					<code>ID</code>
+			</td><td>
+					<p>Bucket owner's user ID.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>ListAllMyBucketsResult</code>
+			</td>
+			<td>
+				<p>Container for response.</p>
+			</td>
+			<td> Container </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>Name</code>
+			</td>
+			<td>
+					<p>Bucket's name.</p>
+			</td>
+			<td> String </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<code>Owner</code>
+			</td>
+			<td>
+				<p>Container for bucket owner information.</p>
+			</td>
+			<td> Container </td>
+		</tr>
+	</table>
+	
+	
+	
+	<h2><span>Examples</span></h2>
+		<h3>Sample Request </h3>
+		<p>The following request will fetch objects from NewBucket.</p>
+		<ul>
+		<li>
+		<pre>
+GET /queryio/ HTTP/1.1
+Host: QueryIO
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm</pre></li>
+		</ul>
+		
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;ListAllMyBucketsResult&gt;
+  &lt;Owner&gt;
+    &lt;ID>bcaf1ffd86f461ca5fb16fd081034f</ID&gt;
+    &lt;DisplayName&gt;webfile&lt;/DisplayName&gt;
+  &lt;/Owner&gt;
+  &lt;Buckets&gt;
+    &lt;Bucket&gt;
+      &lt;Name>quotes&lt;/Name&gt;
+      &lt;CreationDate&gt;2012-09-27 12:21:30&lt;/CreationDate&gt;
+    &lt;/Bucket&gt;
+    &lt;Bucket&gt;
+      &lt;Name&gt;samples&lt;/Name&gt;
+      &lt;CreationDate&gt;2012-09-27 12:21:30&lt;/CreationDate&gt;
+    &lt;/Bucket&gt;
+  &lt;/Buckets&gt;
+&lt;/ListAllMyBucketsResult&gt;
+
+</li>
+</ul>
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

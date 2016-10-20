@@ -1,0 +1,69 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Configuring MapReduce/YARN</title>
+</head>
+<body>
+
+<h1 id="configure"><span>Configuring MapReduce/YARN</span></h1>
+<h2><span>In this chapter</span></h2>
+<p>This document will show you how to configure MapReduce services using QueryIO.</p>
+<p>It is assumed that you have already added required namenodes and datanodes to your cluster.</p>
+<ul>
+	<li><a href="#rm">Add ResourceManager</a></li>
+	<li><a href="#nm">Add NodeManager</a></li>
+</ul>
+
+
+
+<h2 id="rm"><span>Add ResourceManager</span></h2>
+	<ul>
+		<li>A ResourceManager (RM) manages the global assignment of computer resources to applications. 
+		After you have added required machines to the cluster, you can add new ResourceManager.</li>
+		<li>To add ResourceManager, Go to <b>Hadoop > MapReduce > ResourceManager</b>.</li>
+		<li>Click on <b>Add</b> button. You will see the following window.</li>
+		<img alt="RM-add1" src="images/screenshots/rm-add1.jpeg" >		
+		<li>In the <b>Unique Identifier</b> textbox, enter a unique identifier for ResourceManager.</li>
+		<li>In the <b>HostName/IP</b> dropdown, select the IP/hostname of the host system on which you want to install the node.</li>
+		<li>Click <b>Next</b>. You will see the following window.</li>
+		<img alt="RM-add1" src="images/screenshots/rm-add2.jpeg" >
+		<li>Here you can enter the port numbers for different services that QueryIO will start</b>.</li>
+		<li>Click <b>Next</b>. You will see the following window.</li>
+		<img alt="RM-add1" src="images/screenshots/rm-add3.jpeg" >
+		<li>In <b>Dir Path</b> textbox, enter the path for the directory where you want your ResourceManager to be installed.</li>
+		<li>Make sure <b>Start ResourceManager Service after installation</b> checkbox is enabled</b>. It will automatically start all the services for this ResourceManager.</li>
+		<li>Click <b>Save</b>.</li>
+	</ul>
+	
+<h2 id="nm"><span>Add NodeManager</span></h2>
+	<ul>
+		<li>There is a per-machine NodeManager (NM) that manages the user processes on configured machine.
+		After you have added required ResourceManager to the cluster,  you can add new NodeManager.</li>
+		<li>To add NodeManager, Go to <b>Hadoop > MapReduce > NodeManager</b>.</li>
+		<li>Click on <b>Add</b> button. You will see the following window.</li>
+		<img alt="NM-add2" src="images/screenshots/nm-add1.jpeg" >	
+		<li>In the <b>Unique Identifier</b> textbox, enter a unique identifier for NodeManager.</li>
+		<li>In the <b>HostName/IP</b> dropdown, select the IP/hostname of the host system on which you want to install the node.</li>
+		<li>In the <b>ResourceManager</b> dropdown, select the ResourceManager to which NodeManager will be configured.</li>
+		<li>Click <b>Next</b>. You will see the following window.</li>
+		<img alt="NM-add2" src="images/screenshots/nm-add2.jpeg" >
+		<li>Here you can enter the port numbers for different services that QueryIO will start</b>.</li>
+		<li>Click <b>Next</b>. You will see the following window.</li>
+		<img alt="NM-add2" src="images/screenshots/nm-add3.jpeg" >
+		<li>In <b>Dir Path</b> textbox, enter the path for the directory where you want your NodeManager to be installed.</li>
+		<li>Make sure <b>Start NodeManager Service after installation</b> checkbox is enabled</b>. It will automatically start all the services for this NodeManager.</li>
+		<li>Click <b>Save</b>.</li>
+	</ul>
+
+	<p>You can add MapReduce jobs on your cluster.</p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>	
+
+</body>
+</html>

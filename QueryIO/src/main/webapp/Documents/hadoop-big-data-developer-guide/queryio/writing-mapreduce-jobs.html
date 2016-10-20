@@ -1,0 +1,53 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Writing MapReduce jobs</title>
+</head>
+
+<body>
+
+<h2><span>Writing MapReduce jobs</span></h2>
+
+<p>A typical MapReduce job comprises of following modules:</p>
+
+<ul>
+	<br>
+	<li>
+	<p><b>Input Reader</b></p>
+	<p>The input reader divides the input into independent chunks which are processed by map functions. Each input split (chunk) is assigned to exactly one Map function.
+	The input reader generates key/value pairs from the data.</p>
+	</li>
+	
+	<li>
+	<p><b>Mapper</b></p>
+	<p>Input key/value pairs to a set of intermediate key/value pairs is mapped by Mapper function.
+Maps are the individual tasks which form intermediate records from input records. Transformed intermediate records do not need to be of the same type as the input records. A given input pair can map to zero or many output pairs.</p>
+	</li>
+	
+	<li>
+	<p><b>Reducer</b></p>
+	<p>Application's Reduce function is called by the MapReduce framework once for each unique key in the sorted order. The Reduce function iterates through the values 
+that are associated with that key and produces zero or more outputs. 
+The number of reducers for a job can be configured via <i>JobConf.setNumReduceTasks(int)</i>. For applications that do not require reduction, you can 
+set the number of reducers to zero. In this case, the outputs from the mapper are directly fed to the output writer.</p>
+	</li>
+	
+	<li>
+	<p><b>Output Writer</b></p>
+	<p>The output writer writes the output of the reducer to a storage unit, usually HDFS or a database.</p>
+	</li>
+	<br>
+</ul>	
+	
+<p>For information on how to write MapReduce jobs, <a href="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html" target="_blank">click here</a>.</p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

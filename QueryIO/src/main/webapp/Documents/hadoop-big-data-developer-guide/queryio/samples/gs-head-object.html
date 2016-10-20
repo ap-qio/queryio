@@ -1,0 +1,75 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+  	<title>HEAD Object</title>
+	
+</head>
+<body>
+<h1><span>Get metadata of File</span></h1>
+<p>The HEAD object of QueryIO server fetches the metadata from a file. This is useful if user is only interested in metadata of file, since it does not return the file itself.</p>
+
+<h2 id="java"><span>DFS Client API</span></h2>
+<p>The code given below is used to get metadata of file using DFS Client APIs.</p>
+<p>File is accessed through <code>FileSystem</code> object. Metadata about file is gained through <code>FileSystem.getFileStatus(path)</code> and checksum is calculated using <code>java.security.MessageDigest</code>'s instance. An input stream to object is provided to messagedigest's instance.</p>
+<div id="code" style="background:EEE;">
+	<pre>
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hdfs.DFSConfigKeys;
+
+public class HeadObject {
+	/*
+	 * This program deletes the specified object/file from the HDFS.
+	 */
+	
+	public static void main(String[] args) throws IOException, NoSuchAlgorithmException{
+		Configuration conf = new Configuration(true);	//Create a configuration object to define hdfs properties
+		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, "hdfs://192.168.0.1:9000"); // URL for your namenode
+		conf.set(DFSConfigKeys.DFS_REPLICATION_KEY, "3"); // Replication count for files you write
+		
+		Path filePath = new Path("/queryio/demo/file1.txt");	//defines a dfs path to file1.txt
+
+		FileSystem dfs = FileSystem.get(conf);	//Hadoop FileSystem object with configuration
+		FileStatus fs = dfs.getFileStatus(filePath);	//HEAD Object operation: Return a file status object that represents the path.
+		
+		InputStream is = dfs.open(filePath);	//InputStream to the file1.txt
+		MessageDigest md = MessageDigest.getInstance("MD5");	// Generates a MessageDigest object that implements the MD5 algorithm.
+		try {
+		  is = new DigestInputStream(is, md);	//stream that updates the associated message digest using the bits going through the stream
+		  // read stream to EOF as normal...
+		}
+		finally {
+		  is.close();	//close InputStream
+		}
+		byte[] digest = md.digest();	//Completes the hash computation by performing final operations
+		
+		//displaying metadata about file1.txt
+		System.out.println("Length : " + fs.getLen());
+		System.out.println("Modification Time : " + new Timestamp(fs.getModificationTime()));
+		System.out.println("Checksum : " + new String(digest));		
+	}	
+}	
+	</pre>
+</div>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

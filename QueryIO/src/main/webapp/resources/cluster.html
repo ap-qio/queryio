@@ -1,0 +1,24 @@
+<script src="scripts/cluster.js"></script>
+<link rel="stylesheet" href="styles/cluster.css" type="text/css" />
+
+<div id='clusterDiv' class="viewDiv">
+	
+	<div class="buttons">
+	
+	Cluster: <select id="cluster_select" onclick="javascript:Cluster.fillRackTable();"><option> select cluster</option> </select>
+	<button class="button" onclick="javascript:Cluster.updateRack();" style="float: right; margin: 0 5 0 0;">Update Racks</button>
+	</div>	
+	<br>
+	<div id ="default_Rack_div">
+		<table id="default_Rack"></table>
+	</div>
+	<br>
+	<div id ="replication_Rack_div">
+		<table id="replication_Rack" style="font-size: 9pt; "></table>
+	
+	</div>
+
+</div>
+<script>
+Cluster.ready();
+</script>

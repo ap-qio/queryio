@@ -1,0 +1,441 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Querying Data: Analytics</title>
+</head>
+<body>
+
+<h1 id="configure"><span>Querying Data: Analytics</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p><p>QueryIO supports on the fly metadata extraction from the files written onto the cluster.  
+	By default, the metadata for unregistered file types is saved in HDFS-METADATA table in the database.
+	Query builder can be used to query the information extracted from the files.</p></p>
+<ul>
+	<li><a href="#query">Query Manager</a></li>
+	<li><a href="#sql">Query Designer </a></li>	
+	<li><a href="#viewer">Query Viewer</a></li>
+	<li><a href="#spreadsheet">Spreadsheet Viewer</a></li>
+	
+</ul>
+
+<h1 id="query"><span>Query Manager</span></h1>
+<p>All the saved queries can be viewed under Query manager. You can load previously saved queries by clicking on respective query ids.</p>
+<img src="images/screenshots/query-manager.jpeg"/>
+<p>Various actions can be performed on Hadoop SQL Queries:</p>
+<ul>	
+		<li id="add"><b>Add </b></li>
+			<ul>
+				<li>To create a new Hadoop SQL query.</li>
+				<li>Use <b >Query Designer</b> to design, save and execute new query.</li>
+			</ul>
+		<li id="design"><b>Design</b></li>
+			<ul>
+				<li>To redesign a Hadoop SQL query.</li>
+				<li>Select a Hadoop SQL query and click "Design". This will take you to <b>Query Designer</b> with selected Hadoop SQL query details.</li>
+			</ul>
+		<li id="view"><b>View</b></li>	
+			<ul>
+				<li>To view the result of selected Hadoop SQL query.</li>
+				<li>Hadoop SQL query can be viewed on <b>Query Viewer</b> </li>
+			</ul>
+		<li id="delete"><b>Delete</b></li>
+			<ul>
+				<li>To delete selected Hadoop SQL query.</li>
+			</ul>
+		<li id="clone"><b>Clone</b></li>
+			<ul>
+				<li>To create exact copy of a Hadoop SQL query.</li>
+				<li>Select query to be cloned.</li>		
+				<li>Specify cloned query id and description and click "Save".</li>
+				<li>New exact copy of selected query will be created.</li>
+			</ul>
+		<li id="export"><b>Export</b></li>
+			<ul>
+				<li>Select query and click "Export". </li>
+				<li>In the window that will appear, specify query id and select the format(PDF, HTML, XLS) in which you want the report to be exported. </li>
+				<li>Click <b>Export</b>.</li>
+			</ul>
+		<li id="email"><b>Email</b></il>
+			<ul>
+				<li>Select Hadoop SQL query and click "Email". </li>
+				<li>Specify query name, select the format(PDF, HTML, XLS) in which you want the report to be mailed and specify record names.</li>
+				<li>Select mail recipient from the list of registered users. </li>
+				<li>Click <b>Email</b>.</li>
+			</ul>
+		<li id="sch"><b>Schedule</b></il>
+			<ul>
+				<li>Execute Hadoop SQL query at scheduled time.</li>
+				<li>Select query and click "Schedule". </li>
+				<li>Specify schedule id, frequency interval, schedule time,  select the format(PDF, HTML, XLS) in which you want the report of the Hadoop SQL query to be mailed.</li>
+				<li>Provide message to be included in email.</li>
+				<li>Select mail recipient from the list of registered users. </li>
+				<li>Click <b>Email</b>.</li>
+			</ul>
+	</ul>
+
+<h1 id="sql"><span>Query Designer</span></h1>
+	<p>Query designer is composed of two modules:</p>
+	<ul>
+		<li> <a href="#builder">Query Builder</a></li>
+		<li> <a href="#report">Report Builder</a></li>
+	</ul> 
+	<p>Query Builder allows us to define grouping, sorting and constructing criteria in a simple and direct way. It also allows you to save queries and use them again later.
+	<p>Query builder is basically used to filter out the files available on the cluster. Files can be filtered on the basis of file types(table name).</p>
+	<p>Using report builder interface of QueryIO designer, you can build reports to format the result of queries.</p>
+	<h2 id="builder"><span>Query Builder</span></h2>
+	<ul>
+		<li><p>To query extracted metadata, go to <b>Analytics > Query Designer</b>.</p></li>
+
+		<li><p>Here you can see query builder view. Using this view, you can construct queries that you want to execute on your data.</p></li>
+		<img src="images/screenshots/query-saved.jpeg" >
+		<br />
+		<br />
+		<li><p>Click on <b>SELECT</b> textbox to select the names of the columns that you want to fetch with this query.</p></li>
+		<li><p>Click on <b>FROM</b> textbox to select the name of the table on which you want to perform the query.</p></li>
+		<li><p>Click on <b>WHERE</b> textbox to add any conditional clauses to your query. Only those records that fulfill the specified criteria will be 
+		included in the result.</p></li>
+		<li>Click on <b>GROUP BY</b> textbox to select the names of the columns that you want to group your result set by. It is used 
+		in conjunction with the aggregate functions to group the result-set by one or more columns.</li>
+		<p>For example, the query "SELECT OWNER,SUM(LEN) FROM HDFS-METADATA GROUP BY OWNER" would return the total storage space utilized by each user. </p>
+
+		<li><p>Click on <b>ORDER BY</b> textbox to select the names of the columns that you want to sort your result set by.</p></li>
+		<li><p>Click on <b>HAVING</b> textbox to provide conditions on aggregate functions.</p></li>
+		<li><p>Once you have constructed the query, click on <b>Save</b> button to save the generated query</b> so that you can reuse it later.</p></li>
+		<li><p>You can load previously saved queries by clicking on respective query IDs in the <b>Queries</b> view.</p></li>
+
+		<li><p>Click on <b>View</b> to execute the query. On executing the query, you will be taken to <b>Query Viewer</b>.</p></li>
+
+</ul>
+
+
+
+
+<h2 id="report"><span>Report Builder</span></h2>
+	<p>Using report builder interface of QueryIO, you can build reports to present the contents of the queries that you 
+	can perform using the query builder interface.</p>	
+
+<p> Report builder comprises of three modules:<p>
+<ul>
+<p>&nbsp;</p>
+	<li><b>Report Designer</b>
+		<p>To specify the layout and design of various components of the report like report header, footer, etc.<p>
+	</li>
+	<li><b>Chart Designer</b>
+		<p>To specify the layout and design of the charts that you want to add to you report.<p>
+	</li>
+	<li><b>Chart Preferences</b>
+		<p>Chart Preference allows you to create highly customized charts.<p>
+	</li>
+	<li><b>Report Preview</b>
+		<p>In the report preview section, you can see the preview of the report that will be generated with the current configuration.<p>
+	</li>
+	<p>&nbsp;</p>
+</ul>
+
+<p>This tutorial will show you how easily you can build reports using QueryIO.</p>
+
+	<p> To build reports, go to <b>Analytics > Query Designer</b>.</p>
+
+<p>Create new query using <b>Query Builder</b> view or load existing query using <b>Query Manager</b> page.</p>
+
+
+<p>Following are the steps to build customized reports:</p>
+
+	
+<h3><b><span>Report Designer</span></b></h3>
+	
+	<img alt="report-designer" src="images/screenshots/report-designer.jpeg" >
+	
+	<h4><b>Report Header</b></h4>
+		<p>The Report Header section generally contains the report title and other information you want to appear only at the beginning of the report.
+		Charts in this section contain data for the entire report.</p>
+		<ul>
+		<li>
+		<p> To customize report header, click on the <b>Edit</b> button adjacent to the <b>Report Header</b> block in the report designer view.<p>
+		</li>
+		
+		<li>
+		<p> You can specify the contents of the report header in the <b> Title </b> edit box</p>
+		</li>
+		<li>
+		<p> In this window, you can also configure the styles that would be applied to the report header.</p>
+		</li>
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+	<h4><b>Group Header</b></h4>
+		<p>It contains the part of the message used to indicate the start of a functional group of documents.
+		Group Headers are useful and often necessary to make your report data clear and easily understood.</p>
+		<ul>
+		<li>
+		<p> To customize group header, click on the <b>Edit</b> button adjacent to the <b>Group Header</b> block in the report designer view.<p>
+		</li>
+		
+		<li><p> To group your result set by various columns respective column names using adjacent checkboxes.</p>
+		</li>
+		
+		<li>
+		<p> You can also specify prefix and suffix for your group header value.
+			Lets say, if the group header content is "<b><i>admin</i></b>" and you have selected prefix to be "<b><i>User: </i></b>", then the group header 
+			content in the report will be <br /><b><i>User: admin</i></b>
+		</p>	
+			
+		</li>
+		<li>
+		<p> Click <b>Next</b> to configure the styles that you want to apply to the selected group headers.</p>
+		</li>
+		
+		<li> Select the column name that you want to apply styles to and then edit other style related properties. 
+			You can configure styles for the other columns by selecting respective column names from the <b>Column</b> dropdown box.
+		</li>
+		
+		<li>
+		<p> Click <b>Next</b> to specify custom formatting for group header content. Here you can specify the 
+		formatting of the data for various datatypes.</p>
+		</li>
+		
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+	<h4><b>Column Header</b></h4>
+	 <p>The column header is the colored row of letters used to identify each column within the table. The column header row is located above the row one.</p>
+		<ul>
+		<li>
+		<p> To customize column header, click on the <b>Edit</b> button adjacent to the <b>Column Header</b> block in the report designer view.<p>
+
+		</li>
+		
+		<li> Select the column name that you want to apply styles to and then edit other style related properties. 
+			You can configure styles for the other columns by selecting respective column names from the <b>Column</b> dropdown box.
+		</li>
+		
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+	<h4><b>Column Details</b></h4>
+	<p>Column details refer to the contents of the columns of non header rows in the table.</p>
+		<ul>
+		<li>
+		<p> To customize column details, click on the <b>Edit</b> button adjacent to the <b>Column Details</b> block in the report designer view.<p>
+		<img alt="report-designer" src="images/screenshots/column-details-customize.jpeg" >
+		</li>
+		
+		<li> Select the column name that you want to apply styles to and then edit other style related properties. 
+			You can configure styles for the other columns by selecting respective column names from the <b>Column</b> dropdown box.
+		</li>
+		
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>	
+	<h4><b>Group Footer</b></h4>
+	<p>It contains the part of the message used to indicate the end of a functional group of documents.
+		Group Footers are useful and often necessary to make your report data clear and easily understood.</p>
+		<ul>
+		<li>
+		<p> To customize group footer, click on the <b>Edit</b> button adjacent to the <b>Group Footer</b> block in the report designer view.<p>
+		<img alt="report-designer" src="images/screenshots/group-footer-customize.jpeg" >
+		</li>
+		
+		<li>
+		<p> If you want to group footers by various columns, you can do it here. 
+			Select respective column names using adjacent checkboxes.</p>
+		</li>
+		
+		<li>
+		<p> You can also select aggregate function to perform on the group footer content </p>
+		
+		<p> You can also specify prefix and suffix for your group footer value.
+			Lets say, you have selected aggregate function to be <b>SUM</b>, prefix <b><i>Total </i></b> and 
+			suffix <b><i>bytes</i></b>, then the group footer content in the report will like <br /><b><i>Total 100 bytes</i></b> where 100 is the sum of the values of the specified column in all the rows belonging to the current group.
+		</p>	
+			
+		</li>
+		
+		<li>
+		<p> Click <b>Next</b> to configure the styles that you want to apply to the selected group footers.</p>
+
+		</li>
+		
+		<li> Select the column name that you want to apply styles to and then edit other style related properties. 
+			You can configure styles for the other columns by selecting respective column names from the <b>Column</b> dropdown box.
+		</li>
+		
+		<li>
+		<p> Click <b>Next</b> to specify custom formatting for group footer content.</p>
+
+		</li>
+		
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+	<h4><b>Report Footer</b></h4>
+		<ul>
+		<li>
+		<p> To customize report footer, click on the <b>Edit</b> button adjacent to the <b>Report Footer</b> block in the report designer view.<p>
+		</li>
+		
+		<li>
+		<p> You can specify the contents of the report footer in the <b> Title </b> edit box</p>
+		</li>
+		<li>
+		<p> In this window, you can also configure the styles that would be applied to the report footer.</p>
+		</li>
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+</ul>
+	<br>
+	<h3><b><span>Chart Designer</span></b></h3>
+		
+	<img alt="report-designer" src="images/screenshots/chart-designer.jpeg" >	
+	<ul>
+		<li>
+		<p>Chart types supported are:</p>
+			<ul>
+					<li>Line Chart</li>
+					<li>Bar Chart</li>
+					<li>Pie Chart</li>
+					<li>Area Chart</li>
+					<li>Bubble Chart</li>
+					<li>Scatter Chart</li>
+					<li>Meter Chart</li>
+					<li>Stock Chart</li>
+					<li>Difference Chart</li>
+					<li>Gantt Chart</li>
+					<li>Tube Chart</li>
+					<li>Cone Chart</li>
+					<li>Pyramid Chart</li>
+					<li>Radar Chart</li>
+				</ul>
+		</li>
+	</ul>
+	<h4><b>Add Chart</b></h4>
+	<ul>
+		<li>To add a chart, select <b>Add</b> action from the dropdown at the top of charts tab.		</li>
+		
+		<li>
+		Select the type of the chart that you want to design from the <b>Chart Type</b> dropdown box.
+		</li>
+		
+		<li>
+		Select the section of the report where you want to place your chart <b>Section</b> dropdown box.
+		You can place your charts in report header, group header or group footer sections.
+		</li>
+		
+		<li>You can create 2D and 3D charts by changing the <b>Dimension</b> property of the charts.
+		</li>
+		
+		<li>If you want to add multiple charts to the same section, then you can specify custom layout for those charts by specifying custom
+		values for the <b>Row Position</b> and <b>Column Span</b> properties.
+		</li>
+		
+		<li>Click <b>Add</b> once you have configured all the chart related properties.
+	</ul>
+	
+	<h4><b>Clone Chart</b></h4>
+	<ul>
+		<li>Use this action to create exact copy of the selected chart.</li>
+	</ul>
+	
+	<h4><b>Delete Chart</b></h4>
+	<ul>
+		<li>Use this action to delete selected chart.</li>
+	</ul>
+	
+	<br>
+	<h3 id="chartpr"><span><b>Chart Preferences</b></span></h3>
+	<p>QueryIO provides you highly customized your charts and make them the way you want them to look. This feature drastically improves overall report.</p>
+	<ul>
+		<li>Use <B>Chart Preference</B> action to define global chart settings which will be applied to all the charts added after chart preferences are saved.</li>
+		<li>To define preference settings for individual charts, select the chart, and click <b>Edit</b> or click on the chart preview shown.</li>
+	</ul>
+	<ul><img alt="chart-preferences" src="images/screenshots/chartpr.png" ></ul>	
+	
+	<p>Chart Preference UI is divided into three sections : </p>
+	<ul>
+		<li>First section shows the configurable categories.</li>
+		<li>Second section displays live preview of the chart. Any update in the properties are instantly reflected to the preview.</li>
+		<li>Third section displays all the configurable properties that can be applied on the chart, according to selected category.</li>  
+	</ul>
+	
+	<p>Chart Preferences include following configurable property categories </p>
+	<ul>
+		<li><b>Chart Area</b> : This section deals with the overall area of the chart like background colors, outside border etc.</li>
+		<li><b>Title</b> : This category deals with chart title related properties.</li>
+		<li><b>Leader Lines</b> : These properties are applicable only for pie charts. This section contains properties related to leader lines of the pie chart.</li>
+		<li><b>X-Axis</b> : Here you can update properties related to X-Axis labels like position above or below, colors, borders etc.</li>
+		<li><b>Y-Axis</b> : Here you can update properties related to Y-Axis labels like position left or right, colors, borders etc.</li>
+		<li><b>Labels</b> : This properties are related to data labels that shows the exact value of the quantity in chart.</li>
+		<li><b>Legend</b> : This section deals with the properties related to legend table like table position : left or right,table anchor: top, middle or bottom, borders, colors etc.</li> 
+	</ul>
+	<p class="note">Note : For global chart preferences, all categories are shown and preview contains pie chart and line chart. 
+	For individual chart preferences, categories not applicable on respective chart are not displayed and preview contains selected chart type.</p>
+	
+	<br>
+	
+	
+	<h3><b><span>Report Preview</span></b></h3>
+	<img alt="report-designer" src="images/screenshots/report-preview.jpeg" >	
+	<p>Here you can see the preview of the report that will be generated with the current configuration.<p>
+
+<h2 id="viewer"><span>Query Viewer</span></h2>
+<p>Query Viewer is used to display the result of the query. All <b>View</b> query requests from Query manager and designer are displayed in Query viewer.
+	Hadoop SQL queries can be executed through viewer also. </p>
+	<img src="images/screenshots/query-viewer.jpeg"/>
+	
+<h3><b><span>Print / Export / Email Report</span></b></h3>
+<p>Click on <b>View</b> to view generated report. Once the report is generated, it can be printed, exported to local system and can be mailed to registered users of QueryIO.</p>
+<ul>
+	<li><b>Print</b></li>
+	<ul>
+		<li>Click <b>Print</b> to print currently opened report.</li>
+	</ul>
+	<li><b>Export</b></li>
+	<ul>
+		<li>Click on "Export" button. </li>
+		<li>In the window that will appear, specify query id and select the format(PDF, HTML, XLS) in which you want the report to be exported. 
+		</li>
+		<li>Click <b>Export</b>.</li>
+	</ul>
+	<li><b>Email</b></li>
+	<ul>
+		<li>Click on "Email" button. </li>
+		<li>Specify query name, select the format(PDF, HTML, XLS) in which you want the report to be mailed and specify record names.</li>
+		<li>Select mail recipient from the list of registered users. </li>
+		<li>Click <b>Email</b>.</li>
+
+	</ul>
+</ul>	
+
+<h2 id="spreadsheet"><span>SpeadSheet Viewer</span></h2>
+<p>QueryIO provides support for spreadsheet viewer to process and further analyze the query results.
+Spreadsheet viewer provides a excel like spreadsheet with all the layers of business intelligence.</p><p> Result of all the queries executed can be viewed in <b>SpreadSheet Viewer</b> for further processing.</p>
+<p>Spreadsheet viewer allows sheet creation, viewing, and editing processes. It also supports Undo & redo, Merge-able cells, Easy creation of custom formula functions and variables, full screen mode for better viewing, printing reports and many more features.</p>
+ 
+ 
+<img src="images/screenshots/spreadsheet.png"/>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+</body>
+</html>
