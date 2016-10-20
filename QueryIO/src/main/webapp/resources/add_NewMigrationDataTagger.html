@@ -1,0 +1,596 @@
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<link rel="stylesheet" type="text/css"
+	href="styles/jquery.ui.combify.css" />
+
+
+
+<link rel="stylesheet" href="styles/ui.jqgrid.css" type="text/css" />
+<link rel="stylesheet" href="styles/nd.css" type="text/css" />
+<link rel="stylesheet" href="styles/data_analyzer.css" type="text/css" />
+
+<!-- <script type="text/javascript" src="scripts/datetimepicker.js"></script>
+ <link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+ <script type="text/javascript" src="scripts/jquery.dataTables.js"></script>
+ <script type="text/javascript" src="scripts/jquery.alerts.js"></script>
+ <script type="text/javascript" src="scripts/jquery.dataTables.js"></script>
+ -->
+<script type="text/javascript" src="scripts/tree.jquery.js"></script>
+<script type="text/javascript" src="scripts/i18n/grid.locale-en.js"></script>
+<script type="text/javascript" src="scripts/jquery.jqGrid.min.js"
+	type="text/javascript"></script>
+<script type="text/javascript" src="scripts/jquery.jqGrid.src.js"
+	type="text/javascript"></script>
+<script type="text/javascript" src="scripts/jquery.ui.combify.js"></script>
+
+<script type="text/javascript" src="scripts/jquery.ui.combify.js"></script>
+<script type="text/javascript" src="scripts/MigrationDataTagger.js"></script>
+
+<link rel="stylesheet" href="styles/adHocQuery.css" type="text/css" />
+
+<style>
+#columnListContainer td {
+	padding: 0px 2px 0px 2px;
+}
+</style>
+<script>
+	$('#post_ingest_starttime').datetimepicker({
+		controlType : 'select',
+		timeFormat : 'HH:mm:ss'
+	});
+	$('#starttime').datetimepicker({
+		controlType : 'select',
+		timeFormat : 'HH:mm:ss'
+	});
+</script>
+<div id="host_create" class="lightbox" style="width: 600px;">
+	<div id="close" class="close">
+		<a href="javascript:MigrationDataTagger.closeBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<table class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Define Data Tags</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table align="center" width="100%"
+						style="border-collapse: collapse;">
+						<tbody>
+							<tr>
+								<td id="msg_td" colspan="2">
+									<div class="instructional" id="inst">Define data tag and
+										operator which should be applied on files on cluster. You can
+										choose to define data tags using the table you have already
+										created using Hive DDL or can choose system defined metastore
+										tables for different file formats. You can also provide
+										expressions to apply tags conditionally and can choose to
+										apply tags on-ingest or as a scheduled post-ingest job.</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<hr>
+								</td>
+							</tr>
+							<tr>
+								<td id="error_span" style="display: none;"><span
+									style="color: red;"></span></td>
+							</tr>
+
+							<tr>
+								<td>
+									<table style="width: 98%;">
+										<tbody>
+											<tr>
+												<td style="vertical-align: top; width: 100%;">
+													<div id="toc" class="menu" style="width: 100%;">
+														<ul id="tabs" style="width: 100%;">
+															<li id="liConfig" style="width: 195px;"><a
+																href="javascript:MigrationDataTagger.showDiv(1);"
+																id="title">Define Data Tag</a></li>
+															<li id="liSchema" style="width: 195px;"><a
+																href="javascript:MigrationDataTagger.showDiv(2);"
+																id="leader_lines">Define Operator</a></li>
+															<li id="liApply" style="width: 195px;"><a
+																href="javascript:MigrationDataTagger.showDiv(3);"
+																id="common">Apply Data Tag</a></li>
+														</ul>
+													</div>
+
+													<div id="notToc" style="width: 100%; margin-top: 60px;">
+
+														<!-- starting first page -->
+														<div id="firstPage" style="display:;">
+															<table style="width: 600px; margin-top: 40px;">
+																<tbody>
+																	<!-- Select Database : Metastore / Hive
+                                                                     Select Schema : Based on which DB he selects, we should list down all tables here -->
+
+																	<tr>
+																		<td style="text-align: left; width: 20%;">Tag ID</td>
+																		<td colspan="1" style="text-align: left;"><input
+																			style="width: 97%;" type="text" id="tagname"
+																			placeholder="Tag ID"
+																			onkeypress="javascript:Util.blockSpecialCharButNotUnderScore(window.event, this);">
+																		</td>
+																	</tr>
+																	<tr>
+																		<td style="text-align: left; width: 20%;">Tag
+																			Description</td>
+																		<td colspan="1" style="text-align: left;"><input
+																			style="width: 97%;" type="text" id="tagdesc"
+																			placeholder="Description"></td>
+																	</tr>
+
+																	<tr style="height: 41px;">
+																		<td style="text-align: left; width: 22%;">Select
+																			Namenode</td>
+																		<td style="text-align: left;"><select
+																			id="namenode" style="width: 100%;"
+																			onchange="javascript:MigrationDataTagger.namenodeChanged(this.value);">
+																				<option value="0">No NameNode</option>
+																		</select></td>
+																	</tr>
+																	<tr style="height: 41px;">
+																		<td style="text-align: left; width: 22%;">Select
+																			Database</td>
+																		<td style="text-align: left;"><select
+																			id="database" style="width: 100%;"
+																			onchange="javascript:MigrationDataTagger.databaseChanged(this.value);">
+																				<option value="0">No Database</option>
+																		</select></td>
+																	</tr>
+																	<tr style="height: 41px;">
+																		<td style="text-align: left; width: 22%;">Select
+																			Table</td>
+																		<td style="text-align: left;"><select id="schema"
+																			style="width: 100%;"
+																			onchange="javascript:MigrationDataTagger.schemaChanged(this.value);">
+																		</select></td>
+																	</tr>
+																	<tr>
+																		<td style="text-align: left; width: 20%;">Is
+																			Enabled</td>
+																		<td colspan="3" style="text-align: left;"><input
+																			type="checkbox" id="isactive" checked="checked">
+																		</td>
+																	</tr>
+
+																	<tr>
+																		<td colspan="3"
+																			style="text-align: right; padding: 15px 5px 10px 0px;">
+																			<input type="button" style="width: 70px;"
+																			class="buttonAdmin" id="nextbtn" value="Next"
+																			onclick="javascript:MigrationDataTagger.nextPageSwitch(1 , 2);" />
+																			<input type="button" style="width: 70px;"
+																			class="buttonAdmin" id="cancelbtn" value="Cancel"
+																			onclick="javascript:MigrationDataTagger.closeBox(false);" />
+																		</td>
+																	</tr>
+
+																</tbody>
+															</table>
+														</div>
+
+														<!-- ending of first page -->
+														<!-- Starting of second page -->
+														<div id="secondPage" style="display: none;">
+															<div id="secondPageDiv">
+																<table style="width: 600px; margin-top: 40px">
+																	<tr style="height: 41px; text-align: left;">
+																		<td nowrap="nowrap">Tag ID</td>
+																		<!-- <td nowrap="nowrap">Tag Description</td> -->
+																		<td nowrap="nowrap">Operator Type</td>
+																		<td nowrap="nowrap">Conditional Expression</td>
+																	</tr>
+																</table>
+																<table id="main_table_list" style="width: 600px;">
+																	<tbody>
+																		<tr id="row_1">
+																			<td colspan="1" style="text-align: left;"><input
+																				style="width: 97%;" type="text" id="tagname_1"
+																				placeholder="Tag ID"
+																				onkeypress="javascript:Util.blockSpecialCharButNotUnderScore(window.event, this);">
+																			</td>
+																			<!-- 
+                                               <td colspan="1" style="text-align: left;"><input
+                                                                                style="width: 97%;" type="text"
+                                                                                id="tagdesc_1"
+                                                                                placeholder="Description"></td>
+ -->
+																			<td id="where_operator_1" colspan="1" style=""><span
+																				class="sbox" style=""><input type="search"
+																					id="operatorBox_1" placeholder="Operator"
+																					results="0"
+																					onclick="MigrationDataTagger.showOperatorDiv(1);"
+																					onfocus="MigrationDataTagger.showOperatorDiv(1);"
+																					style="width: 100%;" readonly></span>
+																				<div id="operatorDiv_1" class="filtersBlock"
+																					style="display: none; max-height: 250px;">
+																					<span id="selectColClose1" class="divcloser">
+																						<!-- Add the function --> <a
+																						href="javascript:MigrationDataTagger.closeOperatorDiv(1);">
+																							<img src="images/light-box-close.png"
+																							class="closerImage">
+																					</a>
+																					</span>
+																					<table id="op_list_table_1">
+																						<tr>
+																							<td colspan="2"
+																								style="width: 20%; text-align: left;"><input
+																								type="radio" checked="checked"
+																								name="metatagvalue_1" id="mglobal_1"
+																								onclick="javascript:MigrationDataTagger.metachange(1,1);">
+																								&nbsp Global Function &nbsp &nbsp &nbsp <input
+																								type="radio" name="metatagvalue_1"
+																								id="moperation_1"
+																								onclick="javascript:MigrationDataTagger.metachange(2,1);">
+																								&nbsp Table Column Operator &nbsp &nbsp &nbsp <input
+																								type="radio" name="metatagvalue_1"
+																								id="mconstant_1"
+																								onclick="javascript:MigrationDataTagger.metachange(3,1);">
+																								&nbsp Constant Value</td>
+																						</tr>
+																						<tr id="metaconstant_1" style="display: none;">
+																							<!-- 
+<td
+																								style="width: 20%; padding: 0px; text-align: left;"></td>
+ -->
+																							<td style="width: 70%; padding: 5px;"><input
+																								id="metatagvaluec_1" style="width: 72%;"
+																								type="text" placeholder="Constant"> <select
+																								id="metaConstantDataType_1" style="width: 22%;">
+																									<option value="STRING">STRING</option>
+																									<option value="TIMESTAMP">TIMESTAMP</option>
+																									<option value="LONG">LONG</option>
+																									<option value="SHORT">SHORT</option>
+																									<option value="INTEGER">INTEGER</option>
+																									<option value="DOUBLE">DOUBLE</option>
+																									<option value="DECIMAL">DECIMAL</option>
+																									<option value="BLOB">BLOB</option>
+																									<option value="BOOLEAN">BOOLEAN</option>
+																							</select></td>
+																						</tr>
+																						<tr id="metaoperation_1" style="display: none;">
+																							<!-- 
+<td
+																								style="width: 20%; padding: 0px; text-align: left; height: 31px;"></td>
+ -->
+																							<td style="width: 70%; padding: 5px;"><span
+																								class="sbox" style=""> <input
+																									type="search" id="metavaluefun_1"
+																									placeholder="Select Operator" results="0"
+																									onclick="MigrationDataTagger.showmetaOperationDiv(1);"
+																									onfocus="MigrationDataTagger.showmetaOperationDiv(1);"
+																									style="width: 101%;" readonly>
+																							</span> <!-- hive operation div -->
+																								<div id="metaoperationdiv_1"
+																									class="filtersBlock"
+																									style="display: none; max-height: 250px; overflow-y: auto;">
+																									<span id="selectColClose" class="divcloser">
+																										<a
+																										href="javascript:MigrationDataTagger.closemetaOperationDiv(1);">
+																											<img src="images/light-box-close.png"
+																											class="closerImage">
+																									</a>
+																									</span>
+																									<table id="metaoperationdivtable_1">
+
+																									</table>
+																								</div></td>
+																						</tr>
+																						<tr id="metaglobal_1" style="display:;">
+																							<!-- 
+<td
+																								style="width: 20%; padding: 0px; text-align: left;"></td>
+ -->
+																							<td style="width: 30%; padding: 5px;"><select
+																								id="metavalueop_1" style="width: 100%;"
+																								onchange="javascript:MigrationDataTagger.metaValueChanged(1);">
+																									<option value="WordExists">WordExists</option>
+																									<option value="WordOccurrenceCount">WordOccurrenceCount</option>
+																									<option value="PatternExists">PatternExists</option>
+																									<option value="PatternMatchCount">PatternMatchCount</option>
+																									<option value="TotalWordCount">TotalWordCount</option>
+																									<option value="TotalLineCount">TotalLineCount</option>
+																							</select></td>
+																							<td style="width: 40%; padding: 5px;"><input
+																								type="text" id="metavaluecol_1"
+																								placeholder="Specify word"></td>
+																						</tr>
+																					</table>
+																				</div></td>
+																			<td id="where_select_1" style="" colspan="1"><span
+																				class="sbox" style=""> <input type="search"
+																					id="conditionBox_1" placeholder="Where..."
+																					results="0"
+																					onclick="MigrationDataTagger.showConditionDiv(1);"
+																					onfocus="MigrationDataTagger.showConditionDiv(1);"
+																					style="width: 100%;" readonly>
+																			</span>
+																				<div id="conditionDiv_1" class="filtersBlock"
+																					style="display: none; max-height: 250px; overflow-y: auto;">
+																					<span id="selectColClose" class="divcloser">
+																						<a
+																						href="javascript:MigrationDataTagger.closeConditionDiv(1);">
+																							<img src="images/light-box-close.png"
+																							class="closerImage">
+																					</a>
+																					</span>
+																					<table id="tag_list_table_1">
+																						<tbody>
+																							<tr>
+																								<td nowrap="nowrap">Select Column</td>
+																								<td nowrap="nowrap">Relational Operator</td>
+																								<td nowrap="nowrap">Value</td>
+																								<td nowrap="nowrap">Logical Operator</td>
+																								<td></td>
+																							</tr>
+																							<tr id="row_1_1">
+																								<td><select style="width: 100%"
+																									id="attr_1_1"
+																									onchange="javascript:MigrationDataTagger.updateRelOp(1,1);">
+																										<option value="0">--Select--</option>
+																								</select></td>
+																								<td><select id="op_1_1"
+																									style="width: 100%;">
+																										<option value="=">=</option>
+																										<option value="!=">!=</option>
+																										<option value=">">></option>
+																										<option value="<">&#60;</option>
+																										<option value=">=">>=</option>
+																										<option value="<=">&#60;=</option>
+																										<option value="CONTAINS">CONTAINS</option>
+																										<option value="STARTSWITH">STARTS
+																											WITH</option>
+																										<option value="ENDSWITH">ENDS WITH</option>
+																										<option value="CONTAINEDIN">IN</option>
+																										<option value="NOTCONTAINEDIN">NOT IN</option>
+																										<option value="LIKE">LIKE</option>
+																										<option value="NOTLIKE">NOT LIKE</option>
+																										<option value="BETWEEN">BETWEEN</option>
+																										<option value="NOTBETWEEN">NOTBETWEEN</option>
+																								</select></td>
+																								<td><input type="text" id="cond_1_1"
+																									placeholder="value"></td>
+																								<td><select id="lop_1_1"
+																									disabled="disabled" style="width: 75%;">
+																										<option value="or">OR</option>
+																										<option value="and">AND</option>
+																								</select></td>
+
+																								<td><a
+																									href="javascript:MigrationDataTagger.addConditionClicked(1, 1)">
+																										<img alt="Add Volume"
+																										src="images/plus_sign_brown.png"
+																										id="plusImage" style="height: 15px;">
+																								</a> <a
+																									href="javascript:MigrationDataTagger.removeConditionClicked(1, 1)"
+																									style="color: white;"> <img
+																										alt="Remove Volume"
+																										src="images/minus_sign_brown.png"
+																										id="minusImage"
+																										style="height: 10px; width: 20px;">
+																								</a></td>
+																							</tr>
+																					</table>
+																				</div></td>
+
+																			<td><a
+																				href="javascript:MigrationDataTagger.addTagClicked()">
+																					<img alt="Add Sign"
+																					src="images/plus_sign_brown.png" id="plusImage"
+																					style="height: 15px;">
+																			</a> <a
+																				href="javascript:MigrationDataTagger.removeTagClicked(1)"
+																				style="color: white;"> <img alt="Remove Sign"
+																					src="images/minus_sign_brown.png" id="minusImage"
+																					style="height: 10px; width: 20px;">
+																			</a></td>
+																		</tr>
+
+																	</tbody>
+																</table>
+																<div align="left">
+																	<span id="sub_error_span_1"
+																		style="display: none; color: red; text-align: left;"></span>
+																</div>
+																<table align="center" width="100%"
+																	style="border-collapse: collapse;">
+																	<tbody>
+																		<tr>
+																			<td colspan="3"
+																				style="text-align: right; padding: 15px 5px 10px 0px;"><input
+																				type="button" style="width: 70px;"
+																				class="buttonAdmin" id="backbtn" value="Back"
+																				onclick="javascript:MigrationDataTagger.nextPageSwitch(2 , 1);" />
+																				<input type="button" style="width: 70px;"
+																				class="buttonAdmin" id="nextbtn" value="Next"
+																				onclick="javascript:MigrationDataTagger.nextPageSwitch(2 , 3);" />
+																				<input type="button" style="width: 70px;"
+																				class="buttonAdmin" id="cancelbtn" value="Cancel"
+																				onclick="javascript:MigrationDataTagger.closeBox(false);" />
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+														<!-- starting third page -->
+														<div id="thirdPage" style="display: none;">
+															<table style="width: 600px; margin-top: 40px;">
+																<tbody>
+																	<tr>
+																		<td colspan="3"
+																			style="text-align: left; padding-left: 10px;">When
+																			do you want tags to be applied?</td>
+																	</tr>
+																	<tr>
+																		<td colspan="3"
+																			style="width: 20%; text-align: left; padding-left: 10px;">
+																			<input type="radio" style="margin-left: 30px;"
+																			checked="checked" name="applytagType" id="oningest"
+																			onclick="javascript:MigrationDataTagger.tagApplyChanged(1);">
+																			&nbsp On-Ingest &nbsp &nbsp &nbsp <input type="radio"
+																			name="applytagType" id="onpostingest"
+																			onclick="javascript:MigrationDataTagger.tagApplyChanged(2);">
+																			&nbsp Post-Ingest
+																		</td>
+																	</tr>
+																	<!-- 
+                                                                                <tr id="post-ingest_row-3" style="display: none;">
+                                                                                <td colspan="3"
+                                                                                    style="text-align: left; padding-left: 10px;">
+                                                                                    Processing Type</td>
+                                                                                </tr>
+                                                                    <tr id="post-ingest_row-4" style="display: none;">
+                                                                        <td colspan="3"
+                                                                            style="text-align: left; padding-left: 10px;"><input
+                                                                                type="radio" style="margin-left: 30px;" checked="checked"
+                                                                                name="applyProcessingType1" id="filelevelprocessing1">
+                                                                                &nbsp File Level Processing &nbsp &nbsp &nbsp <input
+                                                                                type="radio" name="applyProcessingType1"
+                                                                                id="recordlevelprocessing1"> &nbsp Record
+                                                                                Level Processing</td>
+                                                                                </tr>-->
+																	<tr id="post-ingest_row-1" style="display: none;">
+
+																		<td colspan="3"
+																			style="text-align: left; padding-left: 10px;">What
+																			Frequency?</td>
+
+																	</tr>
+																	<tr id="post-ingest_row-2" style="display: none;">
+																		<td colspan="3" style="text-align: left;"><span
+																			style="margin-left: 30px;">Every</span> &nbsp;&nbsp;<input
+																			type="text" id="frequency_interval"
+																			style="width: 60px;"
+																			onkeydown="javascript:Util.maskNumericInput(event);checkFirstZero(event, this);">&nbsp;&nbsp;
+																			<select id="time_unit">
+																				<option id="minutes">Minutes</option>
+																				<option id="hours">Hours</option>
+																		</select> Starting at &nbsp;&nbsp; <input type="text"
+																			id="post_ingest_starttime" readonly="readonly"
+																			alt="Select date &amp; time..."
+																			name="post_ingest_starttime" style="width: 30%;"
+																			width="180px;"> <!-- <a href="javascript:NewCal('post_ingest_starttime', 'MMddyyyy','arrow', true, '24', false);">
+                                                                                                     <img id="schedule" style="display: ;" src="images/calendar_16.gif"></img></a> -->
+																		</td>
+																	</tr>
+
+																	<tr>
+																		<td colspan="3">
+																			<hr>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td colspan="3"
+																			style="width: 20%; text-align: left; padding-left: 10px;">
+																			<input type="checkbox" id="applytag"
+																			onclick="javascript:MigrationDataTagger.tagApplyTime();">
+																			&nbsp; Apply this Data tag to existing data.
+																		</td>
+																	</tr>
+
+																	<tr id="apply-tag-time-row" style="display: none;">
+																		<td colspan="3"
+																			style="width: 20%; text-align: left; padding-left: 10px;">
+																			<input type="radio" name="applytagtime" id="applyNow"
+																			onclick="javascript:MigrationDataTagger.tagApplyScheduleTime(1);"
+																			style="margin-left: 30px;"> &nbsp Apply Now
+																			&nbsp &nbsp &nbsp <input type="radio"
+																			name="applytagtime" id="onschedule"
+																			onclick="javascript:MigrationDataTagger.tagApplyScheduleTime(2);">
+																			&nbsp Scheduled Time &nbsp; <span
+																			id="schedule-time-row-1"
+																			style="display: none; margin-left: 9%;"> <input
+																				type="text" id="starttime" readonly="readonly"
+																				alt="Select date &amp; time..." name="reportDate"
+																				style="width: 180px;" width="180px;"> <!-- <a href="javascript:NewCal('starttime', 'MMddyyyy','arrow', true, '24', false);">
+                                                                                                                               <img id="schedule" style="display: ;" src="images/calendar_16.gif"></img></a> -->
+																		</span>
+																		</td>
+																	</tr>
+																	<tr id="apply-tag-time-row_2" style="display: none;">
+																		<td colspan="3"
+																			style="text-align: left; padding-left: 10px;">
+																			Processing Type</td>
+																	</tr>
+																	<tr id="apply-tag-time-row_3" style="display: none;">
+																		<td colspan="3"
+																			style="text-align: left; padding-left: 10px;"><input
+																			type="radio" style="margin-left: 30px;"
+																			checked="checked" name="applyProcessingType"
+																			id="filelevelprocessing"> &nbsp File Level
+																			Processing &nbsp &nbsp &nbsp <input type="radio"
+																			name="applyProcessingType" id="recordlevelprocessing">
+																			&nbsp Record Level Processing</td>
+																	</tr>
+																	<!-- 	<tr style="height: 41px; ">
+                                                                                <td style="text-align: left; width:22%;">
+                                                                                    Scheduling Interval
+                                                                                </td>
+                                                                                <td style="text-align: left;">
+                                                                                    <select disabled="disabled" id="interval" style="width: 99%;">
+                                                                                        <option value="once">Once</option>
+                                                                                        <option value="twelvehours">Every Twelve Hours</option>
+                                                                                        <option value="daily">Daily</option>
+                                                                                        <option value="weekly">Weekly</option>
+                                                                                    </select>
+                                                                                </td>
+                                                                                </tr>	 -->
+
+																	<tr>
+																		<td colspan="3"
+																			style="text-align: right; padding: 15px 5px 10px 0px;">
+																			<input type="button" style="width: 70px;"
+																			class="buttonAdmin" id="backbtn" value="Back"
+																			onclick="javascript:MigrationDataTagger.nextPageSwitch(3 , 2);" />
+																			<input type="button" style="width: 70px;"
+																			class="buttonAdmin" id="addTagBtn" value="Add"
+																			onclick="javascript:MigrationDataTagger.saveEntry();" />
+																			<input type="button" style="width: 70px;"
+																			class="buttonAdmin" id="cancelbtn" value="Cancel"
+																			onclick="javascript:MigrationDataTagger.closeBox(false);" />
+																		</td>
+																	</tr>
+
+																</tbody>
+															</table>
+														</div>
+														<!-- ending of third page -->
+
+													</div> <!-- ending tag of notToc -->
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script>
+	$("#liConfig").addClass("active");
+	MigrationDataTagger.ready();
+	function checkFirstZero(event, element) {
+		var key = String.fromCharCode(!event.charCode ? event.which
+				: event.charCode);
+		if (element.value.length == 0 && key == 0) {
+
+			event.preventDefault();
+			return false;
+		}
+	}
+
+	//$('#separatorValue').val("\");
+</script>

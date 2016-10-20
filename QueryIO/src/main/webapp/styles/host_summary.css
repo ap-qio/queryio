@@ -1,0 +1,115 @@
+#host_summary .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+
+#host_summary #host_summary_chart_div
+{
+	margin-left: 10px;
+	margin-top: 10px;
+	float: left; 
+	width: 48.5%; 
+	text-align: left; 
+	text-indent: 1em;
+	position: relative;
+	border: solid 1px #ccc;
+	min-width: 420px;
+	height: 250px; 
+	-moz-border-top-left-radius: 5px;
+	-moz-border-top-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+#host_summary #host_summary_chart_div #host_summary_title,
+#host_status_title 
+{
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#579), to(#246));
+	background: #557799; /* Old browsers */
+	background: -moz-linear-gradient(top, #557799 0%, #224466 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#557799), color-stop(100%,#224466)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #557799 0%,#224466 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #557799 0%,#224466 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #557799 0%,#224466 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #557799 0%,#224466 100%); /* W3C */
+	 /* IE6-9 */
+	text-align:center;
+	color:white;
+	-moz-border-top-left-radius: 5px;
+	-moz-border-top-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	width: 100%;
+	height: 18px;
+	padding: 4px;
+	float: left;
+	font-size: 12px;
+}
+
+#host_summary #host_summary_chart
+{
+	margin-top: 20px;
+	height: 250px;
+	text-align: left; 
+	position: relative;
+}
+
+#host_summary #dn_status_table_div
+{
+	-moz-border-top-left-radius: 5px;
+	-moz-border-top-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	margin-top: 10px;
+	margin-left: 10px;
+	float: left; 
+	width: 49%; 
+	text-align: left; 
+	position: relative;
+	border: solid 1px #ccc;
+	height: 250px;
+}
+
+#dn_status_table_div .row {
+	float: left; 
+	width: 100%; 
+	text-align: left; 
+	height: 18px;
+	vertical-align: middle;
+}
+
+#dn_status_table_div .even {
+	background: #fff;
+	padding-top: 2px;
+	text-indent: 2em;
+}
+
+#dn_status_table_div .odd {
+	background: rgba(214, 231, 243, .8);
+	padding-top: 2px;
+	text-indent: 2em;
+}
+#host_summary_div,
+#host_summary_table_div {
+	margin-left: 10px;
+	margin-top: 10px;
+	/*border: solid 1px #ccc;*/
+	float: left;
+	width: 98.5%;
+}
+
+#host_summary_table_div table thead th,
+#host_summary_table_div table tbody tr td,
+{
+	font-size: 9pt;
+}
+
+
+	

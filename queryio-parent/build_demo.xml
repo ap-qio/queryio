@@ -1,0 +1,341 @@
+<?xml version="1.0"?>
+
+<project default="do.all" basedir=".">
+
+	<path id="quierio.demo.lib">
+		<fileset dir="${dir.source}/QueryIODemo/lib">
+			<include name="**/*.jar" />
+		</fileset>	
+	</path>
+	<path id="quierio.lib.yarnJars">
+		<fileset dir="${dir.source}/lib/yarnJars">
+			<include name="**/*.jar" />
+		</fileset>
+		
+	</path>
+	
+	<path id="quierio.others.jars">
+		<fileset dir="${dir.source}/lib/os3server">
+			<include name="LZ4Java.jar" />
+		</fileset>
+		<fileset dir="${dir.source}/lib/others">
+			<include name="snappy-java-1.0.4.1.jar" />
+		</fileset>
+		<fileset dir="${dir.source}/lib/QueryIOJars">
+			<include name="commons-collections-3.1.jar" />
+			<include name="mail-1.4.1.jar" />
+			<include name="json_simple-1.1.jar" />
+		</fileset>
+		<fileset dir="${dir.source}/QueryIODemo/lib">
+			<include name="commons-jexl-2.1.1.jar" />
+		</fileset>
+	</path>
+	
+	<path id="hadoop-2.2.0.lib" >
+			<fileset dir="${dir.source}/${hadoop.version}/lib">
+				<include name="commons-*.jar" />
+				<!-- include name="commons-io-2.4.jar" /-->
+				<!-- include name="commons-net-3.1.jar" /-->
+				<include name="json_simple-1.1.jar" />
+				<include name="mail-1.4.1.jar" />
+			</fileset>
+		</path>
+	
+	<path id="hadoop.extra.lib" >
+				<fileset dir="${dir.source}/lib/QueryIOCommonJars">
+					<include name="hadoop-common-2.0.2-alpha.jar" />
+					<include name="hadoop-hdfs-2.0.2-alpha.jar" />
+				</fileset>
+			</path>
+	
+	
+	<path id="queryio.lib.hadoop">
+			<fileset dir="${temp.build}">
+				<include name="QueryIOPlugins.jar" />
+				<include name="QueryIOCommon.jar" />
+				<include name="hadoop-custom-compiled.jar" />
+			</fileset>
+		</path>
+	
+	<target name="compile.all">
+		<javac srcdir="${dir.source}/QueryIODemo/src" destdir="${temp.build.demo.classes}" debug="on"  nowarn="on" optimize="on" target="1.7" source="1.7">
+			<classpath refid="quierio.demo.lib" />
+			<classpath refid="quierio.lib.yarnJars" />
+			<classpath refid="hadoop-2.2.0.lib" />
+			<!--classpath refid="hadoop.extra.lib" /-->
+			<classpath refid="queryio.lib.hadoop" />
+			<classpath refid="quierio.others.jars" />
+			<classpath>
+				<fileset dir="${temp.build.demo.classes}" />
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="create.DataTagParser.jar">
+		<unzip src="${dir.source}/QueryIODemo/lib/wikixmlj-r43.jar" dest="${temp.build.demo.classes}" />
+		
+		<!-- DataTagParser.jar -->
+		<!--jar jarfile="${QueryIOBuild}/demo/DataTagParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/datatags/*.class" />
+				<include name="**/datatags/common/*.class" />
+				<include name="edu/**" />
+			</fileset>
+		</jar-->
+		
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/DataTagParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/datatags/*.class" />
+				<include name="**/datatags/common/*.class" />
+				<include name="edu/**" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	
+	<target name="create.PostIngest.jar">
+		<!--jar jarfile="${QueryIOBuild}/demo/PostIngest.jar">
+			
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/extended/metadata/*.class" />
+			</fileset>
+		</jar-->
+	</target>
+	
+	<target name="create.LogParserMRJob.jar">
+		<jar jarfile="${QueryIOBuild}/demo/LogParserMRJob.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/mr/log/*.class" />
+				<include name="**/demo/common/*.class" />
+				<include name="**/job/*.class" />
+			</fileset>
+		</jar>
+	</target>
+		
+	<target name="create.CSVAdHocJob.jar">
+		<jar jarfile="${QueryIOBuild}/demo/CSVAdHocJob.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/mr/csv/*.class" />
+				<include name="**/job/*.class" />
+				<include name="org/**/*.class" />
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="create.PostIngestJob.jar">
+			<mkdir dir="${dir.queryio}/UserLibs/Plugins" />
+			<!--jar jarfile="${dir.queryio}/UserLibs/Plugins/PostIngestJob.jar">
+				<fileset dir="${temp.build.demo.classes}">
+					<include name="**/job/*.class" />
+					<include name="**/demo/common/*.class" />
+				</fileset>
+			</jar-->
+		
+		<!--GenericPostIngestJob.jar-->
+			<unzip src="${dir.source}/QueryIODemo/lib/wikixmlj-r43.jar" dest="${temp.build.demo.classes}" />
+			<unzip src="${dir.source}/lib/QueryIOJars/json_simple-1.1.jar" dest="${temp.build.demo.classes}/demo/json" />
+			<jar jarfile="${dir.queryio}/UserLibs/Plugins/GenericPostIngestJob.jar">
+				<fileset dir="${temp.build.demo.classes}">
+					<include name="**/demo/common/*.class" />
+					<include name="**/job/*.class" />
+					<include name="**/mr/generic/parser/*.class" />
+					<include name="**/datatags/*.class" />
+					<include name="**/datatags/common/*.class" />
+					<include name="edu/**" />
+				</fileset>
+				<fileset dir="${temp.build.demo.classes}/demo/json">
+	                <include name="**/*.class" />
+	            </fileset>
+			</jar>
+		</target>
+	
+	
+	
+	<target name="create.NCDCParser.jar">
+			<jar jarfile="${QueryIOBuild}/demo/NCDCparser.jar">
+				<fileset dir="${temp.build.demo.classes}">
+					<include name="**/ncdcgsod/*.class" />
+					<include name="**/demo/common/*.class" />
+					<include name="**/job/*.class" />
+					<include name="**/csv/Expression.class" />
+					<include name="**/csv/ExpressionRelations.class" />
+				</fileset>
+			</jar>
+		</target>
+		
+	<target name="create.WikiTextParser.jar">
+		<unzip src="${dir.source}/QueryIODemo/lib/wikixmlj-r43.jar" dest="${temp.build.demo.classes}" />
+		<jar jarfile="${QueryIOBuild}/demo/WikiTextParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="edu/**" />
+				<include name="**/datatags/WikiTextParser.class" />
+			</fileset>
+		</jar>
+	</target>
+	
+	<!--AdHocJob.jar-->
+	<target name="create.AdHocJob.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocJob.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/demo/common/*.class" />
+				<include name="**/adhoc/*.class" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<!--AdHocCSVParser.jar-->
+	<target name="create.AdHocCSVParser.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocCSVParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/adhoc/csv/*.class" />
+			</fileset>
+		</jar>
+		<!--copy todir="${QueryIOBuild}/demo">
+			<fileset dir="${dir.queryio}/UserLibs/Plugins">
+				<include name="AdHocCSVParser.jar" />
+			</fileset>
+		</copy-->
+	</target>
+	
+	<!--AdHocNCDCGSODParser.jar-->
+	<target name="create.AdHocNCDCGSODParser.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocNCDCGSODParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/adhoc/ncdcgsod/*.class" />
+			</fileset>
+		</jar>
+		
+		<!--copy todir="${QueryIOBuild}/demo">
+			<fileset dir="${dir.queryio}/UserLibs/Plugins">
+				<include name="AdHocNCDCGSODParser.jar" />
+			</fileset>
+		</copy-->
+	</target>
+	
+	<!--AdHocLOGParser.jar-->
+	<target name="create.AdHocLOGParser.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocLOGParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/adhoc/log/*.class" />
+			</fileset>
+		</jar>
+	</target>
+
+	<!--AdHocIISLOGParser.jar-->
+	<target name="create.AdHocIISLOGParser.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocIISLOGParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/adhoc/iislog/*.class" />
+			</fileset>
+		</jar>
+		<!--copy todir="${QueryIOBuild}/demo">
+			<fileset dir="${dir.queryio}/UserLibs/Plugins">
+				<include name="AdHocIISLOGParser.jar" />
+			</fileset>
+		</copy-->
+	</target>
+	
+	<!--AdHocJSONParser.jar-->
+	<target name="create.AdHocJSONParser.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocJSONParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/adhoc/json/*.class" />
+			</fileset>
+		</jar>
+		<!--copy todir="${QueryIOBuild}/demo">
+			<fileset dir="${dir.queryio}/UserLibs/Plugins">
+				<include name="AdHocJSONParser.jar" />
+			</fileset>
+		</copy-->
+	</target>
+	
+	
+	<!--AdHocKVPairsParser.jar-->
+	<target name="create.AdHocKVPairsParser.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocKVPairsParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/adhoc/kvpairs/*.class" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<!--AdHocMBoxParser.jar-->
+	<target name="create.AdHocMBoxParser.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocMBoxParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/adhoc/mbox/*.class" />
+			</fileset>
+		</jar>
+		<!--copy todir="${QueryIOBuild}/demo">
+			<fileset dir="${dir.queryio}/UserLibs/Plugins">
+				<include name="AdHocMBoxParser.jar" />
+			</fileset>
+		</copy-->
+	</target>
+	
+	<!--AdHocRegexParser.jar-->
+	<target name="create.AdHocRegexParser.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocRegexParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/adhoc/regex/*.class" />
+			</fileset>
+		</jar>
+	</target>
+
+	<!--AdHocXMLParser.jar-->
+	<target name="create.AdHocXMLParser.jar">
+		<jar jarfile="${dir.queryio}/UserLibs/Plugins/AdHocXMLParser.jar">
+			<fileset dir="${temp.build.demo.classes}">
+				<include name="**/adhoc/xml/*.class" />
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="create.jar">
+		<antcall target="create.DataTagParser.jar" />
+		<antcall target="create.PostIngest.jar" />
+		<antcall target="create.LogParserMRJob.jar" />
+		<antcall target="create.PostIngestJob.jar" />
+		<antcall target="create.WikiTextParser.jar" />
+		<antcall target="create.AdHocJob.jar" />
+		<antcall target="create.AdHocCSVParser.jar" />
+		<antcall target="create.AdHocNCDCGSODParser.jar" />
+		<antcall target="create.AdHocLOGParser.jar" />
+		<antcall target="create.AdHocIISLOGParser.jar" />
+		<antcall target="create.AdHocJSONParser.jar" />
+		<antcall target="create.AdHocKVPairsParser.jar" />
+		<antcall target="create.AdHocMBoxParser.jar" />
+		<antcall target="create.AdHocRegexParser.jar" />
+		<antcall target="create.AdHocXMLParser.jar" />
+	</target>
+	
+	<target name="copy.require.zip">
+		<copy todir="${QueryIOBuild}/demo">
+			<fileset dir="${dir.source}/QueryIODemo/stuff">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+	
+	
+	<target name="create.temp.dir">
+		<mkdir dir="${temp.build.demo.classes}" />
+		<mkdir dir="${QueryIOBuild}/demo" />
+		<antcall target="copy.require.zip" />
+	</target>
+	
+	<target name="clear">
+		<delete dir="${temp.build.demo.classes}" />
+	</target>
+		
+	
+ <target name="do.all" depends="create.temp.dir">
+	<antcall target="compile.all" />
+ 	<antcall target="create.jar" />
+ 	<antcall target="clear" />
+ </target>
+  
+</project>

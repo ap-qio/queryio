@@ -1,0 +1,30 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />-->
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<link rel="stylesheet" href="styles/alerts_list.css" type="text/css" />
+<script src="scripts/permissions.js"></script>
+<script src="scripts/jquery.alerts.js"></script>
+<script src="scripts/jquery.dataTables.js"></script>
+
+
+
+<div id='hosts_list' class="viewDiv">
+	<div id="hosts_table_div" style="width:99%">
+		<div id="hosts_buttons" class="buttons">
+			<button class="button" id="host.delete" onclick="javascript:Permissions.popUpAddGroup();">Add Group</button>
+			<button class="button" id="host.delete" onclick="javascript:Permissions.popUpDeleteGroup();">Delete Group</button>
+			 
+		</div>
+		<form action="">
+		<div style="margin: 10px; padding: 10px;">
+			<span>Group : <select id="groupName"></select> </span>
+		</div>
+		<div style=" padding: 10px; margin: 10px; text-align: center;" id="userTableDiv">
+		
+		<table id="userTable"  style="font-size: 9pt;"></table>
+		</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+ Permissions.ready();
+</script>

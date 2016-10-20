@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.2.v20120213 Build &lt;3.7.2.v20120214-1408></property>
+    <method name="onPrepare"><![CDATA[i=0;]]></method>
+    <list-property name="cssStyleSheets">
+        <structure>
+            <property name="fileName">/AppPerfect/HiperCloudStore/tomcat/webapps/queryio/css/sample.css</property>
+        </structure>
+    </list-property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.hive" name="Data Source" id="63">
+            <property name="odaDriverClass">org.apache.hive.jdbc.HiveDriver</property>
+            <property name="odaURL">jdbc:hive2://192.168.0.11:10000/default</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.hive.JdbcSelectDataSet" name="Data Set" id="6">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">ip</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">cpu</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">ram</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">diskread</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">diskwrite</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">netread</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">netwrite</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">ip</property>
+                    <property name="nativeName">ip</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">cpu</property>
+                    <property name="nativeName">cpu</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">ram</property>
+                    <property name="nativeName">ram</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">diskread</property>
+                    <property name="nativeName">diskread</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">diskwrite</property>
+                    <property name="nativeName">diskwrite</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">netread</property>
+                    <property name="nativeName">netread</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">netwrite</property>
+                    <property name="nativeName">netwrite</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT *  FROM ADHOC1CSVTABLE WHERE CPU >   95 LIMIT 300]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="crosstab-cell" id="2">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="3">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Master Page" id="4">
+            <property name="style">bodyClass</property>
+            <page-footer>
+                <grid id="7">
+                    <property name="width">100%</property>
+                    <column id="8"/>
+                    <row id="9">
+                        <cell id="10">
+                            <property name="style">reportFooter</property>
+                            <text id="11">
+                                <property name="width">100%</property>
+                                <property name="contentType">html</property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="12">
+            <property name="height">100%</property>
+            <property name="width">100%</property>
+            <column id="13"/>
+            <row id="14">
+                <property name="height">100%</property>
+                <cell id="15">
+                    <property name="style">reportHeader</property>
+                    <label id="16">
+                        <property name="width">100%</property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <table id="17">
+            <property name="borderBottomColor">#9B9B9B</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">2px</property>
+            <property name="borderLeftColor">#9B9B9B</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">2px</property>
+            <property name="borderRightColor">#9B9B9B</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">2px</property>
+            <property name="borderTopColor">#9B9B9B</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">2px</property>
+            <property name="textAlign">center</property>
+            <property name="overflow">auto</property>
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">IP</property>
+                    <expression name="expression">dataSetRow["ip"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CPU</property>
+                    <expression name="expression">dataSetRow["cpu"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">RAM</property>
+                    <expression name="expression">dataSetRow["ram"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">DISKREAD</property>
+                    <expression name="expression">dataSetRow["diskread"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">DISKWRITE</property>
+                    <expression name="expression">dataSetRow["diskwrite"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">NETREAD</property>
+                    <expression name="expression">dataSetRow["netread"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">NETWRITE</property>
+                    <expression name="expression">dataSetRow["netwrite"]</expression>
+                </structure>
+            </list-property>
+            <column id="56"/>
+            <column id="57"/>
+            <column id="58"/>
+            <column id="59"/>
+            <column id="60"/>
+            <column id="61"/>
+            <column id="62"/>
+            <header>
+                <row id="18">
+                    <cell id="19">
+                        <property name="style">tableHeaderString</property>
+                        <label id="20">
+                            <text-property name="text">IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="21">
+                        <property name="style">tableHeaderNumber</property>
+                        <label id="22">
+                            <text-property name="text">CPU</text-property>
+                        </label>
+                    </cell>
+                    <cell id="23">
+                        <property name="style">tableHeaderNumber</property>
+                        <label id="24">
+                            <text-property name="text">RAM</text-property>
+                        </label>
+                    </cell>
+                    <cell id="25">
+                        <property name="style">tableHeaderNumber</property>
+                        <label id="26">
+                            <text-property name="text">DISKREAD</text-property>
+                        </label>
+                    </cell>
+                    <cell id="27">
+                        <property name="style">tableHeaderNumber</property>
+                        <label id="28">
+                            <text-property name="text">DISKWRITE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="29">
+                        <property name="style">tableHeaderNumber</property>
+                        <label id="30">
+                            <text-property name="text">NETREAD</text-property>
+                        </label>
+                    </cell>
+                    <cell id="31">
+                        <property name="style">tableHeaderNumber</property>
+                        <label id="32">
+                            <text-property name="text">NETWRITE</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="33">
+                    <method name="onRender"><![CDATA[if (i == 0) { this.getStyle().backgroundColor = 'rgb(237, 243, 254)'; i=1; } else { this.getStyle().backgroundColor = 'lightgray'; i=0; }]]></method>
+                    <cell id="34">
+                        <property name="style">tableDetailString</property>
+                        <data id="35">
+                            <property name="resultSetColumn">IP</property>
+                        </data>
+                    </cell>
+                    <cell id="36">
+                        <property name="style">tableDetailNumber</property>
+                        <data id="37">
+                            <property name="resultSetColumn">CPU</property>
+                        </data>
+                    </cell>
+                    <cell id="38">
+                        <property name="style">tableDetailNumber</property>
+                        <data id="39">
+                            <property name="resultSetColumn">RAM</property>
+                        </data>
+                    </cell>
+                    <cell id="40">
+                        <property name="style">tableDetailNumber</property>
+                        <data id="41">
+                            <property name="resultSetColumn">DISKREAD</property>
+                        </data>
+                    </cell>
+                    <cell id="42">
+                        <property name="style">tableDetailNumber</property>
+                        <data id="43">
+                            <property name="resultSetColumn">DISKWRITE</property>
+                        </data>
+                    </cell>
+                    <cell id="44">
+                        <property name="style">tableDetailNumber</property>
+                        <data id="45">
+                            <property name="resultSetColumn">NETREAD</property>
+                        </data>
+                    </cell>
+                    <cell id="46">
+                        <property name="style">tableDetailNumber</property>
+                        <data id="47">
+                            <property name="resultSetColumn">NETWRITE</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="48">
+                    <cell id="49"/>
+                    <cell id="50"/>
+                    <cell id="51"/>
+                    <cell id="52"/>
+                    <cell id="53"/>
+                    <cell id="54"/>
+                    <cell id="55"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

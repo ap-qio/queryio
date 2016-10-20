@@ -1,0 +1,192 @@
+ul#tabs {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	float: left;
+	/* background: url(../images/tabs_bg.jpeg) repeat-x left bottom transparent; */
+}
+ul#tabs li{
+	float: left;
+	width: 100%;
+	background-color: #fff;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+/* 	font-family: 'OpenSans-Regular', "Lucida Grande", sans-serif;
+	display: inline;
+	text-align: center !important;
+	z-index: 222;
+	margin: 0; */
+}
+
+.active{
+	color: #fff !important;
+	/* background: #DDD !important; */
+	text-decoration: none !important;	
+	background: repeat-x left top #82A9c4 !important;
+}
+
+ul#tabs li a {
+	
+/* border: 1px solid #fff;
+text-decoration: none;
+display: inline-block;
+color: #666666;
+height: 28px;
+min-width: 75px;
+padding: 0 12px;
+line-height: 40px;
+font-size: 12px;
+font-weight: normal;
+position: relative;
+border-radius: 7px 7px 0 0;
+-moz-border-radius: 7px 7px 0 0;
+-webkit-border-radius: 7px 7px 0 0;
+background: repeat-x left top #DDD; */
+	display: block;
+	padding: 10px 0 10px 0px;
+	text-decoration: none;
+}
+
+ul#tabs li a:ACTIVE, ul#tabs li a:hover {
+color: #666666 !important;
+background: #DDD;
+text-decoration: none !important;
+}
+
+#automate_cluster_setup_box .left {
+	width: 20%;
+	float: left;
+}
+
+#automate_cluster_setup_box .right {
+	float: right;
+}
+
+#hostsTable tr:first-child td {
+	padding: 3px 10px;
+}
+
+#searchHostsPattern {
+	width: 100%;
+	height: 70px;
+}
+
+#searchedHostTable th {
+	text-align: center;
+}
+
+#searchedHostTable tbody tr:nth-child(odd) {
+	background-color: #e8f1f7;
+}
+
+#searchedHostTable tbody tr:nth-child(even) {
+	background-color: #ffffff;
+}
+
+#searchedHostTable tbody tr:nth-child(odd) td.sorting_1 {
+	background-color: #e8f1f7;
+}
+
+#hostsCredentials span {
+	font-size: 12px;
+	float: left;
+}
+
+#automate_cluster_setup_main_box input[type='text'], #automate_cluster_setup_main_box input[type='password'] {
+	width: 100%;
+}
+
+#hostsTable input[type='text'], #hostsTable input[type='password'] {
+	width: 95%;
+}
+
+#hostsTable1 input[type='text'], #hostsTable1 input[type='password'] {
+	width: 95%;
+}
+
+#cluster_setup_services_table thead th, #hostsTable thead th{
+	text-align: center;
+}
+
+.dataNodeDisk, .nameNodeDisk, .nameNodeMetaStore, .nameNodeAdhocDb {
+	float: left;
+}
+
+.nameNodeConfig, .dataNodeConfig, .RMConfig, .NMConfig {
+	vertical-align: top;
+}
+
+.statusDiv {
+	display: table;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+#progressStatus span {
+	margin-left: 10px;
+}
+
+#progressStatus {
+	margin-right: 20px;
+	float: right;
+}
+
+/* #searchHostsDiv {
+	float: right;
+	width: 90%;
+} */
+
+cluster_install_status_table tr:first-child td
+{
+	text-align: left;
+}
+
+ul#abs {
+	margin-left : 2%;
+	/* list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	float: left; */
+	/* background: url(../images/tabs_bg.jpeg) repeat-x left bottom transparent; */
+}
+
+
+ul#abs li{
+	/* float: left;
+	width: 100%; */
+	/* background: url(../images/top_bar_gradient.png) repeat-x left bottom transparent; */
+	background-color: rgb(216, 215, 215);
+	/* border-bottom: 1px solid #ddd; */
+	border-right: 1px solid  rgb(229, 229, 229);
+	border-left: 1px solid  rgb(229, 229, 229);
+	border-top: 1px solid  rgb(229, 229, 229);
+	height: 26px;
+	padding-top: 9px;
+	font-size: 12px;
+	width: 24%;
+	color: #555;
+/* 	font-family: 'OpenSans-Regular', "Lucida Grande", sans-serif;
+	display: inline;
+	text-align: center !important;
+	z-index: 222;
+	margin: 0; */
+}
+
+.active{
+	color: #2B4D6F !important; 
+	/* background: #DDD !important; */
+	text-decoration: none !important;	
+	background: #fff !important;
+}
+
+
+.menu { padding:0; margin:0; width:400px; float:left;}
+.menu ul { padding:0; margin:0; list-style:none; border:0; float:left;}
+.menu ul li { float:left; margin:0; padding:0; border:0;}
+.menu ul li a { float:left; margin:0; padding:13px 10px;  text-decoration:none; border:1px solid #000;}
+
+#hostsCredentials input[type='text'], #hostsCredentials input[type='password'] {
+	width: 95%;
+}

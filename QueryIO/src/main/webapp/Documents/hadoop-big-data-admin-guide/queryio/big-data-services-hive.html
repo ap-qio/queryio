@@ -1,0 +1,55 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hive Services</title>
+</head>
+<body>
+<h1 id="host"><span>Hive Services</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains Hive services with QueryIO.</p>
+<ul>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#ss">Start/Stop Service</a></li>	
+</ul>
+
+<h2 id="intro"><span>Introduction</span></h2>
+
+<p>Hive is a data warehouse system for Hadoop that facilitates easy data summarization, ad-hoc queries, and the analysis of large datasets stored in Hadoop compatible file systems. 
+Hive provides a mechanism to project structure onto this data and query the data using a SQL-like language called HiveQL. 
+At the same time this language also allows traditional map/reduce programmers to plug in their custom mappers and reducers when it is inconvenient or inefficient to express this logic in HiveQL.</p>
+
+<p>QueryIO manages one Hive server per NameNode on the same system where the NameNode is installed.</p>
+
+<p>To manage Hive service, go to <b>Admin > Manage Hive</b> tab. 
+Go to <b>Hive Services</b> tab. 
+Hive services related to each NameNode are displayed.</p>
+
+<p>Hive are installed along with <b>NameNode</b> and started automatically.</p>
+
+<img src="images/screenshots/hive-service.jpeg"/>
+<p>Following details about services are displayed:</p>
+<ul>
+	<li><b>Hive Service: </b> Name of the service.</li>
+	<li><b>Host:</b> Host on which service is installed.</li>
+	<li><b>Status:</b> State of the service as "Started" or "Stopped"</li>
+	<li><b>Server Log:</b> Click on <b>View Log</b> to view Server Log.</li>
+</ul>
+
+<h2 id="ss"><span>Start/Stop Service</span></h2>
+<p>QueryIO provides service to start or stop services on a particular NameNode.</p>
+<p>Select the NameNode and click on "Start" or "Stop" buttons to perform start/stop operations on the associated Hive services respectively.</p>
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>
+

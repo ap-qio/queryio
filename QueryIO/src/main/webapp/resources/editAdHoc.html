@@ -1,0 +1,241 @@
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+
+<style>
+#columnListContainer td {
+	padding: 0px 2px 0px 2px;
+}
+</style>
+
+<div id="host_create" class="lightbox" style="width: 550px;">
+	<div id="close" class="close">
+		<a href="javascript:AHQ.closeBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+
+
+	<table class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Edit AdHoc Query</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table align="center" width="100%"
+						style="border-collapse: collapse;">
+						<tbody>
+							<tr>
+								<td id="msg_td">
+									<div class="instructional" id="inst">Edit AdHoc Query
+										details.</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<hr>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="firstPage" style="display:">
+										<table width="100%" class="form_table" id="table"
+											style="display:">
+											<tbody>
+												<tr>
+													<td style="text-align: left; width: 25%;">AdHoc Id*</td>
+													<td colspan="2" style="text-align: left; width: 55%;">
+														<span> <input style="width: 90%;" type="text"
+															name="adHocId" id="adHocId" value=""
+															onkeypress="javascript:Util.blockSpecialChar(event);">
+													</span>
+													</td>
+												</tr>
+
+												<tr>
+													<td style="width: 25%;">File Type*</td>
+													<td style="width: 55%;" colspan="2"><select
+														id="adHocType" name="adHocType" style="width: 93%;"
+														onchange="javascript:AHQ.changeOptions(this.options[this.selectedIndex].value);">
+															<option value="CSV">CSV / TSV</option>
+															<option value="LOG">LOG4J</option>
+															<option value="ACCESSLOG">Apache Log</option>
+															<option value="IISLOG">IIS LOG</option>
+															<!-- <option value="FIXED">Fixed Width</option> -->
+															<option value="JSON">JSON</option>
+															<option value="PAIRS">Key/Value Pairs</option>
+															<option value="MBOX">MBox</option>
+															<option value="REGEX">Regex Parsable Text</option>
+															<!-- <option value="SEQUENCE">Sequence File with Metadata</option>  -->
+															<option value="XML">XML</option>
+													</select></td>
+												</tr>
+
+												<tr>
+													<td style="width: 25%;">NameNode*</td>
+													<td style="width: 55%;" colspan="2"><select
+														id="nameNodeId" name="nameNodeId" style="width: 93%;"></select>
+													</td>
+												</tr>
+												<tr>
+													<td style="width: 25%;">ResourceManager*</td>
+													<td style="width: 55%;" colspan="2"><select
+														id="resourceManagerId" name="resourceManagerId"
+														style="width: 93%;"></select></td>
+												</tr>
+												<tr>
+													<td style="vertical-align: top;width: 20%;text-align:left;">HDFS Source Path*</td>
+													<td style="width: 55%;" colspan="2"><span> <input style="width: 90%;" type="text" name="sourcePath" value="" id="sourcePath">
+													<div style="text-align: left; padding-right: 10px; padding-top: 5px; color: #999;">
+														<span>
+															Specified location should not contain any sub directories. It should only contain source files which needs to be processed.
+														</span>
+													</div>
+													</span>
+													</td>
+												</tr>
+												
+												<tr>
+													<td style="width: 25%;">File Filter Pattern</td>
+													<td style="width: 55%;" colspan="2"><span> <input
+															style="width: 90%;" type="text" name="filePattern"
+															id="filePattern" value="" onkeypress="">
+													</span></td>
+												</tr>
+
+												<tr>
+													<td style="width: 25%;">AdHoc Table Name*</td>
+													<td style="width: 55%;" colspan="2"><span> <input
+															style="width: 90%;" type="text" name="adHocTableName"
+															id="adHocTableName" value="">
+													</span></td>
+												</tr>
+
+												<tr>
+													<td style="text-align: left;"><span>Encoding*</span></td>
+													<td style="text-align: left;" colspan="2"><select
+														id="encoding" name="encoding"
+														style="float: left; width: 93%;"
+														onchange="javascript:AHQ.setEncoding(this.options[this.selectedIndex].value);">
+															<option value="UTF-8">UTF-8</option>
+															<option value="Big5-HKSCS">Big5-HKSCS</option>
+															<option value="EUC-JP">EUC-JP</option>
+															<option value="EUC-KR">EUC-KR</option>
+															<option value="GB18030">GB18030</option>
+															<option value="GB2312">GB2312</option>
+															<option value="GBK">GBK</option>
+															<option value="IBM-Thai">IBM-Thai</option>
+															<option value="IBM00858">IBM00858</option>
+															<option value="IBM01140">IBM01140</option>
+															<option value="IBM01141">IBM01141</option>
+															<option value="IBM01142">IBM01142</option>
+															<option value="IBM01143">IBM01143</option>
+															<option value="IBM01145">IBM01145</option>
+															<option value="IBM01146">IBM01146</option>
+															<option value="IBM01147">IBM01147</option>
+															<option value="IBM01148">IBM01148</option>
+															<option value="IBM01149">IBM01149</option>
+															<option value="IBM037">IBM037</option>
+															<option value="IBM1026">IBM1026</option>
+															<option value="IBM1047">IBM1047</option>
+															<option value="IBM273">IBM273</option>
+															<option value="IBM277">IBM277</option>
+															<option value="IBM278">IBM278</option>
+															<option value="IBM280">IBM280</option>
+															<option value="IBM284">IBM284</option>
+															<option value="IBM285">IBM285</option>
+															<option value="IBM297">IBM297</option>
+															<option value="IBM420">IBM420</option>
+															<option value="IBM424">IBM424</option>
+															<option value="IBM437">IBM437</option>
+															<option value="ISO-2022-CN">ISO-2022-CN</option>
+															<option value="ISO-2022-JP">ISO-2022-JP</option>
+															<option value="ISO-2022-JP-2">ISO-2022-JP-2</option>
+															<option value="ISO-2022-KR">ISO-2022-KR</option>
+															<option value="ISO-8859-1">ISO-8859-1</option>
+															<option value="ISO-8859-13">ISO-8859-13</option>
+															<option value="ISO-8859-15">ISO-8859-15</option>
+															<option value="ISO-8859-2">ISO-8859-2</option>
+															<option value="ISO-8859-3">ISO-8859-3</option>
+															<option value="ISO-8859-4">ISO-8859-4</option>
+															<option value="ISO-8859-5">ISO-8859-5</option>
+													</select></td>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<hr>
+													</td>
+												</tr>
+
+												<tr>
+													<td></td>
+													<td style="float: right;"><input style="width:60px;" type="button"
+														class="buttonAdmin" id="nextbtn" value="Next"
+														onclick="javascript:AHQ.nextPageSwitchEdit(1 , 2);" /> <input style="width: 60px"
+														type="button" class="buttonAdmin" id="cancelbtn"
+														value="Cancel" onclick="javascript:AHQ.closeBox(false);" />
+													</td>
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									<div id="thirdPage" style="display: none;">
+										<table align="center" width="100%"
+											style="border-collapse: collapse;">
+											<tbody>
+												<tr>
+													<td colspan="3">
+														<div>
+															<div>
+																<a>Column Details</a>
+															</div>
+														</div>
+														<div id="columnListContainer"
+															style="overflow: auto; height: auto; max-height: 275px; width: auto; max-width: 500px;">
+															<table id="columnListGrid"></table>
+															<div id="columnListPager"></div>
+														</div>
+													</td>
+												</tr>
+
+												<tr>
+													<td>
+														<hr>
+													</td>
+												</tr>
+												<tr>
+													<td style="text-align: right; padding: 15px 5px 10px 0px;">
+														<input style="width: 60px" type="button" class="buttonAdmin" id="backbtn"
+														value="Back"
+														onclick="javascript:AHQ.nextPageSwitchEdit(2 , 1);" /> <input style=" width: 60px"
+														type="button" class="buttonAdmin" id="nextbtn"
+														value="Submit" onclick="javascript:AHQ.updateEntry();" />
+														<input style=" width: 60px" type="button" class="buttonAdmin" id="cancelbtn"
+														value="Cancel" onclick="javascript:AHQ.closeBox(false);" />
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+<script>
+	AHQ.fillClusterNameNodeID();
+</script>

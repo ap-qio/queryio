@@ -1,0 +1,1448 @@
+
+<script type="text/javascript" src="scripts/chart_preferences.js"></script>
+<script type="text/javascript" src="scripts/jpicker-1.1.6.min.js"></script>
+
+ <script src="scripts/jquery.custom.jqplot.js?version=2"></script> 
+<link rel="Stylesheet" type="text/css" href="styles/jPicker-1.1.6.min.css" />
+<link rel="stylesheet" href="styles/chart_preference.css" type="text/css" />
+<div id=chart_preference_lightbox class="lightbox" style="width: 1200px;">
+<div id="close" class="close">
+	<a href="javascript:closePreferncesBox();"><img src="images/light-box-close.png"></a>
+</div>
+    <table id="host_create_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">Chart Preferences</span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td id="msg_td">
+                	<div id ="chart_preferences_box" class="instructional" style="text-align: center; width: 100%;">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+								<div id = 'chart_preference_type' class = 'left'>
+
+									<ul id="tabs" style="">
+										<li id="liCommon"><a href="javascript:CHARTPR.LoadPRBox('common',this.id);" id="common">Chart Area</a></li>
+										<li id="liTitle"><a href="javascript:CHARTPR.LoadPRBox('title',this);" id="title">Title</a></li>                
+							            <li id="liLeader"><a href="javascript:CHARTPR.LoadPRBox('leader_lines',this);" id="leader_lines">Leader Lines</a></li>
+							            <li id="liX"><a href="javascript:CHARTPR.LoadPRBox('x_legend',this);" id="x_legend">X-Axis</a></li>
+							            <li id="liY"><a href="javascript:CHARTPR.LoadPRBox('y_legend',this);" id="y_legend">Y-Axis</a></li>
+							            <li id="liLabel"><a href="javascript:CHARTPR.LoadPRBox('label',this);" id="label" >Label</a></li>
+							            <li id="liLegend"><a href="javascript:CHARTPR.LoadPRBox('legend',this);" id="legend" style="border-bottom: 1px solid #ddd;">Legend</a></li>
+									</ul>
+								</div>
+								
+									<div id="chart_prefernces_main_box"  class = 'right' >
+											
+											<div id = 'chart_prefernces_common' class = 'pc'>
+												<table id="commonTable" style="text-align: left;">
+													<tr>
+														<td style="font-weight: bold;">
+															Chart Area
+														</td>
+													</tr>
+													<tr>
+														<td nowrap="nowrap">
+															Background
+														</td>
+														<td>
+															<input type = 'text' id = 'Background' class = 'applyJPicker' size="7" style="display: none">
+														</td>
+														<td nowrap="nowrap">
+															Client Background
+														</td>
+														<td>
+															<input type = 'text' id = 'ClientBackground'  class = 'applyJPicker' size="7" style="display: none">
+														</td>
+														
+													</tr>
+													<tr>
+														<td nowrap="nowrap">
+															Plot Background
+														</td>
+														<td >
+															<input type = 'text' id = 'PlotBackground'  class = 'applyJPicker' size="7" style="display: none">
+														</td>
+														<td nowrap="nowrap">
+															Empty Chart Message
+														</td>
+														<td >
+															<input type = 'text' id = 'EmptyChartMessage'>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2">
+															Applicable only for 3-D charts
+														</td>
+														<td colspan="2">
+															<hr>
+														</td>
+													</tr>
+													<tr>
+														<td nowrap="nowrap">
+															Floor Background
+														</td>
+														<td>
+															<input type = 'text' id = 'FloorBackground'  class = 'applyJPicker' size="7" style="display: none">
+														</td>
+														<td nowrap="nowrap">
+															Wall Background
+														</td>
+														<td>
+															<input type = 'text' id = 'WallBackground'  class = 'applyJPicker' size="7" style="display: none">
+														</td>
+														
+													</tr>
+													
+													<tr><td colspan="6"><hr></td></tr>
+													<tr id="colorplate1row">
+																<td style="font-weight: bold;">
+																	Chart Colors 
+																</td>
+																<td colspan="4">
+																	<input type = 'text' id = 'color1' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/> 
+																	<input type = 'text' id = 'color2' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/> 
+																	<input type = 'text' id = 'color3' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/> 
+																	<input type = 'text' id = 'color4' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/> 
+																	<input type = 'text' id = 'color5' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/> 
+																	<input type = 'text' id = 'color6' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/> 
+																	<input type = 'text' id = 'color7' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/> 
+																	<input type = 'text' id = 'color8' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/> 
+																	<input type = 'text' id = 'color9' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/>
+																	<input type = 'text' id = 'color10' class = 'applyJPicker' size="7" style="display: none;" value="#7F7F7F"/> 
+																</td>
+															</tr>
+													<tr><td colspan="6"><hr></td></tr>
+													
+													<tr>
+															<td style="font-weight: bold;">
+																Outline
+															</td>
+													</tr>
+													<tr>
+															<td >
+																Visible
+															</td>
+															<td>
+																<input type = "checkbox" id = 'outlineVisible' style="float: left;" onclick="javascript:CHARTPR.outlineVisible('')">
+															</td>
+															<td>
+																Color
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'outlineColor'   class = 'applyJPicker' size="7" style="display: none">
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Width
+															</td>
+															<td style="float: left;">
+																<select style="width : 100px" id = 'outlineWidth'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+															</td>
+															<td>
+																Style
+															</td>
+															<td style="float: left;">
+																<select style="width: 100px;" id = 'outlineStyle'>
+																		<option value="Solid">_____________</option>
+																		<option value="Dashed">------------</option>
+																		<option value="Dotted">.....................</option>
+																	</select>
+															</td>
+														</tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+																<td style="font-weight: bold;">
+																	Insets
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Top
+																</td>
+																<td>
+																	<input type = 'text' id = 'insetsTop'>
+																</td>
+																<td>
+																	Bottom
+																</td>
+																<td>
+																	<input type = 'text' id = 'insetBottom'>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Left
+																</td>
+																<td>
+																	<input type = 'text' id = 'insetLeft'>
+																</td>
+																<td>
+																	Right
+																</td>
+																<td>
+																	<input type = 'text' id = 'insetRight'>
+																</td>
+															</tr>
+												</table>
+											</div>
+											
+												<div id = 'chart_prefernces_color_palette'>
+													<table id="colorPaletteTable">
+															
+													</table>
+											</div>
+											
+											<div id="chart_prefernces_leader_lines">
+												<table style="text-align: left;" id="LeaderLinesTable" >
+														<tr>
+															<td style="font-weight: bold;" nowrap="nowrap">
+																Leader Lines
+															</td>
+														</tr>
+														<tr>
+															<td style="text-align: left;" colspan="2">
+																Applicable only for Pie Chart
+															</td>
+															<td colspan="4">
+																<hr>
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Visible
+															</td>
+															<td>
+																<input type = 'checkbox' id = 'leaderLinesVisible' checked="checked" style="float: left;" onclick="javascript:CHARTPR.leaderLineVisible()">
+															</td>
+															<td >
+																Color
+															</td>
+															<td style="text-align: left;">
+																<input type = 'text' id = 'leaderLineColor'  class = 'applyJPicker' size="7" style="display: none">
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Width
+															</td>
+															<td>
+																<select style="width: 100px;" id = 'leaderLineWidth'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+															</td>
+															<td >
+																Style
+															</td>
+															<td style="float: left;">
+																<select id = 'leaderLinesStyle' style="width: 115px;">
+																	<option value = 'fixed'>Fixed length</option>
+																	<option value = 'stretch'>Stretch to Slide</option>
+																</select>
+															</td>
+														</tr>
+														<tr >
+															<td nowrap="nowrap">
+																Line Style
+															</td>
+															<td>
+																<select style="width: 100px;" id = 'leaderLinesLineStyle'>
+																		<option value="Solid">_____________</option>
+																		<option value="Dashed">------------</option>
+																		<option value="Dotted">.....................</option>
+																	</select>
+															</td>
+															<td nowrap="nowrap">
+																Line length
+															</td>
+															<td>
+																<input type = 'text' id = 'leaderLineLength'  style="width: 100px;">
+															</td>
+														</tr>
+														
+												</table>
+											</div>
+											
+											<div id="chart_prefernces_x_legend">
+												<table id="xLegendTable">
+														<tr>
+															<td style="font-weight: bold;">
+																Visible
+															</td>
+															<td>
+																<input type = 'checkbox' id = 'xAxisShow' checked="checked" onclick="javascript:CHARTPR.axisVisible('x')">
+															</td>
+														</tr>
+														<tr>
+															<td colspan="2">
+																Not applicable for Pie Chart
+															</td>
+															<td colspan="2">
+																<hr>
+															</td>
+														</tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Format
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Position
+															</td>
+															<td style="float: left;">
+																<select id = 'legendxPosition' style="width: 100px;">
+																	<option value = 'above'>Above</option>
+																	<option value = 'below'>Below</option>
+																</select>
+															</td>
+														
+															<td nowrap="nowrap">
+																Font-size
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'xFontSize' style="width: 35px;">
+																px
+																<!-- select id = 'legendxFontSizeType'>
+																	<option value = 'px'>px</option>
+																	<option value = 'pt'>pt</option>
+																</select-->
+															</td>
+														</tr>
+														<tr>
+																<td nowrap="nowrap">
+																	Background
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'xBackground' class = 'applyJPicker' size="7" style="display: none">
+																</td>
+																<td nowrap="nowrap">
+																	Shadow
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'xShadow' class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+														<tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Font
+															</td>
+														</tr>
+														<tr>
+															<td nowrap="nowrap">
+																Font Family
+															</td>
+															<td>
+																<select style="width: 100px;" id="legendxFontFamily" class="fontFamilyContainer"><option value="Arial">Arial</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="Courier">Courier</option></select>
+															</td>
+														
+															<td nowrap="nowrap">
+																Font Color
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'legendxFontColor' class = 'applyJPicker' size="7" style="display: none">
+															</td>
+														</tr>
+														<tr>
+															<td nowrap="nowrap">
+																Text Align
+															</td>
+															<td>
+																<select id = 'legendxFontTextAlign' style="width: 100px;">
+																	<option value = 'left'>Left</option>
+																	<option value = 'center'>Center</option>
+																	<option value = 'right'>Right</option>
+																	<option value = 'justify'>Justify</option>
+																</select>
+															</td>
+														
+															<td nowrap="nowrap">
+																Font Style
+															</td>
+															<td style="float: left;">
+																<select id = 'legendxFontStyle' style="width: 100px;">
+																	<option value = 'normal'>Normal</option>
+																	<option value = 'bold'>Bold</option>
+																	<option value = 'bolder'>Bolder</option>
+																	<option value = 'lighter'>Lighter</option>
+																</select>
+															</td>
+														</tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Axis Title
+															</td>
+														</tr>
+														</tr>
+														<tr>
+															<td >
+																Font Color
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'xTitleFontColor' class = 'applyJPicker' size="7" style="display: none">
+															</td>
+															<td>
+																Font Size
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'xTitleFontSize' style="width: 35px;">
+																px
+															</td>
+														</tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Grid Lines
+															</td>
+														</tr>
+														<tr>
+															<td >
+																Visible
+															</td>
+															<td>
+																<input type = "checkbox" id = 'xgridlineVisible' style="float: left;" onclick="javascript:CHARTPR.gridlineVisible('x')">
+															</td>
+															<td>
+																Color
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'xgridlineColor'   class = 'applyJPicker' size="7" style="display: none">
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Width
+															</td>
+															<td style="float: left;" >
+																<select style="width: 100px;" id = 'xgridlineWidth'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+															</td>
+															<td>
+																Style
+															</td>
+															<td style="float: left;">
+																<select style="width: 100px;" id = 'xgridlineStyle'>
+																		<option value="Solid">_____________</option>
+																		<option value="Dashed">------------</option>
+																		<option value="Dotted">.....................</option>
+																	</select>
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Grids Step Number
+															</td>
+															<td style="float: left;" >
+																<select style="width: 100px;" id = 'xaxisgridstepnumber'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+															</td>
+															<td>
+															</td>
+															<td style="float: left;">
+															</td>
+														</tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Outline
+															</td>
+														</tr>
+														<tr>
+															<td >
+																Visible
+															</td>
+															<td>
+																<input type = "checkbox" id = 'xoutlineVisible' style="float: left;" onclick="javascript:CHARTPR.outlineVisible('x')">
+															</td>
+															<td>
+																Color
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'xoutlineColor'   class = 'applyJPicker' size="7" style="display: none">
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Width
+															</td>
+															<td style="float: left;" >
+																<select style="width: 100px;" id = 'xoutlineWidth'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+															</td>
+															<td>
+																Style
+															</td>
+															<td style="float: left;">
+																<select style="width: 100px;" id = 'xoutlineStyle'>
+																		<option value="Solid">_____________</option>
+																		<option value="Dashed">------------</option>
+																		<option value="Dotted">.....................</option>
+																	</select>
+															</td>
+														</tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Insets
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Top
+															</td>
+															<td>
+																<input type = 'text' id = 'xinsetsTop'>
+															</td>
+														
+															<td>
+																Bottom
+															</td>
+															<td>
+																<input type = 'text' id = 'xinsetBottom'>
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Left
+															</td>
+															<td>
+																<input type = 'text' id = 'xinsetLeft'>
+															</td>
+														
+															<td>
+																Right
+															</td>
+															<td>
+																<input type = 'text' id = 'xinsetRight'>
+															</td>
+														</tr>
+													</table>
+											</div>
+											
+											<div id="chart_prefernces_y_legend">
+													<table id="yLegendTable">
+															<tr>
+															<td style="font-weight: bold;">
+																Visible
+															</td>
+															<td>
+																<input type = 'checkbox' id = 'yAxisShow' checked="checked" onclick="javascript:CHARTPR.axisVisible('y')">
+															</td>
+														</tr>
+														<tr>
+															<td colspan="2">
+																Not applicable for Pie Chart
+															</td>
+															<td colspan="2">
+																<hr>
+															</td>
+														</tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Format
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Position
+															</td>
+															<td style="float: left;">
+																<select id = 'legendyPosition' style="width: 100px;">
+																	<option value = 'left'>Left</option>
+																	<option value = 'right'>Right</option>
+																</select>
+															</td>
+														
+															<td nowrap="nowrap">
+																Font-size
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'yFontSize' style="width: 35px;">
+																px
+																<!-- select id = 'legendxFontSizeType'>
+																	<option value = 'px'>px</option>
+																	<option value = 'pt'>pt</option>
+																</select-->
+															</td>
+														</tr>
+														<tr>
+																<td nowrap="nowrap">
+																	Background
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'yBackground' class = 'applyJPicker' size="7" style="display: none">
+																</td>
+																<td nowrap="nowrap">
+																	Shadow
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'yShadow' class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+														<tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Font
+															</td>
+														</tr>
+														<tr>
+															<td nowrap="nowrap">
+																Font Family
+															</td>
+															<td>
+																<select style="width: 100px;" id="legendyFontFamily" class="fontFamilyContainer"><option value="Arial">Arial</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="Courier">Courier</option></select>
+															</td>
+														
+															<td nowrap="nowrap">
+																Font Color
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'legendyFontColor' class = 'applyJPicker' size="7" style="display: none">
+															</td>
+														</tr>
+														<tr>
+															<td nowrap="nowrap">
+																Text Align
+															</td>
+															<td>
+																<select id = 'legendyFontTextAlign' style="width: 100px;">
+																	<option value = 'left'>Left</option>
+																	<option value = 'center'>Center</option>
+																	<option value = 'right'>Right</option>
+																	<option value = 'justify'>Justify</option>
+																</select>
+															</td>
+														
+															<td nowrap="nowrap">
+																Font Style
+															</td>
+															<td style="float: left;">
+																<select id = 'legendyFontStyle' style="width: 100px;">
+																	<option value = 'normal'>Normal</option>
+																	<option value = 'bold'>Bold</option>
+																	<option value = 'bolder'>Bolder</option>
+																	<option value = 'lighter'>Lighter</option>
+																</select>
+															</td>
+														</tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Axis Title
+															</td>
+														</tr>
+														<tr>
+															<td >
+																Font Color
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'yTitleFontColor' class = 'applyJPicker' size="7" style="display: none">
+															</td>
+															<td>
+																Font Size
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'yTitleFontSize' style="width: 35px;">
+																px
+															</td>
+														</tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Grid Lines
+															</td>
+														</tr>
+														<tr>
+															<td >
+																Visible
+															</td>
+															<td>
+																<input type = "checkbox" id = 'ygridlineVisible' style="float: left;" onclick="javascript:CHARTPR.gridlineVisible('y')">
+															</td>
+															<td>
+																
+															</td>
+															<td style="float: left;display: none;">
+																<input type = 'text' id = 'ygridlineColor'   class = 'applyJPicker' size="7" style="display: none">
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Width
+															</td>
+															<td style="float: left;">
+																<select style="width: 100px;" id = 'ygridlineWidth'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+															</td>
+															<td>
+																Style
+															</td>
+															<td style="float: left;">
+																<select style="width: 100px;" id = 'ygridlineStyle'>
+																		<option value="Solid">_____________</option>
+																		<option value="Dashed">------------</option>
+																		<option value="Dotted">.....................</option>
+																	</select>
+															</td>
+														</tr>
+															<tr>													<tr>
+															<td>
+																Grids Step Number
+															</td>
+															<td style="float: left;" >
+																<select style="width: 100px;" id = 'yaxisgridstepnumber'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+															</td>
+															<td>
+															</td>
+															<td style="float: left;">
+															</td>
+														</tr>
+														
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Outline
+															</td>
+														</tr>
+														<tr>
+															<td >
+																Visible
+															</td>
+															<td>
+																<input type = "checkbox" id = 'youtlineVisible' style="float: left;" onclick="javascript:CHARTPR.outlineVisible('y')">
+															</td>
+															<td>
+																Color
+															</td>
+															<td style="float: left;">
+																<input type = 'text' id = 'youtlineColor'   class = 'applyJPicker' size="7" style="display: none">
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Width
+															</td>
+															<td style="float: left;">
+																<select style="width: 100px;" id = 'youtlineWidth'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+															</td>
+															<td>
+																Style
+															</td>
+															<td style="float: left;">
+																<select style="width: 100px;" id = 'youtlineStyle'>
+																		<option value="Solid">_____________</option>
+																		<option value="Dashed">------------</option>
+																		<option value="Dotted">.....................</option>
+																	</select>
+															</td>
+														</tr>
+														<tr><td colspan="6"><hr></td></tr>
+														<tr>
+															<td style="font-weight: bold;">
+																Insets
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Top
+															</td>
+															<td>
+																<input type = 'text' id = 'yinsetsTop'>
+															</td>
+														
+															<td>
+																Bottom
+															</td>
+															<td>
+																<input type = 'text' id = 'yinsetBottom'>
+															</td>
+														</tr>
+														<tr>
+															<td>
+																Left
+															</td>
+															<td>
+																<input type = 'text' id = 'yinsetLeft'>
+															</td>
+														
+															<td>
+																Right
+															</td>
+															<td>
+																<input type = 'text' id = 'yinsetRight'>
+															</td>
+														</tr>
+													</table>
+											</div>
+											
+											<div id="chart_prefernces_title">
+													<table id="TitleTable" style="text-align: left;">
+															<tr>
+																<td style="font-weight: bold;">
+																	Title
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Anchor
+																</td>
+																<td style="float: left;">
+																	<select style="width: 100px;" id = 'TitleAnchor'>
+																		<option value = 'top'>Top</option>
+																		<option value = 'bottom'>Bottom</option>
+																	</select>
+																</td>
+																<td nowrap = "nowrap">
+																	Text Align
+																</td>
+																<td>
+																	<select style="width: 100px;" id = 'TitleFontTextAlign'>
+																		<option value = 'left'>Left</option>
+																		<option value = 'center'>Center</option>
+																		<option value = 'right'>Right</option>
+																		<option value = 'justify'>Justify</option>
+																	</select>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Font Color
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'TitleFontColor'   class = 'applyJPicker' size="7" style="display: none">
+																</td>
+																<td>
+																	Font Style
+																</td>
+																<td>
+																	<select style="width: 100px;" id = 'TitleFontStyle'>
+																		<option value = 'normal'>Normal</option>
+																		<option value = 'bold'>Bold</option>
+																		<option value = 'bolder'>Bolder</option>
+																		<option value = 'lighter'>Lighter</option>
+																	</select>
+																</td>
+															</tr>
+															<tr>
+																<td nowrap="nowrap">
+																	Font-size
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'TitleFontSize' style="width: 35px;">
+																	px
+																	<!-- select id = 'TitleFontSizeType'>
+																		<option value = 'px'>px</option>
+																		<option value = 'pt'>pt</option>
+																	</select-->
+																</td>
+																<td nowrap = "nowrap">
+																	Font Family
+																</td>
+																<td>
+																	<select style="width: 100px;" id="TitleFontFamily"><option value="Arial">Arial</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="Courier">Courier</option></select>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Background
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'TitleBackground'   class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="font-weight: bold;">
+																	Outline
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Visible
+																</td>
+																<td>
+																	<input type = "checkbox" id = 'titleoutlineVisible' style="float: left;" onclick="javascript:CHARTPR.outlineVisible('title')">
+																</td>
+																<td>
+																	Color
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'titleoutlineColor'   class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Width
+																</td>
+																<td style="float: left;" >
+																	<select style="width: 100px;" id = 'titleoutlineWidth'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+																</td>
+																<td>
+																	Style
+																</td>
+																<td style="float: left;">
+																	<select style="width: 100px;" id = 'titleoutlineStyle'>
+																		<option value="Solid">_____________</option>
+																		<option value="Dashed">------------</option>
+																		<option value="Dotted">.....................</option>
+																	</select>
+																</td>
+															</tr>
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="font-weight: bold;">
+																	Insets
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Top
+																</td>
+																<td>
+																	<input type = 'text' id = 'titleinsetsTop'>
+																</td>
+															
+																<td>
+																	Bottom
+																</td>
+																<td>
+																	<input type = 'text' id = 'titleinsetBottom'>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Left
+																</td>
+																<td>
+																	<input type = 'text' id = 'titleinsetLeft'>
+																</td>
+																<td>
+																	Right
+																</td>
+																<td>
+																	<input type = 'text' id = 'titleinsetRight'>
+																</td>
+															</tr>
+															
+													</table>
+											</div>
+											
+											<div id="chart_prefernces_label">
+													<table id="LabelTable" style="text-align: left;">
+															<tr>
+																<td style="	 font-weight: bold;">Labels</td> 
+																<td>
+																	<input type = 'checkbox' id = 'labelsShow' checked="checked" onclick="javascript:CHARTPR.labelVisibility()">
+																</td>
+															</tr>
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="	 font-weight: bold;">Format</td> 
+															</tr>
+															<tr>
+																
+																<td>
+																	Position
+																</td>
+																<td>
+																	<select style="width: 100px;" id = 'labelsPosition'>
+																		<option value = 'inside'>Inside</option>
+																		<option value = 'outside'>Outside</option>
+																	</select>
+																</td>
+																<td nowrap="nowrap">
+																	Text Align
+																</td>
+																<td>
+																	<select style="width: 100px;" id = 'labelsFontTextAlign'>
+																		<option value = 'left'>Left</option>
+																		<option value = 'center'>Center</option>
+																		<option value = 'right'>Right</option>
+																		<option value = 'justify'>Justify</option>
+																	</select>
+																</td>
+																
+															</tr>
+															<tr>
+																<td nowrap="nowrap">
+																	Background
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelsBackground' class = 'applyJPicker' size="7" style="display: none">
+																</td>
+																<td nowrap="nowrap">
+																	Shadow
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelsShadow' class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+															
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="font-weight: bold;">
+																	Font
+																</td>
+															</tr>
+															<tr>
+																
+																
+																<td nowrap="nowrap">
+																	Font Family
+																</td>
+																<td>
+																<select style="width: 100px;" style="width: 100px;" id="labelsFontFamily"><option value="Arial">Arial</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="Courier">Courier</option></select>
+																</td>
+																<td nowrap="nowrap">
+																	Font Color
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelsFontColor' class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+															<tr>
+																<td nowrap="nowrap">
+																	Font Style
+																</td>
+																<td>
+																	<select style="width: 100px;" id = 'labelsFontStyle'>
+																		<option value = 'lighter'>Lighter</option>
+																		<option value = 'normal'>Normal</option>
+																		<option value = 'bold'>Bold</option>
+																		<option value = 'bolder'>Bolder</option>
+																		
+																	</select>
+																</td>
+																
+																<td nowrap="nowrap">
+																Font-size
+															</td>
+															<td>
+																<input type = 'text' id = 'labelFontSize' style="width: 30px;">
+																px
+															</td>
+															
+															</tr>
+															
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="font-weight: bold;">
+																	Values
+																</td>
+															</tr>
+															<tr>
+																<td nowrap="nowrap">
+																Value
+																</td>
+																<td>
+																	<select style="" id = 'labelsValuePercentActual'>
+																		<option value = 'actual'>Use Actual Value</option>
+																		<option value = 'percent'>Use Percent Value</option>
+																		
+																	</select>
+																
+																</td>
+																
+																<td nowrap="nowrap">
+																Separator
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelsSeparator'>
+																	
+																</td>
+															
+															</tr>
+															<tr>
+																<td nowrap="nowrap">
+																	Prefix
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelsPrefix'>
+																</td>
+															
+																<td nowrap="nowrap">
+																	Suffix
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelsSuffix'>
+																</td>
+															</tr>
+															
+															
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="font-weight: bold;">
+																	Outline
+																</td>
+															</tr>
+															<tr>
+																<td >
+																	Visible
+																</td>
+																<td>
+																	<input type = "checkbox" id = 'labeloutlineVisible' style="float: left;" onclick="javascript:CHARTPR.outlineVisible('label')">
+																</td>
+																<td>
+																	Color
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'labeloutlineColor'   class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Width
+																</td>
+																<td style="float: left;">
+																	<select style="width: 100px;" id = 'labeloutlineWidth'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+																	
+																</td>
+																<td>
+																	Style
+																</td>
+																<td style="float: left;"> 
+																	<select style="width: 100px;" id = 'labeloutlineStyle'>
+																		<option value="Solid">_____________</option>
+																		<option value="Dashed">------------</option>
+																		<option value="Dotted">.....................</option>
+																	</select>
+																</td>
+															</tr>
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="font-weight: bold;">
+																	Insets
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Top
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelinsetsTop'>
+																</td>
+															
+																<td>
+																	Bottom
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelinsetBottom'>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Left
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelinsetLeft'>
+																</td>
+															
+																<td>
+																	Right
+																</td>
+																<td>
+																	<input type = 'text' id = 'labelinsetRight'>
+																</td>
+															</tr>
+															
+													</table>
+											</div>
+											
+											<div id="chart_prefernces_legend">
+													<table id="LabelTable" style="text-align: left;">
+															<tr>
+																<td style="	 font-weight: bold;">Legend</td> 
+																<td>
+																	<input type = 'checkbox' id = 'legendShow' checked="checked" onclick="javascript:CHARTPR.legendVisibility()">
+																</td>
+															</tr>
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td>
+																	Position
+																</td>
+																<td>
+																	<select style="width: 100px;" id = 'legendPosition'>
+																		<option value = 'left'>Left</option>
+																		<option value = 'right'>Right</option>
+																		<option value = 'above'>Above</option>
+																		<option value = 'below'>Below</option>
+																		<option value = 'inside'>Inside</option>
+																	</select>
+																</td>
+																<td nowrap="nowrap">
+																	Background
+																</td>
+																<td>
+																	<input type = 'text' id = 'legendBackground' class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Anchor
+																</td>
+																<td>
+																	<select style="width: 100px;" id = 'legendAnchor'>
+																		<option value = 'middle'>Middle</option>
+																		<option value = 'top'>Top</option>
+																		<option value = 'bottom'>Bottom</option>
+																	</select>
+																</td>
+																<td nowrap="nowrap">
+																	Stretch
+																</td>
+																<td>
+																	<select style="width: 100px;" id = 'legendStretch'>
+																		<option value = 'horizontal'>Horizontal</option>
+																		<option value = 'vertical'>Vertical</option>
+																	</select>
+																</td>
+															</tr>
+															
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="	 font-weight: bold;">Title</td> 
+																<td>
+																	<input type = 'checkbox' id = 'legendTitleShow'  onclick="javascript:CHARTPR.legendTitleVisibility()">
+																</td>
+															</tr>
+															<tr>
+																
+																
+																<td nowrap="nowrap">
+																	Font Family
+																</td>
+																<td>
+																<select style="width: 100px;" style="width: 100px;" id="legendFontFamily"><option value="Arial">Arial</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="Courier">Courier</option></select>
+																</td>
+																<td nowrap="nowrap">
+																	Font Color
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'legendFontColor' class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+																<tr>
+																	<td nowrap="nowrap">
+																		Font Style
+																	</td>
+																	<td>
+																		<select style="width: 100px;" id = 'legendFontStyle'>
+																			<option value = 'lighter'>Lighter</option>
+																			<option value = 'normal'>Normal</option>
+																			<option value = 'bold'>Bold</option>
+																			<option value = 'bolder'>Bolder</option>
+																			
+																		</select>
+																	</td>
+																	
+																	<td nowrap="nowrap">
+																	Font-size
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'legendFontSize' style="width: 30px;">
+																	px
+																</td>
+															
+															</tr>
+																
+															
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="font-weight: bold;">
+																	Outline
+																</td>
+															</tr>
+															<tr>
+																<td >
+																	Visible
+																</td>
+																<td>
+																	<input type = "checkbox" id = 'legendoutlineVisible' style="float: left;" onclick="javascript:CHARTPR.outlineVisible('legend')">
+																</td>
+																<td>
+																	Color
+																</td>
+																<td style="float: left;">
+																	<input type = 'text' id = 'legendoutlineColor'   class = 'applyJPicker' size="7" style="display: none">
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Width
+																</td>
+																<td style="float: left;">
+																	<select style="width: 100px;" id = 'legendoutlineWidth'>
+																		<option value="1">1</option>
+																		<option value="2">2</option>
+																		<option value="3">3</option>
+																		<option value="4">4</option>
+																	</select>
+																	
+																</td>
+																<td>
+																	Style
+																</td>
+																<td style="float: left;"> 
+																	<select style="width: 100px;" id = 'legendoutlineStyle'>
+																		<option value="Solid">_____________</option>
+																		<option value="Dashed">------------</option>
+																		<option value="Dotted">.....................</option>
+																	</select>
+																</td>
+															</tr>
+															<tr><td colspan="6"><hr></td></tr>
+															<tr>
+																<td style="font-weight: bold;">
+																	Insets
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Top
+																</td>
+																<td>
+																	<input type = 'text' id = 'legendinsetsTop'>
+																</td>
+															
+																<td>
+																	Bottom
+																</td>
+																<td>
+																	<input type = 'text' id = 'legendinsetBottom'>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Left
+																</td>
+																<td>
+																	<input type = 'text' id = 'legendinsetLeft'>
+																</td>
+															
+																<td>
+																	Right
+																</td>
+																<td>
+																	<input type = 'text' id = 'legendinsetRight'>
+																</td>
+															</tr>
+															
+													</table>
+											</div>
+											
+											
+									</div>
+										<div style="" id="preview_chart_div" >
+											<div id="chart_preveiw_title"  style=""><b>Chart Title</b></div>
+											<div id="chart_preview_plot_area" style="width: 74%; float: left;">
+												<div id="chart_preview_client_area">
+													<div id="preview_chart" style="height: 300px; width:269px; " >
+													</div>
+													<span id="chart_preveiw_series" class="header" style="width: 100%;"><b>Series 1</b></span>
+												</div>
+												<div style="display: none;" id="no_preview_available"><span>Chart preview not available. </span></div>
+											</div>
+											<div style=" float: right; margin-right: 1%; height: 370px; width:21%; display:" id="parent_chart_legend_div">	
+												<div  id="chart_legend_div">
+													<div id="legend_title">Legend Title</div>
+													<table id="legendTable">
+														
+													</table>
+												</div>
+											</div>
+										</div>
+								</td>
+							</tr>	
+							<tr>
+								<td style="text-align: right;">
+									<input style=" float: left; " type="button" class="buttonAdmin" id="restore" value="Restore Defaults" onclick="javascript:CHARTPR.confirmRestore();"  />
+									
+									<input type="button" class="buttonAdmin" id="save.host" value="Save" onclick="javascript:CHARTPR.saveStyle();"  /> 
+								
+									<input type="button" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:closePreferncesBox();" />
+								</td>
+							</tr>
+						</table>
+					</div>
+            	</td>
+            	</tr>
+            	
+    	</tbody>
+	</table>
+<script type="text/javascript">
+CHARTPR.ready();
+
+function closePreferncesBox(){
+	Util.removeLightbox("chart_prefernces");
+	if(RC.chartOperation == 'edit' ){
+		DA.showChartSample('',DA.queryInfo["chartDetail"][RC.chartKey]);
+	} else if(RC.chartPreferenceType == 'global' && DA.selectedChartId != "" ){
+		DA.showChartSample('',DA.queryInfo["chartDetail"][DA.selectedChartId]);
+	}
+				
+}
+</script>
+<script type="text/javascript">
+
+
+</script>
+</div>
+
+
+
+
+
+

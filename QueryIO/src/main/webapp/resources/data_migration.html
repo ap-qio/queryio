@@ -1,0 +1,30 @@
+<!--<link rel="stylesheet" href="styles/jquery.dataTables.css" type="text/css" />-->
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<link rel="stylesheet" href="styles/data_migration.css" type="text/css" />
+
+<script src="scripts/data_migration.js"></script>
+
+
+
+
+<div id='data_migration' class="viewDiv detailDivView">
+	<div id="data_migration_table_div">
+		<div id="buttons" class="buttons">
+			<button class="button" onclick="javascript:DataMigrate.addDataMigrate('true')">Import</button>
+			<button class="button" onclick="javascript:DataMigrate.addDataMigrate('false')">Export</button> 
+			<button class="button" id = "datamigration.cancel" onclick="javascript:DataMigrate.cancelDataMigrate()">Stop</button>
+			<button class="button" id = "datamigration.resume" onclick="javascript:DataMigrate.showResumeDataMigrate()">Restart</button>  
+			<button class="button" id = "datamigration.delete" onclick="javascript:DataMigrate.deleteMigration()">Clear Data</button>			
+		</div>
+		<form action="">
+		<div id ="data_migration_table_container">
+			<table id="data_migration_table" ></table>
+		</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+var selectedMigrationProcess = [];
+DataMigrate.ready();
+var totalMigration = 0;
+</script>

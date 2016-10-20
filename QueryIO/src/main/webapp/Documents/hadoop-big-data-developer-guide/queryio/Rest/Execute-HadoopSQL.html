@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>POST Hadoop SQL</title>
+</head>
+<body>
+	<div>
+	<h1><span>POST Hadoop SQL</span></h1>	
+	<h2><span>Description</span></h2>
+	<p>POST Hadoop SQL operation of QueryIO server will execute given Hadoop SQL query.</p>
+	
+	<h2><span>Requests</span></h2>
+	<h3>Syntax</h3>
+	<ul>
+	<li>
+	<pre>
+POST <em><code>/os3server/hadoopsql/</code></em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;Token&gt;</code></em></pre></li>
+		<li>authorization: Token for authorization. </li>
+	</ul>
+	
+	<h3>Request Headers</h3>
+	<p>The POST Hadoop SQL operation in QueryIO Server uses following request headers: </p>
+	<table cellspacing="0" border="1" width="100%">
+		<tr><th> Header Name </th><th> Description </th><th> Type </th><th> Default </th><th> Required </th></tr>
+		<tr>
+			<td align="center">
+				<em ><code>sqlquery</code></em>
+			</td>
+			<td>
+				<p>Standard SQL Query on BigData</p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> Yes (Not to be used with "queryid" header) </td>
+		</tr>
+		<tr>
+			<td align="center">
+				<em ><code>queryid</code></em>
+			</td>
+			<td>
+				<p>Id of the Hadoop SQL query to be executed. Specify the report format in the hadoopsql-report-format header in which result will be generated.</p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> Yes (Not to be used with "sqlquery" header) </td>
+		</tr>	
+		<tr>
+			<td align="center">
+				<em ><code>hadoopsql-report-format</code></em>
+			</td>
+			<td>
+				<p>Report format: PDF/HTML/XLS <br>It should not be used with "sqlquery" header.</p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> Yes (To be used only with "queryid" header) </td>
+		</tr>		
+		<tr>
+			<td align="center">
+				<em ><code>startindex</code></em>
+			</td>
+			<td>
+				<p>Start index</p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> No </td>
+		</tr>		
+		<tr>
+			<td align="center">
+				<em ><code>maxresults</code></em>
+			</td>
+			<td>
+				<p>Max results</p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> No </td>
+		</tr>		
+		<tr>
+			<td align="center">
+				<em ><code>timeout</code></em>
+			</td>
+			<td>
+				<p>Query timeout in ms</p>
+			</td>
+			<td> String	</td>
+			<td> None </td>
+			<td> No </td>
+		</tr>		
+	</table>
+	
+	<h2><span>Examples</span></h2>
+		<h3>Sample Request </h3>
+		<p>The following request will execute a Hadoop SQL query and returns a JSON response.</p>
+		<ul>
+		<li>
+		<pre>
+POST /queryio/hadoopsql/ HTTP/1.1
+Host: QueryIO
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+sqlquery : "SELECT * FROM HDFS_METADATA"
+startindex : 5
+maxresults : 7
+timeout  : 300
+</pre></li>
+		</ul>
+		
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+&lt;xml version="1.0" encoding="UTF-8"&gt;
+&lt;ExecuteHadoopSQLResult&gt;
+	&lt;HadoopSQLResult&gt;&lt;![CDATA[
+				{
+			  "schema": {
+			    "fields": [
+			      "Filepath", 
+			      "Accesstime", 
+			      "Modificationtime", 
+			      "Owner", 
+			      "Usergroup", 
+			      "Permission", 
+			      "Blocksize", 
+			      "Replication", 
+			      "Len"
+			    ]
+			  }, 
+			  "totalRows": 7, 
+			  "jobComplete": true, 
+			  "rows": [
+			    [
+			      "/__MACOSX/hadoop-1.0.1/bin/._hadoop-daemon.sh", 
+			      "2012-11-07 14:57 PM", 
+			      "2012-11-07 14:57 PM", 
+			      "admin", 
+			      "hiper", 
+			      "rw-r--r--", 
+			      "67108864", 
+			      "1", 
+			      "193"
+			    ], 
+			    [
+			      "/hadoop-1.0.1/bin/hadoop-daemons.sh", 
+			      "2012-11-07 14:57 PM", 
+			      "2012-11-07 14:57 PM", 
+			      "admin", 
+			      "hiper", 
+			      "rw-r--r--", 
+			      "67108864", 
+			      "1", 
+			      "1329"
+			    ], 
+			    [
+			      "/__MACOSX/hadoop-1.0.1/bin/._hadoop-daemons.sh", 
+			      "2012-11-07 14:57 PM", 
+			      "2012-11-07 14:57 PM", 
+			      "admin", 
+			      "hiper", 
+			      "rw-r--r--", 
+			      "67108864", 
+			      "1", 
+			      "193"
+			    ], 
+			    [
+			      "/hadoop-1.0.1/bin/rcc", 
+			      "2012-11-07 14:57 PM", 
+			      "2012-11-07 14:57 PM", 
+			      "admin", 
+			      "hiper", 
+			      "rw-r--r--", 
+			      "67108864", 
+			      "1", 
+			      "2810"
+			    ], 
+			    [
+			      "/__MACOSX/hadoop-1.0.1/bin/._rcc", 
+			      "2012-11-07 14:57 PM", 
+			      "2012-11-07 14:57 PM", 
+			      "admin", 
+			      "hiper", 
+			      "rw-r--r--", 
+			      "67108864", 
+			      "1", 
+			      "193"
+			    ], 
+			    [
+			      "/hadoop-1.0.1/bin/slaves.sh", 
+			      "2012-11-07 14:57 PM", 
+			      "2012-11-07 14:57 PM", 
+			      "admin", 
+			      "hiper", 
+			      "rw-r--r--", 
+			      "67108864", 
+			      "1", 
+			      "2143"
+			    ], 
+			    [
+			      "/__MACOSX/hadoop-1.0.1/bin/._slaves.sh", 
+			      "2012-11-07 14:57 PM", 
+			      "2012-11-07 14:57 PM", 
+			      "admin", 
+			      "hiper", 
+			      "rw-r--r--", 
+			      "67108864", 
+			      "1", 
+			      "193"
+			    ]
+			  ]
+			}]]&gt;
+	&lt;/HadoopSQLResult&gt;
+&lt;/ExecuteHadoopSQLResult&gt;
+
+
+
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

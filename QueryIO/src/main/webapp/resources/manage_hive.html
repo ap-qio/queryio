@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="styles/job_browser.css" type="text/css" />
+
+<script type="text/javascript" src="scripts/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.ui.tabs.js"></script>
+<script type="text/javascript" src="scripts/js/ui.tabs.paging.js"></script>
+
+<div>
+	<div id="manageHiveTabs" style="border: none;">
+		<div>
+			<ul class="tabs customTagsClass" style="min-height: 30px;">
+				<li id="ddlHiveHead" style="display: ;"><a id ="ddlHiveLink" href="resources/adHocQuery.html" onclick="javascript:hideButton();" style = "font-size: 13px;">Hive Data Definition</a></li>
+				<li id="databasesHiveHead" style="display: ;"><a id ="databasesHiveLink" href="resources/database_config.html" onclick="javascript:showButton();" style = "font-size: 13px;">Hive Database</a></li>
+				<li id="servicesHiveHead" style="display: ;"><a id ="servicesHiveLink" href="resources/hive_services.html" onclick="javascript:hideButton();" style = "font-size: 13px;">Hive Services</a></li>
+				<!-- <li id="contentProcHead" style="display: ;"><a id ="contentProcLink" href="resources/adhocJobs.html" style = "font-size: 13px;">Content Processor</a></li> -->
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script>
+Navbar.isHiveViewSelected = true;
+var $tabs = $("#manageHiveTabs").tabs();
+if (Navbar.currentHiveTabSelected == '')
+	Navbar.currentHiveTabSelected = 'ui-tabs-1';			/* for 'ddlHiveHead' */
+$('#manageHiveTabs').tabs({
+	select: function(event, ui)
+	{
+		if (Navbar.isSetButtonWidth)
+		{
+			Navbar.isSetButtonWidth = false;
+			Navbar.setButtonWidth();
+		}
+		Navbar.currentHiveTabSelected = ui.panel.id;
+	}
+});
+function hideButton(){
+	$("#migrationStatusBtn").css('display' , 'none');
+}
+function showButton(){
+	$("#migrationStatusBtn").css('display' , '');
+}
+	
+$tabs.tabs("select", Navbar.currentHiveTabSelected);
+</script>

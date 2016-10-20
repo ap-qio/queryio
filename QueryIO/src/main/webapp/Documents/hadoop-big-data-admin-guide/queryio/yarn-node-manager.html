@@ -1,0 +1,140 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>YARN Node Manager</title>
+</head>
+<body>
+
+<h1><span>YARN NodeManager</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains about NodeManager and its related features</p>
+<ul>
+	<li><a href="#intro">What is NodeManager</a></li>
+	<li><a href="#details">NodeManager Details</a></li>
+	<li><a href="#add">Add NodeManager</a></li>
+	<li><a href="#config">Configure NodeManager</a></li>
+	<li><a href="#op">Start, Stop, Delete NodeManager</a></li>
+	<li><a href="#monitor">Start/Stop Monitoring</a></li>
+	<li><a href="#summary">NodeManager Summary</a></li>
+</ul>
+<h2 id="intro"><span>What is NodeManager</span></h2>
+	<p>There is a per-machine NodeManager (NM) that manages the user processes on configured machine. 
+	The ResourceManager and the NodeManager form the computation fabric of the cluster.</p>
+	
+	<p>
+	Each process started by the NodeManager is conceptually a <a href="glossary.html#container">container</a>, or a bundle of resources 
+	allocated by the ResourceManager. NodeManager consists of number of containers and an application master.</p>
+
+<img alt="name-node" src="images/screenshots/node-manager.jpeg" width="100%">
+
+<h2 id="details"><span>NodeManager Details</span></h2>
+<p>Following details about NodeManager are displayed.</p>
+<ul>
+	<li>Container Summary: A pie chart displaying number of <a href="glossary.html#container">containers</a> completed, failed, killed, running and initializing.</li>
+	<li>Status Summary: Container details are displayed here.</li>
+	<li>NodeManager Summary</li>
+</ul>
+
+	
+<h3><span>Status Summary</span></h3>
+	<ul>
+		<li><b>Total Containers Launched: </b>Number of containers launched to execute MapReduce application.</li>
+		<li><b>Total Containers Completed: </b>Number of containers completed their job execution.</li>
+		<li><b>Total Containers Failed: </b>Number of containers failed to execute job.</li>
+		<li><b>Total Containers Killed: </b>Number of containers killed by NodeManager.</li>
+		<li><b>Total Containers Running: </b>Number of containers still running.</li>
+		<li><b>Total Containers Initiating: </b>Number of containers initiating.</li>
+	</ul>
+	
+<h3><span>NodeManager Summary</span></h3>
+	<ul>
+		<li><b>Node: </b>Unique ID of the NodeManager. Click on NodeManager name to view detailed <a href="#summary">summary</a>.</li>
+		<li><b>Host: </b>IP Address of the host machine on which NodeManager is configured.</li>
+		<li><b>Launched: </b>Number of containers launched to execute MapReduce application.</li>
+		<li><b>Completed: </b>Number of containers completed execution.</li>
+		<li><b>Failed: </b>Number of containers failed.</li>
+		<li><b>Killed: </b>Number of containers killed by NodeManager.</li>
+		<li><b>Running: </b>Number of containers still running.</li>
+		<li><b>Initiating: </b>Number of initiating containers.</li>
+		<li><b>Logs: </b>Click to view full log file of stdout/stderr logs of NodeManager.</li>
+		<li><b>Status: </b>Status of NodeManager as 'Started' or 'Stopped' or 'Not Responding'.</li>
+		<li><b>Monitoring:</b> State of NodeManager monitoring i.e. whether NodeManager monitoring is started or stopped or not responding.</li>
+	</ul>
+	
+<h2 id="add"><span>Add NodeManager</span></h2>
+	<p>To add a new NodeManager, click on <b>Add</b> button on NodeManager page.</p>
+	<p>Enter following NodeManager details.</p>
+	<ul>
+		<li><b>Unique Identifier: </b>Unique ID of the NodeManager.</li>
+		<li><b>HostName/IP: </b>Select host on which NodeManager will be configured.</li>
+		<li><b>ResourceManager: </b>Select ResourceManager.</li>
+		<li>Click Next.</li>
+		<img alt="NM-add1" src="images/screenshots/nm-add1.jpeg" >
+		<li><b>Configure Ports: </b>Enter ports for following.</li>
+		<ul>
+			<li>Localizer: Port for localizer IPC.</li>
+			<li>WebApp: NM Webapp port.</li>
+			<li>JMX: JMX monitoring port.</li>
+		</ul>
+		<li>Click Next.</li>
+		<img alt="NM-add2" src="images/screenshots/nm-add2.jpeg" >
+		<li><b>Dir Path: </b>Installation path for the NodeManager on selected host.</li>
+		<li><b>Start Node Manager after installation: </b>Select check box to start NodeManager after installation.</li>
+		<li>Click <b>Save</b> to install NodeManager.</li>		
+		<img alt="NM-add3" src="images/screenshots/nm-add3.jpeg" >
+		</br></br>	
+	</ul>
+	
+<h2 id="config"><span>Configure NodeManager</span></h2>
+<p>To configure the properties of NodeManager, select the check-box against target NodeManager and click <b>Configure</b>. All configurable properties of NodeManager will be displayed.</p>
+
+<h2 id="op"><span>Start, Stop, Delete NodeManager</span></h2>
+<p>Select the NodeManager and click on <b>Start</b>, <b>Stop</b> or <b>Delete</b> to perform respective function.</p>
+	
+<h2 id="monitor"><span>Start/Stop Monitoring</span></h2>
+<p>JMX monitoring takes place which checks NodeManager's status, Launched, Completed, Failed, Killed, Running and Initiating containers. To start or stop NodeManager Monitoring, select the check box against the node and click on <b>Start Monitoring</b> or <b>Stop Monitoring</b> button respectively.</p> 
+	
+<h2 id="summary"><span>NodeManager Summary</span></h2>
+<p>NodeManager summary contains:</p>
+<ul>
+	<li><b>Container Summary:</b> A pie chart displaying container information.</li>
+	<li><b>Status Summary:</b> It has various details about NodeManager:
+		<ul>
+			<li><b>Total Containers Launched: </b>Number of containers launched to execute MapReduce application.</li>
+			<li><b>Total Containers Completed: </b>Number of containers completed execution.</li>
+			<li><b>Total Containers Failed: </b>Number of containers failed.</li>
+			<li><b>Total Containers Killed: </b>Number of containers killed by NodeManager.</li>
+			<li><b>Total Containers Running: </b>Number of containers still running.</li>
+			<li><b>Total Containers Initiating: </b>Number of containers initializing.</li>
+		</ul> 
+	</li>
+	<li><b>Monitoring Data:</b> Shows monitoring data of the NodeManager host machine. It uses JVM matrix to display data in form of charts. Time interval between which data is displayed can be varied from 1 day to 360 days.
+	This data is further used to generate reports and forecast. It can also be used diagnostic purposes.
+	Various charts displayed are: 
+		<ul>
+			<li><b>Containers:</b>Number of Launched, Completed, Failed, Killed, Initiating, Running, Allocated, Pending, Reserved containers.	</li>
+			<li><b>Threads:</b> Number of Running, Blocked, Waiting, Timed Waiting, Terminated, New threads with respect to time period.</li>
+			<li><b>Heap Memory:</b> Heap memory committed and heap memory used with respect to time in MB.</li>
+			<li><b>Non Heap Memory:</b> Non heap memory committed and used with respect to time in MB.</li>
+			<li><b>GC Count:</b> Total GC Count with respect to time.</li>
+			<li><b>GC Time:</b> Total time required for GC in ms.</li>
+			<li><b>Network:</b> Bytes received and sent through network in bytes/s.</li>
+			<li><b>Disk:</b> Bytes read and bytes written by user in Bytes/s.</li>
+			<li><b>CPU Usage:</b> Amount of CPU usage</li>
+		</ul>
+	</li>
+</ul>
+<img alt="NM-add3" src="images/screenshots/nm-charts.jpeg" >	
+	
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>	
+</body>
+</html>
+
+

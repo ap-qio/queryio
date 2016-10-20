@@ -1,0 +1,58 @@
+<div style="text-align: left;">
+
+    <a href="#" onclick="sheetInstance.cellStyleToggle('styleBold'); return false;" title="Bold">
+        <img alt="Bold" src="spreadsheet/images/text_bold.png"/></a>
+    <a href="#" onclick="sheetInstance.cellStyleToggle('styleItalics'); return false;" title="Italic">
+        <img alt="Italic" src="spreadsheet/images/text_italic.png"/></a>
+    <a href="#" onclick="sheetInstance.cellStyleToggle('styleUnderline', 'styleLineThrough'); return false;" title="Underline">
+        <img alt="Underline" src="spreadsheet/images/text_underline.png"/></a>
+    <a href="#" onclick="sheetInstance.cellStyleToggle('styleLineThrough', 'styleUnderline'); return false;" title="Strikethrough">
+        <img alt="Strikethrough" src="spreadsheet/images/text_strikethrough.png"/></a>
+    <a href="#" onclick="sheetInstance.cellStyleToggle('styleLeft', 'styleCenter styleRight'); return false;" title="Align Left">
+        <img alt="Align Left" src="spreadsheet/images/text_align_left.png"/></a>
+    <a href="#" onclick="sheetInstance.cellStyleToggle('styleCenter', 'styleLeft styleRight'); return false;" title="Align Center">
+        <img alt="Align Center" src="spreadsheet/images/text_align_center.png"/></a>
+    <a href="#" onclick="sheetInstance.cellStyleToggle('styleRight', 'styleLeft styleCenter'); return false;" title="Align Right">
+        <img alt="Align Right" src="spreadsheet/images/text_align_right.png"/></a>
+    <a href="#" onclick="sheetInstance.cellStyleToggle('styleRight', 'styleLeft styleCenter'); return false;" title="Align Right">
+        <img alt="Align Right" src="spreadsheet/images/text_align_right.png"/></a>
+    <a href="#" onclick="sheetInstance.merge(); return false;" title="Merge Cells">
+        <img alt="Fill Down" src="spreadsheet/images/mergecell.png"/></a>
+    <a href="#" onclick="sheetInstance.unmerge(); return false;" title="Un-Merge Cells">
+        <img alt="Fill Down" src="spreadsheet/images/mergecell.png"/></a>
+    <a href="#" onclick="sheetInstance.toggleHide.rowShowAll(); return false;" title="Show All Rows">
+        <img alt="Fill Down" src="spreadsheet/images/show_table_row.png"/></a>
+    <a href="#" onclick="sheetInstance.toggleHide.columnShowAll(); return false;" title="Show All Columns">
+        <img alt="Fill Down" src="spreadsheet/images/show_table_column.png"/></a>
+    <a href="#" onclick="sheetInstance.fillUpOrDown(); return false;" title="Fill Down">
+        <img alt="Fill Up" src="spreadsheet/images/arrow_down.png"/></a>
+    <a href="#" onclick="sheetInstance.fillUpOrDown(true); return false;" title="Fill Up">
+        <img alt="Fill Up" src="spreadsheet/images/arrow_up.png"/></a>
+    <span class="colorPickers">
+        <input title="Foreground color" class="colorPickerFont" style="background-image: url('spreadsheet/images/palette.png') ! important; width: 16px; height: 16px;"/>
+        <input title="Background Color" class="colorPickerCell" style="background-image: url('spreadsheet/images/palette_bg.png') ! important; width: 16px; height: 16px;"/>
+    </span>
+    <a href="#" onclick="sheetInstance.obj.formula().val('=HYPERLINK(\'' + prompt('Enter Web Address', 'http://www.queryio.com/') + '\')').keydown(); return false;" title="HyperLink">
+        <img alt="Web Link" src="spreadsheet/images/page_link.png"/></a>
+    <a href="#" onclick="sheetInstance.cellStyleToggle('styleWrap'); return false;" title="Wrap Text">
+        <img alt="Web Link" src="spreadsheet/images/text_horizontalrule.png"/></a>
+    <a href="#" onclick="sheetInstance.getTdRange(null, sheetInstance.obj.formula().val()); return false;" title="Get Cell Range">
+        <img alt="Get Cell Range" src="spreadsheet/images/sheet_get_range.png"/></a>
+    <a href="#" onclick="sheetInstance.calc(sheetInstance.i); return false;" title="Refresh Calculations">
+        <img alt="Refresh Calculations" src="spreadsheet/images/arrow_refresh.png"/></a>
+    <a href="#" onclick="sheetInstance.cellFind(); return false;" title="Find">
+        <img alt="Find" src="spreadsheet/images/find.png"/></a>
+    <a href="#" onclick="sheetInstance.toggleFullScreen(); $('#lockedMenu').toggle(); return false;" title="Toggle Full Screen">
+        <img alt="Toggle Full Screen" src="spreadsheet/images/arrow_out.png"/></a><!--<a href="#" onclick="insertAt('jSheetControls_formula', '~np~text~'+'/np~');return false;" title="Non-parsed"><img alt="Non-parsed" src="spreadsheet/images/noparse.png"/></a>-->
+	<span style="vertical-align: top;font-size: 12px;margin-left: 10px;">
+		<span id="bigQueryIdsspan" style="vertical-align: top;">Query: 
+		<select id="bigQueryIds" onchange="javascript:SPS.changeQueryId(this.options[this.selectedIndex].value);" style="vertical-align: top;width: 100px; "></select>
+		<input type="button" class="button" onclick="SPS.loadQueryInSheet(sheetInstance,true);" value="View">
+		<input type="button" class="button" onclick="sheetInstance.fnPrint();" value="Print">
+		 
+		</span>
+	</span>
+	<script type="text/javascript">
+	
+	</script>
+</div>

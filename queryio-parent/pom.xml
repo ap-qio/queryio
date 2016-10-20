@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.queryio</groupId>
+	<artifactId>queryio-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>../hadoop-qio-common</module>
+		<module>../hadoop-qio-server</module>
+		<module>../hadoop-queryio</module>
+		<module>../HDFSFTPServer</module>
+		<module>../JDBCAuthenticate</module>
+		<module>../QueryIO</module>
+		<module>../QueryIOAgent</module>
+		<module>../QueryIOCommon</module>
+		<module>../QueryIODemo</module>
+		<module>../QueryIOPlugins</module>
+		<module>../os3server</module>
+		<module>../Hive-1.2.1</module>
+	</modules>
+	<name>parent</name>
+	<url>http://maven.apache.org</url>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+	</dependencies>
+</project>

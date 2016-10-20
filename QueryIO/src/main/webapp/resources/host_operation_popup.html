@@ -1,0 +1,146 @@
+
+
+
+<div id="adddm" class="lightbox">
+	
+	<table id="delete_host_operation" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspan">Delete Host</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div>
+						<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+									<div class="instructional" id="details">
+										Provide ssh credentials to delete host from cluster.  
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="otherinstruction">
+										<hr>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<form>
+										<div id="host_form_div" style="display: ">
+											<table width="100%" class="form_table">
+												<tr>
+													<td style="text-align:left;" >Credential for host</td>
+													<td style="text-align:left;" ><span id="host_name_span1"></span>
+													</td>
+												</tr>
+												<tr>
+													<td>User Name</td>
+													<td><input type="text" id ="username" name="username"></td>
+												</tr>
+												<tr>
+													<td>Authentication Method</td>
+													<td><span>
+													<select id="authenticationMethod" onchange="javascript:authenticationMethodChanged();" style = "width: 96%;">
+														<option value="password" selected="selected">Password </option>
+														<option value="privateKey">Private Key </option>
+													</select>
+													</span></td>
+												</tr>
+												
+												<tr id="password_tr" style="display: ">
+													<td>Password</td>
+													<td><span><input type="password" id="password"></span>
+													</td>
+												</tr>
+												
+												<tr id="privatekey_tr" style="display: none;">
+													<td>Private Key</td>
+													<td><span><input type="text" id="privateKey"></span>
+													</td>
+												</tr>
+												<tr id="port_tr" >
+													<td>SSH Port</td>
+													<td><span><input type="text" id="port" value="22"></span>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<div class="otherinstruction">
+															<hr>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<input type="button" value="Delete" name="Delete" id = "Operation" style="float: right;" onClick="javascript:Hosts.deleteSelectedHost(false);">
+														<input type="button" value="Cancel" name="cancel" style="float: right;" onClick="javascript:Hosts.closeBox(false);">
+													</td>
+												</tr>
+											</table>
+										</div>
+										<div id ="host_status_div" style="display: none">
+											<table width="100%" class="form_table">
+												<tr>
+													<th style="">Host Name</th>
+													<th style="">Message</th>
+													<th style="">Status</th>
+													<th></th>
+												</tr>
+												<tr>
+													<td style="text-align: center;"><span id="host_name_span2"></span></td>
+													<td style="text-align: center;"><span id="status_message"></span><br><div id="log_div" style="display: none;"></div></td>
+													<td style="text-align: center;"><span id="status"></span></td>
+													<td style="text-align: center;">
+														<span id="image_fail" style="display:none;"><img src="images/Fail_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+														<span id="image_success" style="display:none;"><img  src="images/Success_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+														<span id="image_processing" style="display:none;"><img  src="images/process.gif" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+													</td>
+												</tr>
+												<tr>
+													<td colspan = "4"><hr></td>
+												</tr>
+												<tr>
+													<td colspan="4" style="text-align: center;">
+														<input type="button" disabled="true"  class="buttonAdmin" id="deletehost.ok" value="Ok" onclick="javascript:Hosts.closeBox(true);">
+											 		</td>
+											 	</tr>
+											</table>
+										</div>
+									</form>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script>
+Hosts.deleteHostPopUpready();
+
+function authenticationMethodChanged(){
+	
+	if($('#authenticationMethod').val()=='password'){
+		
+		$('#password_tr').css('display','');
+		$('#privatekey_tr').css('display','none');
+		$('#privateKey').val('');
+		
+		
+	}else if($('#authenticationMethod').val()=='privateKey'){ 
+		$('#password_tr').css('display','none');
+		$('#privatekey_tr').css('display','');
+		$('#password').val('');
+		
+	}
+	
+} 
+</script>

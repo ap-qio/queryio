@@ -1,0 +1,16 @@
+#chartStylesTable td {
+	text-align: left;
+	padding: 5px;
+}
+
+.applyJPicker {
+	display: none;
+}
+
+#chart_designer_wizard_div {
+	width: 350px;
+}
+
+.fontFamilyContainer {
+	
+}

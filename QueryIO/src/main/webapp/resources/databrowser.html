@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="styles/ui.jqgrid.css" type="text/css" />
+<link rel="stylesheet" href="styles/nd.css" type="text/css" />
+
+
+<script src="scripts/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="scripts/jquery.jqGrid.min.js" type="text/javascript"></script>
+<script src="scripts/databrowser.js"></script>
+
+<div id='data_browser' class="viewDiv detailDivView">
+
+<div id ="data_browser_path_bar" class="buttons" style=" ">
+	<table style = "width: 100%;">
+		<tr>
+			<td style = "width: 65%;padding-bottom: 0px;padding-top: 0px;" >	
+				<span style="display: none;"><span>NameNode <select id="db_namenode" onchange="javascript:DataBrowser.showDataOfNameNode();"></select></span></span>
+				<span id = "data_browser_path_bar_text" style="word-break: break-word;"><b>Contents of directory:</b> &nbsp;&nbsp;&nbsp;<a style="text-decoration:none" href="javascript:DataBrowser.listFiles('/')">/</a></span>
+			</td>
+			<td style = "width: 35%;padding-bottom: 0px;padding-top: 0px; ">
+				<span style="float:right;margin: 0px 0px 0px 6px;">
+					<button class="button" id ="configTag" name="configTag" onclick="javascript:DataBrowser.showTagBox();" style="width: auto;height: auto; margin-top: 1px; margin-bottom: 1px;">Tag data</button>
+					<button class="button" id ="configPer" name="configPer" onclick="javascript:DataBrowser.showPermissionBox();" style="width: auto;height: auto; margin-top: 1px; margin-bottom: 1px;">Permissions</button> 	
+					<button class="button" id="deleteFile" onclick="javascript:DataBrowser.deleteFiles();" style="width: auto;height: auto; margin-top: 1px; margin-bottom: 1px;" disabled="disabled">Delete</button>
+				</span>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="fileElement" style="display: none;"></div>
+<div id="fileElementType" style="display: none;"></div>
+
+<div id ="jqgrid_container" style= "margin-top: 4px;">
+	<table id="data_browser_table"></table>
+	<div id="pager"></div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+	var dirPath = "/";
+	DataBrowser.ready();	
+	var isFirstTime = true;
+
+	function fillPopUp(flag)
+	{
+		var id = "delete";
+		dwr.util.cloneNode('pop.pattern',{ idSuffix:id });
+		dwr.util.setValue('popup.component','Action');
+		dwr.util.setValue('popup.host' + id, "Delete");
+		dwr.util.setValue('popup.message' + id,'Deleting ' + DataBrowser.overallSelectedType);	
+		dwr.util.setValue('popup.status' + id,'Processing');
+		dwr.util.byId('pop.pattern' + id).style.display = '';
+
+		var namenodeId = $('#db_namenode').val();
+		RemoteManager.deleteFiles(namenodeId, dirPath, DataBrowser.SelectedFileArray, DataBrowser.showDeleteResponse);
+	}
+
+	function closePopUpBox()
+	{
+		Util.removeLightbox('deleteFiles');
+		//Navbar.refreshView();
+	}	
+</script>

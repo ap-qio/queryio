@@ -1,0 +1,228 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop Analytics AdHoc</title>
+</head>
+
+<body>
+
+<h1><span>AdHoc Data Definition</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains about Ad hoc analysis of different file formats. </p>
+<ul>
+	<li><a href="#what">What is AdHoc Data Definition</a></li>
+	<li><a href="#hive">Introduction to Apache Hive</a></li>
+	<li><a href="#details">Adhoc Data Definition Details</a></li>
+	<li><a href="#add">Add new Adhoc Data Definition</a></li>
+	<li><a href="#edit">Edit / Delete Adhoc Data Definition</a></li>
+</ul>
+
+<h2 id="what"><span>What is AdHoc Data Definition</span></h2>
+<p>QueryIO provides Ad hoc analysis of different file formats like machine generated logs, CSV / TSV, Apache server logs, IIS logs, XML, mbox, key value pairs, JSON, regex patterns etc.</p>
+<p>QueryIO AdHoc feature allows you to execute MapReduce jobs for data processing through <b>Query Designer</b> and store parsed data in result table.<br>
+QueryIO supports adHoc querying for various file types. You can customize the result table fields, types etc using adHoc data definition feature.</p>
+<p>Various supported file type are : </p>
+<ul>
+	<li>CSV / TSV</li>
+	<li>LOG4J</li>
+	<li>Apache Log</li>
+	<li>IIS Log</li>
+	<li>JSON</li>
+	<li>Key / Value Pair</li>
+	<li>Mbox</li>
+	<li>Regex Parsable Text</li>
+	<li>XML</li>
+</ul>
+
+<h2 id="hive"><span>Introduction to Apache Hive</span></h2>
+
+<p>
+Hive is a data warehouse system for Hadoop that facilitates easy data summarization, ad-hoc queries, and the analysis of large datasets stored in Hadoop compatible file systems. 
+Hive provides a mechanism to project structure onto this data and query the data using a SQL-like language called HiveQL. 
+At the same time this language also allows traditional map/reduce programmers to plug in their custom mappers and reducers when it is inconvenient or inefficient to express this logic in HiveQL.
+</p>
+
+<p>
+The Apache Hive data warehouse software facilitates querying and managing large datasets residing in distributed storage. Built on top of Apache Hadoop , it provides
+</p>
+
+<ul>
+	<li>
+		Tools to enable easy data extract/transform/load (ETL)
+	</li>
+	<li>
+		A mechanism to impose structure on a variety of data formats
+	</li>
+	<li>
+		Access to files stored directly on HDFS
+	</li>
+	<li>
+		Query execution via MapReduce
+	</li>
+</ul>
+
+<p>
+Hive defines a simple SQL-like query language, called QL, that enables users familiar with SQL to query the data.
+At the same time, this language also allows programmers who are familiar with the MapReduce framework to be able to plug in their custom mappers and 
+reducers to perform more sophisticated analysis that may not be supported by the built-in capabilities of the language.  
+QL can also be extended with custom scalar functions (UDF's), aggregations (UDAF's), and table functions (UDTF's).
+</p>
+
+<h2 id="details"><span>Adhoc Data Definition Details</span></h2>
+<ul>
+	<li><b>AdHoc ID</b> : Unique identifier for adhoc job.</li>
+	<li><b>NameNode</b> : Namespace linked with the job.</li>
+	<li><b>Resource Manager</b> : ResourceManager linked with the adhoc.</li>
+	<li><b>Source Path</b> : Root directory in which files will be parsed.</li>
+	<li><b>Data Source Type</b> : File type selected.</li>
+	<li><b>AdHoc Table Name</b> : Name of the adhoc table to query.</li>
+	<li><b>File Filter Pattern</b> : File pattern used for the adhoc definiton to filter out files.</li>
+	 <li><b>Encoding</b> : Selected type of file encoding. </li>
+	 <li><b>Arguments</b> : Arguments for adhoc job based on configurations provided to adhoc difinition.</li>
+</ul>
+<img src="images/screenshots/adhoc-dd1.png"/>
+
+<h2 id="add"><span>Add new Adhoc Data Definition</span></h2>
+<p>To define a new adhoc content processor for a file type, click <b>Add</b>.</p>
+
+<h3>General settings</h3>
+<ul>
+	<li><b>AdHoc Id : </b>A unique identifier for adhoc job.</li>
+	<li><b>File Type : </b>Select from supported file types. </li>
+	<li><b>NameNode : </b>Select namespace whose data will be parsed. </li>
+	<li><b>ResourceManager : </b>Select ResourceManager to allocate resources for the adhoc job.</li>
+	<li><b>HDFS Source Path : </b>Source path under which files will be parsed. </li>
+	<li><b>File Filter Pattern : </b>File pattern to filter out the files to be parsed. (For example : *.xml will parse only file with extension 'xml') </li>
+	<li><b>AdHoc Table Name : </b>Table name for adhoc query. </li>
+	<img src="images/screenshots/adhoc-dd.png"/>
+</ul>
+
+<h3>Configurations</h3>
+<ul>
+	<li><b>FileType : CSV / TSV</b> 
+	<ul>
+		<li>Encoding : Select type of file encoding. </li>
+		<li>Auto Detect : Upload a sample file which will be parsed to automatically define schema definition for adhoc query.</li>
+		<li>Manual Configuration : It allows you to manually define schema for adhoc query. </li>
+		<li>Sample File : Select a sample file to auto detect schema. </li>
+		<li>Has Header Row : Whether sample csv file has header row or not.  </li>
+		<li>Records to Analyze : Number of records which should be analyzed to detect Data types for each column </li>
+		<li>Delimiter : Delimiter used to separate out value list.</li>
+		<li>Value Separator : Delimiter used in file to separate values. </li>
+		<li>If Error Occurs during processing : Action to be taken in case error occurred during parsing of file. Either skip the record or stop parsing. </li>
+	</ul></li>
+	<img src="images/screenshots/adhoc-dd-csv.png"/>
+	<br><br>
+	<li><b>FileType : LOG4J, Apache Log</b> 
+	<ul>
+		<li>Log Pattern : Regular expression which defines the logging pattern of selected log file type. QueryIO provides default pattern for all supported log files.</li>
+		<li>Encoding : Select type of file encoding. </li>
+		<li>Auto Detect : Upload a sample file which will be parsed to automatically define schema definition for adhoc query.</li>
+		<li>Manual Configuration : It allows you to manually define schema for adhoc query. </li>
+		<li>Sample File : Select a sample file to auto detect schema. </li>
+		<li>If Error Occurs during processing : Action to be taken in case error occurred during parsing of file. Either skip the record or stop parsing. </li>
+	</ul></li>
+	<br>
+	<li><b>FileType : IIS Log</b> 
+	<ul>
+		<li>Encoding : Select type of file encoding. </li>
+		<li>Auto Detect : Upload a sample file which will be parsed to automatically define schema definition for adhoc query.</li>
+		<li>Manual Configuration : It allows you to manually define schema for adhoc query. </li>
+		<li>Sample File : Select a sample file to auto detect schema. </li>
+		<li>Has Header Row : Whether sample log file has header row or not.  </li>
+		<li>Records to Analyze : Number of records which should be analyzed to detect Data types for each column </li>
+		<li>Delimiter : Delimiter used to separate out value list.</li>
+		<li>If Error Occurs during processing : Action to be taken in case error occurred during parsing of file. Either skip the record or stop parsing. </li>
+	</ul></li>
+	<br>
+	<li><b>FileType : JSON</b> 
+	<ul>
+		<li>Encoding : Select type of file encoding. </li>
+		<li>Auto Detect : Upload a sample file which will be parsed to automatically define schema definition for adhoc query.</li>
+		<li>Manual Configuration : It allows you to manually define schema for adhoc query. </li>
+		<li>Sample File : Select a sample file to auto detect schema. </li>
+		<li>Records to Analyze : Number of records which should be analyzed to detect Data types for each column </li>
+		<li>If Error Occurs during processing : Action to be taken in case error occurred during parsing of file. Either skip the record or stop parsing. </li>
+	</ul></li>
+	<br>
+	<li><b>FileType : Key / Value Pair</b> 
+	<ul>
+		<li>Encoding : Select type of file encoding. </li>
+		<li>Auto Detect : Upload a sample file which will be parsed to automatically define schema definition for adhoc query.</li>
+		<li>Manual Configuration : It allows you to manually define schema for adhoc query. </li>
+		<li>Sample File : Select a sample file to auto detect schema. </li>
+		<li>Delimiter : Delimiter used to separate out value list.</li>
+		<li>Value Separator : Separator used between key and value. </li>
+		<li>If Error Occurs during processing : Action to be taken in case error occurred during parsing of file. Either skip the record or stop parsing. </li>
+	</ul></li>
+	<br>
+	<li><b>FileType : MBox</b> 
+	<ul>
+		<li>Encoding : Select type of file encoding. </li>
+		<li>Auto Detect : Upload a sample file which will be parsed to automatically define schema definition for adhoc query.</li>
+		<li>Manual Configuration : It allows you to manually define schema for adhoc query. </li>
+		<li>Sample File : Select a sample file to auto detect schema. </li>
+		<li>If Error Occurs during processing : Action to be taken in case error occurred during parsing of file. Either skip the record or stop parsing. </li>
+	</ul></li>	
+	<br>
+	<li><b>FileType : Regex Parsable Text</b> 
+	<ul>
+		<li>Encoding : Select type of file encoding. </li>
+		<li>Auto Detect : Upload a sample file which will be parsed to automatically define schema definition for adhoc query.</li>
+		<li>Manual Configuration : It allows you to manually define schema for adhoc query. </li>
+		<li>Sample File : Select a sample file to auto detect schema. </li>
+		<li>Regular Expression : Regular expression which will be parsed to create schema definition.</li>
+		<li>If Error Occurs during processing : Action to be taken in case error occurred during parsing of file. Either skip the record or stop parsing. </li>
+	</ul></li>
+	<br>
+	<li><b>FileType : XML</b> 
+	<ul>
+		<li>Encoding : Select type of file encoding. </li>
+		<li>Auto Detect : Upload a sample file which will be parsed to automatically define schema definition for adhoc query.</li>
+		<li>Manual Configuration : It allows you to manually define schema for adhoc query. </li>
+		<li>Sample File : Select a sample file to auto detect schema. </li>
+		<li>XML Node Name : Name of a node in xml file.</li>
+		<li>If Error Occurs during processing : Action to be taken in case error occurred during parsing of file. Either skip the record or stop parsing. </li>
+	</ul></li>
+	
+</ul>
+
+<h3>Schema Definition</h3>
+<ul>
+	<li>In case of <b>Auto Detect</b> schema definition :
+		<ul> 
+			<li>This view shows the schema definition that was developed by parsing sample file.</li>
+			<li>Check to make sure the data was defined correctly with the sample file.</li>
+			<li>You can also update the schema definition by removing any column or changing clumn type etc.</li>	 
+		</ul>
+	</li>
+	<img src="images/screenshots/adhoc-dd-schema.png"/>
+	<br><br>
+	<li>In case of <b>Manually Configure</b> schema definition : 
+		<ul>
+			<li>You can manually add columns its related details to define schema.</li> 
+			<li>Provide appropriate details and press &lt;Enter&gt; to add column.</li>
+		</ul>
+	</li>
+	<img src="images/screenshots/adhoc-dd-schema-manual.png"/>
+</ul>
+
+<h2 id="edit"><span>Edit / Delete Adhoc Data Definition</span></h2>
+<p>QueryIO allows you to edit general settings of the adhoc definition. Select the adhoc job and click <b>Edit</b>.</p>
+<p>To delete it, select the job and click <b>Delete</b>.</p>
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Hadoop SQL Database</title>
+</head>
+
+<body>
+
+<h1><span>Manage Databases</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains various features of QueryIO related to databases.</p>
+<ul>
+	<li><a href="#db">QueryIO Database</a></li>
+	<li><a href="#Add Database">Add Database</a></li>
+	<li><a href="#delete Database">Delete Database</a></li>
+	<li><a href="#Database Migration">Database Migration</a></li>
+	<li><a href="#Export Schema">Export Schema</a></li>
+	<li><a href="#Configure Namespace">Configure Namespace</a></li>
+	<li><a href="#state">Migration Statistics</a></li>
+</ul>
+<h2 id="db"><span>QueryIO Database</span></h2>	
+<p>In QueryIO, you can configure multiple databases to use Hadoop SQL module.
+	</p>
+	
+	
+	<p>
+	DB Connections view shows default databases:
+	<ul>		
+		<li><b>MetaStore Database</b> : (MetaStore) To store HDFS metadata, Extended Metadata & user defined tags. Typical use case is for searching files on HDFS cluster based on metadata or user defined tags. </li>
+		<li><b>AdHoc Analysis Database</b> : (AnalyticsDB) To store processed data as a result of big data analysis. Typical use case is big data analytics, data summarization, ad-hoc queries & data warehousing.</li>
+	</ul>
+	</p>
+	<img alt="Database Manager View" src="images/screenshots/database-manager.jpeg" >	<br><br>
+	
+	<h3>Database Configuration</h3>
+	<p>Displays connection details for selected database. Here, you can update the connection properties for selected database.</p>
+	<ul>
+		<li><b>JDBC Connection URL:</b> Database connection URL of selected database.</li>	
+		<li><b>UserName:</b> Database username</li>	
+		<li><b>Password:</b> Database password.</li>	
+		<li><b>JDBC Driver Name:</b> Driver class of selected database.</li>	
+		<li><b>JDBC Driver Jar:</b> Jar containing JDBC drivers for selected database. No file is displayed for default "MetaStore" database.</li>
+		<li><b>Maximum Connections:</b> Maximum number of open connections allowed.</li>
+		<li><b>Maximum Idle Connections:</b> The maximum number of active connections that can remain idle in the pool without extra connections being released.</li>
+		<li><b>Wait Time MilliSeconds:</b> The length of time (in milliseconds) for a database connection to become available.</li>
+	</ul>
+	
+	<h3>Database Schema</h3>
+	<p>Schema of selected database is displayed here. All tables and their respective schema can be viewed. It also provide feature to delete or clear selected table.</p>
+	<p>Following details are displayed:</p>
+	<ul>
+		<li><b>Tables:</b></li>
+			<ul>
+				<li>Checkbox to select table.</li>
+				<li>ID: Name of the table.</li>
+			</ul>
+		<li><b>Shows the schema of the selected table.</b>
+			<ul>
+				<li>Table Selected: Name of the table whose details are displayed.</li>
+				<li>Column Name: Name of the table attribute.</li>
+				<li>Column Type: Data type of the corresponding attribute.</li>
+			</ul>
+		
+	</ul>
+	
+	
+	
+	
+	
+<h2 id="Add Database"><span>Add Database</span></h2>
+<p>If at any point of time you choose to use your custom database for Hadoop SQL module or if you want to use Hadoop SQL feature with new NameNode, then you would need to add a new database configuration.</p>	
+
+
+<p>Use following guidelines to add a new database to QueryIO</p>
+	<ul>
+		<li>Select <b>Add</b> action from the dropdown at the top of the Databases tab.</li>
+		<li><b>New DB Connection Name</b>: Enter name for the connection.</li>
+		<li><b>Role:</b> Select database mode as "Metadata/Tagging" or "Adhoc Analysis".</li>
+		<li>Click on <b>Save</b> to create a new database configuration.</li>
+		<img alt="NM-add3" src="images/screenshots/database-manager-add.jpeg" >	<br><br>
+		<li>At this point, you have created a new database configuration <i>[Let's say: MyDBConfig]</i></li>
+		
+		<li>Fill in the required database connection details in Database Configuration: <i>[Let's say: MyDBConfig]</i></li>
+		<li><b>JDBC Connection URL</b>: Connection URL for your database.</li>
+		<li><b>UserName</b>: Enter DB username.</li>
+		<li><b>Password</b>: Enter DB connection password.</li>
+		<li><b>JDBC Driver Name</b>: Driver class for your database.</li>
+		<li><b>JDBC Driver Jar</b>: Jar containing JDBC drivers for your database.</li>		
+		<li><b>Maximum Connections:</b> Specify maximum number of open connections allowed.</li>
+		<li><b>Maximum Idle Connections:</b> Specify the maximum number of active connections that can remain idle in the pool without extra connections being released.</li>
+		<li><b>Wait Time MilliSeconds:</b> Specify the length of time (in milliseconds) for a database connection to become available.</li>
+		<li>Click on <b>Update</b> to save the new database configuration. You need to provide connection details to successfully add database.</li>
+	</ul>
+<p class="note">NOTE: Before a new database is added to QueryIO, it must be started externally.</p> 
+
+<h2 id="delete Database"><span>Delete Database</span></h2>
+<p>This action is used to delete the selected database if it is not used by Hadoop SQL module.</p>
+	
+	
+<h2 id="Database Migration"><span>Database Migration</span></h2>
+<p>Using database migration, you can migrate your existing database to a different database.</p>
+
+<p>Use following guidelines to perform database migration.</p>
+	<ul>
+		<li> At this point, it is assumed that you have already saved the configuration details for your new database.</li>
+		<li>From the DB Connections tab, select the database that you want to migrate: MetaStore(by default database).</li>
+		<li>From the dropdown at the top of the DB Connections tab, select <b>Migrate</b>. You will see the following window.</li>
+		<img alt="NM-add3" src="images/screenshots/database-migration-tut.jpeg" >	<br><br>
+		<li>Select <b>Destination Database</b> from the <b>Select Destination DB</b> dropdown.</li>
+		<li>Click on <b>Migrate</b> to migrate your database.</li>
+	</ul>
+<p class="note">NOTE: Destination database can not contain tables that are already present in source database.</p> 
+
+<h2 id="Export Schema"><span>Export Schema</span></h2>
+<p>Select this action to export schema of selected database.</p>
+<img alt="NM-add3" src="images/screenshots/export-schema.jpeg" >
+<p>Click <b>Download DDL Script</b> to download the schema of database to local machine.</p>
+<img style="border: 1px solid #5F5F5F;" alt="" src="images/screenshots/export-schema1.jpeg" >
+
+
+<h2 id="Configure Namespace"><span>Configure Namespace</span></h2>
+<p>Use this option to change the namespace to be linked with selected database.</p>
+<p>Click <b>Change</b> to select another namespace.</p>		
+<img style="border: 1px solid #5F5F5F;" src="images/screenshots/configure-namespace.jpeg"/>
+
+<h2 id="state"><span>Migration Statistics</span></h2>
+<p>This section consists of statistical data about database migration processes. You can check the status database migrations.</p>
+<img src="images/screenshots/migration-state.jpeg">
+<p>Following migration details are displayed: </p>
+<ul>
+	<li><b>Source Database: </b> Database from which data will be copied</li>
+	<li><b>Destination Database: </b> Database in which all data will be transferred.</li>
+	<li><b>Start Time: </b> Starting time of migration process.</li>
+	<li><b>End Time: </b>Completion time of database migration.</li>
+	<li><b>Status: </b>Final result of migration process.</li>
+	<li><b>Progress: </b>Number of tables migrated out of total tables. </li>
+	<li><b>Error: </b>Any error occurred during migration process can be viewed by clicking on "View Error". </li>
+</ul> 	
+
+	<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

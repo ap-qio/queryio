@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<style>
+	body {font-family:Tahoma, sans-serif;}
+</style>
+<HEAD>
+	<TITLE>QueryIO Release Notes</TITLE>
+	<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+</HEAD>
+<BODY>
+<P><font face="Tahoma" size="5">QueryIO v $VERSION$ - Build $DATE_S$-$BUILD_NUMBER$</FONT></P>
+<HR color=#000000>
+
+<P align=left><font face="Tahoma" size="5">Release Notes</FONT></P>
+
+<P><font face="Tahoma" size="2">IMPORTANT: Please read this document in its entirety before using the product.</FONT></P>
+
+<P align=left><font face="Tahoma" size="2"><B>Introduction</B></FONT></P>
+
+<P><font face="Tahoma" size="2">Thank you for your interest in this <A href="http://www.queryio.com/" target="_blank">QueryIO</A>
+product. Please read the <a href="license.html" target="_blank">QueryIO Software License Agreement (QSLA)</a>. You must read and accept the terms of this license agreement to continue your use of this product and its documentation.</FONT></P>
+
+<p><font face="Tahoma" size="2"><b>What is QueryIO</b></p>
+<p>
+QueryIO is a solution for Big Data Analytics. QueryIO is used to store and process vast amounts of structured and unstructured data. 
+QueryIO is especially well suited to enable users to process unstructured data, give it a structure and support analysis of this data using standard SQL. 
+QueryIO enables you to leverage the vast and mature infrastructure built around SQL and relational databases and utilize it for your Big Data Analytics needs. 
+</p>
+<p>
+QueryIO builds on Hadoop's scalability and reliability. QueryIO makes it easy to scale to hundreds of Compute+Store cluster nodes and peta bytes of data in an easy and logical manner. 
+QueryIO enhances basic Hadoop to provide a comprehensive Big Data Analytics solution. Some key enhancements QueryIO provides to basic Hadoop:
+
+<li>
+Data Tagging and MetaData extension 
+</li>
+<li>
+Standard SQL interface for hadoop big data querying and analysis 
+</li>
+<li>
+Web-based cluster management
+</li>
+<li>
+Comprehensive monitoring, including rules, alerts, etc. 
+</li>
+<li>
+Value added services such as S3-compatible REST API, FTP interface, etc.  
+</li>
+ 
+</FONT></P>
+
+<P><font face="Tahoma" size="2"><STRONG>Getting Started</STRONG></FONT></P>
+
+<P><font face="Tahoma" size="2">If this is the first time you are using this product, or the first time you are using this version of the product, we strongly urge you to follow the <a href="docs/hadoop-big-data-tutorial/index.html" target="_blank">Product Tutorial</a> included with this package. It is quick, easy, self-contained and will give you hands-on training on the product. 
+You can also get <a href="docs/hadoop-big-data-installation-guide/queryio/start-big-data-server.html" target="_blank">getting started</a> instructions for QueryIO.
+</FONT></P>
+
+<P><font face="Tahoma" size="2"><B>Getting Help</B></FONT></P>
+
+<P><font face="Tahoma" size="2">If you require technical assistance using this product, please contact QueryIO Technical Support at <A href="mailto:support@queryio.com">support@QueryIO.com</A> or visit
+<a href="http://www.queryio.com/hadoop-big-data-support/index.html" target="_blank">http://www.queryio.com/hadoop-big-data-support/index.html</a>.</FONT></P>
+
+<P><font face="Tahoma" size="2"><B>Documentation</B></FONT></P>
+
+<P><font face="Tahoma" size="2">
+Help can be invoked from anywhere in the application by clicking 'Help' link at the top right corner of the window.
+You can also view detailed product documentation by clicking on <b>$INSTALL_HOME/docs/</b> and selecting the product document. 
+Following documents are included with this product: 
+<li>
+<a href="docs/hadoop-big-data-installation-guide/index.html" target="_blank">QueryIO Installation Guide</a>
+</li>
+<li>
+<a href="docs/hadoop-big-data-tutorial/index.html" target="_blank">QueryIO Tutorial</a>
+</li>
+<li>
+<a href="docs/hadoop-big-data-user-guide/index.html" target="_blank">QueryIO User Guide</a>
+</li>
+<li>
+<a href="docs/hadoop-big-data-admin-guide/index.html" target="_blank">QueryIO Administrator Guide</a>
+</li>
+<li>
+<a href="docs/hadoop-big-data-developer-guide/index.html" target="_blank">QueryIO Developer Guide</a>
+</li>
+</FONT></P>
+
+<P><font face="Tahoma" size="2"><B>Sample apps and data</B></FONT></P>
+<P><font face="Tahoma" size="2">
+QueryIO ships with a number of sample applications and sample data to expedite the learning and evaluation process. Sample apps and data are located under the <b>$INSTALL_HOME/demo/</b>directory. 
+Start with the <a href="demo/README.html" target="_blank">README.html</a> file in that directory for details on the demo and the sample data.</FONT></P>
+
+
+</font></p>
+
+<P><font face="Tahoma" size="2"><B>Thank You</B></FONT></P>
+<P><font face="Tahoma" size="2">
+QueryIO greatly appreciates the time and effort you have taken to look into our product. We have built the company and product around you, our user. If you have any suggestions on how we can improve our products and services,
+please feel to contact QueryIO at <A href="mailto:sales@QueryIO.com">sales@QueryIO.com</A></FONT></P>
+
+<hr>
+<P align=left><font face="Tahoma" size="5">Change Log</FONT></P>
+<P><font face="Tahoma" size="2"><B>Major changes from QueryIO v 4.0 to QueryIO v 4.5:</B></FONT></P>
+<font face="Tahoma" size="2">
+	<ol>
+		<li>Upgraded to Hadoop 2.7.1</li>
+		<li>Upgraded to Hive 1.2.1</li>
+		<li>Added support for Mac OS 10.11 (El Capitan)</li>
+		<li>Fixed known issues with report engine and integrated support to directly query hive through JDBC driver.</li>
+		<li>Optimized UI to for faster navigation and content search.</li>
+		<li>Added support for Pagination across different views wherever applicable.</li>
+		<li>Optimized MapReduce jobs for faster data processing. </li>
+		<li>Provided additional option to process data at record level for data tagging.</li>
+		<li>Optimized processing engine to have single MR job create multiple data tags in parallel.</li>
+		<li>Added support to start/stop cluster with single click.</li>
+		<li>Provided support to create a new hive DDL through QueryIO REST apis.</li>
+		<li>Fixed most known bugs.</li>
+	</ol>
+</font>
+<P><font face="Tahoma" size="2"><B>Major changes from QueryIO v 3.6 to QueryIO v 4.0:</B></FONT></P>
+<font face="Tahoma" size="2">
+	<ol>
+		<li>Upgraded to Hadoop 2.7.0</li>
+		<li>Upgraded to Hive 1.2.0</li>
+		<li>Switched DB from postgres to HSQL.</li>
+		<li>Upadate JRE to 1.7</li>
+		<li>Updated tomcat to 7.0.62</li>
+		<li>Authorization using hadoop</li>
+		<li>Added support for Mac OSX 10.10.3</li>
+		<li>Added support to filter files using regex while executing hive queries.</li>
+		<li>Fixed most known bugs.</li>
+	</ol>
+</font>
+<P><font face="Tahoma" size="2"><B>Major changes from QueryIO v 3.5 to QueryIO v 3.6:</B></FONT></P>
+<font face="Tahoma" size="2">
+	<ol>
+		<li>Upgraded to Hadoop 2.4.0</li>
+		<li>Upgraded to Hive 0.13.0</li>
+		<li>Fixed most known bugs.</li>
+	</ol>
+</font>
+
+<P><font face="Tahoma" size="2"><B>Major changes from QueryIO v 3.0 to QueryIO v 3.5:</B></FONT></P>
+<font face="Tahoma" size="2">
+	<ol>
+		<li>Upgraded to Hadoop 2.2.0</li>
+		<li>Upgraded to Hive 0.12.0</li>
+		<li>Fixed most known bugs.</li>
+	</ol>
+</font>
+<P><font face="Tahoma" size="2"><B>Major changes from QueryIO v 2.5 to QueryIO v 3.0:</B></FONT></P>
+<font face="Tahoma" size="2">
+	<ol>
+		<li>Upgraded to Hadoop 2.0.4-alpha</li>
+		<li>Upgraded to Hive 0.11.0</li>
+		<li>Upgrading from QueryIO v 2.5  (Hadoop 2.0.3-alpha) to QueryIO v 3.0  (Hadoop 2.0.4-alpha) supported.</li>
+		<li>Fixed most known bugs.</li>
+	</ol>
+</font>
+<P><font face="Tahoma" size="2"><B>Major changes from QueryIO v 2.0 to 2.5:</B></FONT></P>
+<font face="Tahoma" size="2"><ol>
+		<li> Data Tagging feature which provides users an extensive Data Intelligence framework enabling users to create data tags in MetaStore DB for files on HDFS cluster. Both On-Ingest and Post-Ingest processing is supported.</li> 
+		<li> Enhanced Hive to support recursive processing of folders / files.</li>
+		<li> Enhanced Hive to understand file path filter patterns, restricting the processing of files to just user defined file path pattern.</li>
+		<li> Support to extract FilePath as well during Hive Queries.</li>
+		<li> Support for Input Path Filter while executing Hive Queries. This has an advantage where you can use Hive to process just subset of files based on query results from MetaStore.</li>
+		<li> Support for MySQL database along with PostgreSQL out of the box.</li>
+		<li> Implemented Generic framework to enable user to configure other databases to use with QueryIO.</li>
+		<li> Separation of result set from Report Viewer, enabling analysis of same query results with Spreadsheet and other report formats like html, pdf and xls.</li>
+		<li> Support for cluster setup during installation and fixing other know issues with the installer.</li>
+		<li> Support for local cluster installation for evaluation users. Local cluster installation now supports 127.0.0.1/localhost which allows the cluster to work fine even when the IP address of the installation machine changes. This makes evaluation process easier for users connecting to networks allocating dynamic IP addresses, or for users connecting to different networks at home and office.</li>
+		<li> Support for upgrading from one version of QueryIO to another. This enables user to persist all his data on cluster / user reports / queries / cluster configurations etc. created in older installation.</li>
+		<li> Fixed all known issues with uninstall process where QueryIO takes care of uninstalling all the services cleanly along with Remote cluster uninstallation. It also now supports persisting user's cluster data and reports.</li>
+		<li> Fixed most known bugs.</li>
+</ol></font>
+
+
+<P><font face="Tahoma" size="2"><B>Major changes from QueryIO v 1.0 to QueryIO v 2.0:</B></FONT></P>
+<font face="Tahoma" size="2"><ol>
+		<li> Upgraded to Hadoop 2.0.3-alpha. </li>
+		<li> Added support for automated Hadoop cluster setup (start NameNode, DataNode, ResourceManger, etc. services) on single and multiple hosts.</li>
+		<li> Integrated Hive 0.11 into QueryIO for AdHoc analysis of machine generated file formats such as logs, CSV/TSV, Apache server logs, IIS logs, XML, mbox, key value pairs, JSON, regex patterns etc.</li>
+		<li> Migrated from HSql to PostgreSQL 9.2.3 for better performance, security and scalability.</li>
+		<li> Added support for data import/export to/from additional data sources such as HDFS, POP / IMAP, HTTP/HTTPS, SSH, SFTP, Amazon S3, etc.</li>
+		<li> Added support for Spreadsheet Viewer to enable additional processing and analysis of query results.</li>
+		<li> Significantly improved the performance of different modules (Data importation, query execution, etc.) in the system.</li>
+		<li> Enhanced report designing capabilities drastically: Simplified Designer, Added separate Preview window, etc.</li>
+		<li> Improved charting capabilities by adding 9 new chart types (area, gantt, scatter, etc.) and enabling additional operators/functions to be used for charting.</li>
+		<li> Added support to print / email reports.</li>
+		<li> Added support for configuration of Journal Nodes for HDFS NameNode High Availability.
+		<li> Added Disaster Recovery module to backup and restore NameNode's FSImage using QueryIO MetaStore.</li>
+		<li> Added automated diagnosis and repair feature to keep QueryIO MetaStore in sync with NameNode's FSImage.</li>
+		<li> Enhanced data management usability: Added support to save / configure data source connections used during import / export, restructure UI, etc.</li>
+		<li> Completely restructured the menus for better user experience. </li>
+		<li> Fixed most known bugs.</li>
+		
+</ol></font>
+
+
+<br><hr align="center" class="whs4">
+<p class="whs5" style="text-align: center; font-size: 10px;">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </p>
+<p class="whs5" style="text-align: center; font-size: 10px;">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</p>
+
+</body>
+</html>

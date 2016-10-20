@@ -1,0 +1,31 @@
+.colheader_link
+{
+color: black;
+}
+
+.outtertab_table
+{
+border-collapse: collapse;
+}
+
+/* table thead th,
+table tr td
+{
+	padding: 0px;
+	font-size: 9pt;
+}
+ */
+.viewDiv{
+width: 99%;
+margin: 10px 0px 0px 10px;
+}
+
+#standardJobHead:hover, #execHistoryHead:hover
+{
+	background: white;
+}
+
+#databasesHead:hover, #datasourceConnHead:hover, #dataTaggingHead:hover, #contentProcHead:hover
+{
+	background: white;
+}

@@ -1,0 +1,97 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Writing your own parser</title>
+</head>
+
+<body>
+
+<h1><span>Writing your own parser</span></h1>
+
+<p>QueryIO allows traditional programmers to plug in their custom parsers.
+
+		<ul><b>
+			<li>On Ingest</li>
+			<li>Post Ingest</li>
+		</ul></b>
+	</p>
+	
+<h2><span>Writing On Ingest Parser</span></h2>
+
+<p>On Ingest Parser parses the file while it is being written onto the cluster. Use following guidelines to add an On Ingest parser</p>
+	<ul>
+		<li>Create your own parser class implementing <b>com.queryio.hadoop.hdfs.userdefinedtags.IUserDefinedParser</b> interface
+		<p>The definition of the interface is as follows:
+		<pre>
+		/**
+	 * @return List of CustomTag 
+	 */
+	List<UserDefinedTag> getCustomTagList();
+	
+	/**
+	 * Provide column names and column sql datatypes of fields 
+	 * being parsed by this parser.
+	 * @return List of ColumnMetaData 
+	 */
+	List<ColumnData> getColumnMetaDataList();
+	
+	/**
+	 * Adds CustomTag to the list. 
+	 * @param tag CustomTag
+	 */
+	void addCustomTag(UserDefinedTag tag);
+	
+	/** 
+	 * @return tableName  where all CustomTags parsed by this parser 
+	 * are stored in database.
+	 */
+	String getTableName();
+	
+	/**
+	 * Sets Filter Expression that the parser should use to filter 
+	 * records from the file. 
+	 * @param expression
+	 */
+	void setFilterExpression(String expression);
+	
+	/**
+	 * Sets name of the file which is currently being parsed. 
+	 * @param fileName
+	 */
+	void setFileName(String fileName);
+	
+	/**
+	 * Read InputStream and parse the content to extract CustomTags. 
+	 * @param stream InputStream of file
+	 * @param fileSize size of file being read
+	 * @throws Exception
+	 */
+	void parseStream(InputStream stream, long fileSize) throws Exception;
+	
+	/**
+	 * Read InputStream and parse the content to extract CustomTags. 
+	 * @param is InputStream of file
+	 * @throws Exception
+	 */
+	void parseStream(InputStream stream) throws Exception;
+	<pre>
+	</p>
+		</li>
+		<li>Create a jar file containing the class which you just implemented</li>
+	</ul>
+
+<h2><span>Writing Post Ingest Parser</span></h2>
+<p>Post Ingest Parser parses the file at specified time after it is written onto the cluster. 
+The procedure to write Post Ingest parser is same as that of On Ingest parser. Please refer to guidelines for On Ingest Parser to write your own Post Ingest parser.
+</p>
+	
+	<p>You can use <a href="query_builder.html" > Query Manager</a> to query the metadata extracted using these parsers.</p>
+	<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

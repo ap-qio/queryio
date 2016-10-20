@@ -1,0 +1,78 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Getting Started</title>
+</head>
+<body>
+<h1><span>Starting QueryIO Server through Command Prompt</span></h1>
+
+<p>This chapter covers information relating to starting QueryIO server manually and accessing QueryIO server UI. </p>
+
+
+
+<h2><span>Startup Instructions</span></h2>
+
+<p>Use following steps to manually start QueryIO server:</p>
+
+<ul>
+  <!-- <h3>For Windows</h3>
+  <li>Start command prompt. Goto <b>Start -> Run -> Type:"cmd" without quotation marks</b>. This will open command prompt.</li>
+  <li>Navigate to <b>tomcat/bin</b> folder in installation directory.</li>   
+  <ul>
+  	<li><code>cd $INSTALL_HOME/tomcat/bin</code></li>
+  </ul>
+  <li>Execute <b>start_queryio</b> batch file to start QueryIO server.</li>
+  <ul>
+  	<li>To start process directly: </li>
+  	<ul>
+  		<code>start_queryio.bat </code>
+  	</ul>
+  	<li>To start process in background: </li>
+  	<ul>
+  		<code>start start_queryio.bat</code>
+  	</ul>
+  </ul>
+  
+  
+  <h3>For Other Operating Systems</h3> -->
+  <li>Start terminal.</li>
+  <li>Navigate to <b>tomcat/bin</b> folder in installation directory.</li>
+  <ul>
+  	<li><code>cd $INSTALL_HOME/tomcat/bin</code></li>
+  </ul>
+  <li>Execute <b>start_queryio</b> script file to start QueryIO server.</li>
+  <ul>
+  	<li>To start server: </li>
+  	<ul>
+  		<code>sh start_queryio.sh</code>
+  			<p>OR</p>
+  		<code>./start_queryio.sh</code>
+  	</ul>
+  	
+  </ul>
+</ul>
+
+<p>Once QueryIO server starts up, you can use your browser to access it. </p>
+
+<p><a href="../../hadoop-big-data-tutorial/index.html" target="_blank">Click here</a> to see how quickly you can setup a cluster using QueryIO, perform data read/write operations and use standard SQL to query your BigData </p>
+
+<h2><span>Accessing QueryIO server</span></h2>
+<p>You can access QueryIO server in your browser using the hostname/IP and UI Server port which you have mentioned while installing. Default port is 5678.
+<br>
+<br>
+<b>URL:</b> http://$HOSTNAME:$PORT/queryio/
+</p>
+
+
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

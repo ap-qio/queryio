@@ -1,0 +1,58 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Importing big data into HDFS</title>
+</head>
+<body>
+
+<h1 id="started"><span>Importing Big Data into HDFS</span></h1>
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains how to import your big data to the QueryIO server and access it.</p>
+<ul>
+	<li><a href="#import">Import Data</a></li>
+	<li><a href="#data">Data Browser</a></li>
+</ul>
+<h2 id="import"><span>Import Data</span></h2>
+<p>Now that you have configured the cluster, you can upload files to the cluster from your local file system.</p>
+	
+	<ul>
+		<li>QueryIO bundles with it an archive file <b><i>[Location: $INSTALL-DIR/demo/Data.zip]</i></b> which contains different types of files.
+			Follow the instructions below to upload this archive file to the cluster.</li>
+		<li>Go to <b>Data > Data Import/Export.</b></li>
+		<li>Click on <b>Import</b> button.</li>
+		<img src="images/screenshots/data-import-window.jpeg" ></br>
+		<li>In <b>Title</b> textbox, enter unique identifier for the current data import operation.</li>
+		<li>From the <b>Destination NameNode</b> dropdown box, select the id of the namenode to which you want to upload your files.</li>
+		<li>In <b>HDFS Destination Path</b> textbox, enter the directory path of the HDFS cluster where you want to upload your files.</li>
+		<li>Select <b>Local</b> from the <b>Data Store</b> dropdown box.</li>
+		<li><b>Data Compression</b>: You can select compression algorithm to be used for the files imported. Supported algorithm is SNAPPY, GZ, LZ4</li>
+		<li><b>Data Encryption</b>: You can select algorithm to be used for the files encryption. Supported algorithm is AES256.</li> 
+		<li>Click <b>Next</b>. </li>
+		<li>Click the button to browse local files and select the bundled <b>Data.zip</b><i>[Location: $INSTALL-DIR/demo/Data.zip]</i> file.</li>
+		<li>Make sure that <b>Unzip file after upload</b> checkbox is enabled. This will extract the archive file and then save its contents
+		onto the cluster.</li>
+		<li>Click <b>Upload</b>. This will upload your files to the cluster.</li>
+		<img src="images/screenshots/data-migration-import-local2.jpeg" ></br><br>
+	</ul>
+	
+<h1 id="data"><span>Data Browser</span></h1>
+	<p>Data Browser is a file browser.</p>
+		
+	<ul>
+		<li>Go to <b>Data > Data Browser</b>. Here you can see the contents of the archive file which you have uploaded.</li>
+		<img src="images/screenshots/data-browser-window.jpeg" ></br>
+		<li>You can browse the contents of any directory by clicking on the name of that directory.</li>
+		<li>You can also download the files to your system by clicking on respective file names.</li>
+	</ul>	
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+	
+	
+</body>
+</html>

@@ -1,0 +1,89 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Big Data Tagging</title>
+</head>
+
+<body>
+
+
+<h1><span>Data Tagging</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>Following documents explain Data Tagging:</p>
+<ul>
+	<li><a href="#on">Description</a></li>
+	<li><a href="#add">Adding Data Tags</a></li>
+</ul>
+
+<h2 id="on"><span>Description</span></h2>
+<p>Data Tagging is used to add custom data tags to the metadata table for any file type. 
+The value of the tag defined by the user can be any constant value, global function or an operator on any table column.
+One can also define conditions based on which the data will be tagged.
+Data tagging can be scheduled on-ingest or post-ingest.</p>
+<p>You can choose to define data tags using the schema you have already defined using Hive DDL or can choose System defined schemas for different file formats.</p>
+
+
+
+<p> To add a data tag, navigate to <b>Data > Data Tagging</b> view.</p>
+
+<h2 id="add"><span>Add Data Tag</span></h2>
+<p>Following example guides you to add a data tag on a metastore table : <b>metdata_pdf</b> which counts the number of words for all PDF files created by particular author.</p> 
+
+	<ul>
+		<li>Click on <b>Add</b> button in the Data Tagging view to define a new Data Tag.</li>
+		<li><b>Tag ID</b>: Enter a unique ID for data tag which will be column name in your metadata table. [For example : <b>MyTag</b>]</li>
+		<li><b>Tag Description</b>: Provide description for this tag. [Say : <b>Average of CPU for 192.168.0.4</b>]</li>
+		<li><b>Select NameNode</b>: Select a namespace under which files will be parsed for tagging.</li>
+		<li><b>Select Database</b>: Select a database from Metastore database or Hive database on tables of which tags will be added. For our example, select <b>Hive</b> .</li>
+		<li><b>Is Enabled</b>: Check box to enable or disable the data tagging.</li>
+		<li>Click on <b>Next</b> to define the operator and conditions.</li>
+		<br><img alt="NM-add3" src="images/screenshots/data-tagging1.png" >	<br><br>
+		
+		<li><b>Select Table</b>: Select <b>hivecsvtable1</b> table.</li>
+		<li><b>Operator Type</b>: You can choose the tag value to be</li>
+			<ul>
+				<li><b>Global Function</b>: Function applied on entire content of the file and resultant value is given to the tag.</li>
+				<li><b>Table Column Operator</b>: Operation is performed on a chosen column name from the defined schema and the resultant value is given to the tag (option not available in case no table is chosen).</li>
+				<li><b>Constant Value</b>: A single constant value is given to the tag.</li>
+			For our example, select the "Table Column Operator" as "avg(CPU)"
+			</ul>
+			
+		<li><b>Conditional Expression</b>: You can provide a compound expression that contains a condition on your data, which when evaluated to true would be included in the computation of Tag Value. Now to tag only those entries where IP is 192.168.0.4, use the wizard to easily define conditional expressions as "IP = 192.168.0.4".</li>
+		<li>Click on <b>next</b> to Schedule the data tag.</li>
+		<br><img alt="NM-add3" src="images/screenshots/data-tagging2.png" >	<br><br>
+		<br><img alt="NM-add3" src="images/screenshots/data-tagging3.png" >	<br><br>
+		
+		<li><b>When do you want data tags to be applied</b>:</li>
+			<ul>
+				<li><b>On Ingest</b>: Tagging job will be performed while importing files to QueryIO.</li>
+				<li><b>Post-Ingest</b>: Tagging job will be performed at chosen time intervals starting from a mentioned time.</li>
+			</ul>
+		<li><b>Apply this data tag to existing data</b>: If checked then the tag will be applied to existing data when specified.</li>
+			<ul>
+				<li><b>Apply Now</b>: Choose this to apply tag just after the data tag is defined.</li>
+				<li><b>Schedule Time</b>: Choose this to apply tag on specified time.</li>
+			</ul>	
+		<li>Click on <b>Add</b> to add newly created tag into tags list.</li>
+		<img alt="NM-add3" src="images/screenshots/data-tagging4.png" >	<br><br>
+		
+		
+		<li>Tag will be added to tags list and can be viewed in <b>Data > Data Tagging</b>.</li>
+		
+	</ul>
+	
+	<p>You can use <a href="big-data-import-export.html" > Data Import</a> to import data to the cluster and check the tags added in metadata table using <a href="hadoop-sql-designer.html" > Query Designer</a></p>
+	<p>For our example, this is the result for query on table "hivecsvtable1" where we have added a Data Tag "MyTag". The graph below shows the Tag Value, as "Average of CPU for 192.168.0.4", on Y-axis and individual File Path on X-axis.</p>
+	<img alt="NM-add3" src="images/screenshots/data-tagging5.png" >	<br><br>	
+	
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+	
+
+</body>
+</html>

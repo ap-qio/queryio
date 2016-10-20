@@ -1,0 +1,117 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Glossary</title>
+</head>
+<body>
+
+<h1><span>Glossary</span></h1>
+
+<h2 id="acl"><span>ACL</span></h2>
+<p>An <a href="acl.html">Access Control List</a> (ACL), is a list of permissions attached to an object. An ACL specifies which users or system processes are granted access to objects, as well as what operations are allowed on given objects. Each entry in a typical ACL specifies a subject and an operation.</p> 
+
+<h2 id="alert"><span>Alerts</span></h2> 
+<p><a href="big-data-alerts.html">Alerts</a> are generated when the rules specified by the user are violated. These rules are set for the threshold conditions by the user. An alert is used to highlight an event that needs to be examined. Setting alerts is the only way to ensure that top performance levels are being maintained for all the systems. Alerts alarm the user about problems in real-time and notify the user to immediately locate and remedy those problems.</p>
+
+<h2 id="hadoop"><span>Apache Hadoop</span></h2>
+<p>A free, open source software framework that supports data-intensive distributed applications. 
+The core components of Apache Hadoop are the Hadoop Distributed File System and the MapReduce processing framework. 
+The term is also used for an ecosystem of projects related to Hadoop that fall under the umbrella of infrastructure for distributed computing and large-scale data processing.</p>
+
+<h2 id="balancer"><span>Balancer</span></h2>
+<p>The balancer is a tool that balances disk space usage on an HDFS cluster when some DataNodes become full or when new empty nodes join the cluster. </p>
+
+<h2 id="check_point"><span>CheckPoint Node</span></h2>
+<p>NameNode persists its namespace using two files: fsimage, which is the latest checkpoint of the namespace and edits, a journal (log) of changes to the namespace since the checkpoint. 
+When a NameNode starts up, it merges the fsimage and edits journal to provide an up-to-date view of the file hdfs metadata. The NameNode then overwrites fsimage with the new HDFS state and begins a new edits journal.
+The Checkpoint node periodically creates checkpoints of the namespace. It downloads fsimage and edits from the active NameNode, merges them locally, and uploads the new image back to the active NameNode.</p>
+
+<h2 id="datanode"><span>DataNode</span></h2>
+<p>A <a href="hadoop-data-nodes.html">DataNode</a> stores data in the HDFS. A functional filesystem has more than one DataNode, with data replicated across them.</p>
+
+<h2 id="decommision"><span>Decommission</span></h2>
+<p>QueryIO offers the decommission feature to retire a set of existing data-nodes.</p>
+
+<h2 id="failover"><span>Failover</span></h2>
+<p>Failover is switching to a redundant or standby NameNode upon the failure or abnormal termination of the previously active NameNode. If NameNode goes down, failover feature will automatically switch active NameNode to standby mode and standby NameNode to active mode. Thus system will not fail. This action can be reversed, once failed NameNode has recovered.
+
+</p>
+<h2 id="hdfs"><span>HDFS</span></h2>
+<p>Hadoop Distributed File System (HDFS) is the primary storage system used by Hadoop applications. HDFS creates multiple replicas of data blocks and distributes them on compute nodes throughout a cluster to enable reliable, extremely rapid computations. </p>
+
+<h2 id="host"><span>Host</span></h2>
+<p>Host can be a local or remote machine where several QueryIO components will be installed.</p>
+
+<h2 id="hive"><span>Hive</span></h2>
+<p>Hive is a data warehouse system for Hadoop that facilitates easy data summarization, ad-hoc queries, and the analysis of large datasets stored in Hadoop compatible file systems. </p>
+
+<h2 id="kerberos"><span>Kerberos</span></h2>
+<p>Kerberos is a computer network authentication protocol which works on the basis of "tickets" to allow nodes communicating over a non-secure network to prove their identity to one another in a secure manner.</p>
+
+<h2 id="map"><span>MapReduce</span></h2>
+<p>MapReduce is a programming model for processing large data sets. MapReduce model is divided into two steps:<br>
+"Map" step: The master node takes the input, divides it into smaller sub-problems, and distributes them to worker nodes. A worker node may do this again in turn, leading to a multi-level tree structure. The worker node processes the smaller problem and passes the answer back to its master node.<br>
+"Reduce" step: The master node then collects the answers to all the sub-problems and combines them in some way to form the output. The answer to the problem it was originally trying to solve.</p>
+
+<h2 id="applications"><span>MapReduce Applications</span></h2>
+<p>An application is either a single MapReduce job as the JobTracker or it could be a directed acyclic graph (DAG) of MapReduce jobs or it could be a new framework.</p>
+
+
+<h2 id="container"><span>MapReduce Container</span></h2>
+<p>Container represents an allocated resource in the cluster. A container is a conceptual entity that grants an application the privilege to use a certain amount of resources on a given machine to run a component task.
+The allocated container is always on a single node and has a unique ContainerId. It has a specific amount of Resource allocated.</p>
+
+<h2 id="metadata"><span>Metadata</span></h2>
+<p>Metadata (metacontent) is defined as data providing information about one or more aspects of the data. 
+For example, A text document's metadata may contain information about how long the document is, who the author is, when the document was written, and a short summary of the document. 
+A digital image may include metadata that describes how large the picture is, the color depth, the image resolution, when the image was created and other data. </p>
+
+<h2 id="namenode"><span>NameNode</span></h2>
+<p>The <a href="hadoop-name-nodes.html">NameNode</a> is the centerpiece of an HDFS file system. It keeps the directory tree of all files in the file system in form of metadata and tracks where across the cluster the file data is kept. It does not store the data of these files itself.</p> 
+
+<h2 id="federation"><span>NameNode Federation</span></h2>
+<p>In a typical Hadoop cluster, total number of files grows to the order of millions over a period of time. Thus with multiple NameNodes having millions of files each, HDFS cluster storage scales horizontally but the namespace does not.  
+In order to scale the name service horizontally, NameNode federation uses multiple independent namespaces. The Namenodes are federated, that is, the Namenodes are independent and don't require coordination with each other.
+The datanodes are used as common storage for blocks by all the federated Namenodes. Each datanode registers with all the Namenodes in the cluster. <br>
+QueryIO supports configuration of one database instance per namespace to support NameNode Federation. User can define a database configuration and link it to a namespace. All the metadata/tags associated with the data in given namespace is stored in this linked in database.
+</p>
+
+<h2 id="nm"><span>NodeManager</span></h2>
+<p>The NodeManager (NM) is YARN's per-node agent, and takes care of the individual compute nodes in a Hadoop cluster. This includes keeping the ResourceManager (RM) up-to-date, overseeing container's life-cycle management, monitoring resource usage (memory, CPU) of individual containers, tracking node-health, log's management and auxiliary services which may be exploited by different YARN applications.</p>
+
+<h2 id="notification"><span>Notifications</span></h2>
+<p><a href="big-data-notification.html">Notifications</a> refer to the feature of sending messages that the QueryIO sends to the user(s) whenever a rule is violated. Notification is an optional feature for all the rules. It has to be explicitly set up for users or groups and proper details regarding email addresses and location of log files for these users. Notifications are currently available as Email and Log</p>
+
+<h2 id="on-ingest"><span>On Ingest Tagging</span></h2>
+<p>On Ingest Parsers analyze the file while it is being written onto the cluster and create tags according to the registered parser.</p>
+
+<h2 id ="post-ingest"><span>PostIngest Tagging</span></h2>
+<p>Post Ingest Parsers analyze the file at specified time after it is written onto the cluster.</p>
+
+<h2 id="rm"><span>ResourceManager</span></h2>
+<p>ResourceManager (RM) is the master that arbitrates all the available cluster resources and thus helps manage the distributed applications running on the YARN system. It works together with the per-node NodeManagers (NMs) and the per-application ApplicationMasters (AMs).</p>
+
+<h2 id="rule"><span>Rule</span></h2>
+<p>A rule is a condition for an attribute specifying an acceptable range within which its value should lie and / or the time when this condition should hold. When a rule is violated, an <a href="big-data-alerts.html">alert</a> is generated.</p>
+
+<h2 id="safemode"><span>Safemode</span></h2>
+<p>During start up, Namenode loads the filesystem state from fsimage and edits log file. It then waits for datanodes to report their blocks so that it does not prematurely start replicating the blocks though enough replicas already exist in the cluster. During this time Namenode stays in safemode.
+A Safemode for Namenode is essentially a read-only mode for the HDFS cluster, where it does not allow any modifications to filesystem or blocks. Normally Namenode gets out of safemode automatically at the beginning.</p>
+
+<h2 id="sql"><span>SQL</span></h2>
+<p>A declarative programming language designed for managing data in relational database management systems. 
+Originally based upon relational algebra and tuple relational calculus, its scope includes data insert, query update and delete, schema creation & modification and data access control.</p>
+
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>
+

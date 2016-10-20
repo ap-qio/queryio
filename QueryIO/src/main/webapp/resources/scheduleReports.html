@@ -1,0 +1,372 @@
+<script type="text/javascript" src="scripts/reportList.js" ></script>
+
+<!-- <script type="text/javascript" src="scripts/datetimepicker.js"></script> -->
+
+<link href="styles/emailTable.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="scripts/report_schedules.js"></script>
+<script>
+function nextScheduleStep(viewNo){
+	
+
+	if(Navbar.selectedChildTab=="all_reports")
+	{
+		Reports.nextScheduleStep(viewNo);
+	}
+	else
+	{
+		ReportSchedules.nextScheduleStep(viewNo);
+	}
+}
+
+function moveSelectedOptions(from,to)
+{
+	if(Navbar.selectedChildTab=="all_reports")
+	{
+		Reports.moveSelectedOptions(from,to);
+	}
+	else
+	{
+		ReportSchedules.moveSelectedOptions(from,to);
+	}	
+}
+
+function moveAllOptions(from,to)
+{
+	if(Navbar.selectedChildTab=="all_reports")
+	{
+		Reports.moveAllOptions(from,to);
+	}
+	else
+	{
+		ReportSchedules.moveAllOptions(from,to);
+	}	
+}
+
+function addSchedule()
+{
+	if(Navbar.selectedChildTab=="all_reports")
+	{
+		Reports.addSchedule();
+	}
+	else
+	{
+		ReportSchedules.addSchedule();
+	}	
+}
+
+function closeBox()
+{
+	if(Navbar.selectedChildTab=="all_reports")
+	{
+		Reports.closeBox(true);
+	}
+	else
+	{
+		ReportSchedules.closeBox(true);
+	}	
+}
+
+
+function changeButton()
+{
+	if(Navbar.selectedChildTab=="all_reports")
+	{
+		Reports.changeButton();	
+	}
+	else
+	{
+		ReportSchedules.changeButton();
+	}
+}
+
+function logSaves()
+{
+	if(Navbar.selectedChildTab=="all_reports")
+	{
+		Reports.logSave();	
+	}
+	else
+	{
+		ReportSchedules.logSave();
+	}
+}
+
+
+function saveLog()
+{
+	if(Navbar.selectedChildTab=="all_reports")
+	{
+		Reports.saveLog();	
+	}
+	else
+	{
+		ReportSchedules.saveLog();
+	}
+}
+
+function scheduleWithoutNotify()
+{
+	if(Navbar.selectedChildTab=="all_reports")
+	{
+		Reports.scheduleWithoutNotify();	
+	}
+	else
+	{
+		ReportSchedules.scheduleWithoutNotify();
+	}
+}
+</script>
+
+
+<style>
+    .divStyle {float:left; margin: 0 0 0 250;}
+</style>
+<script>
+$('#reportDate').datetimepicker({
+	controlType: 'select',
+	timeFormat: 'HH:mm:ss'
+});
+</script>
+<div id="add_rule" class="lightbox" >
+	<div id="close" class="close">
+		<a href="javascript:ReportSchedules.closeBox(false);"><img src="images/light-box-close.png"></a>
+	</div>
+	<form id="scheduleReport">
+    <table id="add_schedule_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">Schedule Report</span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td id="msg_td">
+                	<div id ="reportdiv1" class="instructional" style="text-align: center; width: 100%;">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td_1" style="color:red">
+									
+								</td>
+							</tr>
+							<tr>
+								<td>	
+							
+							<div id="reportDiv" style="">
+								<table id="ruletbl1" style="width: 100%; text-align: center; ">
+									<tbody>
+										<tr id="ReportSelect">
+											<td style="text-align: left;">Report Type*</td>
+											
+											<td style="text-align: left;">
+											
+											<input type="radio" name="reportSelection" value="Node Detail Reports" checked onClick="ReportSchedules.reportTypeView(1);">
+											&nbsp;Summary Report
+											<input type="radio"  name="reportSelection" value="Node Summary Reports" onClick="ReportSchedules.reportTypeView(2);">
+											&nbsp;Detail Report
+											</td>
+										</tr>
+										<tr id="reportTye">
+												<td style="text-align: center;"></td>
+												
+												<td style="text-align: left;">
+												
+											
+													<select name="nodeId" multiple="multiple"  id="reportType" onChange="ReportSchedules.fillhostSelection();" style="width: 192px;" width="192px;">
+														
+													</select>
+												</td>
+											</tr>
+										<tr id="hostScroll">
+											<td style="text-align: left;">Select Host: </td>
+											<td style="text-align: left;"><select  id="hostName1" style="width: 192px;" width="192px;"></select></td>
+										</tr>
+										<tr>
+											<td style="text-align: left;">
+												Schedule Id*
+											</td>
+											<td style="text-align: left;">
+												<input type="text" id="schedID" style="float: left;width:180px;"  width="180px;"></input>
+											</td>
+										</tr>	
+										<tr>
+										<td style = "text-align: left;">
+											Interval*
+										</td>
+										<td style="text-align: left;">
+											<select name="interval" style="width: 192px;" width="192px;" >
+											<option value="0">Once</option>
+											<option value="1">Twelve Hours</option>
+											<option value="2">Daily</option>
+											<option value="3">Weekly</option>
+											</select>
+										</td>
+									</tr>
+								
+									<tr>
+										<td style="text-align: left;">
+											Schedule Time*
+										</td>
+										<td style="text-align: left;">
+											<input type="text" id="reportDate"  readonly="readonly"  alt="Select date &amp; time..."
+													name="reportDate" style="width: 180px;" width="180px;"><!-- <a
+													href="javascript:NewCal('reportDate', 'MMddyyyy','arrow', true, '24', false);"><img
+														src="images/calendar_16.gif"></img></a> -->
+										</td>
+									</tr>
+									
+									<tr>
+									
+												<td style="text-align: left;">Select Format*</td>
+												<td style="text-align: left;"><input id = "format_html" type="checkbox" name="html">HTML
+													&nbsp;<input  id = "format_pdf"  type="checkbox" name="pdf">PDF &nbsp;<input  id = "format_xls"  type="checkbox" name="xls">XLS</td>
+									</tr>
+									<tr>
+										<td style="text-align: left;">Send Notification</td>
+										<td style="text-align: left;"><input type="checkbox" checked id="notificationEnable" onClick="javascript:changeButton()"></td>
+									</tr>
+									<tr>
+										<td colspan="2" style="text-align: right;">
+											<input type="button" id="SRNext" name="rulenext" value="Next" onclick="javascript:nextScheduleStep(2);" class="buttonClass"> 
+											<input type="button" disabled id="SRFinish" value="Finish" onclick="javascript:scheduleWithoutNotify();" class="buttonClass"> 
+										</td>
+									
+										</tr>
+								</tbody></table>
+							</div>
+							</td>
+							</tr>
+							</table>
+						</div>
+						<div id ="reportdiv2" >
+							<table align="center" width="100%"
+							style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td_2" style="color:red"></td>
+							</tr>
+							<tr>
+								<td>
+
+							<table style="text-align: left; ">
+								<tbody>
+								<tr>
+									<td  style="text-align: left;">Notification Type</td>
+									<td style="text-align: left;">
+									<select name="notificationType" id="notificationType" onChange="javascript:logSaves();">
+										<option value="Email">Email</option>
+										<option value="Log">Log</option>
+									</select>
+									</td>
+								</tr>
+								<tr>
+									<td width="20%" class="form_td" valign="top">Message</td>
+									<td width="40%" class="form_td"><textarea name="alertRaisedNotificationMessage" id="alertRaisedNotificationMessage" cols="60" rows="5" class="list_td"></textarea></td>
+								</tr>
+								<tr>
+									<td colspan="2" style="text-align: right;">
+									<input type="button" id="EmailPrevious" name="rulenext" value="Back" onclick="javascript:nextScheduleStep(1);" class="buttonClass">
+									<input type="button" id="EmailNext" name="rulenext" value="Next" onclick="javascript:nextScheduleStep(3);" class="buttonClass"> 
+									<input type="button" id="logSave" disabled name="rulenext" value="Finish" onclick="javascript:saveLog();" class="buttonClass">
+									
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							</td>
+							</tr>
+						</table>
+						</div>
+						<div id="reportdiv3" class="instructional"
+						style="text-align: center; width: 100%;">
+						<table align="center" width="100%"
+							style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td_3" style="color:red"></td>
+							</tr>
+							<tr>
+								<td>
+									<table class="pickList" style="width:100%;">
+						<tbody><tr>
+							<th class="pickLabel">
+								Available users
+							</th>
+							<td></td>
+							<th class="pickLabel">
+								Selected users
+							</th>
+						</tr>
+						<tr>
+    						<td>
+        						<select name="user" multiple="multiple" ondblclick="moveSelectedOptions('user','selected')" id="user" size="5">
+						        </select>
+    						</td>
+						    <td class="moveOptions">
+       						<button class="button userMoveButton" name="moveRight" id="moveRight1" type="button" onclick="javascript:moveSelectedOptions('user','selected');">
+            					&nbsp;&gt;</button><br>
+        					<button class="button userMoveButton" name="moveAllRight" id="moveAllRight1" type="button" onclick="javascript:moveAllOptions('user','selected');">
+					            &gt;&gt;</button><br>
+					        <button class="button userMoveButton" name="moveLeft" id="moveLeft1" type="button" onclick="javascript:moveSelectedOptions('selected','user');">
+					            &nbsp;&lt;</button><br>
+					        <button class="button userMoveButton" name="moveAllLeft" id="moveAllLeft1" type="button" onclick="javascript:moveAllOptions('selected','user');">
+					            &lt;&lt;</button>
+						    </td>
+						    <td>
+						        <select name="selected" multiple="multiple" id="selected" size="5">
+    					        </select>
+    						</td>
+							</tr>
+							<tr>
+								<td colspan="4" style="text-align: right; width:100%;">
+									<input type="button" value="Back" name="back" onClick="javascript:nextScheduleStep(2);">
+									<input type="button" value="Finish" name="email" onClick="javascript:addSchedule();">
+									<input type="button"  value="Close" onclick="javascript:closeBox();" class="buttonClass"> 
+								</td>
+							</tr>
+					</tbody>
+					</table>
+					</td>
+					</tr>
+				</table>
+				</div>
+				</td>
+				</tr>
+				</table>
+			</form>
+		</div>
+	<script>
+	var numberOfSchedules = 0;
+	if(Navbar.selectedChildTab=="all_reports"){
+		$('#ReportSelect').hide();
+		$('#reportTye').hide();
+		Reports.isFromScheduler=false;
+		RemoteManager.getAllSysReportsSchedules(setNumberSchedules);
+		Reports.nextScheduleStep(1);
+	}
+	else
+	{
+		var oTable = $('#schedules_table_1').dataTable();
+		numberOfSchedules = oTable.fnSettings().fnRecordsTotal();
+		$("#schedID").val("Schedule" + (parseInt(numberOfSchedules)+1));
+		Reports.isFromScheduler=true;
+		ReportSchedules.currentOperation = "add";
+		ReportSchedules.reportTypeView(1);
+		ReportSchedules.nextScheduleStep(1);
+	}
+	RemoteManager.getServerTime(callBackServerTime);
+
+	function setNumberSchedules(list)
+	{
+		if(list == null || list == undefined || list.length == 0)
+			numberOfSchedules = 0;
+		else
+			numberOfSchedules = list.length;
+		$("#schedID").val("Schedule" + (parseInt(numberOfSchedules)+1));
+	}
+	
+	function callBackServerTime(value)
+	{
+		var dtToday = new Date(value.getTime());
+		document.getElementById('reportDate').value =  (dtToday.getMonth()+1)+"/"+dtToday.getDate()+"/"+dtToday.getFullYear()+" "+dtToday.getHours()+":"+dtToday.getMinutes()+":"+dtToday.getSeconds();
+	}
+	</script>
+	

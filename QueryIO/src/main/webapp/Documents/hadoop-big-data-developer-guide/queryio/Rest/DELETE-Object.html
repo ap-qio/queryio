@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>DELETE Object</title>
+</head>
+<body>
+	<div>
+		<h1><span>DELETE Object</span></h1>
+		<h2><span>Description</span></h2>
+		<p>The <code>DELETE</code> operation of QueryIO server is used to delete the object from the bucket. </p>
+		
+		<h2><span>Requests</span></h2>
+		<h3>Syntax</h3>
+		<ul>
+		<li>
+		<pre>
+DELETE /queryio/&lt;BucketName&gt;/<em><code>&lt;ObjectName&gt;</code></em> HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;token&gt;</code></em></pre></li>
+		
+			<li>&lt;BucketName&gt;: Path of the bucket which contains the object.</li>
+			<li>&lt;ObjectName&gt;: Name of the object to be deleted.</li>
+			<li>authorization: Token for authorization. </li>
+		</ul>
+		
+		<h2><span>Examples</span></h2>
+		<h3>Sample Request </h3>
+		<p>The following request will delete the file1.txt object from bucket DIR1.</p>
+		<ul>
+		<li>
+		<pre>
+DELETE /queryio/DIR1/file1.txt HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm</pre></li>
+		</ul>
+		
+		
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+
+<div id="host_create" class="lightbox" style="width:550px;">
+<div id="close" class="close">
+	<a href="javascript:JB.closeBox(false);"><img src="images/light-box-close.png"></a>
+</div>
+
+
+
+<table id="host_create_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">Job Details</span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+				<td>
+					<table align="center" width="100%" style="border-collapse: collapse;">
+						<tbody>
+							<tr>
+								<td id="msg_td">
+									<div class="instructional" id="inst">
+									Submit a MapReduce job.
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<hr>
+									<!-- <div class="otherinstruction">
+										<hr>
+									</div> -->
+								</td>
+							</tr>
+							<tr>
+								<td>
+								
+								 <form id="add_Job" method="post" action="">
+								 	<table width="100%" class="form_table" id="table" style="display: ">
+										<tbody>
+											<tr>
+												<td style="text-align:left; width: 25%;" >Job Name*</td>
+												<td colspan = "2" style="text-align:left; width: 55%;" >
+													<span>
+														<input style = "width: 250px;" type="text" name="jobName" id="jobName" value="" onkeypress="javascript:Util.blockSpecialChar(event);">
+														<input style = "display: none;" name="isAdhoc" id="isAdhoc" value="false">
+													</span>
+												</td>
+											</tr>
+											<tr>
+												<td style = "width: 25%;"><span id="classMessage">Main Class</span></td>
+												<td style = "width: 55%;" colspan = "2"><input style = "width: 250px;" type="text" id="mainClass" name="mainClass" value=""></td>
+											</tr>
+											
+											<tr id="sourcePathDiv" style="display: none;">
+												<td style = "width: 25%;"><span id="sourcePathMessage">Source Path</span></td>
+												<td style = "width: 55%;" colspan = "2"><input style = "width: 250px;" type="text" id="sourcePath" name="sourcePath" value=""></td>
+											</tr>
+											<tr id="pathPatternDiv" style="display: none;">
+												<td style = "width: 25%;"><span id="pathPatternMessage">Path Pattern</span></td>
+												<td style = "width: 55%;" colspan = "2"><input style = "width: 250px;" type="text" id="pathPattern" name="pathPattern" value=""></td>
+											</tr>
+											<tr>
+												<td style = "width: 25%;"><span id="argumentsMessage">Arguments</span></td>
+												<td style = "width: 55%;" colspan = "2"><input style = "width: 250px;" type="text" id="arguments" name="arguments" value=""></td>
+											</tr>
+											<!-- <tr>
+												<td width = "25%">Max Memory</td>
+												<td width = "25%"><input type="text" id="maxMem" name="maxMem" value=""></td>
+											</tr>
+											<tr>
+												<td width = "25%">Min Memory</td>
+												<td width = "25%"><input type="text" id="minMem" name="minMem" value=""></td>
+											</tr> -->
+											<tr>
+												<td style = "width: 25%;">NameNode*</td>
+												<td style = "width: 55%;" colspan = "2"><select id="nameNodeId" name="nameNodeId" style="width: 262px;"></select>
+												</td>
+											</tr>
+											<tr>
+												<td style = "width: 25%;">ResourceManager*</td>
+												<td style = "width: 55%;"colspan = "2"><select id="resourceManagerId" name="resourceManagerId" style="width: 262px;"></select>
+												</td>
+											</tr>
+											<tr>
+												<td style = "width: 25%;">Jar File*</td>
+												<td style = "width: 55%;">													
+									                <input type="text" id="jarText" name="jarText" value="" style="width: 245px; display: none;">
+													<input type="file" style="width: 250px;" id="executionJarFile" name="executionJarFile" onchange="javascript:JB.updatedJar();" >
+													<input type="text" id="jarFileText" name="jarFileText" readonly="readonly" value="" style="width: 245px; display: none;">
+												</td>
+												<td style = "width: 20%;">
+													<input type="button" class="buttonAdmin" id="chooseFile" value="Change" onclick="javascript:JB.showChooseFile();" style="width: 110px; float: right; margin: 0px;"/>
+												</td>
+											</tr>
+											<tr id="adhocInterface" style="display: none;">
+												<td style = "font-size: 9px; padding-top: 0px;" colspan = "3">Select jar containing implementation of com.queryio.plugin.dstruct.IDataDefinition interface
+												</td>
+											</tr>
+											<tr>
+												<td colspan = "3">
+													<hr>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="3" style="text-align: right; padding: 15px 5px 10px 0px;">
+													<input type="button" class="buttonAdmin" id="nextbtn" value="Next" onclick="javascript:JB.nextStep(2);" /> 
+													<input type="button" class="buttonAdmin" id="cancelbtn" value="Cancel" onclick="javascript:JB.closeBox(false);" />
+												</td>
+											</tr>
+											</tbody>
+											</table>
+											<table width="100%" class="form_table" id="table2" style="display: none;">
+											<tbody>
+											<tr id="libJarRow1">
+												<td style="text-align: left; width: 10%;">
+													Lib Jar
+												</td>
+												<td style="text-align: left; width: 80%;">
+												
+													<input type="text" id="libJarText1" name="libJarText1" value="" style="width: 60%; display: none;">
+													<input type="file" id="libJarFile1" name="libJarFile1" onchange="javascript:JB.updatedLibJar(1, this.id, this.value);" style="width: 80%;">
+													<input type="text" id="libJarFT1" name="libJarFT1" readonly="readonly" value="" style="width: 60%; display: none;">
+													<a href="javascript:JB.removeLibClicked(1);" style="color: white; float: right; padding-top: 7px;">
+														<img alt="Remove File" src="images/minus_sign_brown.png" id="minusImage" style="height: 10px; width: 20px;">
+													</a>
+													<a href="javascript:JB.addLibClicked();" style = "float: right; padding-top: 7px;">
+														<img alt="Add More File" src="images/plus_sign_brown.png" id="plusImage" style="height: 12px;">
+													</a>
+													
+												</td>
+												<td style = "text-align: left; width: 20%;">
+													<input type="button" class="buttonAdmin" id="chooseLibJarFile1" value="Change" onclick="javascript:JB.showLibJarChooseFile(1);" style="width: 110px; float: right; margin: 0px; display: none;"/>
+												</td>
+											</tr>
+											<tr id="nativeFileRow1">
+												<td style="width: 20%;">
+													Native File
+												</td>
+												<td style="width: 70%;">
+												
+													<input type="text" id="nativeText1" name="nativeText1" value="" style="width: 60%; display: none;">
+													<input type="file" id="nativeFile1" name="nativeFile1" onchange="javascript:JB.updatedNativeFile(1, this.id, this.value);" style="width: 80%;">
+													<input type="text" id="nativeFT1" name="nativeFT1" readonly="readonly" value="" style="width: 60%; display: none;">
+
+													<a href="javascript:JB.removeNativeFileClicked(1);" style="color: white; float: right; padding-top: 7px;">
+														<img alt="Remove File" src="images/minus_sign_brown.png" id="minusImage" style="height: 10px; width: 20px;">
+													</a>
+													<a href="javascript:JB.addNativeFileClicked();"  style="float: right; padding-top: 7px;">
+															<img alt="Add More File" src="images/plus_sign_brown.png" id="plusImage" style="height: 12px;">
+													</a>
+													
+												</td>
+												<td style = "width: 20%;">
+													<input type="button" class="buttonAdmin" id="chooseNativeFile1" value="Change" onclick="javascript:JB.showNativeFileChooseFile(1);" style="width: 110px; float: right; margin: 0px; display: none;"/>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="3" style="text-align: right; padding: 15px 0px 10px 0px;">
+													<input type="button" class="buttonAdmin" id="nextbtn" value="Back" onclick="javascript:JB.nextStep(1);" />
+													<input type="button" class="buttonAdmin" id="save.job" value="Save" onclick="javascript:JB.uploadFile(this.form);" /> 
+													<input type="button" class="buttonAdmin" id="cancel.job" value="Cancel" onclick="javascript:JB.closeBox(false);" />
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</form>
+								
+								<table id="responsePopup" align="center" width="100%" style="border-collapse: collapse; text-align: center; display:none;">
+									<tr>
+										<th><span>Message</span></th>
+										<th><span>Status</span></th>
+										<th><span>	</span></th>
+									</tr>
+									<tr id="pop.pattern" style="">
+										<td><span id="popup.message"></span>
+										<br><div id="log_div" style="display: none;"></div></td>
+										<td><span id="popup.status"></span></td>
+										<td>
+											<span id="popup.image.fail" style="display:none;"><img src="images/Fail_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+											<span id="popup.image.success" style="display:none;"><img  src="images/Success_img.png" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+											<span id="popup.image.processing"><img  src="images/process.gif" style="height: 12pt; margin-right: 1pt; margin-top: 1pt;"/></span>
+										</td>
+										
+									</tr>
+									<tr>
+										<td colspan="3">
+											<div>
+												<hr>
+											</div>
+										</td>
+									</tr>
+								</table>
+								
+								<div id="okBox" style="display:none; text-align:right;">
+									<input type="button" value="OK" onClick="JB.closeBox(true);">
+								</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+</table>
+
+</div>
+<script>
+JB.onLoadAddEdit();
+</script>

@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-style-type" content="text/css">
+<link rel="stylesheet" href="../../../common/css/stylesheet_ns.css" type="text/css">
+<title>HEAD Object</title>
+</head>
+<body>
+	<div>
+	
+		<h1><span>HEAD Object</span></h1>	
+		<h2 ><span>Description</span></h2>
+		<p>The HEAD object of QueryIO server fetches the metadata from an object. This is useful if user is only interested in metadata of object, since it does not return the object. </p>
+		<h2><span>Requests</span></h2>
+		<h3>Syntax</h3>
+		<ul>
+		<li>
+			<pre>
+HEAD /queryio/&lt;BucketName&gt;/&lt;ObjectName&gt; HTTP/1.1
+Host: QueryIO.com
+authorization: <em><code>&lt;token&gt;</code></em></pre></li>
+		
+		<li>&lt;BucketName&gt;: Path of the bucket from which metadata object will be retrieved.</li>
+		<li>&lt;ObjectName&gt;: Name of the object whose metadata will be retrieved.</li>
+		<li>authorization: Token for authorization. </li>
+		</ul>
+		
+		
+		<h3>Request Headers</h3>
+		<p>The HEAD operation in QueryIO Server uses following request headers: </p>
+		
+		<table cellspacing="0" border="1" width="100%">
+			<tr><th> Header Name </th><th> Description </th><th> Type </th><th> Defaults </th><th> Constraints </th><th> Required </th></tr>
+			
+			<tr>
+				<td align="center">
+					<em><code>If-Modified-Since</code></em>
+				</td>
+				<td>
+					<p>If the object has been modified after the specified time, it returns object. </p>						
+				</td>
+				<td> String </td>
+				<td> None </td>
+				<td> None </td>
+				<td> No </td>
+			</tr>
+						
+			<tr>
+				<td align="center">
+						<em><code>If-Unmodified-Since</code></em>
+				</td>
+				<td>
+						<p>If the object has not been modified after the specified time, it return object. </p>								
+				</td>
+				<td> String </td>
+				<td> None </td>
+				<td> None </td>
+				<td> No </td>
+			</tr>
+			<tr>
+				<td align="center">
+						<em><code>If-Match</code></em>
+				</td>
+				<td>
+						<p>If the entity tag(ETag) of the object is same as the specified one, it returns the object.</p>								
+				</td>
+				<td> String </td>
+				<td> None </td>
+				<td> None </td>
+				<td> No </td>
+			</tr>
+			<tr>
+				<td align="center">
+						<em><code>If-None-Match</code></em>
+				</td>
+				<td>
+						<p>If the entity tag(ETag) of the object is different from the specified one, it returns the object.</p>									
+				</td>
+				<td> String </td>
+				<td> None </td>
+				<td> None </td>
+				<td> No </td>
+			</tr>
+			<tr>
+				<td align="center">
+						<em><code>fetch-metadata</code></em>
+				</td>
+				<td>
+						<p>Passing this argument as true will fetch metadata for files as response headers.</p>							
+						<p>Value: <code >true or false</code></p>
+
+				</td>
+				<td> Boolean </td>
+				<td> - </td>
+				<td> - </td>
+				<td> No </td>
+			</tr>
+			
+		</table>
+		
+		
+		
+		<h2><span>Examples</span></h2>
+		
+		<h3>Sample Request with the If-Modified-Since Header</h3>
+		<p>The following request specifies the HTTP If-Modified-Since header to retrieve an object if it is modified after the given time.</p>
+		<ul>
+		<li>
+		<pre>
+HEAD /queryio/NewBucket/myfile.txt HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+If-Modified-Since: 2012-05-17 12:00:00</pre></li>
+		</ul>
+		
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+HTTP/1.1 206 Partial Content
+Content-Type: text/plain
+Content-Language: mi, en
+Expires: 2012-12-17 00:00:00
+Cache-Control: No-cache
+Content-Disposition: attachment
+Content-Encoding: x-gzip
+x-amz-request-id: 1350386026282911000_144715990
+x-amz-id-2: 1350386026282911000_144715990
+ETag: qs345tgfd5f27731c9771645a7853216
+Last-Modified: 2012-10-17 17:41:09</pre>	</li>
+		</ul>
+		
+		<h3>Sample Request with the If-Unmodified-Since Header</h3>
+		<p>The following request specifies the HTTP If-Unmodified-Since header to retrieve an object if it is not modified after the given time.</p>
+		<ul>
+		<li>
+		<pre>
+HEAD /queryio/NewBucket/myobject HTTP/1.1
+Host: QueryIO.com
+authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+If-Modified-Since: 2012-10-17 17:41:09</pre>	</li>	
+		</ul>
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+HTTP/1.1 206 Partial Content
+Content-Type: text/plain
+Content-Language: mi, en
+Expires: 2012-12-17 00:00:00
+Cache-Control: No-cache
+Content-Disposition: attachment
+Content-Encoding: x-gzip
+x-amz-request-id: 1350386026282911000_144715990
+x-amz-id-2: 1350386026282911000_144715990
+ETag: qs345tgfd5f27731c9771645a7853216
+Last-Modified:  2012-05-17 12:00:09</pre>	</li>
+		</ul>
+		
+		<h3>Sample Request with the If-Match Header</h3>
+		<p>The following request specifies the HTTP If-Match header to retrieve an object if its entity tag is same as specified.</p>
+		<ul>
+		<li>
+		<pre>
+HEAD /queryio/NewBucket/aps.jpg HTTP/1.1
+Host: QueryIO.com
+Authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+If-Match: "881f7881ac1bc144a2672e45babb8839"</pre></li>		
+		</ul>
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+HTTP/1.1 206 Partial Content
+Content-Type: text/plain
+Content-Language: mi, en
+Expires: 2012-12-17 00:00:00
+Cache-Control: No-cache
+Content-Disposition: attachment
+Content-Encoding: x-gzip
+x-amz-request-id: 1350386026282911000_144715990
+x-amz-id-2: 1350386026282911000_144715990
+ETag: qs345tgfd5f27731c9771645a7853216
+Last-Modified: 2012-10-11 02:10:00</pre>	</li>
+		</ul>
+		
+		<h3>Sample Request with the If-None-Match Header</h3>
+		<p>The following request specifies the HTTP If-None-Match header to retrieve an object if its entity tag is not same as specified.</p>
+		<ul>
+		<li>
+		<pre>
+HEAD /queryio/NewBucket/myfile.jpg HTTP/1.1
+Host: QueryIO.com
+Authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+If-None-Match: "881f7881ac1bc144a2672e45babb8839"</pre>	</li>	
+		</ul>
+		<h3>Sample Response</h3>
+		<p></p>
+		<ul>
+		<li>
+		<pre>
+HTTP/1.1 206 Partial Content
+Content-Type: text/plain
+Content-Language: mi, en
+Expires: 2012-12-17 00:00:00
+Cache-Control: No-cache
+Content-Disposition: attachment
+Content-Encoding: x-gzip
+x-amz-request-id: 1350386026282911000_144715990
+x-amz-id-2: 1350386026282911000_144715990
+ETag: qs345tgfd5f27731c9771645a7853216
+Last-Modified: 2012-7-16 23:00:45</pre>	</li>
+		</ul>
+		
+	</div>
+</form>
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

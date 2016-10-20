@@ -1,0 +1,168 @@
+<link rel="stylesheet" href="styles/dataConnections.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="styles/jquery.ui.combify.css" />
+
+<link rel="stylesheet" href="styles/ui.jqgrid.css" type="text/css" />
+<link rel="stylesheet" href="styles/nd.css" type="text/css" />
+
+<script src="scripts/dataConnections.js"></script>
+
+<script type="text/javascript" src="scripts/jquery.ui.combify.js"></script>
+
+<script type="text/javascript" src="scripts/i18n/grid.locale-en.js"></script>
+<script type="text/javascript" src="scripts/jquery.jqGrid.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="scripts/jquery.jqGrid.src.js" type="text/javascript"></script>
+
+<div id="addDC" class="lightbox" style="width: 475px; z-index: 99999;">
+	<div id="close" class="close">
+		<a href="javascript:DataMigrate.closeSchemaBox(false);"><img
+			src="images/light-box-close.png"></a>
+	</div>
+	<table id="data_connection_table" class="outer">
+		<tbody>
+			<tr>
+				<td id="hdr_td" style="padding: 0pt;">
+					<h4 style="font-weight: normal;">
+						<span id="headerspanSchema">Schema Definition</span>
+					</h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table align="center" width="100%" id = "addSchemaDefinitionTable" style="border-collapse: collapse;">
+						<tr>
+							<td id="msg_td">
+								<div class="instructional" style=""><span id="instruction"> DataBase Schema Definition.</span> 
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<hr>
+							</td>
+						</tr>
+						<tr>
+							<td id="msg_td_1" style="color:red; ">
+								<div class="otherinstruction">
+								</div>
+							</td>
+						</tr>
+						<tr id="uploadFormTr" style="display: ''; ">
+							<td>
+								<form id="CommonFormUpload">									
+									<div id="dataConnectionCommon">
+										<table width="100%" class="form_table">
+											<tr >
+												<td style="text-align: left; float: left; white-space: nowrap;">
+												<input type="radio" name="selectCase" style="width: 20%" id="auto" value="auto" checked="checked" onclick="javascript:DataMigrate.checkSelectCase(this.id);">Auto Detect &nbsp;</td>
+												<td style="text-align: left;white-space: nowrap;"><input type="radio" name="selectCase" style="width: 6%" id="sql" value="sql" onclick="javascript:DataMigrate.checkSelectCase(this.id);"><label>Manual Configuration</label>
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align: left; width: 41%;">Has Header Row</td>
+												<td style="text-align: left;"><input type="checkbox" checked="checked" id="header" name="header"></td>
+											</tr>
+											<tr>
+												<td>Delimiter*</td>
+												<td>
+													<input type="text" id="deli" name="deli" value=",">
+												</td>
+											</tr>
+											<tr>
+												<td>Value Separator*</td>
+												<td>
+													<input type="text" id="separator" name="separator" value="">
+												</td>
+											</tr>
+										</table>
+									</div>
+									<!-- Auto Detect -->
+									<div id = "autoDetect">
+										<table width="100%" class="form_table">
+											<tr>
+												<td style="text-align: left; width: 41%;">Sample File*</td>
+												<td style="text-align: left;"><input type="file" id="fileTagSample" name="fileTag"></td>
+											</tr>
+											<tr>
+												<td>Records to Analyze*</td>
+												<td>
+													<input type="text" id="records" name="records" value="100">
+													<label style="font: 9px; color: #999;">Number of records which should be analyzed to detect Data types for each column</label>
+												</td>
+											</tr>
+											<tr id="failed" style="display : none;">
+												<td colspan="2">
+													<label style="font: 9px; color: Red; white-space: nowrap;">Caught an error while processing the file. This may be due to invalid file.</label>
+												</td>
+											</tr>
+										</table>
+									</div>
+
+									<!-- SQL -->
+									<div id ="SQLDiv" style="display: none">
+										<table width="100%" class="form_table">
+											<tr id="tbName">
+												<td style="text-align:left; width: 41%;">Table Name*</td>
+												<td style="text-align: left;"><input type="text" id="dbTableName" name="dbTableName"></td>
+												
+											</tr>
+										</table>
+									</div>
+									<!-- tableSchema -->
+									<table id="tableForButtons" style="width: 100%;">
+										<tr>
+											<td colspan="2">
+												<input type="button" value="Cancel" id="cancelConnection" style="float: right;" onClick="javascript:DataMigrate.closeSchemaBox(false);">
+												<input type="button" value="Next" id="next" style="float: right;" onClick="javascript: DataMigrate.uploadSQLFile();">
+											</td>
+										</tr>
+									</table>
+								</form>
+								<div id ="schemaTable" style="max-width: 800px; overflow-x: auto; display: none;">
+								<table align="center" width="100%"	style="border-collapse: collapse;">
+								<tbody>
+									<tr>
+										<td colspan="3">
+											<div id="columnListContainer"
+														style="overflow: auto; height: auto; max-height: 275px; width: auto;">
+													<table id="columnListGrid" class="dataTable">
+													<tbody></tbody>
+													</table>
+													</div>
+								
+											<div id="sampledataTables"
+												style="max-width: 800px; overflow-x: auto;">
+												<table id='sample_table' class='dataTable'>
+												</table>
+											</div>
+										</td>
+										</tr>
+										</tbody>
+										</table>
+								</div>
+								
+								<div id = "button_tables" style="display:none;">
+											<table style="border-collapse: collapse; width:100%;"><tbody>
+												<tr>
+													<td colspan="3">
+														<hr >
+													</td>
+												</tr>
+												<tr>
+													<td colspan="3">
+														<input type="button" value="Cancel" id="cancelSCHConnection" style="float: right;" onClick="javascript:DataMigrate.closeSchemaBox(false);">
+														<input type="button" value="Save" id="next_sch" style="float: right;" onClick="javascript: DataMigrate.closeSchemaBox(true);">
+														<input type="button" value="Back" id="back_sch" style="float: right;" onClick="javascript: DataMigrate.toggleDiv(2 , 1);">
+													</td>
+												</tr>
+												</tbody>
+											</table>
+										</div>
+								
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

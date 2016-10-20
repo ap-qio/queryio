@@ -1,0 +1,93 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Configuring HDFS (Hadoop Distributed File System)</title>
+</head>
+<body>
+
+<h1 id="configure"><span>Configuring HDFS (Hadoop Distributed File System)</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This document will show you how to configure a cluster using QueryIO. Following are the steps to configure HDFS cluster:</p>
+<ul>
+	<li><a href="#add_host">Add Hosts</a></li>
+	<li><a href="#add_name">Add NameNode</a></li>
+	<li><a href="#dn">Add DataNode</a></li>
+</ul>
+
+<h2 id="add_host"><span>Add Hosts</span></h2>
+	<ul>
+		<li>Go to <b>Admin > Manage Hosts</b>.</li>
+		<li>Here you can add the machines on which you want to install nodes.</li>
+		<li>To add a machine, click on <b>Add</b> button.</li>
+		<li>In the <b>Add Host</b> wizard, specify the credentials for the system which you want to add.</li>
+		<li>If you want to use private key based authentication mechanism, you can do so by changing the selection in the <b>Authentication Method</b> dropdown box.</li>
+		<li>Click <b>Next</b> once you have entered all the required credentials.</li>
+		<li>In <b>Installation Path</b> textbox, enter the path of the directory where you want to install QueryIO services.</li>
+		<li>Change the value in the <b>System JAVA_HOME</b> textbox if it currently points to invalid java home directory.</li>
+		<li>In the <b>QueryIO Agent Port</b> textbox, specify the port for QueryIO agent service. QueryIO utilizes agent to perform service operations on different
+		machines.</li>
+		<li>In the <b>Rack Name</b> textbox, specify the name of the rack to which your system belongs. 
+		Typically large Hadoop clusters are arranged in racks and network traffic between different nodes within the same rack is much 
+		more desirable than network traffic across the racks. A default installation assumes all the nodes belong to the same rack.
+		</li>
+		<li>Click <b>Save</b> to add this machine to your cluster.</li>
+	</ul> 
+	
+
+<h2 id="add_name"><span>Add NameNode</span></h2>
+	<ul>
+		<li>The NameNode is the centerpiece of an HDFS file system. It keeps the directory tree of all files in the file system in form of metadata, and tracks where across the cluster, the file data is kept. 
+		After you have added required machines to the cluster, you can add new NameNodes.</li>
+		<li>To add NameNode, Go to <b>Hadoop > HDFS > NameNode</b>.</li>
+		<li>Click on <b>Add</b> button.</li>
+		<li>In the <b>HostName/IP</b> dropdown, select the IP/hostname of the system on which you want to install the node.</li>
+		<li><b>Database: </b>Select database to be linked with NameNode.</li>
+			<ul>
+				<li>Metadata Database : To store HDFS metadata, Extended Metadata & user defined tags. </li>
+				<li>AdHoc Analysis Database : To store processed data as a result of big data analysis.</li>
+			</ul>
+		<li>In the <b>Unique Identifier</b> textbox, enter a unique identifier for the node.</li>
+		<li>Let <b>NameNode Type</b> be <i>Active</i>.
+			<br>If you want to utilize high availability feature of HDFS, you should also add standby nodes to your system. To add stand by node, change the namenode type selection to "StandBy".
+		</li>
+		<li>Click <b>Next</b>.</li>
+		<li>Specify the ports for different services that QueryIO will start</b>. Make sure that the ports configured for all of the services are unique. The ports
+		should not conflict with that of any other services running on your system.</li>
+		<li>Click <b>Next</b>.</li>
+		<li>In <b>Directory Path</b> textbox, enter the path for the directory where you want your NameNode to store its metadata.</li>
+		<li>Select associated disk from the <b>Disk</b> dropdown box.</li>
+		<li>Make sure <b>Start Namenode Service after installation</b> checkbox is enabled</b>. It will automatically start all the services for this namenode.</li>
+		<li>Click <b>Save</b>.</li>
+	</ul>
+	
+<h2 id="dn"><span>Add DataNode</span></h2>
+	<ul>
+		<li>A DataNode stores data in the [HadoopFileSystem]. 
+		After you have added required NameNodes to the cluster, you can add new DataNodes.</li>
+		<li>To add DataNode, Go to <b>Hadoop > HDFS > DataNode</b>.</li>
+		<li>Click on <b>Add</b> button.</li>
+		<li>In the <b>HostName/IP</b> dropdown, select the IP/hostname of the system on which you want to install the node.</li>
+		<li>In the <b>Unique Identifier</b> textbox, enter a unique identifier for the node.</li>
+		<li>Click <b>Next</b>.</li>
+		<li>Specify the ports for different services that QueryIO will start.</li>
+		<li>Click <b>Next</b>.</li>
+		<li>In <b>Volume Path</b> textbox, enter the path for the directory where you want your DataNode to store the uploaded data.</li>
+		<li>Select associated disk from the <b>Disk</b> dropdown box.</li>
+		<li>If you want to configure multiple volumes for the datanode, you can do so using <b>+/-</b> buttons.</li>
+		<li>Make sure <b>Start Datanode Service after installation</b> checkbox is enabled</b>. It will automatically start all the services for this datanode.</li>
+		<li>Click <b>Save</b>.</li>
+	</ul>
+
+	<p>Your cluster is now configured. You can now upload data to the cluster and manage all resources through QueryIO UI very easily.</p>
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+</body>
+</html>

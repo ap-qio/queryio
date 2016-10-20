@@ -1,0 +1,260 @@
+<script src="scripts/dn_summary.js"></script>
+<script src="scripts/dn.js"></script>
+<style>
+	input{width:100%;}	  
+</style>
+<link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
+<link rel="stylesheet" href="styles/new_host_box.css" type="text/css" />
+<div id="host_create" class="lightbox" style="width: 685px;">
+<div id="close" class="close"><a href="javascript:DN_Summary.closeBox(false);"><img src="images/light-box-close.png"></a></div>
+    <table id="host_create_table" class="outer" >
+        <tbody>
+        	<tr>
+            	<td id="hdr_td" style="padding: 0pt;">
+            		<h4 style="font-weight: normal;"><span id ="headerspan">Add DataNode</span></h4>
+            	</td>
+        	</tr>
+        	<tr>
+            	<td id="msg_td">
+                	<div id ="hostDiv" class="instructional" style="text-align: center; width: 100%;">
+                		<table align="center" width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td id="msg_td">
+									<div class="instructional" style=""><span id ="headerMsg">A DataNode stores data in the HDFS. A functional filesystem has more than one DataNode, with data replicated across them</span>  
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<hr>
+									<div class="otherinstruction">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>	
+							<form id="dataNodeForm" method="post" action="javascript:void(0);"	onsubmit="">
+							<div id="div1" style="display: none;">
+								<table width="100%" class="form_table" >
+									 <tbody>
+									 	<tr>
+											<td style="text-align: left;">DataNode ID</td>
+											<td style="text-align: left;">
+												 <input type="text" id="id" style="width: 240px;" "value="datanode1" onkeypress="javascript:Util.blockSpecialChar(event);">														
+											</td>
+										</tr>
+										<tr>
+											<td style="text-align: left;">Host Name / IP</td>
+											<td style="text-align: left;">
+												<select id="hostForNode" onchange="javascript:getPhysicalDiskName();" style="width: 252px;"></select>
+											</td>
+											<td colspan="2" style="text-align: right;">
+												 <input type="button" class="buttonAdmin" id="add.host" value="Add new host" onclick="javascript:DN_Summary.addNewHost();">
+											</td>
+										</tr>	
+
+									</tbody>
+								</table>	
+								<!-- 	<tr>
+										<td>Unique Identifier</td>
+										<td>
+											 <input type="text" id="id" value="datanode1">														
+										</td>																										
+										<td>Server Port</td>
+										<td>
+											 <input type="text" id="serverPort" value="50010">														
+										</td>																								
+									</tr>
+									<tr>									
+										<td>HTTP Port</td>
+										<td>
+											 <input type="text" id="httpPort" value="50075">														
+										</td>
+										<td>HTTPS Port</td>
+										<td>
+											 <input type="text" id="httpsPort" value="50475">														
+										</td>																											
+									</tr>
+									<tr>
+										<td>IPC Port</td>
+										<td>
+											 <input type="text" id="ipcPort" value="50020">														
+										</td>	
+										<td>JMX Port</td>
+										<td>
+											 <input type="text" id="jmxPort" value="9006">														
+										</td>																										
+									</tr>	-->											
+							<table width="100%" class="form_table" >
+								 <tbody>
+								 	<tr>
+										<td colspan="4">
+										<hr>
+											<div class="otherinstruction">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>			
+										<td colspan="4" style="text-align: right;">
+										  <input type="button" style="width: 70px;" class="buttonAdmin" id="next.host" value="Next" onclick="javascript:addDnNextStep(3);"> 
+										  <input type="button" style="width: 70px;" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:DN_Summary.closeBox(false);">
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>				
+						</div>
+						
+						<div id="div4" style="display: none;">
+							
+							<table id="dataNodeTable">	</table>										
+							<table width="100%" class="form_table" >
+								 <tbody>
+								 	<tr>
+										<td colspan="4">
+											<hr>
+											<div class="otherinstruction">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>			
+										<td colspan="4" style="text-align: right;">
+										  <input type="button" class="buttonAdmin" id="next.host" value="Back" onclick="javascript:addDnNextStep(1);">
+										  <input type="button" class="buttonAdmin" id="next.host" value="Next" onclick="javascript:isPortNumberNumericFields();"> 
+										  <input type="button" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:DN_Summary.closeBox(false);">
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>				
+						</div>
+						
+						<div id="div3" style="display: none;">
+							<span>Retrieving disks from Host</span>
+						</div>
+						<div id ="div2" style="display: none;">
+							<table style="width: 100%; font-size: 9pt;">
+								<!-- <tr>
+									<td>Volume Info</td>
+									<td></td>
+									<td></td>
+								</tr>-->
+								<tr>
+									<td colspan="3">
+									
+									
+										<div id="volume_summary_table_div" >
+												<div class="buttons" style="text-align: left; display: none;">
+												<input type="button" class="buttonAdmin" id="add.volume" value="Add Volume" onclick="javascript:addVolumeClicked();">
+												<input type="button" class="buttonAdmin" id="remove.volume" value="Remove Volume" onclick="javascript:removeVolumeClicked();">
+												<input type="button" class="buttonAdmin" id="format.disk" value="Format Disk" onclick="javascript:removeVolumeClicked();">
+												</div>
+												<table id="volInfotbl" class="dataTable" style="font-size: 9pt;">
+													<thead>
+													<tr style="height: 25px;">
+														<!-- <th><input type="checkbox" value="node-1" onclick="javascript:DN_Summary.selectAllHostRow(this)" id="selectAll"></th>-->
+														<th style="text-align: center;">Disk </th>
+														<th style="text-align: center;">Volume Path</th>
+														<th style="text-align: center;"></th>
+														
+													</tr>
+													</thead>
+													<tbody>
+													<tr id ="row_0" style="display: none">
+													<td><select id ="select-0"><option value="1">Select disk info</option> </select></td>
+													<td><input type="text" id ="volume-0" value="/QueryIONodes/DataNode/Volume"></td>
+													<td>
+													 </td>
+													
+													</tr>
+													<tr id ="row_1">
+													<!-- <td><input type="checkbox" value="1" onclick="javascript:DN_Summary.selectAllHostRow(this)" id="1"></td>-->
+													<td><select id ="select-1"><option value="1">Select disk info</option> </select></td>
+													<td><input type="text" id ="volume-1" value="/QueryIONodes/DataNode/Volume1" ></td>
+													<td>
+													<a href="javascript:addVolumeClicked();"> <img alt="Add Volume" src="images/plus_sign_brown.png" id="plusImage" style="height: 15px;"></a><a href="javascript:removeVolumeClicked(1);" style="color: white;"> <img alt="Remove Volume" src="images/minus_sign_brown.png" id="minusImage" style="height: 10px; width: 20px;"></a> 
+													<input type="checkbox" value="1" onclick="javascript:DN_Summary.selectAllHostRow(this)" id="1" style="display: none;">
+													 </td>
+													
+													</tr>
+													</tbody>
+												</table>
+													
+										</div>
+									
+									
+							
+									<!--	<table id="volInfo1" style="font-size: 9pt;  width: 100%">
+												<tbody id = "volInfotbl">
+												 <tr>
+												 <td><a href="javascript:addVolumeClicked();"> <img alt="Add Volume" src="images/plus_sign_brown.png" id="plusImage" style="height: 15px;"></a><a href="javascript:removeVolumeClicked();"> <img alt="Remove Volume" src="images/minus_sign_brown.png" id="minusImage" style="height: 10px; width: 20px;"></a> </td>
+												</tr>
+												<tr>
+													<td>Disk info</td>
+													<td><select id ="diskinfo1"><option value="0">Select Disk info</option></select></td>
+													<td >Volume Path</td>
+													<td><input type="text" id="volPath1" name="volPath"></td>
+													<td><a href="javascript:addVolumeClicked();"> <img alt="Add Volume" src="images/plus_sign_brown.png" id="plusImage" style="height: 15px;"></a><a href="javascript:removeVolumeClicked();"> <img alt="Remove Volume" src="images/minus_sign_brown.png" id="minusImage" style="height: 10px; width: 20px;"></a> </td>
+												</tr>
+											</tbody>
+											</table>
+										-->
+										
+										
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" style="text-align: left;"><input type="checkbox" id="startnodechkbox" checked><span>Start Datanode service after installation</span>
+								</td>
+								</tr>
+								<!-- <tr style="text-align: center;">
+									 <td colspan="3">
+										<input type="button" class="buttonAdmin" id="add.volume" value="Add Volume" onclick="javascript:addVolumeClicked();">
+										<input type="button" class="buttonAdmin" id="remove.volume" value="Remove Volume" onclick="javascript:removeVolumeClicked();">
+										
+									</td>
+								</tr>-->
+								<tr>
+									<td colspan="3">
+									<hr>
+										<div class="otherinstruction">
+											
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" style="text-align: right;">
+									<input type="button" class="buttonAdmin" id="back.host" value="Back" onclick="javascript:addDnNextStep(3);"> 
+									  <input type="button" class="buttonAdmin" id="save.host" value="Save" onclick="javascript:saveDataNode();"> 
+									  <input type="button" class="buttonAdmin" id="cancel.host" value="Cancel" onclick="javascript:DN_Summary.closeBox(false);">
+									</td>
+									
+								</tr>
+							</tbody>
+
+						</table>
+						</div>
+							</form>
+							</td>
+							</tr>
+						</table>
+					</div>
+            	</td>
+        	</tr>
+        	
+			
+		
+    	</tbody>
+	</table>
+	<script type="text/javascript">
+	
+	
+	DN_Summary.drawDataNodeTable();
+	fillHostNames();
+	addDnNextStep(1);
+	DN_Summary.generateUniqueId();
+		</script>
+</div>

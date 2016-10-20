@@ -1,0 +1,252 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Basic Query Designing</title>
+</head>
+<body>
+
+<h1 id="query"><span>Basic Query Designing</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains about querying data stored on cluster based on metadata extracted by creating big queries and reports .</p>
+<ul>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#execute">Creating Queries</a></li>
+	<li><a href="#report">Report builder</a></li>
+</ul>
+<h2 id="intro"><span>Introduction</span></h2>
+	<p>QueryIO provides a querying framework which allows you to perform standard SQL queries on your Big Data. 
+	QueryIO also provides querying tags associated with your data files.
+	QueryIO Analytics is an easy to use interface through which you can generate SQL queries and design reports to present your processed data.
+	Query Designer can be used to query the metadata extracted from the files. QueryIO provides a user interface for defining work item queries.</p>
+	<p>Query designer is composed of two modules:</p>
+	<ul>
+		<li> Query Builder</li>
+		<li> Report Builder</li>
+	</ul> 
+	<p>Query Builder allows us to define grouping, sorting and constructing criteria in a simple and direct way. It also allows you to save queries and use them again later.
+	<p>Query builder is basically used to filter out the files available on the cluster. Files can be filtered on the basis of file types(table name).</p>
+	<p>Using report builder interface of QueryIO, you can build reports to format the result of queries.</p>
+	<p>You can easily create <b>Select</b> query with the help of Query Designer.</p>
+
+	
+<h1 id="execute"><span>Creating Queries</span></h1>
+<p>Query Designer provides interface to create queries easily. Following are the steps to build query:</p>
+<h3>Compose Query</h3>
+<p>If you have not yet uploaded any files to the cluster, please go through the <a href="big-data-import-export.html">Data Migration</a> doc to check how to upload files to HDFS cluster using QueryIO.</p>
+<p>By default, the metadata for unregistered file types is saved in hdfs_metadata table</p>
+<ul>
+	<li>You can use Query Builder view to create queries. It generates standard SQL queries.</li>
+	<li><b>Query Id</b>: Unique id for the Hadoop SQL query.</li>
+	<li><b>Database</b>: Select database whose data is to be queried.</li>
+	<li><b>Description</b>: Little description to explain working of Hadoop SQL query.</li>
+	<li><b>Limit Result Rows</b>: To limit the number of rows displayed on <a href="hadoop-sql-viewer.html">Query Viewer</a>. You can specify the number of rows to be displayed.</li>	
+	<img alt="query-builder" src="images/screenshots/query-saved.jpeg" >
+		<li><p>Click on <b>SELECT</b> textbox to select the names of the columns you want to fetch with the query.</p></li>
+		<li><p>Click on <b>FROM</b> textbox to select the name of the table on which you want to execute the query.</p></li>
+		<li><p>Click on <b>WHERE</b> textbox to add any conditional clauses to your query. Only those records that fulfill the specified criteria will be included in the result.</p></li>
+		<li><p>Click on <b>GROUP BY</b> textbox to select the names of the columns that you want to group your result set by. It is used in conjunction with the aggregate functions to group the result-set by one or more columns.
+For example, the query "SELECT owner,sum(len) FROM hdfs_metadata GROUP BY owner" would return the total storage space utilized by each user.</p></li>
+		<li><p>Click on <b>ORDER BY</b> textbox to select the names of the columns that you want to sort your result set by.</p></li>
+		<li><p>Click on <b>HAVING</b> textbox to provide conditions on aggregate functions.</p></li>
+		<li><p>Once you have constructed the query, click on <b>Save</b> button to save the generated query so that you can re-use it later.</p></li>
+
+		<li><p>Click on <b>View</b> to execute the query. On executing the query, you will be taken to a new tab.</p></li>
+		<img alt="query-builder" src="images/screenshots/query-viewer.jpeg" >
+</ul>
+
+
+<h1 id="report"><span>Report Builder</span></h1>
+	<p>Using report builder interface of QueryIO, you can build reports to present the contents of the queries that you 
+	can perform using the query builder interface.</p>	
+
+<p> Report builder comprises of three modules:<p>
+<ul>
+<p>&nbsp;</p>
+	<li><b><a href="#design">Report Designer</a></b>
+		<p>To specify the layout and design of various components of the report like report header, footer, etc.<p>
+	</li>
+	
+	<li><b><a href="#preview">Report Preview</a></b>
+		<p>In the report preview section, you can see the preview of the report that will be generated with the current configuration.<p>
+	</li>
+</ul>
+<br>
+<p>This section will show you how easily you can build reports using QueryIO.</p>
+
+	<p> To build reports, go to <b>Analytics > Query Designer</b>.</p>
+
+<p>Create new query using <b>Query Builder</b> view or load existing query using <b>Query Manager</b> page.</p>
+
+<p>Following are the steps to build customized reports:</p>
+
+	
+<h2 id="design"><span>Report Designer</span></h2>
+	
+	<img alt="report-designer" src="images/screenshots/report-designer.jpeg" >
+	
+	<h3>Report Header</h3>
+		<p>The Report Header section generally contains the report title and other information you want to appear only at the beginning of the report.
+		Charts in this section contain data for the entire report.</p>
+		<ul>
+		<li>
+		<p> To customize report header, click on the <b>Edit</b> button adjacent to the <b>Report Header</b> block in the report designer view.<p>
+		</li>
+		
+		<li>
+		<p> You can specify the contents of the report header in the <b> Title </b> edit box</p>
+		</li>
+		<li>
+		<p> In this window, you can also configure the styles that would be applied to the report header.</p>
+		</li>
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+	<h3>Group Header</h3>
+		<p>It contains the part of the message used to indicate the start of a functional group of documents.
+		Group Headers are useful and often necessary to make your report data clear and easily understood.</p>
+		<ul>
+		<li>
+		<p> To customize group header, click on the <b>Edit</b> button adjacent to the <b>Group Header</b> block in the report designer view.<p>
+		</li>
+		
+		<li><p> To group your result set by various columns respective column names using adjacent checkboxes.</p>
+		</li>
+		
+		<li>
+		<p> You can also specify prefix and suffix for your group header value.
+			Lets say, if the group header content is "<b><i>admin</i></b>" and you have selected prefix to be "<b><i>User: </i></b>", then the group header 
+			content in the report will be <br /><b><i>User: admin</i></b>
+		</p>	
+			
+		</li>
+		<li>
+		<p> Click <b>Next</b> to configure the styles that you want to apply to the selected group headers.</p>
+		</li>
+		
+		<li> Select the column name that you want to apply styles to and then edit other style related properties. 
+			You can configure styles for other columns by selecting respective column names from the <b>Column</b> dropdown box.
+		</li>
+		
+		<li>
+		<p> Click <b>Next</b> to specify custom formatting for group header content. Here you can specify the 
+		formatting of the data for various data types.</p>
+		</li>
+		
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+	<h3>Column Header</h3>
+	 <p>The column header is the colored row of letters used to identify each column within the table. The column header row is located above the row one.</p>
+		<ul>
+		<li>
+		<p> To customize column header, click on the <b>Edit</b> button adjacent to the <b>Column Header</b> block in the report designer view.<p>
+
+		</li>
+		
+		<li> Select the column name that you want to apply styles to and then edit other style related properties. 
+			You can configure styles for other columns by selecting respective column names from the <b>Column</b> dropdown box.
+		</li>
+		
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+	<h3>Column Details</h3>
+	<p>Column details refer to the contents of the columns of non header rows in the table.</p>
+		<ul>
+		<li>
+		<p> To customize column details, click on the <b>Edit</b> button adjacent to the <b>Column Details</b> block in the report designer view.<p>
+		<img alt="report-designer" src="images/screenshots/column-details-customize.jpeg" >
+		</li>
+		
+		<li> Select the column name that you want to apply styles to and then edit other style related properties. 
+			You can configure styles for other columns by selecting respective column names from the <b>Column</b> dropdown box.
+		</li>
+		
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>	
+	<h3>Group Footer</h3>
+	<p>It contains the part of the message used to indicate the end of a functional group of documents.
+		Group Footers are useful and often necessary to make your report data clear and easily understood.</p>
+		<ul>
+		<li>
+		<p> To customize group footer, click on the <b>Edit</b> button adjacent to the <b>Group Footer</b> block in the report designer view.<p>
+		<img alt="report-designer" src="images/screenshots/group-footer-customize.jpeg" >
+		</li>
+		
+		<li>
+		<p> If you want to group footers by various columns, you can do it here. 
+			Select respective column names using adjacent checkboxes.</p>
+		</li>
+		
+		<li>
+		<p> You can also select aggregate function to perform on the group footer content </p>
+		
+		<p> You can also specify prefix and suffix for your group footer value.
+			Lets say, you have selected aggregate function to be <b>SUM</b>, prefix <b><i>Total </i></b> and 
+			suffix <b><i>bytes</i></b>, then the group footer content in the report will like <br /><b><i>Total 100 bytes</i></b> where 100 is the sum of the values of the specified column in all the rows belonging to the current group.
+		</p>	
+			
+		</li>
+		
+		<li>
+		<p> Click <b>Next</b> to configure the styles that you want to apply to the selected group footers.</p>
+
+		</li>
+		
+		<li> Select the column name that you want to apply styles to and then edit other style related properties. 
+			You can configure styles for other columns by selecting respective column names from the <b>Column</b> dropdown box.
+		</li>
+		
+		<li>
+		<p> Click <b>Next</b> to specify custom formatting for group footer content.</p>
+
+		</li>
+		
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+	<h3>Report Footer</h3>
+		<ul>
+		<li>
+		<p> To customize report footer, click on the <b>Edit</b> button adjacent to the <b>Report Footer</b> block in the report designer view.<p>
+		</li>
+		
+		<li>
+		<p> You can specify the contents of the report footer in the <b> Title </b> edit box</p>
+		</li>
+		<li>
+		<p> In this window, you can also configure the styles that would be applied to the report footer.</p>
+		</li>
+		<li>
+		<p> Click <b> Done</b> once you have configured all the properties as per your requirements.</p>
+		</li>
+		
+		</ul>
+</ul>
+	
+	<br><h2 id="preview"><span>Report Preview</span></h2>
+	<img alt="report-designer" src="images/screenshots/report-preview.jpeg" >	
+	<p>Here you can see the preview of the report that will be generated with the current configuration.<p>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>On Ingest Data Tagging</title>
+</head>
+
+<body>
+
+
+<h1><span>On Ingest Data Tagging</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains on ingest data tagging.</p>
+<ul>
+	<li><a href="#intro">What is On Ingest Tagging</a></li>
+	<li><a href="#ui">Registered On Ingest Parsers</a></li>
+	<!--<li><a href="#api">Tagging Using S3 Compatible REST API</a></li>-->
+</ul>
+
+<h2 id="intro"><span>What is On Ingest Tagging</span></h2>
+<p>QueryIO supports on ingest data tagging. 
+This means that when you upload any data to the cluster, 
+the server automatically executes data analysis procedures <b>[parsers]</b> to extract information from the data that you are uploading.</p>
+
+<p>You can also write and register your own data analysis procedures for different file types that you want to analyze.
+To see how you can write your own <b>On Ingest Parser</b>, refer to the <a href="../../hadoop-big-data-developer-guide/index.html" target="_blank">developer documentation</a>. </p>
+
+<p>QueryIO ships with the parser that uses Apache Tika to extract metadata from various types of files. 
+
+The file types supported are: </p>
+<ul>
+	<li>PDF : Portable Document Format.</li>
+	<li>CSV : Comma Separated Files.</li>
+	<li>LOG : Log files with Log4j supported.</li>
+	<li>EML : An Email file format.</li>
+	<li>Microsoft's OLE 2 Compound Document format</li>
+	<ul>
+		<li>DOC, DOCX</li>
+		<li>XLS, XLSX</li>
+		<li>PPT, PPTX</li>
+	</ul>
+	<li>Images : Following Image formats are supported: 
+		
+			 3DM,   3DS,   MAX,    OBJ,   BMP,   DDS,    DNG,    GIF,   JPG,    JPEG,    PNG,    PSD,   TGA,   THM,   TIF,  
+			 YUV,   AI,   EPS,   PS,   SVG
+	</li> 
+	
+</ul>
+
+<p>You can find compiled classes for this parser bundled in <b>$INSTALL_HOME/demo/OnIngest.jar</b> file. </p>
+<!-- p>You can find the complete source code for this parser in <b>$INSTALL_HOME/demo/</b> directory.  
+You can also add enhancements to this parser to support other file types.
+The compiled classes for this parser are bundled in <b>$INSTALL_HOME/demo/OnIngest.jar</b> file. </p-->
+
+
+<h2 id="ui"><span>Registered On Ingest Parsers</span></h2>
+
+<p>QueryIO provides inbuilt On Ingest parsers, registered for following files types : </p>
+<ul>
+	<li>pdf,csv,log,png,eml,doc,docx,xls,xlsx,ppt,wiki</li>
+</ul>
+	<br><img src="images/screenshots/on-ingest.jpeg" ><br><br>
+	
+	<p>All tables related to file extensions will be automatically created. You can see in <b>Manage Databases</b>.</p>
+	<p>Upload any file of type png,log,csv,pdf,doc,docx,xls,xlsx or ppt.<br> QueryIO server will parse the uploaded file and update respective file type tables in the database.</p><br><br>
+	<img src="images/screenshots/on-ingest-db.jpeg" >	<br><br>
+
+<!--ul>
+	<li>In the <b>Name</b> textbox, enter <b>OnIngestTagging</b>.</li>
+	<li>In the <b>Description</b> textbox, enter <b>OnIngest parser for sample files</b>.</li>
+	<li>In the <b>Class Name</b> textbox, enter the class name for your parser. For sample parser, enter <b>com.queryio.demo.extended.metadata.FileContentParser</b>.</li>
+	<li>In the <b>File Extensions</b> textbox, enter <b>png,log,csv,pdf,doc,docx,xls,xlsx,ppt</b>.</li>
+	<li><b>Tag Parser JAR</b> : Select <b>$INSTALL_HOME/demo/OnIngest.jar</b> file.</li>
+	<li><b>Extra JAR(s)</b>: No Extra Jar is required.</li>
+	<li><b>Is Active</b>: Check box to activate or deactivate On Ingest parser.</li>
+	<li>Click on <b>Add</b> to add the parser.</li>
+	<img src="images/screenshots/on-ingest-add.jpeg" >	<br><br>
+</ul-->
+<p>You can use <a href="hadoop-sql-big-data.html" > Query Designer</a> to query the metadata extracted using these parsers.</p>
+
+
+<!-- <h2 id="api"><span>Tagging Using S3 Compatible REST API</span></h2>
+<p>You can tag data using Amazon S3 compatible REST api. Any header starting with prefix <b>x-amz-meta-</b> is considered as user metadata. <code>x-amz-meta-</code> is used along with <b>PUT Object</b> api to tag data. 
+User-defined metadata is stored along with data when this header is used with PUT object request.</p>
+<h3>Sample Request with the x-amz-meta- Header</h3>
+		<ul>
+		<li>
+		<pre>
+PUT DIR1/File1.pdf HTTP/1.1
+Host: QueryIO.com
+Authorization: iffo6l9hel2hfmbj2384joljgh9mqga58gb9if9593ucli9ke5s2e3854shhcmmm
+x-amz-meta-author: QueryIO 
+x-amz-meta-priority: high</pre></li>
+		</ul>
+<p>For further details about S3 Compatible REST api, refer to the <a href="../../hadoop-big-data-developer-guide/index.html" target="_blank">developer documentation</a>.</p>-->
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+</body>
+</html>

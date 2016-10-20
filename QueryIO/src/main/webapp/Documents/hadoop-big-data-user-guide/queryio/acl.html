@@ -1,0 +1,71 @@
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  	<meta http-equiv="Content-style-type" content="text/css">
+  	<link rel="stylesheet" href="../../common/css/stylesheet_ns.css" type="text/css">
+	<title>Access Control List (ACL)</title>
+</head>
+<body>
+
+<h1><span>Access Control List (ACL)</span></h1>
+
+<h2><span>In this chapter</span></h2>
+<p>This chapter explains data sharing among other users and configuring access permissions for the data.</p>
+<ul>
+	<li><a href="#intro">Description</a></li>
+	<li><a href="#settings">Permission Settings</a></li>
+
+</ul>
+<h2 id="intro"><span>Description</span></h2>
+<p>QueryIO provides users to share their data with other users.</p>
+<p>An access control list, is a list of permissions attached to a file. An ACL specifies which users are granted access to files, as well as what operations are allowed on given files.</p>
+<p>QueryIO provides facility for file owners to specify access permission on the files. File owners can restrict the access of files to set of users or groups and grant permissions to a set of users or groups.
+To make it possible, ACL is maintained for each file.</br>
+Each file owner can specify access control through data browser from QueryIO UI. Whenever a user creates a file, he/she can specify set of users or groups that are allowed to access files or directories.
+File owner can also provide combination of access permissions(read, write, execute) to limit the shared file access by other users.</p>  
+<ul>
+	<li><B>read</B>: file is readable by owner, group or other.</li>
+	<li><B>write</B>: file is writeable. On a directory, write access means you can add or delete files.</li>
+	<li><B>execute</B>: file is executable (only for programs and shell scripts - not useful for data files). Execute permission on a directory means you can list the files in that directory</li>
+</ul>
+
+<p>Permission are specified in UNIX format. Permissions that can be granted are : </p>
+<ul>
+	<li>read-write</li>
+	<li>read only</li>
+	<li>write only</li>
+	<li>no permission</li>
+</ul>
+
+
+
+
+
+<h2 id="settings"><span>Permission Settings</span></h2>
+<p>File sharing settings can be configured from <a href="big-data-browser.html">Data Browser</a> page. </p>
+<p>Following are the steps to share files or directories with other users or groups and provide access permissions to them:</p>
+<ul>
+	<li>Select the file or directory from the file explorer by selecting the checkbox against it.</li>
+	<li>Now click on the <b>Configure Permission</b> button to  edit sharing details.</li>
+	<li>To share a selected file or directory with:
+		<ul>
+			<li><b>Users</b>, Select the user from the drop down list and the permissions to be granted. </li>
+			<li><b>Groups</b>, Select the groups from the drop down list and the permissions to be granted. </li>
+			<li><b>Everyone</b>, Select the permissions to be granted for public access. </li>
+		</ul>
+	</li>
+	<li>Above selected user, group or everyone can access the selected file or directory according to the permissions granted.</li>
+	<li>Click <b>Save</b> to grant sharing permissions.</li>
+	<img alt="acl" src="images/screenshots/acl.jpeg" ><br><br>
+</ul></br>
+
+
+<br><hr align="center" class="whs4">
+<h4 class="whs5">Copyright © 2015 QueryIO Corporation. All Rights Reserved. </h4>
+<h4 class="whs5">QueryIO, "Big Data Intelligence" and the QueryIO Logo are trademarks
+of QueryIO Corporation. Apache, Hadoop and HDFS are trademarks of The Apache Software Foundation.</h4>
+
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+#pending_div .right ,
+#failed_div .right {
+	margin-left: 30%;
+	min-height: 510px;
+	position: relative;
+}
+#replication_pending_container
+#replication_failed_container {
+	margin-left: 10px;
+	margin-top: 10px;
+	float: left;
+	width: 75%;
+	border-color: #ccc;
+	border: 1px;
+	border-style: solid;
+}
+
+#replication_pending_container table thead th,
+#replication_pending_container table tbody tr td,
+#replication_failed_container table thead th,
+#replication_failed_container table tbody tr td,
+{
+	font-size: 9pt;
+}
+#failed_summary_span,
+#pending_summary_span{
+	padding: 2px;
+	 background: #DDD; 
+	 border:  1px solid #ccc;
+	text-align: center; 
+	
+}
+	

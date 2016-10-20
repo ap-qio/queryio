@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+
+<project default="do.all" basedir=".">
+
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+	
+	<!-- ############# Only this lines may be machine dependent ########-->
+	<property file="machine_dependent.properties"/>
+
+	<!-- SET compiler -->
+	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+	<property name="ant.build.javac.source" value="1.6" />
+	<property name="ant.build.javac.target" value="1.6" />
+	<property name="build.number.file" value="build.number" />
+	
+	<property name="dir.queryio" value="${QueryIOBuild}/tomcat/webapps/queryio" />
+	<property name="dir.hadoop.service" value="${QueryIOBuild}/service" />
+	<property name="dir.queryio.agent" value="${dir.hadoop.service}/QueryIOAgent/webapps/agentqueryio" />
+	<property name="dir.queryio.server" value="${dir.hadoop.service}/QueryIOServers" />
+	<property name="dir.queryio.ftpserver" value="${dir.queryio.server}/webapps/hdfs-over-ftp" />
+	<property name="dir.queryio.os3server" value="${dir.queryio.server}/webapps/os3server" />
+
+
+
+	<property name="output.folder.name" location="${buildRootDir}/v3.0" />
+	
+	<path id="svnant.classpath">
+			<fileset dir="${dailyBuildRoot}/svn_resources">
+				<include name="svnant.jar" />
+				<include name="svnClientAdapter.jar" />
+				<include name="svnkit-1.3.5.jar" />
+			</fileset>
+	</path>
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="svnant.classpath" />
+	
+	<taskdef name="install4j" classname="com.install4j.Install4JTask" classpath="${install4jHome}/bin/ant.jar"/>
+
+	
+	
+	<target name="init.timestamp">
+		<tstamp />
+	</target>
+
+		<!-- gets the BuildNumber -->
+	<target name="get.build.number" depends="init.timestamp">
+		<buildnumber file="${build.number.file}" />
+	</target>
+	
+	<target name="create.folders" depends="get.build.number">
+		<property environment="env" />
+		<mkdir dir="${output.folder.name}/${DSTAMP}-${TSTAMP}-${build.number}" />
+		<!--delete dir="${dir.source}" quiet="true" />
+		<mkdir dir="${dir.source}" /-->
+		<delete dir="${dir.hadoop.service}" quiet="true" />
+		<mkdir dir="${dir.hadoop.service}" />
+		<delete dir="${QueryIOBuild}" quiet="true" />
+		<mkdir dir="${QueryIOBuild}" />
+		<mkdir dir="${QueryIOBuild}/database" />
+		<delete dir="${QueryIOBuildRoot}/SupportedFiles" />
+		<delete dir="${QueryIOBuildRoot}/Scripts" />	
+		<mkdir dir="${QueryIOBuildRoot}/SupportedFiles" />
+		<delete dir="${QueryIOBuildRoot}/Scripts" />
+		<mkdir dir="${QueryIOBuildRoot}/Scripts" />
+		<delete dir="${QueryIOBuildRoot}/Icon" />
+		<mkdir dir="${QueryIOBuildRoot}/Icon" />
+		<mkdir dir="${QueryIOBuild}/resources" />
+		<mkdir dir="${QueryIOBuild}/docs" />
+		<mkdir dir="${QueryIOBuild}/Readme" />
+	</target>
+	
+	
+	<target name="copy.source" depends="create.folders">
+		<!--copy todir="${dir.source}">
+			<fileset dir="${workspace.home}">
+				<exclude name="**/.svn"/>
+			</fileset>
+		</copy-->
+	</target>
+	
+	<!--target name="svn.checkout" depends="create.folders">
+				<svn username="${svn.username}" password="${svn.password}">
+					<checkout url="${svn.repository.url}" destPath="${dir.source}" />
+				</svn>
+				
+				<delete  dir="${dir.source}/.svn" />
+				<delete  dir="${dir.source}/**/*.DS_Store" />
+				<delete  dir="${dir.source}/trunk" />
+				<delete  dir="${dir.source}/branches" />
+				<delete  dir="${dir.source}/tags" />
+				<delete dir="${dir.source}/trunk2" />
+				<delete dir="${dir.source}/trunk3" /-->
+			<!--Included here to make .svn remove from every depth in dir-->
+				<!--copy todir="${dir.source}">
+					<fileset dir="${dir.source}/trunk4">
+						<exclude name="**/.svn"/>
+					</fileset>
+				</copy>
+				<delete dir="${dir.source}/trunk4" />
+			</target>
+
+		
+		<target name="create.structure" depends="svn.checkout">
+			<ant antfile="build_structure.xml" />
+		</target-->
+	
+	
+	<target name="create.structure" depends="copy.source">
+		<ant antfile="build_structure.xml" />
+	</target>
+	
+	
+	 <target name="build.installers" depends="create.structure">
+	 	<ant antfile="build_installers.xml" />
+	 </target>
+
+	
+	
+	 <target name="do.all" depends="build.installers, clean">
+	 </target>
+	
+	<target name="clean" >
+		<!--delete file="${QueryIOBuildRoot}/hpcs.jpg" />
+		<delete dir="${QueryIOBuildRoot}/Icon" />
+		<delete file="${QueryIOBuildRoot}/tomcat/conf/context.xml" />
+		<delete file="${QueryIOBuildRoot}/tomcat/conf/server.xml" />
+		<delete dir="${QueryIOBuildRoot}/SupportedFiles" />
+		<delete dir="${QueryIOBuildRoot}/Scripts" />			
+		<delete dir="${dir.source}" /-->
+		<!--delete dir="${QueryIOBuild}" quiet="true" /-->
+	</target>
+</project>
