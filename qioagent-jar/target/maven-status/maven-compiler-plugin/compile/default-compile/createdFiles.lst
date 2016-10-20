@@ -1,8 +1,0 @@
-com/queryio/agent/core/server/HDFSOverFTPServer.class
-com/queryio/agent/core/server/QueryIOServers$2.class
-com/queryio/agent/core/server/QueryIOAgent.class
-com/queryio/agent/core/server/QueryIOServers.class
-com/queryio/web/listener/AgentStartupListener.class
-com/queryio/agent/core/server/QueryIOServers$1.class
-com/queryio/core/services/QueryIOServiceImpl.class
-com/queryio/agent/web/LogViewer.class
