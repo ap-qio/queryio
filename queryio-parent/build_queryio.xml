@@ -51,33 +51,8 @@
 	</path>
 	
 		
-	
-	<target name="compile.queryio.all">
-		<javac srcdir="${dir.source}/QueryIO/src" destdir="${temp.queryio.classes}" debug="on"  nowarn="on" optimize="on" >
-			<include name="**/*.java" />
-			<exclude name="agent/**/*.java" />
-			<classpath refid="queryio.lib.QueryIOJars"/>
-			<classpath refid="queryio.lib.hadoop" />
-			<classpath refid="temp.build.queryiocommon" />
-			<classpath refid="queryio.lib.birtJars" />
-			<classpath refid="other.jar" />
-			<classpath>
-				<fileset dir="${temp.queryio.classes}" >
-					<include name="**/*.class" />
-				</fileset>
-			</classpath>
-		</javac>			
-	</target>
-	
 
-	<target name="compile.queryio" >
-			<!--antcall target="compile.queryio.common.agent" /-->
-			<antcall target="compile.queryio.all" />	
-	</target>
-	
-		
 		<target name="compile-all" depends="init" >
-				<antcall target="compile.queryio" />
 				<antcall target="create.jar" />
 				<antcall target="copy.resources" />
 		</target>
@@ -86,7 +61,7 @@
 	
 	<target name="create.queryio.jar" >
 		<jar jarfile="${dir.queryio}/WEB-INF/lib/QueryIOUI.jar">
-			<fileset dir="${temp.queryio.classes}">
+			<fileset dir="${dir.source}/QueryIO/target/QueryIO/WEB-INF/classes">
 				<include name="**/*.class" />
 			</fileset>
 		</jar>
@@ -97,7 +72,7 @@
 	
 	<target name="copy.related.jar">
 		<copy todir="${dir.queryio}/WEB-INF/lib">
-			<fileset dir="${dir.source}/lib/QueryIOJars">
+			<fileset dir="${dir.source}/queryio-parent/lib/QueryIOJars">
 				<include name="**/*.jar" />
 				<exclude name="**/servlet-api.jar" />
 				<exclude name="**/jsp-api.jar" />
@@ -119,11 +94,11 @@
 				<exclude name="**/hadop-yarn-common-2.0.2-aplha.jar" />
 				<exclude name="**/hadop-yarn-common-2.1.0-beta.jar" />
 			</fileset>
-			<fileset dir="${dir.source}/lib/birt4.2.2">
+			<fileset dir="${dir.source}/queryio-parent/lib/birt4.2.2">
 				<include name="**/*.jar" />
 				<exclude name="commons-cli-1.0.jar" />
 			</fileset>
-			<fileset dir="${dir.source}/lib/os3server">
+			<fileset dir="${dir.source}/queryio-parent/lib/os3server">
 				<include name="httpclient-4.2.1.jar" />
 				<include name="httpcore-4.2.1.jar" />
 			</fileset>

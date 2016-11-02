@@ -1,7 +1,47 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="3.0">
+	<javaee:display-name>HDFSFTPServer</javaee:display-name>
+	<listener>
+		<listener-class>com.queryio.ftpserver.listeners.StartupListener</listener-class>
+	</listener>
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+	<servlet>
+		<servlet-name>UserInfoUpdater</servlet-name>
+		<servlet-class>com.queryio.ftpserver.userinfo.UserInfoUpdater</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserInfoUpdater</servlet-name>
+		<url-pattern>/UpdateUserInfo</url-pattern>
+	</servlet-mapping>
+
+
+
+	<servlet>
+		<servlet-name>DBReInitialize</servlet-name>
+		<servlet-class>com.queryio.db.reinit.ReinitializeDBServer</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DBReInitialize</servlet-name>
+		<url-pattern>/reinitializeDB</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ReinitializeHadoopConf</servlet-name>
+		<servlet-class>com.queryio.servlets.ReinitializeHadoopConf</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReinitializeHadoopConf</servlet-name>
+		<url-pattern>/reinitializeHadoopConf</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>StatusProvider</servlet-name>
+		<servlet-class>com.queryio.servlets.StatusProvider</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StatusProvider</servlet-name>
+		<url-pattern>/GetStatus</url-pattern>
+	</servlet-mapping>
+
 </web-app>

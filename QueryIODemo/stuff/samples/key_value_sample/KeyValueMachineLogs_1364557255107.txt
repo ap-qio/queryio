@@ -1,0 +1,7 @@
+IP=192.168.0.48
+CPU=40
+RAM=83
+DiskRead=9
+DiskWrite=32
+NetRead=53
+NetWrite=42

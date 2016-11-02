@@ -1,319 +1,40 @@
 <?xml version="1.0"?>
 
 <project default="main" basedir=".">
-	
-	<path id="hadoop.lib">
-		<fileset dir="${dir.source}/${hadoop.version}/lib">
-			<include name="**/*" />
-		</fileset>
-		<fileset dir="${temp.build}">
-				<include name="QueryIOPlugins.jar" />
-			</fileset>
-	</path>
-	
-	<path id="hadoop.server.lib">
-		<fileset dir="${dir.source}/${hadoop.server}/lib">
-			<include name="**/*" />
-		</fileset>
-	</path>
-	
-	<path id="queryio.lib.QueryIOCommon">
-		<fileset dir="${dir.source}/lib/QueryIOCommonJars">
-			<include name="**/*.jar" />
-		</fileset>
-	</path>
-	
-	<path id="queryio.lib.QueryIOJars">
-		<fileset dir="${dir.source}/lib/QueryIOJars">
-			<include name="commons-io-2.1.jar" />
-			<include name="ant-1.6.2.jar" />
-			<include name="stax-1.2.0.jar" />
-			<include name="xstream-1.4.4.jar" />
-			<include name="jai_codec.jar" />
-		</fileset>
-	</path>	
-	
-	
-	<path id="queryio.lib.QueryIOCommon.for.plugins">
-			<fileset dir="${dir.source}/lib/QueryIOCommonJars">
-				<include name="commons-dbcp-1.2.2.jar" />
-				<include name="commons-lang-2.4.jar" />
-				<include name="commons-logging-1.1.1.jar" />
-				<include name="commons-logging-api-1.1.jar" />
-				<include name="commons-pool-1.4.jar" />
-				<include name="hsqldb-2.2.8.jar" />
-				<include name="jregex-1.2_01.jar" />
-				<include name="jsch-0.1.53.jar" />
-				<include name="jsp-api.jar" />
-				<include name="log4j-1.2.14.jar" />
-				<include name="servlet-api.jar" />
-			</fileset>
-	</path>
-	
-	<path id="other.jar">
-			<fileset dir="${dir.source}/lib/os3server">
-				<include name="LZ4Java.jar" />
-			</fileset>
-			<fileset dir="${dir.source}/lib/others">
-				<include name="snappy-java-1.0.4.1.jar" />
-			</fileset>
-			<fileset dir="${dir.source}/lib/QueryIOJars">
-				<include name="json_simple-1.1.jar" />
-				<include name="mail-1.4.1.jar" />	
-				<include name="tika-app-1.3-modified.jar" />	
-			</fileset>
-			<fileset dir="${dir.source}/QueryIODemo/lib">
-				<include name="commons-jexl-2.1.1.jar" />
-			</fileset>
-		</path>
 
-	<path id="queryio.lib.ddutil">
-			<fileset dir="${dir.source}/lib/QueryIOJars">
-				<include name="DdlUtils-1.0.jar" />				
-			</fileset>	
-		</path>
-	
-	<path id="temp.build.queryiocommon">
-		<fileset dir="${temp.build}">
-			<include name="QueryIOCommon.jar" />
-		</fileset>	
-	</path>
-	
-	<path id="hadoop.custom.server.lib" >
-				<fileset dir="${temp.build}">
-					<include name="hadoop-custom-compiled-server.jar" />
-				</fileset>
-			</path>
-	
-	
-	<target name="create.temp">
-		<mkdir dir="${temp.queryiocommon.classes}" />
-		<mkdir dir="${temp.build}" />
-	</target>
-	
-	
-	<target name="create.queryiocommon.jar">
-		<jar jarfile="${temp.build}/QueryIOCommon.jar">
-			<fileset dir="${temp.queryiocommon.classes}">
-				<include name="**/*.class" />
+	<target name="copy.server.jars">
+		<copy todir="${QueryIOBuild}/service/${hadoop.dir}/share/hadoop/common">
+			<fileset dir="${dir.source}/QueryIOPlugins/target">
+				<include name="QueryIOPlugins-0.0.1-SNAPSHOT.jar" />
 			</fileset>
-		</jar>
-	</target>
-	
-	
-	<target name="compile.queryiocommon.util">
-		<javac srcdir="${dir.source}/QueryIOCommon/src/util" destdir="${temp.queryiocommon.classes}" debug="on"  nowarn="on" optimize="on" >
-			<include name="**/*.java" />
-			<classpath refid="queryio.lib.QueryIOCommon"/>
-			<classpath refid="queryio.lib.QueryIOJars"/>
-			<classpath refid="hadoop.custom.server.lib"/>
-		</javac>
-	</target>
-			
-	
-	<target name="compile.queryiocommon.database">
-		<javac srcdir="${dir.source}/QueryIOCommon/src/database" destdir="${temp.queryiocommon.classes}" debug="on"  nowarn="on" optimize="on" >
-			<include name="**/*.java" />
-			<classpath refid="queryio.lib.QueryIOCommon"/>
-			<classpath refid="queryio.lib.ddutil"/>
-			<classpath refid="queryio.lib.QueryIOJars"/>
-			<classpath>
-				<fileset dir="${temp.queryioagent.classes}" >
-					<include name="**/*.class" />
-				</fileset>
-			</classpath>
-		</javac>
-	</target>
-	
-	
-	
-	<target name="create.plugins">
-		<mkdir dir="${temp.plugins.classes}" />
-		<javac srcdir="${dir.source}/QueryIOPlugins/src" destdir="${temp.plugins.classes}" debug="on"  nowarn="on" optimize="on" >
-			<include name="**/*.java" />
-			<classpath refid="queryio.lib.QueryIOCommon.for.plugins"/>
-			<classpath refid="temp.build.queryiocommon" />
-			<classpath refid="hadoop.custom.server.lib" />
-			<classpath refid="other.jar" />
-		</javac>
-		<jar jarfile="${temp.build}/QueryIOPlugins.jar">
-			<fileset dir="${temp.plugins.classes}">
-				<include name="**/*.class" />
+			<fileset dir="${dir.source}/QueryIOCommon/target">
+				<include name="QueryIOCommon-0.0.1-SNAPSHOT.jar" />
 			</fileset>
-		</jar>
-		<delete dir="${temp.plugins.classes}" />
-	</target>
-	
-	<target name="copy.plugins">
-		<copy toDir="${QueryIOBuild}/service/${hadoop.dir}/share/hadoop/common">
-			<fileset dir="${temp.build}" >
-				<include name="QueryIOPlugins.jar" />
-				<include name="QueryIOCommon.jar" />
-				<include name="hadoop-custom-compiled-server.jar" />
+			<fileset dir="${dir.source}/hadoop-qio-server/target">
+				<include name="hadoop-qio-server-0.0.1-SNAPSHOT.jar" />
 			</fileset>
 		</copy>
 	</target>
-	
-	
-	<target name="compile.queryiocommon" >
-		<antcall target="build.custom.compiled.server" />
-		<antcall target="compile.queryiocommon.util" />
-		<antcall target="compile.queryiocommon.database" />
-		<antcall target="create.queryiocommon.jar" />
-		<antcall target="create.plugins" />
-		<antcall target="copy.plugins" />
-		<antcall target="build.custom.compiled" />
-	</target>
-	
-
-	<target name="copy.server.jars">
+	<target name="copy.server.jars2">
 		<copy todir="${dir.queryio.server}/lib">
-			<fileset dir="${dir.source}/lib/ftpserver">
+			<fileset dir="${dir.source}/queryio-parent/lib/ftpserver">
 				<include name="**/commons-dbcp-1.2.2.jar" />
 				<include name="**/commons-pool-1.4.jar" />
 				<include name="**/servlet-api.jar" />
 			</fileset>
-			<fileset dir="${temp.build}" >
-				<include name="hadoop-custom-compiled.jar" />
+			<fileset dir="${dir.source}/hadoop-queryio/target">
+				<include name="hadoop-queryio-0.0.1-SNAPSHOT.jar" />
 			</fileset>
-			<fileset dir="${dir.source}/QueryIODemo/lib" >
+			<fileset dir="${dir.source}/QueryIODemo/lib">
 				<include name="tika-app-1.3-modified.jar" />
 			</fileset>
 		</copy>
 	</target>
-	
-	<target name="build.custom.compiled.server" >
-			<mkdir dir="${temp.build.hadoop.server.classes}" />
-			<javac srcdir="${dir.source}/${hadoop.server}/src" destdir="${temp.build.hadoop.server.classes}" target="1.7" source="1.7">
-				<classpath refid="hadoop.lib"/>
-				<classpath refid="other.jar"/>
-				<classpath refid="temp.build.queryiocommon" />
-				<classpath>
-					<fileset dir="${temp.build.hadoop.server.classes}" >
-						<include name="**/*.class" />
-					</fileset>
-				</classpath>
-				<classpath>
-					<fileset dir="${JDK1.7_HOME}/lib">
-						<include name="tools.jar" />
-					</fileset>
-				</classpath>
-			</javac>
-			<jar jarfile="${temp.build}/hadoop-custom-compiled-server.jar">
-				<fileset dir="${temp.build.hadoop.server.classes}/common">
-					<include name="**/*.class" />
-				</fileset>
-				<fileset dir="${temp.build.hadoop.server.classes}/annotations">
-					<include name="**/*.class" />
-				</fileset>
-				<fileset dir="${temp.build.hadoop.server.classes}/hdfs">
-					<include name="**/*.class" />
-				</fileset>
-				<fileset dir="${temp.build.hadoop.server.classes}">
-					<include name="com/**/*.class" />
-					<include name="org/**/*.class" />
-					<include name="Custom.class" />
-				</fileset>
-				
-				<fileset dir="${dir.source}/${hadoop.server}">
-					<include name="core-default.xml" />
-					<include name="hdfs-default.xml" />
-					<include name="common-version-info.properties" />
-					<include name="META-INF/**" />
-				</fileset>
-				<fileset dir="${dir.source}/${hadoop.server}/src">
-					<include name="com/**/*.html" />
-					<include name="org/**/*.html" />
-				</fileset>
-				<fileset dir="${dir.source}/${hadoop.server}/src/common">
-					<include name="**/*.html" />
-				</fileset>
-				<fileset dir="${dir.source}/${hadoop.server}/src/annotations">
-					<include name="**/*.html" />
-				</fileset>
-			</jar>
-		
-			<!--jar jarfile="${temp.build}/hadoop-custom-compiled-server.jar">
-				<fileset dir="${temp.build.hadoop.server.classes}">
-					<include name="**/*.class" />
-				</fileset>
-				<fileset dir="${dir.source}/${hadoop.server}">
-					<include name="**/META-INF/**/*" />
-					<include name="common-version-info.properties" />
-					<include name="core-default.xml" />
-					<include name="hdfs-default.xml" />
-				</fileset>
-			</jar-->
-			
-		</target>
-	
-	<target name="build.custom.compiled" >
-		<mkdir dir="${temp.build.hadoop.classes}" />
-		<javac srcdir="${dir.source}/${hadoop.dir}/src" destdir="${temp.build.hadoop.classes}" target="1.7" source="1.7">
-			<include name="**/*.java" />
-			<classpath refid="hadoop.lib"/>
-			<classpath refid="other.jar"/>
-			<classpath refid="temp.build.queryiocommon" />
-			<classpath>
-				<fileset dir="${temp.build.hadoop.classes}" >
-					<include name="**/*.class" />
-				</fileset>
-			</classpath>
-			<classpath>
-				<fileset dir="${JDK1.7_HOME}/lib">
-					<include name="tools.jar" />
-				</fileset>
-			</classpath>
-		</javac>
-		<jar jarfile="${temp.build}/hadoop-custom-compiled.jar">
-			<fileset dir="${temp.build.hadoop.classes}/common">
-				<include name="**/*.class" />
-			</fileset>
-			<fileset dir="${temp.build.hadoop.classes}/hdfs">
-				<include name="**/*.class" />
-			</fileset>
-			<fileset dir="${temp.build.hadoop.classes}/annotations">
-				<include name="**/*.class" />
-			</fileset>
-			<fileset dir="${temp.build.hadoop.classes}">
-				<include name="com/**/*.class" />
-				<include name="org/**/*.class" />
-				<include name="Custom.class" />
-			</fileset>
-			<fileset dir="${dir.source}/${hadoop.version}">
-				<include name="core-default.xml" />
-				<include name="hdfs-default.xml" />
-				<include name="META-INF/**" />
-			</fileset>
-			<fileset dir="${dir.source}/${hadoop.version}">
-				<include name="com/**/*.html" />
-				<include name="org/**/*.html" />
-			</fileset>
-			<fileset dir="${dir.source}/${hadoop.version}/src/common">
-				<include name="**/*.html" />
-			</fileset>
-			<fileset dir="${dir.source}/${hadoop.version}/src/annotations">
-				<include name="**/*.html" />
-			</fileset>
-		</jar>
-		<!--jar jarfile="${temp.build}/hadoop-custom-compiled.jar">
-			<fileset dir="${temp.build.hadoop.classes}">
-				<include name="**/*.class" />
-			</fileset>
-			<fileset dir="${dir.source}/${hadoop.version}">
-				<include name="**/META-INF/**/*" />
-				<include name="common-version-info.properties" />
-				<include name="core-default.xml" />
-				<include name="hdfs-default.xml" />
-			</fileset>
-		</jar-->
-		<!--delete dir="${temp.build.hadoop}" /-->
+
+
+	<target name="main">
+		<antcall target="copy.server.jars" />
+		<antcall target="copy.server.jars2" />
 	</target>
-	
-	 <target name="main" >
-	 	
-	 	<antcall target="compile.queryiocommon" />
-	 	<antcall target="copy.server.jars" />
-	  </target>
-	
+
 </project>
