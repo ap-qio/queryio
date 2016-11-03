@@ -1,88 +1,9 @@
 <?xml version="1.0"?>
 
 <project default="do.all" basedir=".">
-
-	<path id="quierio.demo.lib">
-		<fileset dir="${dir.source}/QueryIODemo/lib">
-			<include name="**/*.jar" />
-		</fileset>	
-	</path>
-	<path id="quierio.lib.yarnJars">
-		<fileset dir="${dir.source}/lib/yarnJars">
-			<include name="**/*.jar" />
-		</fileset>
-		
-	</path>
-	
-	<path id="quierio.others.jars">
-		<fileset dir="${dir.source}/lib/os3server">
-			<include name="LZ4Java.jar" />
-		</fileset>
-		<fileset dir="${dir.source}/lib/others">
-			<include name="snappy-java-1.0.4.1.jar" />
-		</fileset>
-		<fileset dir="${dir.source}/lib/QueryIOJars">
-			<include name="commons-collections-3.1.jar" />
-			<include name="mail-1.4.1.jar" />
-			<include name="json_simple-1.1.jar" />
-		</fileset>
-		<fileset dir="${dir.source}/QueryIODemo/lib">
-			<include name="commons-jexl-2.1.1.jar" />
-		</fileset>
-	</path>
-	
-	<path id="hadoop-2.2.0.lib" >
-			<fileset dir="${dir.source}/${hadoop.version}/lib">
-				<include name="commons-*.jar" />
-				<!-- include name="commons-io-2.4.jar" /-->
-				<!-- include name="commons-net-3.1.jar" /-->
-				<include name="json_simple-1.1.jar" />
-				<include name="mail-1.4.1.jar" />
-			</fileset>
-		</path>
-	
-	<path id="hadoop.extra.lib" >
-				<fileset dir="${dir.source}/lib/QueryIOCommonJars">
-					<include name="hadoop-common-2.0.2-alpha.jar" />
-					<include name="hadoop-hdfs-2.0.2-alpha.jar" />
-				</fileset>
-			</path>
-	
-	
-	<path id="queryio.lib.hadoop">
-			<fileset dir="${temp.build}">
-				<include name="QueryIOPlugins.jar" />
-				<include name="QueryIOCommon.jar" />
-				<include name="hadoop-custom-compiled.jar" />
-			</fileset>
-		</path>
-	
-	<target name="compile.all">
-		<javac srcdir="${dir.source}/QueryIODemo/src" destdir="${temp.build.demo.classes}" debug="on"  nowarn="on" optimize="on" target="1.7" source="1.7">
-			<classpath refid="quierio.demo.lib" />
-			<classpath refid="quierio.lib.yarnJars" />
-			<classpath refid="hadoop-2.2.0.lib" />
-			<!--classpath refid="hadoop.extra.lib" /-->
-			<classpath refid="queryio.lib.hadoop" />
-			<classpath refid="quierio.others.jars" />
-			<classpath>
-				<fileset dir="${temp.build.demo.classes}" />
-			</classpath>
-		</javac>
-	</target>
 	
 	<target name="create.DataTagParser.jar">
-		<unzip src="${dir.source}/QueryIODemo/lib/wikixmlj-r43.jar" dest="${temp.build.demo.classes}" />
-		
-		<!-- DataTagParser.jar -->
-		<!--jar jarfile="${QueryIOBuild}/demo/DataTagParser.jar">
-			<fileset dir="${temp.build.demo.classes}">
-				<include name="**/datatags/*.class" />
-				<include name="**/datatags/common/*.class" />
-				<include name="edu/**" />
-			</fileset>
-		</jar-->
-		
+		<unzip src="${dir.source}/QueryIODemo/lib/wikixmlj-r43.jar" dest="${temp.build.demo.classes}" />		
 		<jar jarfile="${dir.queryio}/UserLibs/Plugins/DataTagParser.jar">
 			<fileset dir="${temp.build.demo.classes}">
 				<include name="**/datatags/*.class" />
@@ -92,16 +13,6 @@
 		</jar>
 	</target>
 	
-	
-	
-	<target name="create.PostIngest.jar">
-		<!--jar jarfile="${QueryIOBuild}/demo/PostIngest.jar">
-			
-			<fileset dir="${temp.build.demo.classes}">
-				<include name="**/extended/metadata/*.class" />
-			</fileset>
-		</jar-->
-	</target>
 	
 	<target name="create.LogParserMRJob.jar">
 		<jar jarfile="${QueryIOBuild}/demo/LogParserMRJob.jar">
@@ -124,17 +35,9 @@
 	</target>
 	
 	<target name="create.PostIngestJob.jar">
-			<mkdir dir="${dir.queryio}/UserLibs/Plugins" />
-			<!--jar jarfile="${dir.queryio}/UserLibs/Plugins/PostIngestJob.jar">
-				<fileset dir="${temp.build.demo.classes}">
-					<include name="**/job/*.class" />
-					<include name="**/demo/common/*.class" />
-				</fileset>
-			</jar-->
-		
-		<!--GenericPostIngestJob.jar-->
+			<mkdir dir="${dir.queryio}/UserLibs/Plugins" />		
 			<unzip src="${dir.source}/QueryIODemo/lib/wikixmlj-r43.jar" dest="${temp.build.demo.classes}" />
-			<unzip src="${dir.source}/lib/QueryIOJars/json_simple-1.1.jar" dest="${temp.build.demo.classes}/demo/json" />
+			<unzip src="${dir.source}/queryio-parent/lib/QueryIOJars/json_simple-1.1.jar" dest="${temp.build.demo.classes}/demo/json" />
 			<jar jarfile="${dir.queryio}/UserLibs/Plugins/GenericPostIngestJob.jar">
 				<fileset dir="${temp.build.demo.classes}">
 					<include name="**/demo/common/*.class" />
@@ -296,7 +199,6 @@
 	
 	<target name="create.jar">
 		<antcall target="create.DataTagParser.jar" />
-		<antcall target="create.PostIngest.jar" />
 		<antcall target="create.LogParserMRJob.jar" />
 		<antcall target="create.PostIngestJob.jar" />
 		<antcall target="create.WikiTextParser.jar" />
@@ -333,9 +235,8 @@
 		
 	
  <target name="do.all" depends="create.temp.dir">
-	<antcall target="compile.all" />
  	<antcall target="create.jar" />
- 	<antcall target="clear" />
+ 	<!--<antcall target="clear" />-->
  </target>
   
 </project>

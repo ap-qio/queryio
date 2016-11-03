@@ -4,67 +4,13 @@
 
 	<property name="temp.hdfs.ftp.classes" value="${temp.build}/hdfsftpserver" />
 
-	
-		<path id="queryio.lib.hadoop">
-			<fileset dir="${temp.build}">
-				<include name="hadoop-custom-compiled.jar" />
-				<include name="QueryIOPlugins.jar" />
-			</fileset>
-		</path>
-		
-		<path id="queryio.lib.QueryIOCommonJars">
-					<fileset dir="${dir.source}/lib/QueryIOCommonJars">
-						<include name="**/*" />
-					</fileset>	
-			</path>
-	
-		<path id="temp.build.queryiocommon">
-				<fileset dir="${temp.build}">
-					<include name="QueryIOCommon.jar" />
-				</fileset>	
-		</path>
-	
-	<path id="queryio.lib.hdfs.ftp.server">
-			<fileset dir="${dir.source}/lib/ftpserver">
-				<include name="**/*.jar" />
-			</fileset>
-	</path>
-	
-	
-	<path id="queryio.lib.others">
-			<fileset dir="${dir.source}/lib/others">
-				<include name="**/snappy-java-1.0.3.2.jar" />
-			</fileset>
-			<fileset dir="${dir.source}/lib/QueryIOJars">
-				<include name="json_simple-1.1.jar" />
-			</fileset>
-			<fileset dir="${dir.source}/QueryIODemo/lib">
-				<include name="commons-jexl-2.1.1.jar" />
-			</fileset>
-	</path>
-	
-	
-	<target name="compile.hdfs.ftp">
-		<javac srcdir="${dir.source}/HDFSFTPServer/src" destdir="${temp.hdfs.ftp.classes}" debug="on"  nowarn="on" optimize="on" >
-			<include name="**/*.java" />
-			<classpath refid="queryio.lib.others" />
-			<classpath refid="queryio.lib.hdfs.ftp.server" />
-			<classpath refid="queryio.lib.hadoop" />
-			<classpath refid="queryio.lib.QueryIOCommonJars" />
-			<classpath refid="temp.build.queryiocommon" />
-			<classpath>
-				<fileset dir="${temp.hdfs.ftp.classes}" />
-			</classpath>
-		</javac>
-	</target>
-
 	<target name="make.temp.hdfs.ftpfolders">
 		<mkdir dir="${temp.hdfs.ftp.classes}" />
 	</target>
 	
-	<target name="create.hdfs.ftp.jar">
+	<target name="create.hdfs.ftp.jar" depends="make.temp.hdfs.ftpfolders">
 		<jar jarfile="${temp.build}/hdfs-over-ftp.jar">
-			<fileset dir="${temp.hdfs.ftp.classes}">
+			<fileset dir="${dir.source}/HDFSFTPServer/target/HDFSFTPServer/WEB-INF/classes">
 				<include name="**/*.class" />
 			</fileset>
 		</jar>
@@ -75,7 +21,7 @@
 			<fileset dir="${temp.build}" >
 				<include name="hdfs-over-ftp.jar" />
 			</fileset>
-			<fileset dir="${dir.source}/HDFSFTPServer/WebContent/WEB-INF/lib">
+			<fileset dir="${dir.source}/HDFSFTPServer/target/HDFSFTPServer/WEB-INF/lib">				
 				<exclude name="**/commons-dbcp-1.2.2.jar" />
 				<exclude name="**/commons-pool-1.4.jar" />
 				<exclude name="**/hsqldb-2.2.8.jar" />
@@ -91,7 +37,6 @@
 	</target>
 	
 	 <target name="main" depends="make.temp.hdfs.ftpfolders">
-		<antcall target="compile.hdfs.ftp" />
 	 	<antcall target="create.hdfs.ftp.jar" />
 	 	<antcall target="copy.jars" />
 	 	<antcall target="clean" />
