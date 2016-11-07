@@ -97,7 +97,6 @@
 
 # OS specific support.  $var _must_ be set to either true or false.
 
-export JAVA_HOME=/Users/api-dev-123/QueryIO/.install4j/jre.bundle/Contents/Home/jre
 export JAVA_OPTS="-Xms256m -Xmx2048m -Dorg.xerial.snappy.lib.name=libsnappyjava.jnilib -Dorg.xerial.snappy.tempdir=/tmp -XX:PermSize=256M -XX:MaxPermSize=1024m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=."
 
 cygwin=false

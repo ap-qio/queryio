@@ -174,7 +174,7 @@
 			<fileset dir="${dir.queryio.os3server}/WEB-INF/lib">
 				<include name="os3server.jar" />
 			</fileset>
-			<fileset dir="${QueryIOBuild}/service/${hadoop.dir}/share/hadoop/common">
+			<fileset dir="${QueryIOBuild}/services/${hadoop.dir}/share/hadoop/common">
 				<include name="QueryIOPlugins.jar" />
 			</fileset>
 		</move>
@@ -232,7 +232,7 @@
 				<include name="os3server.jar" />
 			</fileset>
 		</copy>
-		<copy toDir="${QueryIOBuild}/service/${hadoop.dir}/share/hadoop/common" overwrite="true">
+		<copy toDir="${QueryIOBuild}/services/${hadoop.dir}/share/hadoop/common" overwrite="true">
 			<fileset dir="${temp.build}/obfuscate/newJars">
 				<include name="QueryIOPlugins.jar" />
 				<include name="QueryIOCommon.jar" />

@@ -14,7 +14,7 @@
 	<property name="build.number.file" value="build.number" />
 	
 	<property name="dir.queryio" value="${QueryIOBuild}/tomcat/webapps/queryio" />
-	<property name="dir.hadoop.service" value="${QueryIOBuild}/service" />
+	<property name="dir.hadoop.service" value="${QueryIOBuild}/services" />
 	<property name="dir.queryio.agent" value="${dir.hadoop.service}/QueryIOAgent/webapps/agentqueryio" />
 	<property name="dir.queryio.server" value="${dir.hadoop.service}/QueryIOServers" />
 	<property name="dir.queryio.ftpserver" value="${dir.queryio.server}/webapps/hdfs-over-ftp" />

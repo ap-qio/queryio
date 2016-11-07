@@ -22,7 +22,7 @@
         <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
                resourceName="UserDatabase"/>
       </Realm-->
-         <Realm className="com.queryio.authenticate.CustomAuthenticatorRealm" dbConfigFilePath="/Users/api-dev-123/QueryIO/tomcat/webapps/queryio/WEB-INF/dbconfig.xml"/>
+         <Realm className="com.queryio.authenticate.CustomAuthenticatorRealm" dbConfigFilePath="$USER_INSTALL_DIR$/tomcat/webapps/queryio/WEB-INF/dbconfig.xml"/>
       <Host name="localhost"  appBase="webapps"
             unpackWARs="true" autoDeploy="true">
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"

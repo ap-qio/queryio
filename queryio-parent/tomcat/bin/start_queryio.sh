@@ -3,7 +3,7 @@
 #
 # IMPORTANT: This script does not require administrator permissions.
 #
-QUERYIO_HOME=/Users/api-dev-123/QueryIO
+QUERYIO_HOME=$USER_INSTALL_DIR$
 TOMCAT_HOME=$QUERYIO_HOME/tomcat
 
 cd $TOMCAT_HOME/bin

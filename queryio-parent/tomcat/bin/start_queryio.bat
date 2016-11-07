@@ -1,5 +1,5 @@
-set JRE_HOME=/Users/api-dev-123/QueryIO/.install4j/jre.bundle/Contents/Home/jre
-set QUERYIO_HOME=/Users/api-dev-123/QueryIO
+set QUERYIO_HOME=$USER_INSTALL_DIR$
+set JRE_HOME=$QUERYIO_HOME/.install4j/jre.bundle/Contents/Home/jre
 set TOMCAT_HOME=%QUERYIO_HOME%\tomcat
 set CATALINA_HOME=%QUERYIO_HOME%\tomcat
 

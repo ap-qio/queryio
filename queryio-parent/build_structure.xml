@@ -59,7 +59,7 @@
 				<exclude name="**/hive-0.10.0/**" />
 			</fileset>
 		</copy>
-		<copy todir="${QueryIOBuild}/service/QueryIOServers/lib">
+		<copy todir="${QueryIOBuild}/services/QueryIOServers/lib">
 			<fileset dir="${dir.source}/queryio-parent/lib/QueryIOJars">
 				<include name="json_simple-1.1.jar" />
 				<include name="commons-jexl-2.1.1.jar" />

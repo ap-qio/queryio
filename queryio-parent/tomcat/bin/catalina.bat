@@ -92,7 +92,7 @@ rem                   set TITLE=Tomcat.Cluster#1.Server#1 [%DATE% %TIME%]
 rem ---------------------------------------------------------------------------
 
 setlocal
-set JAVA_HOME=$TOMCAT_JAVA_HOME$
+set JAVA_HOME=JAVA_HOME
 set JAVA_OPTS=-Xms128m -Xmx1024m -XX:MaxPermSize=512m
 
 rem Suppress Terminate batch job on CTRL+C
