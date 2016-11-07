@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><DBConfig>
+	<DBConfiguration>
+		<SystemDB name="SystemDB" type="HSQL">
+			<driver>org.hsqldb.jdbcDriver</driver>
+			<url>jdbc:hsqldb:hsql://127.0.0.1:5433/queryio</url>
+			<userName>ADMIN</userName>
+			<password>5eE94nUfAeQ=</password>
+			<poolname>SystemDB</poolname>
+			<maxconnections>20</maxconnections>
+			<maxidleconnections>10</maxidleconnections>
+			<waittimeinmillis>300000</waittimeinmillis>
+			<driverJar>hsqldb-2.3.2.jar</driverJar>
+		</SystemDB>
+		<QueryDB name="MetaStore" role="Metadata / Tagging" type="HSQL">
+			<driver>org.hsqldb.jdbcDriver</driver>
+			<url>jdbc:hsqldb:hsql://127.0.0.1:5434/metastore</url>
+			<userName>ADMIN</userName>
+			<password>5eE94nUfAeQ=</password>
+			<poolname>MetaStore</poolname>
+			<maxconnections>20</maxconnections>
+			<maxidleconnections>10</maxidleconnections>
+			<waittimeinmillis>300000</waittimeinmillis>
+			<driverJar>hsqldb-2.3.2.jar</driverJar>
+		</QueryDB>
+		<QueryDB name="Hive" role="Hive Schema" type="HSQL">
+			<driver>org.hsqldb.jdbcDriver</driver>
+			<url>jdbc:hsqldb:hsql://127.0.0.1:5434/hive</url>
+			<userName>ADMIN</userName>
+			<password>5eE94nUfAeQ=</password>
+			<poolname>Hive</poolname>
+			<maxconnections>20</maxconnections>
+			<maxidleconnections>10</maxidleconnections>
+			<waittimeinmillis>300000</waittimeinmillis>
+			<driverJar>hsqldb-2.3.2.jar</driverJar>
+		</QueryDB>
+	</DBConfiguration>
+	
+	<DBTypeConfiguration>
+		<DBType name="PostgreSQL">
+		    <datatypeString>varchar</datatypeString>
+		    <datatypeTimestamp>timestamp</datatypeTimestamp>
+		    <datatypeLong>int8</datatypeLong>
+		    <datatypeShort>int2</datatypeShort>
+		    <datatypeInteger>int4</datatypeInteger>
+		    <datatypeReal>float4</datatypeReal>
+		    <datatypeDouble>float8</datatypeDouble>
+		    <datatypeDecimal>numeric</datatypeDecimal>
+		    <datatypeBoolean>bool</datatypeBoolean>
+		    <datatypeBlob>bytea</datatypeBlob>
+		    <defaultSchema>SELECT current_schema()</defaultSchema>
+		</DBType>
+		
+		<DBType name="MySQL">
+		    <datatypeString>varchar</datatypeString>
+		    <datatypeTimestamp>timestamp</datatypeTimestamp>
+		    <datatypeLong>bigint</datatypeLong>
+		    <datatypeShort>tinyint</datatypeShort>
+		    <datatypeInteger>int</datatypeInteger>
+		    <datatypeReal>real</datatypeReal>
+		    <datatypeDouble>float</datatypeDouble>
+		    <datatypeDecimal>decimal</datatypeDecimal>
+		    <datatypeBoolean>bit</datatypeBoolean>
+		    <datatypeBlob>blob</datatypeBlob>
+		    <defaultSchema>SELECT schema()</defaultSchema>
+	  </DBType>
+	  
+	  <DBType name="HSQL">
+		    <datatypeString>varchar</datatypeString>
+		    <datatypeTimestamp>timestamp</datatypeTimestamp>
+		    <datatypeLong>bigint</datatypeLong>
+		    <datatypeShort>tinyint</datatypeShort>
+		    <datatypeInteger>integer</datatypeInteger>
+		    <datatypeReal>real</datatypeReal>
+		    <datatypeDouble>double</datatypeDouble>
+		    <datatypeDecimal>decimal</datatypeDecimal>
+		    <datatypeBoolean>bit</datatypeBoolean>
+		    <datatypeBlob>blob</datatypeBlob>
+		    <defaultSchema>SELECT current_schema</defaultSchema>
+	  </DBType>
+	</DBTypeConfiguration>
+	
+</DBConfig>
