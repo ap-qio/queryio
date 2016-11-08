@@ -34,10 +34,16 @@
 			</fileset>
 		</copy>
 		<copy todir="${dir.queryio.agent}/WEB-INF/lib">
-					<fileset dir="${dir.source}/QueryIOCommon/target">
+			<fileset dir="${dir.source}/QueryIOCommon/target">
 						<include name="QueryIOCommon-0.0.1-SNAPSHOT.jar" />
-					</fileset>
-				</copy>
+			</fileset>
+		</copy>
+		<copy todir="${dir.hadoop.service}/UserLibs/jdbcJars">
+			<fileset dir="${dir.source}/queryio-parent/lib/jdbcJars">
+						<include name="hsqldb-2.3.2.jar" />
+						<include name="mysql.jar" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="create.queryio.agent.jar" >

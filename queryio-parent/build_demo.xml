@@ -214,7 +214,7 @@
 				</fileset>
 				<fileset dir="${dir.source}/QueryIODemo/lib">
 						<include name="tika-app-1.3-modified.jar" />
-					</fileset>
+				</fileset>
 			</copy>
 	</target>
 	
