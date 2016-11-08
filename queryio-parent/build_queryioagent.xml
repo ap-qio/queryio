@@ -31,6 +31,8 @@
 				<include name="commons-logging-1.0.4.jar" />
 				<include name="stax-api-1.0.1.jar" />
 				<include name="xstream-1.4.4.jar" />
+				<include name="spring-2.5.4.jar" />
+				<include name="spring-webmvc-2.5.4.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${dir.queryio.agent}/WEB-INF/lib">
@@ -43,6 +45,23 @@
 						<include name="hsqldb-2.3.2.jar" />
 						<include name="mysql.jar" />
 			</fileset>
+			</copy>
+		<copy todir="${dir.queryio.agent}/WEB-INF/lib">
+			<fileset dir="${dir.source}/queryio-parent/tomcat/bin">
+						<include name="tomcat-juli.jar" />
+			</fileset>
+			</copy>
+		<copy todir="${dir.queryio.agent}/WEB-INF/lib">
+			<fileset dir="${dir.source}/queryio-parent/tomcat/lib">
+						<include name="tomcat-api.jar" />
+						<include name="jasper.jar" />
+						<include name="jasper-el.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dir.queryio.agent}/WEB-INF/lib">
+				<fileset dir="${QueryIOBuild}/tomcat/webapps/queryio/WEB-INF/lib">
+						<include name="hadoop-qio-common-0.0.1-SNAPSHOT.jar" />
+				</fileset>
 		</copy>
 	</target>
 
