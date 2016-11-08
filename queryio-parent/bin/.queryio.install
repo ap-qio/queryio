@@ -1,0 +1,15 @@
+#
+#Mon Nov 07 11:58:30 IST 2016
+hadoop=2.7.1
+DataNode=
+ResourceManager=
+NodeManager=
+isUpgrade=false
+clusterHosts=
+version=4.5
+uninstalled=false
+postgresVersion=$postgresVersion$
+NameNode=
+installLoc=/Users/queryio/QueryIO
+hiveVersion=1.2.1
+buildId=1470
