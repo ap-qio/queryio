@@ -13,6 +13,9 @@
 			<fileset dir="${dir.source}/hadoop-qio-server/target">
 				<include name="hadoop-qio-server-0.0.1-SNAPSHOT.jar" />
 			</fileset>
+			<fileset dir="${dir.source}/hadoop-qio-common/target">
+				<include name="hadoop-qio-common-0.0.1-SNAPSHOT.jar" />
+			</fileset>
 		</copy>
 	</target>
 	<target name="copy.server.jars2">

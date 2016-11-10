@@ -1,2 +1,2 @@
-Version=$version$
-buildID=$buildId$
+Version=5.0
+buildID=1470

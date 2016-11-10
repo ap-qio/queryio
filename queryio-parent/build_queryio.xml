@@ -16,11 +16,11 @@
 	</path>
 
 	
-	<path id="queryio.lib.birtJars">
+	<!--<path id="queryio.lib.birtJars">
 		<fileset dir="${dir.source}/lib/birt4.2.2">
 			<include name="**/*.jar" />
 		</fileset>
-	</path>	
+	</path-->	
 	
 	<path id="queryio.lib.QueryIOJars">
 		<fileset dir="${dir.source}/lib/QueryIOJars">
@@ -94,10 +94,10 @@
 				<exclude name="**/hadop-yarn-common-2.0.2-aplha.jar" />
 				<exclude name="**/hadop-yarn-common-2.1.0-beta.jar" />
 			</fileset>
-			<fileset dir="${dir.source}/queryio-parent/lib/birt4.2.2">
+			<!--<fileset dir="${dir.source}/queryio-parent/lib/birt4.2.2">
 				<include name="**/*.jar" />
 				<exclude name="commons-cli-1.0.jar" />
-			</fileset>
+			</fileset-->
 			<fileset dir="${dir.source}/queryio-parent/lib/os3server">
 				<include name="httpclient-4.2.1.jar" />
 				<include name="httpcore-4.2.1.jar" />

@@ -1,2 +1,0 @@
-28 Sep,11:35:03:029 WARN [http-bio-5678-exec-10] directwebremoting.util.LocalUtil.toClass(1692) | Missing type info for (method=deleteAdHocQuery(class java.util.ArrayList), parameter: 0). Assuming this is a map with String keys. Please add to <signatures> in dwr.xml
-28 Sep,11:37:11:124 WARN [http-bio-5678-exec-9] directwebremoting.util.LocalUtil.toClass(1692) | Missing type info for (method=deleteMigration(class java.util.ArrayList), parameter: 0). Assuming this is a map with String keys. Please add to <signatures> in dwr.xml

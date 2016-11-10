@@ -247,7 +247,7 @@
 	 	<ant antfile="build_queryiocommon.xml" />
 	 	<ant antfile="build_demo.xml" />
 	 	<ant antfile="build_queryioagent.xml" />
-	 	<ant antfile="build_queryio.xml" />	 	
+	 	<!--<ant antfile="build_queryio.xml" /-->	
 	 	<ant antfile="build_os3.xml" />
 	 	<ant antfile="build_hdfs_ftp_server.xml" />
 	 	<!--ant antfile="build_yarnClient.xml" /-->
