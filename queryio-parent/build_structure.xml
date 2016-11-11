@@ -74,7 +74,6 @@
 				<exclude name="**/src/**" />
 				<exclude name="**/lib/**" />
 				<exclude name="**/target/**" />
-				<exclude name="**/conf/dbconfig.xml" />
 			</fileset>
 		</copy>
 		<copy todir="${dir.queryio.agent}/WEB-INF">
