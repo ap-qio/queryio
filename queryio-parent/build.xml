@@ -3,15 +3,15 @@
 <project default="do.all" basedir=".">
 
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
-	
+
 	<!-- ############# Only this lines may be machine dependent ########-->
-	<property file="machine_dependent.properties"/>
+	<property file="machine_dependent.properties" />
 
 	<!-- SET compiler -->
 	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
 	<property name="ant.build.javac.source" value="1.6" />
 	<property name="ant.build.javac.target" value="1.6" />
-	
+
 	<property name="QueryIOBuild" value="${basedir}/buildRoot/build" />
 	<property name="QueryIOBuildRoot" value="${basedir}/buildRoot" />
 	<property name="dir.queryio" value="${QueryIOBuild}/tomcat/webapps/queryio" />
@@ -22,7 +22,8 @@
 	<property name="dir.queryio.os3server" value="${dir.queryio.server}/webapps/os3server" />
 	<property name="dir.queryio.UserLibs" value="${dir.hadoop.service}/UserLibs" />
 	<property name="dir.source" value=".." />
-	
+	<property name="temp.build" value="${QueryIOBuildRoot}/Temp" />
+
 	<target name="create.folders">
 		<property environment="env" />
 		<!--delete dir="${dir.source}" quiet="true" />
@@ -33,7 +34,7 @@
 		<mkdir dir="${QueryIOBuild}" />
 		<mkdir dir="${QueryIOBuild}/database" />
 		<delete dir="${QueryIOBuildRoot}/SupportedFiles" />
-		<delete dir="${QueryIOBuildRoot}/Scripts" />	
+		<delete dir="${QueryIOBuildRoot}/Scripts" />
 		<mkdir dir="${QueryIOBuildRoot}/SupportedFiles" />
 		<delete dir="${QueryIOBuildRoot}/Scripts" />
 		<mkdir dir="${QueryIOBuildRoot}/Scripts" />
@@ -43,28 +44,34 @@
 		<mkdir dir="${QueryIOBuild}/docs" />
 		<mkdir dir="${QueryIOBuild}/Readme" />
 	</target>
-	
+
 
 	<target name="create.structure" depends="create.folders">
 		<ant antfile="build_structure.xml" />
 	</target>
-	
-	
-	  <target name="build.installers" depends="create.structure">
-	 	<ant antfile="build_installers.xml" />
-	 </target>
 
-	 <target name="do.all" depends="build.installers, clean">
-	 </target>
-	
-	<target name="clean" >
-		<!--delete file="${QueryIOBuildRoot}/hpcs.jpg" />
-		<delete dir="${QueryIOBuildRoot}/Icon" />
-		<delete file="${QueryIOBuildRoot}/tomcat/conf/context.xml" />
-		<delete file="${QueryIOBuildRoot}/tomcat/conf/server.xml" />
-		<delete dir="${QueryIOBuildRoot}/SupportedFiles" />
-		<delete dir="${QueryIOBuildRoot}/Scripts" />			
-		<delete dir="${dir.source}" /-->
-		<!--delete dir="${QueryIOBuild}" quiet="true" /-->
+
+	<target name="build.installers" depends="create.structure">
+		<ant antfile="build_installers.xml" />
+	</target>
+
+	<target name="compress" depends="build.installers">
+		<java classname="com.queryio.common.util.BuildHelperUtil" failonerror="yes">
+			<classpath>
+				<pathelement location="${dir.source}/QueryIOCommon/target/QueryIOCommon-0.0.1-SNAPSHOT.jar" />
+				<pathelement location="${basedir}/lib/QueryIOJars/commons-codec-1.6.jar" />
+				<pathelement location="${basedir}/lib/QueryIOJars/commons-io-2.1.jar" />
+			</classpath>
+			<arg line="${QueryIOBuild}" />
+		</java>
+	</target>
+
+	<target name="do.all" depends="compress, clean">
+	</target>
+
+	<target name="clean">
+		
+		<!--<delete dir="${temp.build}" quiet="true" />-->
+		
 	</target>
 </project>

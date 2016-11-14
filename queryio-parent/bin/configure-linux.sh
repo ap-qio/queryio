@@ -64,3 +64,5 @@ find $USER_INSTALL_DIR -type f \( -name "*.properties" -or -name "*.sh" -or -nam
 echo "Done SSH_HOSTNAME"
 
 cp $USER_INSTALL_DIR/bin/.queryio.install $HOME
+
+sh $USER_INSTALL_DIR/bin/mvScript.sh $USER_INSTALL_DIR

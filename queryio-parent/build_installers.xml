@@ -256,7 +256,7 @@
 	 	<record name="${log.file.name}" action="stop"/>
 	 	<record name="${errors.file.name}" action="stop"/>
 	 	<record name="${warnings.file.name}" action="stop"/>
-	 	<antcall target="clean" />
+	 	<!--<antcall target="clean" />-->
 	  </target>
 
 	<target name="clean">
