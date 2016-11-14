@@ -22,7 +22,7 @@ echo "$SHUTDOWN_PORT"
 echo "$STARTUP_PORT"
 echo "$SysDBPass"
 echo "$SysDBUser"
-echo "$SSH_HOSTNAME"
+echo "$DB_SSH_HOSTNAME"
 
 chmod -R +x $USER_INSTALL_DIR
 
@@ -60,8 +60,8 @@ find $USER_INSTALL_DIR -type f \( -name "*.properties" -or -name "*.sh" -or -nam
 echo "Done SysDBUser"
 find $USER_INSTALL_DIR -type f \( -name "*.properties" -or -name "*.sh" -or -name "*.script" -or -name "*.xml" \) -print0 | xargs -0 sed -i 's~\$ADD_USER\$'"~$ADD_USER"'~g'
 echo "Done ADD_USER"
-find $USER_INSTALL_DIR -type f \( -name "*.properties" -or -name "*.sh" -or -name "*.script" -or -name "*.xml" \) -print0 | xargs -0 sed -i 's~\$SSH_HOSTNAME\$'"~$SSH_HOSTNAME"'~g'
-echo "Done SSH_HOSTNAME"
+find $USER_INSTALL_DIR -type f \( -name "*.properties" -or -name "*.sh" -or -name "*.script" -or -name "*.xml" \) -print0 | xargs -0 sed -i 's~\$DB_SSH_HOSTNAME\$'"~$DB_SSH_HOSTNAME"'~g'
+echo "Done DB_SSH_HOSTNAME"
 
 cp $USER_INSTALL_DIR/bin/.queryio.install $HOME
 
