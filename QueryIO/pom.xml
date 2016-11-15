@@ -66,10 +66,22 @@
 			<artifactId>itext</artifactId>
 			<version>2.1.7</version>
 		</dependency>
-		<dependency>	
+		<dependency>
 			<groupId>com.queryio</groupId>
 			<artifactId>QueryIODemo</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.queryio</groupId>
+					<artifactId>hadoop-qio-server</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.3.2</version>
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>com.queryio</groupId> -->
