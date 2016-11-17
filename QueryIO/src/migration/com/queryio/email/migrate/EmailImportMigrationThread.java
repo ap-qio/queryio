@@ -435,7 +435,7 @@ public class EmailImportMigrationThread extends Thread
 				DistributedFileSystem fs = (DistributedFileSystem) dfs;
 				dfsOutputStream = (DFSOutputStream) fs.getClient().create(objectPath.toUri().getPath(), true); 
 				try {
-					qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null);
+					qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null, objectPath.toUri().getPath());
 				} catch (Exception e) {
 					if (dfsOutputStream != null) {
 						dfsOutputStream.close();
@@ -528,7 +528,7 @@ public class EmailImportMigrationThread extends Thread
 				DistributedFileSystem fs = (DistributedFileSystem) dfs;
 				dfsOutputStream = (DFSOutputStream) fs.getClient().create(objectPath.toUri().getPath(), true); 
 				try {
-					qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null);
+					qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null, objectPath.toUri().getPath());
 				} catch (Exception e) {
 					if (dfsOutputStream != null) {
 						dfsOutputStream.close();

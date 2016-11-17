@@ -9,14 +9,14 @@
 	<modules>
 		<module>../hadoop-qio-common</module>
 		<module>../hadoop-qio-server</module>
-		<module>../hadoop-queryio</module>
+<!-- 		<module>../hadoop-queryio</module> -->
 		<module>../HDFSFTPServer</module>
 		<module>../JDBCAuthenticate</module>
 		<module>../QueryIO</module>
 		<module>../QueryIOAgent</module>
 		<module>../QueryIOCommon</module>
 		<module>../QueryIODemo</module>
-		<module>../QueryIOPlugins</module>
+<!-- 		<module>../QueryIOPlugins</module> -->
 		<module>../os3server</module>
 		<module>../Hive-1.2.1</module>
 	</modules>

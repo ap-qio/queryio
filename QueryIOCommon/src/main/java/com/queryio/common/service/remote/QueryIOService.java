@@ -162,14 +162,6 @@ public interface QueryIOService extends RemoteService {
 	
 	QueryIOResponse fetchBlockPoolId(String namespaceDir);
 	
-	String reconstructFsImage(String installDir, String namenodeId);
-	
-	String restoreFsImage(String installDir, String namenodeId, String backupDbSource, String backupId);
-	
-	String restoreFsImageFromFile(String installDir, String namenodeId, String backupFileSourcePath, String backupId);
-	
-	void interruptReconstructFsImageDaemon(String id);
-	
 	void updateJavaHome(String installDir,String javaHomePath) throws Exception;
 	
 	void updateHadoopPath(String path) throws Exception;

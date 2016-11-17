@@ -16,25 +16,30 @@
 		</dependency>
 		<dependency>
 			<groupId>com.queryio</groupId>
-			<artifactId>QueryIOPlugins</artifactId>
+			<artifactId>hadoop-qio-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.queryio</groupId>
-					<artifactId>hadoop-qio-server</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>com.queryio</groupId> -->
+		<!-- <artifactId>QueryIOPlugins</artifactId> -->
+		<!-- <version>0.0.1-SNAPSHOT</version> -->
+		<!-- <exclusions> -->
+		<!-- <exclusion> -->
+		<!-- <groupId>com.queryio</groupId> -->
+		<!-- <artifactId>hadoop-qio-server</artifactId> -->
+		<!-- </exclusion> -->
+		<!-- </exclusions> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>com.queryio</groupId>
 			<artifactId>QueryIOCommon</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.queryio</groupId>
-			<artifactId>hadoop-queryio</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>com.queryio</groupId> -->
+		<!-- <artifactId>hadoop-queryio</artifactId> -->
+		<!-- <version>0.0.1-SNAPSHOT</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.apache.ftpserver</groupId>
 			<artifactId>ftplet-api</artifactId>

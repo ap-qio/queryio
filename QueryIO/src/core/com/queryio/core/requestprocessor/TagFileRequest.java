@@ -60,7 +60,7 @@ public class TagFileRequest extends RequestProcessorCore {
 				
 				try{
 					UserGroupInformation.setConfiguration(conf);
-					UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));
+//					UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));
 					
 					dfs = FileSystem.get(new URI(conf.get(DFSConfigKeys.FS_DEFAULT_NAME_KEY)), conf);
 				}

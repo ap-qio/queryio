@@ -27,7 +27,7 @@ public class CreateOutputStreamRequest extends RequestProcessorCore{
 		DistributedFileSystem fs = (DistributedFileSystem) dfs;
 		try {
 			dfsOutputStream = (DFSOutputStream) fs.getClient().create(this.path.toUri().getPath(), true);
-			qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, EncryptionHandler.NONE, EncryptionHandler.NONE, null);
+			qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, EncryptionHandler.NONE, EncryptionHandler.NONE, null, this.path.toUri().getPath());
 		} catch (Exception e) {
 			if (dfsOutputStream != null) {
 				dfsOutputStream.close();

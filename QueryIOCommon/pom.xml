@@ -41,11 +41,11 @@
 			<artifactId>hadoop-qio-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.queryio</groupId>
-			<artifactId>hadoop-queryio</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.queryio</groupId> -->
+<!-- 			<artifactId>hadoop-queryio</artifactId> -->
+<!-- 			<version>0.0.1-SNAPSHOT</version> -->
+<!-- 		</dependency> -->
 		<!-- <dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-common</artifactId> 
 			<version>2.7.1</version> </dependency> -->
 		<dependency>

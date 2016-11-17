@@ -53,7 +53,7 @@ public class LoginAction extends BaseAction {
 			UserGroupInformation.setConfiguration(conf);
 			
 			try{
-				UserGroupInformation.getLoginUser(username, password);
+//				UserGroupInformation.getLoginUser(username, password);
 				
 				dfs = FileSystem.get(conf);
 				dfs.getStatus();

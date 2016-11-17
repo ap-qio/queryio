@@ -27,7 +27,7 @@ public class LoginRequest extends RequestProcessorCore{
 			final Configuration conf = DFSMap.getKerberosConfiguration();
 		
 			UserGroupInformation.setConfiguration(conf);
-			UserGroupInformation.getLoginUser(user.getName(), user.getPassword());
+//			UserGroupInformation.getLoginUser(user.getName(), user.getPassword());
 				
 			fs = FileSystem.get(conf);
 			fs.getStatus();

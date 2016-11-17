@@ -84,7 +84,7 @@ public class AmazonImportMigrationThread extends Thread {
 				User us = UserDAO.getUserDetail(connection, user);
 				
 				UserGroupInformation.setConfiguration(conf);
-				UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));		
+//				UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));		
 				
 				dfs = FileSystem.get(conf);
 				dfs.setConf(conf);
@@ -385,7 +385,7 @@ public class AmazonImportMigrationThread extends Thread {
 			
 			ZipInputStream stream = null;
 			DFSOutputStream dfsOutputStream = null;
-			OutputStream qioOutputStream = null;
+			QIODFSOutputStream qioOutputStream = null;
 			try
 			{
 				stream = new ZipInputStream(inputStream);
@@ -403,12 +403,12 @@ public class AmazonImportMigrationThread extends Thread {
 							Path path = new Path(objectPath, fileName);
 							dfsOutputStream = (DFSOutputStream) fs.getClient().create(path.toUri().getPath(), true);
 							
-							if(tags != null && tags.size() > 0)
-								dfsOutputStream.addTags(tags);
 							
 							try 
 							{
-								qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null);
+								qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null, path.toUri().getPath());
+								if(tags != null && tags.size() > 0)
+									qioOutputStream.addTags(tags);
 							} 
 							catch (Exception e) 
 							{
@@ -468,18 +468,18 @@ public class AmazonImportMigrationThread extends Thread {
 		else 
 		{
 			DFSOutputStream dfsOutputStream = null;
-			OutputStream qioOutputStream = null;
+			QIODFSOutputStream qioOutputStream = null;
 			try
 			{
 				DistributedFileSystem fs = (DistributedFileSystem) dfs;
 				dfsOutputStream = (DFSOutputStream) fs.getClient().create(objectPath.toUri().getPath(), true);
 				
-				if(tags != null && tags.size() > 0)
-					dfsOutputStream.addTags(tags);
 				
 				try 
 				{
-					qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream,migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null);
+					qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream,migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null, objectPath.toUri().getPath());
+					if(tags != null && tags.size() > 0)
+						qioOutputStream.addTags(tags);
 				} 
 				catch (Exception e) 
 				{

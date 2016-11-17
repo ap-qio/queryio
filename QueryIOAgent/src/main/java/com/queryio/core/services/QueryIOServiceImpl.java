@@ -15,7 +15,6 @@ import java.util.Map;
 import org.apache.commons.lang.SystemUtils;
 
 import com.queryio.common.remote.DBOperationsManager;
-import com.queryio.common.remote.FsImageDaemon;
 import com.queryio.common.remote.MapRedOperation;
 import com.queryio.common.remote.NodeOperation;
 import com.queryio.common.remote.SystemStatistics;
@@ -422,25 +421,6 @@ public class QueryIOServiceImpl implements QueryIOService {
 
 	public QueryIOResponse fetchBlockPoolId(String namespaceDir) {
 		return NodeOperation.fetchBlockPoolId(namespaceDir);
-	}
-
-	public String reconstructFsImage(String installDir,
-			String namenodeId) {
-		return FsImageDaemon.runFsImageFromDbThread(installDir, namenodeId);
-	}
-	
-	public String restoreFsImage(String installDir,
-			String namenodeId, String backupDbSource, String backupId) {
-		return FsImageDaemon.runFsImageFromDbThread(installDir, namenodeId, backupDbSource, backupId);
-	}
-	
-	public String restoreFsImageFromFile(String installDir,
-			String namenodeId, String backupFileSourcePath, String backupId) {
-		return FsImageDaemon.runFsImageFromFileThread(installDir, namenodeId, backupFileSourcePath, backupId);
-	}
-
-	public void interruptReconstructFsImageDaemon(String id) {
-		FsImageDaemon.interruptDaemon(id);
 	}
 
 	public void updateJavaHome(String installDir, String javaHomePath) throws Exception {

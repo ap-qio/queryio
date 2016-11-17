@@ -65,7 +65,7 @@ public class GetFileRequest extends RequestProcessorCore{
 				
 				try{
 					UserGroupInformation.setConfiguration(conf);
-					UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));
+//					UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));
 					
 					dfs = FileSystem.get(new URI(fsDefaultName), conf);
 				}
@@ -89,7 +89,7 @@ public class GetFileRequest extends RequestProcessorCore{
 				DistributedFileSystem fs = (DistributedFileSystem) dfs;
 				dfsInputStream = (DFSInputStream) fs.getClient().open(this.path.toUri().getPath());
 				try {
-					qioInputStream = new QIODFSInputStream(dfsInputStream);
+					qioInputStream = new QIODFSInputStream(dfsInputStream, fs, this.path.toUri().getPath());
 				} catch (Exception e) {
 					if (dfsInputStream != null) {
 						dfsInputStream.close();

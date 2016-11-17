@@ -92,7 +92,7 @@ public class FTPExportMigrationThread extends Thread {
 				User us = UserDAO.getUserDetail(connection, user);
 				
 				UserGroupInformation.setConfiguration(conf);
-				UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));		
+//				UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));		
 				
 				dfs = FileSystem.get(conf);
 				dfs.setConf(conf);
@@ -471,7 +471,7 @@ public class FTPExportMigrationThread extends Thread {
 		dfsInputStream = (DFSInputStream) fs.getClient().open(path.toUri().toString());
 		try 
 		{
-			qioInputStream = new QIODFSInputStream(dfsInputStream);
+			qioInputStream = new QIODFSInputStream(dfsInputStream, fs, path.toUri().toString());
 		} 
 		catch (Exception e) 
 		{

@@ -106,7 +106,7 @@ public class DBVSNamespaceDiagnosisRequest extends RequestProcessorCore {
 					
 					try{
 						UserGroupInformation.setConfiguration(conf);
-						UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));
+//						UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));
 						
 						dfs = FileSystem.get(new URI(fsDefaultName), conf);
 						dfs.getStatus();

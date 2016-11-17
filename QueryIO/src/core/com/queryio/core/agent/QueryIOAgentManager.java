@@ -2583,59 +2583,6 @@ public class QueryIOAgentManager {
 		}
 	}
 	
-	public static String reconstructFsImage(Host host,
-			String namenodeId) {
-		try {
-			QueryIOService remoteService = (QueryIOService) ServiceFactory.INSTANCE
-					.getRemoteService(0, host.getHostIP(),
-							Integer.parseInt(host.getAgentPort()),
-							QueryIOConstants.AGENT_QUERYIO, RemoteService.QUERYIO_SERVICE_BEAN);
-			return remoteService.reconstructFsImage(host.getInstallDirPath(), namenodeId);		
-		} catch (Exception e) {
-			AppLogger.getLogger().fatal(
-					"host " + host.getHostIP() + " not responding", e);
-		}
-		return null;
-	}
-	
-	public static String restoreFsImage(Host host,
-			String namenodeId, String backupDbSource, String backupId) {
-		try {
-			QueryIOService remoteService = (QueryIOService) ServiceFactory.INSTANCE
-					.getRemoteService(0, host.getHostIP(),
-							Integer.parseInt(host.getAgentPort()),
-							QueryIOConstants.AGENT_QUERYIO, RemoteService.QUERYIO_SERVICE_BEAN);
-			return remoteService.restoreFsImage(host.getInstallDirPath(), namenodeId, backupDbSource, backupId);		
-		} catch (Exception e) {
-			AppLogger.getLogger().fatal(
-					"host " + host.getHostIP() + " not responding", e);
-		}
-		return null;
-	}
-	public static String restoreFsImageFromFile(Host host,
-			String namenodeId, String backupFileSourcePath, String backupId) {
-		try {
-			QueryIOService remoteService = (QueryIOService) ServiceFactory.INSTANCE
-					.getRemoteService(0, host.getHostIP(),
-							Integer.parseInt(host.getAgentPort()),
-							QueryIOConstants.AGENT_QUERYIO, RemoteService.QUERYIO_SERVICE_BEAN);
-			return remoteService.restoreFsImageFromFile(host.getInstallDirPath(), namenodeId, backupFileSourcePath, backupId);		
-		} catch (Exception e) {
-			AppLogger.getLogger().fatal(
-					"host " + host.getHostIP() + " not responding", e);
-		}
-		return null;
-	}
-
-	public static void interruptRestore(Host host, String id) throws Exception
-	{
-		QueryIOService remoteService = (QueryIOService) ServiceFactory.INSTANCE
-					.getRemoteService(0, host.getHostIP(),
-							Integer.parseInt(host.getAgentPort()),
-							QueryIOConstants.AGENT_QUERYIO, RemoteService.QUERYIO_SERVICE_BEAN);
-			remoteService.interruptReconstructFsImageDaemon(id);
-	}
-	
 	public static void updateJavaHome(Host host, String javaHomePath) throws Exception{
 		try 
 		{

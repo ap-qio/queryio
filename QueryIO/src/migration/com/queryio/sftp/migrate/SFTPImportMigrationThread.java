@@ -118,7 +118,7 @@ public class SFTPImportMigrationThread extends Thread {
 				User us = UserDAO.getUserDetail(connection, user);
 				
 				UserGroupInformation.setConfiguration(conf);
-				UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));		
+//				UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));		
 				
 				dfs = FileSystem.get(conf);
 				dfs.setConf(conf);
@@ -486,7 +486,7 @@ public class SFTPImportMigrationThread extends Thread {
 						
 							try 
 							{
-								qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null);
+								qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null, path.toUri().toString());
 							} 
 							catch (Exception e) 
 							{
@@ -560,7 +560,7 @@ public class SFTPImportMigrationThread extends Thread {
 				dfsOutputStream = (DFSOutputStream) fs.getClient().create(objectPath.toUri().getPath(), true); 
 				try 
 				{
-					qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null);
+					qioOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, migrationInfo.getCompressionType(), migrationInfo.getEncryptionType(), null, objectPath.toUri().toString());
 				}
 				catch (Exception e)
 				{

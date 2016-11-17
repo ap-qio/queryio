@@ -80,9 +80,9 @@ public class DFSManager
 		DFSInputStream dfsInputStream = (DFSInputStream) fs.getClient().open(objectPath.toUri().toString(), EnvironmentalConstants.getStreamBufferSize(), false);
 		try {
 			if(compressionType==null && encryptionType==null){
-				qioInputStream = new QIODFSInputStream(dfsInputStream);
+				qioInputStream = new QIODFSInputStream(dfsInputStream, fs, objectPath.toUri().toString());
 			} else {
-				qioInputStream = new QIODFSInputStream(dfsInputStream, compressionType, encryptionType);
+				qioInputStream = new QIODFSInputStream(dfsInputStream, compressionType, encryptionType, fs);
 			}
 		} catch (Exception e) {
 			if (dfsInputStream != null) {
@@ -134,20 +134,20 @@ public class DFSManager
 	{
 		Path objectPath = new Path(ROOT_PATH + bucketName, objectName);
 		LOGGER.debug("Creating object: " + objectPath);
-		OutputStream cipherOutputStream = null;
+		QIODFSOutputStream cipherOutputStream = null;
 		StreamWriteStatus status = null;
 		DFSOutputStream dfsOutputStream = null;
 		try{
 			DistributedFileSystem fs = (DistributedFileSystem) dfs;
 			dfsOutputStream = (DFSOutputStream) fs.getClient().create(objectPath.toUri().getPath(), true);
-			dfs.setOwnerModified(objectPath, username, group);
+//			dfs.setOwnerModified(objectPath, username, group);
 			
-			if (tags != null && tags.size() > 0){
-				dfsOutputStream.addTags(tags);
-			}	
 			
 			try {
-				cipherOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, compressionType, encryptionType, null);
+				cipherOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, compressionType, encryptionType, null, objectPath.toUri().getPath());
+				if (tags != null && tags.size() > 0){
+					cipherOutputStream.addTags(tags);
+				}	
 			} catch (Exception e) {
 				if (dfsOutputStream != null) {
 					dfsOutputStream.close();

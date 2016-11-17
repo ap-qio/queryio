@@ -25,7 +25,7 @@ public class CreateInputStreamRequest extends RequestProcessorCore{
 		DistributedFileSystem fs = (DistributedFileSystem) dfs;
 		try {
 			dfsInputStream = (DFSInputStream) fs.getClient().open(this.path.toUri().getPath());
-			qioInputStream = new QIODFSInputStream(dfsInputStream);
+			qioInputStream = new QIODFSInputStream(dfsInputStream, fs, this.path.toUri().getPath());
 			
 			return qioInputStream;
 		} catch (Exception e) {

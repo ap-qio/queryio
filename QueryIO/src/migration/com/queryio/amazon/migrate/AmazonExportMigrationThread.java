@@ -75,7 +75,7 @@ public class AmazonExportMigrationThread extends Thread {
 				User us = UserDAO.getUserDetail(connection, user);
 				
 				UserGroupInformation.setConfiguration(conf);
-				UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));		
+//				UserGroupInformation.getLoginUser(us.getUserName(), SecurityHandler.decryptData(us.getPassword()));		
 				
 				dfs = FileSystem.get(conf);
 				dfs.setConf(conf);
@@ -398,7 +398,7 @@ public class AmazonExportMigrationThread extends Thread {
 			dfsInputStream = (DFSInputStream) fs.getClient().open(fileName);
 			try 
 			{
-				qioInputStream = new QIODFSInputStream(dfsInputStream);
+				qioInputStream = new QIODFSInputStream(dfsInputStream, fs, fileName);
 			} 
 			catch (Exception e) 
 			{
