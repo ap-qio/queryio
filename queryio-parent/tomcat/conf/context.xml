@@ -20,7 +20,7 @@
     <lib>$USER_INSTALL_DIR$/services/Hadoop-2.7.1/share/hadoop/common/lib/htrace-core-3.1.0-incubating.jar</lib>
     <lib>$USER_INSTALL_DIR$/services/Hadoop-2.7.1/share/hadoop/common/lib/commons-io-2.4.jar</lib>
     <lib>$USER_INSTALL_DIR$/services/Hadoop-2.7.1/share/hadoop/common/QueryIOPlugins.jar</lib>
-    <lib>$USER_INSTALL_DIR$/services/QueryIOServers/lib/tika-app-1.3-modified.jar</lib>
+<!--     <lib>$USER_INSTALL_DIR$/services/QueryIOServers/lib/tika-app-1.3-modified.jar</lib> -->
     <lib>$USER_INSTALL_DIR$/services/QueryIOAgent/webapps/agentqueryio/WEB-INF/lib/commons-collections-3.1.jar</lib>
 	<lib>$USER_INSTALL_DIR$/services/QueryIOAgent/webapps/agentqueryio/WEB-INF/lib/dom4j-1.4.jar</lib>
 	<lib>$USER_INSTALL_DIR$/services/QueryIOAgent/webapps/agentqueryio/WEB-INF/lib/wstx-asl-3.0.2.jar</lib>
