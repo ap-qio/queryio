@@ -10,16 +10,14 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/core"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/web"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-        <dependent-module archiveName="QueryIOPlugins-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/QueryIOPlugins/QueryIOPlugins">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="QueryIOCommon-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/QueryIOCommon/QueryIOCommon">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="hadoop-qio-common-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/hadoop-qio-common/hadoop-qio-common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="hadoop-queryio-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/hadoop-queryio/hadoop-queryio">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="QueryIOCommon-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/QueryIOCommon/QueryIOCommon">
+        <dependent-module archiveName="QueryIODemo-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/QueryIODemo/QueryIODemo">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="QueryIO"/>

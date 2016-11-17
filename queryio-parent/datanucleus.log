@@ -1198,3 +1198,1083 @@
 15:59:19,530 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/admin/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
 15:59:19,531 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
 15:59:19,536 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=201 ms, enhance=613 ms, total=814 ms. Consult the log for full details
+15:29:11,897 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+15:29:12,406 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+15:29:12,407 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+15:29:12,428 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+15:29:12,429 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+15:29:12,446 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+15:29:12,447 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+15:29:12,480 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+15:29:12,480 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+15:29:12,523 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+15:29:12,523 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+15:29:12,530 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+15:29:12,530 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+15:29:12,548 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+15:29:12,548 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+15:29:12,553 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+15:29:12,554 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+15:29:12,627 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+15:29:12,627 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+15:29:12,680 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+15:29:12,680 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+15:29:12,702 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+15:29:12,702 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+15:29:12,709 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+15:29:12,709 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+15:29:12,727 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+15:29:12,727 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+15:29:12,742 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+15:29:12,742 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+15:29:12,762 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+15:29:12,763 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+15:29:12,772 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+15:29:12,778 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+15:29:12,794 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+15:29:12,794 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+15:29:12,805 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+15:29:12,805 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+15:29:12,812 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+15:29:12,813 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+15:29:12,840 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+15:29:12,841 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+15:29:12,857 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+15:29:12,857 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+15:29:12,861 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+15:29:12,862 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+15:29:12,874 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+15:29:12,874 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+15:29:12,893 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+15:29:12,894 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+15:29:12,898 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+15:29:12,898 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+15:29:12,910 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+15:29:12,911 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+15:29:12,918 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+15:29:12,918 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+15:29:12,928 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+15:29:12,929 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+15:29:12,932 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+15:29:12,932 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+15:29:12,934 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=387 ms, enhance=645 ms, total=1032 ms. Consult the log for full details
+16:35:42,479 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+16:35:42,851 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+16:35:42,853 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+16:35:42,860 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+16:35:42,860 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+16:35:42,869 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+16:35:42,869 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+16:35:42,918 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+16:35:42,918 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+16:35:42,933 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+16:35:42,934 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+16:35:42,940 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+16:35:42,950 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+16:35:42,996 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+16:35:42,996 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+16:35:43,004 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+16:35:43,004 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+16:35:43,025 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+16:35:43,026 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+16:35:43,048 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+16:35:43,048 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+16:35:43,096 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+16:35:43,096 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+16:35:43,208 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+16:35:43,208 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+16:35:43,215 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+16:35:43,215 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+16:35:43,237 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+16:35:43,238 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+16:35:43,246 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+16:35:43,247 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+16:35:43,260 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+16:35:43,261 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+16:35:43,280 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+16:35:43,281 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+16:35:43,288 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+16:35:43,288 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+16:35:43,297 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+16:35:43,315 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+16:35:43,320 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+16:35:43,326 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+16:35:43,331 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+16:35:43,331 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+16:35:43,336 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+16:35:43,336 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+16:35:43,365 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+16:35:43,366 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+16:35:43,380 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+16:35:43,380 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+16:35:43,389 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+16:35:43,390 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+16:35:43,395 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+16:35:43,395 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+16:35:43,401 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+16:35:43,401 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+16:35:43,407 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+16:35:43,408 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+16:35:43,411 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+16:35:43,411 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+16:35:43,412 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=264 ms, enhance=668 ms, total=932 ms. Consult the log for full details
+16:55:05,692 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+16:55:06,196 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+16:55:06,196 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+16:55:06,203 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+16:55:06,204 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+16:55:06,215 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+16:55:06,216 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+16:55:06,230 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+16:55:06,230 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+16:55:06,251 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+16:55:06,252 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+16:55:06,266 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+16:55:06,266 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+16:55:06,274 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+16:55:06,274 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+16:55:06,311 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+16:55:06,311 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+16:55:06,341 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+16:55:06,341 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+16:55:06,395 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+16:55:06,396 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+16:55:06,420 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+16:55:06,421 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+16:55:06,436 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+16:55:06,437 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+16:55:06,515 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+16:55:06,515 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+16:55:06,544 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+16:55:06,544 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+16:55:06,597 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+16:55:06,597 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+16:55:06,663 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+16:55:06,663 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+16:55:06,688 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+16:55:06,689 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+16:55:06,743 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+16:55:06,744 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+16:55:06,797 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+16:55:06,797 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+16:55:06,848 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+16:55:06,848 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+16:55:06,905 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+16:55:06,905 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+16:55:06,929 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+16:55:06,930 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+16:55:06,961 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+16:55:06,979 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+16:55:07,011 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+16:55:07,011 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+16:55:07,021 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+16:55:07,021 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+16:55:07,032 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+16:55:07,033 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+16:55:07,095 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+16:55:07,095 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+16:55:07,113 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+16:55:07,114 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+16:55:07,118 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+16:55:07,119 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+16:55:07,119 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=370 ms, enhance=1055 ms, total=1425 ms. Consult the log for full details
+17:01:07,562 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+17:01:08,154 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+17:01:08,154 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+17:01:08,163 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+17:01:08,163 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+17:01:08,172 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+17:01:08,172 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+17:01:08,198 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+17:01:08,198 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+17:01:08,220 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+17:01:08,220 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+17:01:08,237 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+17:01:08,238 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+17:01:08,243 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+17:01:08,244 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+17:01:08,301 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+17:01:08,301 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+17:01:08,316 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+17:01:08,318 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+17:01:08,326 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+17:01:08,326 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+17:01:08,335 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+17:01:08,335 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+17:01:08,366 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+17:01:08,366 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+17:01:08,373 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+17:01:08,373 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+17:01:08,380 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+17:01:08,387 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+17:01:08,418 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+17:01:08,418 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+17:01:08,425 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+17:01:08,426 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+17:01:08,489 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+17:01:08,490 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+17:01:08,512 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+17:01:08,512 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+17:01:08,521 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+17:01:08,522 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+17:01:08,532 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+17:01:08,532 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+17:01:08,538 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+17:01:08,538 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+17:01:08,569 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+17:01:08,570 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+17:01:08,587 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+17:01:08,587 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+17:01:08,602 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+17:01:08,602 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+17:01:08,632 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+17:01:08,633 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+17:01:08,637 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+17:01:08,637 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+17:01:08,662 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+17:01:08,662 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+17:01:08,667 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+17:01:08,668 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+17:01:08,681 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+17:01:08,682 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+17:01:08,697 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=481 ms, enhance=643 ms, total=1124 ms. Consult the log for full details
+17:36:18,731 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+17:36:19,156 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+17:36:19,157 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+17:36:19,166 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+17:36:19,166 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+17:36:19,220 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+17:36:19,220 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+17:36:19,243 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+17:36:19,244 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+17:36:19,251 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+17:36:19,252 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+17:36:19,286 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+17:36:19,287 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+17:36:19,293 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+17:36:19,293 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+17:36:19,314 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+17:36:19,314 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+17:36:19,363 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+17:36:19,364 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+17:36:19,376 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+17:36:19,376 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+17:36:19,392 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+17:36:19,392 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+17:36:19,398 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+17:36:19,420 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+17:36:19,435 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+17:36:19,436 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+17:36:19,464 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+17:36:19,465 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+17:36:19,539 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+17:36:19,540 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+17:36:19,547 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+17:36:19,547 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+17:36:19,573 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+17:36:19,574 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+17:36:19,607 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+17:36:19,607 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+17:36:19,615 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+17:36:19,615 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+17:36:19,662 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+17:36:19,662 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+17:36:19,674 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+17:36:19,675 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+17:36:19,681 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+17:36:19,681 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+17:36:19,695 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+17:36:19,695 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+17:36:19,716 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+17:36:19,717 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+17:36:19,725 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+17:36:19,726 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+17:36:19,730 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+17:36:19,730 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+17:36:19,757 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+17:36:19,757 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+17:36:19,772 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+17:36:19,773 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+17:36:19,776 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+17:36:19,776 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+17:36:19,777 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=307 ms, enhance=733 ms, total=1040 ms. Consult the log for full details
+19:00:46,448 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+19:00:46,868 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+19:00:46,869 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+19:00:46,875 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+19:00:46,876 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+19:00:46,899 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+19:00:46,900 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+19:00:46,935 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+19:00:46,936 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+19:00:46,946 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+19:00:46,946 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+19:00:46,955 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+19:00:46,955 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+19:00:46,969 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+19:00:46,969 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+19:00:47,017 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+19:00:47,017 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+19:00:47,033 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+19:00:47,034 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+19:00:47,041 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+19:00:47,042 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+19:00:47,050 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+19:00:47,051 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+19:00:47,062 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+19:00:47,063 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+19:00:47,111 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+19:00:47,111 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+19:00:47,144 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+19:00:47,145 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+19:00:47,151 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+19:00:47,151 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+19:00:47,166 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+19:00:47,168 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+19:00:47,179 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+19:00:47,179 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+19:00:47,192 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+19:00:47,193 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+19:00:47,213 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+19:00:47,213 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+19:00:47,221 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+19:00:47,221 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+19:00:47,640 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+19:00:47,640 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+19:00:47,644 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+19:00:47,645 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+19:00:47,655 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+19:00:47,656 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+19:00:47,669 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+19:00:47,669 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+19:00:47,673 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+19:00:47,674 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+19:00:47,682 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+19:00:47,683 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+19:00:47,690 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+19:00:47,691 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+19:00:47,706 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+19:00:47,707 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+19:00:47,710 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+19:00:47,711 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+19:00:47,712 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=286 ms, enhance=975 ms, total=1261 ms. Consult the log for full details
+15:25:40,677 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+15:25:41,187 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+15:25:41,188 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+15:25:41,194 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+15:25:41,195 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+15:25:41,203 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+15:25:41,203 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+15:25:41,216 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+15:25:41,217 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+15:25:41,251 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+15:25:41,251 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+15:25:41,257 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+15:25:41,257 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+15:25:41,312 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+15:25:41,312 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+15:25:41,321 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+15:25:41,321 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+15:25:41,337 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+15:25:41,338 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+15:25:41,356 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+15:25:41,357 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+15:25:41,376 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+15:25:41,377 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+15:25:41,382 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+15:25:41,382 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+15:25:41,402 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+15:25:41,403 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+15:25:41,418 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+15:25:41,418 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+15:25:41,439 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+15:25:41,439 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+15:25:41,445 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+15:25:41,446 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+15:25:41,454 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+15:25:41,455 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+15:25:41,462 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+15:25:41,462 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+15:25:41,483 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+15:25:41,484 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+15:25:41,497 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+15:25:41,501 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+15:25:41,507 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+15:25:41,507 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+15:25:41,513 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+15:25:41,513 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+15:25:41,534 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+15:25:41,535 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+15:25:41,548 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+15:25:41,549 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+15:25:41,557 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+15:25:41,557 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+15:25:41,561 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+15:25:41,561 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+15:25:41,569 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+15:25:41,569 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+15:25:41,586 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+15:25:41,586 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+15:25:41,599 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+15:25:41,599 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+15:25:41,600 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=396 ms, enhance=521 ms, total=917 ms. Consult the log for full details
+15:47:51,517 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+15:47:51,956 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+15:47:51,956 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+15:47:51,963 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+15:47:51,963 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+15:47:51,981 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+15:47:51,981 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+15:47:52,022 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+15:47:52,022 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+15:47:52,032 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+15:47:52,032 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+15:47:52,046 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+15:47:52,047 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+15:47:52,052 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+15:47:52,052 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+15:47:52,083 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+15:47:52,083 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+15:47:52,106 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+15:47:52,106 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+15:47:52,114 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+15:47:52,115 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+15:47:52,129 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+15:47:52,130 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+15:47:52,148 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+15:47:52,148 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+15:47:52,155 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+15:47:52,156 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+15:47:52,163 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+15:47:52,163 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+15:47:52,169 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+15:47:52,170 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+15:47:52,176 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+15:47:52,176 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+15:47:52,191 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+15:47:52,192 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+15:47:52,209 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+15:47:52,210 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+15:47:52,216 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+15:47:52,217 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+15:47:52,227 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+15:47:52,228 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+15:47:52,233 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+15:47:52,233 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+15:47:52,264 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+15:47:52,264 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+15:47:52,276 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+15:47:52,277 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+15:47:52,297 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+15:47:52,298 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+15:47:52,317 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+15:47:52,317 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+15:47:52,331 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+15:47:52,331 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+15:47:52,338 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+15:47:52,338 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+15:47:52,347 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+15:47:52,348 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+15:47:52,351 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+15:47:52,351 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+15:47:52,351 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=337 ms, enhance=494 ms, total=831 ms. Consult the log for full details
+16:05:59,925 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+16:06:00,344 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+16:06:00,344 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+16:06:00,351 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+16:06:00,351 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+16:06:00,374 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+16:06:00,374 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+16:06:00,411 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+16:06:00,411 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+16:06:00,425 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+16:06:00,425 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+16:06:00,431 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+16:06:00,432 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+16:06:00,442 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+16:06:00,442 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+16:06:00,481 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+16:06:00,482 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+16:06:00,508 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+16:06:00,508 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+16:06:00,515 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+16:06:00,516 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+16:06:00,530 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+16:06:00,530 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+16:06:00,548 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+16:06:00,549 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+16:06:00,572 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+16:06:00,572 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+16:06:00,588 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+16:06:00,588 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+16:06:00,626 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+16:06:00,626 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+16:06:00,633 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+16:06:00,634 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+16:06:00,649 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+16:06:00,649 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+16:06:00,676 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+16:06:00,677 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+16:06:00,685 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+16:06:00,685 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+16:06:00,693 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+16:06:00,693 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+16:06:00,727 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+16:06:00,727 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+16:06:00,732 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+16:06:00,732 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+16:06:00,745 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+16:06:00,745 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+16:06:00,756 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+16:06:00,757 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+16:06:00,761 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+16:06:00,762 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+16:06:00,787 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+16:06:00,788 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+16:06:00,794 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+16:06:00,794 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+16:06:00,814 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+16:06:00,815 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+16:06:00,823 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+16:06:00,824 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+16:06:00,835 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=303 ms, enhance=605 ms, total=908 ms. Consult the log for full details
+16:17:06,056 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+16:17:06,449 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+16:17:06,450 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+16:17:06,457 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+16:17:06,457 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+16:17:06,472 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+16:17:06,472 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+16:17:06,518 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+16:17:06,519 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+16:17:06,537 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+16:17:06,538 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+16:17:06,547 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+16:17:06,548 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+16:17:06,585 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+16:17:06,585 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+16:17:06,592 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+16:17:06,592 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+16:17:06,629 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+16:17:06,631 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+16:17:06,679 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+16:17:06,679 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+16:17:06,746 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+16:17:06,747 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+16:17:06,777 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+16:17:06,777 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+16:17:06,826 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+16:17:06,827 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+16:17:06,845 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+16:17:06,846 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+16:17:06,894 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+16:17:06,895 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+16:17:06,908 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+16:17:06,908 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+16:17:06,916 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+16:17:06,917 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+16:17:06,928 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+16:17:06,928 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+16:17:06,958 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+16:17:06,959 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+16:17:06,971 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+16:17:06,979 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+16:17:06,991 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+16:17:06,991 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+16:17:07,007 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+16:17:07,007 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+16:17:07,048 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+16:17:07,049 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+16:17:07,060 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+16:17:07,060 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+16:17:07,065 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+16:17:07,065 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+16:17:07,070 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+16:17:07,071 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+16:17:07,079 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+16:17:07,079 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+16:17:07,095 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+16:17:07,096 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+16:17:07,100 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+16:17:07,100 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+16:17:07,101 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=289 ms, enhance=755 ms, total=1044 ms. Consult the log for full details
+14:41:22,742 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+14:41:23,356 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+14:41:23,356 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+14:41:23,363 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+14:41:23,363 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+14:41:23,373 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+14:41:23,373 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+14:41:23,387 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+14:41:23,388 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+14:41:23,410 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+14:41:23,410 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+14:41:23,424 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+14:41:23,425 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+14:41:23,431 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+14:41:23,432 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+14:41:23,439 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+14:41:23,440 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+14:41:23,467 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+14:41:23,467 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+14:41:23,492 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+14:41:23,492 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+14:41:23,501 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+14:41:23,506 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+14:41:23,512 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+14:41:23,531 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+14:41:23,546 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+14:41:23,546 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+14:41:23,566 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+14:41:23,567 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+14:41:23,581 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+14:41:23,581 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+14:41:23,611 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+14:41:23,611 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+14:41:23,627 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+14:41:23,628 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+14:41:23,649 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+14:41:23,650 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+14:41:23,692 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+14:41:23,692 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+14:41:23,726 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+14:41:23,726 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+14:41:23,732 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+14:41:23,732 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+14:41:23,744 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+14:41:23,745 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+14:41:23,757 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+14:41:23,758 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+14:41:23,789 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+14:41:23,789 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+14:41:23,796 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+14:41:23,797 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+14:41:23,800 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+14:41:23,801 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+14:41:23,807 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+14:41:23,807 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+14:41:23,818 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+14:41:23,820 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+14:41:23,823 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+14:41:23,823 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+14:41:23,824 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=427 ms, enhance=653 ms, total=1080 ms. Consult the log for full details
+15:00:38,448 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+15:00:38,906 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+15:00:38,907 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+15:00:38,914 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+15:00:38,914 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+15:00:38,940 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+15:00:38,940 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+15:00:38,955 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+15:00:38,955 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+15:00:38,962 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+15:00:38,963 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+15:00:38,974 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+15:00:38,974 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+15:00:38,990 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+15:00:38,990 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+15:00:38,995 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+15:00:38,995 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+15:00:39,036 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+15:00:39,043 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+15:00:39,050 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+15:00:39,051 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+15:00:39,064 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+15:00:39,065 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+15:00:39,069 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+15:00:39,070 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+15:00:39,080 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+15:00:39,080 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+15:00:39,087 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+15:00:39,087 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+15:00:39,094 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+15:00:39,095 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+15:00:39,104 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+15:00:39,105 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+15:00:39,112 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+15:00:39,112 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+15:00:39,126 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+15:00:39,126 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+15:00:39,150 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+15:00:39,151 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+15:00:39,174 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+15:00:39,175 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+15:00:39,180 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+15:00:39,180 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+15:00:39,186 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+15:00:39,186 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+15:00:39,197 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+15:00:39,198 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+15:00:39,215 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+15:00:39,216 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+15:00:39,219 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+15:00:39,219 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+15:00:39,224 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+15:00:39,224 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+15:00:39,230 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+15:00:39,231 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+15:00:39,240 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+15:00:39,240 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+15:00:39,244 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+15:00:39,244 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+15:00:39,244 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=312 ms, enhance=482 ms, total=794 ms. Consult the log for full details
+15:10:33,761 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+15:10:34,136 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+15:10:34,136 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+15:10:34,152 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+15:10:34,152 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+15:10:34,166 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+15:10:34,166 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+15:10:34,213 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+15:10:34,213 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+15:10:34,221 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+15:10:34,221 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+15:10:34,229 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+15:10:34,229 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+15:10:34,248 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+15:10:34,248 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+15:10:34,265 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+15:10:34,266 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+15:10:34,327 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+15:10:34,328 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+15:10:34,336 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+15:10:34,336 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+15:10:34,352 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+15:10:34,352 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+15:10:34,358 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+15:10:34,359 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+15:10:34,419 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+15:10:34,420 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+15:10:34,431 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+15:10:34,431 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+15:10:34,443 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+15:10:34,443 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+15:10:34,467 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+15:10:34,467 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+15:10:34,488 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+15:10:34,488 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+15:10:34,499 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+15:10:34,500 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+15:10:34,512 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+15:10:34,512 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+15:10:34,536 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+15:10:34,537 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+15:10:34,550 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+15:10:34,550 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+15:10:34,554 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+15:10:34,554 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+15:10:34,569 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+15:10:34,569 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+15:10:34,587 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+15:10:34,588 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+15:10:34,613 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+15:10:34,613 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+15:10:34,620 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+15:10:34,621 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+15:10:34,653 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+15:10:34,654 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+15:10:34,674 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+15:10:34,675 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+15:10:34,682 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+15:10:34,683 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+15:10:34,683 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=265 ms, enhance=656 ms, total=921 ms. Consult the log for full details
+15:27:04,442 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+15:27:04,947 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+15:27:04,947 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+15:27:04,954 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+15:27:04,954 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+15:27:04,964 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+15:27:04,965 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+15:27:05,018 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+15:27:05,018 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+15:27:05,043 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+15:27:05,044 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+15:27:05,049 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+15:27:05,050 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+15:27:05,080 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+15:27:05,081 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+15:27:05,086 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+15:27:05,086 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+15:27:05,113 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+15:27:05,113 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+15:27:05,130 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+15:27:05,130 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+15:27:05,152 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+15:27:05,152 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+15:27:05,178 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+15:27:05,178 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+15:27:05,194 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+15:27:05,194 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+15:27:05,212 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+15:27:05,213 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+15:27:05,219 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+15:27:05,220 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+15:27:05,241 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+15:27:05,241 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+15:27:05,261 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+15:27:05,261 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+15:27:05,268 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+15:27:05,268 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+15:27:05,284 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+15:27:05,284 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+15:27:05,290 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+15:27:05,290 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+15:27:05,329 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+15:27:05,330 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+15:27:05,334 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+15:27:05,335 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+15:27:05,357 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+15:27:05,357 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+15:27:05,399 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+15:27:05,399 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+15:27:05,403 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+15:27:05,403 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+15:27:05,407 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+15:27:05,408 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+15:27:05,416 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+15:27:05,416 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+15:27:05,422 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+15:27:05,423 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+15:27:05,426 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+15:27:05,426 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+15:27:05,427 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=394 ms, enhance=589 ms, total=983 ms. Consult the log for full details
+15:34:25,233 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+15:34:25,665 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+15:34:25,665 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+15:34:25,675 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+15:34:25,675 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+15:34:25,684 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+15:34:25,684 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+15:34:25,724 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+15:34:25,724 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+15:34:25,737 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+15:34:25,751 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+15:34:25,797 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+15:34:25,800 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+15:34:25,811 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+15:34:25,812 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+15:34:25,865 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+15:34:25,866 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+15:34:25,888 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+15:34:25,889 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+15:34:25,896 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+15:34:25,897 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+15:34:25,920 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+15:34:25,921 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+15:34:25,939 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+15:34:25,939 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+15:34:25,947 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+15:34:25,947 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+15:34:25,955 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+15:34:25,956 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+15:34:25,982 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+15:34:25,982 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+15:34:25,999 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+15:34:25,999 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+15:34:26,007 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+15:34:26,007 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+15:34:26,016 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+15:34:26,017 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+15:34:26,041 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+15:34:26,041 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+15:34:26,053 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+15:34:26,053 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+15:34:26,066 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+15:34:26,066 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+15:34:26,071 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+15:34:26,072 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+15:34:26,094 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+15:34:26,094 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+15:34:26,107 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+15:34:26,108 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+15:34:26,116 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+15:34:26,116 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+15:34:26,120 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+15:34:26,121 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+15:34:26,145 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+15:34:26,145 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+15:34:26,152 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+15:34:26,152 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+15:34:26,162 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+15:34:26,163 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+15:34:26,163 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=311 ms, enhance=615 ms, total=926 ms. Consult the log for full details
+15:44:19,792 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+15:44:20,180 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+15:44:20,181 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+15:44:20,191 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+15:44:20,191 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+15:44:20,200 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+15:44:20,201 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+15:44:20,227 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+15:44:20,227 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+15:44:20,249 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+15:44:20,249 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+15:44:20,329 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+15:44:20,329 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+15:44:20,335 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+15:44:20,336 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+15:44:20,341 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+15:44:20,345 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+15:44:20,383 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+15:44:20,383 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+15:44:20,399 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+15:44:20,399 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+15:44:20,412 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+15:44:20,413 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+15:44:20,419 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+15:44:20,419 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+15:44:20,446 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+15:44:20,447 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+15:44:20,464 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+15:44:20,465 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+15:44:20,473 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+15:44:20,473 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+15:44:20,481 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+15:44:20,481 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+15:44:20,499 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+15:44:20,499 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+15:44:20,518 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+15:44:20,519 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+15:44:20,533 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+15:44:20,534 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+15:44:20,540 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+15:44:20,540 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+15:44:20,555 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+15:44:20,555 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+15:44:20,575 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+15:44:20,576 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+15:44:20,594 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+15:44:20,595 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+15:44:20,613 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+15:44:20,614 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+15:44:20,618 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+15:44:20,618 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+15:44:20,622 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+15:44:20,623 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+15:44:20,639 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+15:44:20,639 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+15:44:20,662 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+15:44:20,663 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+15:44:20,679 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+15:44:20,680 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+15:44:20,681 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=293 ms, enhance=593 ms, total=886 ms. Consult the log for full details
+15:57:49,055 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+15:57:49,519 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+15:57:49,519 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+15:57:49,542 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+15:57:49,542 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+15:57:49,581 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+15:57:49,581 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+15:57:49,599 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+15:57:49,599 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+15:57:49,610 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+15:57:49,610 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+15:57:49,645 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+15:57:49,645 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+15:57:49,651 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+15:57:49,652 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+15:57:49,657 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+15:57:49,657 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+15:57:49,709 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+15:57:49,715 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+15:57:49,723 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+15:57:49,723 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+15:57:49,732 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+15:57:49,732 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+15:57:49,739 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+15:57:49,740 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+15:57:49,766 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+15:57:49,766 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+15:57:49,784 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+15:57:49,784 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+15:57:49,791 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+15:57:49,791 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+15:57:49,798 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+15:57:49,798 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+15:57:49,807 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+15:57:49,808 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+15:57:49,832 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+15:57:49,833 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+15:57:49,910 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+15:57:49,912 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+15:57:49,933 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+15:57:49,934 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+15:57:49,939 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+15:57:49,939 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+15:57:49,958 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+15:57:49,959 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+15:57:49,987 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+15:57:49,988 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+15:57:49,998 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+15:57:49,998 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+15:57:50,004 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+15:57:50,004 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+15:57:50,008 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+15:57:50,008 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+15:57:50,024 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+15:57:50,024 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+15:57:50,043 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+15:57:50,043 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+15:57:50,050 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+15:57:50,050 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+15:57:50,051 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=364 ms, enhance=629 ms, total=993 ms. Consult the log for full details
+16:11:53,056 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 3.2.10) for API "JDO" using JRE "1.7"
+16:11:53,518 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDatabase.class" with enhanced definition
+16:11:53,519 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDatabase
+16:11:53,525 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFieldSchema.class" with enhanced definition
+16:11:53,526 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFieldSchema
+16:11:53,554 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MType.class" with enhanced definition
+16:11:53,555 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MType
+16:11:53,701 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTable.class" with enhanced definition
+16:11:53,701 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTable
+16:11:53,725 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MSerDeInfo.class" with enhanced definition
+16:11:53,726 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MSerDeInfo
+16:11:53,731 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MOrder.class" with enhanced definition
+16:11:53,731 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MOrder
+16:11:53,740 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MColumnDescriptor.class" with enhanced definition
+16:11:53,740 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MColumnDescriptor
+16:11:53,745 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStringList.class" with enhanced definition
+16:11:53,745 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStringList
+16:11:53,789 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MStorageDescriptor.class" with enhanced definition
+16:11:53,789 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MStorageDescriptor
+16:11:53,818 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartition.class" with enhanced definition
+16:11:53,823 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartition
+16:11:53,832 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MIndex.class" with enhanced definition
+16:11:53,832 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MIndex
+16:11:53,848 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRole.class" with enhanced definition
+16:11:53,849 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRole
+16:11:53,867 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MRoleMap.class" with enhanced definition
+16:11:53,867 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MRoleMap
+16:11:53,902 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MGlobalPrivilege.class" with enhanced definition
+16:11:53,903 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MGlobalPrivilege
+16:11:53,910 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDBPrivilege.class" with enhanced definition
+16:11:53,911 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDBPrivilege
+16:11:53,918 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTablePrivilege.class" with enhanced definition
+16:11:53,918 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTablePrivilege
+16:11:53,935 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionPrivilege.class" with enhanced definition
+16:11:53,936 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionPrivilege
+16:11:53,944 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnPrivilege.class" with enhanced definition
+16:11:53,945 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege
+16:11:53,951 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnPrivilege.class" with enhanced definition
+16:11:53,952 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege
+16:11:53,964 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionEvent.class" with enhanced definition
+16:11:53,964 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionEvent
+16:11:53,979 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MMasterKey.class" with enhanced definition
+16:11:53,979 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MMasterKey
+16:11:53,984 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MDelegationToken.class" with enhanced definition
+16:11:53,984 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MDelegationToken
+16:11:54,013 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MTableColumnStatistics.class" with enhanced definition
+16:11:54,014 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MTableColumnStatistics
+16:11:54,028 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MPartitionColumnStatistics.class" with enhanced definition
+16:11:54,028 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MPartitionColumnStatistics
+16:11:54,032 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MVersionTable.class" with enhanced definition
+16:11:54,032 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MVersionTable
+16:11:54,036 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MResourceUri.class" with enhanced definition
+16:11:54,036 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MResourceUri
+16:11:54,043 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MFunction.class" with enhanced definition
+16:11:54,043 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MFunction
+16:11:54,050 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationLog.class" with enhanced definition
+16:11:54,050 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationLog
+16:11:54,056 (main) INFO  [DataNucleus.Enhancer] - Writing class file "/Users/queryio/QIO/queryio/Hive-1.2.1/metastore/target/classes/org/apache/hadoop/hive/metastore/model/MNotificationNextId.class" with enhanced definition
+16:11:54,056 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : org.apache.hadoop.hive.metastore.model.MNotificationNextId
+16:11:54,057 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=326 ms, enhance=673 ms, total=999 ms. Consult the log for full details
