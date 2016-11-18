@@ -11,7 +11,7 @@
 		<module>../hadoop-qio-server</module>
 <!-- 		<module>../hadoop-queryio</module> -->
 		<module>../HDFSFTPServer</module>
-		<module>../JDBCAuthenticate</module>
+<!-- 		<module>../JDBCAuthenticate</module> -->
 		<module>../QueryIO</module>
 		<module>../QueryIOAgent</module>
 		<module>../QueryIOCommon</module>

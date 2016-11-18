@@ -4,9 +4,6 @@
 
 	<target name="copy.server.jars">
 		<copy todir="${QueryIOBuild}/services/${hadoop.dir}/share/hadoop/common">
-			<fileset dir="${dir.source}/QueryIOPlugins/target">
-				<include name="QueryIOPlugins-0.0.1-SNAPSHOT.jar" />
-			</fileset>
 			<fileset dir="${dir.source}/QueryIOCommon/target">
 				<include name="QueryIOCommon-0.0.1-SNAPSHOT.jar" />
 			</fileset>
@@ -24,9 +21,6 @@
 				<include name="**/commons-dbcp-1.2.2.jar" />
 				<include name="**/commons-pool-1.4.jar" />
 				<include name="**/servlet-api.jar" />
-			</fileset>
-			<fileset dir="${dir.source}/hadoop-queryio/target">
-				<include name="hadoop-queryio-0.0.1-SNAPSHOT.jar" />
 			</fileset>
 <!--					
 			<fileset dir="${dir.source}/QueryIODemo/lib">

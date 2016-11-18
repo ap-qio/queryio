@@ -9,13 +9,6 @@
 	  	</tstamp>
 	</target>
 		
-	<path id="queryio.lib.hadoop">
-		<fileset dir="${temp.build}">
-					<include name="hadoop-custom-compiled.jar" />
-		</fileset>
-	</path>
-
-	
 	<!--<path id="queryio.lib.birtJars">
 		<fileset dir="${dir.source}/lib/birt4.2.2">
 			<include name="**/*.jar" />
