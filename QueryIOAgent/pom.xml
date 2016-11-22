@@ -30,6 +30,11 @@
 			<artifactId>QueryIOCommon</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+				<groupId>com.queryio</groupId>
+			<artifactId>QueryIODemo</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- <dependency>
 			<groupId>com.queryio</groupId>
 			<artifactId>qioagent-jar</artifactId>

@@ -25,12 +25,6 @@
 			<groupId>com.queryio</groupId>
 			<artifactId>QueryIOCommon</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.queryio</groupId>
-					<artifactId>hadoop-queryio</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 <!-- 		<dependency> -->
 <!-- 			<groupId>com.queryio</groupId> -->
