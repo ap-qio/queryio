@@ -138,6 +138,13 @@
 			<artifactId>hive-jdbc</artifactId>
 			<version>1.2.1</version>
 		</dependency>
+		<dependency>
+			<groupId>wikixmlj-r43</groupId>
+			<artifactId>wikixmlj-r43</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/wikixmlj-r43.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>QueryIO</finalName>
