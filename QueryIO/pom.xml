@@ -55,6 +55,14 @@
           <groupId>org.apache.poi</groupId>
           <artifactId>poi-ooxml</artifactId>
         </exclusion>
+			<exclusion>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+        </exclusion>
+			<exclusion>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi-ooxml-schemas</artifactId>
+        </exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -159,7 +167,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
+				<version>2.6</version>
 				<configuration>
 					<attachClasses>true</attachClasses>
 					<webXml>${project.basedir}\src\main\webapp\WEB-INF\web.xml</webXml>

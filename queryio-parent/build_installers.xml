@@ -8,8 +8,8 @@
 			<include name="commons-io-2.1.jar" />
 		</fileset>
 	</path>
-	
-	
+
+
 	<property name="log.file.name" value="${QueryIOBuildRoot}/log.txt" />
 	<property name="errors.file.name" value="${QueryIOBuildRoot}/error.txt" />
 	<property name="warnings.file.name" value="${QueryIOBuildRoot}/warnings.txt" />
@@ -17,14 +17,14 @@
 	<property name="temp.queryioagent.classes" value="${temp.build}/QueryIOAgent" />
 	<property name="temp.queryio.classes" value="${temp.build}/QueryIO" />
 	<property name="temp.queryiocommon.classes" value="${temp.build}/QueryIOCommon" />
-	<property name="temp.plugins.classes" value="${temp.build}/plugins" />	
+	<property name="temp.plugins.classes" value="${temp.build}/plugins" />
 	<property name="temp.build.hadoop.classes" value="${temp.build}/hadoop" />
 	<property name="temp.build.hadoop.server.classes" value="${temp.build}/hadoopServer" />
 	<property name="temp.build.demo.classes" value="${temp.build}/demo" />
 	<property name="temp.build.remote.classes" value="${temp.build}/remoteInstaller" />
 	<property name="temp.fs.imageutils.classes" value="${temp.build}/fs" />
 	<property name="temp.queryiocommon.agent.classes" value="${temp.build}/commonagent" />
-	
+
 	<target name="create.temp">
 		<delete dir="${temp.queryioagent.classes}" />
 		<delete dir="${temp.queryio.classes}" />
@@ -35,13 +35,9 @@
 		<mkdir dir="${temp.queryio.classes}" />
 		<mkdir dir="${temp.queryiocommon.classes}" />
 	</target>
-	
-	<target name="build.queryio.win" >
-		<install4j 
-			projectfile="${QueryIOBuildRoot}/Scripts/QueryIO_build.install4j" 
-			mediatypes="win32"
-			buildids="488" 
-			destination="${output.folder.name}/${DSTAMP}-${TSTAMP}-${build.number}">
+
+	<target name="build.queryio.win">
+		<install4j projectfile="${QueryIOBuildRoot}/Scripts/QueryIO_build.install4j" mediatypes="win32" buildids="488" destination="${output.folder.name}/${DSTAMP}-${TSTAMP}-${build.number}">
 			<variable name="INSTALLER_RESOURCES" value="${QueryIOBuild}" />
 			<variable name="BUILD_NUMBER" value="${build.number}" />
 			<variable name="DSTAMP" value="${DSTAMP}" />
@@ -58,8 +54,8 @@
 			<variable name="PRODUCT_VERSION" value="${QueryIO_version}" />
 		</install4j-->
 	</target>
-	
-	<target name="build.queryio.macos" >
+
+	<target name="build.queryio.macos">
 		<!--install4j 
 			projectfile="${QueryIOBuildRoot}/Scripts/QueryIO_build.install4j" 
 			mediatypes="macosFolder"
@@ -70,52 +66,45 @@
 			<variable name="DSTAMP" value="${DSTAMP}" />
 			<variable name="PRODUCT_VERSION" value="${QueryIO_version}" />
 		</install4j-->
-		<install4j 
-			projectfile="${QueryIOBuildRoot}/Scripts/QueryIO_build.install4j" 
-			mediatypes="macosFolder"
-			buildids="20" 
-			destination="${output.folder.name}/${DSTAMP}-${TSTAMP}-${build.number}">
+		<install4j projectfile="${QueryIOBuildRoot}/Scripts/QueryIO_build.install4j" mediatypes="macosFolder" buildids="20" destination="${output.folder.name}/${DSTAMP}-${TSTAMP}-${build.number}">
 			<variable name="INSTALLER_RESOURCES" value="${QueryIOBuild}" />
 			<variable name="BUILD_NUMBER" value="${build.number}" />
 			<variable name="DSTAMP" value="${DSTAMP}" />
 			<variable name="PRODUCT_VERSION" value="${QueryIO_version}" />
 		</install4j>
 	</target>
-	
-	
-	<target name="build.queryio.unix" >
-		<install4j 
-			projectfile="${QueryIOBuildRoot}/Scripts/QueryIO_build.install4j" 
-			mediatypes="unixInstaller"
-			destination="${output.folder.name}/${DSTAMP}-${TSTAMP}-${build.number}">
+
+
+	<target name="build.queryio.unix">
+		<install4j projectfile="${QueryIOBuildRoot}/Scripts/QueryIO_build.install4j" mediatypes="unixInstaller" destination="${output.folder.name}/${DSTAMP}-${TSTAMP}-${build.number}">
 			<variable name="INSTALLER_RESOURCES" value="${QueryIOBuild}" />
 			<variable name="BUILD_NUMBER" value="${build.number}" />
 			<variable name="DSTAMP" value="${DSTAMP}" />
 			<variable name="PRODUCT_VERSION" value="${QueryIO_version}" />
 		</install4j>
 	</target>
-	
+
 	<target name="build.queryio" depends="build.remote.jar">
 		<antcall target="build.queryio.macos" />
 		<antcall target="build.queryio.unix" />
 		<!--antcall target="build.queryio.win" /-->
 	</target>
 
-	
+
 	<target name="build.remote.jar">
 		<mkdir dir="${temp.build.remote.classes}" />
-		<javac srcdir="${dir.source}/QueryIOInstaller/src" destdir="${temp.build.remote.classes}" debug="on"  nowarn="on" optimize="on">
+		<javac srcdir="${dir.source}/QueryIOInstaller/src" destdir="${temp.build.remote.classes}" debug="on" nowarn="on" optimize="on">
 			<classpath refid="support.lib.jars" />
 			<classpath>
-				<fileset dir="${temp.build.remote.classes}" >
+				<fileset dir="${temp.build.remote.classes}">
 					<include name="**/*.class" />
 				</fileset>
 			</classpath>
 		</javac>
 		<unjar dest="${temp.build.remote.classes}">
-		    <fileset dir="${dir.source}/lib/QueryIOJars">
-		        <include name="jsch-0.1.53.jar"/>
-		    </fileset>
+			<fileset dir="${dir.source}/lib/QueryIOJars">
+				<include name="jsch-0.1.53.jar" />
+			</fileset>
 		</unjar>
 		<jar jarfile="${QueryIOBuildRoot}/SupportedFiles/QueryIORemoteInstaller.jar">
 			<fileset dir="${temp.build.remote.classes}">
@@ -153,9 +142,9 @@
 			</fileset>
 		</jar>
 	</target>
-	
-	
-	
+
+
+
 	<target name="move.original.created.jars">
 		<mkdir dir="${temp.build}/obfuscate/originalJars" />
 		<mkdir dir="${temp.build}/obfuscate/newJars" />
@@ -179,35 +168,35 @@
 			</fileset>
 		</move>
 	</target>
-	
-	
-	<target name="do.obfuscate.build" depends="move.original.created.jars" >
+
+
+	<target name="do.obfuscate.build" depends="move.original.created.jars">
 		<java jvm="${JDK1.7_HOME}/bin/java" classname="proguard.ProGuard" fork="true" failonerror="true">
-				<jvmarg line="-Xss64m -Xmx512m"/>
-				<arg line="-printmapping ${output.folder.name}/${DSTAMP}-${TSTAMP}-${build.number}/obfuscate_queryio_${build.number}.log" />
-				<arg line="-include script_queryio.pro" />
-				<arg line="-dontnote -ignorewarnings" />
-				<arg line="-libraryjars ${JDK1.7_HOME}/jre/lib/rt.jar"/>
-				<arg line="-dontoptimize" />
-				<sysproperty key="obfuscate.build" value="${temp.build}/obfuscate"/>
-				<sysproperty key="queryio.lib.dir" value="${dir.queryio}/WEB-INF/lib" />
-				<sysproperty key="queryioagent.lib.dir" value="${dir.queryio.agent}/WEB-INF/lib"/>
-				<sysproperty key="jdbc.lib.dir" value="${dir.queryio}/jdbcJars" />
-				<sysproperty key="servlet.dependent.dir" value="${QueryIOBuild}/tomcat/lib" />
-				<sysproperty key="ftp.lib.dir" value="${dir.queryio.ftpserver}/WEB-INF/lib" />
-				<sysproperty key="server.supported.dir" value="${dir.queryio.server}/lib" />
-				<sysproperty key="jetty.supported.dir" value="${dir.source}/lib/others" />
-				<sysproperty key="hadoop.lib.dir" value="${dir.hadoop.service}/${hadoop.dir}/share/hadoop/common/lib" />
-				<sysproperty key="hadoop.src.dir" value="${dir.source}/${hadoop.version}" />
+			<jvmarg line="-Xss64m -Xmx512m" />
+			<arg line="-printmapping ${output.folder.name}/${DSTAMP}-${TSTAMP}-${build.number}/obfuscate_queryio_${build.number}.log" />
+			<arg line="-include script_queryio.pro" />
+			<arg line="-dontnote -ignorewarnings" />
+			<arg line="-libraryjars ${JDK1.7_HOME}/jre/lib/rt.jar" />
+			<arg line="-dontoptimize" />
+			<sysproperty key="obfuscate.build" value="${temp.build}/obfuscate" />
+			<sysproperty key="queryio.lib.dir" value="${dir.queryio}/WEB-INF/lib" />
+			<sysproperty key="queryioagent.lib.dir" value="${dir.queryio.agent}/WEB-INF/lib" />
+			<sysproperty key="jdbc.lib.dir" value="${dir.queryio}/jdbcJars" />
+			<sysproperty key="servlet.dependent.dir" value="${QueryIOBuild}/tomcat/lib" />
+			<sysproperty key="ftp.lib.dir" value="${dir.queryio.ftpserver}/WEB-INF/lib" />
+			<sysproperty key="server.supported.dir" value="${dir.queryio.server}/lib" />
+			<sysproperty key="jetty.supported.dir" value="${dir.source}/lib/others" />
+			<sysproperty key="hadoop.lib.dir" value="${dir.hadoop.service}/${hadoop.dir}/share/hadoop/common/lib" />
+			<sysproperty key="hadoop.src.dir" value="${dir.source}/${hadoop.version}" />
 			<classpath>
 				<fileset dir="${QueryIOBuildRoot}/SupportedFiles">
 					<include name="proguard.jar" />
 				</fileset>
 			</classpath>
-			</java>
+		</java>
 		<antcall target="move.newJars" />
 	</target>
-	
+
 
 	<target name="move.newJars">
 		<copy toDir="${dir.queryio}/WEB-INF/lib">
@@ -222,7 +211,7 @@
 				<include name="QueryIOCommon.jar" />
 			</fileset>
 		</copy>
-		<copy toDir="${dir.queryio.ftpserver}/WEB-INF/lib" >
+		<copy toDir="${dir.queryio.ftpserver}/WEB-INF/lib">
 			<fileset dir="${temp.build}/obfuscate/newJars">
 				<include name="hdfs-over-ftp.jar" />
 			</fileset>
@@ -230,6 +219,11 @@
 		<copy toDir="${dir.queryio.os3server}/WEB-INF/lib">
 			<fileset dir="${temp.build}/obfuscate/newJars">
 				<include name="os3server.jar" />
+			</fileset>
+		</copy>
+		<copy toDir="${dir.queryio.os3server}/WEB-INF/lib">
+			<fileset dir="${dir.source}/hadoop-qio-common/target">
+				<include name="hadoop-qio-common-0.0.1-SNAPSHOT.jar" />
 			</fileset>
 		</copy>
 		<copy toDir="${QueryIOBuild}/services/${hadoop.dir}/share/hadoop/common" overwrite="true">
@@ -240,24 +234,29 @@
 		</copy>
 	</target>
 
-	 <target name="main"  depends="create.temp">	 	
-		<record name="${log.file.name}" loglevel="verbose" action="start"/>
-		<record name="${errors.file.name}" loglevel="error" action="start"/>
-		<record name="${warnings.file.name}" loglevel="warn" action="start"/>
-	 	<ant antfile="build_queryiocommon.xml" />
-	 	<ant antfile="build_demo.xml" />
-	 	<ant antfile="build_queryioagent.xml" />
-	 	<!--<ant antfile="build_queryio.xml" /-->	
-	 	<ant antfile="build_os3.xml" />
-	 	<ant antfile="build_hdfs_ftp_server.xml" />
-	 	<!--ant antfile="build_yarnClient.xml" /-->
-	 	<!--antcall target="do.obfuscate.build" /-->
-	 	<!--<antcall target="build.queryio" />-->
-	 	<record name="${log.file.name}" action="stop"/>
-	 	<record name="${errors.file.name}" action="stop"/>
-	 	<record name="${warnings.file.name}" action="stop"/>
-	 	<!--<antcall target="clean" />-->
-	  </target>
+	<target name="main" depends="create.temp">
+		<record name="${log.file.name}" loglevel="verbose" action="start" />
+		<record name="${errors.file.name}" loglevel="error" action="start" />
+		<record name="${warnings.file.name}" loglevel="warn" action="start" />
+		<ant antfile="build_queryiocommon.xml" />
+		<ant antfile="build_demo.xml" />
+		<ant antfile="build_queryioagent.xml" />
+		<!--<ant antfile="build_queryio.xml" /-->
+		<ant antfile="build_os3.xml" />
+		<ant antfile="build_hdfs_ftp_server.xml" />
+		<!--ant antfile="build_yarnClient.xml" /-->
+		<!--antcall target="do.obfuscate.build" /-->
+		<!--<antcall target="build.queryio" />-->
+		<copy toDir="${dir.queryio.os3server}/WEB-INF/lib">
+			<fileset dir="${dir.source}/os3server/target/os3server-0.0.1-SNAPSHOT/WEB-INF/lib">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		<record name="${log.file.name}" action="stop" />
+		<record name="${errors.file.name}" action="stop" />
+		<record name="${warnings.file.name}" action="stop" />
+		<!--<antcall target="clean" />-->
+	</target>
 
 	<target name="clean">
 		<delete dir="${temp.queryio.classes}" quiet="true" />
@@ -267,6 +266,6 @@
 		<delete file="${log.file.name}" />
 		<delete file="${errors.file.name}" />
 		<delete file="${warnings.file.name}" />
-		</target>
-	
+	</target>
+
 </project>

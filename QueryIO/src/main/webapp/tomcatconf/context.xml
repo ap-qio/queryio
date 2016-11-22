@@ -12,7 +12,6 @@
 	<lib>$USER_INSTALL_DIR$/services/Hadoop-2.7.1/share/hadoop/common/lib/jsch-0.1.53.jar</lib> 
     <lib>$USER_INSTALL_DIR$/services/Hadoop-2.7.1/share/hadoop/common/lib/protobuf-java-2.5.0.jar</lib> 
 	<lib>$USER_INSTALL_DIR$/services/Hadoop-2.7.1/share/hadoop/common/lib/slf4j-api-1.7.10.jar</lib>
-<!-- 	<lib>$USER_INSTALL_DIR$/services/QueryIOServers/lib/hadoop-custom-compiled.jar</lib> -->
     <lib>$USER_INSTALL_DIR$/services/Hadoop-2.7.1/share/hadoop/common/lib/commons-cli-1.2.jar</lib>
     <lib>$USER_INSTALL_DIR$/services/Hadoop-2.7.1/share/hadoop/common/lib/snappy-java-1.0.4.1.jar</lib>
     <lib>$USER_INSTALL_DIR$/services/Hadoop-2.7.1/share/hadoop/common/lib/log4j-1.2.17.jar</lib>
