@@ -701,7 +701,7 @@ public interface QueryIOConstants
     String DATATAGGING_DEFAULT_JOB =  DATATAGGING_PREFIX + "DEFAULT_JOB"; 
     String DATATAGGING_GENERIC_PARSER_JOB_CLASS = "com.queryio.demo.mr.generic.parser.GenericParserJob";
     String DATATAGGING_GENERIC_PARSER_JOB_NAME = "Plugins/GenericPostIngestJob.jar";
-    String DATATAGGING_GENERIC_PARSER_JOB_LIB_JAR_NAME = "Plugins/tika-app-1.3-modified.jar";
+    String DATATAGGING_GENERIC_PARSER_JOB_LIB_JAR_NAME = "Plugins/tika-app-1.14.jar";
     String DATATAGGING_GENERIC_FILE_TYPES_PARSERS_KEY = "queryio.generic.parser.filetypes.class.map";
     
     String HIVETYPEPATH = "hiveTypePath";

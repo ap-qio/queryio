@@ -676,7 +676,6 @@ public class ApplicationManager {
 					node = NodeDAO.getNode(connection, jobConfig.getRmId());
 				}
 				Host host = HostDAO.getHostDetail(connection, node.getHostId());
-
 				String libJars = jobConfig.getLibJars();
 				String[] jars = libJars.split(",");
 				for (String path : jars) {
