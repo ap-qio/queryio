@@ -68,6 +68,11 @@
 					<include name="tika-app-1.14.jar" />
 			</fileset>
 		</copy>
+		<copy todir="${QueryIOBuild}/services/${hadoop.dir}/share/hadoop/common/lib">
+			<fileset dir="${dir.source}/QueryIOAgent/target/QueryIOAgent/WEB-INF/lib">
+					<include name="tika-app-1.14.jar" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="create.queryio.agent.jar" >
