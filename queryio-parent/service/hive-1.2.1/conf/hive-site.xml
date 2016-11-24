@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><configuration>
 <property><name>queryio.hive.metastore.ConnectionUserName</name><value>ADMIN</value><source>programatically</source></property>
 <property><name>mapreduce.framework.name</name><value>local</value><source>programatically</source></property>
-<property><name>javax.jdo.option.ConnectionURL</name><value>jdbc:hsqldb:hsql://127.0.0.1:5434/hive</value><source>programatically</source></property>
+<property><name>javax.jdo.option.ConnectionURL</name><value>jdbc:hsqldb:hsql://$SSH_HOSTNAME$:5434/hive</value><source>programatically</source></property>
 <property><name>hive.querylog.location</name><value>/Users/aos/QueryIO/QueryIOPackage/hive-1.2.1/logs</value><source>programatically</source></property>
-<property><name>hive.metastore.warehouse.dir</name><value>hdfs://127.0.0.1:9000/hive</value><source>programatically</source></property>
-<property><name>queryio.hive.metastore.ConnectionURL</name><value>jdbc:hsqldb:hsql://127.0.0.1:5434/metastore</value><source>programatically</source></property>
+<property><name>hive.metastore.warehouse.dir</name><value>hdfs://$SSH_HOSTNAME$:9000/hive</value><source>programatically</source></property>
+<property><name>queryio.hive.metastore.ConnectionURL</name><value>jdbc:hsqldb:hsql://$SSH_HOSTNAME$:5434/metastore</value><source>programatically</source></property>
 <property><name>hive.exec.parallel</name><value>true</value><source>programatically</source><source>java.io.FileInputStream@25b7779c</source><source>java.io.FileInputStream@479268aa</source><source>java.io.FileInputStream@69b1956c</source><source>java.io.FileInputStream@57ff9544</source><source>java.io.FileInputStream@1f3fdef4</source></property>
 <property><name>javax.jdo.option.ConnectionUserName</name><value>ADMIN</value><source>programatically</source></property>
 <property><name>queryio.hive.metastore.ConnectionDriverName</name><value>org.hsqldb.jdbcDriver</value><source>programatically</source></property>
 <property><name>javax.jdo.option.ConnectionPassword</name><value>ADMIN</value><source>programatically</source></property>
 <property><name>queryio.hive.metastore.ConnectionPassword</name><value>ADMIN</value><source>programatically</source></property>
 <property><name>javax.jdo.option.ConnectionDriverName</name><value>org.hsqldb.jdbcDriver</value><source>programatically</source></property>
-<property><name>queryio.hive.hdfsUri</name><value>hdfs://127.0.0.1:9000</value><source>programatically</source></property>
+<property><name>queryio.hive.hdfsUri</name><value>hdfs://$SSH_HOSTNAME$:9000</value><source>programatically</source></property>
 </configuration>

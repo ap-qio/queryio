@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.URLDecoder;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -68,6 +69,7 @@ import com.queryio.common.database.TableConstants;
 import com.queryio.common.logger.AuditLogger;
 import com.queryio.common.service.remote.QueryIOResponse;
 import com.queryio.common.util.AppLogger;
+import com.queryio.common.util.GetIpAddress;
 import com.queryio.common.util.SSHRemoteExecution;
 import com.queryio.common.util.SecurityHandler;
 import com.queryio.common.util.StartupParameters;
@@ -3314,10 +3316,10 @@ public class RemoteManager {
 			Node namenode = (Node) namenodes.get(0);
 			Host namenodeHost = HostDAO.getHostDetail(connection, namenode.getHostId());
 
-			String hostName = isLocal ? "localhost" : QueryIOAgentManager.getHostName(namenodeHost);
+			String hostName = QueryIOAgentManager.getHostName(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode hostname: " + hostName);
-			String hostAddress = isLocal ? "127.0.0.1" : QueryIOAgentManager.getHostAddress(namenodeHost);
+			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress() : QueryIOAgentManager.getHostAddress(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode IP: " + hostAddress);
 			// String hostName = QueryIOAgentManager.getHostName(namenodeHost);
@@ -5398,9 +5400,9 @@ public class RemoteManager {
 
 			Host resourceManagerHost = HostDAO.getHostDetail(connection, rmNode.getHostId());
 
-			String hostName = isLocal ? "localhost" : QueryIOAgentManager.getHostName(resourceManagerHost);
+			String hostName = QueryIOAgentManager.getHostName(resourceManagerHost);
 			AppLogger.getLogger().debug("ResourceManager hostname: " + hostName);
-			String hostAddress = isLocal ? "127.0.0.1" : QueryIOAgentManager.getHostAddress(resourceManagerHost);
+			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress() : QueryIOAgentManager.getHostAddress(resourceManagerHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("ResourceManager IP: " + hostAddress);
 			if (!QueryIOAgentManager.hasMapping(nodeManagerHost, hostName, hostAddress)) {
@@ -6180,7 +6182,8 @@ public class RemoteManager {
 			dwrResponse.setResponseCode(401);
 			return dwrResponse;
 		}
-		dwrResponse = insertHostInstaller("127.0.0.1", null, null, "null", getLocalUserHomeDirectory(), "/default-rack",
+		String primaryIPAddress = new GetIpAddress().getPrimaryIPAddress();
+		dwrResponse = insertHostInstaller(primaryIPAddress, null, null, "null", getLocalUserHomeDirectory(), "/default-rack",
 				"6680", getLocalJavaHome(), "22", true, false, "");
 		return dwrResponse;
 	}
@@ -8370,10 +8373,10 @@ public class RemoteManager {
 			Node namenode = (Node) namenodes.get(0);
 			Host namenodeHost = HostDAO.getHostDetail(connection, namenode.getHostId());
 
-			String hostName = isLocal ? "localhost" : QueryIOAgentManager.getHostName(namenodeHost);
+			String hostName = QueryIOAgentManager.getHostName(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode hostname: " + hostName);
-			String hostAddress = isLocal ? "127.0.0.1" : QueryIOAgentManager.getHostAddress(namenodeHost);
+			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress() : QueryIOAgentManager.getHostAddress(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode IP: " + hostAddress);
 			if (!QueryIOAgentManager.hasMapping(dataNodeHost, hostName, hostAddress)) {
@@ -8706,9 +8709,9 @@ public class RemoteManager {
 
 			Host resourceManagerHost = HostDAO.getHostDetail(connection, rmNode.getHostId());
 
-			String hostName = isLocal ? "localhost" : QueryIOAgentManager.getHostName(resourceManagerHost);
+			String hostName = QueryIOAgentManager.getHostName(resourceManagerHost);
 			AppLogger.getLogger().debug("ResourceManager hostname: " + hostName);
-			String hostAddress = isLocal ? "127.0.0.1" : QueryIOAgentManager.getHostAddress(resourceManagerHost);
+			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress() : QueryIOAgentManager.getHostAddress(resourceManagerHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("ResourceManager IP: " + hostAddress);
 			if (!QueryIOAgentManager.hasMapping(nodeManagerHost, hostName, hostAddress)) {

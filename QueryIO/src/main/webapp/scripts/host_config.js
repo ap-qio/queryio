@@ -172,7 +172,7 @@ Hosts = {
 			$("#Operation").val("Stop");
 		}
 
-		if (host.hostIP == "127.0.0.1") {
+		if (host.hostIP == "127.0.0.1" || host.hostIP == '$SSH_HOSTNAME$') {
 			Hosts.deleteSelectedHost(true);
 		}
 

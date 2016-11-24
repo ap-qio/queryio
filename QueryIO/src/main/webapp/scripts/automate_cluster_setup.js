@@ -395,7 +395,7 @@ AutoCluster =
 			if(AutoCluster.isLocalClusterSetupEnabled)
 			{
 //				RemoteManager.getLocalIP(AutoCluster.getLocalIP);
-				RemoteManager.checkHosts("127.0.0.1", AutoCluster.evaluationClusterSetup);
+				RemoteManager.checkHosts("$SSH_HOSTNAME$", AutoCluster.evaluationClusterSetup);
 			}
 			else
 				RemoteManager.checkHosts($('#hostsTable1 .hostName').val(), AutoCluster.evaluationClusterSetup);
@@ -2380,7 +2380,7 @@ AutoCluster =
 		else
 		{
 			$("#hostsTable1").find("input,select").attr("disabled", "disabled");
-			$("#hostsTable1 .hostName").val("127.0.0.1");
+			$("#hostsTable1 .hostName").val("$SSH_HOSTNAME$");
 //			RemoteManager.getLocalIP(AutoCluster.fillLocalHost);
 //			$("#hostsTable1 .hostName").css("color", "white");
 		}
@@ -2658,7 +2658,7 @@ AutoCluster =
 		volumeList.push(volume);
 		
 		var isLocal = false;
-		if(hostIP == '127.0.0.1')
+		if(hostIP == '127.0.0.1' || hostIP == '$SSH_HOSTNAME$')
 			isLocal = true;
 		var statusRow = $('.hostName:contains(' + hostIP + ')', $('#cluster_install_status_table tbody')).next();
 		var statusText = "<div id = '" + dataNodeId + "' style='width: 90%;'  class = 'statusDiv'>" + AutoCluster.statusImagesContent + "</div>";
@@ -2780,7 +2780,7 @@ AutoCluster =
 		var hostId = AutoCluster.evaluationHostIdMap[hostIP];
 		
 		var isLocal = false;
-		if(hostIP == '127.0.0.1')
+		if(hostIP == '127.0.0.1' || hostIP == '$SSH_HOSTNAME$')
 			isLocal = true;
 		
 		var statusRow = $('.hostName:contains(' + hostIP + ')', $('#cluster_install_status_table tbody')).next();

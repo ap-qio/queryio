@@ -2,7 +2,7 @@
 	<DBConfiguration>
 		<SystemDB name="SystemDB" type="HSQL">
 			<driver>org.hsqldb.jdbcDriver</driver>
-			<url>jdbc:hsqldb:hsql://127.0.0.1:5433/queryio</url>
+			<url>jdbc:hsqldb:hsql://$SSH_HOSTNAME$:5433/queryio</url>
 			<userName>ADMIN</userName>
 			<password>5eE94nUfAeQ=</password>
 			<poolname>SystemDB</poolname>
@@ -13,7 +13,7 @@
 		</SystemDB>
 		<QueryDB name="MetaStore" role="Metadata / Tagging" type="HSQL">
 			<driver>org.hsqldb.jdbcDriver</driver>
-			<url>jdbc:hsqldb:hsql://127.0.0.1:5434/metastore</url>
+			<url>jdbc:hsqldb:hsql://$SSH_HOSTNAME$:5434/metastore</url>
 			<userName>ADMIN</userName>
 			<password>5eE94nUfAeQ=</password>
 			<poolname>MetaStore</poolname>
@@ -24,7 +24,7 @@
 		</QueryDB>
 		<QueryDB name="Hive" role="Hive Schema" type="HSQL">
 			<driver>org.hsqldb.jdbcDriver</driver>
-			<url>jdbc:hsqldb:hsql://127.0.0.1:5434/hive</url>
+			<url>jdbc:hsqldb:hsql://$SSH_HOSTNAME$:5434/hive</url>
 			<userName>ADMIN</userName>
 			<password>5eE94nUfAeQ=</password>
 			<poolname>Hive</poolname>

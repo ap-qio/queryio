@@ -258,7 +258,7 @@ function populateAddHdfsServiceList(flag , dwrResponse)
 	if(flag)
 	{	
 		var isLocal = false;
-		if(hostIP=="127.0.0.1")
+		if(hostIP=="127.0.0.1" || hostIP == '$SSH_HOSTNAME$')
 		{
 			isLocal = true;
 		}

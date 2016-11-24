@@ -363,7 +363,7 @@ Node_Manager = {
 	saveNM_DWRCall: function(){
 		Node_Manager.selectedNode.splice(1,Node_Manager.selectedNode.length);
 		var isLocal = false;
-		if(Node_Manager.hostIP=="127.0.0.1")
+		if(Node_Manager.hostIP=="127.0.0.1" || Node_Manager.hostIP == '$SSH_HOSTNAME$')
 			isLocal = true;
 		RemoteManager.addNodeManager(Node_Manager.id, Node_Manager.hostName, Node_Manager.rManagerID,
 				Node_Manager.localizerPort, Node_Manager.httpPort, Node_Manager.jmxPort, Node_Manager.dirPath, isLocal, Node_Manager.add_NM_Response);
