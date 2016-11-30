@@ -3321,8 +3321,7 @@ public class RemoteManager {
 			String hostName = QueryIOAgentManager.getHostName(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode hostname: " + hostName);
-			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress()
-					: QueryIOAgentManager.getHostAddress(namenodeHost);
+			String hostAddress = QueryIOAgentManager.getHostAddress(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode IP: " + hostAddress);
 			// String hostName = QueryIOAgentManager.getHostName(namenodeHost);
@@ -5403,8 +5402,7 @@ public class RemoteManager {
 
 			String hostName = QueryIOAgentManager.getHostName(resourceManagerHost);
 			AppLogger.getLogger().debug("ResourceManager hostname: " + hostName);
-			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress()
-					: QueryIOAgentManager.getHostAddress(resourceManagerHost);
+			String hostAddress = QueryIOAgentManager.getHostAddress(resourceManagerHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("ResourceManager IP: " + hostAddress);
 			if (!QueryIOAgentManager.hasMapping(nodeManagerHost, hostName, hostAddress)) {
@@ -8379,8 +8377,7 @@ public class RemoteManager {
 			String hostName = QueryIOAgentManager.getHostName(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode hostname: " + hostName);
-			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress()
-					: QueryIOAgentManager.getHostAddress(namenodeHost);
+			String hostAddress = QueryIOAgentManager.getHostAddress(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode IP: " + hostAddress);
 			if (!QueryIOAgentManager.hasMapping(dataNodeHost, hostName, hostAddress)) {
@@ -8715,8 +8712,7 @@ public class RemoteManager {
 
 			String hostName = QueryIOAgentManager.getHostName(resourceManagerHost);
 			AppLogger.getLogger().debug("ResourceManager hostname: " + hostName);
-			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress()
-					: QueryIOAgentManager.getHostAddress(resourceManagerHost);
+			String hostAddress = QueryIOAgentManager.getHostAddress(resourceManagerHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("ResourceManager IP: " + hostAddress);
 			if (!QueryIOAgentManager.hasMapping(nodeManagerHost, hostName, hostAddress)) {
