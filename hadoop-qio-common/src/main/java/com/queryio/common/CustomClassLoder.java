@@ -6,6 +6,8 @@ import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.jar.JarFile;
 
+import com.queryio.common.util.AppLogger;
+
 public class CustomClassLoder extends URLClassLoader {
 
 	public CustomClassLoder(URL[] urls, ClassLoader classLoader) {
@@ -13,7 +15,7 @@ public class CustomClassLoder extends URLClassLoader {
 	}
 
 	public void addToPath(URL url) {
-		System.out.println(url.getPath());
+		AppLogger.getLogger().info(url.getPath());
 		addURL(url);
 	}
 
@@ -34,7 +36,7 @@ public class CustomClassLoder extends URLClassLoader {
 					Field loader = sunMiscURLClassPathJarLoader.getClass().getDeclaredField("jar");
 					loader.setAccessible(true);
 					Object jarFile = loader.get(sunMiscURLClassPathJarLoader);
-					System.out.println("Closing: " + ((JarFile) jarFile).getName());
+					AppLogger.getLogger().info("Closing: " + ((JarFile) jarFile).getName());
 					((JarFile) jarFile).close();
 				} catch (Throwable t) {
 					// if we got this far, this is probably not a JAR loader so skip it

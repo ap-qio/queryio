@@ -100,7 +100,6 @@ public class SystemMonitor
 			}
 			
 			windowMonitor = new WindowsMonitorController(); 
-			System.out.println("win monitor.connect : " + windowMonitor.connect());
 			
 		}
 		catch (Exception e)

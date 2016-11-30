@@ -24,7 +24,6 @@ public class PDFCustomTagParser implements IUserDefinedParser {
 	private static final Log LOG = LogFactory.getLog(PDFCustomTagParser.class);
 	private static Map<String,TableMetadata> map = new HashMap<String, TableMetadata>();
 	static {		
-		System.out.println("PDFCustomTagParser Class is loaded");
 		// PDF
 		List<ColumnMetadata> list = new ArrayList<ColumnMetadata>();
 		list.add(new ColumnMetadata("CONTENT_TYPE", String.class, 64));

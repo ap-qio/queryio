@@ -254,8 +254,5 @@ public class DatabaseConfigParser extends DefaultHandler implements ErrorHandler
 
 	public static void main(String[] args) throws Exception {
 		new DatabaseConfigParser().loadDatabaseConfiguration("/QueryIO/tomcat/webapps/queryio/WEB-INF/dbconfig.xml");
-
-		System.out.println(CustomTagDBConfigManager.getAllCustomTagDBConfigList());
-		System.out.println(CustomTagDBConfigManager.getAllCustomTagDBTypeConfigList());
 	}
 }

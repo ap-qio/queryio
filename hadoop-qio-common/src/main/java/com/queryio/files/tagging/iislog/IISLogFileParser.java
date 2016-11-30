@@ -56,7 +56,6 @@ public class IISLogFileParser extends IFileParser {
         skipAll = Boolean.parseBoolean(String.valueOf(parsingDetailsJSON.get(ERROR_ACTION_KEY)));
         	
 		JSONArray fieldsJSON = (JSONArray) tagsIInfo.get(FIELDS_KEY);
-		System.out.println("Fields: " + fieldsJSON);
 		columns = new HashMap<Integer, String>();
 			
 		for (int i = 0; i < fieldsJSON.size(); i++) {

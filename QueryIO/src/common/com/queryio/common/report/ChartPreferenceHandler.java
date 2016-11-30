@@ -431,7 +431,6 @@ public class ChartPreferenceHandler {
 			int red=   (colors >> 16) & 0xFF;
 			int green= (colors >> 8) & 0xFF;
 			int blue=  (colors >> 0) & 0xFF;
-			System.out.println("red"+red + " green"+ green+ " blue:"+ blue);
 			return ColorDefinitionImpl.create(red, green, blue);
 		}
 	}	

@@ -627,8 +627,6 @@ public class SFTPImportMigrationThread extends Thread {
 				isAbsFilePath = true;
 		}
 		
-		System.out.println("isAbsFilePath: " + isAbsFilePath);
-		
 		return list;
 	}
 	

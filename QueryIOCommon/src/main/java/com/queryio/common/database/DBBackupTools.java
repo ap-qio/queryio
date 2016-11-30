@@ -298,7 +298,6 @@ public class DBBackupTools {
 				continue;
 			tables.add(tableName);  
 		}
-		System.out.println(tables);
 		return tables;
 	}
 	

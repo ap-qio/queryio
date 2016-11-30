@@ -79,7 +79,6 @@ public final class DatabaseManager
 		final Properties p = new Properties();
 		p.put(USER, userName);
 		p.put(PASSWORD, password);
-		System.out.println("initializing "+connectionName);
 		final ConnectionFactory connectionFactory = new DriverConnectionFactory(driver, url, p);
 		setInitialProperties(connectionFactory, connectionName, maxConnection, strategy, maxWait, idleConnection, evictIdleConnections);
 	}

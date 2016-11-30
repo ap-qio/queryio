@@ -36,8 +36,6 @@ public class DataBrowserManager extends HttpServlet {
 
     }
     public void init(ServletConfig config) throws ServletException {
-    	System.out.println("Ninja");
-    	System.out.println("Ninja Bro");
 		super.init(config);
 		int count=0;
 		columnMap.put("Name",new Integer(count++));
@@ -63,7 +61,6 @@ public class DataBrowserManager extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("Nishant jain");
 		String query = request.getParameter("query");
 		String rows=request.getParameter("rows");
 		String pageno=request.getParameter("page");

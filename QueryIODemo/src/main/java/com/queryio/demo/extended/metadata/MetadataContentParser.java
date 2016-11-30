@@ -113,7 +113,6 @@ public class MetadataContentParser extends IContentParser {
 					for(int i=0; i<metadata.names().length; i++){
 						String key = metadata.names()[i];
 						String value = metadata.get(key);
-						System.out.println("FirstTime: Key: " + key + " , value: " + value);
 					}
 					
 					isFirstTime = false;
@@ -155,7 +154,6 @@ public class MetadataContentParser extends IContentParser {
 				}
 
 				short operation = tagOperations.get(tag.getName());
-				System.out.println("operation : " + operation);
 				switch (operation) {
 				case OPERATION_WORD_EXISTS:
 					metadata.add(alterSequence(tag.getName()), String
@@ -225,7 +223,6 @@ public class MetadataContentParser extends IContentParser {
 	}
 	
 	private void parseLine(String line, Metadata metadata) {
-		System.out.println("line: " + line);
 		
 		List<Tag> tags = super.getTags();
 		for(int i=0; i<tags.size(); i++) {
@@ -268,19 +265,15 @@ public class MetadataContentParser extends IContentParser {
 				
 				String colNameForMatch = metaWordToMatch.get(tag.getName()); 
 				
-				System.out.println("match with value for column : " + colNameForMatch);
-				
 				String valueForColumn = null;
 				
 				for(int j=0; j<metadata.names().length; j++){
 					String key = metadata.names()[j];
 					String value = metadata.get(key);
 					
-					System.out.println("Current metadata key: " +  alterSequence(key) + ", looking for column: " + colNameForMatch);
 					
 					if(alterSequence(key).equalsIgnoreCase(colNameForMatch)) {
 						valueForColumn = value;
-						System.out.println("Matching column found");
 						break;
 					}
 				}
@@ -289,7 +282,6 @@ public class MetadataContentParser extends IContentParser {
 				
 				for(int j=0; j<words.length; j++) {
 					if(words[j].trim().equalsIgnoreCase(valueForColumn)) {
-						System.out.println("Current word: " +  words[j].trim() + ", looking for word: " + valueForColumn);
 						count++;
 					}
 				}
@@ -300,15 +292,11 @@ public class MetadataContentParser extends IContentParser {
 				
 				colNameForMatch = metaWordToMatch.get(tag.getName()); 
 				
-				System.out.println("match with value for column : " + colNameForMatch);
-				
 				valueForColumn = null;
 				
 				for(int j=0; j<metadata.names().length; j++){
 					String key = metadata.names()[j];
 					String value = metadata.get(key);
-					
-					System.out.println("Current metadata key: " +  alterSequence(key) + ", looking for column: " + colNameForMatch);
 					
 					if(alterSequence(key).equalsIgnoreCase(colNameForMatch)) {
 						copyValues.put(tag.getName(), value);

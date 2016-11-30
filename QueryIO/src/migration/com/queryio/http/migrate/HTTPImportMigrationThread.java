@@ -446,21 +446,12 @@ public class HTTPImportMigrationThread extends Thread
         if (entity != null)
         {
         	is = entity.getContent();
-            System.out.println("stream initialized");
         }
 	}
 	
 	public static void main(String args[])
 	{
 		Configuration conf = null;
-		
-		System.out.println(HTTP.ISO_8859_1);
-		System.out.println(HTTP.US_ASCII);
-		System.out.println(HTTP.UTF_16);
-		System.out.println(HTTP.UTF_8);
-		System.out.println(HTTP.ASCII);
-		System.out.println(HTTP.USER_AGENT);
-		System.out.println(HTTP.TRANSFER_ENCODING);
 		
 		try 
 		{

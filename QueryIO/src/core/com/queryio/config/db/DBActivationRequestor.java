@@ -17,7 +17,6 @@ public class DBActivationRequestor {
 		HttpURLConnection urlConnection = null;
 		try{
 			String url = "http://"+host.getHostIP()+":"+ftpPort+"/hdfs-over-ftp/reinitializeDB?isCustomTagDB="+isCustomtagDB;
-			System.out.println("url: "+url);
 			URL os3DBReinitialzeRequestURL = new URL(url); 
 			urlConnection = (HttpURLConnection)os3DBReinitialzeRequestURL.openConnection();
 			urlConnection.connect();

@@ -24,7 +24,6 @@ public class FileAnalyzer {
 	private Map<String, String> coreTags;
 	
 	public FileAnalyzer(JSONObject tagInfo, String fileType, Map<String, String> coreTags) throws IOException {
-		System.out.println("Tags: " + tagInfo.get("Tags"));
 		this.coreTags = coreTags;
 		Class parserClass = getParser(fileType);
 		if(parserClass!=null) {

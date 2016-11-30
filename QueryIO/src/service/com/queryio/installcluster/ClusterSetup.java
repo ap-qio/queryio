@@ -49,12 +49,10 @@ public class ClusterSetup
 		sshPort = port;
 		
 		AppLogger.getLogger().fatal("Installing Host...");
-		System.out.println("Installing Host...");
 		response = installHost(isLocal, installUserHome, installJavaHome);
 		if(response.isTaskSuccess()) 
 		{
 			AppLogger.getLogger().fatal("Host installed successfully");
-			System.out.println("Host installed successfully");
 			flag.put(QueryIOConstants.HOST, true);
 			setupService(ip, isLocal, installUserHome);
 			
@@ -114,12 +112,10 @@ public class ClusterSetup
 			flagCheck = false;
 		}
 		if(flagCheck) {
-			System.out.println("Cluster configured successfully");
 			AppLogger.getLogger().fatal("Cluster configured successfully");
 		}
 		else {
 			AppLogger.getLogger().fatal("Cluster setup failed : " + error);
-			System.out.println("Cluster setup failed : " + error);
 		}
 		
 		return flag;
@@ -138,7 +134,6 @@ public class ClusterSetup
 		String password = qioPassword;
 		String email = qioEmail;
 		groupNames[0]=userGroup;
-		System.out.print("\n UserName :"+userName+", "+userRole+","+userGroup);
 		Connection connection = null;
 		DWRResponse dwrResponse = new DWRResponse();
 		try {
@@ -156,15 +151,9 @@ public class ClusterSetup
 			UserDAO.insertUser(connection, user, userRole, dwrResponse);
 			UserGroupDAO.addUserToGroup(connection, userName, userGroup, true);
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			AppLogger.getLogger().fatal(e);
 		}
 		
-		if(dwrResponse.isTaskSuccess())
-			System.out.println("\nUser Successfully added");
-		else
-			System.out.println("\nFailed to register new user. ");
 		return dwrResponse.isTaskSuccess();
 	}
 	
@@ -201,7 +190,6 @@ public class ClusterSetup
 	public Boolean installNameNode(String ip, boolean isLocal, String installUserHome)
 	{
 		AppLogger.getLogger().fatal("Installing NameNode...");
-		System.out.println("Installing NameNode...");
 		error = " ";
 		setupService(ip, isLocal, installUserHome);
 		HashMap<String, HadoopConfig> ports;
@@ -270,20 +258,16 @@ public class ClusterSetup
 		if(response.isTaskSuccess())
 		{
 			AppLogger.getLogger().fatal("NameNode Installed successfully.");
-			System.out.println("NameNode Installed successfully.");
 			AppLogger.getLogger().fatal("Starting NameNode...");
-			System.out.println("Starting NameNode...");
 			response = RemoteManager.startNodeInstaller( "NameNode1" , qioUsername, false);
 			if(response.isTaskSuccess())
 			{
 				AppLogger.getLogger().fatal("NameNode started successfully.");
-				System.out.println("NameNode started successfully.");
 				return true;
 			}
 			else
 			{
 				AppLogger.getLogger().fatal("Failed to start NameNode due to " + response.getResponseMessage() );
-				System.out.println("Failed to start NameNode due to " + response.getResponseMessage() );
 				error += response.getResponseMessage();
 				return false;
 			}
@@ -291,7 +275,6 @@ public class ClusterSetup
 		else
 		{
 			AppLogger.getLogger().fatal("Failed to Install NameNode due to " + response.getResponseMessage() );
-			System.out.println("Failed to Install NameNode due to " + response.getResponseMessage() );
 			error += response.getResponseMessage();
 			return false;
 		}
@@ -300,7 +283,6 @@ public class ClusterSetup
 	public Boolean installDataNode(String ip, boolean isLocal, String installUserHome)
 	{
 		AppLogger.getLogger().fatal("Installing DataNode...");
-		System.out.println("Installing DataNode...");
 		setupService(ip, isLocal, installUserHome);
 		HashMap<String, HadoopConfig> ports;
 		ArrayList keyList = new ArrayList();
@@ -349,20 +331,16 @@ public class ClusterSetup
 		if(response.isTaskSuccess())
 		{
 			AppLogger.getLogger().fatal("DataNode installed successfully");
-			System.out.println("DataNode installed successfully");
 			AppLogger.getLogger().fatal("Starting DataNode...");
-			System.out.println("Starting DataNode...");
 			response = RemoteManager.startNodeInstaller( "DataNode1" ,qioUsername, false);
 			if(response.isTaskSuccess())
 			{
 				AppLogger.getLogger().fatal("DataNode started successfully.");
-				System.out.println("DataNode started successfully.");
 				return true;
 			}
 			else
 			{
 				AppLogger.getLogger().fatal("Failed to start DataNode due to " + response.getResponseMessage() );
-				System.out.println("Failed to start DataNode due to " + response.getResponseMessage() );
 				error += response.getResponseMessage();
 				return false;
 			}
@@ -370,7 +348,6 @@ public class ClusterSetup
 		else
 		{
 			AppLogger.getLogger().fatal("Failed to install DataNode due to " + response.getResponseMessage() );
-			System.out.println("Failed to install DataNode due to " + response.getResponseMessage() );
 			error += response.getResponseMessage();
 			return false;
 		}
@@ -379,7 +356,6 @@ public class ClusterSetup
 	public Boolean installRM(String ip, boolean isLocal, String installUserHome)
 	{
 		AppLogger.getLogger().fatal("Installing ResourceManager...");
-		System.out.println("Installing ResourceManager...");
 		setupService(ip, isLocal, installUserHome);
 		HashMap<String, HadoopConfig> ports;
 		ArrayList keyList = new ArrayList();
@@ -445,20 +421,16 @@ public class ClusterSetup
 		if(response.isTaskSuccess())
 		{
 			AppLogger.getLogger().fatal("ResourceManager installed successfully.");
-			System.out.println("ResourceManager installed successfully.");
 			AppLogger.getLogger().fatal("Starting ResourceManager...");
-			System.out.println("Starting ResourceManager...");
 			response = RemoteManager.startNodeInstaller( "ResourceManager1" , qioUsername, false);
 			if(response.isTaskSuccess())
 			{
 				AppLogger.getLogger().fatal("ResourceManager started successfully");
-				System.out.println("ResourceManager started successfully");
 				return true;
 			}
 			else
 			{
 				AppLogger.getLogger().fatal("Failed to start ResourceManager due to " + response.getResponseMessage() );
-				System.out.println("Failed to install ResourceManager due to " + response.getResponseMessage() );
 				error += response.getResponseMessage();
 				return false;
 			}
@@ -466,7 +438,6 @@ public class ClusterSetup
 		else
 		{
 			AppLogger.getLogger().fatal("Failed to install ResourceManager due to " + response.getResponseMessage() );
-			System.out.println("Failed to install ResourceManager due to " + response.getResponseMessage() );
 			error += response.getResponseMessage();
 			return false;
 		}
@@ -475,7 +446,6 @@ public class ClusterSetup
 	public Boolean installNM(String ip, boolean isLocal, String installUserHome)
 	{
 		AppLogger.getLogger().fatal("Installing NodeManager...");
-		System.out.println("Installing NodeManager...");
 		setupService(ip, isLocal, installUserHome);
 		HashMap<String, HadoopConfig> ports;
 		ArrayList keyList = new ArrayList();
@@ -509,20 +479,16 @@ public class ClusterSetup
 		if(response.isTaskSuccess())
 		{
 			AppLogger.getLogger().fatal("NodeManager installed successfully");
-			System.out.println("NodeManager installed successfully");
 			AppLogger.getLogger().fatal("Starting NodeManager...");
-			System.out.println("Starting NodeManager...");
 			response = RemoteManager.startNodeInstaller( "NodeManager1" ,qioUsername, false);
 			if(response.isTaskSuccess())
 			{
 				AppLogger.getLogger().fatal("NodeManager started successfully");
-				System.out.println("NodeManager started successfully");
 				return true;
 			}
 			else
 			{
 				AppLogger.getLogger().fatal("Failed to start NodeManager due to " + response.getResponseMessage() );
-				System.out.println("Failed to start NodeManager due to " + response.getResponseMessage() );
 				error += response.getResponseMessage();
 				return false;
 			}
@@ -530,7 +496,6 @@ public class ClusterSetup
 		else
 		{
 			AppLogger.getLogger().fatal("Failed to install NodeManager due to " + response.getResponseMessage() );
-			System.out.println("Failed to install NodeManager due to " + response.getResponseMessage() );
 			error += response.getResponseMessage();
 			return false;
 		}

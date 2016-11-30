@@ -37,7 +37,6 @@ public class StartupListener implements ServletContextListener {
 		final ServletContext context = event.getServletContext();
 		
 		String log4j = event.getServletContext().getRealPath(HdfsOverFtpServer.LOG4J_PROPERTIES_FILE);
-		System.out.println(log4j);
 		if (log4j != null) {
 			PropertyConfigurator.configure(log4j);
 		} else {

@@ -84,8 +84,6 @@ public class UpgradeCluster {
 		    	 username = "";
 		    	 password = "";
 		    	 
-		    	 System.out.println("\nHost IP : " + ip);
-		    	 
 		    	 int ind = hostList.indexOf(ip);
 			     String temp = hostList.substring( ind ,  hostList.indexOf(".!", ind));
 				 String installDir = temp.substring( temp.indexOf(":")+1 ,  temp.length());
@@ -97,14 +95,12 @@ public class UpgradeCluster {
 			     DWRResponse response = RemoteManager.insertHostInstaller( ip, username, password, "null", installDir , "", "", javaHome, "22", true,  true, dbPort);
 			     if(response.isTaskSuccess())
 			     {
-			    	 System.out.println("Host : " + response.getId() + " Host upgraded successfully.");
 			    	 startHadoop(ip, username, password, "", "", installDir, true);
 			    	 flag = true;
 			     }
 			     else
 			     {
 			    	 flag = false;
-			    	 System.out.println("Failed to start QueryIO services.");
 			     }
 		     }
 		     
@@ -121,7 +117,6 @@ public class UpgradeCluster {
 			    	 password = (password.equals("null")) ? null : com.queryio.common.util.SecurityHandler.decryptData(password);
 			    	 sshPrivateKey = (sshPrivateKey.equals("null")) ? null : com.queryio.common.util.SecurityHandler.decryptData(sshPrivateKey);
 				     
-			    	 System.out.println("\nHost IP : " + ip);
 			    	 
 			    	 int ind = hostList.indexOf(ip);
 				     String temp = hostList.substring( ind ,  hostList.indexOf(".!", ind));
@@ -135,14 +130,12 @@ public class UpgradeCluster {
 				     
 				     if(response.isTaskSuccess())
 				     {
-				    	 System.out.println("Host : " + response.getId() + " Host upgraded successfully.");
 				    	 startHadoop(ip, username, password, sshPrivateKey, sshPort, installDir, false);
 				    	 flag = true;
 				     }
 				     else
 				     {
 				    	 flag = false;
-				    	 System.out.println("Failed to start QueryIO services.");
 				     }
 			     }
 		     }
@@ -363,7 +356,7 @@ public class UpgradeCluster {
         }
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			AppLogger.getLogger().fatal(e);
 			flag = false;
 		}
 		finally
@@ -410,7 +403,6 @@ public class UpgradeCluster {
 		        	command = "crontab -r ; kill -9 "+pid+"; ";
 			        executeCommand(session, command);
 			        response = getOutput();
-			        System.out.println(response);
 		        }
 		        Thread.sleep(5000);
 			}
@@ -429,7 +421,7 @@ public class UpgradeCluster {
         }
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			AppLogger.getLogger().fatal(e);
 			flag = false;
 		}
 		finally
@@ -444,7 +436,6 @@ public class UpgradeCluster {
 	
 	public static boolean startHadoop(String host, String user, String password, String sshPrivateKey, String port, String installDir, boolean isLocal)
 	{
-		System.out.println("Starting QueryIO nodes and services...");
 		Session session = null;
 		boolean flag = false;
 		String hostName = "";
@@ -488,7 +479,7 @@ public class UpgradeCluster {
         }
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			AppLogger.getLogger().fatal(e);
 			flag = false;
 		}
 		finally

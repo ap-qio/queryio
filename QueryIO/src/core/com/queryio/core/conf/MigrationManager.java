@@ -302,7 +302,6 @@ public class MigrationManager {
 			String loginUser = RemoteManager.getLoggedInUser();
 			String loginUserGroup = RemoteManager.getDefaultGroupForUser(loginUser);
 			
-			System.out.println("replication: " + values2.get(0));
 			Thread thread;
 			if(migrationInfo.isImportType()){
 				thread = new AmazonImportMigrationThread(loginUser, loginUserGroup, migrationInfo, accessKey, secureAccessKey, conf, overwrite);	

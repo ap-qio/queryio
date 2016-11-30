@@ -73,7 +73,6 @@ public class Log4jFileParser extends IFileParser {
         JSONArray fieldsJSON = (JSONArray) tagsIInfo.get(FIELDS_KEY);
 		
         
-		System.out.println("Fields: " + fieldsJSON);
 		columns = new HashMap<Integer, String>();
 		
 		for (int i = 0; i < fieldsJSON.size(); i++) {

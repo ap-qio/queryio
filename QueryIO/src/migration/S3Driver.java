@@ -48,7 +48,6 @@ public class S3Driver {
         // or setup routine that you run less often.
         if (!conn.checkBucketExists(BUCKETNAME))
         {
-            System.out.println("----- creating bucket -----");
             System.out.println(conn.createBucket(BUCKETNAME, AWSAuthConnection.LOCATION_DEFAULT, null).connection.getResponseMessage());
             // sample creating an EU located bucket.
             // (note path-style urls will not work with location-constrained buckets)

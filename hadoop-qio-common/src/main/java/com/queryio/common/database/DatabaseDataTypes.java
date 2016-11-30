@@ -161,7 +161,6 @@ public class DatabaseDataTypes
 		{
 			sqlDataType = (String) hm.get(dataType);
 		}
-		// System.out.println("data: " + dataType + " value: " + sqlDataType);
 		return sqlDataType;
 		/*
 		 * switch(dataType) { case Types.INTEGER: { return "INTEGER"; } case

@@ -42,8 +42,6 @@ public class UserDefinedTagResourceFactory {
 		String xmlFilePath = conf
 				.get(QueryIOConstants.CUSTOM_TAG_DB_DBCONFIGPATH, System.getenv("HADOOP_YARN_HOME") +"/../"+QueryIOConstants.QUERYIOAGENT_DIR_NAME+"/webapps/" + QueryIOConstants.AGENT_QUERYIO + "/conf/dbconfig.xml");
 		
-		System.out.println("DBConfig.xml path: " + System.getenv("HADOOP_YARN_HOME") +"/../"+QueryIOConstants.QUERYIOAGENT_DIR_NAME+"/webapps/" + QueryIOConstants.AGENT_QUERYIO + "/conf/dbconfig.xml");
-		
 		LOG.info("xmlFilePath: " + xmlFilePath);
 		String jdbcDriverPath = xmlFilePath.substring(0,
 				xmlFilePath.lastIndexOf("/"))

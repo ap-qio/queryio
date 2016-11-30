@@ -46,9 +46,7 @@ public class LinuxMonitor
 			monitor.setMonitorNFS(true);
 			monitor.setIOStatDisks("genevad");
 			monitor.initializeProtocol(IOSProtocolConstants.LINUX);			
-			System.out.println("Linux monitor has been created, will ping the host now");
 			final boolean ping = monitor.ping();
-			System.out.println("Ping successful: " + ping + ", It will now collect data twice");
 			
 			return monitor.getNetworkInfo();
 		}

@@ -69,11 +69,9 @@ public class JTLParserJob extends Configured implements Tool{
 		if(statusList != null){
 		    for(FileStatus status : statusList){
 		    	if(status.isDirectory() || !status.getPath().getName().endsWith(".jtl")) {
-		    		System.out.println("Skipping "  + status.getPath().getName());
 		    		continue;
 		    	}
 		        //add each file to the list of inputs for the map-reduce job
-		    	System.out.println("Adding "  + status.getPath().toUri().toString() + ", " + status.getPath().toString());
 		        FileInputFormat.addInputPath(job, status.getPath());
 		    }
 		}

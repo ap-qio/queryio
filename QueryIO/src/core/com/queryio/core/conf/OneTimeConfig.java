@@ -826,7 +826,6 @@ public class OneTimeConfig
 			line = splits[i];
 			if(line.contains(procName))
 			{
-				System.out.println(line);
 				line = line.trim();
 				if(line.length() > 6 )
 					procPID += line.substring(line.length()-6, line.length()).trim();
@@ -846,7 +845,6 @@ public class OneTimeConfig
 			line = splits[i];
 			if(line.contains(procName))
 			{
-				System.out.println(line);
 				line = line.trim();
 				if(line.length() > 6 )
 					procPID += line.substring(line.length()-6, line.length()).trim();
@@ -1150,7 +1148,6 @@ public class OneTimeConfig
 				while ((output = inReader.readLine()) != null) {
 					versionInfo += output;
 				}
-				System.out.println("versionInfo: " + versionInfo);
 				return checkVersion(versionInfo);
 			}
 			return false;

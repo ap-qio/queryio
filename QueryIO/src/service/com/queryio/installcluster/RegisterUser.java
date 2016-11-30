@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import com.queryio.common.QueryIOConstants;
 import com.queryio.common.database.CoreDBManager;
+import com.queryio.common.util.AppLogger;
 import com.queryio.core.bean.DWRResponse;
 import com.queryio.core.bean.User;
 import com.queryio.core.dao.UserDAO;
@@ -25,7 +26,6 @@ public class RegisterUser {
 		String password = qioLname;
 		String email = qioEmail;
 		groupNames[0]=userGroup;
-		System.out.print("\n UserName :"+userName+", "+userRole+","+userGroup);
 		Connection connection = null;
 		DWRResponse dwrResponse = new DWRResponse();
 		try {
@@ -43,16 +43,8 @@ public class RegisterUser {
 			UserDAO.insertUser(connection, user, userRole, dwrResponse);
 			UserGroupDAO.addUserToGroup(connection, userName, userGroup, true);
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			AppLogger.getLogger().fatal(e);
 		}
-		System.out.println("DwrResponse :"+dwrResponse.getResponseMessage()+" status :"+dwrResponse.isTaskSuccess());
-		
-			if(dwrResponse.isTaskSuccess())
-				System.out.println("User Successfully added");
-			else
-				System.out.println("Failed to register new user. ");
 		
 	}
 

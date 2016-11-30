@@ -46,24 +46,18 @@ public class TransformCsvData {
 		double waitTime = -1;
 		String labelUpperCase = label.toUpperCase();
 		if (isOrderStatus(labelUpperCase)) {
-			System.out.println("label : " + record.getLabel() + record.getTickStartTime() + "_" + record.getTickEndTime());
 			orderStatusCalls = orderStatusCallsMap.get(record.getLabel() + record.getTickStartTime() + "_" + record.getTickEndTime());
 			
 			final String region = labelUpperCase.split("/")[1];
 			final String orderLabel = "/" + region.toLowerCase() + "/checkoutx - PaymentService";
-			System.err.println("orderLabel : " + orderLabel);
 			orderPlacementCalls = orderPlacementCallsMap.get(orderLabel + record.getTickStartTime() + "_" + record.getTickEndTime());
 
-			System.out.println("orderStatusCalls : " + orderStatusCalls);
-			System.out.println("orderPlacementCalls : " + orderPlacementCalls);
-			
 			if (orderPlacementCalls == null || orderStatusCalls == null) {
 				orderPlacementCalls = 1L;
 				orderStatusCalls = 1L;
 			}
 
 			statusCallsPerOrder = (orderStatusCalls - orderPlacementCalls) / orderPlacementCalls;
-			System.out.println("statusCallsPerOrder : " + statusCallsPerOrder);
 			waitTime = TransformCsvData.waitTime * statusCallsPerOrder;
 			
 			if(statusCallsPerOrder > -1) {
@@ -91,9 +85,6 @@ public class TransformCsvData {
 	}
 
 	private static List<String> updateRecords(List<String> data, long samplingInterval) {
-		for(String line : data) {
-			System.out.println(line);
-		}
 		Map<String, ConsolidatedRecord> records = new LinkedHashMap<String, ConsolidatedRecord>();
 		
 		for(String record : data) {

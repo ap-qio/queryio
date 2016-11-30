@@ -71,7 +71,7 @@ public class HsqlServer extends Thread
 		File execFile = new File(hsqlFolder, PlatformHandler.isWindows() ? "startdatabase.bat":"startdatabase.sh");	
 
 		// start active db
-		System.out.println("[HSQL Server]: Starting " + Arrays.toString(dbNames) +" DB");
+		AppLogger.getLogger().info("[HSQL Server]: Starting " + Arrays.toString(dbNames) +" DB");
 		StringBuilder prefix = new StringBuilder();
 		for(String dbName: dbNames){
 			prefix.append(dbName);
@@ -92,7 +92,7 @@ public class HsqlServer extends Thread
 			fosErr = new FileOutputStream(new File(folder, prefix + "err.txt"));
 
 			
-			System.out.println(Arrays.toString(cmdArray));
+			AppLogger.getLogger().info(Arrays.toString(cmdArray));
 			final Process process = Runtime.getRuntime().exec(cmdArray, null, folder);
 
 			final StreamPumper spOut = new StreamPumper(new BufferedInputStream(process.getInputStream()), fosOut);

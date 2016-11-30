@@ -94,7 +94,7 @@ public class ResourceManager
 		{
 			return tempBundle;
 		}
-		System.out.println("Cannot proceed without loading resources.\nTerminating...\n" + resource); //$NON-NLS-1$
+		AppLogger.getLogger().fatal("Cannot proceed without loading resources.\nTerminating...\n" + resource); //$NON-NLS-1$
 		System.exit(0); // $IGN_Use_System_dot_exit_with_care$
 		return null;
 	}

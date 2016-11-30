@@ -2908,7 +2908,6 @@ public class MonitorDAO
 			for(int j=0; j<colCount; j++)
 			{
 				pst.setObject(j+1, columnValues.get(j));
-				System.out.println((j+1)+" "+columnValues.get(j));	
 			}
 				
 			DatabaseFunctions.executeUpdateStatement(pst);

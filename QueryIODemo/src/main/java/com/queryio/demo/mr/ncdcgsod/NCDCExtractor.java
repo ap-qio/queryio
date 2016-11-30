@@ -24,7 +24,6 @@ public class NCDCExtractor {
 	private List getAllFilePaths(String str) throws Exception{
 		Path path = new Path(str);
 		FileStatus stat = ftpFS.getFileStatus(path);
-		System.out.println(stat.getPath());
 		List list = new ArrayList();
 		if(!stat.isDirectory()){
 			list.add(path);
@@ -40,14 +39,12 @@ public class NCDCExtractor {
 	}
 	
 	private BufferedInputStream getObject(Path path)throws Exception{
-		System.out.println("getting object: " + path);
 		
 		FSDataInputStream inputStream = ftpFS.open(path);
 		return new BufferedInputStream(inputStream);
 	}
 	
 	private void createObject(String bucketName, String path, BufferedInputStream bufferedInputStream, boolean overwrite) throws Exception{
-		System.out.println("creating object " + path +" in bucket "+ bucketName);
 		if(bucketName.endsWith("/"))
 			bucketName = bucketName.substring(0, bucketName.length()-1);
 		if(!bucketName.startsWith("/"))
@@ -90,14 +87,9 @@ public class NCDCExtractor {
 		ftpFS = new FTPFileSystem();
 		ftpFS.setConf(config);
 		
-		System.out.println("Querying file system...");
-		
 		List filePaths = getAllFilePaths(FTP_PATH);
 		
-		System.out.println("Processing files...");
-		
 		for(int i = 0; i < filePaths.size(); i ++){
-			System.out.println("Processing file: " + (i+1) + " of " + filePaths.size());
 			
 			Path filePath =  (Path)filePaths.get(i);
 			BufferedInputStream inputStream = null;

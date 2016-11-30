@@ -3,7 +3,7 @@ export LANG=C
 
 USER_INSTALL_DIR="$(dirname "$( cd "$( dirname "$0" )" && pwd )")"
 
-echo "$USER_INSTALL_DIR"
+echo "Installation Directory: $USER_INSTALL_DIR"
 
 PROP_FILE=$USER_INSTALL_DIR/bin/qio-setup.properties
 
@@ -18,30 +18,30 @@ fi
 
 read -t 10 -p "Enter IP(Leave blank if the displayed IP is correct): $LOCAL_IP : " IP_TO_USE
 IP_TO_USE=${IP_TO_USE:-$LOCAL_IP}
-echo $IP_TO_USE
+# echo $IP_TO_USE
 
 IP=$IP_TO_USE
 SSH_HOSTNAME=$IP_TO_USE
 DB_SSH_HOSTNAME=$IP_TO_USE
-
-echo "$ADD_USER"
-echo "$CustomDBPass"
-echo "$CustomDBUser"
-echo "$DB_PORT1"
-echo "$DB_PORT2"
-echo "$IP"
-echo "$IS_INSTALL"
-echo "$QIO_EMAIL"
-echo "$QIO_FNAME"
-echo "$QIO_LNAME"
-echo "$QIO_PASSWORD"
-echo "$QIO_USER"
-echo "$SHUTDOWN_PORT"
-echo "$STARTUP_PORT"
-echo "$SysDBPass"
-echo "$SysDBUser"
-echo "$SSH_HOSTNAME"
-echo "$DB_SSH_HOSTNAME"
+# 
+# echo "$ADD_USER"
+# echo "$CustomDBPass"
+# echo "$CustomDBUser"
+# echo "$DB_PORT1"
+# echo "$DB_PORT2"
+# echo "$IP"
+# echo "$IS_INSTALL"
+# echo "$QIO_EMAIL"
+# echo "$QIO_FNAME"
+# echo "$QIO_LNAME"
+# echo "$QIO_PASSWORD"
+# echo "$QIO_USER"
+# echo "$SHUTDOWN_PORT"
+# echo "$STARTUP_PORT"
+# echo "$SysDBPass"
+# echo "$SysDBUser"
+# echo "$SSH_HOSTNAME"
+# echo "$DB_SSH_HOSTNAME"
 
 chmod -R +x $USER_INSTALL_DIR
 

@@ -107,7 +107,6 @@ public class IISLogDataParser extends AbstractDataTagParser {
             	}
 	            index++;
 	        }
-			System.out.println("curValueMap: " + curValueMap);
 			if (isRecordLevel)
 				evaluateRecordEntry(curValueMap, line);
 			else

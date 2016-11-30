@@ -145,7 +145,6 @@ public class AsyncRequestProcessor implements Runnable {
 				}
 			}
 		}
-		System.out.println("Operation: " + operation);
 		logger.debug("Operation: " + operation);
 		return operation;
 	}

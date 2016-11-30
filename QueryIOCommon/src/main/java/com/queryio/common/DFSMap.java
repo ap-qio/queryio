@@ -28,7 +28,6 @@ public class DFSMap {
 				fs = FileSystem.get(HadoopConstants.getHadoopConf());
 				dfsMap.remove(user);
 				dfsMap.put(user, fs);
-				System.out.println("updated dfs instance for user " + user);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

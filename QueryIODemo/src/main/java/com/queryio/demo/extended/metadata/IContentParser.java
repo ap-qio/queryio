@@ -100,8 +100,6 @@ public abstract class IContentParser {
 	
 	final protected void evaluateCurrentEntry(HashMap<String, String> curValueMap) {
 		
-		System.out.println("curValueMap: " + curValueMap);
-		
 		for(int i=0; i<tags.size(); i++) {
 			Tag tag = tags.get(i);
 			
@@ -112,9 +110,6 @@ public abstract class IContentParser {
 				expResults.add(expression.evaluate(curValueMap.get(expression.getColumn())));
 			}
 			
-			System.out.println("Expressions: " + expressions + " for tag: " + tag.getName() + " evaluated to " + expResults + " for values: " + curValueMap);
-			System.out.println("getName : " + tag.getName());
-			System.out.println("isMethod : " + isMethod(tag.getName()));
 			if(expResults.size()>0 && evaluateBooleanExpression(expResults, tag.getRelations())){
 				satisfied.put(tag.getName(), true);
 			} else if(expressions.size() == 0){

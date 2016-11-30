@@ -65,8 +65,6 @@ public class AddUserServlet extends HttpServlet{
 		
 		groupNames[0]=userGroup;
 		
-		System.out.print("\n UserName :"+userName+", "+userRole+","+userGroup);
-		
 		Connection connection = null;
 		
 		connection = CoreDBManager.getQueryIODBConnection();
@@ -82,8 +80,6 @@ public class AddUserServlet extends HttpServlet{
 		UserDAO.insertUser(connection, user, userRole, dwrResponse);
 		UserGroupDAO.addUserToGroup(connection, userName, userGroup, true);
 		
-		System.out.println("DwrResponse :"+dwrResponse.getResponseMessage()+" status :"+dwrResponse.isTaskSuccess());
-
 		if (dwrResponse.isTaskSuccess()){
 			if (isDemoUserAdded) {
 				String message = "Demo user has been created successfully. Please login with userName as: <b>" + userName + "</b> and password as: <b>" + password + "</b>";

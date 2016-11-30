@@ -13,7 +13,6 @@ public class HadoopConfigReInitRequestor {
 		HttpURLConnection urlConnection = null;
 		try{
 			String url = "http://"+host.getHostIP()+":"+ftpPort+"/hdfs-over-ftp/reinitializeHadoopConf";
-			System.out.println("url: "+url);
 			URL os3DBReinitialzeRequestURL = new URL(url); 
 			urlConnection = (HttpURLConnection)os3DBReinitialzeRequestURL.openConnection();
 			urlConnection.connect();

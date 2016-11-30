@@ -95,7 +95,6 @@ public class MBOXFileParser extends IFileParser{
 			Session session =  Session.getDefaultInstance(new Properties());
 			MimeMessage message = new MimeMessage(session, is);
 			StringBuilder sb = new StringBuilder();
-			System.out.println("coreTags: " + this.coreTags);
 			if (coreTags != null) {
 				Iterator<String> it = coreTags.keySet().iterator();
 				while (it.hasNext())
@@ -105,26 +104,7 @@ public class MBOXFileParser extends IFileParser{
 				}
 			}
 			
-			System.out.println("columns: " + columns);
 			int asd=0;
-			System.out.println("i: " + (asd++) + " message: " + message.getContentID());
-	        System.out.println("i: " + (asd++) + " message: " + message.getContentLanguage());
-	        System.out.println("i: " + (asd++) + " message: " + message.getContentMD5());
-	        System.out.println("i: " + (asd++) + " message: " + message.getContentType());
-	        System.out.println("i: " + (asd++) + " message: " + message.getDescription());
-	        System.out.println("i: " + (asd++) + " message: " + message.getDisposition());
-	        System.out.println("i: " + (asd++) + " message: " + message.getEncoding());
-	        System.out.println("i: " + (asd++) + " message: " + message.getFileName());
-	        System.out.println("i: " + (asd++) + " message: " + message.getFrom());
-	        System.out.println("i: " + (asd++) + " message: " + message.getLineCount());
-	        System.out.println("i: " + (asd++) + " message: " + message.getMessageID());
-	        System.out.println("i: " + (asd++) + " message: " + message.getMessageNumber());
-	        System.out.println("i: " + (asd++) + " message: " + message.getReceivedDate());
-	        System.out.println("i: " + (asd++) + " message: " + message.getReplyTo());
-	        System.out.println("i: " + (asd++) + " message: " + message.getSender());
-	        System.out.println("i: " + (asd++) + " message: " + message.getSentDate());
-	        System.out.println("i: " + (asd++) + " message: " + message.getSubject());
-	        System.out.println("i: " + (asd++) + " message: " + message.getSize());
 			
 			if(message.getContentID() != null) {	        	
 				if(columns.containsValue(contentId)) {
@@ -271,10 +251,7 @@ public class MBOXFileParser extends IFileParser{
 	        		}     
 	        	}
 	        }
-	        System.out.println("sender :");
-	        System.out.println(message.getSender());
 	        if(message.getSender() != null) {
-	        	System.out.println(message.getSender());
 	        	if(columns.containsValue(sender)) {
 	        		String value = String.valueOf(message.getSender());
 	        		if( ! value.isEmpty()) {

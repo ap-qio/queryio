@@ -296,7 +296,6 @@ public class Expression {
 			}
 		}
 		
-		System.out.println("list : " + list);
 	}
 
 	public boolean in(final String checkValue) {

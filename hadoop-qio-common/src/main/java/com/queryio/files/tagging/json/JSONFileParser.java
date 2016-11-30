@@ -73,7 +73,6 @@ public class JSONFileParser extends IFileParser {
 			br = new BufferedReader(in);
 			
 			while ((str = br.readLine()) != null) {
-				System.out.println("str : " + str);
 				try {
 					this.parseLine(str);
 				}

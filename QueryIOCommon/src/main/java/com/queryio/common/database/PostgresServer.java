@@ -46,7 +46,6 @@ public class PostgresServer extends Thread
 		File execFile = new File(hsqlFolder, PlatformHandler.isWindows() ? "start-postgres.bat":"start-postgres.sh");	
 
 		// start active db
-		System.out.println("[Postgres Server]: Starting " + dbName +" DB");
 		startDatabaseServer(hsqlFolder, new String [] {execFile.getAbsolutePath()}, dbName);
 	}
 	
@@ -61,7 +60,6 @@ public class PostgresServer extends Thread
 		File execFile = new File(hsqlFolder, PlatformHandler.isWindows() ? "stop-postgres.bat":"stop-postgres.sh");	
 
 		// stop active db
-		System.out.println("[Postgres Server]: Stopping " + dbName +" DB");
 		startDatabaseServer(hsqlFolder, new String [] {execFile.getAbsolutePath()}, dbName);
 	}
 	

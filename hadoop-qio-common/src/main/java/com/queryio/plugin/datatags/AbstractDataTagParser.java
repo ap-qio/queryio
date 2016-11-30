@@ -1019,7 +1019,6 @@ public abstract class AbstractDataTagParser implements IDataTagParser {
 					return;
 				
 				int operation = tagOperations.get(tag.getName());
-				System.out.println("operation : " + operation);
 				switch (operation) {
 				case OPERATION_WORD_EXISTS:
 					metadata.add(alterSequence(tag.getName()), String

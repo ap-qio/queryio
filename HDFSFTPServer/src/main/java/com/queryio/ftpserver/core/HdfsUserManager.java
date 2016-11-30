@@ -173,8 +173,6 @@ public class HdfsUserManager extends AbstractUserManager {
 		groups.add(QueryIOConstants.DEFAULT_GROUP_NAME);
 		user.setGroups(groups);
 
-		System.out.println(baseKey + ATTR_WRITE_PERM);
-		
 		List<Authority> authorities = new ArrayList<Authority>();
 
 		if (userDataProp.getBoolean(baseKey + ATTR_WRITE_PERM, false)) {

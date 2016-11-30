@@ -24,13 +24,6 @@ public class QIODFSOutputStream extends OutputStream {
 			JSONObject tagsJSON, String filePath) throws Exception {
 		tagHandler = new TagHandler(dfs, dfs.getConf(), filePath, getExternalTags(), compressionType,
 				encryptionType, tagsJSON);
-		dfs.getConf().writeXml(System.out);
-		System.out.println("Printing now: " + dfs.getConf());
-		System.out.println("=========================");
-		for(Map.Entry entry: dfs.getConf()){
-			System.out.println(entry.getKey() + " => " + entry.getValue());
-		}
-		System.out.println("=========================");
 
 		int compressionTypeValue = EncryptionHandler.getCompressionTypeValue(compressionType);
 		boolean encryptionTypeValue = EncryptionHandler.getEncryptionTypeValue(encryptionType);

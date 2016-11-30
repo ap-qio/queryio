@@ -71,7 +71,6 @@ public class ApacheLogFileParser extends IFileParser {
         tokens = pattern.split("%");
 		
 		  JSONArray fieldsJSON = (JSONArray) tagsIInfo.get(FIELDS_KEY);
-			System.out.println("Fields: " + fieldsJSON);
 			columns = new HashMap<Integer, String>();
 			
 		for (int i = 0; i < fieldsJSON.size(); i++) {

@@ -89,7 +89,6 @@ public class NCDCGSODParser implements IDataTagParser {
 					
 				}
 				index++;
-				System.out.println(st.nextElement());
 			}
 		}
 	}

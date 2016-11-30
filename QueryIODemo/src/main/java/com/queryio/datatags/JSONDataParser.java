@@ -86,7 +86,6 @@ public class JSONDataParser extends AbstractDataTagParser {
 				}
 			}
 		}
-		System.out.println("curValueMap: " + curValueMap);
 
 		if (isRecordLevel)
 			evaluateRecordEntry(curValueMap, line);

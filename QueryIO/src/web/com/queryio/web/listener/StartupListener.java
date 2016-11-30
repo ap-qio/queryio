@@ -176,7 +176,6 @@ public class StartupListener implements ServletContextListener
 
 //			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Attempting to start database server");
 			AppLogger.getLogger().fatal("Attempting to start database server");
-			System.out.println("Attempting to start database server");
 			
 			if (EnvironmentalConstants.getQueryIODatabaseType().equals(DatabaseConstants.DB_HSQL)) {
 				new HsqlServer(new String[] { dbName }, dbPort).startServer();
@@ -206,7 +205,6 @@ public class StartupListener implements ServletContextListener
 		
 		if (CoreDBManager.isPerfect())
 		{
-			System.out.println("QueryIO Database is running");	
 			AppLogger.getLogger().fatal("QueryIO Database is running");
 			
 			
@@ -330,7 +328,6 @@ public class StartupListener implements ServletContextListener
 				
 			}
 			
-			System.out.println(Arrays.toString(dbNames.toArray()));
 			if(dbNames.size() > 0){
 				try 
 				{
@@ -352,7 +349,6 @@ public class StartupListener implements ServletContextListener
 					if(SchedulerDAO.isSchedulerInitialized()){
 						SchedulerDAO.startScheduler();
 						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Scheduler initialized and started ");
-						System.out.println("Scheduler initialized and started ");
 					}
 				}
 				catch(Exception e){
@@ -422,8 +418,6 @@ public class StartupListener implements ServletContextListener
 	             	}
 	             	else
 	             	{
-		            	
-		            	System.out.println("INFO: Cluster Setup started.");
 		            	
 		            	String ip = prop.getProperty(QueryIOConstants.CLUSTER_IP);
 	            		String ipUsername = prop.getProperty(QueryIOConstants.CLUSTER_USERNAME);
@@ -539,7 +533,6 @@ public class StartupListener implements ServletContextListener
 			     
 			     if(isUpgrade)
 			     {
-			    	 System.out.println("Upgrading cluster..");
 			    	 Connection conn = null;
 			    	 try {			    		 
 			    		 conn = CoreDBManager.getQueryIODBConnection();
@@ -629,7 +622,6 @@ public class StartupListener implements ServletContextListener
 		}
 		else
 		{
-			System.out.println("INFO: QueryIO Database is not running");
 			try {
 				CoreDBManager.validateDatabase(valuesContainer);
 			} catch (Exception e) {
@@ -697,7 +689,6 @@ public class StartupListener implements ServletContextListener
 		MigrationManager.stopAllMigrationThreads();
 		ControllerManager.stopAllControllers();		
 		if(SchedulerDAO.isSchedulerStarted()){
-			System.out.println("Scheduler shutting down");
 			SchedulerDAO.shutdownScheduler();			
 		}	
 		

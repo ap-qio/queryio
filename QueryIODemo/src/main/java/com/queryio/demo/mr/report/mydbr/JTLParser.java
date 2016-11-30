@@ -531,9 +531,6 @@ public class JTLParser {
 		double successPer = (taskCount == 0) ? 0 : (((taskCount - errorCount) * 100.0) / taskCount);
 		double avgTps = ((taskCount-errorCount) * 1.0) / ((float)(endTime - startTime) / 1000);
 
-		System.out.println("Label: " + label + " Sample Count: " + sampleValue + " Total Count: " + taskCount + " Error Count: " + errorCount + " Success Count: " + (taskCount - errorCount)
-				+ " SuccessPer: " + successPer);
-
 		int index = 0;
 		pst.setString(++index, label);// sample_label
 		pst.setInt(++index, sampleValue);// sample_value

@@ -676,8 +676,6 @@ public class EmailImportMigrationThread extends Thread
 	 {
 		 String contentType = msg.getContentType();
 		 
-		 if(contentType != null)
-			 System.out.println("Content Type : " + contentType);
 		 Multipart mp = (Multipart) msg.getContent();
 		 int count = mp.getCount();
 		 for (int i = 0; i < count; i++)
@@ -694,7 +692,6 @@ public class EmailImportMigrationThread extends Thread
 			 is = new BufferedInputStream(is);
 		 }
 		 int c;
-		 System.out.println("Message : ");
 		 while ((c = is.read()) != -1)
 		 {
 			 System.out.write(c);

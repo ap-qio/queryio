@@ -2,6 +2,7 @@ package com.queryio.common;
 import java.io.File;
 import java.net.URL;
 
+import com.queryio.common.util.AppLogger;
 import com.queryio.common.util.StartupParameters;
 
 public class ClassPathUtility {
@@ -26,7 +27,7 @@ public class ClassPathUtility {
 			File f = new File(defaultJarFile);
 			
 			URL url = f.toURI().toURL();
-			System.out.println("Loading jars from " + url.toString());
+			AppLogger.getLogger().info("Loading jars from " + url.toString());
 			ClassLoader classLoader = Thread.currentThread()
 					.getContextClassLoader();
 			if (classLoader == null) {
@@ -62,7 +63,7 @@ public class ClassPathUtility {
 			File f = new File(defaultJarFile);
 			
 			URL url = f.toURI().toURL();
-			System.out.println("Loading jars from " + url.toString());
+			AppLogger.getLogger().info("Loading jars from " + url.toString());
 			ClassLoader classLoader = Thread.currentThread()
 					.getContextClassLoader();
 			if (classLoader == null) {
@@ -109,12 +110,11 @@ public class ClassPathUtility {
 		if (f.exists()) {
 			File[] files = f.listFiles();
 			for (File file : files) {
-//				System.out.println(file.getAbsolutePath());
 				if(file.isDirectory()){
 					addFolder(file);
 				}else{
 					if (file.getAbsolutePath().endsWith(".jar")) {
-						System.out.println("File: " + file.getAbsolutePath() + " Name: " + file.getName());
+						AppLogger.getLogger().info("File: " + file.getAbsolutePath() + " Name: " + file.getName());
 						addFile(file);
 					}	
 				}				

@@ -101,21 +101,15 @@ public class HdfsFtpFile implements FtpFile {
 			FsPermission permissions = getPermissions();
 			if (this.user.getName().equals(getOwnerName())) {
 				if (permissions.toString().substring(0, 1).equals("r")) {
-					System.out.println("PERMISSIONS: " + this.path + " - "
-							+ " read allowed for user");
 					return true;
 				}
 
 			}
 			else if (permissions.toString().substring(6, 7)
 					.equals("r")) {
-				System.out.println("PERMISSIONS: " + this.path + " - "
-						+ " read allowed for others");
 				return true;
 			}
 
-			System.out.println("PERMISSIONS: " + this.path + " - "
-					+ " read denied");
 			return false;
 		} catch (IOException e) {
 			log.fatal(e.getMessage(), e);
@@ -138,21 +132,15 @@ public class HdfsFtpFile implements FtpFile {
 			FsPermission permissions = getPermissions();
 			if (this.user.getName().equals(getOwnerName())) {
 				if (permissions.toString().substring(1, 2).equals("w")) {
-					System.out.println("PERMISSIONS: " + this.path + " - "
-							+ " write allowed for user");
 					return true;
 				}
 
 			}
 			else if (permissions.toString().substring(7, 8)
 					.equals("w")) {
-				System.out.println("PERMISSIONS: " + this.path + " - "
-						+ " write allowed for others");
 				return true;
 			}
 
-			System.out.println("PERMISSIONS: " + this.path + " - "
-					+ " write denied");
 			return false;
 		} catch (IOException e) {
 		}
@@ -255,7 +243,6 @@ public class HdfsFtpFile implements FtpFile {
 	@SuppressWarnings("unchecked")
 	public List<FtpFile> listFiles() {
 		if (!isReadable()) {
-			System.out.println("No read permission : " + this.path);
 			return null;
 		}
 

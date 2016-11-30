@@ -143,8 +143,7 @@ public class WindowsMonitorController
 				nodes[ctr].setInstanceCount(0);
 				ctr++;
 			}
-			System.out.println("node.lenth collect data  : " + nodes.length);
-			System.out.println("collect data : "  + this.monitorServiceWrapper.collectData(nodes));
+			this.monitorServiceWrapper.collectData(nodes);
 			this.isFirstTime = false;
 //		}
 
@@ -209,11 +208,6 @@ public class WindowsMonitorController
 					this.diskInstances.add(node[i].getInstanceName());
 				}
 			}			
-		}
-		System.out.println("instances.size : " + this.diskInstances.size());
-		for(int i=0;i<this.diskInstances.size();i++)
-		{
-			System.out.println(this.diskInstances.get(i));
 		}
 		return diskInstances;
 	}	

@@ -188,7 +188,7 @@ public class GetIpAddress
 
 		if (errorWriter.getBuffer().length() > 0)
 		{
-			System.out.println("Following error occured while executing the process: " + errorWriter.toString()); //$NON-NLS-1$
+			AppLogger.getLogger().info("Following error occured while executing the process: " + errorWriter.toString()); //$NON-NLS-1$
 		}
 
 		final BufferedReader reader = new BufferedReader(new StringReader(inputWriter.toString()));

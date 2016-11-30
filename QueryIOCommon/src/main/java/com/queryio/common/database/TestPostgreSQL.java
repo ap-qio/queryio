@@ -13,7 +13,9 @@ import org.apache.commons.dbcp.PoolableConnectionFactory;
 import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.dbcp.SQLNestedException;
 import org.apache.commons.pool.impl.GenericObjectPool;
+
 import com.queryio.common.database.DBManager;
+import com.queryio.common.util.AppLogger;
 
 public class TestPostgreSQL
 {
@@ -61,9 +63,8 @@ public class TestPostgreSQL
 				{
 					throw new SQLException("Connection is null.");
 				}
-				System.out.println("Get Connection: " + (i+1));
 			} catch (SQLException e) {
-				e.printStackTrace();
+				AppLogger.getLogger().fatal(e);
 			}
 			i++;
 		}
@@ -144,7 +145,6 @@ public class TestPostgreSQL
 				}
 				else
 				{
-					System.out.println("maxWait: " + maxWait + " waitFor: " + (System.currentTimeMillis() - now));
 					if (maxWait == 0 && connection == null) { //no wait, return one if we have one
 		                throw new SQLException("NoWait: Unable to fetch a connection.", sqne);
 		            }

@@ -454,8 +454,6 @@ public class ReportDesignHandler {
 			String dataType = (String) resultSetColumns.get(name);
 			dataType = getDataType(props, dataType);
 
-			System.out.printf("\n columnName=%s i=%d dataType=%s", name, position, dataType);
-
 			OdaResultSetColumn resultColumn = StructureFactory.createOdaResultSetColumn();
 			resultColumn.setPosition(position);
 			resultColumn.setColumnName(name);

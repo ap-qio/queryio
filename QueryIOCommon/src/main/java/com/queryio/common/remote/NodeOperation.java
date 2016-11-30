@@ -1919,12 +1919,10 @@ public class NodeOperation {
 			while ((line = reader.readLine()) != null) {
 				if (line.contains("queryio.hive.metastore.ConnectionURL")) {
 					String port = line.substring(line.lastIndexOf(":") + 1, line.indexOf("/metastore"));
-					System.out.println(port);
 					line = line.replace(port, dbPort);
 				}
 				if (line.contains("javax.jdo.option.ConnectionURL")) {
 					String port = line.substring(line.lastIndexOf(":") + 1, line.indexOf("/hive"));
-					System.out.println(port);
 					line = line.replace(port, dbPort);
 				}
 
@@ -2474,7 +2472,6 @@ public class NodeOperation {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				if (line.contains(processName)) {
-					System.out.println(line);
 					line = line.trim();
 					if (line.length() > 6) {
 						processID = line.substring(line.length() - 6, line.length()).trim();

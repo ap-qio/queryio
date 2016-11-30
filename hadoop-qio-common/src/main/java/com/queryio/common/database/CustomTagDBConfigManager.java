@@ -191,7 +191,6 @@ private static Map<String, DBTypeProperties> customTagDBTypeConfigMap = new Hash
 		    Map.Entry<Class, String> entry = (Entry<Class, String>) it.next();
 		    
 		    if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(entry.getKey() + ": " +entry.getValue());
-			System.out.println(entry.getKey() + ": " +entry.getValue());
 		}
 	}
 	

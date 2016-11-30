@@ -804,7 +804,6 @@ public class DataTagParser extends AbstractDataTagParser {
 		List<UserDefinedTag> tags = parser.getCustomTagList();
 		for(int i=0; i<tags.size(); i++) {
 			UserDefinedTag x = tags.get(i);
-			System.out.println(x.getKey() + " : " + x.getValue());
 		}
 	}
 	
@@ -887,8 +886,6 @@ public class DataTagParser extends AbstractDataTagParser {
 		for(int i=0; i<metadata.names().length; i++){
 			String key = metadata.names()[i];
 			String value = metadata.get(key); 
-			System.out.println("key :: " + key);
-			System.out.println("value :: " + value);
 			key = key.replaceAll("[^a-zA-Z0-9]+","_");
 			key = key.replace("-", "_");
 			key = key.replace(".", "_");
@@ -934,8 +931,6 @@ public class DataTagParser extends AbstractDataTagParser {
 	public void parse(Reader reader, TableMetadata tableMetadata,
 			Metadata metadata) throws Exception {
 		List<Tag> tags = super.getTags();
-		
-		System.out.println("tags: " + tags);
 		
 		for (int i=0; i<tags.size(); i++) {
 			Tag tag = tags.get(i);

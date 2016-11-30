@@ -75,11 +75,6 @@ public class GenericDBConfigDAO
 	
 	private static Connection verifyDatabaseSettings(String driverName, String url, String username, String password, String jarFile) throws Exception 
 	{
-		System.out.println("driverName: " + driverName);
-		System.out.println("url: " + url);
-		System.out.println("username: " + username);
-		System.out.println("password: " + password);
-		System.out.println("jarFile: " + jarFile);
 		File file = new File(EnvironmentalConstants.getAppHome()+QueryIOConstants.JDBC_JAR_DIR+File.separator+jarFile);
 		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("URL: "+file.toURI().toURL());
 		URL u = file.toURI().toURL();
@@ -116,9 +111,6 @@ public class GenericDBConfigDAO
 				schemaName = rs.getString(1);
 			}
 			
-			System.out.println("dbName: " + dbName);
-			System.out.println("defaultSchemaQuery: " + defaultSchemaQuery);
-			System.out.println("schemaName: " + schemaName);
 		}
 		catch(Exception e)
 		{
