@@ -27,21 +27,18 @@ import java.util.HashMap;
 import com.queryio.common.util.DataTypes;
 import com.queryio.common.util.IntHashMap;
 
-
 /**
  * This class maintains the dataType mapping for the database.
  * 
  * @author Exceed Consultancy Services
  */
-public class DatabaseDataTypes
-{
+public class DatabaseDataTypes {
 	public static final int BOOLEAN = 16;
 	static public final String DATATYPE_STRING_REPR = "VARCHAR";
 
 	private static HashMap hmDatabaseSqlTypes = new HashMap(3);
 
-	static
-	{
+	static {
 		IntHashMap hm;
 
 		// sql data types of HSSQL
@@ -80,7 +77,6 @@ public class DatabaseDataTypes
 		hm.put(DatabaseDataTypes.BOOLEAN, "NUMERIC");
 		hmDatabaseSqlTypes.put(DatabaseConstants.DB_MYSQL, hm);
 
-		
 		// sql data types of Oracle
 		hm = new IntHashMap();
 		hm.put(Types.INTEGER, "INTEGER");
@@ -110,12 +106,10 @@ public class DatabaseDataTypes
 	 * @return
 	 */
 	public static String getDataTypeRepresentation(final String dataTypeRequired, final int maxLength,
-			final String databaseName)
-	{
+			final String databaseName) {
 		String dataRepr = null;
 		final IntHashMap hm = (IntHashMap) hmDatabaseSqlTypes.get(databaseName);
-		if (hm != null)
-		{
+		if (hm != null) {
 			final int key = DataTypes.resolveDataType(dataTypeRequired);
 			final int transform = getTypeforDataType(key);
 			dataRepr = (String) hm.get(transform);
@@ -123,22 +117,18 @@ public class DatabaseDataTypes
 
 		String sDataRepresentation = null;
 
-		if (dataRepr != null)
-		{
+		if (dataRepr != null) {
 			final StringBuffer sbDataRepresentation = new StringBuffer(dataRepr);
 
 			// if the string dataType then set the max length specified for the
 			// VarChar
-			if (dataTypeRequired.equals(DataTypes.getStringRepresentation((DataTypes.STRING))))
-			{
+			if (dataTypeRequired.equals(DataTypes.getStringRepresentation((DataTypes.STRING)))) {
 				sbDataRepresentation.append('(');
 				sbDataRepresentation.append(maxLength);
 				sbDataRepresentation.append(')');
 			}
 			sDataRepresentation = sbDataRepresentation.toString();
-		}
-		else
-		{
+		} else {
 			sDataRepresentation = DATATYPE_STRING_REPR + "(64)";
 		}
 
@@ -153,26 +143,24 @@ public class DatabaseDataTypes
 	 * @param dataType
 	 * @return
 	 */
-	public static String resolveSQLDataType(final int dataType, final String databaseName)
-	{
+	public static String resolveSQLDataType(final int dataType, final String databaseName) {
 		String sqlDataType = "";
 		final IntHashMap hm = (IntHashMap) hmDatabaseSqlTypes.get(databaseName);
-		if (hm != null)
-		{
+		if (hm != null) {
 			sqlDataType = (String) hm.get(dataType);
 		}
 		return sqlDataType;
 		/*
 		 * switch(dataType) { case Types.INTEGER: { return "INTEGER"; } case
-		 * Types.BIGINT: { return "BIGINT"; } case Types.REAL: case Types.FLOAT: {
-		 * return "FLOAT"; } case Types.DOUBLE: { return "DOUBLE"; } case
+		 * Types.BIGINT: { return "BIGINT"; } case Types.REAL: case Types.FLOAT:
+		 * { return "FLOAT"; } case Types.DOUBLE: { return "DOUBLE"; } case
 		 * Types.NUMERIC: case Types.DECIMAL: { return "NUMERIC"; } case
 		 * Types.DATE: { return "DATE"; } case Types.TIME: { return "TIME"; }
 		 * case Types.TIMESTAMP: { return "DATETIME"; } case Types.TINYINT: {
 		 * return "TINYINT"; } case Types.VARCHAR: { return "VARCHAR"; }
-		 * default: { // In case of VARCHAR(400) it is returning data type = -1 //
-		 * Hence as a temporary fix VARCHAR is returned // Needs to be confirmed
-		 * with other databases works fine in mysql return "TEXT"; } }
+		 * default: { // In case of VARCHAR(400) it is returning data type = -1
+		 * // Hence as a temporary fix VARCHAR is returned // Needs to be
+		 * confirmed with other databases works fine in mysql return "TEXT"; } }
 		 */
 	}
 
@@ -184,48 +172,37 @@ public class DatabaseDataTypes
 	 * @param dataType
 	 * @return
 	 */
-	public static Class resolveSQLDataTypeToClass(final int dataType)
-	{
-		switch (dataType)
-		{
-			case Types.INTEGER:
-			{
-				return Integer.class;
-			}
-			case Types.BIGINT:
-			{
-				return Long.class;
-			}
-			case Types.REAL:
-			case Types.FLOAT:
-			{
-				return Float.class;
-			}
-			case Types.DOUBLE:
-			{
-				return Double.class;
-			}
-			case Types.DATE:
-			{
-				return Date.class;
-			}
-			case Types.TIME:
-			{
-				return Time.class;
-			}
-			case Types.TIMESTAMP:
-			{
-				return Timestamp.class;
-			}
-			case DatabaseDataTypes.BOOLEAN:
-			{
-				return Boolean.class;
-			}
-			case Types.VARCHAR:
-			default:
-			{
-				return String.class;
-			}
+	public static Class resolveSQLDataTypeToClass(final int dataType) {
+		switch (dataType) {
+		case Types.INTEGER: {
+			return Integer.class;
+		}
+		case Types.BIGINT: {
+			return Long.class;
+		}
+		case Types.REAL:
+		case Types.FLOAT: {
+			return Float.class;
+		}
+		case Types.DOUBLE: {
+			return Double.class;
+		}
+		case Types.DATE: {
+			return Date.class;
+		}
+		case Types.TIME: {
+			return Time.class;
+		}
+		case Types.TIMESTAMP: {
+			return Timestamp.class;
+		}
+		case DatabaseDataTypes.BOOLEAN: {
+			return Boolean.class;
+		}
+		case Types.VARCHAR:
+		default: {
+			return String.class;
+		}
 		}
 	}
 
@@ -235,61 +212,51 @@ public class DatabaseDataTypes
 	 * @param dataType
 	 * @return
 	 */
-	public static Class resolveMCDataTypeToClass(final int dataType)
-	{
-		switch (dataType)
-		{
-			case DataTypes.INTEGER:
-			{
-				return Integer.class;
-			}
-			case DataTypes.LONG:
-			case DataTypes.BIGINTEGER:
-			{
-				return Long.class;
-			}
-			case DataTypes.FLOAT:
-			{
-				return Float.class;
-			}
-			case DataTypes.DOUBLE:
-			{
-				return Double.class;
-			}
-			case DataTypes.BOOLEAN:
-			{
-				return Boolean.class;
-			}
-			case DataTypes.STRING:
-			default:
-			{
-				return String.class;
-			}
+	public static Class resolveMCDataTypeToClass(final int dataType) {
+		switch (dataType) {
+		case DataTypes.INTEGER: {
+			return Integer.class;
+		}
+		case DataTypes.LONG:
+		case DataTypes.BIGINTEGER: {
+			return Long.class;
+		}
+		case DataTypes.FLOAT: {
+			return Float.class;
+		}
+		case DataTypes.DOUBLE: {
+			return Double.class;
+		}
+		case DataTypes.BOOLEAN: {
+			return Boolean.class;
+		}
+		case DataTypes.STRING:
+		default: {
+			return String.class;
+		}
 		}
 	}
 
-	private static int getTypeforDataType(final int dataType)
-	{
-		switch (dataType)
-		{
-			case DataTypes.INTEGER:
-				return Types.INTEGER;
-			case DataTypes.LONG:
-				return Types.BIGINT;
-			case DataTypes.FLOAT:
-				return Types.FLOAT;
-			case DataTypes.DOUBLE:
-				return Types.DOUBLE;
-			case DataTypes.STRING:
-				return Types.VARCHAR;
-			case DataTypes.BIGINTEGER:
-				return Types.BIGINT;
-			case DataTypes.BOOLEAN:
-				return DatabaseDataTypes.BOOLEAN;
-			case DataTypes.DATETIME:
-				return Types.TIMESTAMP;
-			default:
-				return Types.VARCHAR;
+	private static int getTypeforDataType(final int dataType) {
+		switch (dataType) {
+		case DataTypes.INTEGER:
+			return Types.INTEGER;
+		case DataTypes.LONG:
+			return Types.BIGINT;
+		case DataTypes.FLOAT:
+			return Types.FLOAT;
+		case DataTypes.DOUBLE:
+			return Types.DOUBLE;
+		case DataTypes.STRING:
+			return Types.VARCHAR;
+		case DataTypes.BIGINTEGER:
+			return Types.BIGINT;
+		case DataTypes.BOOLEAN:
+			return DatabaseDataTypes.BOOLEAN;
+		case DataTypes.DATETIME:
+			return Types.TIMESTAMP;
+		default:
+			return Types.VARCHAR;
 		}
 	}
 }

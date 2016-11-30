@@ -23,8 +23,7 @@ package com.queryio.common.database;
  * 
  * @author Exceed Consultancy Services
  */
-class DBConfig
-{
+class DBConfig {
 	/* db connection name for database */
 	private final String connectionName;
 
@@ -47,8 +46,7 @@ class DBConfig
 	private boolean bDatabaseMigrating;
 
 	DBConfig(final String name, final int maxConnections, final int maxIdleConnections, final long maxWaitTime,
-			final byte waitStrategy)
-	{
+			final byte waitStrategy) {
 		this.connectionName = name;
 		this.maxDBConnections = maxConnections;
 		this.maxDBIdleConnections = maxIdleConnections;
@@ -62,8 +60,7 @@ class DBConfig
 	 * 
 	 * @return
 	 */
-	public boolean isBDatabaseMigrating()
-	{
+	public boolean isBDatabaseMigrating() {
 		return this.bDatabaseMigrating;
 	}
 
@@ -72,8 +69,7 @@ class DBConfig
 	 * 
 	 * @return
 	 */
-	public String getConnectionName()
-	{
+	public String getConnectionName() {
 		return this.connectionName;
 	}
 
@@ -82,8 +78,7 @@ class DBConfig
 	 * 
 	 * @return
 	 */
-	public byte getWaitStrategyForDB()
-	{
+	public byte getWaitStrategyForDB() {
 		return this.waitStrategyForDB;
 	}
 
@@ -92,8 +87,7 @@ class DBConfig
 	 * 
 	 * @return
 	 */
-	public int getMaxDBConnections()
-	{
+	public int getMaxDBConnections() {
 		return this.maxDBConnections;
 	}
 
@@ -102,8 +96,7 @@ class DBConfig
 	 * 
 	 * @return
 	 */
-	public int getMaxDBIdleConnections()
-	{
+	public int getMaxDBIdleConnections() {
 		return this.maxDBIdleConnections;
 	}
 
@@ -112,8 +105,7 @@ class DBConfig
 	 * 
 	 * @return
 	 */
-	public long getMaxDBWaitTime()
-	{
+	public long getMaxDBWaitTime() {
 		return this.maxDBWaitTime;
 	}
 
@@ -122,8 +114,7 @@ class DBConfig
 	 * 
 	 * @param b
 	 */
-	public void setBDatabaseMigrating(final boolean b)
-	{
+	public void setBDatabaseMigrating(final boolean b) {
 		this.bDatabaseMigrating = b;
 	}
 
@@ -132,8 +123,7 @@ class DBConfig
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("DBConfig: ");
 
 		sbToString.append(" ConnectionName:");

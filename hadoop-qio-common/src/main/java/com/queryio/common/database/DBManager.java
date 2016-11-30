@@ -41,10 +41,9 @@ import org.apache.log4j.Logger;
  * @author Exceed consultancy Services
  * @version 1.0 Sep 3, 2003
  */
-public final class DBManager
-{
+public final class DBManager {
 	protected static final Logger LOGGER = Logger.getLogger(DBManager.class);
-	
+
 	// for saving DB
 	public static final String BIT = "BIT"; //$NON-NLS-1$
 	public static final String BOOLEAN = "BOOLEAN"; //$NON-NLS-1$
@@ -62,7 +61,7 @@ public final class DBManager
 	public static final String OBJECT = "OBJECT"; //$NON-NLS-1$
 	public static final String CHAR = "CHAR"; //$NON-NLS-1$
 	public static final String CHARACTER = "CHARACTER"; //$NON-NLS-1$
-//	public static final String CLOB = "CLOB"; //$NON-NLS-1$
+	// public static final String CLOB = "CLOB"; //$NON-NLS-1$
 
 	public static final char BO = '(';
 	public static final char BC = ')';
@@ -78,7 +77,8 @@ public final class DBManager
 	public static final long MAX_WAIT = 1000;// in milliseconds
 	public static final int MAX_IDLE_CONNECTION = 10;
 
-//	public static final String ES_INMEMORY_DATABASE = "AppEnterpriseDB"; //$NON-NLS-1$
+	// public static final String ES_INMEMORY_DATABASE = "AppEnterpriseDB";
+	// //$NON-NLS-1$
 	public static final String ES_INMEMORY_DATABASE = "AppEnterpriseDB;DB_CLOSE_DELAY=-1;LOCK_MODE=0"; //$NON-NLS-1$
 	public static final String ES_DATABASE_NAME = "AppEnterpriseDB"; //$NON-NLS-1$
 
@@ -90,8 +90,7 @@ public final class DBManager
 	 * @throws NullPointerException
 	 * @return Connection
 	 */
-	public static Connection getConnection(final String connectionName) throws SQLException
-	{
+	public static Connection getConnection(final String connectionName) throws SQLException {
 		return DatabaseManager.getConnection(connectionName);
 	}
 
@@ -102,15 +101,11 @@ public final class DBManager
 	 * @throws SQLException
 	 * @return void
 	 */
-	public static void closeConnection(final Connection con, final String connectionName)
-	{
-		try
-		{
+	public static void closeConnection(final Connection con, final String connectionName) {
+		try {
 			DatabaseManager.closeDbConnection(con);
-		}
-		catch (final SQLException e)
-		{
-			LOGGER.fatal(e.getMessage(), e); //$NON-NLS-1$
+		} catch (final SQLException e) {
+			LOGGER.fatal(e.getMessage(), e); // $NON-NLS-1$
 		}
 	}
 
@@ -120,43 +115,33 @@ public final class DBManager
 	 * @param tableOrViewName
 	 * @return int
 	 */
-	public static int getRowCount(final String connectionName, final String tableOrViewName)
-	{
+	public static int getRowCount(final String connectionName, final String tableOrViewName) {
 		final String sqlQuery = " SELECT count(*) from " + tableOrViewName; //$NON-NLS-1$
 		Connection cConnection = null;
 		int rowCount = 0;
-		try
-		{
+		try {
 			cConnection = DBManager.getConnection(connectionName);
 			final Statement sStatement = cConnection.createStatement();
 			final ResultSet rs = sStatement.executeQuery(sqlQuery);
-			if (rs.next())
-			{
+			if (rs.next()) {
 				rowCount = rs.getInt(1);
 			}
 			rs.close();
 			sStatement.close();
-		}
-		catch (final SQLException e)
-		{
-			LOGGER.fatal(e.getMessage(), e); //$NON-NLS-1$
-		}
-		finally
-		{
+		} catch (final SQLException e) {
+			LOGGER.fatal(e.getMessage(), e); // $NON-NLS-1$
+		} finally {
 			DBManager.closeConnection(cConnection, connectionName);
 		}
 		return rowCount;
 	}
 
-	
-	public static Driver getDriver(String jarPath, String driverClassName) throws Exception
-	{
+	public static Driver getDriver(String jarPath, String driverClassName) throws Exception {
 		File file = new File(jarPath);
 		URL u = file.toURI().toURL();
 		final URLClassLoader ucl = new URLClassLoader(new URL[] { u });
-        Driver driver = (Driver)Class.forName(driverClassName, true, ucl).newInstance();
-        DriverManager.registerDriver(new DriverShim(driver));
+		Driver driver = (Driver) Class.forName(driverClassName, true, ucl).newInstance();
+		DriverManager.registerDriver(new DriverShim(driver));
 		return driver;
 	}
 }
-

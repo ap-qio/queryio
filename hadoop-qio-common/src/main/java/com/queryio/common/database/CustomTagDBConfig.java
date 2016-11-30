@@ -12,7 +12,7 @@ public class CustomTagDBConfig {
 	private String customTagDriverJarPath;
 	private int customTagMaxConn;
 	private String customTagDBType;
-	
+
 	public String getCustomTagDBType() {
 		return customTagDBType;
 	}
@@ -69,7 +69,6 @@ public class CustomTagDBConfig {
 		this.customTagDriverJarPath = customTagDriverJarPath;
 	}
 
-	
 	public int getCustomTagMaxConn() {
 		return customTagMaxConn;
 	}
@@ -93,7 +92,7 @@ public class CustomTagDBConfig {
 	public void setCustomTagMaxWaitTime(long customTagMaxWaitTime) {
 		this.customTagMaxWaitTime = customTagMaxWaitTime;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.customTagPoolName;

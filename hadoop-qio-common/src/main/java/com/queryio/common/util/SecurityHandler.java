@@ -17,13 +17,11 @@
  */
 package com.queryio.common.util;
 
-
-
 /**
  * @author Exceed Consultancy Services
  * 
  */
-public class SecurityHandler{
+public class SecurityHandler {
 	private static CryptManager handler = null;
 	static {
 		try {
@@ -32,15 +30,15 @@ public class SecurityHandler{
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 		}
 	}
-	
-	public static String encryptData(String data) throws Exception{
+
+	public static String encryptData(String data) throws Exception {
 		return handler.encryptData(data);
 	}
-	
-	public static String decryptData(String data) throws Exception{
+
+	public static String decryptData(String data) throws Exception {
 		return handler.decryptData(data);
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		System.out.println(decryptData("AloqDmWyK/rX2e/8fgqxAw=="));
 	}

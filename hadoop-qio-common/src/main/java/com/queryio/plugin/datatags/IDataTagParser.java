@@ -11,7 +11,7 @@ public interface IDataTagParser {
 	 * @return List of CustomTag
 	 */
 	public List<UserDefinedTag> getCustomTagList();
-	
+
 	/**
 	 * Provide tableName, column names and column sql datatypes of fields being
 	 * parsed by this parser for a particular filetype.
@@ -36,11 +36,11 @@ public interface IDataTagParser {
 	 * @return
 	 */
 	boolean updateDbSchema();
-	
+
 	void parse(Reader reader, TableMetadata tableMetadata, Metadata metadata) throws Exception;
-	
+
 	boolean parseMapRecord(String value, long offset) throws Exception;
-	
+
 	void parseTagData(String key, String value, boolean isReducer) throws Exception;
-	
+
 }

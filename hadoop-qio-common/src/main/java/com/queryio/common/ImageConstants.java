@@ -19,10 +19,9 @@ package com.queryio.common;
 /**
  * @author Exceed Consultancy Services
  * 
- * ImageConstants
+ *         ImageConstants
  */
-public class ImageConstants
-{
+public class ImageConstants {
 	// ///////////////// FOR IMAGE ICONS OBJECTS //////////////////////
 	/* Constants for Images */
 	public static int i = 0;
@@ -78,7 +77,7 @@ public class ImageConstants
 	public static final int AUTO_UPDATE_16 = i++;
 	public static final int AUTO_UPDATE_SELECTED_16 = i++;
 	public static final int REMOVE_UNUSED_RESP_16 = i++;
-	
+
 	// Edit Menu Related Images
 	public static final int CUT_16 = i++;
 	public static final int COPY_16 = i++;
@@ -102,9 +101,9 @@ public class ImageConstants
 	public static final int MOZILLA_16 = i++;
 	public static final int NETSCAPE_16 = i++;
 	public static final int OPERA_16 = i++;
-//	public static final int IPHONE_HOR_16 = i++;
-//	public static final int IPHONE_VER_16 = i++;
-	
+	// public static final int IPHONE_HOR_16 = i++;
+	// public static final int IPHONE_VER_16 = i++;
+
 	public static final int BROWSER_16 = i++;
 	public static final int ADD_BROWSER_16 = i++;
 	public static final int EDIT_BROWSER_16 = i++;
@@ -118,7 +117,7 @@ public class ImageConstants
 	public static final int ADD_GROUP_16 = i++;
 	public static final int EDIT_GROUP_16 = i++;
 	public static final int DELETE_GROUP_16 = i++;
-	
+
 	public static final int PARAMETERS_16 = i++;
 	public static final int ADD_PARAMETER_16 = i++;
 	public static final int EDIT_PARAMETER_16 = i++;
@@ -126,7 +125,7 @@ public class ImageConstants
 
 	public static final int VALIDATIONS_16 = i++;
 	public static final int VALIDATION_16 = i++;
-	
+
 	public static final int ADD_16 = i++;
 	public static final int EDIT_16 = i++;
 	public static final int DELETE_16 = i++;
@@ -240,7 +239,7 @@ public class ImageConstants
 	public static final int DELETE_TRANSACTION_16 = i++;
 	public static final int EDIT_TRANSACTION_16 = i++;
 	public static final int TRANSACTION_16 = i++;
-	
+
 	public static final int EXPAND_ALL_16 = i++;
 	public static final int COLLAPSE_ALL_16 = i++;
 
@@ -258,8 +257,8 @@ public class ImageConstants
 	public static final int TIMEDOUT_16 = i++;
 	public static final int SUCCESSFUL_16 = i++;
 
-//	public static final int PASS_16 = i++;
-//	public static final int FAIL_16 = i++;
+	// public static final int PASS_16 = i++;
+	// public static final int FAIL_16 = i++;
 
 	// CODE ANALYZER
 	public static final int SYSTEM_RULE_16 = i++;
@@ -406,7 +405,7 @@ public class ImageConstants
 	public static final int IF_CONDITION_16 = i++;
 	public static final int WHILE_LOOP_16 = i++;
 	public static final int FOR_LOOP_16 = i++;
-	
+
 	public static final int EVENT_OBJ_16 = i++;
 	public static final int ADD_EVENT_OBJ_16 = i++;
 	public static final int DELETE_EVENT_OBJ_16 = i++;
@@ -490,8 +489,7 @@ public class ImageConstants
 	protected static String[] arrImages;
 	public static final int MAXIMAGE_USED = i;
 
-	static
-	{
+	static {
 		arrImages = new String[MAXIMAGE_USED];
 
 		arrImages[BLANK_IMAGE_16] = "blank_16.gif"; //$NON-NLS-1$
@@ -564,15 +562,15 @@ public class ImageConstants
 		arrImages[WINDOW_DIALOG_16] = "window_dialog_16.gif"; //$NON-NLS-1$
 
 		arrImages[IE_16] = "ie_small.jpg"; //$NON-NLS-1$
-		arrImages[CHROME_16] = "chrome_small.jpg"; //$NON-NLS-1$ 
-		arrImages[SAFARI_16] = "safari_small.jpg"; //$NON-NLS-1$ 
+		arrImages[CHROME_16] = "chrome_small.jpg"; //$NON-NLS-1$
+		arrImages[SAFARI_16] = "safari_small.jpg"; //$NON-NLS-1$
 		arrImages[FIREFOX_16] = "firefox_small.jpg"; //$NON-NLS-1$
 		arrImages[MOZILLA_16] = "mozilla_small.jpg"; //$NON-NLS-1$
 		arrImages[NETSCAPE_16] = "netscape_small.jpg"; //$NON-NLS-1$
 		arrImages[OPERA_16] = "opera_small.jpg"; //$NON-NLS-1$
-//		arrImages[IPHONE_HOR_16] = "iphone_hor_small.jpg"; //$NON-NLS-1$
-//		arrImages[IPHONE_VER_16] = "iphone_ver_small.jpg"; //$NON-NLS-1$
-		
+		// arrImages[IPHONE_HOR_16] = "iphone_hor_small.jpg"; //$NON-NLS-1$
+		// arrImages[IPHONE_VER_16] = "iphone_ver_small.jpg"; //$NON-NLS-1$
+
 		arrImages[BROWSER_16] = "browser_16.gif"; //$NON-NLS-1$
 		arrImages[ADD_BROWSER_16] = "browser_add_16.gif"; //$NON-NLS-1$
 		arrImages[EDIT_BROWSER_16] = "browser_edit_16.gif"; //$NON-NLS-1$
@@ -582,7 +580,7 @@ public class ImageConstants
 		arrImages[IMPORT_GROUPS_16] = "import_groups_16.gif"; //$NON-NLS-1$
 		arrImages[LINK_GROUP_16] = "link_group_16.gif"; //$NON-NLS-1$
 		arrImages[ADD_LINK_GROUP_16] = "link_group_add_16.gif"; //$NON-NLS-1$
-		
+
 		arrImages[GROUP_16] = "group_16.gif"; //$NON-NLS-1$
 		arrImages[ADD_GROUP_16] = "group_add_16.gif"; //$NON-NLS-1$
 		arrImages[EDIT_GROUP_16] = "group_edit_16.gif"; //$NON-NLS-1$
@@ -595,7 +593,7 @@ public class ImageConstants
 
 		arrImages[VALIDATIONS_16] = "validations_16.gif"; //$NON-NLS-1$
 		arrImages[VALIDATION_16] = "validation_16.gif"; //$NON-NLS-1$
-		
+
 		arrImages[ADD_16] = "add_16.gif"; //$NON-NLS-1$
 		arrImages[EDIT_16] = "edit_16.gif"; //$NON-NLS-1$
 		arrImages[DELETE_16] = "delete_16.gif"; //$NON-NLS-1$
@@ -631,7 +629,6 @@ public class ImageConstants
 		arrImages[TEMPLATES_16] = "heap_browser_16.gif"; //$NON-NLS-1$
 		arrImages[HOME_16] = "home_16.gif"; //$NON-NLS-1$
 		arrImages[SCHEDULER_16] = "scheduler_16.gif"; //$NON-NLS-1$
-		
 
 		// Help Menu Related Images
 		arrImages[HELP_UPDATE_16] = "check_updates_16.gif"; //$NON-NLS-1$
@@ -714,7 +711,7 @@ public class ImageConstants
 		arrImages[EDIT_ROW_16] = "edit_row_16.gif"; //$NON-NLS-1$
 		arrImages[VALUE_ROW_16] = "value_row_16.gif"; //$NON-NLS-1$
 		arrImages[HYPERLINK_16] = "hyperlink_16.gif"; //$NON-NLS-1$
-		
+
 		arrImages[ADD_TRANSACTION_16] = "transaction_add_16.gif"; //$NON-NLS-1$
 		arrImages[DELETE_TRANSACTION_16] = "transaction_delete_16.gif"; //$NON-NLS-1$
 		arrImages[EDIT_TRANSACTION_16] = "transaction_edit_16.gif"; //$NON-NLS-1$
@@ -732,13 +729,13 @@ public class ImageConstants
 		arrImages[JDBC_24] = "server_application_24.gif"; //$NON-NLS-1$
 		arrImages[EJB_24] = "ejb_application_24.gif"; //$NON-NLS-1$
 
-		arrImages[FAILED_16] = "fail_16.gif";//"failure_16.gif"; //$NON-NLS-1$
+		arrImages[FAILED_16] = "fail_16.gif";// "failure_16.gif"; //$NON-NLS-1$
 		arrImages[NOT_PLAYED_16] = "not_played_16.gif"; //$NON-NLS-1$
 		arrImages[TIMEDOUT_16] = "timed_out_16.gif"; //$NON-NLS-1$
-		arrImages[SUCCESSFUL_16] = "pass_16.gif";//"success_16.gif"; //$NON-NLS-1$
+		arrImages[SUCCESSFUL_16] = "pass_16.gif";// "success_16.gif"; //$NON-NLS-1$
 
-//		arrImages[PASS_16] = "pass_16.gif"; //$NON-NLS-1$
-//		arrImages[FAIL_16] = "fail_16.gif"; //$NON-NLS-1$
+		// arrImages[PASS_16] = "pass_16.gif"; //$NON-NLS-1$
+		// arrImages[FAIL_16] = "fail_16.gif"; //$NON-NLS-1$
 
 		// CODE ANALYZER
 		arrImages[SYSTEM_RULE_16] = "rule_system_16.gif"; //$NON-NLS-1$
@@ -890,7 +887,7 @@ public class ImageConstants
 		arrImages[IF_CONDITION_16] = "if_block_16.gif";
 		arrImages[WHILE_LOOP_16] = "while_16.gif";
 		arrImages[FOR_LOOP_16] = "loop_16.gif";
-		
+
 		arrImages[EVENT_OBJ_16] = "event_16.gif"; //$NON-NLS-1$
 		arrImages[ADD_EVENT_OBJ_16] = "add_event_16.gif"; //$NON-NLS-1$
 		arrImages[DELETE_EVENT_OBJ_16] = "delete_event_16.gif"; //$NON-NLS-1$
@@ -971,8 +968,7 @@ public class ImageConstants
 	 * @param imageId
 	 * @return
 	 */
-	public static String getImageName(final int imageId)
-	{
+	public static String getImageName(final int imageId) {
 		return arrImages[imageId];
 	}
 }

@@ -5,9 +5,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public interface MetadataConstants 
-{
+public interface MetadataConstants {
 	String STRING_TYPE_METADATA = "db.datatype.STRING";
 	String TIMESTAMP_TYPE_METADATA = "db.datatype.TIMESTAMP";
 	String LONG_TYPE_METADATA = "db.datatype.LONG";
@@ -25,12 +23,13 @@ public interface MetadataConstants
 	Class LONG_WRAPPER_CLASS = Long.class;
 	Class SHORT_WRAPPER_CLASS = Short.class;
 	Class INTEGER_WRAPPER_CLASS = Integer.class;
-	Class REAL_WRAPPER_CLASS = Double.class;	// TODO no unique java.lang.* class was found so used this.
+	Class REAL_WRAPPER_CLASS = Double.class; // TODO no unique java.lang.* class
+												// was found so used this.
 	Class DOUBLE_WRAPPER_CLASS = Double.class;
 	Class DECIMAL_WRAPPER_CLASS = Float.class;
 	Class BOOLEAN_WRAPPER_CLASS = Boolean.class;
 	Class BLOB_WRAPPER_CLASS = Blob.class;
-	
+
 	String DB_CONFIG_STRING_ENTRY_TAG = "datatypeString";
 	String DB_CONFIG_TIMESTAMP_ENTRY_TAG = "datatypeTimestamp";
 	String DB_CONFIG_LONG_ENTRY_TAG = "datatypeLong";
@@ -42,7 +41,7 @@ public interface MetadataConstants
 	String DB_CONFIG_BOOLEAN_ENTRY_TAG = "datatypeBoolean";
 	String DB_CONFIG_BLOB_ENTRY_TAG = "datatypeBlob";
 	String DB_CONFIG_DEFAULT_SCHEMA_ENTRY_TAG = "defaultSchema";
-	
+
 	String GENERIC_DATA_TYPE_STRING = "STRING";
 	String GENERIC_DATA_TYPE_TIMESTAMP = "TIMESTAMP";
 	String GENERIC_DATA_TYPE_LONG = "LONG";
@@ -52,10 +51,8 @@ public interface MetadataConstants
 	String GENERIC_DATA_TYPE_DECIMAL = "DECIMAL";
 	String GENERIC_DATA_TYPE_BOOLEAN = "BOOLEAN";
 	String GENERIC_DATA_TYPE_BLOB = "BLOB";
-	
-	
-	Map<String, Class> STATIC_DATATYPES_TO_WRAPPER_MAP = new HashMap<String, Class>()
-	{
+
+	Map<String, Class> STATIC_DATATYPES_TO_WRAPPER_MAP = new HashMap<String, Class>() {
 		{
 			put("STRING", String.class);
 			put("TIMESTAMP", Timestamp.class);
@@ -70,15 +67,14 @@ public interface MetadataConstants
 		}
 	};
 
-	Map<Class, String> STATIC_WRAPPER_MAP_TO_DATATYPES = new HashMap<Class, String>()
-	{
+	Map<Class, String> STATIC_WRAPPER_MAP_TO_DATATYPES = new HashMap<Class, String>() {
 		{
 			put(String.class, "STRING");
 			put(Timestamp.class, "TIMESTAMP");
 			put(Long.class, "LONG");
 			put(Short.class, "SHORT");
 			put(Integer.class, "INTEGER");
-			put(Double.class, "REAL"); 
+			put(Double.class, "REAL");
 			put(Double.class, "DOUBLE");
 			put(Float.class, "DECIMAL");
 			put(Boolean.class, "BOOLEAN");

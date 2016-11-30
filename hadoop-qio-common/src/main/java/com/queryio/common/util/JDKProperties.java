@@ -27,8 +27,7 @@ import java.util.Properties;
  * @author Exceed Consultancy Services
  * @version 1.0
  */
-public class JDKProperties
-{
+public class JDKProperties {
 	public static final String VENDOR = "java.vendor"; //$NON-NLS-1$
 	public static final String VERSION = "java.specification.version"; //$NON-NLS-1$
 	public static final String ARCH_DATA_MODEL = "sun.arch.data.model"; //$NON-NLS-1$
@@ -40,30 +39,25 @@ public class JDKProperties
 	private final String jdkPath;
 	private String classPath;
 
-	public JDKProperties(final String jdkPath)
-	{
+	public JDKProperties(final String jdkPath) {
 		this(jdkPath, new String[] { VENDOR, VERSION, ARCH_DATA_MODEL });
 	}
 
-	public JDKProperties(final String jdkPath, final String[] properties)
-	{
+	public JDKProperties(final String jdkPath, final String[] properties) {
 		this.jdkPath = jdkPath;
 		this.names = properties;
 	}
 
-	public void setClassPath(final String classPath)
-	{
+	public void setClassPath(final String classPath) {
 		this.classPath = classPath;
 	}
 
-	public void findValues()
-	{
+	public void findValues() {
 		this.values = new Properties();
 
-		if ((this.names != null) && (this.names.length > 0))
-		{
-			final String classpath = this.classPath != null ? this.classPath : System.getProperty(
-					"appperfect.class.path", System.getProperty("java.class.path"));
+		if ((this.names != null) && (this.names.length > 0)) {
+			final String classpath = this.classPath != null ? this.classPath
+					: System.getProperty("appperfect.class.path", System.getProperty("java.class.path"));
 			final String[] command = new String[this.names.length + 4];
 
 			int position = 0;
@@ -76,61 +70,47 @@ public class JDKProperties
 
 			final Runtime runtime = Runtime.getRuntime();
 			Process process = null;
-			try
-			{
+			try {
 				process = runtime.exec(command);
 				process.waitFor();
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				// do nothing
 			}
 
-			if (process != null)
-			{
+			if (process != null) {
 				final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 				String line;
 				int ctr = 0;
-				try
-				{
+				try {
 					line = reader.readLine();
-					while (line != null)
-					{
+					while (line != null) {
 						line = line.trim();
-						if ((line.length() > 0) && (ctr < this.names.length))
-						{
+						if ((line.length() > 0) && (ctr < this.names.length)) {
 							this.values.setProperty(this.names[ctr], line);
 							ctr++;
 						}
 						line = reader.readLine();
 					}
-				}
-				catch (final Exception ex)
-				{
+				} catch (final Exception ex) {
 					// do nothing
 				}
 			}
 		}
 	}
 
-	public static void main(final String[] args)
-	{
-		if (args != null)
-		{
-			for (int i = 0; i < args.length; i++)
-			{
+	public static void main(final String[] args) {
+		if (args != null) {
+			for (int i = 0; i < args.length; i++) {
 				System.out.println(System.getProperty(args[i]));
 			}
 		}
 	}
 
-	public String getPropertyValue(final String name)
-	{
+	public String getPropertyValue(final String name) {
 		return this.values.getProperty(name, VALUE_NOT_FOUND);
 	}
 
-	public boolean is64Bit()
-	{
+	public boolean is64Bit() {
 		return this.getPropertyValue(ARCH_DATA_MODEL).equals("64");//$NON-NLS-1$
 	}
 

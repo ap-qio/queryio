@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.crypto.Cipher;
 
@@ -22,8 +21,8 @@ public class QIODFSOutputStream extends OutputStream {
 
 	public QIODFSOutputStream(FileSystem dfs, DFSOutputStream dfsOut, String compressionType, String encryptionType,
 			JSONObject tagsJSON, String filePath) throws Exception {
-		tagHandler = new TagHandler(dfs, dfs.getConf(), filePath, getExternalTags(), compressionType,
-				encryptionType, tagsJSON);
+		tagHandler = new TagHandler(dfs, dfs.getConf(), filePath, getExternalTags(), compressionType, encryptionType,
+				tagsJSON);
 
 		int compressionTypeValue = EncryptionHandler.getCompressionTypeValue(compressionType);
 		boolean encryptionTypeValue = EncryptionHandler.getEncryptionTypeValue(encryptionType);

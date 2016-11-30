@@ -1,6 +1,5 @@
 package com.queryio.plugin.dstruct;
 
-
 import java.util.ArrayList;
 
 public interface IDataManager {

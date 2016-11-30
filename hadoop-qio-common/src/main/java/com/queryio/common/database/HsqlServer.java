@@ -31,67 +31,60 @@ import com.queryio.common.util.AppLogger;
 import com.queryio.common.util.PlatformHandler;
 import com.queryio.common.util.StreamPumper;
 
-
 /**
  * 
  * @author Exceed Consultancy Services.
  */
-public class HsqlServer extends Thread
-{
+public class HsqlServer extends Thread {
 	/**
 	 * @see java.lang.Runnable#run()
 	 */
-	String dbNames[]; 
+	String dbNames[];
 	String dbPort;
-	
-	public HsqlServer(String[] dbNames, String dbPort){
+
+	public HsqlServer(String[] dbNames, String dbPort) {
 		this.dbNames = dbNames;
 		this.dbPort = dbPort;
 	}
-	
-	
-	public void startServer()
-	{
+
+	public void startServer() {
 		this.start();
 	}
-	
-	public void run()
-	{
+
+	public void run() {
 		startDatabaseServers();
 	}
-	
-	private void startDatabaseServers()
-	{
-		//final String msg = "Error while starting server";
-		StringBuffer buffer = new StringBuffer(EnvironmentalConstants.getAppHome() +"../../../");
+
+	private void startDatabaseServers() {
+		// final String msg = "Error while starting server";
+		StringBuffer buffer = new StringBuffer(EnvironmentalConstants.getAppHome() + "../../../");
 		buffer.append(File.separatorChar);
 		buffer.append("database");
 		buffer.append(File.separatorChar);
 		final File hsqlFolder = new File(buffer.toString());
-		File execFile = new File(hsqlFolder, PlatformHandler.isWindows() ? "startdatabase.bat":"startdatabase.sh");	
+		File execFile = new File(hsqlFolder, PlatformHandler.isWindows() ? "startdatabase.bat" : "startdatabase.sh");
 
 		// start active db
-		AppLogger.getLogger().info("[HSQL Server]: Starting " + Arrays.toString(dbNames) +" DB");
+		AppLogger.getLogger().info("[HSQL Server]: Starting " + Arrays.toString(dbNames) + " DB");
 		StringBuilder prefix = new StringBuilder();
-		for(String dbName: dbNames){
+		for (String dbName : dbNames) {
 			prefix.append(dbName);
 			prefix.append("-");
 		}
-		
-		startDatabaseServer(hsqlFolder, (String[])ArrayUtils.addAll(new String[] { execFile.getAbsolutePath(), dbPort }, dbNames), prefix.toString());
+
+		startDatabaseServer(hsqlFolder,
+				(String[]) ArrayUtils.addAll(new String[] { execFile.getAbsolutePath(), dbPort }, dbNames),
+				prefix.toString());
 	}
-	
-	private static void startDatabaseServer(File folder, String [] cmdArray, String prefix)
-	{
-		try
-		{
+
+	private static void startDatabaseServer(File folder, String[] cmdArray, String prefix) {
+		try {
 			FileOutputStream fosOut = null;
 			FileOutputStream fosErr = null;
 			// for debugging
 			fosOut = new FileOutputStream(new File(folder, prefix + "out.txt"));
 			fosErr = new FileOutputStream(new File(folder, prefix + "err.txt"));
 
-			
 			AppLogger.getLogger().info(Arrays.toString(cmdArray));
 			final Process process = Runtime.getRuntime().exec(cmdArray, null, folder);
 
@@ -99,26 +92,20 @@ public class HsqlServer extends Thread
 			spOut.start();
 			final StreamPumper spErr = new StreamPumper(new BufferedInputStream(process.getErrorStream()), fosErr);
 			spErr.start();
-		}
-		catch (final Exception e)
-		{
+		} catch (final Exception e) {
 			AppLogger.getLogger().fatal("Error starting database: " + prefix, e);
 		}
-		
-	}	
-	
-	public static void stopServer(Connection con)
-	{
+
+	}
+
+	public static void stopServer(Connection con) {
 		final String msg = "Error while stopping server";
 		final String SHUTDOWN = "SHUTDOWN";
-		try
-		{
+		try {
 			final Statement st = con.createStatement();
 			st.execute(SHUTDOWN);
 			st.close();
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			AppLogger.getLogger().fatal(msg, ex);
 		}
 	}

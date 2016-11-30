@@ -1,34 +1,28 @@
 package com.queryio.common.util;
 
-
-public final class StartupParameters
-{
+public final class StartupParameters {
 	private static String hadoopDirLocation;
 	private static String defaultDirRemote;
 	private static int sessionTimeout;
 	private static int dataFetchIntervalInSeconds = 60;
 	private static String queryIOAgentPort;
 
-	public static String getDefaultDirRemote()
-	{
+	public static String getDefaultDirRemote() {
 		return defaultDirRemote;
 	}
-	
-	public static void setDefaultDirRemote(String remote)
-	{
+
+	public static void setDefaultDirRemote(String remote) {
 		defaultDirRemote = remote;
 	}
-	
-	public static int getSessionTimeout()
-	{
+
+	public static int getSessionTimeout() {
 		return sessionTimeout;
 	}
-	
-	public static void setSessionTimeout(int t)
-	{
+
+	public static void setSessionTimeout(int t) {
 		sessionTimeout = t;
 	}
-	
+
 	public static String getHadoopDirLocation() {
 		return hadoopDirLocation;
 	}

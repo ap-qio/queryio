@@ -28,8 +28,7 @@ import com.queryio.plugin.datatags.IDataTagParser;
 public class UserDefinedTagResourceFactory {
 	private static final String DEFAULTCREATESTATEMENT = "CREATE TABLE";
 	private static final String DEFAULTNAMENODEID = "";
-	private static final Log LOG = LogFactory
-			.getLog(UserDefinedTagResourceFactory.class);
+	private static final Log LOG = LogFactory.getLog(UserDefinedTagResourceFactory.class);
 	private static CustomTagDBConfig dbConfig = null;
 
 	public static void initConnectionPool(Configuration conf, boolean isMetadata) throws Exception {
@@ -39,13 +38,12 @@ public class UserDefinedTagResourceFactory {
 			dbPoolName = conf.get(QueryIOConstants.ANALYTICS_DB_DBSOURCEID);
 		if (dbPoolName == null)
 			dbPoolName = conf.get(QueryIOConstants.CUSTOM_TAG_DB_DBSOURCEID);
-		String xmlFilePath = conf
-				.get(QueryIOConstants.CUSTOM_TAG_DB_DBCONFIGPATH, System.getenv("HADOOP_YARN_HOME") +"/../"+QueryIOConstants.QUERYIOAGENT_DIR_NAME+"/webapps/" + QueryIOConstants.AGENT_QUERYIO + "/conf/dbconfig.xml");
-		
+		String xmlFilePath = conf.get(QueryIOConstants.CUSTOM_TAG_DB_DBCONFIGPATH,
+				System.getenv("HADOOP_YARN_HOME") + "/../" + QueryIOConstants.QUERYIOAGENT_DIR_NAME + "/webapps/"
+						+ QueryIOConstants.AGENT_QUERYIO + "/conf/dbconfig.xml");
+
 		LOG.info("xmlFilePath: " + xmlFilePath);
-		String jdbcDriverPath = xmlFilePath.substring(0,
-				xmlFilePath.lastIndexOf("/"))
-				+ "/../jdbcJars";
+		String jdbcDriverPath = xmlFilePath.substring(0, xmlFilePath.lastIndexOf("/")) + "/../jdbcJars";
 		EnvironmentalConstants.setJdbcDriverPath(jdbcDriverPath);
 		LOG.info("jdbcDriverPath: " + jdbcDriverPath);
 		new DatabaseConfigParser().loadDatabaseConfiguration(xmlFilePath);
@@ -59,23 +57,20 @@ public class UserDefinedTagResourceFactory {
 			dbPoolName = conf.get(QueryIOConstants.ANALYTICS_DB_DBSOURCEID);
 		if (dbPoolName == null)
 			dbPoolName = conf.get(QueryIOConstants.CUSTOM_TAG_DB_DBSOURCEID);
-		String xmlFilePath = conf
-				.get(QueryIOConstants.CUSTOM_TAG_DB_DBCONFIGPATH, System.getenv("HADOOP_YARN_HOME") +"/../"+QueryIOConstants.QUERYIOAGENT_DIR_NAME+"/webapps/" + QueryIOConstants.AGENT_QUERYIO + "/conf/dbconfig.xml");
+		String xmlFilePath = conf.get(QueryIOConstants.CUSTOM_TAG_DB_DBCONFIGPATH,
+				System.getenv("HADOOP_YARN_HOME") + "/../" + QueryIOConstants.QUERYIOAGENT_DIR_NAME + "/webapps/"
+						+ QueryIOConstants.AGENT_QUERYIO + "/conf/dbconfig.xml");
 		LOG.info("xmlFilePath: " + xmlFilePath);
-		String jdbcDriverPath = xmlFilePath.substring(0,
-				xmlFilePath.lastIndexOf("/"))
-				+ "/../jdbcJars";
+		String jdbcDriverPath = xmlFilePath.substring(0, xmlFilePath.lastIndexOf("/")) + "/../jdbcJars";
 		EnvironmentalConstants.setJdbcDriverPath(jdbcDriverPath);
 		LOG.info("jdbcDriverPath: " + jdbcDriverPath);
 		new DatabaseConfigParser().loadDatabaseConfiguration(xmlFilePath);
 		dbConfig = CustomTagDBConfigManager.getConfig(dbPoolName);
 
-		DBManager.getDriver(dbConfig.getCustomTagDriverJarPath(),
-				dbConfig.getCustomTagDriverClass());
+		DBManager.getDriver(dbConfig.getCustomTagDriverJarPath(), dbConfig.getCustomTagDriverClass());
 	}
 
-	public static Connection getConnectionWithPoolInit(Configuration conf, boolean isMetadata)
-			throws Exception {
+	public static Connection getConnectionWithPoolInit(Configuration conf, boolean isMetadata) throws Exception {
 		String dbPoolName = null;
 		if (!isMetadata)
 			dbPoolName = conf.get(QueryIOConstants.ANALYTICS_DB_DBSOURCEID);
@@ -93,9 +88,8 @@ public class UserDefinedTagResourceFactory {
 		}
 		return connection;
 	}
-	
-	public static Connection getConnection(String dbPoolName, boolean isMetadata)
-			throws Exception {
+
+	public static Connection getConnection(String dbPoolName, boolean isMetadata) throws Exception {
 		Connection connection = null;
 		if (dbPoolName != null && !dbPoolName.isEmpty()) {
 			connection = DatabaseManager.getConnection(dbPoolName);
@@ -103,17 +97,14 @@ public class UserDefinedTagResourceFactory {
 		return connection;
 	}
 
-	public static Connection getConnectionWithoutPoolInit(Configuration conf)
-			throws Exception {
+	public static Connection getConnectionWithoutPoolInit(Configuration conf) throws Exception {
 		Connection connection = null;
-		connection = DriverManager.getConnection(dbConfig.getCustomTagUrl(),
-				dbConfig.getCustomTagUserName(),
+		connection = DriverManager.getConnection(dbConfig.getCustomTagUrl(), dbConfig.getCustomTagUserName(),
 				dbConfig.getCustomTagPassword());
 		return connection;
 	}
 
-	public static void removeConnectionPool(Configuration conf, boolean isMetadata)
-			throws Exception {
+	public static void removeConnectionPool(Configuration conf, boolean isMetadata) throws Exception {
 		LOG.info("removeConnectionPool");
 		String dbPoolName = null;
 		if (!isMetadata)
@@ -134,8 +125,7 @@ public class UserDefinedTagResourceFactory {
 	 * @throws SQLException
 	 */
 
-	public static Connection getConnection(String dbUrl, String driverClass,
-			String dbUsername, String dbPassword)
+	public static Connection getConnection(String dbUrl, String driverClass, String dbUsername, String dbPassword)
 			throws ClassNotFoundException, SQLException {
 		Class.forName(driverClass);
 
@@ -146,40 +136,44 @@ public class UserDefinedTagResourceFactory {
 		}
 	}
 
-//	public static IDataTagParser getParser(Configuration conf,
-//			String filePath) throws Exception{
-//		Class<? extends IDataTagParser> parserClass = null;
-//		IDataTagParser parser = null;
-//		if (conf != null) {
-//			// read ITagParser Implementation based upon filetype provided
-//			// in user configuration,
-//			// default is com.queryio.hadoop.hdfs.itag.CustomTagParserDefault
-//			String fileType = UserDefinedTagUtils.getFileExtension(filePath);
-//			String parserFileTypes = conf.get(
-//					QueryIOConstants.CUSTOM_TAG_PARSER_FILETYPES, "");
-//
-//			boolean foundParser = false;
-//			if (!parserFileTypes.isEmpty())
-//			{
-//				for (String str : parserFileTypes.split(",")) {
-//					if (str.equals(fileType)) {
-//						foundParser = true;
-//						break;
-//					}
-//				}
-//			}
-//
-//			if (foundParser) {
-//				String className = conf.get(QueryIOConstants.CUSTOM_TAG_PARSER_CLASSNAME_PREFIX + "." + fileType);
-//				parserClass = (Class<? extends IDataTagParser>) ClassPathUtility.getClass(className);
-//				
-//				parser = (IDataTagParser) ReflectionUtils.newInstance(parserClass, conf);
-//			}
-//		}		
-//		return parser;
-//	}
-	
-	public static IDataTagParser getParserFromConstructor(Configuration conf, String filePath, JSONObject tagInfo, Map<String, String> coreTags) throws Exception{
+	// public static IDataTagParser getParser(Configuration conf,
+	// String filePath) throws Exception{
+	// Class<? extends IDataTagParser> parserClass = null;
+	// IDataTagParser parser = null;
+	// if (conf != null) {
+	// // read ITagParser Implementation based upon filetype provided
+	// // in user configuration,
+	// // default is com.queryio.hadoop.hdfs.itag.CustomTagParserDefault
+	// String fileType = UserDefinedTagUtils.getFileExtension(filePath);
+	// String parserFileTypes = conf.get(
+	// QueryIOConstants.CUSTOM_TAG_PARSER_FILETYPES, "");
+	//
+	// boolean foundParser = false;
+	// if (!parserFileTypes.isEmpty())
+	// {
+	// for (String str : parserFileTypes.split(",")) {
+	// if (str.equals(fileType)) {
+	// foundParser = true;
+	// break;
+	// }
+	// }
+	// }
+	//
+	// if (foundParser) {
+	// String className =
+	// conf.get(QueryIOConstants.CUSTOM_TAG_PARSER_CLASSNAME_PREFIX + "." +
+	// fileType);
+	// parserClass = (Class<? extends IDataTagParser>)
+	// ClassPathUtility.getClass(className);
+	//
+	// parser = (IDataTagParser) ReflectionUtils.newInstance(parserClass, conf);
+	// }
+	// }
+	// return parser;
+	// }
+
+	public static IDataTagParser getParserFromConstructor(Configuration conf, String filePath, JSONObject tagInfo,
+			Map<String, String> coreTags) throws Exception {
 		Class<? extends IDataTagParser> parserClass = null;
 		IDataTagParser parser = null;
 		if (conf != null) {
@@ -187,12 +181,10 @@ public class UserDefinedTagResourceFactory {
 			// in user configuration,
 			// default is com.queryio.hadoop.hdfs.itag.CustomTagParserDefault
 			String fileType = UserDefinedTagUtils.getFileExtension(filePath);
-			String parserFileTypes = conf.get(
-					QueryIOConstants.CUSTOM_TAG_PARSER_FILETYPES, "");
+			String parserFileTypes = conf.get(QueryIOConstants.CUSTOM_TAG_PARSER_FILETYPES, "");
 
 			boolean foundParser = false;
-			if (!parserFileTypes.isEmpty())
-			{
+			if (!parserFileTypes.isEmpty()) {
 				for (String str : parserFileTypes.split(",")) {
 					if (str.equals(fileType)) {
 						foundParser = true;
@@ -203,26 +195,23 @@ public class UserDefinedTagResourceFactory {
 			String className = null;
 			if (foundParser) {
 				className = conf.get(QueryIOConstants.CUSTOM_TAG_PARSER_CLASSNAME_PREFIX + "." + fileType);
-				parser = getTagParserInstance(tagInfo, coreTags, parser, className);				
+				parser = getTagParserInstance(tagInfo, coreTags, parser, className);
 			}
-		}		
+		}
 		return parser;
 	}
 
 	@SuppressWarnings("unchecked")
-	private static IDataTagParser getTagParserInstance(JSONObject tagInfo,
-			Map<String, String> coreTags, IDataTagParser parser,
-			String className) throws InstantiationException,
-			IllegalAccessException, ClassNotFoundException {
+	private static IDataTagParser getTagParserInstance(JSONObject tagInfo, Map<String, String> coreTags,
+			IDataTagParser parser, String className)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Class<? extends IDataTagParser> parserClass;
-		parserClass = (Class<? extends IDataTagParser>) ClassPathUtility
-				.getClass(className);
+		parserClass = (Class<? extends IDataTagParser>) ClassPathUtility.getClass(className);
 
 		if (parserClass != null) {
 			try {
-				parser = (AbstractDataTagParser) parserClass.getConstructor(
-						JSONObject.class, Map.class).newInstance(tagInfo,
-						coreTags);
+				parser = (AbstractDataTagParser) parserClass.getConstructor(JSONObject.class, Map.class)
+						.newInstance(tagInfo, coreTags);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -230,37 +219,42 @@ public class UserDefinedTagResourceFactory {
 		return parser;
 	}
 
-	public static IDataTagParser getParserDataTaggingJob(String fileExtension, JSONObject fileTypeParsers, Configuration conf, JSONObject tagInfo, Map<String, String> coreTags) throws Exception{
+	public static IDataTagParser getParserDataTaggingJob(String fileExtension, JSONObject fileTypeParsers,
+			Configuration conf, JSONObject tagInfo, Map<String, String> coreTags) throws Exception {
 		Class<? extends IDataTagParser> parserClass = null;
 		IDataTagParser parser = null;
 		if (fileTypeParsers != null) {
 
 			Iterator fileTypes = fileTypeParsers.keySet().iterator();
 			String fileType = null;
-			while (fileTypes.hasNext())
-			{
+			while (fileTypes.hasNext()) {
 				fileType = String.valueOf(fileTypes.next());
-//				String whichLogFile = fileType;
-//				if (fileType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_IISLOG) || fileType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_ACCESSLOG))
-//					whichLogFile = QueryIOConstants.ADHOC_TYPE_LOG.toLowerCase();
-//				if (whichLogFile.equalsIgnoreCase(fileExtension))
-				if (fileType.equalsIgnoreCase(fileExtension))
-				{
+				// String whichLogFile = fileType;
+				// if
+				// (fileType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_IISLOG)
+				// ||
+				// fileType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_ACCESSLOG))
+				// whichLogFile = QueryIOConstants.ADHOC_TYPE_LOG.toLowerCase();
+				// if (whichLogFile.equalsIgnoreCase(fileExtension))
+				if (fileType.equalsIgnoreCase(fileExtension)) {
 					String className = String.valueOf(fileTypeParsers.get(fileType));
 					parserClass = (Class<? extends IDataTagParser>) ClassPathUtility.getClass(className);
 					if (parserClass != null) {
 						try {
-							parser = (AbstractDataTagParser) parserClass.getConstructor(JSONObject.class, Map.class).newInstance(tagInfo, coreTags);
-						} catch(Exception e) {
+							parser = (AbstractDataTagParser) parserClass.getConstructor(JSONObject.class, Map.class)
+									.newInstance(tagInfo, coreTags);
+						} catch (Exception e) {
 							e.printStackTrace();
-//							AppLogger.getLogger().fatal("Parser class could not be initialized.", e);
-//							throw new IOException("Parser class could not be initialized,", e);
+							// AppLogger.getLogger().fatal("Parser class could
+							// not be initialized.", e);
+							// throw new IOException("Parser class could not be
+							// initialized,", e);
 						}
 					}
 					break;
 				}
 			}
-		}		
+		}
 		return parser;
 	}
 
@@ -273,7 +267,6 @@ public class UserDefinedTagResourceFactory {
 	}
 
 	public static String getCreateTableStatement(Configuration conf) {
-		return conf.get("queryio.bigquery.db.insert-statement",
-				DEFAULTCREATESTATEMENT);
+		return conf.get("queryio.bigquery.db.insert-statement", DEFAULTCREATESTATEMENT);
 	}
 }

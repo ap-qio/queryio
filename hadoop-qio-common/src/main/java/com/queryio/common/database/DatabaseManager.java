@@ -33,7 +33,6 @@ import org.apache.commons.dbcp.SQLNestedException;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
 
-
 /**
  * The Database Manager class is the interface to the database. It allows for
  * getting connections, releasing connections It maintains a connection pool
@@ -41,8 +40,7 @@ import org.apache.log4j.Logger;
  * 
  * @author Exceed Consultancy Services
  */
-public final class DatabaseManager
-{
+public final class DatabaseManager {
 	private static HashMap hmPoolingDataSource;
 	private static HashMap hmPools;
 
@@ -50,9 +48,8 @@ public final class DatabaseManager
 	private static final String PASSWORD = "password"; //$NON-NLS-1$
 
 	protected static final Logger LOGGER = Logger.getLogger(DatabaseManager.class);
-	
-	private DatabaseManager()
-	{
+
+	private DatabaseManager() {
 		// Do nothing
 	}
 
@@ -73,16 +70,17 @@ public final class DatabaseManager
 	 */
 	public static void setInitialProperties(final String connectionName, final int maxConnection, final byte strategy,
 			final long maxWait, final int idleConnection, final Driver driver, final String url, final String userName,
-			final String password, boolean evictIdleConnections) throws IllegalStateException
-	{
-//		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Connection URL: "+url);
+			final String password, boolean evictIdleConnections) throws IllegalStateException {
+		// if(AppLogger.getLogger().isDebugEnabled())
+		// AppLogger.getLogger().debug("Connection URL: "+url);
 		final Properties p = new Properties();
 		p.put(USER, userName);
 		p.put(PASSWORD, password);
 		final ConnectionFactory connectionFactory = new DriverConnectionFactory(driver, url, p);
-		setInitialProperties(connectionFactory, connectionName, maxConnection, strategy, maxWait, idleConnection, evictIdleConnections);
+		setInitialProperties(connectionFactory, connectionName, maxConnection, strategy, maxWait, idleConnection,
+				evictIdleConnections);
 	}
-	
+
 	/**
 	 * This methods is used when we want to use the default classloader to load
 	 * the driver class. We pass the driver class name as parameter and load the
@@ -103,12 +101,13 @@ public final class DatabaseManager
 	 */
 	public static void setInitialProperties(final String connectionName, final int maxConnection, final byte strategy,
 			final long maxWait, final int idleConnection, final String driverClass, final String url,
-			final String userName, final String password, boolean evictIdleConnections) throws IllegalStateException, ClassNotFoundException
-	{
+			final String userName, final String password, boolean evictIdleConnections)
+			throws IllegalStateException, ClassNotFoundException {
 
 		Class.forName(driverClass);
 		final ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, userName, password);
-		setInitialProperties(connectionFactory, connectionName, maxConnection, strategy, maxWait, idleConnection, evictIdleConnections);
+		setInitialProperties(connectionFactory, connectionName, maxConnection, strategy, maxWait, idleConnection,
+				evictIdleConnections);
 	}
 
 	/**
@@ -122,53 +121,45 @@ public final class DatabaseManager
 	 * @throws Exception
 	 */
 	private static void setInitialProperties(final ConnectionFactory connectionFactory, final String connectionName,
-			final int maxConnection, final byte strategy, final long maxWait, final int idleConnection, boolean evictIdleConnections)
-			throws IllegalStateException
-	{
+			final int maxConnection, final byte strategy, final long maxWait, final int idleConnection,
+			boolean evictIdleConnections) throws IllegalStateException {
 		final GenericObjectPool objPool = new GenericObjectPool(null, maxConnection, strategy, maxWait, idleConnection);
-		if(evictIdleConnections){
+		if (evictIdleConnections) {
 			objPool.setTestOnBorrow(true);
 			objPool.setTestWhileIdle(true);
 			objPool.setMinEvictableIdleTimeMillis(5000);
 		}
 		final PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,
-				objPool, null, null, false, true);		
-		if(evictIdleConnections){
+				objPool, null, null, false, true);
+		if (evictIdleConnections) {
 			poolableConnectionFactory.setValidationQuery("SELECT 1");
 		}
 		objPool.setFactory(poolableConnectionFactory);
-		if (hmPoolingDataSource == null)
-		{
+		if (hmPoolingDataSource == null) {
 			hmPoolingDataSource = new HashMap(2);
 			hmPools = new HashMap(2);
 		}
 		hmPools.put(connectionName, objPool);
 		hmPoolingDataSource.put(connectionName, new PoolingDataSource(objPool));
 	}
-	
+
 	/**
 	 * 
 	 * @param connectionName
 	 */
-	public static void removeConnectionPool(String connectionName) throws Exception
-	{
-		GenericObjectPool objPool = (GenericObjectPool)hmPools.remove(connectionName);
+	public static void removeConnectionPool(String connectionName) throws Exception {
+		GenericObjectPool objPool = (GenericObjectPool) hmPools.remove(connectionName);
 		hmPoolingDataSource.remove(connectionName);
 		objPool.close();
 	}
 
-	public static Connection getConnectionOnStartup(final String connectionName) throws SQLException
-	{
+	public static Connection getConnectionOnStartup(final String connectionName) throws SQLException {
 		Connection connection = null;
-		try
-		{
+		try {
 			connection = ((PoolingDataSource) hmPoolingDataSource.get(connectionName)).getConnection();
-		}
-		catch (SQLNestedException sqne)
-		{
-			if (sqne.getCause() != null && sqne.getCause() instanceof NoSuchElementException)
-			{
-				/*final GenericObjectPool gop = (GenericObjectPool)*/hmPools.get(connectionName);
+		} catch (SQLNestedException sqne) {
+			if (sqne.getCause() != null && sqne.getCause() instanceof NoSuchElementException) {
+				/* final GenericObjectPool gop = (GenericObjectPool) */hmPools.get(connectionName);
 			}
 		}
 		return connection;
@@ -182,73 +173,61 @@ public final class DatabaseManager
 	 * @throws SQLException
 	 * @throws NullPointerException
 	 */
-	public static Connection getConnection(final String connectionName) throws SQLException
-	{
+	public static Connection getConnection(final String connectionName) throws SQLException {
 		long maxWait = 0;
-		
-		GenericObjectPool objPool = (GenericObjectPool)hmPools.get(connectionName);
-		if (objPool != null)
-		{
+
+		GenericObjectPool objPool = (GenericObjectPool) hmPools.get(connectionName);
+		if (objPool != null) {
 			maxWait = objPool.getMaxWait();
 		}
-		
-		//get the current time stamp
+
+		// get the current time stamp
 		long now = System.currentTimeMillis();
-		//see if there is one available immediately
+		// see if there is one available immediately
 		Connection connection = null;
-		
-		while (true)
-		{
-			try
-			{
+
+		while (true) {
+			try {
 				connection = ((PoolingDataSource) hmPoolingDataSource.get(connectionName)).getConnection();
 				break;
-			}
-			catch (Exception sqne)
-			{
-				if (sqne instanceof SQLNestedException)
-				{
-					if (sqne.getCause() != null && sqne.getCause() instanceof NoSuchElementException)
-					{
-						/*final GenericObjectPool gop = (GenericObjectPool)*/hmPools.get(connectionName);
+			} catch (Exception sqne) {
+				if (sqne instanceof SQLNestedException) {
+					if (sqne.getCause() != null && sqne.getCause() instanceof NoSuchElementException) {
+						/* final GenericObjectPool gop = (GenericObjectPool) */hmPools.get(connectionName);
 					}
-				}
-				else
-				{
-					if (maxWait == 0 && connection == null) { //no wait, return one if we have one
-		                throw new SQLException("NoWait: Unable to fetch a connection.", sqne);
-		            }
-					//we didn't get a connection, lets see if we timed out
-		            if (connection == null) {
-		                if ((System.currentTimeMillis() - now) >= maxWait) {
-		                    throw new SQLException("Unable to fetch a connection. Wait for " + (maxWait / 1000) +
-		                        " seconds.", sqne);
-		                } else {
-		                    //no timeout, lets try again
-		                	try {
+				} else {
+					if (maxWait == 0 && connection == null) { // no wait, return
+																// one if we
+																// have one
+						throw new SQLException("NoWait: Unable to fetch a connection.", sqne);
+					}
+					// we didn't get a connection, lets see if we timed out
+					if (connection == null) {
+						if ((System.currentTimeMillis() - now) >= maxWait) {
+							throw new SQLException(
+									"Unable to fetch a connection. Wait for " + (maxWait / 1000) + " seconds.", sqne);
+						} else {
+							// no timeout, lets try again
+							try {
 								Thread.sleep(200);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-		                    continue;
-		                }
-		            }
+							continue;
+						}
+					}
 				}
 			}
-        } //while
-		
-		if (connection == null)
-		{
-			try
-			{
+		} // while
+
+		if (connection == null) {
+			try {
 				connection = ((PoolingDataSource) hmPoolingDataSource.get(connectionName)).getConnection();
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				throw new SQLException("Unable to fetch a connection.", e);
 			}
-        }
+		}
 		return connection;
 	}
 
@@ -258,26 +237,25 @@ public final class DatabaseManager
 	 * @param con
 	 *            connection to be closed
 	 */
-	public static void closeDbConnection(final Connection con) throws SQLException
-	{
-		//long hc = -1;
-		if ((con != null) && !con.isClosed())
-		{
-			//hc = con.hashCode();
+	public static void closeDbConnection(final Connection con) throws SQLException {
+		// long hc = -1;
+		if ((con != null) && !con.isClosed()) {
+			// hc = con.hashCode();
 			con.close();
 		}
-//		GenericObjectPool gop = (GenericObjectPool)hmPools.get(EnvironmentalConstants.getQueryIODatabasePoolName());
-//		if (gop != null)
-//		{
-//			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("close, Database: activedb Active: " + 
-//				gop.getNumActive() + " Idle: " + gop.getNumIdle() + " closed connection: " + hc);
-//		}
+		// GenericObjectPool gop =
+		// (GenericObjectPool)hmPools.get(EnvironmentalConstants.getQueryIODatabasePoolName());
+		// if (gop != null)
+		// {
+		// if(AppLogger.getLogger().isDebugEnabled())
+		// AppLogger.getLogger().debug("close, Database: activedb Active: " +
+		// gop.getNumActive() + " Idle: " + gop.getNumIdle() + " closed
+		// connection: " + hc);
+		// }
 		/*
-		gop = (GenericObjectPool)hmPools.get("archivedb");
-		if (gop != null)
-		{
-			AppLogger.getLogger().info("close, Database: archivedb Active: " + gop.getNumActive() + " Idle: " + gop.getNumIdle());
-		}
-		*/
+		 * gop = (GenericObjectPool)hmPools.get("archivedb"); if (gop != null) {
+		 * AppLogger.getLogger().info("close, Database: archivedb Active: " +
+		 * gop.getNumActive() + " Idle: " + gop.getNumIdle()); }
+		 */
 	}
 }

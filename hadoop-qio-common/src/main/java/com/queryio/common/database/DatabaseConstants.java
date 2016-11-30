@@ -21,8 +21,7 @@ package com.queryio.common.database;
  * 
  * @author Exceed Consultancy Services
  */
-public interface DatabaseConstants
-{
+public interface DatabaseConstants {
 	// identity_vals table
 	String TABLE_IDENTITY_VALS = "IDENTITY_VALUES"; //$NON-NLS-1$
 

@@ -86,7 +86,8 @@ public class Expression {
 			return false;
 		}
 	}
-//	2013-04-12 11:13:09.102
+
+	// 2013-04-12 11:13:09.102
 	private Date parseDate(String date) {
 		try {
 			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(date);
@@ -94,14 +95,13 @@ public class Expression {
 			return null;
 		}
 	}
-	
+
 	public boolean isBoolean(String data) {
-		return (data.trim().toLowerCase().equals("true") || data.trim()
-				.toLowerCase().equals("false")) ? true : false;
+		return (data.trim().toLowerCase().equals("true") || data.trim().toLowerCase().equals("false")) ? true : false;
 	}
 
 	public boolean evaluate(String checkValue) {
-		if(checkValue==null) 
+		if (checkValue == null)
 			return false;
 		switch (this.operator) {
 		case GT:
@@ -163,8 +163,7 @@ public class Expression {
 		case TYPE_DECIMAL:
 			return Double.parseDouble(checkValue) > Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return (Boolean.parseBoolean(checkValue) == true)
-					&& (Boolean.parseBoolean(value) == false);
+			return (Boolean.parseBoolean(checkValue) == true) && (Boolean.parseBoolean(value) == false);
 		case TYPE_DATE:
 			return parseDate(checkValue).getTime() > parseDate(value).getTime();
 		default:
@@ -180,8 +179,7 @@ public class Expression {
 		case TYPE_DECIMAL:
 			return Double.parseDouble(checkValue) < Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return (Boolean.parseBoolean(checkValue) == false)
-					&& (Boolean.parseBoolean(value) == true);
+			return (Boolean.parseBoolean(checkValue) == false) && (Boolean.parseBoolean(value) == true);
 		case TYPE_DATE:
 			return parseDate(checkValue).getTime() < parseDate(value).getTime();
 		default:
@@ -197,8 +195,7 @@ public class Expression {
 		case TYPE_DECIMAL:
 			return Double.parseDouble(checkValue) >= Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return !((Boolean.parseBoolean(checkValue) == false) && (Boolean
-					.parseBoolean(value) == true));
+			return !((Boolean.parseBoolean(checkValue) == false) && (Boolean.parseBoolean(value) == true));
 		case TYPE_DATE:
 			return parseDate(checkValue).getTime() >= parseDate(value).getTime();
 		default:
@@ -214,8 +211,7 @@ public class Expression {
 		case TYPE_DECIMAL:
 			return Double.parseDouble(checkValue) <= Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return !((Boolean.parseBoolean(checkValue) == true) && (Boolean
-					.parseBoolean(value) == false));
+			return !((Boolean.parseBoolean(checkValue) == true) && (Boolean.parseBoolean(value) == false));
 		case TYPE_DATE:
 			return parseDate(checkValue).getTime() <= parseDate(value).getTime();
 		default:
@@ -231,8 +227,7 @@ public class Expression {
 		case TYPE_DECIMAL:
 			return Double.parseDouble(checkValue) == Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return Boolean.parseBoolean(checkValue) == Boolean
-					.parseBoolean(value);
+			return Boolean.parseBoolean(checkValue) == Boolean.parseBoolean(value);
 		case TYPE_DATE:
 			return parseDate(checkValue).getTime() == parseDate(value).getTime();
 		default:
@@ -248,8 +243,7 @@ public class Expression {
 		case TYPE_DECIMAL:
 			return Double.parseDouble(checkValue) != Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return Boolean.parseBoolean(checkValue) != Boolean
-					.parseBoolean(value);
+			return Boolean.parseBoolean(checkValue) != Boolean.parseBoolean(value);
 		case TYPE_DATE:
 			return parseDate(checkValue).getTime() != parseDate(value).getTime();
 		default:
@@ -260,8 +254,7 @@ public class Expression {
 	public boolean like(final String expression, final String value) {
 		String regex = quotemeta(expression);
 		regex = regex.replace("_", ".").replace("%", ".*?");
-		Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
-				| Pattern.DOTALL);
+		Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		return p.matcher(value).matches();
 	}
 
@@ -271,8 +264,7 @@ public class Expression {
 
 	public void populateList() {
 		list = new ArrayList<String>();
-		String str = value
-				.substring(value.indexOf("("), value.lastIndexOf(")"));
+		String str = value.substring(value.indexOf("("), value.lastIndexOf(")"));
 		boolean quoteStart = false;
 		StringBuffer sBuf = new StringBuffer();
 		for (int i = 0; i < str.length(); i++) {
@@ -295,7 +287,7 @@ public class Expression {
 				sBuf.append(str.charAt(i));
 			}
 		}
-		
+
 	}
 
 	public boolean in(final String checkValue) {

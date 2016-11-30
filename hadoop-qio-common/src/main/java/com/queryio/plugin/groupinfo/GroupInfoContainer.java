@@ -20,7 +20,7 @@ public class GroupInfoContainer {
 		}
 
 		LOG.info("Retreived group info: " + groupInfo);
-		
+
 		if (groupInfo != null) {
 
 			HashMap<String, List<String>> userGroups = new HashMap<String, List<String>>();
@@ -44,28 +44,28 @@ public class GroupInfoContainer {
 				userGroups.put(userName, list);
 
 			}
-			
+
 			groupInfoMap = userGroups;
 		}
-		
+
 		printMap(groupInfoMap); // LOG
 	}
 
 	public static HashMap<String, List<String>> getGroupInfo() {
 		return groupInfoMap;
 	}
-	
+
 	public static void printMap(Map mp) {
 		LOG.info("UGI----------");
-	    Iterator it = mp.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry pairs = (Map.Entry)it.next();
-	        LOG.info(pairs.getKey() + " = " + pairs.getValue());
-	    }
-	    LOG.info("----------UGI");
+		Iterator it = mp.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pairs = (Map.Entry) it.next();
+			LOG.info(pairs.getKey() + " = " + pairs.getValue());
+		}
+		LOG.info("----------UGI");
 	}
-	
-	public static void refreshGroupInformation(String groupInfo){
+
+	public static void refreshGroupInformation(String groupInfo) {
 		groupInfoMap.clear();
 		setGroupInfo(groupInfo);
 	}

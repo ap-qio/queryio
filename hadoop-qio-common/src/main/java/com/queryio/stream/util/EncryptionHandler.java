@@ -19,9 +19,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import net.jpountz.lz4.LZ4JavaSafeInputStream;
-import net.jpountz.lz4.LZ4JavaSafeOutputStream;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.pdfbox.io.IOUtils;
@@ -30,12 +27,14 @@ import org.xerial.snappy.SnappyOutputStream;
 
 import com.queryio.common.util.SecurityHandler;
 
+import net.jpountz.lz4.LZ4JavaSafeInputStream;
+import net.jpountz.lz4.LZ4JavaSafeOutputStream;
+
 public class EncryptionHandler {
 	private static final Log LOG = LogFactory.getLog(EncryptionHandler.class);
-	
-	private static byte[] INIT_VECTOR = new byte[] { (byte) 0x8E, 0x12, 0x39,
-			(byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A, (byte) 0x8E, 0x12, 0x39,
-			(byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A };
+
+	private static byte[] INIT_VECTOR = new byte[] { (byte) 0x8E, 0x12, 0x39, (byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A,
+			(byte) 0x8E, 0x12, 0x39, (byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A };
 
 	private static byte[] SALT = null;
 
@@ -61,14 +60,14 @@ public class EncryptionHandler {
 	public static final String AES256 = "AES256";
 
 	static {
-		try{
+		try {
 			SALT = "3�8O��*".getBytes("UTF-8"); // Created using
 			// SecureRandom.getSeed(8);
-		} catch(Exception e){
+		} catch (Exception e) {
 			throw new Error(e);
 		}
 	}
-	
+
 	public static boolean getEncryptionTypeValue(String type) {
 		if (AES256.equals(type)) {
 			return true;
@@ -88,7 +87,7 @@ public class EncryptionHandler {
 			return COMPRESSION_TYPE_NONE;
 		}
 	}
-	
+
 	public static String filterCompressionType(String type) {
 		if (LZ4.equals(type)) {
 			return LZ4;
@@ -100,7 +99,7 @@ public class EncryptionHandler {
 			return NONE;
 		}
 	}
-	
+
 	public static String filterEncryptionType(String type) {
 		if (AES256.equals(type)) {
 			return AES256;
@@ -112,39 +111,35 @@ public class EncryptionHandler {
 	private Cipher cipher;
 
 	private static Map<String, SecretKey> secretKeyMap = new HashMap<String, SecretKey>();
-	
+
 	boolean encrypt = false;
-	
-	public EncryptionHandler(int mode, boolean encrypt, String encryptionKey)
-			throws Exception {
+
+	public EncryptionHandler(int mode, boolean encrypt, String encryptionKey) throws Exception {
 		this.encrypt = encrypt;
-		
+
 		LOG.debug("encrypt: " + encrypt);
-		LOG.debug("mode: " + (mode==Cipher.ENCRYPT_MODE ? "ENCRYPT_MODE" : "DECRYPT_MODE"));
-		
+		LOG.debug("mode: " + (mode == Cipher.ENCRYPT_MODE ? "ENCRYPT_MODE" : "DECRYPT_MODE"));
+
 		if (encrypt) {
 			encryptionKey = SecurityHandler.decryptData(encryptionKey);
-			
-//			LOG.debug("encryptionKey: " + encryptionKey);
-			
-			if( ! secretKeyMap.containsKey(encryptionKey)){
-				SecretKeyFactory factory = SecretKeyFactory
-						.getInstance(SECRETKEY_ALGO);
-				KeySpec spec = new PBEKeySpec(encryptionKey.toCharArray(), SALT, ITERATION_COUNT,
-						KEY_LEN);
+
+			// LOG.debug("encryptionKey: " + encryptionKey);
+
+			if (!secretKeyMap.containsKey(encryptionKey)) {
+				SecretKeyFactory factory = SecretKeyFactory.getInstance(SECRETKEY_ALGO);
+				KeySpec spec = new PBEKeySpec(encryptionKey.toCharArray(), SALT, ITERATION_COUNT, KEY_LEN);
 				SecretKey tmp = factory.generateSecret(spec);
 				SecretKey secret = new SecretKeySpec(tmp.getEncoded(), SECRETKEYSPEC_ALGO);
-				
+
 				secretKeyMap.put(encryptionKey, secret);
 			}
-			
+
 			cipher = Cipher.getInstance(TRANSFORMATION);
 			cipher.init(mode, secretKeyMap.get(encryptionKey), new IvParameterSpec(INIT_VECTOR));
 		}
 	}
 
-	public InputStream getCompressedCipherInputStream(InputStream inputStream,
-			int compressionType) throws IOException {
+	public InputStream getCompressedCipherInputStream(InputStream inputStream, int compressionType) throws IOException {
 		InputStream responseStream = inputStream;
 		if (encrypt) {
 			LOG.debug("Decryption enabled");
@@ -165,8 +160,7 @@ public class EncryptionHandler {
 		return responseStream;
 	}
 
-	public OutputStream getCompressedCipherOutputStream(
-			OutputStream outputStream, int compressionType)
+	public OutputStream getCompressedCipherOutputStream(OutputStream outputStream, int compressionType)
 			throws IOException {
 		OutputStream responseStream = outputStream;
 		if (encrypt) {
@@ -187,11 +181,12 @@ public class EncryptionHandler {
 
 		return responseStream;
 	}
-	
-	public static void main(String[] args) throws Exception{
+
+	public static void main(String[] args) throws Exception {
 		String key = SecurityHandler.encryptData("queryio-hdfs-encrypt");
 		System.out.println("key: " + key);
 		EncryptionHandler handler1 = new EncryptionHandler(Cipher.ENCRYPT_MODE, true, key);
-		IOUtils.copy(handler1.getCompressedCipherInputStream(new FileInputStream("/AppPerfect/ns-metadata.xml"), EncryptionHandler.COMPRESSION_TYPE_NONE), System.out);
+		IOUtils.copy(handler1.getCompressedCipherInputStream(new FileInputStream("/AppPerfect/ns-metadata.xml"),
+				EncryptionHandler.COMPRESSION_TYPE_NONE), System.out);
 	}
 }

@@ -33,8 +33,8 @@ public class UserDefinedTagDAO {
 
 	public static final int NEGATIVE = -1;
 
-	public static synchronized Map<String, Boolean> getAllColumns(Connection connection,
-			String tableName) throws SQLException {
+	public static synchronized Map<String, Boolean> getAllColumns(Connection connection, String tableName)
+			throws SQLException {
 
 		Map<String, Boolean> result = new HashMap<String, Boolean>();
 		Statement stmt = null;
@@ -65,8 +65,9 @@ public class UserDefinedTagDAO {
 		}
 		return result;
 	}
-	public static Map<String, String> getAllColumnsDataTye(Connection connection,
-			String tableName) throws SQLException {
+
+	public static Map<String, String> getAllColumnsDataTye(Connection connection, String tableName)
+			throws SQLException {
 
 		Map<String, String> result = new HashMap<String, String>();
 		Statement stmt = null;
@@ -97,13 +98,11 @@ public class UserDefinedTagDAO {
 		return result;
 	}
 
-	public static void addColumn(final Connection connection,
-			final String tableName, final String columnName, final String type)
-			throws Exception {
+	public static void addColumn(final Connection connection, final String tableName, final String columnName,
+			final String type) throws Exception {
 		Statement stmt = null;
 		try {
-			String alterStmt = "ALTER TABLE " + tableName + " ADD COLUMN "
-					+ columnName + " " + type;
+			String alterStmt = "ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " " + type;
 
 			stmt = DatabaseFunctions.getStatement(connection);
 			DatabaseFunctions.executeStatement(stmt, alterStmt);
@@ -140,23 +139,23 @@ public class UserDefinedTagDAO {
 		return false;
 	}
 
-	public static void createDatabaseTable(Connection connection, DBTypeProperties props,
-			String tagTableName, List<ColumnMetadata> columnList) {
+	public static void createDatabaseTable(Connection connection, DBTypeProperties props, String tagTableName,
+			List<ColumnMetadata> columnList) {
 		List<String> columnNames = new ArrayList<String>();
 		List<String> columnTypes = new ArrayList<String>();
 		if (columnList != null && columnList.size() > 0) {
 			for (ColumnMetadata columnData : columnList) {
 				columnNames.add(columnData.getColumnName());
-				columnTypes.add(props.getTypeMap().get(columnData.getColumnSqlDataType()) + (columnData.isSizable() ? " (" + columnData.getSize() +")" : ""));
+				columnTypes.add(props.getTypeMap().get(columnData.getColumnSqlDataType())
+						+ (columnData.isSizable() ? " (" + columnData.getSize() + ")" : ""));
 			}
 		}
-		createDatabaseTable(connection, tagTableName,
-				columnNames.toArray(new String[columnNames.size()]),
+		createDatabaseTable(connection, tagTableName, columnNames.toArray(new String[columnNames.size()]),
 				columnTypes.toArray(new String[columnTypes.size()]));
 	}
 
-	private static void createDatabaseTable(Connection connection,
-			String tableName, String[] colNames, String[] datatypes) {
+	private static void createDatabaseTable(Connection connection, String tableName, String[] colNames,
+			String[] datatypes) {
 		StringBuffer insertQuery = new StringBuffer("CREATE TABLE ");
 		insertQuery.append(tableName).append(" (");
 		for (int i = 0; i < colNames.length; i++) {
@@ -181,11 +180,10 @@ public class UserDefinedTagDAO {
 		}
 	}
 
-	public static void insertTagValues(Connection connection, DBTypeProperties props, String tableName,
-			String filePath, List<UserDefinedTag> tags,
-			List<UserDefinedTag> extraTags, final boolean updateDbSchema,
+	public static void insertTagValues(Connection connection, DBTypeProperties props, String tableName, String filePath,
+			List<UserDefinedTag> tags, List<UserDefinedTag> extraTags, final boolean updateDbSchema,
 			TableMetadata tableMetadata) throws SQLException {
-		
+
 		tableName = tableName.replaceAll("[^a-zA-Z0-9]+", "_");
 		tableName = tableName.replace("-", "_");
 		tableName = tableName.replace(".", "_");
@@ -193,14 +191,13 @@ public class UserDefinedTagDAO {
 		tableName = tableName.toUpperCase();
 
 		Map<String, Boolean> map = null;
-		
+
 		if (updateDbSchema) {
 			if (!checkIfTableExists(connection, tableName))
-				createDatabaseTable(connection, props, tableName,
-						tableMetadata.getColumnData());
+				createDatabaseTable(connection, props, tableName, tableMetadata.getColumnData());
 			map = getAllColumns(connection, tableName);
 		}
-		
+
 		List<String> colNames = new ArrayList<String>();
 		List<Object> tagValueObjs = new ArrayList<Object>();
 
@@ -218,15 +215,14 @@ public class UserDefinedTagDAO {
 				if (!colNames.contains(columnName)) {
 					if (map.get(columnName) == null) {
 						try {
-							if(tag.getValue()!=null) {
+							if (tag.getValue() != null) {
 								addColumn(connection, tableName, columnName,
-										UserDefinedTagUtils.getDataType(tag
-												.getValue().getClass(), props));
+										UserDefinedTagUtils.getDataType(tag.getValue().getClass(), props));
 							} else {
 								addColumn(connection, tableName, columnName,
-										UserDefinedTagUtils.getDataType(MetadataConstants.STRING_WRAPPER_CLASS, props));	
+										UserDefinedTagUtils.getDataType(MetadataConstants.STRING_WRAPPER_CLASS, props));
 							}
-							
+
 						} catch (Exception e) {
 							LOG.fatal(e.getMessage(), e);
 							continue;
@@ -237,7 +233,7 @@ public class UserDefinedTagDAO {
 				}
 			}
 		}
-		
+
 		for (UserDefinedTag tag : tags) {
 			String columnName = tag.getKey().toUpperCase();
 
@@ -251,13 +247,12 @@ public class UserDefinedTagDAO {
 				if (updateDbSchema) {
 					if (map.get(columnName) == null) {
 						try {
-							if(tag.getClass() != null) {
+							if (tag.getClass() != null) {
 								addColumn(connection, tableName, columnName,
 										UserDefinedTagUtils.getDataType(tag.getTagClass(), props));
-							} else if(tag.getValue()!=null) {
+							} else if (tag.getValue() != null) {
 								addColumn(connection, tableName, columnName,
-										UserDefinedTagUtils.getDataType(tag
-												.getValue().getClass(), props));
+										UserDefinedTagUtils.getDataType(tag.getValue().getClass(), props));
 							} else {
 								addColumn(connection, tableName, columnName,
 										UserDefinedTagUtils.getDataType(String.class, props));
@@ -287,7 +282,7 @@ public class UserDefinedTagDAO {
 		}
 		PreparedStatement stmt = null;
 		try {
-			
+
 			StringBuffer query = new StringBuffer();
 			if (!tagEntryExists) {
 				StringBuffer colNmStr = new StringBuffer();
@@ -303,7 +298,7 @@ public class UserDefinedTagDAO {
 				query.append("INSERT INTO ");
 				query.append(tableName).append(" (");
 				query.append(colNmStr);
-				if(colNames.size()>0) {
+				if (colNames.size() > 0) {
 					query.append(", ");
 				}
 				query.append(TableMetadata.DEFAULT_TAG_FILEPATH);// UserDefinedTagUtils.DEFAULT_TAG_FILEPATH
@@ -314,7 +309,7 @@ public class UserDefinedTagDAO {
 				}
 				query.append("?)");
 			} else {
-				
+
 				query.append("UPDATE ");
 				query.append(tableName);
 				query.append(" SET ");
@@ -328,9 +323,8 @@ public class UserDefinedTagDAO {
 				query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
 				query.append(" =? ");
 			}
-			
-			stmt = DatabaseFunctions.getPreparedStatement(connection,
-					query.toString());
+
+			stmt = DatabaseFunctions.getPreparedStatement(connection, query.toString());
 			int i = 1;
 			for (Object tagValueObj : tagValueObjs) {
 				if (tagValueObj instanceof byte[]) {
@@ -366,12 +360,12 @@ public class UserDefinedTagDAO {
 		Object obj = null;
 		try {
 			Class tagClass = tag.getTagClass();
-			if(tagClass != null) {
+			if (tagClass != null) {
 				LOG.debug("tag.getClass : " + tagClass.getName());
 			}
-			LOG.debug("tag.getValue : " + tag.getValue());  
-			if(tagClass != null) {
-				if(tagClass.getName().equalsIgnoreCase("java.lang.String")) {
+			LOG.debug("tag.getValue : " + tag.getValue());
+			if (tagClass != null) {
+				if (tagClass.getName().equalsIgnoreCase("java.lang.String")) {
 					obj = tag.getValue();
 				} else {
 					Method method = tagClass.getMethod("valueOf", String.class);
@@ -385,15 +379,15 @@ public class UserDefinedTagDAO {
 		}
 		return obj;
 	}
-	
-	private static boolean tagEntryExists(Connection connection,
-			String tableName, String filePath) throws SQLException {
+
+	private static boolean tagEntryExists(Connection connection, String tableName, String filePath)
+			throws SQLException {
 		StringBuffer query = new StringBuffer();
 		query.append("SELECT " + TableMetadata.DEFAULT_TAG_FILEPATH + " FROM ");
 		query.append(tableName);
 		query.append(" WHERE ");
 		query.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-		query.append(" ='"+filePath+"' ");
+		query.append(" ='" + filePath + "' ");
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -411,38 +405,36 @@ public class UserDefinedTagDAO {
 		return false;
 	}
 
-	public static boolean verifyDBSchema(Connection connection1, DBTypeProperties props,
-			TableMetadata tableMetadata) throws Exception {
-		if (checkIfTableExists(connection1,
-				"DATATAGS_" + tableMetadata.getTableName())) {
+	public static boolean verifyDBSchema(Connection connection1, DBTypeProperties props, TableMetadata tableMetadata)
+			throws Exception {
+		if (checkIfTableExists(connection1, "DATATAGS_" + tableMetadata.getTableName())) {
 			Statement stmt = null;
 			ResultSet rs = null;
 			try {
-				String query = "SELECT * FROM DATATAGS_"
-						+ tableMetadata.getTableName() + " LIMIT 0";
+				String query = "SELECT * FROM DATATAGS_" + tableMetadata.getTableName() + " LIMIT 0";
 
 				stmt = DatabaseFunctions.getStatement(connection1);
 				rs = DatabaseFunctions.getQueryResultsForStatement(stmt, query);
 				ResultSetMetaData meta = rs.getMetaData();
 				int numCol = meta.getColumnCount();
 				List<String> columnsInDb = new ArrayList<String>();
-				//CustomTagDBConfigManager.displayDBTypeProperties(props);
+				// CustomTagDBConfigManager.displayDBTypeProperties(props);
 				for (int i = 1; i <= numCol; i++) {
 					String columnName = meta.getColumnName(i);
-					ColumnMetadata cmd = tableMetadata
-							.getColumnMetadataByColumnName(columnName);
+					ColumnMetadata cmd = tableMetadata.getColumnMetadataByColumnName(columnName);
 					if (cmd == null
 							|| !props.getTypeMap().get(cmd.getColumnSqlDataType())
-									.equalsIgnoreCase(meta.getColumnTypeName(i)) || (cmd.isSizable() ? (cmd.getSize() != meta.getColumnDisplaySize(i)) : false)) {
-						throw new Exception("Table DATATAGS_"
-								+ tableMetadata.getTableName()
-								+ " already exists with different definition. For column : " + columnName + " " + props.getTypeMap().get(cmd.getColumnSqlDataType())+ (cmd.isSizable() ? " (" + cmd.getSize() +")" : ""));
+									.equalsIgnoreCase(meta.getColumnTypeName(i))
+							|| (cmd.isSizable() ? (cmd.getSize() != meta.getColumnDisplaySize(i)) : false)) {
+						throw new Exception("Table DATATAGS_" + tableMetadata.getTableName()
+								+ " already exists with different definition. For column : " + columnName + " "
+								+ props.getTypeMap().get(cmd.getColumnSqlDataType())
+								+ (cmd.isSizable() ? " (" + cmd.getSize() + ")" : ""));
 					}
 					columnsInDb.add(columnName);
 				}
 				if (columnsInDb.size() != tableMetadata.getColumns().size()) {
-					throw new Exception("Table DATATAGS_"
-							+ tableMetadata.getTableName()
+					throw new Exception("Table DATATAGS_" + tableMetadata.getTableName()
 							+ " already exists with different definition.");
 				}
 			} finally {
@@ -463,9 +455,8 @@ public class UserDefinedTagDAO {
 			return false;
 		}
 	}
-	
-	private static void deleteFromTable(Connection connection,
-			String tableName, String filePath) throws SQLException {
+
+	private static void deleteFromTable(Connection connection, String tableName, String filePath) throws SQLException {
 		StringBuffer query = new StringBuffer();
 		query.append("DELETE FROM ");
 		query.append(tableName);
@@ -476,8 +467,8 @@ public class UserDefinedTagDAO {
 		try {
 			stmt = DatabaseFunctions.getStatement(connection);
 			stmt.execute(query.toString());
-		} catch(Exception e){
-			LOG.fatal("Exception : " , e);
+		} catch (Exception e) {
+			LOG.fatal("Exception : ", e);
 		} finally {
 			try {
 				DatabaseFunctions.closeStatement(stmt);
@@ -487,18 +478,15 @@ public class UserDefinedTagDAO {
 		}
 	}
 
-	public static void deleteFromDefaultTable(Connection connection,
-			String filePath) throws SQLException {
-		deleteFromTable(connection, TableConstants.TABLE_HDFS_METADATA,
-				filePath);
+	public static void deleteFromDefaultTable(Connection connection, String filePath) throws SQLException {
+		deleteFromTable(connection, TableConstants.TABLE_HDFS_METADATA, filePath);
 	}
 
-	public static void deleteFileFromAllMetadataTables(Connection connection,
-			String filePath) throws SQLException {
+	public static void deleteFileFromAllMetadataTables(Connection connection, String filePath) throws SQLException {
 		DatabaseMetaData dbm = connection.getMetaData();
 		ResultSet tables = null;
 		try {
-			tables = dbm.getTables(null, null, "DATATAGS_%", new String[]{"TABLE"});
+			tables = dbm.getTables(null, null, "DATATAGS_%", new String[] { "TABLE" });
 			while (tables.next()) {
 				deleteFromTable(connection, tables.getString(3), filePath);
 			}
@@ -506,33 +494,34 @@ public class UserDefinedTagDAO {
 			DatabaseFunctions.closeResultSet(tables);
 		}
 	}
-	
-//	public static void main(String[] args) {
-//		Connection connection = null;
-//		String filePath = "/Data/xls";
-//		try {
-//			try {
-//				Class.forName("org.postgresql.Driver");
-//		    } catch (ClassNotFoundException e) {
-//		    	e.printStackTrace();
-//		    	System.exit(1);
-//		    }
-//			connection = DriverManager.getConnection("jdbc:postgresql://192.168.0.11:5432/metastore", "ADMIN", "ADMIN");
-//			deleteFileFromAllMetadataTables(connection, filePath);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (connection != null)
-//					connection.close();
-//		    } catch (Exception e) {
-//		    	e.printStackTrace();
-//		    }
-//		}
-//	}
 
-	private static void updatePermission(Connection connection,
-			String tableName, String filePath, String permissions)
+	// public static void main(String[] args) {
+	// Connection connection = null;
+	// String filePath = "/Data/xls";
+	// try {
+	// try {
+	// Class.forName("org.postgresql.Driver");
+	// } catch (ClassNotFoundException e) {
+	// e.printStackTrace();
+	// System.exit(1);
+	// }
+	// connection =
+	// DriverManager.getConnection("jdbc:postgresql://192.168.0.11:5432/metastore",
+	// "ADMIN", "ADMIN");
+	// deleteFileFromAllMetadataTables(connection, filePath);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// } finally {
+	// try {
+	// if (connection != null)
+	// connection.close();
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }
+
+	private static void updatePermission(Connection connection, String tableName, String filePath, String permissions)
 			throws SQLException {
 		StringBuffer query = new StringBuffer();
 		query.append("UPDATE ");
@@ -556,14 +545,12 @@ public class UserDefinedTagDAO {
 		}
 	}
 
-	public static void updatePermissionInDefaultTable(Connection connection,
-			String filePath, String permissions) throws SQLException {
-		updatePermission(connection, TableConstants.TABLE_HDFS_METADATA,
-				filePath, permissions);
+	public static void updatePermissionInDefaultTable(Connection connection, String filePath, String permissions)
+			throws SQLException {
+		updatePermission(connection, TableConstants.TABLE_HDFS_METADATA, filePath, permissions);
 	}
 
-	public static void updatePermissionInAllMetadataTables(
-			Connection connection, String filePath, String permissions)
+	public static void updatePermissionInAllMetadataTables(Connection connection, String filePath, String permissions)
 			throws SQLException {
 		DatabaseMetaData dbm = connection.getMetaData();
 		ResultSet tables = null;
@@ -579,29 +566,24 @@ public class UserDefinedTagDAO {
 
 	}
 
-	private static void renameFileInTable(Connection connection,
-			String tableName, String oldFilePath, String filePath)
+	private static void renameFileInTable(Connection connection, String tableName, String oldFilePath, String filePath)
 			throws SQLException {
 		ResultSet rs = null;
 		Statement st = null;
 		Statement st2 = null;
-		String query = "SELECT " + TableMetadata.DEFAULT_TAG_FILEPATH
-				+ " FROM " + tableName + " WHERE "
-				+ TableMetadata.DEFAULT_TAG_FILEPATH + " LIKE '" + oldFilePath
-				+ "%'";
+		String query = "SELECT " + TableMetadata.DEFAULT_TAG_FILEPATH + " FROM " + tableName + " WHERE "
+				+ TableMetadata.DEFAULT_TAG_FILEPATH + " LIKE '" + oldFilePath + "%'";
 		try {
 			st = connection.createStatement();
 			rs = st.executeQuery(query);
 			while (rs.next()) {
-				String oldValue = rs
-						.getString(TableMetadata.DEFAULT_TAG_FILEPATH);
+				String oldValue = rs.getString(TableMetadata.DEFAULT_TAG_FILEPATH);
 				StringBuffer q = new StringBuffer();
 				q.append("UPDATE ");
 				q.append(tableName);
 				q.append(" SET ");
 				q.append(TableMetadata.DEFAULT_TAG_FILEPATH);
-				q.append(" = '" + filePath
-						+ oldValue.substring(oldFilePath.length()) + "'");
+				q.append(" = '" + filePath + oldValue.substring(oldFilePath.length()) + "'");
 				q.append(" WHERE ");
 				q.append(TableMetadata.DEFAULT_TAG_FILEPATH);
 				q.append(" = '" + oldValue + "' ");
@@ -618,8 +600,8 @@ public class UserDefinedTagDAO {
 
 	}
 
-	public static void renameFileInAllMetadataTables(Connection connection,
-			String oldFilePath, String filePath) throws SQLException {
+	public static void renameFileInAllMetadataTables(Connection connection, String oldFilePath, String filePath)
+			throws SQLException {
 		DatabaseMetaData dbm = connection.getMetaData();
 		ResultSet tables = null;
 		try {
@@ -633,14 +615,12 @@ public class UserDefinedTagDAO {
 		}
 	}
 
-	public static void renameFileInDefaultTable(Connection connection,
-			String oldFilePath, String filePath) throws SQLException {
-		renameFileInTable(connection, TableConstants.TABLE_HDFS_METADATA,
-				oldFilePath, filePath);
+	public static void renameFileInDefaultTable(Connection connection, String oldFilePath, String filePath)
+			throws SQLException {
+		renameFileInTable(connection, TableConstants.TABLE_HDFS_METADATA, oldFilePath, filePath);
 	}
 
-	private static void updateReplication(Connection connection,
-			String tableName, String filePath, short replication)
+	private static void updateReplication(Connection connection, String tableName, String filePath, short replication)
 			throws SQLException {
 		StringBuffer query = new StringBuffer();
 		query.append("UPDATE ");
@@ -664,14 +644,12 @@ public class UserDefinedTagDAO {
 		}
 	}
 
-	public static void updateReplicationInDefaultTable(Connection connection,
-			String filePath, short replication) throws SQLException {
-		updateReplication(connection, TableConstants.TABLE_HDFS_METADATA,
-				filePath, replication);
+	public static void updateReplicationInDefaultTable(Connection connection, String filePath, short replication)
+			throws SQLException {
+		updateReplication(connection, TableConstants.TABLE_HDFS_METADATA, filePath, replication);
 	}
 
-	public static void updateReplicationInAllMetadataTables(
-			Connection connection, String filePath, short replication)
+	public static void updateReplicationInAllMetadataTables(Connection connection, String filePath, short replication)
 			throws SQLException {
 		DatabaseMetaData dbm = connection.getMetaData();
 		ResultSet tables = null;
@@ -686,9 +664,8 @@ public class UserDefinedTagDAO {
 		}
 	}
 
-	private static void updateOwner(Connection connection, String tableName,
-			String filePath, String username, String groupname)
-			throws SQLException {
+	private static void updateOwner(Connection connection, String tableName, String filePath, String username,
+			String groupname) throws SQLException {
 		StringBuffer query = new StringBuffer();
 		query.append("UPDATE ");
 		query.append(tableName);
@@ -714,24 +691,20 @@ public class UserDefinedTagDAO {
 
 	}
 
-	public static void updateOwnerInDefaultTable(Connection connection,
-			String filePath, String username, String groupname)
-			throws SQLException {
-		updateOwner(connection, TableConstants.TABLE_HDFS_METADATA, filePath,
-				username, groupname);
+	public static void updateOwnerInDefaultTable(Connection connection, String filePath, String username,
+			String groupname) throws SQLException {
+		updateOwner(connection, TableConstants.TABLE_HDFS_METADATA, filePath, username, groupname);
 	}
 
-	public static void updateOwnerInAllMetadataTables(Connection connection,
-			String filePath, String username, String groupname)
-			throws SQLException {
+	public static void updateOwnerInAllMetadataTables(Connection connection, String filePath, String username,
+			String groupname) throws SQLException {
 		DatabaseMetaData dbm = connection.getMetaData();
 		ResultSet tables = null;
 		try {
 			tables = dbm.getTables(null, null, "DATATAGS_%", null);
 			while (tables.next()) {
 				String tableName = tables.getString(3);
-				updateOwner(connection, tableName, filePath, username,
-						groupname);
+				updateOwner(connection, tableName, filePath, username, groupname);
 			}
 		} finally {
 			DatabaseFunctions.closeResultSet(tables);
@@ -739,8 +712,8 @@ public class UserDefinedTagDAO {
 
 	}
 
-	private static void updateTimes(Connection connection, String tableName,
-			String filePath, long mtime, long atime) throws SQLException {
+	private static void updateTimes(Connection connection, String tableName, String filePath, long mtime, long atime)
+			throws SQLException {
 		StringBuffer query = new StringBuffer();
 		query.append("UPDATE ");
 		query.append(tableName);
@@ -765,14 +738,13 @@ public class UserDefinedTagDAO {
 		}
 	}
 
-	public static void updateTimesInDefaultTable(Connection connection,
-			String filePath, long mtime, long atime) throws SQLException {
-		updateTimes(connection, TableConstants.TABLE_HDFS_METADATA, filePath,
-				mtime, atime);
+	public static void updateTimesInDefaultTable(Connection connection, String filePath, long mtime, long atime)
+			throws SQLException {
+		updateTimes(connection, TableConstants.TABLE_HDFS_METADATA, filePath, mtime, atime);
 	}
 
-	public static void updateTimesInAllMetadataTables(Connection connection,
-			String filePath, long mtime, long atime) throws SQLException {
+	public static void updateTimesInAllMetadataTables(Connection connection, String filePath, long mtime, long atime)
+			throws SQLException {
 		DatabaseMetaData dbm = connection.getMetaData();
 		ResultSet tables = null;
 		try {
@@ -786,43 +758,40 @@ public class UserDefinedTagDAO {
 		}
 
 	}
-	public static Timestamp getTimestamp(String date){
+
+	public static Timestamp getTimestamp(String date) {
 		SimpleDateFormat datetimeFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		Long val = System.currentTimeMillis();
-		try{
-			if(date.contains("-")){
-				if(date.contains("T")){
+		try {
+			if (date.contains("-")) {
+				if (date.contains("T")) {
 					date = date.replace("T", " ").replace("Z", ".001");
 				}
-				if(date.contains("."))
+				if (date.contains("."))
 					date = date.substring(0, date.indexOf("."));
-				try{
+				try {
 					Date lFromDate1 = datetimeFormatter.parse(date);
 					val = lFromDate1.getTime();
-					
-				}catch(Exception e){
+
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}else{
+			} else {
 				val = Long.valueOf(date);
 			}
-		}catch(Exception e){
-			//ignore.
+		} catch (Exception e) {
+			// ignore.
 		}
 		return new Timestamp(val);
 	}
-	
+
 	public static void main(String[] args) {
-		args = new String[] {
-			"1357661170000",
-			"2013-04-17 20:52:23.514",
-			"2013-01-08T16:06:14Z",
-			"2013-01-08 16:06:14",
-		};
-		
+		args = new String[] { "1357661170000", "2013-04-17 20:52:23.514", "2013-01-08T16:06:14Z",
+				"2013-01-08 16:06:14", };
+
 		for (int i = 0; i < args.length; i++) {
 			System.out.println(getTimestamp(args[i]));
-			
+
 		}
 	}
 }

@@ -23,10 +23,8 @@ import com.queryio.common.database.DatabaseFunctions;
 import com.queryio.common.database.QueryConstants;
 import com.queryio.common.util.AppLogger;
 
-public class QueryIOGroupInfoServiceProvider implements
-		GroupMappingServiceProvider {
-	private static final Log LOG = LogFactory
-			.getLog(QueryIOGroupInfoServiceProvider.class);
+public class QueryIOGroupInfoServiceProvider implements GroupMappingServiceProvider {
+	private static final Log LOG = LogFactory.getLog(QueryIOGroupInfoServiceProvider.class);
 
 	static {
 		LOG.info("QueryIOGroupInfoServiceProvider class loaded");
@@ -36,23 +34,18 @@ public class QueryIOGroupInfoServiceProvider implements
 		// Connect to QueryIO DB and update Group Information
 		Connection connection = null;
 		try {
-			String xmlFilePath = new File("").getAbsolutePath() + "/../"
-					+ QueryIOConstants.QUERYIOAGENT_DIR_NAME
+			String xmlFilePath = new File("").getAbsolutePath() + "/../" + QueryIOConstants.QUERYIOAGENT_DIR_NAME
 					+ "/webapps/" + QueryIOConstants.AGENT_QUERYIO + "/conf/" + QueryIOConstants.DBCONFIG_XML;
 
 			LOG.info("xmlFilePath: " + xmlFilePath);
-			String jdbcDriverPath = xmlFilePath.substring(0,
-					xmlFilePath.lastIndexOf("/"))
-					+ "/../jdbcJars";
+			String jdbcDriverPath = xmlFilePath.substring(0, xmlFilePath.lastIndexOf("/")) + "/../jdbcJars";
 			LOG.info("jdbcDriverPath: " + jdbcDriverPath);
-			
+
 			EnvironmentalConstants.setDbConfigFilePath(xmlFilePath);
 			EnvironmentalConstants.setJdbcDriverPath(jdbcDriverPath);
-			
-			try {				
-				new DatabaseConfigParser()
-						.loadDatabaseConfiguration(EnvironmentalConstants
-								.getDbConfigFilePath());
+
+			try {
+				new DatabaseConfigParser().loadDatabaseConfiguration(EnvironmentalConstants.getDbConfigFilePath());
 				CoreDBManager.initialize();
 			} catch (Exception e) {
 				LOG.fatal("Error Initialization Database Connection.", e);
@@ -73,175 +66,154 @@ public class QueryIOGroupInfoServiceProvider implements
 			}
 		}
 	}
-	
-	public static String getUserGroupInformation() throws Exception{
+
+	public static String getUserGroupInformation() throws Exception {
 		String response = "";
-		
+
 		Connection connection = null;
-		try{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-			
+
 			ArrayList userNames = getAllUserNames(connection);
 			ArrayList groupNames = null;
 			String userName = null;
-			
-			for(int i=0; i<userNames.size(); i++){
+
+			for (int i = 0; i < userNames.size(); i++) {
 				userName = (String) userNames.get(i);
-				
+
 				groupNames = getGroupsForUser(connection, userName);
-				
+
 				if (groupNames.size() > 0) {
 					response += userName;
 					response += ":";
-				
-					for(int j=0; j<groupNames.size(); j++){
+
+					for (int j = 0; j < groupNames.size(); j++) {
 						response += (String) groupNames.get(j);
-						if(j != groupNames.size()-1)	response += ",";
+						if (j != groupNames.size() - 1)
+							response += ",";
 					}
 				}
-				
+
 				response += "@NEWLINE@";
 			}
-		} finally{
-			try
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
-		
+
 		return response;
 	}
 
-	public static ArrayList getAllUserNames(final Connection connection) throws Exception
-	{
-		ArrayList list=new ArrayList();
+	public static ArrayList getAllUserNames(final Connection connection) throws Exception {
+		ArrayList list = new ArrayList();
 		Statement statement = null;
 		ResultSet rs = null;
-				
-		try{
+
+		try {
 			statement = DatabaseFunctions.getStatement(connection);
 			rs = CoreDBManager.getQueryResultsForStatement(statement, QueryConstants.QRY_GET_ALL_USERNAMES);
-			while(rs.next())
-			{
+			while (rs.next()) {
 				list.add(rs.getString(ColumnConstants.COL_USER_USERNAME));
 			}
-		}
-		finally{
-			try
-			{
+		} finally {
+			try {
 				DatabaseFunctions.closeSQLObjects(statement, rs);
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Database Objects could not be closed, Exception: " + e.getMessage(), e);
 			}
 		}
 		return list;
-		
+
 	}
-	
-	public static ArrayList getGroupsForUser(final Connection connection, String userName) throws Exception{
+
+	public static ArrayList getGroupsForUser(final Connection connection, String userName) throws Exception {
 		ArrayList list = new ArrayList();
-		
+
 		int userId = getUserId(connection, userName);
 		int groupId = -1;
 		String groupName = null;
-		
+
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
-		try
-		{
+
+		try {
 			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.PREPARED_QRY_GET_GROUPS_FOR_USER);
 			ps.setInt(1, userId);
-			
+
 			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
-			
-			while (rs.next())
-			{
+
+			while (rs.next()) {
 				groupName = getGroupName(connection, rs.getInt(ColumnConstants.COL_USER_GROUPS_GROUPID));
-				
-				if(groupName != null)	list.add(groupName);
+
+				if (groupName != null)
+					list.add(groupName);
 			}
-		}
-		finally
-		{
+		} finally {
 			DatabaseFunctions.closeResultSet(rs);
 			DatabaseFunctions.closePreparedStatement(ps);
 		}
-		
+
 		return list;
 	}
-	
-	public static int getUserId(Connection connection, String userName) throws Exception
-	{
+
+	public static int getUserId(Connection connection, String userName) throws Exception {
 		int id = -1;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
-		try
-		{
-			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.PREPARED_QRY_GET_USERID_FROM_USERNAME);
+
+		try {
+			ps = DatabaseFunctions.getPreparedStatement(connection,
+					QueryConstants.PREPARED_QRY_GET_USERID_FROM_USERNAME);
 			ps.setString(1, userName);
-			
+
 			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
-			
-			if (rs.next())
-			{
+
+			if (rs.next()) {
 				id = rs.getInt(ColumnConstants.COL_USER_ID);
 			}
-		}
-		finally
-		{
+		} finally {
 			DatabaseFunctions.closeResultSet(rs);
 			DatabaseFunctions.closePreparedStatement(ps);
 		}
-		
+
 		return id;
 	}
-	
-	public static String getGroupName(final Connection connection, int id) throws Exception{
+
+	public static String getGroupName(final Connection connection, int id) throws Exception {
 		String groupName = null;
-		
+
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
-		try
-		{
+
+		try {
 			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.PREPARED_QRY_GET_GROUP_NAME_FOR_ID);
 			ps.setInt(1, id);
-			
+
 			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
-			
-			while (rs.next())
-			{
+
+			while (rs.next()) {
 				groupName = rs.getString(ColumnConstants.COL_GROUPS_GROUPNAME);
 			}
-		}
-		finally
-		{
+		} finally {
 			DatabaseFunctions.closeResultSet(rs);
 			DatabaseFunctions.closePreparedStatement(ps);
 		}
-		
-		return groupName;		
+
+		return groupName;
 	}
-	
-	
+
 	public List<String> getGroups(String user) throws IOException {
 		return getQueryIOGroups(user);
 	}
 
-	
 	public void cacheGroupsRefresh() throws IOException {
 
 		// Connect to QueryIO DB and update Group Information
 		Connection connection = null;
-		try{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 			GroupInfoContainer.refreshGroupInformation(getUserGroupInformation());
 		} catch (Exception e) {
@@ -255,10 +227,9 @@ public class QueryIOGroupInfoServiceProvider implements
 				LOG.fatal(e.getMessage(), e);
 			}
 		}
-	
+
 	}
 
-	
 	public void cacheGroupsAdd(List<String> groups) throws IOException {
 
 	}

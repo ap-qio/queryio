@@ -35,8 +35,7 @@ import com.queryio.common.IOSProtocolConstants;
  * @author Exceed Consultancy Services.
  * @version 1.0
  */
-public final class PlatformHandler
-{
+public final class PlatformHandler {
 	private static String emptyString = ""; //$NON-NLS-1$
 	private static File nativeLibDirectory;
 	private static Map envVars;
@@ -45,7 +44,7 @@ public final class PlatformHandler
 
 	public static final String OS_NAME = System.getProperty("os.name"); //$NON-NLS-1$
 	public static final String JAVA_OS_ARCH = System.getProperty("os.arch"); //$NON-NLS-1$
-	public static final String JAVA_ARCH = System.getProperty(JDKProperties.ARCH_DATA_MODEL); //$NON-NLS-1$
+	public static final String JAVA_ARCH = System.getProperty(JDKProperties.ARCH_DATA_MODEL); // $NON-NLS-1$
 
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator"); //$NON-NLS-1$
 	public static final String PATH_SEPARATOR = File.pathSeparator;
@@ -56,8 +55,7 @@ public final class PlatformHandler
 	/**
 	 * Private constructor of the class to prevent it from getting instantiated.
 	 */
-	private PlatformHandler()
-	{
+	private PlatformHandler() {
 		// EMPTY constructor to avoid instantiation of this class.
 	}
 
@@ -79,8 +77,7 @@ public final class PlatformHandler
 	 * 
 	 * @param file
 	 */
-	public static void setNativeLibDirectory(final File file)
-	{
+	public static void setNativeLibDirectory(final File file) {
 		nativeLibDirectory = file;
 	}
 
@@ -89,8 +86,7 @@ public final class PlatformHandler
 	 * 
 	 * @return File
 	 */
-	public static File getNativeLibDirectory()
-	{
+	public static File getNativeLibDirectory() {
 		return nativeLibDirectory;
 	}
 
@@ -99,8 +95,7 @@ public final class PlatformHandler
 	 * 
 	 * @param s
 	 */
-	public static void setBrowserStartCommand(final String s)
-	{
+	public static void setBrowserStartCommand(final String s) {
 		browserStartCommand = s;
 	}
 
@@ -109,8 +104,7 @@ public final class PlatformHandler
 	 * 
 	 * @return String
 	 */
-	public static String getBrowserStartCommand()
-	{
+	public static String getBrowserStartCommand() {
 		return browserStartCommand;
 	}
 
@@ -119,8 +113,7 @@ public final class PlatformHandler
 	 * 
 	 * @param url
 	 */
-	public static void showURL(final URL url)
-	{
+	public static void showURL(final URL url) {
 		showURL(url.toExternalForm());
 	}
 
@@ -129,14 +122,10 @@ public final class PlatformHandler
 	 * 
 	 * @param s
 	 */
-	public static void showURL(final String s)
-	{
-		if ((browserStartCommand == null) || (browserStartCommand.length() == 0))
-		{
+	public static void showURL(final String s) {
+		if ((browserStartCommand == null) || (browserStartCommand.length() == 0)) {
 			defaultShowURL(s);
-		}
-		else
-		{
+		} else {
 			customShowURL(s);
 		}
 	}
@@ -146,8 +135,7 @@ public final class PlatformHandler
 	 * 
 	 * @param s
 	 */
-	private static void customShowURL(final String s)
-	{
+	private static void customShowURL(final String s) {
 		execCommand(browserStartCommand + s);
 	}
 
@@ -156,18 +144,12 @@ public final class PlatformHandler
 	 * 
 	 * @param s
 	 */
-	private static void defaultShowURL(final String url)
-	{
-		if (isWindows())
-		{
+	private static void defaultShowURL(final String url) {
+		if (isWindows()) {
 			execCommand("rundll32.exe url.dll,FileProtocolHandler " + url); //$NON-NLS-1$
-		}
-		else if(PlatformHandler.isMacOS())
-		{
-			execCommand("open "+ url);
-		}
-		else
-		{
+		} else if (PlatformHandler.isMacOS()) {
+			execCommand("open " + url);
+		} else {
 			execCommand("firefox " + url + " || mozilla " + url + " || konqueror " + url + " || opera " + url); //$NON-NLS-1$
 		}
 	}
@@ -177,8 +159,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isSolaris()
-	{
+	public static boolean isSolaris() {
 		return isSolaris(OS_NAME);
 	}
 
@@ -187,8 +168,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isSolaris(final String osName)
-	{
+	public static boolean isSolaris(final String osName) {
 		return (osName != null) && osName.equals("SunOS"); //$NON-NLS-1$
 	}
 
@@ -197,8 +177,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isSolarisSparc()
-	{
+	public static boolean isSolarisSparc() {
 		return isSolarisSparc(OS_NAME, JAVA_OS_ARCH);
 	}
 
@@ -207,8 +186,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isSolarisSparc(final String osName, final String osArch)
-	{
+	public static boolean isSolarisSparc(final String osName, final String osArch) {
 		return (osArch != null) && isSolaris(osName) && osArch.equals("sparc"); //$NON-NLS-1$
 	}
 
@@ -217,8 +195,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isLinux()
-	{
+	public static boolean isLinux() {
 		return isLinux(OS_NAME);
 	}
 
@@ -227,8 +204,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isLinux(final String osName)
-	{
+	public static boolean isLinux(final String osName) {
 		return (osName != null) && osName.toLowerCase().startsWith("linux"); //$NON-NLS-1$
 	}
 
@@ -237,8 +213,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isLinuxX86(final String osName, final String osArch)
-	{
+	public static boolean isLinuxX86(final String osName, final String osArch) {
 		return (osArch != null) && isLinux(osName) && (osArch.indexOf("86") > -1); //$NON-NLS-1$
 	}
 
@@ -247,8 +222,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isLinuxX86()
-	{
+	public static boolean isLinuxX86() {
 		return isLinuxX86(OS_NAME, JAVA_OS_ARCH);
 	}
 
@@ -257,8 +231,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isMacOS()
-	{
+	public static boolean isMacOS() {
 		return isMacOS(OS_NAME);
 	}
 
@@ -267,8 +240,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isMacOS(final String osName)
-	{
+	public static boolean isMacOS(final String osName) {
 		return (osName != null) && osName.toLowerCase().startsWith("mac"); //$NON-NLS-1$
 	}
 
@@ -277,8 +249,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isMacOSX()
-	{
+	public static boolean isMacOSX() {
 		return isMacOSX(OS_NAME, JAVA_OS_ARCH);
 	}
 
@@ -287,8 +258,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isMacOSX(final String osName, final String osArch)
-	{
+	public static boolean isMacOSX(final String osName, final String osArch) {
 		return (osArch != null) && isMacOS(osName) && (osArch.toUpperCase().indexOf("X") > -1); //$NON-NLS-1$
 	}
 
@@ -297,8 +267,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	public static boolean isWindows()
-	{
+	public static boolean isWindows() {
 		return isWindows(OS_NAME);
 	}
 
@@ -307,8 +276,7 @@ public final class PlatformHandler
 	 * 
 	 * @return boolean
 	 */
-	private static boolean isWindows(final String osName)
-	{
+	private static boolean isWindows(final String osName) {
 		return (osName != null) && osName.toLowerCase().startsWith("win"); //$NON-NLS-1$
 	}
 
@@ -340,8 +308,7 @@ public final class PlatformHandler
 	 * 
 	 * @return
 	 */
-	public static boolean is64bitProductVersion()
-	{
+	public static boolean is64bitProductVersion() {
 		// non of the standard 32bit OS architecture name has 64 as part of
 		// their string hence it is expected that if "64" is part of OS
 		// architecture name then it is 64bit OS
@@ -353,22 +320,17 @@ public final class PlatformHandler
 	 * 
 	 * @return String
 	 */
-	public static String getPlatformDescriptor()
-	{
-		if (isWindows())
-		{
+	public static String getPlatformDescriptor() {
+		if (isWindows()) {
 			return "windows"; //$NON-NLS-1$
 		}
-		if (isLinuxX86())
-		{
+		if (isLinuxX86()) {
 			return "linux-x86"; //$NON-NLS-1$
 		}
-		if (isMacOS())
-		{
+		if (isMacOS()) {
 			return "mac"; //$NON-NLS-1$
 		}
-		if (isSolarisSparc())
-		{
+		if (isSolarisSparc()) {
 			return "solaris-sparc"; //$NON-NLS-1$
 		}
 		return "unknown"; //$NON-NLS-1$
@@ -380,14 +342,11 @@ public final class PlatformHandler
 	 * @param s
 	 * @return String
 	 */
-	public static String getLibraryName(final String s)
-	{
-		if (isWindows())
-		{
+	public static String getLibraryName(final String s) {
+		if (isWindows()) {
 			return s + ".dll"; //$NON-NLS-1$
 		}
-		if (isMacOS())
-		{
+		if (isMacOS()) {
 			return "lib" + s + ".jnilib"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return "lib" + s + ".so"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -398,14 +357,10 @@ public final class PlatformHandler
 	 * 
 	 * @return String
 	 */
-	public static String getLibraryEnvVarName()
-	{
-		if (isWindows())
-		{
+	public static String getLibraryEnvVarName() {
+		if (isWindows()) {
 			return "PATH"; //$NON-NLS-1$
-		}
-		else if (isMacOS())
-		{
+		} else if (isMacOS()) {
 			return "DYLD_LIBRARY_PATH"; //$NON-NLS-1$
 		}
 
@@ -417,10 +372,8 @@ public final class PlatformHandler
 	 * 
 	 * @return Map
 	 */
-	public static Map getEnvVariables()
-	{
-		if (envVars == null)
-		{
+	public static Map getEnvVariables() {
+		if (envVars == null) {
 			initEnvVariables();
 		}
 		return envVars;
@@ -429,15 +382,11 @@ public final class PlatformHandler
 	/**
 	 * Method initEnvVariables.
 	 */
-	private static void initEnvVariables()
-	{
+	private static void initEnvVariables() {
 		envVars = new HashMap();
-		if (isWindows())
-		{
+		if (isWindows()) {
 			initEnvVariablesWindows();
-		}
-		else
-		{
+		} else {
 			initEnvVariablesUnix();
 		}
 	}
@@ -445,16 +394,14 @@ public final class PlatformHandler
 	/**
 	 * Method initEnvVariablesWindows.
 	 */
-	private static void initEnvVariablesWindows()
-	{
+	private static void initEnvVariablesWindows() {
 		initEnvVariablesFromProcess("cmd.exe /c set"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Method initEnvVariablesUnix.
 	 */
-	private static void initEnvVariablesUnix()
-	{
+	private static void initEnvVariablesUnix() {
 		initEnvVariablesFromProcess("/usr/bin/env"); //$NON-NLS-1$
 	}
 
@@ -463,20 +410,15 @@ public final class PlatformHandler
 	 * 
 	 * @param s
 	 */
-	private static void initEnvVariablesFromProcess(final String s)
-	{
-		try
-		{
+	private static void initEnvVariablesFromProcess(final String s) {
+		try {
 			final Process process = Runtime.getRuntime().exec(s);
 			final BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String s1;
-			while ((s1 = bufferedreader.readLine()) != null)
-			{
+			while ((s1 = bufferedreader.readLine()) != null) {
 				breakUpEnvVariable(s1);
 			}
-		}
-		catch (final IOException ioexception)
-		{
+		} catch (final IOException ioexception) {
 			// do not log this
 		}
 	}
@@ -486,11 +428,9 @@ public final class PlatformHandler
 	 * 
 	 * @param s
 	 */
-	private static void breakUpEnvVariable(final String s)
-	{
+	private static void breakUpEnvVariable(final String s) {
 		final int i = s.indexOf(61);
-		if (i > -1)
-		{
+		if (i > -1) {
 			final String s1 = s.substring(0, i);
 			final String s2 = s.substring(i + 1);
 			envVars.put(s1, s2);
@@ -502,57 +442,41 @@ public final class PlatformHandler
 	 * 
 	 * @param s
 	 */
-	private static void execCommand(final String s)
-	{
-		if (s != null)
-		{
-			try
-			{
+	private static void execCommand(final String s) {
+		if (s != null) {
+			try {
 				Runtime.getRuntime().exec(s);
-			}
-			catch (final IOException ioexception)
-			{
+			} catch (final IOException ioexception) {
 				// do not log this
 			}
 		}
 	}
 
-	public static String getKeyToolExecutable(String path)
-	{
+	public static String getKeyToolExecutable(String path) {
 		path = path.trim();
-		if (!path.endsWith(FILE_SEPARATOR))
-		{
+		if (!path.endsWith(FILE_SEPARATOR)) {
 			path += FILE_SEPARATOR;
 		}
 		String sCommand = emptyString;
-		if (isMacOS())
-		{
+		if (isMacOS()) {
 			if (path.indexOf("Home") == -1) //$NON-NLS-1$
 			{
 				sCommand = path + "Home" + FILE_SEPARATOR + "bin" + FILE_SEPARATOR + getJavaExecutable(false); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			else
-			{
+			} else {
 				sCommand = path + "bin" + FILE_SEPARATOR + getKeyToolExecutable(); //$NON-NLS-1$
 			}
-		}
-		else
-		{
+		} else {
 			sCommand = path + "bin" + FILE_SEPARATOR + getKeyToolExecutable(); //$NON-NLS-1$
 		}
-		try
-		{
+		try {
 			sCommand = new File(sCommand).getCanonicalPath();
-		}
-		catch (final Exception e)
-		{
+		} catch (final Exception e) {
 			sCommand = new File(sCommand).getAbsolutePath();
 		}
 		return sCommand;
 	}
 
-	public static String getJavaExecutable(final String path)
-	{
+	public static String getJavaExecutable(final String path) {
 		return getJavaExecutable(path, false);
 	}
 
@@ -561,35 +485,25 @@ public final class PlatformHandler
 	 * 
 	 * @return String
 	 */
-	public static String getJavaExecutable(String path, final boolean nonui)
-	{
+	public static String getJavaExecutable(String path, final boolean nonui) {
 		path = path.trim();
-		if (!path.endsWith(FILE_SEPARATOR))
-		{
+		if (!path.endsWith(FILE_SEPARATOR)) {
 			path += FILE_SEPARATOR;
 		}
 		String sCommand = emptyString;
-		if (isMacOS())
-		{
+		if (isMacOS()) {
 			if (path.indexOf("Home") == -1) //$NON-NLS-1$
 			{
 				sCommand = path + "Home" + FILE_SEPARATOR + "bin" + FILE_SEPARATOR + getJavaExecutable(nonui); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			else
-			{
+			} else {
 				sCommand = path + "bin" + FILE_SEPARATOR + getJavaExecutable(nonui); //$NON-NLS-1$
 			}
-		}
-		else
-		{
+		} else {
 			sCommand = path + "bin" + FILE_SEPARATOR + getJavaExecutable(nonui); //$NON-NLS-1$
 		}
-		try
-		{
+		try {
 			sCommand = new File(sCommand).getCanonicalPath();
-		}
-		catch (final Exception e)
-		{
+		} catch (final Exception e) {
 			sCommand = new File(sCommand).getAbsolutePath();
 		}
 		return sCommand;
@@ -601,19 +515,15 @@ public final class PlatformHandler
 	 * @param bSwtApplication
 	 * @return String
 	 */
-	private static String getJavaExecutable(final boolean nonui)
-	{
-		if (isWindows())
-		{
+	private static String getJavaExecutable(final boolean nonui) {
+		if (isWindows()) {
 			return nonui ? "java.exe" : "javaw.exe"; //$NON-NLS-1$
 		}
 		return "java"; //$NON-NLS-1$
 	}
 
-	private static String getKeyToolExecutable()
-	{
-		if (isWindows())
-		{
+	private static String getKeyToolExecutable() {
+		if (isWindows()) {
 			return "keytool.exe"; //$NON-NLS-1$
 		}
 		return "keytool"; //$NON-NLS-1$
@@ -624,8 +534,7 @@ public final class PlatformHandler
 	 * 
 	 * @return
 	 */
-	public static boolean isAllJarsInClasspath()
-	{
+	public static boolean isAllJarsInClasspath() {
 		return true;
 	}
 
@@ -635,8 +544,7 @@ public final class PlatformHandler
 	 * @param s
 	 * @return String
 	 */
-	public static String getWorkaroundPath(String s)
-	{
+	public static String getWorkaroundPath(String s) {
 		int i;
 		while ((i = s.indexOf("%20")) > -1) //$NON-NLS-1$
 		{
@@ -650,17 +558,12 @@ public final class PlatformHandler
 	 * 
 	 * @return String[]
 	 */
-	public static String[] getScriptSuffixes()
-	{
-		if (scriptSuffixes == null)
-		{
-			if (isWindows())
-			{
+	public static String[] getScriptSuffixes() {
+		if (scriptSuffixes == null) {
+			if (isWindows()) {
 				scriptSuffixes = (new String[] { "bat", "cmd" //$NON-NLS-1$ //$NON-NLS-2$
 				});
-			}
-			else
-			{
+			} else {
 				scriptSuffixes = (new String[] { "", "sh" //$NON-NLS-1$ //$NON-NLS-2$
 				});
 			}
@@ -673,40 +576,28 @@ public final class PlatformHandler
 	 * 
 	 * @return String
 	 */
-	public static String getCommentIdentifier()
-	{
-		if (isWindows())
-		{
+	public static String getCommentIdentifier() {
+		if (isWindows()) {
 			return "rem"; //$NON-NLS-1$
 		}
 		return "#"; //$NON-NLS-1$
 	}
 
-	public static int getOSType()
-	{
+	public static int getOSType() {
 		return getOSType(OS_NAME);
 	}
 
-	public static int getOSType(final String osName)
-	{
-		if (osName == null)
-		{
+	public static int getOSType(final String osName) {
+		if (osName == null) {
 			return IOSProtocolConstants.WINDOWS;
 		}
-		if (isWindows(osName))
-		{
+		if (isWindows(osName)) {
 			return IOSProtocolConstants.WINDOWS;
-		}
-		else if (isLinux(osName))
-		{
+		} else if (isLinux(osName)) {
 			return IOSProtocolConstants.LINUX;
-		}
-		else if (isSolaris(osName))
-		{
+		} else if (isSolaris(osName)) {
 			return IOSProtocolConstants.SOLARIS;
-		}
-		else if (isMacOS(osName))
-		{
+		} else if (isMacOS(osName)) {
 			return IOSProtocolConstants.MACOSX;
 		}
 		return IOSProtocolConstants.UNDEFINED;
@@ -734,10 +625,10 @@ public final class PlatformHandler
 	 * @return String
 	 */
 	/*
-	 * private static String encodeSpaces(String s) { StringBuffer stringbuffer =
-	 * new StringBuffer(); int i = s.length(); for(int j = 0; j < i; j++) {
-	 * if(s.charAt(j) == ' ') { stringbuffer.append("%20"); //$NON-NLS-1$ } else {
-	 * stringbuffer.append(s.charAt(j)); } }
+	 * private static String encodeSpaces(String s) { StringBuffer stringbuffer
+	 * = new StringBuffer(); int i = s.length(); for(int j = 0; j < i; j++) {
+	 * if(s.charAt(j) == ' ') { stringbuffer.append("%20"); //$NON-NLS-1$ } else
+	 * { stringbuffer.append(s.charAt(j)); } }
 	 * 
 	 * return stringbuffer.toString(); }
 	 */

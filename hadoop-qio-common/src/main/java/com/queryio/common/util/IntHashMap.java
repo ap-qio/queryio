@@ -11,8 +11,7 @@ import java.util.NoSuchElementException;
  * 
  * @author Exceed Consultancy Services
  */
-public class IntHashMap implements Cloneable, java.io.Serializable
-{
+public class IntHashMap implements Cloneable, java.io.Serializable {
 	/**
 	 * The hash tableIterator data.
 	 */
@@ -59,20 +58,16 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 *             if the initial capacity is less than zero, or if the load
 	 *             factor is nonpositive.
 	 */
-	public IntHashMap(int initialCapacity, final float load)
-	{
-		if (initialCapacity < 0)
-		{
+	public IntHashMap(int initialCapacity, final float load) {
+		if (initialCapacity < 0) {
 			throw new IllegalArgumentException("Illegal Initial Capacity: " + initialCapacity); //$NON-NLS-1$
 		}
 
-		if ((load <= 0) || Float.isNaN(load))
-		{
+		if ((load <= 0) || Float.isNaN(load)) {
 			throw new IllegalArgumentException("Illegal Load factor: " + load); //$NON-NLS-1$
 		}
 
-		if (initialCapacity == 0)
-		{
+		if (initialCapacity == 0) {
 			initialCapacity = 1;
 		}
 
@@ -90,8 +85,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * @throws IllegalArgumentException
 	 *             if the initial capacity is less than zero.
 	 */
-	public IntHashMap(final int initialCapacity)
-	{
+	public IntHashMap(final int initialCapacity) {
 		this(initialCapacity, 0.75f);
 	}
 
@@ -99,8 +93,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * Constructs a new, empty map with a default capacity and load factor,
 	 * which is <tt>0.75</tt>.
 	 */
-	public IntHashMap()
-	{
+	public IntHashMap() {
 		this(11, 0.75f);
 	}
 
@@ -109,8 +102,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * 
 	 * @return the number of key-value mappings in this map.
 	 */
-	public final int size()
-	{
+	public final int size() {
 		return this.count;
 	}
 
@@ -119,8 +111,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * 
 	 * @return <tt>true</tt> if this map contains no key-value mappings.
 	 */
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		return this.count == 0;
 	}
 
@@ -129,17 +120,14 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * 
 	 * @return an int array of all the keys being used for this hashmap
 	 */
-	public int[] keys()
-	{
+	public int[] keys() {
 		final int[] intArray = new int[this.count];
 
 		final Entry tab[] = this.table;
 
 		int ctr = 0;
-		for (int i = tab.length; i-- > 0;)
-		{
-			for (Entry e = tab[i]; e != null; e = e.next)
-			{
+		for (int i = tab.length; i-- > 0;) {
+			for (Entry e = tab[i]; e != null; e = e.next) {
 				intArray[ctr++] = e.key;
 			}
 		}
@@ -148,39 +136,29 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	}
 
 	/**
-	 * Returns <tt>true</tt> if this map maps one or more keys to the
-	 * specified value.
+	 * Returns <tt>true</tt> if this map maps one or more keys to the specified
+	 * value.
 	 * 
 	 * @param value
 	 *            value whose presence in this map is to be tested.
-	 * @return <tt>true</tt> if this map maps one or more keys to the
-	 *         specified value.
+	 * @return <tt>true</tt> if this map maps one or more keys to the specified
+	 *         value.
 	 */
-	public boolean containsValue(final Object value)
-	{
+	public boolean containsValue(final Object value) {
 		final Entry tab[] = this.table;
 
-		if (value == null)
-		{
-			for (int i = tab.length; i-- > 0;)
-			{
-				for (Entry e = tab[i]; e != null; e = e.next)
-				{
-					if (e.value == null)
-					{
+		if (value == null) {
+			for (int i = tab.length; i-- > 0;) {
+				for (Entry e = tab[i]; e != null; e = e.next) {
+					if (e.value == null) {
 						return true;
 					}
 				}
 			}
-		}
-		else
-		{
-			for (int i = tab.length; i-- > 0;)
-			{
-				for (Entry e = tab[i]; e != null; e = e.next)
-				{
-					if (value.equals(e.value))
-					{
+		} else {
+			for (int i = tab.length; i-- > 0;) {
+				for (Entry e = tab[i]; e != null; e = e.next) {
+					if (value.equals(e.value)) {
 						return true;
 					}
 				}
@@ -199,17 +177,14 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * @param key
 	 *            key whose presence in this Map is to be tested.
 	 */
-	public boolean containsKey(final int key)
-	{
+	public boolean containsKey(final int key) {
 		final Entry tab[] = this.table;
 
 		final int hash = key;
 		final int index = (hash & 0x7FFFFFFF) % tab.length;
 
-		for (Entry e = tab[index]; e != null; e = e.next)
-		{
-			if ((e.hash == hash) && (key == e.key))
-			{
+		for (Entry e = tab[index]; e != null; e = e.next) {
+			if ((e.hash == hash) && (key == e.key)) {
 				return true;
 			}
 		}
@@ -218,9 +193,9 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 
 	/**
 	 * Returns the value to which this map maps the specified key. Returns
-	 * <tt>null</tt> if the map contains no mapping for this key. A return
-	 * value of <tt>null</tt> does not <i>necessarily</i> indicate that the
-	 * map contains no mapping for the key; it's also possible that the map
+	 * <tt>null</tt> if the map contains no mapping for this key. A return value
+	 * of <tt>null</tt> does not <i>necessarily</i> indicate that the map
+	 * contains no mapping for the key; it's also possible that the map
 	 * explicitly maps the key to <tt>null</tt>. The <tt>containsKey</tt>
 	 * operation may be used to distinguish these two cases.
 	 * 
@@ -228,16 +203,13 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * @param key
 	 *            key whose associated value is to be returned.
 	 */
-	public Object get(final int key)
-	{
+	public Object get(final int key) {
 		final Entry tab[] = this.table;
 
 		final int hash = key;
 		final int index = (hash & 0x7FFFFFFF) % tab.length;
-		for (Entry e = tab[index]; e != null; e = e.next)
-		{
-			if ((e.hash == hash) && (key == e.key))
-			{
+		for (Entry e = tab[index]; e != null; e = e.next) {
+			if ((e.hash == hash) && (key == e.key)) {
 				return e.value;
 			}
 		}
@@ -245,12 +217,11 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	}
 
 	/**
-	 * Rehashes the contents of this map into a new <tt>IntHashMap</tt>
-	 * instance with a larger capacity. This method is called automatically when
-	 * the number of keys in this map exceeds its capacity and load factor.
+	 * Rehashes the contents of this map into a new <tt>IntHashMap</tt> instance
+	 * with a larger capacity. This method is called automatically when the
+	 * number of keys in this map exceeds its capacity and load factor.
 	 */
-	private void rehash()
-	{
+	private void rehash() {
 		final int oldCapacity = this.table.length;
 		final Entry oldMap[] = this.table;
 
@@ -261,10 +232,8 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		this.threshold = (int) (newCapacity * this.loadFactor);
 		this.table = newMap;
 
-		for (int i = oldCapacity; i-- > 0;)
-		{
-			for (Entry old = oldMap[i]; old != null;)
-			{
+		for (int i = oldCapacity; i-- > 0;) {
+			for (Entry old = oldMap[i]; old != null;) {
 				final Entry e = old;
 				old = old.next;
 
@@ -284,13 +253,12 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 *            key with which the specified value is to be associated.
 	 * @param value
 	 *            value to be associated with the specified key.
-	 * @return previous value associated with specified key, or <tt>null</tt>
-	 *         if there was no mapping for key. A <tt>null</tt> return can
-	 *         also indicate that the IntHashMap previously associated
-	 *         <tt>null</tt> with the specified key.
+	 * @return previous value associated with specified key, or <tt>null</tt> if
+	 *         there was no mapping for key. A <tt>null</tt> return can also
+	 *         indicate that the IntHashMap previously associated <tt>null</tt>
+	 *         with the specified key.
 	 */
-	public Object put(final int key, final Object value)
-	{
+	public Object put(final int key, final Object value) {
 		// Makes sure the key is not already in the IntHashMap.
 		Entry tab[] = this.table;
 		int hash = 0;
@@ -298,10 +266,8 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 
 		hash = key;
 		index = (hash & 0x7FFFFFFF) % tab.length;
-		for (Entry e = tab[index]; e != null; e = e.next)
-		{
-			if ((e.hash == hash) && (key == e.key))
-			{
+		for (Entry e = tab[index]; e != null; e = e.next) {
+			if ((e.hash == hash) && (key == e.key)) {
 				final Object old = e.value;
 				e.value = value;
 				return old;
@@ -309,8 +275,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		}
 
 		this.modCount++;
-		if (this.count >= this.threshold)
-		{
+		if (this.count >= this.threshold) {
 			// Rehash the tableIterator if the threshold is exceeded
 			this.rehash();
 
@@ -331,29 +296,23 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * 
 	 * @param key
 	 *            key whose mapping is to be removed from the map.
-	 * @return previous value associated with specified key, or <tt>null</tt>
-	 *         if there was no mapping for key. A <tt>null</tt> return can
-	 *         also indicate that the map previously associated <tt>null</tt>
-	 *         with the specified key.
+	 * @return previous value associated with specified key, or <tt>null</tt> if
+	 *         there was no mapping for key. A <tt>null</tt> return can also
+	 *         indicate that the map previously associated <tt>null</tt> with
+	 *         the specified key.
 	 */
-	public Object remove(final int key)
-	{
+	public Object remove(final int key) {
 		final Entry tab[] = this.table;
 
 		final int hash = key;
 		final int index = (hash & 0x7FFFFFFF) % tab.length;
 
-		for (Entry e = tab[index], prev = null; e != null; prev = e, e = e.next)
-		{
-			if ((e.hash == hash) && (key == e.key))
-			{
+		for (Entry e = tab[index], prev = null; e != null; prev = e, e = e.next) {
+			if ((e.hash == hash) && (key == e.key)) {
 				this.modCount++;
-				if (prev != null)
-				{
+				if (prev != null) {
 					prev.next = e.next;
-				}
-				else
-				{
+				} else {
 					tab[index] = e.next;
 				}
 
@@ -369,31 +328,26 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	/**
 	 * Removes all mappings from this map.
 	 */
-	public void clear()
-	{
+	public void clear() {
 		final Entry tab[] = this.table;
 		this.modCount++;
-		for (int index = tab.length; --index >= 0;)
-		{
+		for (int index = tab.length; --index >= 0;) {
 			tab[index] = null;
 		}
 		this.count = 0;
 	}
 
 	/**
-	 * Returns a shallow copy of this <tt>IntHashMap</tt> instance: the keys
-	 * and values themselves are not cloned.
+	 * Returns a shallow copy of this <tt>IntHashMap</tt> instance: the keys and
+	 * values themselves are not cloned.
 	 * 
 	 * @return a shallow copy of this map.
 	 */
-	public Object clone()
-	{
-		try
-		{
+	public Object clone() {
+		try {
 			final IntHashMap t = (IntHashMap) super.clone();
 			t.table = new Entry[this.table.length];
-			for (int i = this.table.length; i-- > 0;)
-			{
+			for (int i = this.table.length; i-- > 0;) {
 				t.table[i] = (this.table[i] != null) ? (Entry) this.table[i].clone() : null;
 			}
 			/*
@@ -402,9 +356,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 			t.values = null;
 			t.modCount = 0;
 			return t;
-		}
-		catch (final CloneNotSupportedException e)
-		{
+		} catch (final CloneNotSupportedException e) {
 			// this shouldn't happen, since we are Cloneable
 			throw new InternalError();
 		}
@@ -434,8 +386,8 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * public Iterator iterator() { return getHashIterator(KEYS); } public int
 	 * size() { return count; } public boolean contains(Object o) { return
 	 * containsKey(o); } public boolean remove(Object o) { int oldSize = count;
-	 * IntHashMap.this.remove(o); return count != oldSize; } public void clear() {
-	 * IntHashMap.this.clear(); } }; } return keySet; }
+	 * IntHashMap.this.remove(o); return count != oldSize; } public void clear()
+	 * { IntHashMap.this.clear(); } }; } return keySet; }
 	 */
 
 	/**
@@ -443,26 +395,21 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * collection is backed by the map, so changes to the map are reflected in
 	 * the collection, and vice-versa. The collection supports element removal,
 	 * which removes the corresponding mapping from this map, via the
-	 * <tt>Iterator.remove</tt>, <tt>Collection.remove</tt>,
-	 * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt>
-	 * operations. It does not support the <tt>add</tt> or <tt>addAll</tt>
-	 * operations.
+	 * <tt>Iterator.remove</tt>, <tt>Collection.remove</tt>, <tt>removeAll</tt>,
+	 * <tt>retainAll</tt>, and <tt>clear</tt> operations. It does not support
+	 * the <tt>add</tt> or <tt>addAll</tt> operations.
 	 * 
 	 * @return a collection view of the values contained in this map.
 	 */
-	public Collection values()
-	{
-		if (this.values == null)
-		{
-			this.values = new AbstractCollection()
-			{
+	public Collection values() {
+		if (this.values == null) {
+			this.values = new AbstractCollection() {
 				/**
 				 * Method iterator
 				 * 
 				 * @return Iterator
 				 */
-				public Iterator iterator()
-				{
+				public Iterator iterator() {
 					return IntHashMap.this.getHashIterator(VALUES);
 				}
 
@@ -471,8 +418,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 				 * 
 				 * @return int
 				 */
-				public final int size()
-				{
+				public final int size() {
 					return IntHashMap.this.count;
 				}
 
@@ -483,16 +429,14 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 				 *            Object
 				 * @return boolean
 				 */
-				public boolean contains(final Object o)
-				{
+				public boolean contains(final Object o) {
 					return IntHashMap.this.containsValue(o);
 				}
 
 				/**
 				 * Method clear
 				 */
-				public void clear()
-				{
+				public void clear() {
 					IntHashMap.this.clear();
 				}
 			};
@@ -506,46 +450,47 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * collection is backed by the map, so changes to the map are reflected in
 	 * the collection, and vice-versa. The collection supports element removal,
 	 * which removes the corresponding mapping from the map, via the
-	 * <tt>Iterator.remove</tt>, <tt>Collection.remove</tt>,
-	 * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt>
-	 * operations. It does not support the <tt>add</tt> or <tt>addAll</tt>
-	 * operations.
+	 * <tt>Iterator.remove</tt>, <tt>Collection.remove</tt>, <tt>removeAll</tt>,
+	 * <tt>retainAll</tt>, and <tt>clear</tt> operations. It does not support
+	 * the <tt>add</tt> or <tt>addAll</tt> operations.
 	 * 
 	 * @return a collection view of the mappings contained in this map. /*public
 	 *         Set entrySet() { if (entrySet==null) { entrySet = new
 	 *         AbstractSet() { public Iterator iterator() { return
 	 *         getHashIterator(ENTRIES); }
 	 * 
-	 * public boolean contains(Object o) { if (!(o instanceof Map.Entry)) {
-	 * return false; } Map.Entry entry = (Map.Entry)o; Object key =
-	 * entry.getKey(); Entry tab[] = tableIterator; int hash = (key==null ? 0 :
-	 * key.hashCode()); int index = (hash & 0x7FFFFFFF) % tab.length;
+	 *         public boolean contains(Object o) { if (!(o instanceof
+	 *         Map.Entry)) { return false; } Map.Entry entry = (Map.Entry)o;
+	 *         Object key = entry.getKey(); Entry tab[] = tableIterator; int
+	 *         hash = (key==null ? 0 : key.hashCode()); int index = (hash &
+	 *         0x7FFFFFFF) % tab.length;
 	 * 
-	 * for (Entry e = tab[index]; e != null; e = e.next) { if (e.hash==hash &&
-	 * e.equals(entry)) { return true; } } return false; }
+	 *         for (Entry e = tab[index]; e != null; e = e.next) { if
+	 *         (e.hash==hash && e.equals(entry)) { return true; } } return
+	 *         false; }
 	 * 
-	 * public boolean remove(Object o) { if (!(o instanceof Map.Entry)) { return
-	 * false; } Map.Entry entry = (Map.Entry)o; Object key = entry.getKey();
-	 * Entry tab[] = tableIterator; int hash = (key==null ? 0 : key.hashCode());
-	 * int index = (hash & 0x7FFFFFFF) % tab.length;
+	 *         public boolean remove(Object o) { if (!(o instanceof Map.Entry))
+	 *         { return false; } Map.Entry entry = (Map.Entry)o; Object key =
+	 *         entry.getKey(); Entry tab[] = tableIterator; int hash =
+	 *         (key==null ? 0 : key.hashCode()); int index = (hash & 0x7FFFFFFF)
+	 *         % tab.length;
 	 * 
-	 * for (Entry e = tab[index], prev = null; e != null; prev = e, e = e.next) {
-	 * if (e.hash==hash && e.equals(entry)) { modCount++; if (prev != null) {
-	 * prev.next = e.next; } else { tab[index] = e.next; }
+	 *         for (Entry e = tab[index], prev = null; e != null; prev = e, e =
+	 *         e.next) { if (e.hash==hash && e.equals(entry)) { modCount++; if
+	 *         (prev != null) { prev.next = e.next; } else { tab[index] =
+	 *         e.next; }
 	 * 
-	 * count--; e.value = null; return true; } } return false; }
+	 *         count--; e.value = null; return true; } } return false; }
 	 * 
-	 * public int size() { return count; }
+	 *         public int size() { return count; }
 	 * 
-	 * public void clear() { IntHashMap.this.clear(); } }; }
+	 *         public void clear() { IntHashMap.this.clear(); } }; }
 	 * 
-	 * return entrySet; }
+	 *         return entrySet; }
 	 */
 
-	Iterator getHashIterator(final int type)
-	{
-		if (this.count == 0)
-		{
+	Iterator getHashIterator(final int type) {
+		if (this.count == 0) {
 			return emptyHashIterator;
 		}
 		return new HashIterator(type);
@@ -571,8 +516,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		 * @param value
 		 * @param next
 		 */
-		Entry(final int h, final int k, final Object v, final Entry n)
-		{
+		Entry(final int h, final int k, final Object v, final Entry n) {
 			this.hash = h;
 			this.key = k;
 			this.value = v;
@@ -582,8 +526,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		/**
 		 * @see java.lang.Object#clone()
 		 */
-		protected Object clone()
-		{
+		protected Object clone() {
 			return new Entry(this.hash, this.key, this.value, (this.next == null ? null : (Entry) this.next.clone()));
 		}
 
@@ -593,8 +536,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		 * 
 		 * @return int
 		 */
-		public final int getKey()
-		{
+		public final int getKey() {
 			return this.key;
 		}
 
@@ -603,8 +545,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		 * 
 		 * @return Object
 		 */
-		public final Object getValue()
-		{
+		public final Object getValue() {
 			return this.value;
 		}
 
@@ -614,41 +555,37 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		 * @param value
 		 * @return Object
 		 */
-//		public Object setValue(final Object val)
-//		{
-//			final Object oldValue = this.value;
-//			this.value = val;
-//			return oldValue;
-//		}
+		// public Object setValue(final Object val)
+		// {
+		// final Object oldValue = this.value;
+		// this.value = val;
+		// return oldValue;
+		// }
 
 		/**
 		 * @see java.lang.Object#equals(Object)
 		 */
-		public boolean equals(final Object o)
-		{
-			if (!(o instanceof Entry))
-			{
+		public boolean equals(final Object o) {
+			if (!(o instanceof Entry)) {
 				return false;
 			}
 			final Entry e = (Entry) o;
 
-			return ((this.key == e.getKey()) && (this.value == null ? e.getValue() == null : this.value.equals(e
-					.getValue())));
+			return ((this.key == e.getKey())
+					&& (this.value == null ? e.getValue() == null : this.value.equals(e.getValue())));
 		}
 
 		/**
 		 * @see java.lang.Object#hashCode()
 		 */
-		public int hashCode()
-		{
+		public int hashCode() {
 			return this.hash ^ (this.value == null ? 0 : this.value.hashCode());
 		}
 
 		/**
 		 * @see java.lang.Object#toString()
 		 */
-		public String toString()
-		{
+		public String toString() {
 			return this.key + "=" + this.value; //$NON-NLS-1$
 		}
 	}
@@ -664,37 +601,32 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * 
 	 * @author Exceed Consultancy Services
 	 */
-	private static class EmptyHashIterator implements Iterator
-	{
+	private static class EmptyHashIterator implements Iterator {
 		/**
 		 * @see java.lang.Object#Object()
 		 */
-		EmptyHashIterator()
-		{
+		EmptyHashIterator() {
 			// default constructor
 		}
 
 		/**
 		 * @see java.util.Iterator#hasNext()
 		 */
-		public boolean hasNext()
-		{
+		public boolean hasNext() {
 			return false;
 		}
 
 		/**
 		 * @see java.util.Iterator#next()
 		 */
-		public Object next()
-		{
+		public Object next() {
 			throw new NoSuchElementException();
 		}
 
 		/**
 		 * @see java.util.Iterator#remove()
 		 */
-		public void remove()
-		{
+		public void remove() {
 			throw new IllegalStateException();
 		}
 	}
@@ -703,8 +635,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * 
 	 * @author Exceed Consultancy Services
 	 */
-	private class HashIterator implements Iterator
-	{
+	private class HashIterator implements Iterator {
 		private final Entry[] tableIterator = IntHashMap.this.table;
 		private int index = this.tableIterator.length;
 		private Entry entry = null;
@@ -723,22 +654,19 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		 * 
 		 * @param type
 		 */
-		HashIterator(final int typ)
-		{
+		HashIterator(final int typ) {
 			this.type = typ;
 		}
 
 		/**
 		 * @see java.util.Iterator#hasNext()
 		 */
-		public boolean hasNext()
-		{
+		public boolean hasNext() {
 			Entry e = this.entry;
 			int i = this.index;
 			final Entry t[] = this.tableIterator;
 			/* Use locals for faster loop iteration */
-			while ((e == null) && (i > 0))
-			{
+			while ((e == null) && (i > 0)) {
 				e = t[--i];
 			}
 			this.entry = e;
@@ -749,10 +677,8 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		/**
 		 * @see java.util.Iterator#next()
 		 */
-		public Object next()
-		{
-			if (IntHashMap.this.modCount != this.expectedModCount)
-			{
+		public Object next() {
+			if (IntHashMap.this.modCount != this.expectedModCount) {
 				throw new ConcurrentModificationException();
 			}
 
@@ -761,19 +687,17 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 			final Entry t[] = this.tableIterator;
 
 			/* Use locals for faster loop iteration */
-			while ((et == null) && (i > 0))
-			{
+			while ((et == null) && (i > 0)) {
 				et = t[--i];
 			}
 
 			this.entry = et;
 			this.index = i;
-			if (et != null)
-			{
+			if (et != null) {
 				final Entry e = this.lastReturned = this.entry;
 				this.entry = e.next;
 				return this.type == KEYS ? /* e.key */
-				null : (this.type == VALUES ? e.value : e);
+						null : (this.type == VALUES ? e.value : e);
 			}
 			throw new NoSuchElementException();
 		}
@@ -781,32 +705,24 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		/**
 		 * @see java.util.Iterator#remove()
 		 */
-		public void remove()
-		{
-			if (this.lastReturned == null)
-			{
+		public void remove() {
+			if (this.lastReturned == null) {
 				throw new IllegalStateException();
 			}
-			if (IntHashMap.this.modCount != this.expectedModCount)
-			{
+			if (IntHashMap.this.modCount != this.expectedModCount) {
 				throw new ConcurrentModificationException();
 			}
 
 			final Entry[] tab = IntHashMap.this.table;
 			final int ind = (this.lastReturned.hash & 0x7FFFFFFF) % tab.length;
 
-			for (Entry e = tab[ind], prev = null; e != null; prev = e, e = e.next)
-			{
-				if (e == this.lastReturned)
-				{
+			for (Entry e = tab[ind], prev = null; e != null; prev = e, e = e.next) {
+				if (e == this.lastReturned) {
 					IntHashMap.this.modCount++;
 					this.expectedModCount++;
-					if (prev == null)
-					{
+					if (prev == null) {
 						tab[ind] = e.next;
-					}
-					else
-					{
+					} else {
 						prev.next = e.next;
 					}
 					IntHashMap.this.count--;
@@ -829,8 +745,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 *             key-value mapping represented by the IntHashMap The key-value
 	 *             mappings are emitted in no particular order.
 	 */
-	private void writeObject(final java.io.ObjectOutputStream s) throws IOException
-	{
+	private void writeObject(final java.io.ObjectOutputStream s) throws IOException {
 		// Write out the threshold, loadfactor, and any hidden stuff
 		s.defaultWriteObject();
 
@@ -841,12 +756,10 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		s.writeInt(this.count);
 
 		// Write out keys and values (alternating)
-		for (int index = this.table.length - 1; index >= 0; index--)
-		{
+		for (int index = this.table.length - 1; index >= 0; index--) {
 			Entry entry = this.table[index];
 
-			while (entry != null)
-			{
+			while (entry != null) {
 				s.writeInt(entry.key);
 				s.writeObject(entry.value);
 				entry = entry.next;
@@ -860,8 +773,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * Reconstitute the <tt>IntHashMap</tt> instance from a stream (i.e.,
 	 * deserialize it).
 	 */
-	private void readObject(final java.io.ObjectInputStream s) throws IOException, ClassNotFoundException
-	{
+	private void readObject(final java.io.ObjectInputStream s) throws IOException, ClassNotFoundException {
 		// Read in the threshold, loadfactor, and any hidden stuff
 		s.defaultReadObject();
 
@@ -873,8 +785,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 		final int size = s.readInt();
 
 		// Read the keys and values, and put the mappings in the IntHashMap
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			final int key = s.readInt();
 			final Object value = s.readObject();
 			this.put(key, value);
@@ -886,8 +797,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * 
 	 * @return int
 	 */
-	final int capacity()
-	{
+	final int capacity() {
 		return this.table.length;
 	}
 
@@ -896,8 +806,7 @@ public class IntHashMap implements Cloneable, java.io.Serializable
 	 * 
 	 * @return float
 	 */
-	final float loadFactor()
-	{
+	final float loadFactor() {
 		return this.loadFactor;
 	}
 }

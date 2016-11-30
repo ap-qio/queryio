@@ -190,7 +190,7 @@ public class DatabaseConfigParser extends DefaultHandler implements ErrorHandler
 						e.printStackTrace();
 					}
 
-//					EnvironmentalConstants.setQueryIODatabasePassword(this.currentVal);
+					// EnvironmentalConstants.setQueryIODatabasePassword(this.currentVal);
 				} else if (this.tagPoolname.equals(qualifiedName)) {
 					EnvironmentalConstants.setQueryIODatabasePoolName(this.currentVal);
 				} else if (this.tagMaxconn.equals(qualifiedName)) {

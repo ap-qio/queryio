@@ -32,13 +32,11 @@ import java.util.Calendar;
  * 
  * @author Exceed Consultancy Services
  */
-public final class DatabaseFunctions
-{
+public final class DatabaseFunctions {
 	/**
 	 * @see java.lang.Object#Object()
 	 */
-	private DatabaseFunctions()
-	{
+	private DatabaseFunctions() {
 		// Private Constructor provided
 	}
 
@@ -49,12 +47,10 @@ public final class DatabaseFunctions
 	 *            Connection object
 	 * @return Statement Statement Object
 	 */
-	public final static Statement getStatement(final Connection dbConn) throws SQLException
-	{
+	public final static Statement getStatement(final Connection dbConn) throws SQLException {
 		return dbConn.createStatement();
 	}
-	
-	
+
 	/**
 	 * Creates a PreparedStatement Object
 	 * 
@@ -64,10 +60,9 @@ public final class DatabaseFunctions
 	 *            Query
 	 * @return PreparedStatement Prepared Statement for a query
 	 */
-	public final static PreparedStatement getPreparedStatementWithReturnKeys(final Connection dbConn, final String query)
-			throws SQLException
-	{
-		//return dbConn.prepareStatement(query);
+	public final static PreparedStatement getPreparedStatementWithReturnKeys(final Connection dbConn,
+			final String query) throws SQLException {
+		// return dbConn.prepareStatement(query);
 		return dbConn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 	}
 
@@ -81,10 +76,10 @@ public final class DatabaseFunctions
 	 * @return PreparedStatement Prepared Statement for a query
 	 */
 	public final static PreparedStatement getPreparedStatement(final Connection dbConn, final String query)
-			throws SQLException
-	{
+			throws SQLException {
 		return dbConn.prepareStatement(query);
-//		return dbConn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+		// return dbConn.prepareStatement(query,
+		// Statement.RETURN_GENERATED_KEYS);
 	}
 
 	/**
@@ -97,8 +92,7 @@ public final class DatabaseFunctions
 	 * @return ResultSet ResultSet after executing the query
 	 */
 	public final static ResultSet getQueryResultsForStatement(final Statement stmt, final String query)
-			throws SQLException
-	{
+			throws SQLException {
 		return stmt.executeQuery(query);
 	}
 
@@ -110,8 +104,7 @@ public final class DatabaseFunctions
 	 * @return ResultSet ResultSet after executing the query
 	 */
 	public final static ResultSet getQueryResultsForPreparedStatement(final PreparedStatement prpStatement)
-			throws SQLException
-	{
+			throws SQLException {
 		return prpStatement.executeQuery();
 	}
 
@@ -121,10 +114,8 @@ public final class DatabaseFunctions
 	 * @param stmt
 	 *            Statement object
 	 */
-	public final static void closeStatement(final Statement stmt) throws SQLException
-	{
-		if (stmt != null)
-		{
+	public final static void closeStatement(final Statement stmt) throws SQLException {
+		if (stmt != null) {
 			stmt.close();
 		}
 	}
@@ -135,10 +126,8 @@ public final class DatabaseFunctions
 	 * @param prpStatement
 	 *            PreparedStatement object
 	 */
-	public final static void closePreparedStatement(final PreparedStatement prpStatement) throws SQLException
-	{
-		if (prpStatement != null)
-		{
+	public final static void closePreparedStatement(final PreparedStatement prpStatement) throws SQLException {
+		if (prpStatement != null) {
 			prpStatement.close();
 		}
 	}
@@ -147,10 +136,8 @@ public final class DatabaseFunctions
 	 * Closes the ResultSet Object
 	 * 
 	 */
-	public final static void closeResultSet(final ResultSet rs) throws SQLException
-	{
-		if (rs != null)
-		{
+	public final static void closeResultSet(final ResultSet rs) throws SQLException {
+		if (rs != null) {
 			rs.close();
 		}
 	}
@@ -163,13 +150,11 @@ public final class DatabaseFunctions
 	 * @return int
 	 * @throws SQLException
 	 */
-	public final static int executeUpdateStatement(final Statement statement, final String query) throws SQLException
-	{
+	public final static int executeUpdateStatement(final Statement statement, final String query) throws SQLException {
 		return statement.executeUpdate(query);
 	}
-	
-	public final static boolean executeStatement(final Statement statement, final String query) throws SQLException
-	{
+
+	public final static boolean executeStatement(final Statement statement, final String query) throws SQLException {
 		return statement.execute(query);
 	}
 
@@ -180,8 +165,7 @@ public final class DatabaseFunctions
 	 * @return int
 	 * @throws SQLException
 	 */
-	public final static int executeUpdateStatement(final PreparedStatement statement) throws SQLException
-	{
+	public final static int executeUpdateStatement(final PreparedStatement statement) throws SQLException {
 		return statement.executeUpdate();
 	}
 
@@ -192,19 +176,13 @@ public final class DatabaseFunctions
 	 * @param resultSet
 	 * @throws SQLException
 	 */
-	public static void closeSQLObjects(final Statement statement, final ResultSet resultSet) throws SQLException
-	{
-		try
-		{
-			if (resultSet != null)
-			{
+	public static void closeSQLObjects(final Statement statement, final ResultSet resultSet) throws SQLException {
+		try {
+			if (resultSet != null) {
 				resultSet.close();
 			}
-		}
-		finally
-		{
-			if (statement != null)
-			{
+		} finally {
+			if (statement != null) {
 				statement.close();
 			}
 		}
@@ -217,8 +195,7 @@ public final class DatabaseFunctions
 	 * @throws SQLException
 	 */
 	public static void setBoolean(final PreparedStatement statement, final int index, final boolean value)
-			throws SQLException
-	{
+			throws SQLException {
 		statement.setInt(index, (value ? DatabaseConstants.COL_VALUE_TRUE : DatabaseConstants.COL_VALUE_FALSE));
 	}
 
@@ -228,8 +205,7 @@ public final class DatabaseFunctions
 	 * @return
 	 * @throws SQLException
 	 */
-	public static boolean getBoolean(final ResultSet resultSet, final int index) throws SQLException
-	{
+	public static boolean getBoolean(final ResultSet resultSet, final int index) throws SQLException {
 		return (resultSet.getInt(index) == DatabaseConstants.COL_VALUE_TRUE ? true : false);
 	}
 
@@ -239,8 +215,7 @@ public final class DatabaseFunctions
 	 * @return
 	 * @throws SQLException
 	 */
-	public static boolean getBoolean(final ResultSet resultSet, final String column) throws SQLException
-	{
+	public static boolean getBoolean(final ResultSet resultSet, final String column) throws SQLException {
 		return (resultSet.getInt(column) == DatabaseConstants.COL_VALUE_TRUE ? true : false);
 	}
 
@@ -263,8 +238,8 @@ public final class DatabaseFunctions
 	 */
 	/*
 	 * public static long getTime(ResultSet resultSet, int index) throws
-	 * SQLException { Time time = resultSet.getTime(index); return time == null ?
-	 * -1:time.getTime() + Calendar.getInstance().get(Calendar.ZONE_OFFSET); }
+	 * SQLException { Time time = resultSet.getTime(index); return time == null
+	 * ? -1:time.getTime() + Calendar.getInstance().get(Calendar.ZONE_OFFSET); }
 	 */
 	/**
 	 * @param resultSet
@@ -272,10 +247,11 @@ public final class DatabaseFunctions
 	 * @return
 	 * @throws SQLException
 	 */
+
 	/*
 	 * public static long getTime(ResultSet resultSet, String column) throws
-	 * SQLException { Time time = resultSet.getTime(column); return time == null ?
-	 * -1:time.getTime() + Calendar.getInstance().get(Calendar.ZONE_OFFSET); }
+	 * SQLException { Time time = resultSet.getTime(column); return time == null
+	 * ? -1:time.getTime() + Calendar.getInstance().get(Calendar.ZONE_OFFSET); }
 	 */
 	/**
 	 * @param statement
@@ -284,11 +260,9 @@ public final class DatabaseFunctions
 	 * @throws SQLException
 	 */
 	public static void setDateTime(final PreparedStatement statement, final int index, final long value)
-			throws SQLException
-	{
+			throws SQLException {
 		Timestamp timeStamp = null;
-		if (value != -1)
-		{
+		if (value != -1) {
 			timeStamp = new Timestamp(value);
 		}
 		statement.setTimestamp(index, timeStamp);
@@ -300,11 +274,11 @@ public final class DatabaseFunctions
 	 * @return
 	 * @throws SQLException
 	 */
-	public static long getDateTime(final ResultSet resultSet, final int index) throws SQLException
-	{
+	public static long getDateTime(final ResultSet resultSet, final int index) throws SQLException {
 		final Date date = resultSet.getDate(index);
-		return date == null ? -1 : date.getTime() + resultSet.getTime(index).getTime()
-				+ Calendar.getInstance().get(Calendar.ZONE_OFFSET);
+		return date == null ? -1
+				: date.getTime() + resultSet.getTime(index).getTime()
+						+ Calendar.getInstance().get(Calendar.ZONE_OFFSET);
 	}
 
 	/**
@@ -313,11 +287,11 @@ public final class DatabaseFunctions
 	 * @return
 	 * @throws SQLException
 	 */
-	public static long getDateTime(final ResultSet resultSet, final String column) throws SQLException
-	{
+	public static long getDateTime(final ResultSet resultSet, final String column) throws SQLException {
 		final Date date = resultSet.getDate(column);
-		return date == null ? -1 : date.getTime() + resultSet.getTime(column).getTime()
-				+ Calendar.getInstance().get(Calendar.ZONE_OFFSET);
+		return date == null ? -1
+				: date.getTime() + resultSet.getTime(column).getTime()
+						+ Calendar.getInstance().get(Calendar.ZONE_OFFSET);
 	}
 
 }

@@ -25,9 +25,8 @@ import java.sql.Date;
  * 
  * @author Exceed Consultancy Services
  */
-@SuppressWarnings({"PMD.AvoidUsingShortType" , "PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal"})
-public class DataTypes
-{
+@SuppressWarnings({ "PMD.AvoidUsingShortType", "PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal" })
+public class DataTypes {
 	/* any object having this data type is not of defined type */
 	public static final int UNDEFINED = -1;
 	/* any object having this data type is an integer */
@@ -93,8 +92,7 @@ public class DataTypes
 	 * private default constructor. This class should have only static methods
 	 * in it. And there should be no object of DataTypes in the JVM.
 	 */
-	private DataTypes()
-	{
+	private DataTypes() {
 		// DO NOTHING
 	}
 
@@ -107,49 +105,28 @@ public class DataTypes
 	 * @param dataType
 	 * @return
 	 */
-	public static int resolveDataType(final String dataType)
-	{
-		if (dataType != null)
-		{
+	public static int resolveDataType(final String dataType) {
+		if (dataType != null) {
 			final int type = resolvePrimitiveDataType(dataType, false);
-			if (type != DataTypes.UNDEFINED)
-			{
+			if (type != DataTypes.UNDEFINED) {
 				return type;
-			}
-			else if (Integer.class.getName().equals(dataType) || dataType.equals(STR_INT))
-			{
+			} else if (Integer.class.getName().equals(dataType) || dataType.equals(STR_INT)) {
 				return DataTypes.INTEGER;
-			}
-			else if (Short.class.getName().equals(dataType))
-			{
+			} else if (Short.class.getName().equals(dataType)) {
 				return DataTypes.SHORT;
-			}
-			else if (Long.class.getName().equals(dataType))
-			{
+			} else if (Long.class.getName().equals(dataType)) {
 				return DataTypes.LONG;
-			}
-			else if (Float.class.getName().equals(dataType))
-			{
+			} else if (Float.class.getName().equals(dataType)) {
 				return DataTypes.FLOAT;
-			}
-			else if (Double.class.getName().equals(dataType))
-			{
+			} else if (Double.class.getName().equals(dataType)) {
 				return DataTypes.DOUBLE;
-			}
-			else if (Boolean.class.getName().equals(dataType))
-			{
+			} else if (Boolean.class.getName().equals(dataType)) {
 				return DataTypes.BOOLEAN;
-			}
-			else if (Character.class.getName().equals(dataType))
-			{
+			} else if (Character.class.getName().equals(dataType)) {
 				return DataTypes.CHAR;
-			}
-			else if (Byte.class.getName().equals(dataType))
-			{
+			} else if (Byte.class.getName().equals(dataType)) {
 				return DataTypes.BYTE;
-			}
-			else if (String.class.getName().equals(dataType))
-			{
+			} else if (String.class.getName().equals(dataType)) {
 				return DataTypes.STRING;
 			}
 		}
@@ -164,69 +141,64 @@ public class DataTypes
 	 * @param dataType
 	 * @return
 	 */
-	public static Object convertToDataType(final Object value, final int dataType)
-	{
-		if (value == null)
-		{
+	public static Object convertToDataType(final Object value, final int dataType) {
+		if (value == null) {
 			return value;
 		}
 		final String valStr = value.toString();
-		switch (dataType)
-		{
-			case INTEGER:
-				return new Integer(valStr);
-			case SHORT:
-				return new Short(valStr);
-			case LONG:
-				return new Long(valStr);
-			case FLOAT:
-				return new Float(valStr);
-			case DOUBLE:
-				return new Double(valStr);
-			case BOOLEAN:
-				return new Boolean(valStr);
-			case CHAR:
-				return new Character(valStr.length() > 0 ? valStr.charAt(0) : '\0');
-			case BYTE:
-				return new Byte(valStr);
-			case STRING:
-				return valStr;
-			case BIGINTEGER:
-				return new BigInteger(valStr);
-			case DATETIME:
-				return new Date(Long.parseLong(valStr));
-			case TRANSIENT:
-			case UNDEFINED:
-			default:
-				return value;
+		switch (dataType) {
+		case INTEGER:
+			return new Integer(valStr);
+		case SHORT:
+			return new Short(valStr);
+		case LONG:
+			return new Long(valStr);
+		case FLOAT:
+			return new Float(valStr);
+		case DOUBLE:
+			return new Double(valStr);
+		case BOOLEAN:
+			return new Boolean(valStr);
+		case CHAR:
+			return new Character(valStr.length() > 0 ? valStr.charAt(0) : '\0');
+		case BYTE:
+			return new Byte(valStr);
+		case STRING:
+			return valStr;
+		case BIGINTEGER:
+			return new BigInteger(valStr);
+		case DATETIME:
+			return new Date(Long.parseLong(valStr));
+		case TRANSIENT:
+		case UNDEFINED:
+		default:
+			return value;
 		}
 	}
 
-	public static Object getDefaultObject(final int dataType)
-	{
+	public static Object getDefaultObject(final int dataType) {
 		final Object value = null;
-		switch (dataType)
-		{
-			case INTEGER:
-				return new Integer(0);
-			case SHORT:
-				return new Short((short) 0);
-			case LONG:
-				return new Long(0L);
-			case FLOAT:
-				return new Float(0.0f);
-			case DOUBLE:
-				return new Double(0.0);
-			case BOOLEAN:
-				return new Boolean(false);
-			case CHAR:
-				return new Character(' '); // a space
-			case BYTE:
-				return new Byte((byte) 0);
-			case STRING:
-				return ""; //
-			default:
-				return value;
+		switch (dataType) {
+		case INTEGER:
+			return new Integer(0);
+		case SHORT:
+			return new Short((short) 0);
+		case LONG:
+			return new Long(0L);
+		case FLOAT:
+			return new Float(0.0f);
+		case DOUBLE:
+			return new Double(0.0);
+		case BOOLEAN:
+			return new Boolean(false);
+		case CHAR:
+			return new Character(' '); // a space
+		case BYTE:
+			return new Byte((byte) 0);
+		case STRING:
+			return ""; //
+		default:
+			return value;
 		}
 	}
 
@@ -236,37 +208,35 @@ public class DataTypes
 	 * @param dataType
 	 * @return
 	 */
-	public static String getStringRepresentation(final int dataType)
-	{
-		switch (dataType)
-		{
-			case INTEGER:
-				return STR_INTEGER;
-			case LONG:
-				return STR_LONG;
-			case FLOAT:
-				return STR_FLOAT;
-			case DOUBLE:
-				return STR_DOUBLE;
-			case STRING:
-				return STR_STRING;
-			case BIGINTEGER:
-				return STR_BIGINTEGER;
-			case BOOLEAN:
-				return STR_BOOLEAN;
-			case DATETIME:
-				return STR_DATETIME;
-			case TRANSIENT:
-				return STR_TRANSIENT;
-			case BYTE:
-				return STR_BYTE;
-			case SHORT:
-				return STR_SHORT;
-			case CHAR:
-				return STR_CHAR;
-			case UNDEFINED:
-			default:
-				return STR_UNDEFINED;
+	public static String getStringRepresentation(final int dataType) {
+		switch (dataType) {
+		case INTEGER:
+			return STR_INTEGER;
+		case LONG:
+			return STR_LONG;
+		case FLOAT:
+			return STR_FLOAT;
+		case DOUBLE:
+			return STR_DOUBLE;
+		case STRING:
+			return STR_STRING;
+		case BIGINTEGER:
+			return STR_BIGINTEGER;
+		case BOOLEAN:
+			return STR_BOOLEAN;
+		case DATETIME:
+			return STR_DATETIME;
+		case TRANSIENT:
+			return STR_TRANSIENT;
+		case BYTE:
+			return STR_BYTE;
+		case SHORT:
+			return STR_SHORT;
+		case CHAR:
+			return STR_CHAR;
+		case UNDEFINED:
+		default:
+			return STR_UNDEFINED;
 		}
 	}
 
@@ -278,8 +248,7 @@ public class DataTypes
 	 * @param dataType
 	 * @return
 	 */
-	public static boolean isNumeric(final int dataType)
-	{
+	public static boolean isNumeric(final int dataType) {
 		return isNumeric(dataType, false);
 	}
 
@@ -289,32 +258,27 @@ public class DataTypes
 	 * @param dataType
 	 * @return
 	 */
-	public static boolean isNumeric(final int dataType, boolean checkForIntegral)
-	{
-		switch (dataType)
-		{
-			case INTEGER:
-			case LONG:
-			case BYTE:
-			case SHORT:
-			case CHAR:
-			{
-				return true;
-			}
-			case FLOAT:
-			case DOUBLE:
-			case BIGINTEGER:
-			{
-				return !checkForIntegral;
-			}
-			case BOOLEAN:
-			case TRANSIENT:
-			case DATETIME:
-			case UNDEFINED:
-			default:
-			{
-				return false;
-			}
+	public static boolean isNumeric(final int dataType, boolean checkForIntegral) {
+		switch (dataType) {
+		case INTEGER:
+		case LONG:
+		case BYTE:
+		case SHORT:
+		case CHAR: {
+			return true;
+		}
+		case FLOAT:
+		case DOUBLE:
+		case BIGINTEGER: {
+			return !checkForIntegral;
+		}
+		case BOOLEAN:
+		case TRANSIENT:
+		case DATETIME:
+		case UNDEFINED:
+		default: {
+			return false;
+		}
 		}
 	}
 
@@ -325,63 +289,37 @@ public class DataTypes
 	 * @param dataType
 	 * @return
 	 */
-	public static int resolvePrimitiveDataType(String dataType, boolean bStrict)
-	{
-		if (dataType != null)
-		{
+	public static int resolvePrimitiveDataType(String dataType, boolean bStrict) {
+		if (dataType != null) {
 			dataType = dataType.trim();
-			if (STR_INT.equals(dataType))
-			{
+			if (STR_INT.equals(dataType)) {
 				return INTEGER;
-			}
-			else if (STR_SHORT.equals(dataType))
-			{
+			} else if (STR_SHORT.equals(dataType)) {
 				return SHORT;
-			}
-			else if (STR_LONG.equals(dataType))
-			{
+			} else if (STR_LONG.equals(dataType)) {
 				return LONG;
-			}
-			else if (STR_FLOAT.equals(dataType))
-			{
+			} else if (STR_FLOAT.equals(dataType)) {
 				return FLOAT;
 			}
-			if (STR_DOUBLE.equals(dataType))
-			{
+			if (STR_DOUBLE.equals(dataType)) {
 				return DOUBLE;
-			}
-			else if (STR_BOOLEAN.equals(dataType))
-			{
+			} else if (STR_BOOLEAN.equals(dataType)) {
 				return BOOLEAN;
-			}
-			else if (STR_CHAR.equals(dataType))
-			{
+			} else if (STR_CHAR.equals(dataType)) {
 				return CHAR;
-			}
-			else if (STR_BYTE.equals(dataType))
-			{
+			} else if (STR_BYTE.equals(dataType)) {
 				return BYTE;
 			}
-			if (!bStrict)
-			{
-				if (STR_INTEGER.equals(dataType))
-				{
+			if (!bStrict) {
+				if (STR_INTEGER.equals(dataType)) {
 					return INTEGER;
-				}
-				else if (STR_STRING.equals(dataType))
-				{
+				} else if (STR_STRING.equals(dataType)) {
 					return STRING;
-				}
-				else if (STR_BIGINTEGER.equals(dataType))
-				{
+				} else if (STR_BIGINTEGER.equals(dataType)) {
 					return BIGINTEGER;
-				}
-				else if (STR_DATETIME.equals(dataType))
-				{
+				} else if (STR_DATETIME.equals(dataType)) {
 					return DATETIME;
-				}
-				else if (STR_TRANSIENT.equals(dataType))
-				{
+				} else if (STR_TRANSIENT.equals(dataType)) {
 					return TRANSIENT;
 				}
 			}

@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 public class EnvironmentalConstants {
 
 	private static boolean isDemoVersion;
-	
+
 	private static String queryIODatabaseDriverPath;
 	private static String queryIODatabaseDriverClass;
 	private static String queryIODatabasePoolName;
@@ -25,20 +25,20 @@ public class EnvironmentalConstants {
 	private static String encryptionType;
 	private static int streamBufferSize;
 	private static int monitorRetryCount;
-	private static String dbConfigFilePath; 
-	
+	private static String dbConfigFilePath;
+
 	private static int minThreadCount = 50;
 	private static int maxThreadCount = 200;
 
 	private static String hadoopConfPath;
-	
+
 	private static boolean useKerberos;
 	private static String fsDefaultName;
-	
+
 	private static String nnUserName;
-	
+
 	private static ArrayList<String> commomFileTypeNames;
-	
+
 	private static String ddlFileContainer;
 
 	public static boolean isDemoVersion() {
@@ -66,8 +66,7 @@ public class EnvironmentalConstants {
 	}
 
 	protected static final Logger LOGGER = Logger.getLogger(EnvironmentalConstants.class);
-	
-	
+
 	public static String getDbConfigFilePath() {
 		return dbConfigFilePath;
 	}
@@ -79,11 +78,9 @@ public class EnvironmentalConstants {
 	private static String nameNodeId;
 	private static boolean isReplicationEnabled;
 	private static boolean isPrimaryNameNode;
-	
-	
-	
+
 	private static String jdbcDriverPath;
-	
+
 	public static String getJdbcDriverPath() {
 		return jdbcDriverPath;
 	}
@@ -91,7 +88,7 @@ public class EnvironmentalConstants {
 	public static void setJdbcDriverPath(String jdbcDriverPath) {
 		EnvironmentalConstants.jdbcDriverPath = jdbcDriverPath;
 	}
-	
+
 	public static String getEncryptionType() {
 		return encryptionType;
 	}
@@ -107,43 +104,40 @@ public class EnvironmentalConstants {
 	public static void setStreamBufferSize(int streamBufferSize) {
 		EnvironmentalConstants.streamBufferSize = streamBufferSize;
 	}
-	
-	public static boolean isReplicationEnabled()
-	{
+
+	public static boolean isReplicationEnabled() {
 		return isReplicationEnabled;
 	}
-	
-	public static void setReplicationEnabled(boolean enable)
-	{
+
+	public static void setReplicationEnabled(boolean enable) {
 		isReplicationEnabled = enable;
 	}
-	
+
 	public static boolean isPrimaryNameNode() {
 		return isPrimaryNameNode;
 	}
 
-	public static void setPrimaryNameNode(boolean isPrimaryNameNode) 
-	{
+	public static void setPrimaryNameNode(boolean isPrimaryNameNode) {
 		EnvironmentalConstants.isPrimaryNameNode = isPrimaryNameNode;
 	}
 
 	public static String getQueryIODatabaseDriverPath() {
 		return queryIODatabaseDriverPath;
 	}
-	
+
 	public static void setQueryIODatabaseDriverPath(String value) {
 		queryIODatabaseDriverPath = value;
-	}	
-	
-	public static void setQueryIODatabaseDriverClass(String queryIODatabaseDriverClass) {
-		EnvironmentalConstants.queryIODatabaseDriverClass = queryIODatabaseDriverClass;
-		
 	}
 
-	public static String getQueryIODatabaseDriverClass(){
+	public static void setQueryIODatabaseDriverClass(String queryIODatabaseDriverClass) {
+		EnvironmentalConstants.queryIODatabaseDriverClass = queryIODatabaseDriverClass;
+
+	}
+
+	public static String getQueryIODatabaseDriverClass() {
 		return queryIODatabaseDriverClass;
 	}
-	
+
 	public static String getQueryIODatabasePoolName() {
 		return queryIODatabasePoolName;
 	}
@@ -179,7 +173,7 @@ public class EnvironmentalConstants {
 	public static String getQueryIODatabaseURL() {
 		return queryIODatabaseURL;
 	}
-	
+
 	public static void setQueryIODatabaseURL(String queryIODatabaseURL) {
 		EnvironmentalConstants.queryIODatabaseURL = queryIODatabaseURL;
 	}
@@ -209,11 +203,11 @@ public class EnvironmentalConstants {
 	}
 
 	public static void setAppHome(String appHome) {
-		EnvironmentalConstants.appHome = appHome;		
+		EnvironmentalConstants.appHome = appHome;
 	}
-	
+
 	public static String getAppHome() {
-		return appHome;		
+		return appHome;
 	}
 
 	public static String getReportsDirectory() {
@@ -223,15 +217,15 @@ public class EnvironmentalConstants {
 	public static void setReportsDirectory(String reportsDirectory) {
 		EnvironmentalConstants.reportsDirectory = reportsDirectory;
 	}
-	
+
 	public static String getSpreadSheetsDirectory() {
 		return spreadSheetsDirectory;
 	}
-	
+
 	public static void setSpreadSheetsDirectory(String spreadSheetsDirectory) {
 		EnvironmentalConstants.spreadSheetsDirectory = spreadSheetsDirectory;
 	}
-	
+
 	public static int getMonitorRetryCount() {
 		return monitorRetryCount;
 	}
@@ -279,7 +273,7 @@ public class EnvironmentalConstants {
 	public static void setHadoopConfPath(String hadoopConfPath) {
 		EnvironmentalConstants.hadoopConfPath = hadoopConfPath;
 	}
-	
+
 	public static int getMaxThreadCount() {
 		return maxThreadCount;
 	}
@@ -287,7 +281,7 @@ public class EnvironmentalConstants {
 	public static void setMaxThreadCount(int maxThreadCount) {
 		EnvironmentalConstants.maxThreadCount = maxThreadCount;
 	}
-	
+
 	public static int getMinThreadCount() {
 		return minThreadCount;
 	}

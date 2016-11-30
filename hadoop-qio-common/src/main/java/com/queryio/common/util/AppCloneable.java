@@ -21,7 +21,6 @@ package com.queryio.common.util;
  * contents could be provided. Please refer
  * StaticUtilities.cloneArrayList(ArrayList al).
  */
-public interface AppCloneable extends Cloneable
-{
+public interface AppCloneable extends Cloneable {
 	public Object clone();
 }

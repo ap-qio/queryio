@@ -39,7 +39,8 @@ public class CustomClassLoder extends URLClassLoader {
 					AppLogger.getLogger().info("Closing: " + ((JarFile) jarFile).getName());
 					((JarFile) jarFile).close();
 				} catch (Throwable t) {
-					// if we got this far, this is probably not a JAR loader so skip it
+					// if we got this far, this is probably not a JAR loader so
+					// skip it
 				}
 			}
 		} catch (Throwable t) {

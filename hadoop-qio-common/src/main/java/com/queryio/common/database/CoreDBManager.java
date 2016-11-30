@@ -75,9 +75,10 @@ public class CoreDBManager {
 		DBConfig c = new DBConfig(dbConfig.getCustomTagPoolName(), dbConfig.getCustomTagMaxConn(),
 				dbConfig.getCustomTagMaxIdleConn(), dbConfig.getCustomTagMaxWaitTime(),
 				GenericObjectPool.WHEN_EXHAUSTED_GROW);
-		
-//		CryptManager cm = new CryptManager(dbConfig.getCustomTagPassword());
-//		final String password = cm.decryptData(dbConfig.getCustomTagPassword());
+
+		// CryptManager cm = new CryptManager(dbConfig.getCustomTagPassword());
+		// final String password =
+		// cm.decryptData(dbConfig.getCustomTagPassword());
 
 		DatabaseManager.setInitialProperties(c.getConnectionName(), c.getMaxDBConnections(), c.getWaitStrategyForDB(),
 				c.getMaxDBWaitTime(), c.getMaxDBIdleConnections(), driver, dbConfig.getCustomTagUrl(),
@@ -101,9 +102,11 @@ public class CoreDBManager {
 					dbConfig.getCustomTagMaxIdleConn(), dbConfig.getCustomTagMaxWaitTime(),
 					GenericObjectPool.WHEN_EXHAUSTED_GROW);
 
-//			CryptManager cm = new CryptManager(dbConfig.getCustomTagPassword());
-//			final String password = cm.decryptData(dbConfig.getCustomTagPassword());
-			
+			// CryptManager cm = new
+			// CryptManager(dbConfig.getCustomTagPassword());
+			// final String password =
+			// cm.decryptData(dbConfig.getCustomTagPassword());
+
 			DatabaseManager.setInitialProperties(c.getConnectionName(), c.getMaxDBConnections(),
 					c.getWaitStrategyForDB(), c.getMaxDBWaitTime(), c.getMaxDBIdleConnections(), driver,
 					dbConfig.getCustomTagUrl(), dbConfig.getCustomTagUserName(), dbConfig.getCustomTagPassword(),
@@ -179,13 +182,16 @@ public class CoreDBManager {
 				LOGGER.debug("set isPerfect to true");
 			isPerfect = true;
 		}
-//		CryptManager cm = new CryptManager(EnvironmentalConstants.getQueryIODatabasePassword());
-//		final String password = cm.decryptData(EnvironmentalConstants.getQueryIODatabasePassword());
+		// CryptManager cm = new
+		// CryptManager(EnvironmentalConstants.getQueryIODatabasePassword());
+		// final String password =
+		// cm.decryptData(EnvironmentalConstants.getQueryIODatabasePassword());
 
 		DatabaseManager.setInitialProperties(queryIODBConfig.getConnectionName(), queryIODBConfig.getMaxDBConnections(),
 				queryIODBConfig.getWaitStrategyForDB(), queryIODBConfig.getMaxDBWaitTime(),
 				queryIODBConfig.getMaxDBIdleConnections(), driver, EnvironmentalConstants.getQueryIODatabaseURL(),
-				EnvironmentalConstants.getQueryIODatabaseUserName(), EnvironmentalConstants.getQueryIODatabasePassword(), false);
+				EnvironmentalConstants.getQueryIODatabaseUserName(),
+				EnvironmentalConstants.getQueryIODatabasePassword(), false);
 
 		LOGGER.debug("QueryIO Database, class: " + driver.getClass().getName() + " Major: " + driver.getMajorVersion()
 				+ " minor: " + driver.getMinorVersion());

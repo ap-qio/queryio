@@ -24,8 +24,7 @@ package com.queryio.common;
  * @author Exceed Consultancy Services
  * @version 1.0
  */
-public interface IProductConstants
-{
+public interface IProductConstants {
 	int QUERYIO = 0;
 	/**
 	 * String constants to signify empty string <code>EMPTY_STRING</code>
@@ -34,27 +33,27 @@ public interface IProductConstants
 	/**
 	 * Comment for <code>SPACE_STRING</code>
 	 */
-	char SPACE_STRING = ' '; //$NON-NLS-1$
+	char SPACE_STRING = ' '; // $NON-NLS-1$
 	/**
 	 * String constants to signify comma string <code>COMMA_STRING</code>
 	 */
-	char COMMA_STRING = ','; //$NON-NLS-1$
+	char COMMA_STRING = ','; // $NON-NLS-1$
 	/**
 	 * String constants to signify tab string <code>TAB</code>
 	 */
-	char TAB = '\t'; //$NON-NLS-1$
+	char TAB = '\t'; // $NON-NLS-1$
 	/**
 	 * String constants to signify left string <code>LEFT_BRACE</code>
 	 */
-	char LEFT_BRACE = '(';//$NON-NLS-1$
+	char LEFT_BRACE = '(';// $NON-NLS-1$
 	/**
 	 * String constants to signify rigth bracket string <code>RIGHT_BRACE</code>
 	 */
-	char RIGHT_BRACE = ')';//$NON-NLS-1$
+	char RIGHT_BRACE = ')';// $NON-NLS-1$
 	/**
 	 * String constants to signify separator <code>CODE_SEPARATOR</code>
 	 */
-	char CODE_SEPARATOR = ';'; //$NON-NLS-1$
+	char CODE_SEPARATOR = ';'; // $NON-NLS-1$
 	/**
 	 * String constants to signify equals <code>EQUALS</code>
 	 */
@@ -66,11 +65,11 @@ public interface IProductConstants
 	/**
 	 * String constants to signify left string <code>LEFT_CURLY</code>
 	 */
-	char LEFT_CURLY = '{';//$NON-NLS-1$
+	char LEFT_CURLY = '{';// $NON-NLS-1$
 	/**
 	 * String constants to signify rigth bracket string <code>RIGHT_CURLY</code>
 	 */
-	char RIGHT_CURLY = '}';//$NON-NLS-1$
+	char RIGHT_CURLY = '}';// $NON-NLS-1$
 	/**
 	 * String constants to signify new string <code>NEW_STRING</code>
 	 */
@@ -90,28 +89,28 @@ public interface IProductConstants
 	/**
 	 * String constants to signify left string <code>LEFT_SQUARE</code>
 	 */
-	char LEFT_SQUARE = '[';//$NON-NLS-1$
+	char LEFT_SQUARE = '[';// $NON-NLS-1$
 	/**
 	 * String constants to signify rigth bracket string
 	 * <code>RIGHT_SQUARE</code>
 	 */
-	char RIGHT_SQUARE = ']';//$NON-NLS-1$
+	char RIGHT_SQUARE = ']';// $NON-NLS-1$
 	/**
 	 * String constants to signify rigth bracket string <code>DOT</code>
 	 */
-	char DOT = '.';//$NON-NLS-1$
+	char DOT = '.';// $NON-NLS-1$
 	/**
 	 * String constants to signify rigth bracket string <code>COLON</code>
 	 */
-	char COLON = ':'; //$NON-NLS-1$
+	char COLON = ':'; // $NON-NLS-1$
 	/**
 	 * String constants to signify rigth bracket string <code>SEMICOLON</code>
 	 */
-	char SEMICOLON = ';'; //$NON-NLS-1$
+	char SEMICOLON = ';'; // $NON-NLS-1$
 
 	/**
-	 * Integer constant to signify <code>SWT</code> user interface to use
-	 * during chart creation
+	 * Integer constant to signify <code>SWT</code> user interface to use during
+	 * chart creation
 	 */
 	int USER_INTERFACE_SWT = 1;
 	/**
