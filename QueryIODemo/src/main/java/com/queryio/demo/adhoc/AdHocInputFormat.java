@@ -232,8 +232,8 @@ public class AdHocInputFormat extends InputFormat<IntWritable, List<FileStatus>>
 		return result;
 	}
 
-	private List<FileStatus> getFiles(JobContext job, FileSystem fs, Path parentPath, PathFilter inputFilter, List<IOException> errors)
-			throws IOException {
+	private List<FileStatus> getFiles(JobContext job, FileSystem fs, Path parentPath, PathFilter inputFilter,
+			List<IOException> errors) throws IOException {
 
 		boolean isRecursive = job.getConfiguration().getBoolean(QueryIOConstants.HIVE_QUERYIO_PARSE_RECURSIVE, false);
 		LOG.info("isRecursive: " + isRecursive);
@@ -247,7 +247,8 @@ public class AdHocInputFormat extends InputFormat<IntWritable, List<FileStatus>>
 		}
 	}
 
-	private List<FileStatus> addFilterQueryPaths(JobContext job, FileSystem fs, Path parentPath, PathFilter inputFilter, List<IOException> errors) {
+	private List<FileStatus> addFilterQueryPaths(JobContext job, FileSystem fs, Path parentPath, PathFilter inputFilter,
+			List<IOException> errors) {
 
 		String filterQuery = null;
 		String hdfsUri = null;
@@ -342,8 +343,8 @@ public class AdHocInputFormat extends InputFormat<IntWritable, List<FileStatus>>
 
 	}
 
-	private List<FileStatus> getFilePaths(JobContext job, FileSystem fs, Path p, PathFilter inputFilter, List<IOException> errors, boolean isRecursive)
-			throws IOException, FileNotFoundException {
+	private List<FileStatus> getFilePaths(JobContext job, FileSystem fs, Path p, PathFilter inputFilter,
+			List<IOException> errors, boolean isRecursive) throws IOException, FileNotFoundException {
 
 		List<FileStatus> result = new ArrayList<FileStatus>();
 
@@ -416,7 +417,8 @@ public class AdHocInputFormat extends InputFormat<IntWritable, List<FileStatus>>
 	 */
 	public List<InputSplit> getSplits(JobContext job) throws IOException {
 
-		this.unitNumSplits = job.getConfiguration().getInt(QueryIOConstants.QUERYIO_UNIT_NUM_SPLITS, defaultUnitNUmSplits);
+		this.unitNumSplits = job.getConfiguration().getInt(QueryIOConstants.QUERYIO_UNIT_NUM_SPLITS,
+				defaultUnitNUmSplits);
 		// generate splits
 		List<InputSplit> splits = new ArrayList<InputSplit>();
 		List<FileStatus> files = listStatus(job);
@@ -446,7 +448,8 @@ public class AdHocInputFormat extends InputFormat<IntWritable, List<FileStatus>>
 	protected int getBlockIndex(BlockLocation[] blkLocations, long offset) {
 		for (int i = 0; i < blkLocations.length; i++) {
 			// is the offset inside this block?
-			if ((blkLocations[i].getOffset() <= offset) && (offset < blkLocations[i].getOffset() + blkLocations[i].getLength())) {
+			if ((blkLocations[i].getOffset() <= offset)
+					&& (offset < blkLocations[i].getOffset() + blkLocations[i].getLength())) {
 				return i;
 			}
 		}
@@ -580,8 +583,8 @@ public class AdHocInputFormat extends InputFormat<IntWritable, List<FileStatus>>
 		return result;
 	}
 
-	public RecordReader<IntWritable, List<FileStatus>> createRecordReader(InputSplit split, TaskAttemptContext context) throws IOException,
-			InterruptedException {
+	public RecordReader<IntWritable, List<FileStatus>> createRecordReader(InputSplit split, TaskAttemptContext context)
+			throws IOException, InterruptedException {
 		return new CustomRecordReader();
 	}
 

@@ -24,8 +24,7 @@ package com.queryio.core.notifier.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class Notifier
-{
+public class Notifier {
 	private String sName = null;
 	private String sClassName = null;
 
@@ -38,8 +37,7 @@ public class Notifier
 	 * @param name
 	 * @param className
 	 */
-	public Notifier(final String name, final String className)
-	{
+	public Notifier(final String name, final String className) {
 		this.sName = name;
 		this.sClassName = className;
 	}
@@ -49,8 +47,7 @@ public class Notifier
 	 * 
 	 * @return String
 	 */
-	public final String getName()
-	{
+	public final String getName() {
 		return this.sName;
 	}
 
@@ -59,8 +56,7 @@ public class Notifier
 	 * 
 	 * @return String
 	 */
-	public final String getClassName()
-	{
+	public final String getClassName() {
 		return this.sClassName;
 	}
 
@@ -69,8 +65,7 @@ public class Notifier
 	 * 
 	 * @param propertySetName
 	 */
-	public void setPropertySetName(final String propertySetName)
-	{
+	public void setPropertySetName(final String propertySetName) {
 		this.sPropertySetName = propertySetName;
 	}
 
@@ -79,8 +74,7 @@ public class Notifier
 	 * 
 	 * @return String
 	 */
-	public final String getPropertySetName()
-	{
+	public final String getPropertySetName() {
 		return this.sPropertySetName;
 	}
 
@@ -89,8 +83,7 @@ public class Notifier
 	 * 
 	 * @param propSet
 	 */
-	public void setPropertySet(final PropertySet propSet)
-	{
+	public void setPropertySet(final PropertySet propSet) {
 		this.propertySet = propSet;
 	}
 
@@ -99,16 +92,14 @@ public class Notifier
 	 * 
 	 * @return PropertySet
 	 */
-	public final PropertySet getPropertySet()
-	{
+	public final PropertySet getPropertySet() {
 		return this.propertySet;
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("Notifier: sName = "); //$NON-NLS-1$
 		sbToString.append(this.sName);
 		sbToString.append(" sClassName = "); //$NON-NLS-1$

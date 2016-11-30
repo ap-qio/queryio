@@ -23,8 +23,7 @@ package com.queryio.common.exporter.html;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-interface HTMLConstants
-{
+interface HTMLConstants {
 	// HTML elements used
 	String HTML = "HTML"; //$NON-NLS-1$
 	String HEAD = "HEAD"; //$NON-NLS-1$
@@ -61,13 +60,13 @@ interface HTMLConstants
 	String STYLE = "STYLE"; //$NON-NLS-1$
 	String READONLY = "READONLY"; //$NON-NLS-1$
 	String ALIGN = "ALIGN"; //$NON-NLS-1$
-//	String CELLSPACING = "cellspacing"; //$NON-NLS-1$
-//	String CELLPADDING = "cellpadding"; //$NON-NLS-1$
+	// String CELLSPACING = "cellspacing"; //$NON-NLS-1$
+	// String CELLPADDING = "cellpadding"; //$NON-NLS-1$
 	String HREF = "HREF"; //$NON-NLS-1$
 	String ONCLICK = "ONCLICK"; //$NON-NLS-1$
 	String MARGINWIDTH = "MARGINWIDTH"; //$NON-NLS-1$
 	String MARGINHEIGHT = "MARGINHEIGHT"; //$NON-NLS-1$
-	
+
 	String SCROLLING = "SCROLLING"; //$NON-NLS-1$
 	String NAME = "NAME"; //$NON-NLS-1$
 	String ROWS = "ROWS"; //$NON-NLS-1$
@@ -81,15 +80,15 @@ interface HTMLConstants
 	String TOP = "top"; //$NON-NLS-1$
 	String WIDTH = "width"; //$NON-NLS-1$
 	String HEIGHT = "height"; //$NON-NLS-1$
-//	String OVERFLOW = "overflow"; //$NON-NLS-1$
+	// String OVERFLOW = "overflow"; //$NON-NLS-1$
 	String DISPLAY = "display"; //$NON-NLS-1$
 	String BORDER = "border"; //$NON-NLS-1$
 	String BORDER_TOP = "border-top"; //$NON-NLS-1$
 	String FRAMEBORDER = "frameborder"; //$NON-NLS-1$
 	String BORDER_COLLAPSE = "border-collapse"; //$NON-NLS-1$
 	String BORDER_COLOR = "bordercolor"; //$NON-NLS-1$
-//	String FONT_FAMILY = "font-family"; //$NON-NLS-1$
-//	String FONT_SIZE = "font-size"; //$NON-NLS-1$
+	// String FONT_FAMILY = "font-family"; //$NON-NLS-1$
+	// String FONT_SIZE = "font-size"; //$NON-NLS-1$
 	String FONT_WEIGHT = "font-weight"; //$NON-NLS-1$
 	String BACKGROUND_COLOR = "background-color"; //$NON-NLS-1$
 	String PADDING_LEFT = "padding-left"; //$NON-NLS-1$
@@ -113,16 +112,16 @@ interface HTMLConstants
 	String POSITION_RELATIVE = "relative"; // "absolute"; //$NON-NLS-1$
 	String FLOAT_LEFT = "left"; // "absolute"; //$NON-NLS-1$
 	String LANGUAGE_JAVASCRIPT = "javascript"; //$NON-NLS-1$
-	
+
 	String DISPLAY_HIDDEN = "none"; //$NON-NLS-1$
 	String DISPLAY_INLINE = "inline"; //$NON-NLS-1$
-	
+
 	String FILL_100 = "100%"; //$NON-NLS-1$
 	String TYPE_TEXT_CSS = "text/css"; //$NON-NLS-1$
 	String STYLESHEET = "stylesheet"; //$NON-NLS-1$
 	String MARGIN = "margin";
-	String COL_SPAN="colspan";
-	
+	String COL_SPAN = "colspan";
+
 	// Additional constants
 	char SPACE = ' ';
 	char COLON = ':';

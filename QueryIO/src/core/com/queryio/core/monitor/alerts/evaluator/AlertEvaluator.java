@@ -34,17 +34,15 @@ import com.queryio.core.monitor.controllers.ControllerManager;
 import com.queryio.core.monitor.dstruct.Rule;
 import com.queryio.core.monitor.dstruct.RuleExpression;
 
-
 /**
  * This is the AlertEvaluator class actually responsible for Rules Evaluation.
  * 
  * @author Exceed Consultancy Services
  */
-public class AlertEvaluator
-{
+public class AlertEvaluator {
 	private String controllerState = null;
 	private String nodeId = null;
-	
+
 	private long timeStamp = -1;
 	private ControllerData controllerData = null;
 
@@ -55,14 +53,10 @@ public class AlertEvaluator
 	 * the data in the database. This method evaluates all the rules and then
 	 * fires the ControllerDataProcess event in the end.
 	 */
-	public void serve(final ArrayList rules)
-	{
-		try
-		{
+	public void serve(final ArrayList rules) {
+		try {
 			this.evaluate(rules);
-		}
-		catch (final Exception e)
-		{
+		} catch (final Exception e) {
 			AppLogger.getLogger().fatal("Evaluating rules failed with exception: " + e.getMessage(), e);
 		}
 	}
@@ -74,8 +68,7 @@ public class AlertEvaluator
 	 * 
 	 * @throws Exception
 	 */
-	private void evaluate(final ArrayList rules) throws Exception
-	{
+	private void evaluate(final ArrayList rules) throws Exception {
 		Connection connection = null;
 
 		final ArrayList attributeNames = new ArrayList();
@@ -88,8 +81,7 @@ public class AlertEvaluator
 		final ArrayList violatedRules = new ArrayList();
 		final ArrayList resetRules = new ArrayList();
 		String state = ControllerManager.CONTROLLER_STATE_OK;
-		try
-		{
+		try {
 			// 1. get the DB Connection
 			connection = CoreDBManager.getQueryIODBConnection();
 
@@ -110,8 +102,7 @@ public class AlertEvaluator
 			final String attr = "attr";
 
 			// 3. evaluate each rule
-			for (final Iterator iter = rules.iterator(); iter.hasNext();)
-			{
+			for (final Iterator iter = rules.iterator(); iter.hasNext();) {
 				bEvaluate = true;
 				// clear the expression parser
 				this.expressionParser.clearAll();
@@ -119,26 +110,22 @@ public class AlertEvaluator
 
 				// get the next rule
 				rule = (Rule) iter.next();
-				
+
 				// For Range Monitoring
-				
+
 				expression = rule.getExpression();
 				subExpressions = rule.getExpressions();
-				
+
 				AppLogger.getLogger().info("expression: " + expression);
-				
+
 				noOfSubExprs = rule.getNumExpressions();
-				if (rule.isRuleIgnored())
-				{
-					if (activeRuleIds != null && activeRuleIds.contains(rule.getRuleId()))
-					{
+				if (rule.isRuleIgnored()) {
+					if (activeRuleIds != null && activeRuleIds.contains(rule.getRuleId())) {
 						re = null;
-						for (int j = 0; j < noOfSubExprs; j++)
-						{
+						for (int j = 0; j < noOfSubExprs; j++) {
 							re = (RuleExpression) subExpressions.get(j);
 							attributeName = re.getAttributeName();
-							if (!attributeNames.contains(attributeName))
-							{
+							if (!attributeNames.contains(attributeName)) {
 								attributeNames.add(attributeName);
 							}
 						}
@@ -147,90 +134,78 @@ public class AlertEvaluator
 					}
 					continue;
 				}
-				this.expressionParser.addVariableAsObject(AlertEvaluationManager.EXPR_TS, new Long(this.controllerData.getTimeStamp()));
+				this.expressionParser.addVariableAsObject(AlertEvaluationManager.EXPR_TS,
+						new Long(this.controllerData.getTimeStamp()));
 				re = null;
-				for (int j = 0; j < noOfSubExprs; j++)
-				{
+				for (int j = 0; j < noOfSubExprs; j++) {
 					re = (RuleExpression) subExpressions.get(j);
 					attributeName = re.getAttributeName();
-					if (!attributeNames.contains(attributeName))
-					{
+					if (!attributeNames.contains(attributeName)) {
 						attributeNames.add(attributeName);
 					}
-					
+
 					attributeId = rule.getIndex(attributeName);
-					
+
 					// get the current Value from the ControllerData using the
 					// columnName of the attribute
 					currVal = this.controllerData.getValue(re.getColumnName());
-					
+
 					currId = attr + attributeId;
-					
-					if (currVal == null)
-					{
+
+					if (currVal == null) {
 						bEvaluate = false;
 						break;
 					}
-					final StringBuffer sbTemp = new StringBuffer(String.valueOf(AlertEvaluationManager.EXPR_ATTRIBUTE_ID_ENCAPSULATOR));
+					final StringBuffer sbTemp = new StringBuffer(
+							String.valueOf(AlertEvaluationManager.EXPR_ATTRIBUTE_ID_ENCAPSULATOR));
 					sbTemp.append(attributeId);
 					sbTemp.append(AlertEvaluationManager.EXPR_ATTRIBUTE_ID_ENCAPSULATOR);
-					
+
 					expression = StaticUtilities.searchAndReplace(expression, sbTemp.toString(), currId);
 					this.expressionParser.addVariableAsObject(currId, currVal);
-					AppLogger.getLogger().info(
-							"var: " + currId + " value: " + currVal);
+					AppLogger.getLogger().info("var: " + currId + " value: " + currVal);
 				}
-				if (bEvaluate)
-				{
+				if (bEvaluate) {
 					expression = this.searchAndReplaceFunctions(expression, this.timeStamp);
 					this.expressionParser.parseExpression(expression);
-					
-					AppLogger.getLogger().info(
-							"expression after doing serch and replace: " + expression);
-					if (this.expressionParser.hasError())
-					{
+
+					AppLogger.getLogger().info("expression after doing serch and replace: " + expression);
+					if (this.expressionParser.hasError()) {
 						final String msg = "Error in evaluating expression: " + this.expressionParser.getErrorInfo()
 								+ " for controller: " + this.nodeId;
-						AppLogger.getLogger().log(
-								AppLogger.getPriority(AppLogger.FATAL), msg);
-					}
-					else
-					{
+						AppLogger.getLogger().log(AppLogger.getPriority(AppLogger.FATAL), msg);
+					} else {
 						value = this.expressionParser.getValue();
-						if (value != 0)
-						{
+						if (value != 0) {
 							// evaluated to true
 							AppLogger.getLogger().info("rule evalauted to true");
-							if ((activeRuleIds == null) || !activeRuleIds.contains(rule.getRuleId()))
-							{
+							if ((activeRuleIds == null) || !activeRuleIds.contains(rule.getRuleId())) {
 								// this is a newly violated rule, hence add the
 								// attributes to the violated list
 								violatedAttributes = mergeList(violatedAttributes, attributeNames);
 								violatedRules.add(rule);
-								
+
 								// Write to the ALERTATTRIBUTES TABLE here.
 								AlertDAO.writeAlertAttribute(connection, rule.getRuleId(), rule.getNodeId(),
 										this.timeStamp, attributeNames);
 							}
-	//							else if (activeRuleIds != null)
+							// else if (activeRuleIds != null)
 							{
 								/*
 								 * this rule was active last time & continues to
 								 * be active this time as well
 								 */
-								if (activeRules == null)
-								{
-									activeRules = new ArrayList(activeRuleIds != null ? activeRuleIds.size():0);
+								if (activeRules == null) {
+									activeRules = new ArrayList(activeRuleIds != null ? activeRuleIds.size() : 0);
 								}
 								activeRules.add(rule);
 							}
-							
+
 							/*
 							 * if current state is OK, then the new state is
 							 * either Warning/Error
 							 */
-							if (state.equals(ControllerManager.CONTROLLER_STATE_OK))
-							{
+							if (state.equals(ControllerManager.CONTROLLER_STATE_OK)) {
 								state = rule.getSeverity();
 							}
 							/*
@@ -238,17 +213,13 @@ public class AlertEvaluator
 							 * be higher than Warning i.e. Error
 							 */
 							else if (state.equals(ControllerManager.CONTROLLER_STATE_WARNING)
-									&& rule.getSeverity().equals(ControllerManager.CONTROLLER_STATE_ERROR))
-							{
+									&& rule.getSeverity().equals(ControllerManager.CONTROLLER_STATE_ERROR)) {
 								state = rule.getSeverity();
 							}
-						}
-						else
-						{
+						} else {
 							AppLogger.getLogger().info("rule evalauted to false");
 							// evaluated to false, need to update the reset time
-							if ((activeRuleIds != null) && activeRuleIds.contains(rule.getRuleId()))
-							{
+							if ((activeRuleIds != null) && activeRuleIds.contains(rule.getRuleId())) {
 								// this is a newly reset rule, hence add the
 								// attributes to the reset list
 								resetAttributes = mergeList(resetAttributes, attributeNames);
@@ -263,11 +234,9 @@ public class AlertEvaluator
 			 * removing the attributes from reset list, for which atleast some
 			 * other rule got violated
 			 */
-			for (final Iterator iter = resetAttributes.iterator(); iter.hasNext();)
-			{
+			for (final Iterator iter = resetAttributes.iterator(); iter.hasNext();) {
 				attributeName = (String) iter.next();
-				if (violatedAttributes.contains(attributeName))
-				{
+				if (violatedAttributes.contains(attributeName)) {
 					iter.remove();
 				}
 			}
@@ -277,17 +246,14 @@ public class AlertEvaluator
 			 * have been reset by other rules but are still active due to other
 			 * rules. Remove such attributes from resetAttributes list
 			 */
-			if ((activeRules != null) && (activeRules.size() > 0))
-			{
-				for (final Iterator iter = activeRules.iterator(); iter.hasNext();)
-				{
+			if ((activeRules != null) && (activeRules.size() > 0)) {
+				for (final Iterator iter = activeRules.iterator(); iter.hasNext();) {
 					rule = (Rule) iter.next();
 					// For Range Monitoring
-					
+
 					noOfSubExprs = rule.getNumExpressions();
 					subExpressions = rule.getExpressions();
-					for (int j = 0; j < noOfSubExprs; j++)
-					{
+					for (int j = 0; j < noOfSubExprs; j++) {
 						re = (RuleExpression) subExpressions.get(j);
 						resetAttributes.remove(re.getAttributeName());
 					}
@@ -295,45 +261,37 @@ public class AlertEvaluator
 			}
 
 			// 4. If any alert have been reset, fire alertResetEvent
-			if (resetRules.size() > 0)
-			{
-				AppLogger.getLogger().info("alert reset event fired rules: " + resetRules + " attributes: " + resetAttributes);
+			if (resetRules.size() > 0) {
+				AppLogger.getLogger()
+						.info("alert reset event fired rules: " + resetRules + " attributes: " + resetAttributes);
 				// write the alert reset to the data base
-				for (final Iterator iter = resetRules.iterator(); iter.hasNext();)
-				{
+				for (final Iterator iter = resetRules.iterator(); iter.hasNext();) {
 					rule = (Rule) iter.next();
-					AlertDAO.writeResetAlert(connection, rule.getRuleId(), this.nodeId, this.timeStamp, rule
-							.getSeverity());
+					AlertDAO.writeResetAlert(connection, rule.getRuleId(), this.nodeId, this.timeStamp,
+							rule.getSeverity());
 				}
 				// fire alert reset event
 				PreparedStatement ps = null;
-				try
-				{
-				    ps = connection.prepareStatement(QueryConstants.PREPARED_QRY_UPDATE_ATTRIBUTESTATE);
-					for (int i = 0; i < resetAttributes.size(); i++) 
-					{
+				try {
+					ps = connection.prepareStatement(QueryConstants.PREPARED_QRY_UPDATE_ATTRIBUTESTATE);
+					for (int i = 0; i < resetAttributes.size(); i++) {
 						DatabaseFunctions.setDateTime(ps, 1, this.timeStamp);
 						ps.setString(2, this.nodeId);
 						ps.setString(3, (String) resetAttributes.get(i));
 						CoreDBManager.executeUpdateStatement(connection, ps);
 					}
+				} finally {
+					DatabaseFunctions.closePreparedStatement(ps);
 				}
-				finally
-				{
-				    DatabaseFunctions.closePreparedStatement(ps);
-				}
-				
-				AlertEvaluationManager.fireAlertResetEvent(this.nodeId, resetRules, resetAttributes,
-						this.timeStamp);
+
+				AlertEvaluationManager.fireAlertResetEvent(this.nodeId, resetRules, resetAttributes, this.timeStamp);
 			}
 
 			// 5. If any alert has been raised. fire alertRaisedEvent
-			if (violatedRules.size() > 0)
-			{
-			    PreparedStatement ps = null;
-			    try
-			    {
-			        ps = connection.prepareStatement(QueryConstants.PREPARED_QRY_INSERT_ATTRIBUTESTATE);
+			if (violatedRules.size() > 0) {
+				PreparedStatement ps = null;
+				try {
+					ps = connection.prepareStatement(QueryConstants.PREPARED_QRY_INSERT_ATTRIBUTESTATE);
 					for (int i = 0; i < violatedAttributes.size(); i++) {
 						ps.setString(1, rule.getSeverity());
 						ps.setString(2, (String) violatedAttributes.get(i));
@@ -341,34 +299,27 @@ public class AlertEvaluator
 						DatabaseFunctions.setDateTime(ps, 4, this.timeStamp);
 						CoreDBManager.executeUpdateStatement(connection, ps);
 					}
-			    }
-			    finally
-                {
-                    DatabaseFunctions.closePreparedStatement(ps);
-                }
-				AppLogger.getLogger().info("alert raised event fired rules: " + 
-					violatedRules + " attributes: " + violatedAttributes);
-				
+				} finally {
+					DatabaseFunctions.closePreparedStatement(ps);
+				}
+				AppLogger.getLogger().info(
+						"alert raised event fired rules: " + violatedRules + " attributes: " + violatedAttributes);
+
 				// write the alert generated to the data base
-				for (final Iterator iter = violatedRules.iterator(); iter.hasNext();)
-				{
+				for (final Iterator iter = violatedRules.iterator(); iter.hasNext();) {
 					rule = (Rule) iter.next();
 
 					AlertDAO.writeGeneratedAlert(connection, rule.getRuleId(), this.nodeId, this.timeStamp,
 							rule.getSeverity());
 				}
-				
+
 				AlertEvaluationManager.fireAlertRaisedEvent(this.nodeId, violatedRules, violatedAttributes,
 						this.timeStamp);
 			}
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			final String msg = "Error in Alert Evaluation: for node: " + this.nodeId;
 			AppLogger.getLogger().log(AppLogger.getPriority(AppLogger.FATAL), msg, ex);
-		}
-		finally
-		{
+		} finally {
 			CoreDBManager.closeConnection(connection);
 		}
 	}
@@ -378,8 +329,7 @@ public class AlertEvaluator
 	 * 
 	 * @return
 	 */
-	public ControllerData getControllerData()
-	{
+	public ControllerData getControllerData() {
 		return this.controllerData;
 	}
 
@@ -388,8 +338,7 @@ public class AlertEvaluator
 	 * 
 	 * @return
 	 */
-	public String getNodeId()
-	{
+	public String getNodeId() {
 		return this.nodeId;
 	}
 
@@ -398,8 +347,7 @@ public class AlertEvaluator
 	 * 
 	 * @return
 	 */
-	public long getTimeStamp()
-	{
+	public long getTimeStamp() {
 		return this.timeStamp;
 	}
 
@@ -408,8 +356,7 @@ public class AlertEvaluator
 	 * 
 	 * @param data
 	 */
-	public void setControllerData(final ControllerData data)
-	{
+	public void setControllerData(final ControllerData data) {
 		this.controllerData = data;
 	}
 
@@ -418,8 +365,7 @@ public class AlertEvaluator
 	 * 
 	 * @param string
 	 */
-	public void setControllerId(final String nodeId)
-	{
+	public void setControllerId(final String nodeId) {
 		this.nodeId = nodeId;
 	}
 
@@ -428,8 +374,7 @@ public class AlertEvaluator
 	 * 
 	 * @param l
 	 */
-	public void setTimeStamp(final long l)
-	{
+	public void setTimeStamp(final long l) {
 		this.timeStamp = l;
 	}
 
@@ -438,8 +383,7 @@ public class AlertEvaluator
 	 * 
 	 * @return
 	 */
-	public String getControllerState()
-	{
+	public String getControllerState() {
 		return this.controllerState;
 	}
 
@@ -448,8 +392,7 @@ public class AlertEvaluator
 	 * 
 	 * @param string
 	 */
-	public void setControllerState(final String string)
-	{
+	public void setControllerState(final String string) {
 		this.controllerState = string;
 	}
 
@@ -460,8 +403,7 @@ public class AlertEvaluator
 	 * @param timeStamp
 	 * @return
 	 */
-	private final String searchAndReplaceFunctions(String sExpression, final long timeStamp)
-	{
+	private final String searchAndReplaceFunctions(String sExpression, final long timeStamp) {
 		final StringBuffer sbTemp = new StringBuffer("timeduration(");
 		sbTemp.append(timeStamp);
 		sbTemp.append(',');
@@ -469,21 +411,16 @@ public class AlertEvaluator
 		sExpression = StaticUtilities.searchAndReplace(sExpression, "timeduration(", sbTemp.toString());
 		return sExpression;
 	}
-	
-	public static final ArrayList mergeList(final ArrayList firstList, final ArrayList secondList)
-	{
-		if (firstList == null)
-		{
+
+	public static final ArrayList mergeList(final ArrayList firstList, final ArrayList secondList) {
+		if (firstList == null) {
 			return secondList;
 		}
-		if (secondList != null)
-		{
+		if (secondList != null) {
 			Object listObject = null;
-			for (final Iterator iter = secondList.iterator(); iter.hasNext();)
-			{
+			for (final Iterator iter = secondList.iterator(); iter.hasNext();) {
 				listObject = iter.next();
-				if (!firstList.contains(listObject))
-				{
+				if (!firstList.contains(listObject)) {
 					firstList.add(listObject);
 				}
 			}
@@ -491,8 +428,7 @@ public class AlertEvaluator
 		return firstList;
 	}
 
-	public void setNodeId(String nodeId) 
-	{
+	public void setNodeId(String nodeId) {
 		this.nodeId = nodeId;
 	}
 }

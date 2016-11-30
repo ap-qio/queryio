@@ -12,11 +12,9 @@ import com.queryio.core.permissions.GroupDAO;
 import com.queryio.core.permissions.UserGroupDAO;
 
 public class RegisterUser {
-	
 
-	public void addUser(String qioUSername, String qioPassword, String qioFname, String qioLname, String qioEmail)
-	{
-		
+	public void addUser(String qioUSername, String qioPassword, String qioFname, String qioLname, String qioEmail) {
+
 		String[] groupNames = new String[1];
 		String userGroup = QueryIOConstants.DEFAULT_GROUP_NAME;
 		String userRole = QueryIOConstants.ROLES_ADMIN;
@@ -25,27 +23,27 @@ public class RegisterUser {
 		String lastName = qioFname;
 		String password = qioLname;
 		String email = qioEmail;
-		groupNames[0]=userGroup;
+		groupNames[0] = userGroup;
 		Connection connection = null;
 		DWRResponse dwrResponse = new DWRResponse();
 		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-		
+
 			User user = new User();
 			user.setUserName(userName);
 			user.setFirstName(firstName);
 			user.setLastName(lastName);
 			user.setPassword(password);
 			user.setEmail(email);
-			dwrResponse =new DWRResponse();
-			
+			dwrResponse = new DWRResponse();
+
 			GroupDAO.addGroup(connection, userGroup);
 			UserDAO.insertUser(connection, user, userRole, dwrResponse);
 			UserGroupDAO.addUserToGroup(connection, userName, userGroup, true);
 		} catch (Throwable e) {
 			AppLogger.getLogger().fatal(e);
 		}
-		
+
 	}
 
 }

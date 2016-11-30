@@ -10,20 +10,20 @@ public class MBoxDataDefinitionImpl implements IDataDefinition {
 
 	@Override
 	public ArrayList<ColumnMetadata> getColumnMetadata() {
-//		String[] colNames = new String[] { "FILEPATH", "CONTENT_ID",
-//				"CONTENT_LANGUAGE", "MD5_CONTENT", "CONTENT_TYPE",
-//				"CONTENT_DESCRIPTION", "CONTENT_DISPOSITION",
-//				"CONTENT_ENCODING", "FILENAME", "MAIL_FROM", "LINE_COUNT",
-//				"MESSAGE_ID", "MESSAGE_NUMBER", "RECEIVED_DATE", "REPLY_TO",
-//				"SENDER", "SENT_DATE", "MAIL_SUBJECT", "MAIL_SIZE" };
-//
-//		String[] sqlTypes = new String[] { "VARCHAR(1280)", "VARCHAR(128)",
-//				"VARCHAR(128)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)",
-//				"VARCHAR(255)", "VARCHAR(128)", "VARCHAR(128)", "VARCHAR(255)",
-//				"DECIMAL", "VARCHAR(128)", "DECIMAL", "TIMESTAMP",
-//				"VARCHAR(512)", "VARCHAR(128)", "TIMESTAMP", "VARCHAR(255)",
-//				"DECIMAL" };
-		
+		// String[] colNames = new String[] { "FILEPATH", "CONTENT_ID",
+		// "CONTENT_LANGUAGE", "MD5_CONTENT", "CONTENT_TYPE",
+		// "CONTENT_DESCRIPTION", "CONTENT_DISPOSITION",
+		// "CONTENT_ENCODING", "FILENAME", "MAIL_FROM", "LINE_COUNT",
+		// "MESSAGE_ID", "MESSAGE_NUMBER", "RECEIVED_DATE", "REPLY_TO",
+		// "SENDER", "SENT_DATE", "MAIL_SUBJECT", "MAIL_SIZE" };
+		//
+		// String[] sqlTypes = new String[] { "VARCHAR(1280)", "VARCHAR(128)",
+		// "VARCHAR(128)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)",
+		// "VARCHAR(255)", "VARCHAR(128)", "VARCHAR(128)", "VARCHAR(255)",
+		// "DECIMAL", "VARCHAR(128)", "DECIMAL", "TIMESTAMP",
+		// "VARCHAR(512)", "VARCHAR(128)", "TIMESTAMP", "VARCHAR(255)",
+		// "DECIMAL" };
+
 		ArrayList<ColumnMetadata> colMetaDataList = new ArrayList<ColumnMetadata>();
 		colMetaDataList.add(new ColumnMetadata("FILEPATH", String.class, 1280));
 		colMetaDataList.add(new ColumnMetadata("CONTENT_ID", String.class, 128));
@@ -44,15 +44,16 @@ public class MBoxDataDefinitionImpl implements IDataDefinition {
 		colMetaDataList.add(new ColumnMetadata("SENT_DATE", Timestamp.class));
 		colMetaDataList.add(new ColumnMetadata("MAIL_SUBJECT", String.class, 255));
 		colMetaDataList.add(new ColumnMetadata("MAIL_SIZE", Float.class));
-		
+
 		return colMetaDataList;
 	}
+
 	@Override
 	public String getTableName() {
 		return "adhoc_mboxparserjob";
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		System.out.println(new MBoxDataDefinitionImpl().getColumnMetadata());
 	}
 }

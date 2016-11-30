@@ -19,8 +19,7 @@ package com.queryio.core.monitor.alerts.generator;
 
 import com.queryio.core.monitor.events.AlertListenerImpl;
 
-public final class AlertGenerationManager
-{
+public final class AlertGenerationManager {
 	// notification's constants
 	public static final String NOTIF_EMAIL = "Email";
 	public static final String NOTIF_SMS = "Sms";
@@ -36,8 +35,9 @@ public final class AlertGenerationManager
 	/* the data received listener */
 	private static AlertListenerImpl alertListener = null;
 
-	/* default constructor is private as this class contains only static methods */
-	private AlertGenerationManager()
-	{
+	/*
+	 * default constructor is private as this class contains only static methods
+	 */
+	private AlertGenerationManager() {
 	}
 }

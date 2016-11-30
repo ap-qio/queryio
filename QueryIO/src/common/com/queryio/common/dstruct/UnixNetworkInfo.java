@@ -23,8 +23,7 @@ package com.queryio.common.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class UnixNetworkInfo extends NetworkInfo
-{
+public class UnixNetworkInfo extends NetworkInfo {
 	private static final long UNSIGNED_32BIT_LIMIT = 4294967295l;
 	private static final long serialVersionUID = 752600005701000046L;
 	private long lTotalRecdPackets = 0;
@@ -42,8 +41,7 @@ public class UnixNetworkInfo extends NetworkInfo
 	 * @param totalSentPackets
 	 */
 	public UnixNetworkInfo(final String name, final int interfaceId, final long totalRecdPackets,
-			final long totalSentPackets)
-	{
+			final long totalSentPackets) {
 		super(name, interfaceId, 0, 0);
 
 		this.lTotalRecdPackets = totalRecdPackets;
@@ -60,10 +58,8 @@ public class UnixNetworkInfo extends NetworkInfo
 	 * 
 	 * @return int
 	 */
-	public long getTotalRecdPackets() throws Exception
-	{
-		if ((this.lTotalRecdPackets < 0) || (this.lTotalRecdPackets > Long.MAX_VALUE))
-		{
+	public long getTotalRecdPackets() throws Exception {
+		if ((this.lTotalRecdPackets < 0) || (this.lTotalRecdPackets > Long.MAX_VALUE)) {
 			throw new Exception("Total packets received value is incorrect");
 		}
 		return this.lTotalRecdPackets;
@@ -74,10 +70,8 @@ public class UnixNetworkInfo extends NetworkInfo
 	 * 
 	 * @return int
 	 */
-	public long getTotalSentPackets() throws Exception
-	{
-		if ((this.lTotalSentPackets < 0) || (this.lTotalSentPackets > Long.MAX_VALUE))
-		{
+	public long getTotalSentPackets() throws Exception {
+		if ((this.lTotalSentPackets < 0) || (this.lTotalSentPackets > Long.MAX_VALUE)) {
 			throw new Exception("Total packets sent value is incorrect");
 		}
 		return this.lTotalSentPackets;
@@ -89,8 +83,7 @@ public class UnixNetworkInfo extends NetworkInfo
 	 * @param totalRecdPackets
 	 *            The TotalRecdPackets to set
 	 */
-	public void setTotalRecdPackets(final long totalRecdPackets)
-	{
+	public void setTotalRecdPackets(final long totalRecdPackets) {
 		// calculate the packets recd per second from the older value
 		// this has to be done only if it is not the first time
 		// that the network Card has been found
@@ -99,14 +92,11 @@ public class UnixNetworkInfo extends NetworkInfo
 
 		lTimeStampDiffInSecs = (lTimeStampDiffInSecs > 0 ? lTimeStampDiffInSecs : 1);
 
-		if (totalRecdPackets < lTotalRecdPackets)
-		{
-			//Value reached 32bit limit and wrapped around
-			this.fReadMBPerSec = Math.max(0,
-					(float) ((UNSIGNED_32BIT_LIMIT + totalRecdPackets - this.lTotalRecdPackets) / lTimeStampDiffInSecs));
-		}
-		else
-		{
+		if (totalRecdPackets < lTotalRecdPackets) {
+			// Value reached 32bit limit and wrapped around
+			this.fReadMBPerSec = Math.max(0, (float) ((UNSIGNED_32BIT_LIMIT + totalRecdPackets - this.lTotalRecdPackets)
+					/ lTimeStampDiffInSecs));
+		} else {
 			this.fReadMBPerSec = Math.max(0,
 					(float) ((totalRecdPackets - this.lTotalRecdPackets) / lTimeStampDiffInSecs));
 		}
@@ -121,8 +111,7 @@ public class UnixNetworkInfo extends NetworkInfo
 	 * @param totalSentPackets
 	 *            The TotalSentPackets to set
 	 */
-	public void setTotalSentPackets(final long totalSentPackets)
-	{
+	public void setTotalSentPackets(final long totalSentPackets) {
 		// calculate the packets sent per second from the older value
 		// this has to be done only if it is not the first time
 		// that the network Card has been found
@@ -130,15 +119,12 @@ public class UnixNetworkInfo extends NetworkInfo
 		long lTimeStampDiffInSecs = (lCurrTimeStamp - this.lPacketsSentTimeStamp) / 1000;
 
 		lTimeStampDiffInSecs = (lTimeStampDiffInSecs > 0 ? lTimeStampDiffInSecs : 1);
-		if (totalSentPackets < lTotalSentPackets)
-		{
-			//Value reached 32bit limit and wrapped around
-			this.fSentMBPerSec = Math.max(0,
-					(float) ((UNSIGNED_32BIT_LIMIT + totalSentPackets - this.lTotalSentPackets) / lTimeStampDiffInSecs));
+		if (totalSentPackets < lTotalSentPackets) {
+			// Value reached 32bit limit and wrapped around
+			this.fSentMBPerSec = Math.max(0, (float) ((UNSIGNED_32BIT_LIMIT + totalSentPackets - this.lTotalSentPackets)
+					/ lTimeStampDiffInSecs));
 
-		}
-		else
-		{
+		} else {
 			this.fSentMBPerSec = Math.max(0,
 					(float) ((totalSentPackets - this.lTotalSentPackets) / lTimeStampDiffInSecs));
 		}

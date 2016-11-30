@@ -44,20 +44,18 @@ import com.queryio.plugin.dstruct.IDataDefinition;
 import com.queryio.userdefinedtags.common.UserDefinedTagDAO;
 
 public class SubmitJob extends HttpServlet {
-	public void doPost(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException {
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		PrintWriter pw = null;
 		try {
 			pw = res.getWriter();
-			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-					"Job submit request recevied from host: "
-							+ req.getRemoteAddr() + ", user: "
-							+ req.getRemoteUser());
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug("Job submit request recevied from host: " + req.getRemoteAddr() + ", user: "
+						+ req.getRemoteUser());
 
-			if(RemoteManager.isNonAdminAndDemo(req.getRemoteUser())) {
+			if (RemoteManager.isNonAdminAndDemo(req.getRemoteUser())) {
 				throw new Exception(QueryIOConstants.NOT_AN_AUTHORIZED_USER);
 			}
-			
+
 			String namenodeId = null;
 			String rmId = null;
 			String jobJarFilePath = null;
@@ -66,112 +64,120 @@ public class SubmitJob extends HttpServlet {
 			String sourcePath = null;
 			String pathPattern = null;
 			String mainClass = null;
-			String jarFile = null; 
+			String jarFile = null;
 			String jarFileText = null;
 			String executionJarFile = null;
-			
+
 			boolean isAdhoc = false;
-			
+
 			boolean isNewJob = false;
 			List libJars = new ArrayList();
 			String libJarFT = null;
 			List files = new ArrayList();
 			String nativeFT = null;
-			
+
 			ServletFileUpload upload = new ServletFileUpload();
 
 			FileItemIterator iterator = upload.getItemIterator(req);
 			while (iterator.hasNext()) {
 				FileItemStream item = iterator.next();
-				if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-						"Item Field Name :" + item.getFieldName()
-								+ " Item Name : " + item.getName()
-								+ " Content Type :" + item.getContentType());
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("Item Field Name :" + item.getFieldName() + " Item Name : "
+							+ item.getName() + " Content Type :" + item.getContentType());
 				if (item.isFormField()) {
-					if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-							"Got a form field: " + item.getFieldName());
+					if (AppLogger.getLogger().isDebugEnabled())
+						AppLogger.getLogger().debug("Got a form field: " + item.getFieldName());
 
 					if (item.getFieldName().equals("jobName")) {
 						jobName = getValue(item);
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("jobName: " + jobName);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("jobName: " + jobName);
 					} else if (item.getFieldName().equals("arguments")) {
 						arguments = getValue(item);
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("arguments: " + arguments);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("arguments: " + arguments);
 					} else if (item.getFieldName().equals("sourcePath")) {
 						sourcePath = getValue(item);
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("sourcePath: " + sourcePath);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("sourcePath: " + sourcePath);
 					} else if (item.getFieldName().equals("pathPattern")) {
 						pathPattern = getValue(item);
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("pathPattern: " + pathPattern);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("pathPattern: " + pathPattern);
 					} else if (item.getFieldName().equals("mainClass")) {
 						mainClass = getValue(item);
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("mainClass: " + mainClass);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("mainClass: " + mainClass);
 					} else if (item.getFieldName().equals("jarText")) {
 						jarFile = getValue(item);
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("jarFile: " + jarFile);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("jarFile: " + jarFile);
 					} else if (item.getFieldName().equals("jarFileText")) {
 						jarFileText = getValue(item);
 						if ((jarFileText != null) && (!jarFileText.isEmpty()))
 							jarFile = jarFileText;
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("jarFileText: " + jarFile);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("jarFileText: " + jarFile);
 					} else if (item.getFieldName().equals("nameNodeId")) {
 						namenodeId = getValue(item);
-						AppLogger.getLogger()
-								.debug("nameNodeId: " + namenodeId);
+						AppLogger.getLogger().debug("nameNodeId: " + namenodeId);
 					} else if (item.getFieldName().equals("resourceManagerId")) {
 						rmId = getValue(item);
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("resourceManagerId: " + rmId);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("resourceManagerId: " + rmId);
 					} else if (item.getFieldName().startsWith("libJarFT")) {
 						libJarFT = getValue(item);
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("libJarFT: " + libJarFT);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("libJarFT: " + libJarFT);
 						if ((libJarFT != null) && (!libJarFT.isEmpty()))
 							libJars.add(libJarFT.trim());
 					} else if (item.getFieldName().startsWith("nativeFT")) {
 						nativeFT = getValue(item);
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("nativeFT: " + nativeFT);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("nativeFT: " + nativeFT);
 						if ((nativeFT != null) && (!nativeFT.isEmpty()))
 							files.add(nativeFT.trim());
 					} else if (item.getFieldName().equals("isAdhoc")) {
 						String data = getValue(item);
-						if (Boolean.parseBoolean(data)){
+						if (Boolean.parseBoolean(data)) {
 							isAdhoc = true;
 						}
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("isAdhoc: " + isAdhoc + " data: " + data);
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("isAdhoc: " + isAdhoc + " data: " + data);
 					}
 				} else {
-					if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-							"Got an uploaded file: " + item.getFieldName()
-									+ ", name = " + item.getName());
+					if (AppLogger.getLogger().isDebugEnabled())
+						AppLogger.getLogger()
+								.debug("Got an uploaded file: " + item.getFieldName() + ", name = " + item.getName());
 
 					FileItemHeaders headers = item.getHeaders();
 					if (headers != null) {
 						Iterator iter = headers.getHeaderNames();
 						while (iter.hasNext()) {
 							String header = (String) iter.next();
-							if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-									header + " : " + headers.getHeader(header));
+							if (AppLogger.getLogger().isDebugEnabled())
+								AppLogger.getLogger().debug(header + " : " + headers.getHeader(header));
 						}
 					}
 					if (item.getFieldName().contains("executionJarFile")) {
 
-						executionJarFile =  item.getName();
+						executionJarFile = item.getName();
 
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-								"executionJarFile: " + jarFile);
-						
-						if ((executionJarFile != null) && (!executionJarFile.isEmpty()))
-						{
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("executionJarFile: " + jarFile);
+
+						if ((executionJarFile != null) && (!executionJarFile.isEmpty())) {
 							jarFile = executionJarFile;
 							isNewJob = true;
 							InputStream is = null;
 							OutputStream os = null;
 							try {
 								is = item.openStream();
-								new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE + "/"
-										+ jobName).mkdirs();
-								File file = new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE
-												+ File.separator + jobName
-												+ File.separator + executionJarFile);
+								new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE
+										+ "/" + jobName).mkdirs();
+								File file = new File(
+										EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE
+												+ File.separator + jobName + File.separator + executionJarFile);
 
 								jobJarFilePath = file.getAbsolutePath();
 
@@ -192,20 +198,19 @@ public class SubmitJob extends HttpServlet {
 									AppLogger.getLogger().fatal(e.getMessage(), e);
 								}
 							}
-						}						
+						}
 					} else {
 						// type= headers.getHeader("upload-type");
 						// if(type.equals("lib-jar")){
 						if (item.getFieldName().contains("libJar")) {
-							
+
 							String libJarFile = null;
 							if (item.getFieldName().startsWith("libJarFile"))
 								libJarFile = item.getName();
-							
-							if ((libJarFile != null) && (!libJarFile.isEmpty()))
-							{
-								if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-										"Lib File Name :" + libJarFile);
+
+							if ((libJarFile != null) && (!libJarFile.isEmpty())) {
+								if (AppLogger.getLogger().isDebugEnabled())
+									AppLogger.getLogger().debug("Lib File Name :" + libJarFile);
 								if (libJarFile.length() != 0) {
 
 									libJars.add(libJarFile.trim());
@@ -213,15 +218,12 @@ public class SubmitJob extends HttpServlet {
 									OutputStream os = null;
 									try {
 										is = item.openStream();
-										new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE
-														+ File.separator + jobName
-														+ File.separator + "lib")
-												.mkdirs();
-										File file = new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE
-														+ File.separator + jobName
-														+ File.separator + "lib"
-														+ File.separator
-														+ libJarFile);
+										new File(EnvironmentalConstants.getAppHome() + "/"
+												+ QueryIOConstants.MAPREDRESOURCE + File.separator + jobName
+												+ File.separator + "lib").mkdirs();
+										File file = new File(EnvironmentalConstants.getAppHome() + "/"
+												+ QueryIOConstants.MAPREDRESOURCE + File.separator + jobName
+												+ File.separator + "lib" + File.separator + libJarFile);
 										file.createNewFile();
 
 										os = new FileOutputStream(file);
@@ -231,46 +233,40 @@ public class SubmitJob extends HttpServlet {
 											if (is != null)
 												is.close();
 										} catch (Exception e) {
-											AppLogger.getLogger().fatal(
-													e.getMessage(), e);
+											AppLogger.getLogger().fatal(e.getMessage(), e);
 										}
 										try {
 											if (os != null)
 												os.close();
 										} catch (Exception e) {
-											AppLogger.getLogger().fatal(
-													e.getMessage(), e);
+											AppLogger.getLogger().fatal(e.getMessage(), e);
 										}
 									}
 								}
 							}
-							
+
 						} else if (item.getFieldName().contains("native")) {
-							
+
 							String nativeFile = null;
 							if (item.getFieldName().startsWith("nativeFile"))
 								nativeFile = item.getName();
-							
-							if ((nativeFile != null) && (!nativeFile.isEmpty()))
-							{
-								if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-										"Native File Name :" + nativeFile);
+
+							if ((nativeFile != null) && (!nativeFile.isEmpty())) {
+								if (AppLogger.getLogger().isDebugEnabled())
+									AppLogger.getLogger().debug("Native File Name :" + nativeFile);
 								if (nativeFile.length() != 0) {
-									
+
 									files.add(nativeFile.trim());
 									InputStream is = null;
 									OutputStream os = null;
 									try {
 										is = item.openStream();
-										new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE
-														+ File.separator + jobName
-														+ File.separator + "files")
-												.mkdirs();
-										File file = new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE
-														+ File.separator + jobName
-														+ File.separator + "files"
-														+ File.separator
-														+ nativeFile);
+										new File(EnvironmentalConstants.getAppHome() + "/"
+												+ QueryIOConstants.MAPREDRESOURCE + File.separator + jobName
+												+ File.separator + "files").mkdirs();
+										File file = new File(EnvironmentalConstants.getAppHome() + "/"
+												+ QueryIOConstants.MAPREDRESOURCE + File.separator + jobName
+												+ File.separator + "files" + File.separator + nativeFile);
 										file.createNewFile();
 
 										os = new FileOutputStream(file);
@@ -280,15 +276,13 @@ public class SubmitJob extends HttpServlet {
 											if (is != null)
 												is.close();
 										} catch (Exception e) {
-											AppLogger.getLogger().fatal(
-													e.getMessage(), e);
+											AppLogger.getLogger().fatal(e.getMessage(), e);
 										}
 										try {
 											if (os != null)
 												os.close();
 										} catch (Exception e) {
-											AppLogger.getLogger().fatal(
-													e.getMessage(), e);
+											AppLogger.getLogger().fatal(e.getMessage(), e);
 										}
 									}
 								}
@@ -298,22 +292,24 @@ public class SubmitJob extends HttpServlet {
 				}
 			}
 
-
 			if (jarFile == null) {
 				throw new Exception("Did not recieve job jar file");
 			}
 			jarFile = jobName + "/" + executionJarFile;
-			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Processing Submit Job Request");
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug("Processing Submit Job Request");
 
 			String libJarsString = "";
 			for (int i = 0; i < libJars.size(); i++) {
 				if (i != 0)
 					libJarsString += ",";
 				String currentLibJar = (String) libJars.get(i);
-				if(jobName.equalsIgnoreCase(QueryIOConstants.DATATAGGING_DEFAULT_JOB) || currentLibJar.startsWith(jobName + "/lib/") 
-						|| (jobName.startsWith(QueryIOConstants.DATATAGGING_PREFIX) && currentLibJar.startsWith("Plugins"))) {					
+				if (jobName.equalsIgnoreCase(QueryIOConstants.DATATAGGING_DEFAULT_JOB)
+						|| currentLibJar.startsWith(jobName + "/lib/")
+						|| (jobName.startsWith(QueryIOConstants.DATATAGGING_PREFIX)
+								&& currentLibJar.startsWith("Plugins"))) {
 					libJarsString += currentLibJar;
-				} else {					
+				} else {
 					libJarsString += jobName + "/lib/" + currentLibJar;
 				}
 			}
@@ -324,7 +320,6 @@ public class SubmitJob extends HttpServlet {
 					filesString += ",";
 				filesString += jobName + "/files/" + files.get(i);
 			}
-				
 
 			Connection connection = null;
 			Connection customTagConnection = null;
@@ -337,209 +332,199 @@ public class SubmitJob extends HttpServlet {
 					throw new Exception("No Namenode found by this Id");
 				}
 				if (NodeDAO.getAllNMs(connection).size() < 1) {
-					throw new Exception(
-							"No Node Managers found. Please configure Node Manager(s) before adding jobs.");
+					throw new Exception("No Node Managers found. Please configure Node Manager(s) before adding jobs.");
 				}
 
-				Configuration config = ConfigurationManager.getConfiguration(
-						connection, namenodeId);
-				
+				Configuration config = ConfigurationManager.getConfiguration(connection, namenodeId);
+
 				String connectionName = config.get(QueryIOConstants.ANALYTICS_DB_DBSOURCEID);
 				if (connectionName == null)
 					connectionName = config.get(QueryIOConstants.CUSTOM_TAG_DB_DBSOURCEID);
 				customTagConnection = CoreDBManager.getCustomTagDBConnection(connectionName);
 				DBTypeProperties props = CustomTagDBConfigManager.getDatabaseDataTypeMap(connectionName, null);
-				
-				if (isNewJob){
-					if(isAdhoc){
-						AdHocJobConfig adHocJobConfig = new AdHocJobConfig(
-								namenodeId, rmId, jobName, jarFile, libJarsString, 
-								filesString, mainClass, sourcePath, pathPattern, arguments);
-						if ((jarFileText != null) && (executionJarFile != null))
-						{
-							if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-									"Job jarFilePath: " + jobJarFilePath);
+
+				if (isNewJob) {
+					if (isAdhoc) {
+						AdHocJobConfig adHocJobConfig = new AdHocJobConfig(namenodeId, rmId, jobName, jarFile,
+								libJarsString, filesString, mainClass, sourcePath, pathPattern, arguments);
+						if ((jarFileText != null) && (executionJarFile != null)) {
+							if (AppLogger.getLogger().isDebugEnabled())
+								AppLogger.getLogger().debug("Job jarFilePath: " + jobJarFilePath);
 
 							jarFile = executionJarFile;
 							boolean isParsed = false;
-							
-							if (jobJarFilePath != null && isAdhoc)
-							{
-								JobMappingExtractor extractor = new JobMappingExtractor(
-										jobJarFilePath);
+
+							if (jobJarFilePath != null && isAdhoc) {
+								JobMappingExtractor extractor = new JobMappingExtractor(jobJarFilePath);
 								try {
 									extractor.parse();
 									if (extractor.getTableName() != null) {
 										isParsed = true;
-										if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-												"Table Name: " + extractor.getTableName());
-										if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-												"Meta Data: " + extractor.getColumnMetaData());
+										if (AppLogger.getLogger().isDebugEnabled())
+											AppLogger.getLogger().debug("Table Name: " + extractor.getTableName());
+										if (AppLogger.getLogger().isDebugEnabled())
+											AppLogger.getLogger().debug("Meta Data: " + extractor.getColumnMetaData());
 										JobDefinitionDAO.addJobDefinition(connection, jobName,
 												extractor.getTableName());
-										
-										if(!UserDefinedTagDAO.checkIfTableExists(customTagConnection, extractor.getTableName()))
-											UserDefinedTagDAO.createDatabaseTable(customTagConnection, props, extractor.getTableName(), extractor.getColumnMetaData());
+
+										if (!UserDefinedTagDAO.checkIfTableExists(customTagConnection,
+												extractor.getTableName()))
+											UserDefinedTagDAO.createDatabaseTable(customTagConnection, props,
+													extractor.getTableName(), extractor.getColumnMetaData());
 									}
 								} catch (Exception e) {
-									AppLogger.getLogger().fatal(
-											"Job jar parsing failed with exception: "
-													+ e.getMessage(), e);
+									AppLogger.getLogger()
+											.fatal("Job jar parsing failed with exception: " + e.getMessage(), e);
 								}
 							}
-							
+
 							if ((!isParsed) && (isAdhoc))
-								throw new Exception("Interface not implemented for the given Adhoc Job. Please submit jar containing implementation of " + IDataDefinition.class.getName() + " interface.");
-							
+								throw new Exception(
+										"Interface not implemented for the given Adhoc Job. Please submit jar containing implementation of "
+												+ IDataDefinition.class.getName() + " interface.");
+
 							AdHocJobConfigDAO.delete(connection, jobName);
 							AdHocJobConfigDAO.insert(connection, adHocJobConfig);
-						}
-						else if (executionJarFile != null)
-						{
-							if (AdHocJobConfigDAO.get(connection, jobName) != null)
-							{
+						} else if (executionJarFile != null) {
+							if (AdHocJobConfigDAO.get(connection, jobName) != null) {
 								throw new Exception("Job already exist by this name. Please use a different Job name");
-							}else
-							{
+							} else {
 								AdHocJobConfigDAO.updateJob(connection, adHocJobConfig);
 							}
 						}
-					}else{
-						// By default Recursive was true, and input path filter was false.
-						MapRedJobConfig mapredJobConfig = new MapRedJobConfig(
-								namenodeId, rmId, jobName, jarFile, libJarsString,
-								filesString, mainClass, arguments, true, false, null);
-						if (isNewJob)
-						{
+					} else {
+						// By default Recursive was true, and input path filter
+						// was false.
+						MapRedJobConfig mapredJobConfig = new MapRedJobConfig(namenodeId, rmId, jobName, jarFile,
+								libJarsString, filesString, mainClass, arguments, true, false, null);
+						if (isNewJob) {
 							MapRedJobConfigDAO.delete(connection, jobName, false);
 							MapRedJobConfigDAO.insert(connection, mapredJobConfig);
-						}else
-						{
+						} else {
 							MapRedJobConfigDAO.updateJob(connection, mapredJobConfig);
 						}
-					}	
-				}else
-				{
-					if(isAdhoc){
-						AdHocJobConfig adHocJobConfig = new AdHocJobConfig(
-								namenodeId, rmId, jobName, jarFile, libJarsString, 
-								filesString, mainClass, sourcePath, pathPattern, arguments);
-						AdHocJobConfigDAO.updateJob(connection, adHocJobConfig);
-					}else{
-						// By default Recursive was true, and input path filter was false.
-						MapRedJobConfig mapredJobConfig = new MapRedJobConfig(
-								namenodeId, rmId, jobName, jarFile, libJarsString,
-								filesString, mainClass, arguments, true, false, null);
-						MapRedJobConfigDAO.updateJob(connection, mapredJobConfig);	
 					}
-					
+				} else {
+					if (isAdhoc) {
+						AdHocJobConfig adHocJobConfig = new AdHocJobConfig(namenodeId, rmId, jobName, jarFile,
+								libJarsString, filesString, mainClass, sourcePath, pathPattern, arguments);
+						AdHocJobConfigDAO.updateJob(connection, adHocJobConfig);
+					} else {
+						// By default Recursive was true, and input path filter
+						// was false.
+						MapRedJobConfig mapredJobConfig = new MapRedJobConfig(namenodeId, rmId, jobName, jarFile,
+								libJarsString, filesString, mainClass, arguments, true, false, null);
+						MapRedJobConfigDAO.updateJob(connection, mapredJobConfig);
+					}
+
 				}
-				
-				
-//				if (isNewJob)
-//				{
-//					if ((jarFileText != null) && (executionJarFile != null))
-//					{
-//						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-//								"Job jarFilePath: " + jobJarFilePath);
-//
-//						jarFile = executionJarFile;
-//						boolean isParsed = false;
-//						
-//						if (jobJarFilePath != null && isAdhoc)
-//						{
-//							JobMappingExtractor extractor = new JobMappingExtractor(
-//									jobJarFilePath);
-//							try {
-//								extractor.parse();
-//								if (extractor.getTableName() != null) {
-//									isParsed = true;
-//									if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-//											"Table Name: " + extractor.getTableName());
-//									if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-//											"Meta Data: " + extractor.getColumnMetaData());
-//									JobDefinitionDAO.addJobDefinition(connection, jobName,
-//											extractor.getTableName());
-//									
-//									if(!UserDefinedTagDAO.checkIfTableExists(customTagConnection, extractor.getTableName()))
-//										UserDefinedTagDAO.createDatabaseTable(customTagConnection, extractor.getTableName(), extractor.getColumnMetaData());
-//								}
-//							} catch (Exception e) {
-//								AppLogger.getLogger().fatal(
-//										"Job jar parsing failed with exception: "
-//												+ e.getMessage(), e);
-//							}
-//						}
-//						
-//						if ((!isParsed) && (isAdhoc))
-//							throw new Exception("Interface not implemented for the given Adhoc Job. Please submit jar containing implementation of " + IDataDefinition.class.getName() + " interface.");
-//						
-//						ApplicationManager.deleteJobDB(jobName);
-//						MapRedJobConfigDAO.insert(connection, mapredJobConfig);
-//					}
-//					else if (executionJarFile != null)
-//					{
-//						if (MapRedJobConfigDAO.get(connection, jobName) != null)
-//						{
-//							throw new Exception("Job already exist by this name. Please use a different Job name");
-//						}
-//					}
-//				}
-//				else
-//				{
-//					MapRedJobConfigDAO.updateJob(connection, mapredJobConfig);
-//				}
-				
-				File libDir = new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE + File.separator + jobName + File.separator + "lib");
-				if (libDir.exists())
-				{
-					if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("libJars: " + libJars);
-					if ((libJars != null) && (libJars.size() > 0))
-					{
+
+				// if (isNewJob)
+				// {
+				// if ((jarFileText != null) && (executionJarFile != null))
+				// {
+				// if(AppLogger.getLogger().isDebugEnabled())
+				// AppLogger.getLogger().debug(
+				// "Job jarFilePath: " + jobJarFilePath);
+				//
+				// jarFile = executionJarFile;
+				// boolean isParsed = false;
+				//
+				// if (jobJarFilePath != null && isAdhoc)
+				// {
+				// JobMappingExtractor extractor = new JobMappingExtractor(
+				// jobJarFilePath);
+				// try {
+				// extractor.parse();
+				// if (extractor.getTableName() != null) {
+				// isParsed = true;
+				// if(AppLogger.getLogger().isDebugEnabled())
+				// AppLogger.getLogger().debug(
+				// "Table Name: " + extractor.getTableName());
+				// if(AppLogger.getLogger().isDebugEnabled())
+				// AppLogger.getLogger().debug(
+				// "Meta Data: " + extractor.getColumnMetaData());
+				// JobDefinitionDAO.addJobDefinition(connection, jobName,
+				// extractor.getTableName());
+				//
+				// if(!UserDefinedTagDAO.checkIfTableExists(customTagConnection,
+				// extractor.getTableName()))
+				// UserDefinedTagDAO.createDatabaseTable(customTagConnection,
+				// extractor.getTableName(), extractor.getColumnMetaData());
+				// }
+				// } catch (Exception e) {
+				// AppLogger.getLogger().fatal(
+				// "Job jar parsing failed with exception: "
+				// + e.getMessage(), e);
+				// }
+				// }
+				//
+				// if ((!isParsed) && (isAdhoc))
+				// throw new Exception("Interface not implemented for the given
+				// Adhoc Job. Please submit jar containing implementation of " +
+				// IDataDefinition.class.getName() + " interface.");
+				//
+				// ApplicationManager.deleteJobDB(jobName);
+				// MapRedJobConfigDAO.insert(connection, mapredJobConfig);
+				// }
+				// else if (executionJarFile != null)
+				// {
+				// if (MapRedJobConfigDAO.get(connection, jobName) != null)
+				// {
+				// throw new Exception("Job already exist by this name. Please
+				// use a different Job name");
+				// }
+				// }
+				// }
+				// else
+				// {
+				// MapRedJobConfigDAO.updateJob(connection, mapredJobConfig);
+				// }
+
+				File libDir = new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE
+						+ File.separator + jobName + File.separator + "lib");
+				if (libDir.exists()) {
+					if (AppLogger.getLogger().isDebugEnabled())
+						AppLogger.getLogger().debug("libJars: " + libJars);
+					if ((libJars != null) && (libJars.size() > 0)) {
 						File[] libFiles = libDir.listFiles();
-						if (libFiles != null)
-						{
-							for (int i=0; i<libFiles.length; i++)
-							{
+						if (libFiles != null) {
+							for (int i = 0; i < libFiles.length; i++) {
 								File file = libFiles[i];
-								if ((file.exists()) && (!libJars.contains(file.getName())))
-								{
-									if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Deleted File: " + file.getName());
+								if ((file.exists()) && (!libJars.contains(file.getName()))) {
+									if (AppLogger.getLogger().isDebugEnabled())
+										AppLogger.getLogger().debug("Deleted File: " + file.getName());
 									file.delete();
 								}
 							}
 						}
-					}
-					else
-					{
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Deleted Dir: " + libDir.getName());
+					} else {
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("Deleted Dir: " + libDir.getName());
 						StaticUtilities.deleteFile(libDir);
 					}
 				}
-				
-				File nativeDir = new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE + File.separator + jobName + File.separator + "files");
-				if (nativeDir.exists())
-				{
-					if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("files: " + files);
-					if ((files != null) && (files.size() > 0))
-					{
+
+				File nativeDir = new File(EnvironmentalConstants.getAppHome() + "/" + QueryIOConstants.MAPREDRESOURCE
+						+ File.separator + jobName + File.separator + "files");
+				if (nativeDir.exists()) {
+					if (AppLogger.getLogger().isDebugEnabled())
+						AppLogger.getLogger().debug("files: " + files);
+					if ((files != null) && (files.size() > 0)) {
 						File[] nativeFiles = nativeDir.listFiles();
-						if (nativeFiles != null)
-						{
-							for (int i=0; i<nativeFiles.length; i++)
-							{
+						if (nativeFiles != null) {
+							for (int i = 0; i < nativeFiles.length; i++) {
 								File file = nativeFiles[i];
-								if ((file.exists()) && (!files.contains(file.getName())))
-								{
-									if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Deleted File: " + file.getName());
+								if ((file.exists()) && (!files.contains(file.getName()))) {
+									if (AppLogger.getLogger().isDebugEnabled())
+										AppLogger.getLogger().debug("Deleted File: " + file.getName());
 									file.delete();
 								}
 							}
 						}
-					}
-					else
-					{
-						if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Deleted Dir: " + nativeDir.getName());
+					} else {
+						if (AppLogger.getLogger().isDebugEnabled())
+							AppLogger.getLogger().debug("Deleted Dir: " + nativeDir.getName());
 						StaticUtilities.deleteFile(nativeDir);
 					}
 				}
@@ -561,9 +546,9 @@ public class SubmitJob extends HttpServlet {
 			pw.close();
 		} catch (Exception ex) {
 			String msg = null;
-			if(ex.getMessage() != null && ex.getMessage().equals(QueryIOConstants.NOT_AN_AUTHORIZED_USER)) {
+			if (ex.getMessage() != null && ex.getMessage().equals(QueryIOConstants.NOT_AN_AUTHORIZED_USER)) {
 				msg = QueryIOConstants.NOT_AN_AUTHORIZED_USER;
-			} else {				
+			} else {
 				AppLogger.getLogger().fatal(ex.getMessage(), ex);
 				msg = "Job Submission Failed. " + ex.getMessage();
 			}

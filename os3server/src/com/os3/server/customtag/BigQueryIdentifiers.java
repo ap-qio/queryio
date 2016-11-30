@@ -12,5 +12,5 @@ public interface BigQueryIdentifiers {
 	String QUERYFOOTER = "queryFooter";
 	String GROUPHEADER = "groupHeader";
 	String GROUPFOOTER = "groupFooter";
-	String AGGREGATEONCOLUMN = "aggregateOnColumn";	
+	String AGGREGATEONCOLUMN = "aggregateOnColumn";
 }

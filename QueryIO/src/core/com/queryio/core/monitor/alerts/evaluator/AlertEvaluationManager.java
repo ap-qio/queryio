@@ -34,12 +34,11 @@ import com.queryio.core.monitor.events.EventQueueManager;
  * 
  * @author Exceed Consultancy Services
  */
-public final class AlertEvaluationManager
-{
+public final class AlertEvaluationManager {
 	// CONSTANT FOR RANGEMONITORING RULE
-	public static final String RULE_RANGEMONITORING="_RM";
-	public static final String RULE_SYSTEMRULE="_SYSTEMRULE";
-	
+	public static final String RULE_RANGEMONITORING = "_RM";
+	public static final String RULE_SYSTEMRULE = "_SYSTEMRULE";
+
 	// Constants for Expression types
 	public static final String CONDITION_OVER = "Over";
 	public static final String CONDITION_UNDER = "Under";
@@ -57,54 +56,49 @@ public final class AlertEvaluationManager
 	public static final char EXPR_ATTRIBUTE_NAME_END = '}';
 	public static final String EXPR_VALID_TOKENS = "<>=!|&+-*/()^%" + EXPR_ATTRIBUTE_ID_ENCAPSULATOR;
 
-//	private static EventDispatcherImpl eventDispatcher = null;
+	// private static EventDispatcherImpl eventDispatcher = null;
 	private static final Map DURATION_RULES_CACHE;
 	private static EventDispatcherImpl eventDispatcher = null;
-	
 
-	/* default constructor is private as this class contains only static methods */
-	private AlertEvaluationManager()
-	{
-		
+	/*
+	 * default constructor is private as this class contains only static methods
+	 */
+	private AlertEvaluationManager() {
+
 	}
 
-	static
-	{
+	static {
 		eventDispatcher = new EventDispatcherImpl();
-		
+
 		DURATION_RULES_CACHE = new HashMap();
 	}
 
 	public static void fireAlertResetEvent(final String nodeId, final ArrayList resetRules,
-			final ArrayList resetAttributes, final long timeStamp)
-	{
-		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("fireAlertResetEvent");
-		EventQueueManager.postEvent(new AlertEvent(nodeId, AlertEvent.RESET, resetRules, resetAttributes,
-				timeStamp, eventDispatcher));
+			final ArrayList resetAttributes, final long timeStamp) {
+		if (AppLogger.getLogger().isDebugEnabled())
+			AppLogger.getLogger().debug("fireAlertResetEvent");
+		EventQueueManager.postEvent(
+				new AlertEvent(nodeId, AlertEvent.RESET, resetRules, resetAttributes, timeStamp, eventDispatcher));
 	}
 
 	public static void fireAlertRaisedEvent(final String nodeId, final ArrayList violatedRules,
-			final ArrayList violatedAttributes, final long timeStamp)
-	{
-		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("fireAlertRaisedEvent");
+			final ArrayList violatedAttributes, final long timeStamp) {
+		if (AppLogger.getLogger().isDebugEnabled())
+			AppLogger.getLogger().debug("fireAlertRaisedEvent");
 		EventQueueManager.postEvent(new AlertEvent(nodeId, AlertEvent.RAISED, violatedRules, violatedAttributes,
 				timeStamp, eventDispatcher));
 	}
-	
-	public static Map getDurationRulesCache()
-	{
+
+	public static Map getDurationRulesCache() {
 		return DURATION_RULES_CACHE;
-		
+
 	}
 
-	public static void ruleDeleted(String ruleId)
-	{
+	public static void ruleDeleted(String ruleId) {
 		Iterator itr = DURATION_RULES_CACHE.keySet().iterator();
-		while (itr.hasNext())
-		{
-			String key = (String)itr.next();
-			if (key.startsWith(ruleId + "_"))
-			{
+		while (itr.hasNext()) {
+			String key = (String) itr.next();
+			if (key.startsWith(ruleId + "_")) {
 				itr.remove();
 			}
 		}

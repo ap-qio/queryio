@@ -13,25 +13,23 @@ import org.apache.hadoop.security.UserGroupInformation;
 
 @SuppressWarnings("PMD.AvoidUsingShortType")
 public class QIODFSUtils {
-	
-	public static FileSystem getFileSystemAs(final String username, final String group,
-			final Configuration conf, final URI uri) throws IOException, InterruptedException {
-		final UserGroupInformation ugi = UserGroupInformation.createRemoteUser(
-				username);
-				return ugi.doAs(new PrivilegedExceptionAction<FileSystem>() {
+
+	public static FileSystem getFileSystemAs(final String username, final String group, final Configuration conf,
+			final URI uri) throws IOException, InterruptedException {
+		final UserGroupInformation ugi = UserGroupInformation.createRemoteUser(username);
+		return ugi.doAs(new PrivilegedExceptionAction<FileSystem>() {
 			@Override
 			public FileSystem run() throws Exception {
 				return FileSystem.get(uri, conf);
 			}
 		});
 	}
-	
-	public static FileSystem getFileSystemAs(final String username, final String group,
-			final Configuration conf) throws IOException, InterruptedException {
-	
-		final UserGroupInformation ugi = UserGroupInformation.createRemoteUser(
-				username);
-		
+
+	public static FileSystem getFileSystemAs(final String username, final String group, final Configuration conf)
+			throws IOException, InterruptedException {
+
+		final UserGroupInformation ugi = UserGroupInformation.createRemoteUser(username);
+
 		return ugi.doAs(new PrivilegedExceptionAction<FileSystem>() {
 			@Override
 			public FileSystem run() throws Exception {
@@ -39,13 +37,12 @@ public class QIODFSUtils {
 			}
 		});
 	}
-	
-	public static DFSClient getDFSClient(final String username, final String group,
-			final Configuration conf) throws IOException, InterruptedException {
-	
-		final UserGroupInformation ugi = UserGroupInformation.createRemoteUser(
-				username);
-		
+
+	public static DFSClient getDFSClient(final String username, final String group, final Configuration conf)
+			throws IOException, InterruptedException {
+
+		final UserGroupInformation ugi = UserGroupInformation.createRemoteUser(username);
+
 		return ugi.doAs(new PrivilegedExceptionAction<DFSClient>() {
 			@Override
 			public DFSClient run() throws Exception {
@@ -53,7 +50,7 @@ public class QIODFSUtils {
 			}
 		});
 	}
-	
+
 	public static FsPermission parsePermissions(short permissions) {
 		FsAction u = getAction(permissions / 100);
 		int t = permissions % 100;
@@ -62,18 +59,27 @@ public class QIODFSUtils {
 
 		return new FsPermission(u, g, o, false);
 	}
-	
+
 	public static FsAction getAction(int i) {
 		switch (i) {
-			case 0: return FsAction.NONE;
-			case 1: return FsAction.EXECUTE;
-			case 2: return FsAction.WRITE;
-			case 3: return FsAction.WRITE_EXECUTE;
-			case 4: return FsAction.READ;
-			case 5: return FsAction.READ_EXECUTE;
-			case 6: return FsAction.READ_WRITE;
-			case 7: return FsAction.ALL;
-			default: return FsAction.READ;
+		case 0:
+			return FsAction.NONE;
+		case 1:
+			return FsAction.EXECUTE;
+		case 2:
+			return FsAction.WRITE;
+		case 3:
+			return FsAction.WRITE_EXECUTE;
+		case 4:
+			return FsAction.READ;
+		case 5:
+			return FsAction.READ_EXECUTE;
+		case 6:
+			return FsAction.READ_WRITE;
+		case 7:
+			return FsAction.ALL;
+		default:
+			return FsAction.READ;
 		}
 	}
 

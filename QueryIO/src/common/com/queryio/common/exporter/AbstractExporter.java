@@ -47,15 +47,14 @@ import com.queryio.common.util.ResourceManager;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public abstract class AbstractExporter
-{
+public abstract class AbstractExporter {
 	protected static final transient ResourceManager RM = ExportManager.RM;
 
 	protected ArrayList alImages = new ArrayList();
 
 	protected String sCurrentProject;
 	protected String sHeaderImagePath;
-	protected int iWidth; 
+	protected int iWidth;
 	protected int iHeight;
 	protected boolean bExportingResult = false;
 	protected AbstractExportableNode node;
@@ -66,18 +65,15 @@ public abstract class AbstractExporter
 	 * 
 	 * @param s
 	 */
-	public void setProjectName(final String s)
-	{
+	public void setProjectName(final String s) {
 		this.sCurrentProject = s;
 	}
-	
-	public void setHeaderImagePath(String path)
-	{
+
+	public void setHeaderImagePath(String path) {
 		this.sHeaderImagePath = path;
 	}
 
-	public void reset()
-	{
+	public void reset() {
 		// classes extending should override this method
 	}
 
@@ -87,8 +83,7 @@ public abstract class AbstractExporter
 	 * @param width
 	 * @param height
 	 */
-	public void setSize(final int width, final int height)
-	{
+	public void setSize(final int width, final int height) {
 		this.iWidth = width;
 		this.iHeight = height;
 	}
@@ -98,8 +93,7 @@ public abstract class AbstractExporter
 	 * 
 	 * @param alImages
 	 */
-	public void setImageList(final ArrayList alImages)
-	{
+	public void setImageList(final ArrayList alImages) {
 		this.alImages = alImages;
 	}
 
@@ -108,8 +102,7 @@ public abstract class AbstractExporter
 	 * 
 	 * @param exportingResult
 	 */
-	public void setExportingResult(final boolean exportingResult)
-	{
+	public void setExportingResult(final boolean exportingResult) {
 		this.bExportingResult = exportingResult;
 	}
 
@@ -118,8 +111,7 @@ public abstract class AbstractExporter
 	 * 
 	 * @throws ExporterException
 	 */
-	protected void exportNodeItems() throws ExporterException
-	{
+	protected void exportNodeItems() throws ExporterException {
 		this.exportItems(this.node.getItems());
 	}
 
@@ -129,12 +121,9 @@ public abstract class AbstractExporter
 	 * @param items
 	 * @throws ExporterException
 	 */
-	protected void exportItems(final IExportableItem[] items) throws ExporterException
-	{
-		if ((items != null) && (items.length > 0))
-		{
-			for (int i = 0; i < items.length; i++)
-			{
+	protected void exportItems(final IExportableItem[] items) throws ExporterException {
+		if ((items != null) && (items.length > 0)) {
+			for (int i = 0; i < items.length; i++) {
 				this.exportItem(items[i]);
 			}
 		}
@@ -145,9 +134,9 @@ public abstract class AbstractExporter
 	 * 
 	 * @return
 	 */
-	protected String getDateString()
-	{
-		return "Date Generated: " + DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(new Date()); //$NON-NLS-1$
+	protected String getDateString() {
+		return "Date Generated: " //$NON-NLS-1$
+				+ DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(new Date());
 	}
 
 	/**
@@ -156,15 +145,12 @@ public abstract class AbstractExporter
 	 * @param treeModel
 	 * @return
 	 */
-	protected TableModel convertTreeModelToTableModel(final TreeModel treeModel)
-	{
+	protected TableModel convertTreeModelToTableModel(final TreeModel treeModel) {
 		final DefaultTableModel tableModel = new DefaultTableModel();
-		if (treeModel != null)
-		{
+		if (treeModel != null) {
 			tableModel.addColumn(RM.getString("VALUE_DUMMY_COLUMN")); //$NON-NLS-1$
 			final TreeNode root = (TreeNode) treeModel.getRoot();
-			if (root != null)
-			{
+			if (root != null) {
 				this.addNodeToTable(tableModel, root, 0);
 			}
 		}
@@ -179,24 +165,19 @@ public abstract class AbstractExporter
 	 * @param iLevel
 	 * @param iRowCount
 	 */
-	protected void addNodeToTable(final DefaultTableModel tableModel, final TreeNode node, final int iLevel)
-	{
-		if (node != null)
-		{
+	protected void addNodeToTable(final DefaultTableModel tableModel, final TreeNode node, final int iLevel) {
+		if (node != null) {
 			// Add the node as a string with leading spaces for levels
 			final StringBuffer sbBuff = new StringBuffer();
-			for (int i = 0; i < iLevel; i++)
-			{
+			for (int i = 0; i < iLevel; i++) {
 				sbBuff.append("    "); //$NON-NLS-1$
 			}
 			sbBuff.append(node.toString());
 			tableModel.addRow(new String[] { sbBuff.toString() });
 			// Add all the child nodes of this node
 			final int iChildCount = node.getChildCount();
-			if (iChildCount > 0)
-			{
-				for (int i = 0; i < iChildCount; i++)
-				{
+			if (iChildCount > 0) {
+				for (int i = 0; i < iChildCount; i++) {
 					this.addNodeToTable(tableModel, node.getChildAt(i), iLevel + 1);
 				}
 			}
@@ -209,146 +190,102 @@ public abstract class AbstractExporter
 	 * @param item
 	 * @throws ExporterException
 	 */
-	protected void exportItem(final IExportableItem item) throws ExporterException
-	{
-		if (item != null)
-		{
-			switch (item.getType())
-			{
-				case ExportConstants.ITEM_TYPE_GROUP:
-				{
-					if (item instanceof Group)
-					{
-						this.exportItem((Group) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_GROUP") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+	protected void exportItem(final IExportableItem item) throws ExporterException {
+		if (item != null) {
+			switch (item.getType()) {
+			case ExportConstants.ITEM_TYPE_GROUP: {
+				if (item instanceof Group) {
+					this.exportItem((Group) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_GROUP") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				case ExportConstants.ITEM_TYPE_TABLE:
-				{
-					if (item instanceof Table)
-					{
-						this.exportItem((Table) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_TABLE") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+				break;
+			}
+			case ExportConstants.ITEM_TYPE_TABLE: {
+				if (item instanceof Table) {
+					this.exportItem((Table) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_TABLE") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				case ExportConstants.ITEM_TYPE_CHART:
-				{
-					if (item instanceof Chart)
-					{
-						this.exportItem((Chart) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_CHART") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+				break;
+			}
+			case ExportConstants.ITEM_TYPE_CHART: {
+				if (item instanceof Chart) {
+					this.exportItem((Chart) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_CHART") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				case ExportConstants.ITEM_TYPE_TREE:
-				{
-					if (item instanceof Tree)
-					{
-						this.exportItem((Tree) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_TREE") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+				break;
+			}
+			case ExportConstants.ITEM_TYPE_TREE: {
+				if (item instanceof Tree) {
+					this.exportItem((Tree) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_TREE") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				case ExportConstants.ITEM_TYPE_LABEL:
-				{
-					if (item instanceof Label)
-					{
-						this.exportItem((Label) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_LABEL") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+				break;
+			}
+			case ExportConstants.ITEM_TYPE_LABEL: {
+				if (item instanceof Label) {
+					this.exportItem((Label) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_LABEL") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				case ExportConstants.ITEM_TYPE_TEXTBOX:
-				{
-					if (item instanceof TextBox)
-					{
-						this.exportItem((TextBox) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_TEXTBOX") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+				break;
+			}
+			case ExportConstants.ITEM_TYPE_TEXTBOX: {
+				if (item instanceof TextBox) {
+					this.exportItem((TextBox) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_TEXTBOX") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				case ExportConstants.ITEM_TYPE_HTMLPAGE:
-				{
-					if (item instanceof HTMLPage)
-					{
-						this.exportItem((HTMLPage) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_HTMLPAGE") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+				break;
+			}
+			case ExportConstants.ITEM_TYPE_HTMLPAGE: {
+				if (item instanceof HTMLPage) {
+					this.exportItem((HTMLPage) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_HTMLPAGE") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				case ExportConstants.ITEM_TYPE_TABFOLDER:
-				{
-					if (item instanceof TabFolder)
-					{
-						this.exportItem((TabFolder) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_TABFOLDER") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+				break;
+			}
+			case ExportConstants.ITEM_TYPE_TABFOLDER: {
+				if (item instanceof TabFolder) {
+					this.exportItem((TabFolder) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_TABFOLDER") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				case ExportConstants.ITEM_TYPE_LABELTEXTPANEL:
-				{
-					if (item instanceof LabelTextPanel)
-					{
-						this.exportItem((LabelTextPanel) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_LABELTEXTPANEL") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+				break;
+			}
+			case ExportConstants.ITEM_TYPE_LABELTEXTPANEL: {
+				if (item instanceof LabelTextPanel) {
+					this.exportItem((LabelTextPanel) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_LABELTEXTPANEL") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				case ExportConstants.ITEM_TYPE_PARAGRAH:
-				{
-					if (item instanceof Paragraph)
-					{
-						this.exportItem((Paragraph) item);
-					}
-					else
-					{
-						throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_PARAGRAPH") //$NON-NLS-1$
-								+ item.getClass());
-					}
-					break;
+				break;
+			}
+			case ExportConstants.ITEM_TYPE_PARAGRAH: {
+				if (item instanceof Paragraph) {
+					this.exportItem((Paragraph) item);
+				} else {
+					throw new ExporterException(RM.getString("ERR_INVALID_CLASS_FOR_PARAGRAPH") //$NON-NLS-1$
+							+ item.getClass());
 				}
-				default:
-				{
-					throw new ExporterException(RM.getString("ERR_INVALID_ITEM_TYPE") + item.getType()); //$NON-NLS-1$
-				}
+				break;
+			}
+			default: {
+				throw new ExporterException(RM.getString("ERR_INVALID_ITEM_TYPE") + item.getType()); //$NON-NLS-1$
+			}
 			}
 		}
 	}
@@ -380,14 +317,13 @@ public abstract class AbstractExporter
 	protected abstract void exportItem(TabFolder tabFolder) throws ExporterException;
 
 	protected abstract void exportItem(LabelTextPanel panel) throws ExporterException;
-	
+
 	protected abstract void exportItem(Paragraph panel) throws ExporterException;
 
 	protected abstract String getFileExtension();
 
-	public void exportResult(String location, ArrayList models) throws ExporterException 
-	{
+	public void exportResult(String location, ArrayList models) throws ExporterException {
 		// do nothing
-		
+
 	}
 }

@@ -26,8 +26,7 @@ import java.io.Serializable;
  * @author Exceed Consultancy Services
  * @version 1.0
  */
-public class AttributeNode implements Serializable
-{
+public class AttributeNode implements Serializable {
 	private static final long serialVersionUID = 752600005701000041L;
 	public String objectName;
 	public String counterName;
@@ -35,8 +34,7 @@ public class AttributeNode implements Serializable
 	public int instanceCount;
 	public long value;
 
-	public AttributeNode()
-	{
+	public AttributeNode() {
 		// DO NOTHING - THIS HAS BEEN ADDED TO AVOID COMPILATION ERRORS IN THE
 		// CODE.
 	}
@@ -49,8 +47,7 @@ public class AttributeNode implements Serializable
 	 * @param value
 	 */
 	public AttributeNode(final String objectName, final String counterName, final String instanceName,
-			final int instanceCount, final long value)
-	{
+			final int instanceCount, final long value) {
 		this.objectName = objectName;
 		this.counterName = counterName;
 		this.instanceName = instanceName;
@@ -61,40 +58,35 @@ public class AttributeNode implements Serializable
 	/**
 	 * @return String
 	 */
-	public String getCounterName()
-	{
+	public String getCounterName() {
 		return this.counterName;
 	}
 
 	/**
 	 * @return int
 	 */
-	public int getInstanceCount()
-	{
+	public int getInstanceCount() {
 		return this.instanceCount;
 	}
 
 	/**
 	 * @return String
 	 */
-	public String getInstanceName()
-	{
+	public String getInstanceName() {
 		return this.instanceName;
 	}
 
 	/**
 	 * @return String
 	 */
-	public String getObjectName()
-	{
+	public String getObjectName() {
 		return this.objectName;
 	}
 
 	/**
 	 * @return long
 	 */
-	public long getValue()
-	{
+	public long getValue() {
 		return this.value;
 	}
 
@@ -102,8 +94,7 @@ public class AttributeNode implements Serializable
 	 * @param string
 	 *            void
 	 */
-	public void setCounterName(final String string)
-	{
+	public void setCounterName(final String string) {
 		this.counterName = string;
 	}
 
@@ -111,8 +102,7 @@ public class AttributeNode implements Serializable
 	 * @param i
 	 *            void
 	 */
-	public void setInstanceCount(final int i)
-	{
+	public void setInstanceCount(final int i) {
 		this.instanceCount = i;
 	}
 
@@ -120,8 +110,7 @@ public class AttributeNode implements Serializable
 	 * @param string
 	 *            void
 	 */
-	public void setInstanceName(final String string)
-	{
+	public void setInstanceName(final String string) {
 		this.instanceName = string;
 	}
 
@@ -129,8 +118,7 @@ public class AttributeNode implements Serializable
 	 * @param string
 	 *            void
 	 */
-	public void setObjectName(final String string)
-	{
+	public void setObjectName(final String string) {
 		this.objectName = string;
 	}
 
@@ -138,8 +126,7 @@ public class AttributeNode implements Serializable
 	 * @param l
 	 *            void
 	 */
-	public void setValue(final long l)
-	{
+	public void setValue(final long l) {
 		this.value = l;
 	}
 

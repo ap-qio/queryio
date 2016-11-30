@@ -27,41 +27,33 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public final class SWINGTypeConverter extends SWINGTypeConversionManager
-{
+public final class SWINGTypeConverter extends SWINGTypeConversionManager {
 	private static SWINGTypeConverter typeConverter;
 
-	private SWINGTypeConverter()
-	{
+	private SWINGTypeConverter() {
 		// DO NOTHING
 	}
 
-	public static final SWINGTypeConverter getInstance()
-	{
-		if (typeConverter == null)
-		{
+	public static final SWINGTypeConverter getInstance() {
+		if (typeConverter == null) {
 			typeConverter = new SWINGTypeConverter();
 		}
 		return typeConverter;
 	}
 
-	public java.awt.Color getActualUIColor(final Color convertedColor)
-	{
+	public java.awt.Color getActualUIColor(final Color convertedColor) {
 		return (java.awt.Color) this.getUIColor(convertedColor);
 	}
 
-	public java.awt.Font getActualUIFont(final Font convertedFont)
-	{
+	public java.awt.Font getActualUIFont(final Font convertedFont) {
 		return (java.awt.Font) this.getUIFont(convertedFont);
 	}
 
-	public java.awt.Point getActualPoint(final Point convertedPoint)
-	{
+	public java.awt.Point getActualPoint(final Point convertedPoint) {
 		return (java.awt.Point) this.getUIPoint(convertedPoint);
 	}
 
-	public java.awt.Rectangle getActualRectangle(final Rectangle convertedRectangle)
-	{
+	public java.awt.Rectangle getActualRectangle(final Rectangle convertedRectangle) {
 		return (java.awt.Rectangle) this.getUIRectangle(convertedRectangle);
 	}
 }

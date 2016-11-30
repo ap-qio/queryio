@@ -17,8 +17,7 @@
  */
 package com.queryio.sysmoncommon.sysmon;
 
-public interface ISysmonTags
-{
+public interface ISysmonTags {
 	int VALID = 0x01;
 	int INVALID = 0x02;
 	int COLLECT_DATA = 0x03;

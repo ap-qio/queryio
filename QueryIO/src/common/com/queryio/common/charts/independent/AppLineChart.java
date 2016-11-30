@@ -34,104 +34,84 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public final class AppLineChart extends AppVerticalSimpleChart
-{
-//	private boolean marker = false;
-//	private boolean label = false;
+public final class AppLineChart extends AppVerticalSimpleChart {
+	// private boolean marker = false;
+	// private boolean label = false;
 	private boolean scatterPlot = false;
 	private boolean isStepChart = false;
 
-	public AppLineChart(final UserInterface userInterface, final int nodeType, final int productID)
-	{
-		this(userInterface, nodeType, productID, false); 
-	}
-	
-	public AppLineChart(final UserInterface userInterface, final int nodeType, final int productID, boolean isStepChart)
-	{
-		super(userInterface, nodeType, productID);
-		this.setFitToScale(true);
-		this.isStepChart = isStepChart; 
+	public AppLineChart(final UserInterface userInterface, final int nodeType, final int productID) {
+		this(userInterface, nodeType, productID, false);
 	}
 
-	private void setFitToScale(final boolean b)
-	{
+	public AppLineChart(final UserInterface userInterface, final int nodeType, final int productID,
+			boolean isStepChart) {
+		super(userInterface, nodeType, productID);
+		this.setFitToScale(true);
+		this.isStepChart = isStepChart;
+	}
+
+	private void setFitToScale(final boolean b) {
 		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-				|| (this.chartProperties.isFitToScale() == null))
-		{
+				|| (this.chartProperties.isFitToScale() == null)) {
 			this.chartProperties.setFitToScale(b);
 		}
 	}
 
-	public boolean isFitToScale()
-	{
+	public boolean isFitToScale() {
 		return this.chartProperties.isFitToScale().booleanValue();
 	}
 
-	public final boolean isMarker()
-	{
-		return this.chartProperties.getShowChartMarker() != null ? this.chartProperties.getShowChartMarker().booleanValue() : false;
+	public final boolean isMarker() {
+		return this.chartProperties.getShowChartMarker() != null
+				? this.chartProperties.getShowChartMarker().booleanValue() : false;
 	}
 
-	public void showMarker(final boolean marker)
-	{
+	public void showMarker(final boolean marker) {
 		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-				|| (this.chartProperties.getShowChartMarker() == null))
-		{
+				|| (this.chartProperties.getShowChartMarker() == null)) {
 			this.chartProperties.setShowChartMarker(marker);
 		}
 	}
-	
-	public final boolean isLabel()
-	{
-		return this.chartProperties.getShowChartLabel() != null ? this.chartProperties.getShowChartLabel().booleanValue() : false;
+
+	public final boolean isLabel() {
+		return this.chartProperties.getShowChartLabel() != null
+				? this.chartProperties.getShowChartLabel().booleanValue() : false;
 	}
 
-	public void showLabel(final boolean label)
-	{
+	public void showLabel(final boolean label) {
 		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-				|| (this.chartProperties.getShowChartLabel() == null))
-		{
+				|| (this.chartProperties.getShowChartLabel() == null)) {
 			this.chartProperties.setShowChartLabel(label);
 		}
-	}	
+	}
 
-	public boolean isScatterPlot() 
-	{
+	public boolean isScatterPlot() {
 		return scatterPlot;
 	}
 
-	public void setScatterPlot(boolean scatterPlot) 
-	{
+	public void setScatterPlot(boolean scatterPlot) {
 		this.scatterPlot = scatterPlot;
 	}
 
-	protected void drawXAxis(final UserInterface graphics)
-	{
+	protected void drawXAxis(final UserInterface graphics) {
 		final XAxisSeries series = (XAxisSeries) this.getXAxisSeries();
-		if (series.getValuesType() == XAxisSeries.LONGVALUES ||
-			series.getValuesType() == XAxisSeries.TIMEVALUES)
-		{
-			XAxisLongSeries longSeries = (XAxisLongSeries)series;
-			if(!longSeries.isCrossedMidNight())
-			{
+		if (series.getValuesType() == XAxisSeries.LONGVALUES || series.getValuesType() == XAxisSeries.TIMEVALUES) {
+			XAxisLongSeries longSeries = (XAxisLongSeries) series;
+			if (!longSeries.isCrossedMidNight()) {
 				long crossedMidNightTime = -1;
-				if (startValueSet)
-				{
+				if (startValueSet) {
 					crossedMidNightTime = xStartValue;
-				}
-				else if (Long.MAX_VALUE != longSeries.getMinValue())
-				{
+				} else if (Long.MAX_VALUE != longSeries.getMinValue()) {
 					crossedMidNightTime = longSeries.getMinValue();
 				}
-				if (crossedMidNightTime != -1)
-				{
+				if (crossedMidNightTime != -1) {
 					longSeries.calculateCrossedMidNight(crossedMidNightTime);
 				}
 			}
 		}
-		
-		if (!this.isMarker() || scatterPlot)
-		{
+
+		if (!this.isMarker() || scatterPlot) {
 			super.drawXAxis(graphics);
 			return;
 		}
@@ -150,24 +130,22 @@ public final class AppLineChart extends AppVerticalSimpleChart
 		graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND));
 		graphics.drawLine(startXpx, yCor, endXpx, yCor);
 		graphics.setLineStyle(oldLine);
-		
+
 		long startXval;
 		long endXval;
 		boolean minMaxSame;
-		if (series.getValuesType() == XAxisSeries.LONGVALUES ||
-			series.getValuesType() == XAxisSeries.TIMEVALUES)
-		{
-			XAxisLongSeries longSeries = (XAxisLongSeries)series;
-			startXval = (this.startValueSet ? this.xStartValue : (Long.MAX_VALUE == longSeries.getMinValue() ? 
-				0L : (longSeries.getMinValue() + (longSeries.getMinValue() == 0 ? 0 : -1))));
+		if (series.getValuesType() == XAxisSeries.LONGVALUES || series.getValuesType() == XAxisSeries.TIMEVALUES) {
+			XAxisLongSeries longSeries = (XAxisLongSeries) series;
+			startXval = (this.startValueSet ? this.xStartValue
+					: (Long.MAX_VALUE == longSeries.getMinValue() ? 0L
+							: (longSeries.getMinValue() + (longSeries.getMinValue() == 0 ? 0 : -1))));
 			endXval = longSeries.getMaxValue() + 1;
 			minMaxSame = longSeries.getMinValue() == longSeries.getMaxValue();
-		}
-		else
-		{
-			XAxisIntegerSeries integerSeries = (XAxisIntegerSeries)series;
-			startXval = (this.startValueSet ? this.xStartValue : (Integer.MAX_VALUE == integerSeries.getMinValue() ? 
-				0L : (integerSeries.getMinValue() + (integerSeries.getMinValue() == 0 ? 0 : -1))));
+		} else {
+			XAxisIntegerSeries integerSeries = (XAxisIntegerSeries) series;
+			startXval = (this.startValueSet ? this.xStartValue
+					: (Integer.MAX_VALUE == integerSeries.getMinValue() ? 0L
+							: (integerSeries.getMinValue() + (integerSeries.getMinValue() == 0 ? 0 : -1))));
 			endXval = integerSeries.getMaxValue() + 1;
 			minMaxSame = integerSeries.getMinValue() == integerSeries.getMaxValue();
 		}
@@ -177,9 +155,7 @@ public final class AppLineChart extends AppVerticalSimpleChart
 			startXval = Math.max(0L, startXval - 60 * 1000);
 			// It will be one minute more than the time value provided by user.
 			endXval = startXval + 60 * 1000;
-		}
-		else if (endXval < startXval)
-		{
+		} else if (endXval < startXval) {
 			endXval = startXval + 60 * 1000;
 		}
 
@@ -190,14 +166,12 @@ public final class AppLineChart extends AppVerticalSimpleChart
 
 		this.iAvailablePxs = availablePxs;
 		int tickCount = availablePxs / tickWidth;
-		if (tickCount == 0)
-		{
+		if (tickCount == 0) {
 			tickCount = 1;
 		}
 
 		float tickInterval = (float) (endXval - startXval) / tickCount;
-		if (tickInterval == 0)
-		{
+		if (tickInterval == 0) {
 			tickInterval = 1.0f;
 		}
 		tickCount = Math.round((endXval - startXval) / tickInterval) + 1;
@@ -214,77 +188,62 @@ public final class AppLineChart extends AppVerticalSimpleChart
 		float drawX;
 		float widthX;
 		long tmpStartVal = startXval;
-		if (!this.isFitToScale() && (this.benchmarkTime > -1))
-		{
+		if (!this.isFitToScale() && (this.benchmarkTime > -1)) {
 			tmpStartVal = this.benchmarkTime;
 		}
 		final int n = series.getCurrentCount();
 		final int yGridCor = this.plotRect.y + this.plotRect.height - this.shiftXAxisAbove;
 		boolean drawTick;
 		float rhsLimit = 0.0f;
-		for (int i = 0; i < n; i++)
-		{
+		for (int i = 0; i < n; i++) {
 			long xValue;
 			int xCor;
-			if (series.getValuesType() == XAxisSeries.TIMEVALUES || series.getValuesType() == XAxisSeries.LONGVALUES)
-			{
-				xValue = ((XAxisLongSeries)series).getValue(i);
+			if (series.getValuesType() == XAxisSeries.TIMEVALUES || series.getValuesType() == XAxisSeries.LONGVALUES) {
+				xValue = ((XAxisLongSeries) series).getValue(i);
 				xCor = this.resolveXCorordinate(xValue);
-				if (series.getValuesType() == XAxisSeries.TIMEVALUES)
-				{
+				if (series.getValuesType() == XAxisSeries.TIMEVALUES) {
 					value = ((XAxisTimeSeries) series).getFormattedValue(tmpStartVal, xValue, this.xEndValue);
-				}
-				else
-				{
+				} else {
 					value = XAxisSeries.getFormattedValueOf(xValue);
 				}
-			}
-			else
-			{
-				xValue = ((XAxisIntegerSeries)series).getValue(i);
+			} else {
+				xValue = ((XAxisIntegerSeries) series).getValue(i);
 				xCor = this.resolveXCorordinate(xValue);
-				value = XAxisSeries.getFormattedValueOf(((XAxisIntegerSeries)series).getValue(i));
+				value = XAxisSeries.getFormattedValueOf(((XAxisIntegerSeries) series).getValue(i));
 			}
 			widthX = graphics.stringExtent(value).x;
-			if (i == n - 1)
-			{
+			if (i == n - 1) {
 				drawX = endXpx - widthX;
-			}
-			else
-			{
+			} else {
 				drawX = xCor - widthX * 0.5f;
 			}
-			
-			if (drawX < this.plotRect.x)
-			{
+
+			if (drawX < this.plotRect.x) {
 				drawX = this.plotRect.x;
 			}
-			
-			drawTick = (/*i != 0 &&*/ drawX > rhsLimit) || !(series instanceof XAxisTimeSeries);
-			if (drawTick)
-			{
+
+			drawTick = (/* i != 0 && */ drawX > rhsLimit) || !(series instanceof XAxisTimeSeries);
+			if (drawTick) {
 				rhsLimit = drawX + 1.5f * widthX;
 			}
-			
-			if (this.isXAxisGrid() && drawTick)
-			{
+
+			if (this.isXAxisGrid() && drawTick) {
 				final Color oldForeColor = graphics.getForeground();
 				graphics.setForeground(ChartConstants.GRID_COLOR);
 				final LineAttributes oldLineAttr = graphics.getLineStyle();
-				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND, LineAttributes.LINE_STYLE_DOT));
+				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND,
+						LineAttributes.LINE_STYLE_DOT));
 				graphics.drawLine(xCor, this.plotRect.y, xCor, yGridCor);
 				graphics.setLineStyle(oldLineAttr);
 				graphics.setForeground(oldForeColor);
-			}			
+			}
 
-			if (drawTick)
-			{
+			if (drawTick) {
 				graphics.setBackground(this.chartProperties.getTickBackgroundColour());
 				graphics.setForeground(this.chartProperties.getTickTextColour());
 				graphics.drawLine(xCor, yCor, xCor, yCor + TICK_MARK_LENGTH);
 			}
-			if (drawTick)
-			{
+			if (drawTick) {
 				// TODO: could cause problem due to type-casting !!!
 				graphics.drawString(value, (int) drawX, yCor + INSET_FOR_TICK_VALUE_FROM_TICK_MARK, true);
 			}
@@ -296,13 +255,11 @@ public final class AppLineChart extends AppVerticalSimpleChart
 		graphics.drawLine(startXpx, this.plotRect.y, endXpx, this.plotRect.y);
 		graphics.setForeground(foreground);
 	}
-	
-	
+
 	/**
 	 * 
 	 */
-	public void drawSeries(final UserInterface graphics)
-	{
+	public void drawSeries(final UserInterface graphics) {
 		// TODO: Implement rendering hints in swt
 		// Object renderingHint = renderingHint =
 		// graphics.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
@@ -310,10 +267,8 @@ public final class AppLineChart extends AppVerticalSimpleChart
 		// RenderingHints.VALUE_ANTIALIAS_ON);
 		final Color background = graphics.getBackground();
 		final Series[] yAxisSeries = this.getYAxisSeries();
-		for (int i = 0; i < yAxisSeries.length; i++)
-		{
-			if (this.shouldDrawSeries(i))
-			{
+		for (int i = 0; i < yAxisSeries.length; i++) {
+			if (this.shouldDrawSeries(i)) {
 				Color seriesColor = getColorForIndex(i, this.chartProperties);
 				graphics.setBackground(seriesColor);
 				graphics.setForeground(seriesColor);
@@ -321,9 +276,9 @@ public final class AppLineChart extends AppVerticalSimpleChart
 			}
 		}
 	}
-	
-	private void drawSeries(final UserInterface graphics, final YAxisSeries yAxisSeries, final int yIndex, Color background, Color seriesColor)
-	{
+
+	private void drawSeries(final UserInterface graphics, final YAxisSeries yAxisSeries, final int yIndex,
+			Color background, Color seriesColor) {
 		final XAxisSeries series = this.getXAxisSeries();
 
 		long xValue;
@@ -339,100 +294,81 @@ public final class AppLineChart extends AppVerticalSimpleChart
 		final int n = series.getCurrentCount();
 		boolean unadjusted = true;
 		long tmpStartVal = this.xStartValue;
-		if (!this.isFitToScale() && (this.benchmarkTime > -1))
-		{
+		if (!this.isFitToScale() && (this.benchmarkTime > -1)) {
 			tmpStartVal = this.benchmarkTime;
 		}
 		Rectangle prevDrawRect = null;
-		for (int i = 0; i < n; i++)
-		{
-			if (series.getValuesType() == XAxisSeries.TIMEVALUES || series.getValuesType() == XAxisSeries.LONGVALUES)
-			{
-				xValue = ((XAxisLongSeries)series).getValue(i);
-				if (i < n - 1)
-				{
-					xNextValue = ((XAxisLongSeries)series).getValue(i + 1);
+		for (int i = 0; i < n; i++) {
+			if (series.getValuesType() == XAxisSeries.TIMEVALUES || series.getValuesType() == XAxisSeries.LONGVALUES) {
+				xValue = ((XAxisLongSeries) series).getValue(i);
+				if (i < n - 1) {
+					xNextValue = ((XAxisLongSeries) series).getValue(i + 1);
+				}
+			} else {
+				xValue = ((XAxisIntegerSeries) series).getValue(i);
+				if (i < n - 1) {
+					xNextValue = ((XAxisIntegerSeries) series).getValue(i + 1);
 				}
 			}
-			else
-			{
-				xValue = ((XAxisIntegerSeries)series).getValue(i);
-				if (i < n - 1)
-				{
-					xNextValue = ((XAxisIntegerSeries)series).getValue(i + 1);
-				}
-			}
-			
+
 			unadjusted = true;
 
-			if ((i < n - 1) && (xNextValue != Long.MIN_VALUE && xNextValue < this.xStartValue))
-			{
+			if ((i < n - 1) && (xNextValue != Long.MIN_VALUE && xNextValue < this.xStartValue)) {
 				continue;
-			}
-			else if (xValue < this.xStartValue)
-			{
+			} else if (xValue < this.xStartValue) {
 				xValue = this.xStartValue;
 				unadjusted = false;
 			}
 			yValue = yAxisSeries.getValue(i);
 			xCor = this.resolveXCorordinate(xValue);
 			yCor = this.resolveYCorordinate(yValue);
-			
-			final Rectangle drawRect = scatterPlot ? new Rectangle(xCor - 2, yCor - 2, 4, 4):
-					new Rectangle(xCor - 1, yCor - 1, 2, 2);
-			if (this.bShowToolTip)
-			{
-				final Rectangle marker = scatterPlot ? new Rectangle(xCor - 5, yCor - 5, 8, 8):
-					new Rectangle(xCor - 3, yCor - 3, 6, 6);
+
+			final Rectangle drawRect = scatterPlot ? new Rectangle(xCor - 2, yCor - 2, 4, 4)
+					: new Rectangle(xCor - 1, yCor - 1, 2, 2);
+			if (this.bShowToolTip) {
+				final Rectangle marker = scatterPlot ? new Rectangle(xCor - 5, yCor - 5, 8, 8)
+						: new Rectangle(xCor - 3, yCor - 3, 6, 6);
 				String formattedXValue;
-				if (series.getValuesType() == XAxisSeries.TIMEVALUES)
-				{
-					formattedXValue = ((XAxisTimeSeries) series).getFormattedValue(tmpStartVal, xValue,
-						this.xEndValue);
-				}
-				else
-				{
+				if (series.getValuesType() == XAxisSeries.TIMEVALUES) {
+					formattedXValue = ((XAxisTimeSeries) series).getFormattedValue(tmpStartVal, xValue, this.xEndValue);
+				} else {
 					formattedXValue = XAxisSeries.getFormattedValueOf(xValue);
 				}
 				this.addMarkerObject(new MarkerObject(marker, formattedXValue, String.valueOf(yValue), i, yIndex));
 			}
 
-			if (Integer.MIN_VALUE != yValue)
-			{
-				if (!scatterPlot && Integer.MIN_VALUE != prevYValue)
-				{
+			if (Integer.MIN_VALUE != yValue) {
+				if (!scatterPlot && Integer.MIN_VALUE != prevYValue) {
 					final LineAttributes oldLine = graphics.getLineStyle();
-					graphics.setLineStyle(new LineAttributes(1.35f, LineAttributes.CAP_ROUND, LineAttributes.JOIN_ROUND));
-					
-					if(this.isStepChart)
-					{
+					graphics.setLineStyle(
+							new LineAttributes(1.35f, LineAttributes.CAP_ROUND, LineAttributes.JOIN_ROUND));
+
+					if (this.isStepChart) {
 						graphics.drawLine(prevXCor, prevYCor, xCor, prevYCor);
 						graphics.drawLine(xCor, prevYCor, xCor, yCor);
-					}
-					else
-					{
+					} else {
 						graphics.drawLine(prevXCor, prevYCor, xCor, yCor);
 					}
-					
+
 					graphics.setLineStyle(oldLine);
 				}
-				if (this.isMarker() && unadjusted)
-				{
+				if (this.isMarker() && unadjusted) {
 					graphics.drawArc(drawRect.x, drawRect.y, drawRect.width, drawRect.height, 0, 360);
 					graphics.fillArc(drawRect.x, drawRect.y, drawRect.width, drawRect.height, 0, 360);
-					//graphics.drawRectangle(drawRect.x, drawRect.y, drawRect.width, drawRect.height);
-					//graphics.fillRectangle(drawRect.x, drawRect.y, drawRect.width, drawRect.height);
+					// graphics.drawRectangle(drawRect.x, drawRect.y,
+					// drawRect.width, drawRect.height);
+					// graphics.fillRectangle(drawRect.x, drawRect.y,
+					// drawRect.width, drawRect.height);
 				}
-				if (this.isLabel() && (i - 1) != 0  && ((i-1) %4 == 0) && prevYValue != yStartValue)
-				{
-					//graphics.setBackground(background);
-					//graphics.setBackground(getAreaColor());
+				if (this.isLabel() && (i - 1) != 0 && ((i - 1) % 4 == 0) && prevYValue != yStartValue) {
+					// graphics.setBackground(background);
+					// graphics.setBackground(getAreaColor());
 					graphics.setForeground(ChartConstants.COLOR_BLACK);
-					graphics.drawString(String.valueOf(prevYValue), prevDrawRect.x + prevDrawRect.width + 4, prevDrawRect.y - 3 * prevDrawRect.height, true);
+					graphics.drawString(String.valueOf(prevYValue), prevDrawRect.x + prevDrawRect.width + 4,
+							prevDrawRect.y - 3 * prevDrawRect.height, true);
 					graphics.setBackground(seriesColor);
 					graphics.setForeground(seriesColor);
 				}
-				
 
 			}
 			prevXCor = xCor;
@@ -442,14 +378,13 @@ public final class AppLineChart extends AppVerticalSimpleChart
 		}
 	}
 
-	public void setXAxisStartValue(final long value)
-	{
+	public void setXAxisStartValue(final long value) {
 		this.xStartValue = value;
 		this.startValueSet = true;
 	}
-	
-	public Rectangle getChartAreaBoundary() 
-	{
-		return chartAreaRect != null ? new Rectangle(xStart, this.plotRect.y, chartAreaRect.width, this.plotRect.y + this.plotRect.height - this.shiftXAxisAbove):null;
+
+	public Rectangle getChartAreaBoundary() {
+		return chartAreaRect != null ? new Rectangle(xStart, this.plotRect.y, chartAreaRect.width,
+				this.plotRect.y + this.plotRect.height - this.shiftXAxisAbove) : null;
 	}
 }

@@ -18,9 +18,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import net.jpountz.lz4.LZ4JavaSafeInputStream;
-import net.jpountz.lz4.LZ4JavaSafeOutputStream;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xerial.snappy.SnappyInputStream;
@@ -28,12 +25,14 @@ import org.xerial.snappy.SnappyOutputStream;
 
 import com.queryio.common.util.SecurityHandler;
 
+import net.jpountz.lz4.LZ4JavaSafeInputStream;
+import net.jpountz.lz4.LZ4JavaSafeOutputStream;
+
 public class CustomEncryptionHandler {
 	private static final Log LOG = LogFactory.getLog(CustomEncryptionHandler.class);
-	
-	private final static byte[] INIT_VECTOR = new byte[] { (byte) 0x8E, 0x12, 0x39,
-			(byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A, (byte) 0x8E, 0x12, 0x39,
-			(byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A };
+
+	private final static byte[] INIT_VECTOR = new byte[] { (byte) 0x8E, 0x12, 0x39, (byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A,
+			(byte) 0x8E, 0x12, 0x39, (byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A };
 
 	private static byte[] salt = null;
 
@@ -59,14 +58,14 @@ public class CustomEncryptionHandler {
 	public static final String AES256 = "AES256";
 
 	static {
-		try{
+		try {
 			salt = "3�8O��*".getBytes("UTF-8"); // Created using
 			// SecureRandom.getSeed(8);
-		} catch(Exception e){
+		} catch (Exception e) {
 			throw new Error(e);
 		}
 	}
-	
+
 	public static boolean getEncryptionTypeValue(String type) {
 		if (AES256.equals(type)) {
 			return true;
@@ -86,7 +85,7 @@ public class CustomEncryptionHandler {
 			return COMPRESSION_TYPE_NONE;
 		}
 	}
-	
+
 	public static String filterCompressionType(String type) {
 		if (LZ4.equals(type)) {
 			return LZ4;
@@ -98,7 +97,7 @@ public class CustomEncryptionHandler {
 			return NONE;
 		}
 	}
-	
+
 	public static String filterEncryptionType(String type) {
 		if (AES256.equals(type)) {
 			return AES256;
@@ -110,33 +109,29 @@ public class CustomEncryptionHandler {
 	private Cipher cipher;
 
 	private static Map<String, SecretKey> secretKeyMap = new HashMap<String, SecretKey>();
-	
+
 	boolean encrypt = false;
-	
-	public CustomEncryptionHandler(int mode, boolean encrypt, String encryptionKey)
-			throws Exception {
+
+	public CustomEncryptionHandler(int mode, boolean encrypt, String encryptionKey) throws Exception {
 		this.encrypt = encrypt;
 		if (encrypt) {
 			encryptionKey = SecurityHandler.decryptData(encryptionKey);
-			
-			if( ! secretKeyMap.containsKey(encryptionKey)){
-				SecretKeyFactory factory = SecretKeyFactory
-						.getInstance(SECRETKEY_ALGO);
-				KeySpec spec = new PBEKeySpec(encryptionKey.toCharArray(), salt, ITERATION_COUNT,
-						KEY_LEN);
+
+			if (!secretKeyMap.containsKey(encryptionKey)) {
+				SecretKeyFactory factory = SecretKeyFactory.getInstance(SECRETKEY_ALGO);
+				KeySpec spec = new PBEKeySpec(encryptionKey.toCharArray(), salt, ITERATION_COUNT, KEY_LEN);
 				SecretKey tmp = factory.generateSecret(spec);
 				SecretKey secret = new SecretKeySpec(tmp.getEncoded(), SECRETKEYSPEC_ALGO);
-				
+
 				secretKeyMap.put(encryptionKey, secret);
 			}
-			
+
 			cipher = Cipher.getInstance(TRANSFORMATION);
 			cipher.init(mode, secretKeyMap.get(encryptionKey), new IvParameterSpec(INIT_VECTOR));
 		}
 	}
 
-	public InputStream getCompressedCipherInputStream(InputStream inputStream,
-			int compressionType) throws IOException {
+	public InputStream getCompressedCipherInputStream(InputStream inputStream, int compressionType) throws IOException {
 		InputStream responseStream = inputStream;
 		if (encrypt) {
 			LOG.debug("Decryption enabled");
@@ -157,8 +152,7 @@ public class CustomEncryptionHandler {
 		return responseStream;
 	}
 
-	public OutputStream getCompressedCipherOutputStream(
-			OutputStream outputStream, int compressionType)
+	public OutputStream getCompressedCipherOutputStream(OutputStream outputStream, int compressionType)
 			throws IOException {
 		OutputStream responseStream = outputStream;
 		if (encrypt) {

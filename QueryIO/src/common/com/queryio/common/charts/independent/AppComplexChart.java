@@ -36,8 +36,7 @@ import com.queryio.common.util.PlatformHandler;
  * 
  * @author Exceed Consultancy Services
  */
-public class AppComplexChart extends AppChart implements IScrollableChart
-{
+public class AppComplexChart extends AppChart implements IScrollableChart {
 	private static final double ANGLE = Math.PI * 0.5;
 
 	private Rectangle yAxisRect = null;
@@ -66,8 +65,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 
 	private boolean scrollable = false;
 
-	private void init()
-	{
+	private void init() {
 		// // configure X-Axis
 		// if ( chartProperties.getXAxisTitle() == null )
 		// {
@@ -88,26 +86,21 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		// }
 
 		this.bShowAlternateBackground = true;
-		if (this.chartProperties.isStretchAlternateBackground() == null)
-		{
+		if (this.chartProperties.isStretchAlternateBackground() == null) {
 			this.chartProperties.setStretchAlternateBackground(true);
 		}
 		final Color backgroundColour = this.chartProperties.getBackgroundColour();
 		this.chartProperties.setTickBackgroundColour(backgroundColour);
-		if (this.chartProperties.getXAxisTitleBackgroundColour() == null)
-		{
+		if (this.chartProperties.getXAxisTitleBackgroundColour() == null) {
 			this.chartProperties.setXAxisTitleBackgroundColour(backgroundColour);
 		}
-		if (this.chartProperties.getYAxisTitleBackgroundColour() == null)
-		{
+		if (this.chartProperties.getYAxisTitleBackgroundColour() == null) {
 			this.chartProperties.setYAxisTitleBackgroundColour(backgroundColour);
 		}
-		if (this.chartProperties.getChartTitleBackgroundColour() == null)
-		{
+		if (this.chartProperties.getChartTitleBackgroundColour() == null) {
 			this.chartProperties.setChartTitleBackgroundColour(backgroundColour);
 		}
-		if (this.chartProperties.getTickTextColour() == null)
-		{
+		if (this.chartProperties.getTickTextColour() == null) {
 			this.chartProperties.setTickTextColour(ChartConstants.COLOR_BLACK);
 		}
 	}
@@ -116,8 +109,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * @param productID
 	 * 
 	 */
-	public AppComplexChart(final UserInterface userInterface, final int nodeType, final int productID)
-	{
+	public AppComplexChart(final UserInterface userInterface, final int nodeType, final int productID) {
 		this(userInterface, -1, nodeType, productID);
 	}
 
@@ -126,8 +118,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 */
 	public AppComplexChart(final UserInterface userInterface, final int initialCapacity, final int nodeType,
-			final int productID)
-	{
+			final int productID) {
 		this(userInterface, initialCapacity, -1, nodeType, productID);
 	}
 
@@ -136,70 +127,55 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 */
 	public AppComplexChart(final UserInterface userInterface, final int intialCapacity, final int increment,
-			final int nodeType, final int productID)
-	{
+			final int nodeType, final int productID) {
 		super(userInterface, nodeType, productID);
-		if (intialCapacity == -1)
-		{
+		if (intialCapacity == -1) {
 			this.collection = new SeriesCollection();
-		}
-		else if (increment == -1)
-		{
+		} else if (increment == -1) {
 			this.collection = new SeriesCollection(intialCapacity);
-		}
-		else
-		{
+		} else {
 			this.collection = new SeriesCollection(intialCapacity, increment);
 		}
 		this.init();
 	}
 
-	public Rectangle getYAxisTitleBounds()
-	{
+	public Rectangle getYAxisTitleBounds() {
 		return this.yAxisTitleRect;
 	}
 
-	public Rectangle getYAxisBounds()
-	{
+	public Rectangle getYAxisBounds() {
 		return this.yAxisRect;
 	}
 
-	public Rectangle getXAxisTitleBounds()
-	{
+	public Rectangle getXAxisTitleBounds() {
 		return this.xAxisTitleRect;
 	}
 
-	public Rectangle getSeriesPlotBounds()
-	{
-		return new Rectangle(this.plotRect.x, this.plotRect.y, this.plotRect.width + 1, this.plotRect.height
-				- INSET_FOR_TICK_VALUE_FROM_TICK_MARK + 2);
+	public Rectangle getSeriesPlotBounds() {
+		return new Rectangle(this.plotRect.x, this.plotRect.y, this.plotRect.width + 1,
+				this.plotRect.height - INSET_FOR_TICK_VALUE_FROM_TICK_MARK + 2);
 	}
 
-	public int getTotalPlotHeight()
-	{
+	public int getTotalPlotHeight() {
 		final int noOfComplexSeries = this.collection.getCurrentCount();
 		int tickCount = noOfComplexSeries;
-		if (tickCount == 0)
-		{
+		if (tickCount == 0) {
 			tickCount = 1;
 		}
 		return this.barht * tickCount;
 	}
 
-	public int getTotalChartHeight(UserInterface graphics, int width, int height)
-	{
+	public int getTotalChartHeight(UserInterface graphics, int width, int height) {
 		calculateDimensions(graphics, width, height);
 		final int noOfComplexSeries = this.collection.getCurrentCount();
 		int tickCount = noOfComplexSeries;
-		if (tickCount == 0)
-		{
+		if (tickCount == 0) {
 			tickCount = 1;
 		}
 		final Font defaultTickFont = this.chartProperties.getTickFont();
 		final int maxHt = getMaxHeight(graphics, defaultTickFont);
 		int newHeight = (2 * maxHt + INSET_FOR_TICK_VALUE_FROM_TICK_MARK) * tickCount;
-		if (newHeight > chartAreaRect.height)
-		{
+		if (newHeight > chartAreaRect.height) {
 			height += newHeight - chartAreaRect.height;
 		}
 		return height;
@@ -238,8 +214,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @see com.queryio.sysmoncommon.charts.AppChart#drawArea(GC)
 	 */
-	public void drawArea(final UserInterface graphics)
-	{
+	public void drawArea(final UserInterface graphics) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		final Rectangle oldClip = graphics.getClipping();
@@ -247,23 +222,19 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		this.calculateDimensions(graphics);
 
 		final Font axisFont = this.chartProperties.getAxisFont();
-		if (this.isXAxisTitle())
-		{
+		if (this.isXAxisTitle()) {
 			graphics.setClipping(this.xAxisTitleRect);
 			final Title axisTitle = this.chartProperties.getXAxisTitle();
 			if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-					|| (this.chartProperties.getXAxisTitleFont() == null))
-			{
+					|| (this.chartProperties.getXAxisTitleFont() == null)) {
 				this.chartProperties.setXAxisTitleFont(axisFont);
 			}
 			if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-					|| (this.chartProperties.getXAxisTitleBackgroundColour() == null))
-			{
+					|| (this.chartProperties.getXAxisTitleBackgroundColour() == null)) {
 				this.chartProperties.setXAxisTitleBackgroundColour(this.chartProperties.getBackgroundColour());
 			}
 			if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-					|| (this.chartProperties.getXAxisTitleTextColour() == null))
-			{
+					|| (this.chartProperties.getXAxisTitleTextColour() == null)) {
 				this.chartProperties.setXAxisTitleTextColour(ChartConstants.COLOR_BLACK);
 			}
 			axisTitle.setOrientation(Title.ORIENTATION_VERTICAL);
@@ -272,23 +243,19 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 			axisTitle.draw(graphics, -ANGLE);
 		}
 
-		if (this.isYAxisTitle())
-		{
+		if (this.isYAxisTitle()) {
 			graphics.setClipping(this.yAxisTitleRect);
 			final Title axisTitle = this.chartProperties.getYAxisTitle();
 			if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-					|| (this.chartProperties.getYAxisTitleFont() == null))
-			{
+					|| (this.chartProperties.getYAxisTitleFont() == null)) {
 				this.chartProperties.setYAxisTitleFont(axisFont);
 			}
 			if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-					|| (this.chartProperties.getYAxisTitleTextColour() == null))
-			{
+					|| (this.chartProperties.getYAxisTitleTextColour() == null)) {
 				this.chartProperties.setYAxisTitleTextColour(ChartConstants.COLOR_BLACK);
 			}
 			if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-					|| (this.chartProperties.getYAxisTitleBackgroundColour() == null))
-			{
+					|| (this.chartProperties.getYAxisTitleBackgroundColour() == null)) {
 				this.chartProperties.setYAxisTitleBackgroundColour(this.chartProperties.getBackgroundColour());
 			}
 			axisTitle.setOrientation(Title.ORIENTATION_HORIZONTAL);
@@ -302,19 +269,17 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		this.calculateShiftsOfXandYAxis(graphics);
 
 		final Color areaColour = this.chartProperties.getAreaColour();
-		if (areaColour != null)
-		{
+		if (areaColour != null) {
 			graphics.setBackground(areaColour);
-			graphics.fillRectangle(this.plotRect.x + this.shiftYaxisToRHS, this.plotRect.y, this.plotRect.x
-					+ this.plotRect.width, this.plotRect.height - this.shiftXAxisAbove / 2
-					- INSET_FOR_TICK_VALUE_FROM_TICK_MARK);
+			graphics.fillRectangle(this.plotRect.x + this.shiftYaxisToRHS, this.plotRect.y,
+					this.plotRect.x + this.plotRect.width,
+					this.plotRect.height - this.shiftXAxisAbove / 2 - INSET_FOR_TICK_VALUE_FROM_TICK_MARK);
 		}
 
 		// draw Y-axis
 		this.drawYAxis(graphics);
 
-		if (!this.scrollable)
-		{
+		if (!this.scrollable) {
 			// draw X-Axis
 			this.drawXAxis(graphics);
 
@@ -329,8 +294,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		graphics.setForeground(foreground);
 	}
 
-	public void drawScrollableArea(final UserInterface graphics, int originY, final int width, final int maximum)
-	{
+	public void drawScrollableArea(final UserInterface graphics, int originY, final int width, final int maximum) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		// draw X-Axis
@@ -347,8 +311,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		graphics.drawLine(width - 17, -originY, width - 17, maximum);
 	}
 
-	private void drawXAxis(final UserInterface graphics)
-	{
+	private void drawXAxis(final UserInterface graphics) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		graphics.setFont(this.chartProperties.getTickFont());
@@ -360,8 +323,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 
 		final int noOfComplexSeries = this.collection.getCurrentCount();
 		int tickCount = noOfComplexSeries;// * 2;
-		if (tickCount == 0)
-		{
+		if (tickCount == 0) {
 			tickCount = 1;
 		}
 
@@ -369,14 +331,11 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		int seriesCtr = 0;
 		int y = this.plotRect.y;
 
-		for (int i = 0; i < tickCount; i++)
-		{
-			if (y + this.barht + this.barht / 2 > this.plotRect.y + this.plotRect.height)
-			{
+		for (int i = 0; i < tickCount; i++) {
+			if (y + this.barht + this.barht / 2 > this.plotRect.y + this.plotRect.height) {
 				break;
 			}
-			if (seriesCtr < this.collection.getCurrentCount())
-			{
+			if (seriesCtr < this.collection.getCurrentCount()) {
 				value = this.collection.getComplexSeries(seriesCtr).getName();
 				// graphics.drawString(value, plotRect.x + shiftYaxisToRHS -
 				// graphics.stringExtent(value).x -
@@ -387,40 +346,36 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 				seriesCtr++;
 			}
 			y += this.barht;
-			if (this.isXAxisGrid())
-			{
+			if (this.isXAxisGrid()) {
 				// int oldLine = graphics.getLineStyle();
 				// graphics.setLineStyle(UserInterface.LINE_STYLE_DOT);
 				graphics.setBackground(background);
 				graphics.setForeground(ChartConstants.GRID_COLOR);
 				final LineAttributes oldLine = graphics.getLineStyle();
 				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND));
-				graphics.drawLine(this.plotRect.x + /* shiftYaxisToRHS + */1, y,
-						this.plotRect.x + this.plotRect.width, y);
+				graphics.drawLine(this.plotRect.x + /* shiftYaxisToRHS + */1, y, this.plotRect.x + this.plotRect.width,
+						y);
 				graphics.setLineStyle(oldLine);
 				// graphics.setLineStyle(oldLine);
 			}
 			// graphics.drawLine(xCor - TICK_MARK_LENGTH, y, xCor, y);
 		}
 
-		if (this.isXAxisGrid())
-		{
+		if (this.isXAxisGrid()) {
 			// int oldLine = graphics.getLineStyle();
 			// graphics.setLineStyle(UserInterface.LINE_STYLE_DOT);
 			graphics.setBackground(background);
 			graphics.setForeground(ChartConstants.GRID_COLOR);
 			// graphics.setForeground(new Color(255, 0, 0));
-			while (y + this.barht + this.barht / 2 < this.plotRect.y + this.plotRect.height)
-			{
+			while (y + this.barht + this.barht / 2 < this.plotRect.y + this.plotRect.height) {
 				y += this.barht;
 				// The following condition is for not over writing the already
 				// drawn X-Axis, with the grid line
 				if (y == this.plotRect.y + this.plotRect.height - this.shiftXAxisAbove / 2
-						- INSET_FOR_TICK_VALUE_FROM_TICK_MARK)
-				{
+						- INSET_FOR_TICK_VALUE_FROM_TICK_MARK) {
 					break;
 				}
-				
+
 				final LineAttributes oldLine = graphics.getLineStyle();
 				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND));
 				graphics.drawLine(this.plotRect.x + this.shiftYaxisToRHS + 1, y, this.plotRect.x + this.plotRect.width,
@@ -439,33 +394,30 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		graphics.setLineStyle(oldLine);
 
 		// draw surrounding line
-		graphics.drawLine(this.plotRect.x + this.plotRect.width - 1, startYpx, this.plotRect.x + this.plotRect.width
-				- 1, endYpx);
+		graphics.drawLine(this.plotRect.x + this.plotRect.width - 1, startYpx,
+				this.plotRect.x + this.plotRect.width - 1, endYpx);
 	}
 
-	private void drawXAxis(final UserInterface graphics, int originY, final int width, final int originHt)
-	{
+	private void drawXAxis(final UserInterface graphics, int originY, final int width, final int originHt) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		final int maximum = originY + originHt;
 		final int xCor = this.shiftYaxisToRHS;
-		if (this.bShowAlternateBackground)
-		{
-			this.showAlternateBackgroundColors(graphics, 0, maximum, this.barht, this.chartProperties
-					.isStretchAlternateBackground().booleanValue() ? -1 : this.shiftYaxisToRHS, width);
+		if (this.bShowAlternateBackground) {
+			this.showAlternateBackgroundColors(graphics, 0, maximum, this.barht,
+					this.chartProperties.isStretchAlternateBackground().booleanValue() ? -1 : this.shiftYaxisToRHS,
+					width);
 		}
 		graphics.setFont(this.chartProperties.getTickFont());
 
 		// draw Y-Axis grids
-		if (this.isYAxisGrid())
-		{
+		if (this.isYAxisGrid()) {
 			this.drawYAxisGrids(graphics, xCor, width, originY, maximum);
 		}
 
 		final int noOfComplexSeries = this.collection.getCurrentCount();
 		int tickCount = noOfComplexSeries;
-		if (tickCount == 0)
-		{
+		if (tickCount == 0) {
 			tickCount = 1;
 		}
 
@@ -473,12 +425,9 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		int seriesCtr = 0;
 		int y = 0;
 
-		for (int i = 0; i < tickCount; i++)
-		{
-			if (seriesCtr < this.collection.getCurrentCount())
-			{
-				if (y >= originY)
-				{
+		for (int i = 0; i < tickCount; i++) {
+			if (seriesCtr < this.collection.getCurrentCount()) {
+				if (y >= originY) {
 					value = this.collection.getComplexSeries(seriesCtr).getName();
 					// graphics.drawString(value, shiftYaxisToRHS -
 					// graphics.stringExtent(value).x -
@@ -490,8 +439,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 				seriesCtr++;
 			}
 			y += this.barht;
-			if (this.isXAxisGrid() && (y >= originY))
-			{
+			if (this.isXAxisGrid() && (y >= originY)) {
 				// int oldLine = graphics.getLineStyle();
 				// graphics.setLineStyle(UserInterface.LINE_STYLE_DOT);
 				graphics.setBackground(background);
@@ -505,20 +453,17 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 			// graphics.drawLine(xCor - TICK_MARK_LENGTH, y, xCor, y);
 		}
 
-		if (this.isXAxisGrid())
-		{
+		if (this.isXAxisGrid()) {
 			// int oldLine = graphics.getLineStyle();
 			// graphics.setLineStyle(UserInterface.LINE_STYLE_DOT);
 			graphics.setBackground(background);
 			graphics.setForeground(ChartConstants.GRID_COLOR);
 			// graphics.setForeground(new Color(255, 0, 0));
-			while (y + this.barht + this.barht / 2 < maximum)
-			{
+			while (y + this.barht + this.barht / 2 < maximum) {
 				y += this.barht;
 				// The following condition is for not over writing the already
 				// drawn X-Axis, with the grid line
-				if (y == maximum - this.shiftXAxisAbove / 2 - INSET_FOR_TICK_VALUE_FROM_TICK_MARK)
-				{
+				if (y == maximum - this.shiftXAxisAbove / 2 - INSET_FOR_TICK_VALUE_FROM_TICK_MARK) {
 					break;
 				}
 				final LineAttributes oldLine = graphics.getLineStyle();
@@ -540,8 +485,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		graphics.setLineStyle(oldLine);
 	}
 
-	private void drawSeries(final UserInterface graphics, final int originY)
-	{
+	private void drawSeries(final UserInterface graphics, final int originY) {
 		ComplexSeries cmplxSeries = null;
 		StartEndSeries seSeries = null;
 		int yCor = 0;
@@ -549,34 +493,28 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		// final int factor = shiftXAxisAbove/2;
 		int xStartCor = 0;
 		int xEndCor = 0;
-		for (int i = 0; i < this.collection.getCurrentCount(); i++)
-		{
-			if (yCor >= originY)
-			{
+		for (int i = 0; i < this.collection.getCurrentCount(); i++) {
+			if (yCor >= originY) {
 				cmplxSeries = this.collection.getComplexSeries(i);
-				for (int j = 0; j < cmplxSeries.getSeriesCount(); j++)
-				{
-					if (this.shouldDrawSeries(j))
-					{
+				for (int j = 0; j < cmplxSeries.getSeriesCount(); j++) {
+					if (this.shouldDrawSeries(j)) {
 						seSeries = cmplxSeries.getSeries(j);
 						graphics.setBackground(getColorForIndex(j, this.chartProperties));
 						StringBuffer buffer = new StringBuffer();
-						for (int k = 0; k < seSeries.getCurrentCount(); k++)
-						{
+						for (int k = 0; k < seSeries.getCurrentCount(); k++) {
 							final long startValue = seSeries.getStartValue(k);
 							final long endValue = seSeries.getEndValue(k);
 							xStartCor = this.resolveCoordinate(startValue);
 							xEndCor = this.resolveCoordinate(endValue);
 
-							if (this.bShowToolTip)
-							{
-								final Rectangle marker = new Rectangle(xStartCor + 1, yCor + width,
-										xEndCor - xStartCor, width + 2);
+							if (this.bShowToolTip) {
+								final Rectangle marker = new Rectangle(xStartCor + 1, yCor + width, xEndCor - xStartCor,
+										width + 2);
 								final String xVal = seSeries.getText();
 
 								final String yVal = TimeValueFormatter.getFormattedValue(0, (endValue - startValue),
 										endValue, true);
-								
+
 								buffer.setLength(0);
 								buffer.append("duration: "); //$NON-NLS-1$
 								buffer.append(xVal);
@@ -595,8 +533,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		}
 	}
 
-	private void drawSeries(final UserInterface graphics)
-	{
+	private void drawSeries(final UserInterface graphics) {
 		ComplexSeries cmplxSeries = null;
 		StartEndSeries seSeries = null;
 		int yCor = this.plotRect.y;
@@ -604,22 +541,17 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		// final int factor = shiftXAxisAbove/2;
 		int xStartCor = this.plotRect.x + this.shiftYaxisToRHS;
 		int xEndCor = this.plotRect.x + this.shiftYaxisToRHS;
-		for (int i = 0; i < this.collection.getCurrentCount(); i++)
-		{
-			if (yCor + this.barht + this.barht / 2 > this.plotRect.y + this.plotRect.height)
-			{
+		for (int i = 0; i < this.collection.getCurrentCount(); i++) {
+			if (yCor + this.barht + this.barht / 2 > this.plotRect.y + this.plotRect.height) {
 				break;
 			}
 			cmplxSeries = this.collection.getComplexSeries(i);
 			StringBuffer buffer = new StringBuffer();
-			for (int j = 0; j < cmplxSeries.getSeriesCount(); j++)
-			{
-				if (this.shouldDrawSeries(j))
-				{
+			for (int j = 0; j < cmplxSeries.getSeriesCount(); j++) {
+				if (this.shouldDrawSeries(j)) {
 					seSeries = cmplxSeries.getSeries(j);
 					graphics.setBackground(getColorForIndex(j, this.chartProperties));
-					for (int k = 0; k < seSeries.getCurrentCount(); k++)
-					{
+					for (int k = 0; k < seSeries.getCurrentCount(); k++) {
 						final long startValue = seSeries.getStartValue(k);
 						final long endValue = seSeries.getEndValue(k);
 						xStartCor = this.resolveCoordinate(startValue);
@@ -646,13 +578,11 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		}
 	}
 
-	private int resolveCoordinate(final long value)
-	{
+	private int resolveCoordinate(final long value) {
 		return (int) (this.yStart + (value - this.yStartValue) * this.ySlope);
 	}
 
-	private void drawYAxis(final UserInterface graphics)
-	{
+	private void drawYAxis(final UserInterface graphics) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		graphics.setFont(this.chartProperties.getTickFont());
@@ -663,12 +593,12 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 
 		this.yAxisRect = new Rectangle(this.plotRect.x, yCor, this.plotRect.width + 1, yCor - ht + 4);
 
-		if (this.bShowAlternateBackground && !this.scrollable)
-		{
-			this.showAlternateBackgroundColors(graphics, this.plotRect.y, this.plotRect.height - this.shiftXAxisAbove
-					/ 2 - INSET_FOR_TICK_VALUE_FROM_TICK_MARK, this.barht, this.chartProperties
-					.isStretchAlternateBackground().booleanValue() ? this.plotRect.x
-					: (this.plotRect.x + this.shiftYaxisToRHS), this.plotRect.x + this.plotRect.width);
+		if (this.bShowAlternateBackground && !this.scrollable) {
+			this.showAlternateBackgroundColors(graphics, this.plotRect.y,
+					this.plotRect.height - this.shiftXAxisAbove / 2 - INSET_FOR_TICK_VALUE_FROM_TICK_MARK, this.barht,
+					this.chartProperties.isStretchAlternateBackground().booleanValue() ? this.plotRect.x
+							: (this.plotRect.x + this.shiftYaxisToRHS),
+					this.plotRect.x + this.plotRect.width);
 		}
 
 		// draw Y-Axis line
@@ -677,8 +607,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		graphics.drawLine(startXpx, yCor, endXpx, yCor);
 		graphics.setLineStyle(oldLine);
 
-		if (this.isYAxisGrid())
-		{
+		if (this.isYAxisGrid()) {
 			this.drawYAxisGrids(graphics, startXpx, endXpx, this.plotRect.y, yCor);
 		}
 
@@ -686,19 +615,17 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		final long startYval = minMax[0] + (minMax[0] == 0 ? 0 : -1);
 		final long endYval = minMax[1] + 1;
 
-		final int maxStringWidth = graphics.stringExtent(TimeValueFormatter.getFormattedValue(startYval, endYval,
-				endYval, true)).x;
+		final int maxStringWidth = graphics
+				.stringExtent(TimeValueFormatter.getFormattedValue(startYval, endYval, endYval, true)).x;
 		final int tickWidth = 2 * maxStringWidth;
 		final int availablePxs = endXpx - startXpx - maxStringWidth / 2;
 		int tickCount = availablePxs / tickWidth;
-		if (tickCount == 0)
-		{
+		if (tickCount == 0) {
 			tickCount = 1;
 		}
 
 		float tickInterval = (float) (endYval - startYval) / tickCount;
-		if (tickInterval == 0)
-		{
+		if (tickInterval == 0) {
 			tickInterval = 1.0f;
 		}
 		tickCount = Math.round((endYval - startYval) / tickInterval) + 1;
@@ -711,8 +638,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		int x = startXpx;
 		String value = null;
 		float drawX;
-		for (int i = 0; i < tickCount; i++)
-		{
+		for (int i = 0; i < tickCount; i++) {
 			// if (isYAxisGrid())
 			// {
 			// oldColor = graphics.getForeground();
@@ -732,13 +658,11 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 			graphics.drawLine(x, yCor, x, yCor + (i != 0 ? TICK_MARK_LENGTH : 0));
 
 			drawX = x - graphics.stringExtent(value).x * 0.5f;
-			if (drawX < this.plotRect.x)
-			{
+			if (drawX < this.plotRect.x) {
 				drawX = this.plotRect.x;
 			}
 
-			if (i != 0)
-			{
+			if (i != 0) {
 				graphics.setBackground(this.chartProperties.getTickBackgroundColour());
 				graphics.setForeground(this.chartProperties.getTickTextColour());
 				graphics.drawString(value, (int) drawX, (yCor + INSET_FOR_TICK_VALUE_FROM_TICK_MARK), true);
@@ -755,38 +679,34 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		final int startYpx = this.plotRect.y + this.plotRect.height - this.shiftXAxisAbove / 2
 				- INSET_FOR_TICK_VALUE_FROM_TICK_MARK - 2;
 		final int endYpx = this.plotRect.y;
-		graphics.drawLine(this.plotRect.x + this.plotRect.width - 1, startYpx, this.plotRect.x + this.plotRect.width
-				- 1, endYpx);
+		graphics.drawLine(this.plotRect.x + this.plotRect.width - 1, startYpx,
+				this.plotRect.x + this.plotRect.width - 1, endYpx);
 	}
 
 	private void drawYAxisGrids(final UserInterface graphics, final int startXpx, final int endXpx, final int startY,
-			final int endY)
-	{
+			final int endY) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		final long minMax[] = this.getMinMaxValues();
 		final long startYval = minMax[0] + (minMax[0] == 0 ? 0 : -1);
 		final long endYval = minMax[1] + 1;
 
-		final int maxStringWidth = graphics.stringExtent(TimeValueFormatter.getFormattedValue(startYval, endYval,
-				endYval, true)).x;
+		final int maxStringWidth = graphics
+				.stringExtent(TimeValueFormatter.getFormattedValue(startYval, endYval, endYval, true)).x;
 		final int tickWidth = 2 * maxStringWidth;
 		final int availablePxs = endXpx - startXpx - maxStringWidth / 2;
 		int tickCount = availablePxs / tickWidth;
-		if (tickCount == 0)
-		{
+		if (tickCount == 0) {
 			tickCount = 1;
 		}
 
 		float tickInterval = (float) (endYval - startYval) / tickCount;
-		if (tickInterval == 0)
-		{
+		if (tickInterval == 0) {
 			tickInterval = 1.0f;
 		}
 		tickCount = Math.round((endYval - startYval) / tickInterval) + 1;
 		int x = startXpx;
-		for (int i = 0; i < tickCount; i++)
-		{
+		for (int i = 0; i < tickCount; i++) {
 			graphics.setForeground(ChartConstants.GRID_COLOR);
 			final LineAttributes oldLine = graphics.getLineStyle();
 			graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND));
@@ -798,23 +718,18 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		graphics.setForeground(foreground);
 	}
 
-	private long[] getMinMaxValues()
-	{
-		if (this.bMinMaxYValueSet)
-		{
+	private long[] getMinMaxValues() {
+		if (this.bMinMaxYValueSet) {
 			return new long[] { this.iMinYValue, this.iMaxYValue };
 		}
 
 		final long[] minMax = new long[] { Long.MAX_VALUE, Long.MIN_VALUE };
 		ComplexSeries complexSeries = null;
 		StartEndSeries seSeries = null;
-		for (int i = 0; i < this.collection.getCurrentCount(); i++)
-		{
+		for (int i = 0; i < this.collection.getCurrentCount(); i++) {
 			complexSeries = this.collection.getComplexSeries(i);
-			for (int j = 0; j < complexSeries.getSeriesCount(); j++)
-			{
-				if (this.shouldDrawSeries(j))
-				{
+			for (int j = 0; j < complexSeries.getSeriesCount(); j++) {
+				if (this.shouldDrawSeries(j)) {
 					seSeries = complexSeries.getSeries(j);
 					minMax[0] = Math.min(minMax[0], seSeries.getMinValue());
 					minMax[1] = Math.max(minMax[1], seSeries.getMaxValue());
@@ -822,36 +737,31 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 			}
 		}
 
-		if ((minMax[0] == Long.MAX_VALUE) && (minMax[1] == Long.MIN_VALUE))
-		{
+		if ((minMax[0] == Long.MAX_VALUE) && (minMax[1] == Long.MIN_VALUE)) {
 			minMax[0] = System.currentTimeMillis() - 60000L;
 			minMax[1] = System.currentTimeMillis();
 		}
 		return minMax;
 	}
 
-	private void clearAll()
-	{
+	private void clearAll() {
 		this.xAxisTitleRect = null;
 		this.yAxisTitleRect = null;
 	}
 
-	private void calculateShiftsOfXandYAxis(final UserInterface graphics)
-	{
+	private void calculateShiftsOfXandYAxis(final UserInterface graphics) {
 		graphics.setFont(this.chartProperties.getTickFont());
 		this.shiftYaxisToRHS = -1;
-		for (int i = 0; i < this.collection.getCurrentCount(); i++)
-		{
-			this.shiftYaxisToRHS = Math.max(this.shiftYaxisToRHS, graphics.stringExtent(this.collection
-					.getComplexSeries(i).getName()).x
-					+ INSET_FOR_TICK_VALUE_FROM_AXIS);
+		for (int i = 0; i < this.collection.getCurrentCount(); i++) {
+			this.shiftYaxisToRHS = Math.max(this.shiftYaxisToRHS,
+					graphics.stringExtent(this.collection.getComplexSeries(i).getName()).x
+							+ INSET_FOR_TICK_VALUE_FROM_AXIS);
 		}
 		this.shiftYaxisToRHS += INSET_FOR_TICK_VALUE_FROM_TICK_MARK;
 		this.calculateShiftOfXAxis(graphics);
 	}
 
-	private void calculateShiftOfXAxis(final UserInterface graphics)
-	{
+	private void calculateShiftOfXAxis(final UserInterface graphics) {
 		final Font defaultTickFont = this.chartProperties.getTickFont();
 		graphics.setFont(defaultTickFont);
 		final int maxHt = getMaxHeight(graphics, defaultTickFont);
@@ -866,22 +776,19 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		// }
 	}
 
-	private void calculateDimensions(final UserInterface graphics)
-	{
+	private void calculateDimensions(final UserInterface graphics) {
 		final Rectangle r = graphics.getClipping();
 
 		final int inset = 1;
 		this.plotRect = new Rectangle(r.x, r.y + inset, r.width - inset, r.height);
 		// assign values to each rectangle
-		if (this.isXAxisTitle())
-		{
+		if (this.isXAxisTitle()) {
 			this.xAxisTitleRect = new Rectangle(r.x, r.y,
 					this.chartProperties.getXAxisTitle().getMaxHeight(graphics) + 2, r.height);
 			this.plotRect.width -= this.xAxisTitleRect.width;
 			this.plotRect.x += this.xAxisTitleRect.width;
 		}
-		if (this.isYAxisTitle())
-		{
+		if (this.isYAxisTitle()) {
 			final int maxHt = this.chartProperties.getYAxisTitle().getMaxHeight(graphics);
 			this.yAxisTitleRect = new Rectangle(r.x, r.y + r.height - maxHt - 4, r.width, maxHt + 4);
 			this.plotRect.height -= this.yAxisTitleRect.height;
@@ -893,32 +800,26 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @see com.queryio.sysmoncommon.charts.AppChart#getLegend()
 	 */
-	public final Legend[] getLegend()
-	{
+	public final Legend[] getLegend() {
 		return this.legends;
 	}
 
-	public void setLegend(final String[] names, final Color[] colors)
-	{
-		if ((names != null) && (colors != null) && (names.length == colors.length))
-		{
+	public void setLegend(final String[] names, final Color[] colors) {
+		if ((names != null) && (colors != null) && (names.length == colors.length)) {
 			this.legends = new Legend[names.length];
 			Color axisSeriesColor;
 			String axisSeriesText;
-			for (int i = 0; i < names.length; i++)
-			{
+			for (int i = 0; i < names.length; i++) {
 				axisSeriesText = this.chartProperties.getYAxisSeriesText(i);
-				if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS) || (axisSeriesText == null))
-				{
+				if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS) || (axisSeriesText == null)) {
 					this.chartProperties.setYAxisSeriesText(i, names[i]);
 				}
 				axisSeriesColor = this.chartProperties.getYAxisSeriesColor(i);
-				if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS) || (axisSeriesColor == null))
-				{
+				if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS) || (axisSeriesColor == null)) {
 					this.chartProperties.setYAxisSeriesColor(i, colors[i]);
 				}
-				this.legends[i] = new Legend(this.chartProperties.getYAxisSeriesText(i), AppChart.getColorForIndex(i,
-						this.chartProperties), this.chartProperties.getLegendTextColour());
+				this.legends[i] = new Legend(this.chartProperties.getYAxisSeriesText(i),
+						AppChart.getColorForIndex(i, this.chartProperties), this.chartProperties.getLegendTextColour());
 				this.legends[i].legendFont = this.chartProperties.getLegendFont();
 			}
 		}
@@ -929,8 +830,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @return
 	 */
-	public final Color getAreaColor()
-	{
+	public final Color getAreaColor() {
 		return this.chartProperties.getAreaColour();
 	}
 
@@ -939,8 +839,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @return
 	 */
-	public String getXAxisTitle()
-	{
+	public String getXAxisTitle() {
 		final Title axisTitle = this.chartProperties.getXAxisTitle();
 		return axisTitle == null ? null : axisTitle.getText();
 	}
@@ -950,8 +849,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @return
 	 */
-	public String getYAxisTitle()
-	{
+	public String getYAxisTitle() {
 		final Title axisTitle = this.chartProperties.getYAxisTitle();
 		return axisTitle == null ? null : axisTitle.getText();
 	}
@@ -961,12 +859,9 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @param color
 	 */
-	public void setAreaColor(final Color color)
-	{
-		if ((color != null)
-				&& ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS) || (this.chartProperties
-						.getAreaColour() == null)))
-		{
+	public void setAreaColor(final Color color) {
+		if ((color != null) && ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
+				|| (this.chartProperties.getAreaColour() == null))) {
 			this.chartProperties.setAreaColour(color);
 		}
 	}
@@ -976,11 +871,9 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @param title
 	 */
-	public void setAxisFont(final String fontName, final int fontStyle, final int fontSize)
-	{
+	public void setAxisFont(final String fontName, final int fontStyle, final int fontSize) {
 		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-				|| (this.chartProperties.getAxisFont() == null))
-		{
+				|| (this.chartProperties.getAxisFont() == null)) {
 			final Font font = new Font(fontName, fontSize, fontStyle);
 			this.chartProperties.setXAxisTitleFont(font);
 			this.chartProperties.setYAxisTitleFont(font);
@@ -992,11 +885,9 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @param title
 	 */
-	public void setXAxisTitle(final String title)
-	{
+	public void setXAxisTitle(final String title) {
 		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-				|| (this.chartProperties.getXAxisTitle() == null))
-		{
+				|| (this.chartProperties.getXAxisTitle() == null)) {
 			this.chartProperties.setXAxisTitle(title);
 			this.chartProperties.setXAxisTitleFont(this.chartProperties.getAxisFont());
 		}
@@ -1007,31 +898,25 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @param title
 	 */
-	public void setYAxisTitle(final String title)
-	{
+	public void setYAxisTitle(final String title) {
 		final Title axisTitle = this.chartProperties.getYAxisTitle();
-		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS) || (axisTitle == null))
-		{
+		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS) || (axisTitle == null)) {
 			this.chartProperties.setYAxisTitle(title);
 			this.chartProperties.getYAxisTitle().setOrientation(Title.ORIENTATION_VERTICAL);
 			this.chartProperties.setYAxisTitleFont(this.chartProperties.getAxisFont());
 		}
 	}
 
-	public void showXAxisGrids(final boolean grids)
-	{
+	public void showXAxisGrids(final boolean grids) {
 		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-				|| (this.chartProperties.getXAxisGrids() == null))
-		{
+				|| (this.chartProperties.getXAxisGrids() == null)) {
 			this.chartProperties.setShowXAxisGrids(grids);
 		}
 	}
 
-	public void showYAxisGrids(final boolean grids)
-	{
+	public void showYAxisGrids(final boolean grids) {
 		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-				|| (this.chartProperties.getYAxisGrids() == null))
-		{
+				|| (this.chartProperties.getYAxisGrids() == null)) {
 			this.chartProperties.setShowYAxisGrids(grids);
 		}
 	}
@@ -1041,11 +926,9 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @param title
 	 */
-	public void showXAxisTitle(final boolean title)
-	{
+	public void showXAxisTitle(final boolean title) {
 		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-				|| (this.chartProperties.getShowXAxisTitle() == null))
-		{
+				|| (this.chartProperties.getShowXAxisTitle() == null)) {
 			this.chartProperties.setShowXAxisTitle(title);
 		}
 	}
@@ -1055,11 +938,9 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @param title
 	 */
-	public void showYAxisTitle(final boolean title)
-	{
+	public void showYAxisTitle(final boolean title) {
 		if ((this.nodeType == ChartPropertiesManager.TYPE_RUNTIME_CHARTS)
-				|| (this.chartProperties.getShowYAxisTitle() == null))
-		{
+				|| (this.chartProperties.getShowYAxisTitle() == null)) {
 			this.chartProperties.setShowYAxisTitle(title);
 		}
 	}
@@ -1069,8 +950,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @return
 	 */
-	public boolean isXAxisTitle()
-	{
+	public boolean isXAxisTitle() {
 		final Boolean showXAxisTitle = this.chartProperties.getShowXAxisTitle();
 		return (showXAxisTitle != null) && showXAxisTitle.booleanValue();
 	}
@@ -1080,20 +960,17 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @return
 	 */
-	public boolean isYAxisTitle()
-	{
+	public boolean isYAxisTitle() {
 		final Boolean showYAxisTitle = this.chartProperties.getShowYAxisTitle();
 		return (showYAxisTitle != null) && showYAxisTitle.booleanValue();
 	}
 
-	public final boolean isXAxisGrid()
-	{
+	public final boolean isXAxisGrid() {
 		final Boolean axisGrids = this.chartProperties.getXAxisGrids();
 		return (axisGrids != null) && axisGrids.booleanValue();
 	}
 
-	public final boolean isYAxisGrid()
-	{
+	public final boolean isYAxisGrid() {
 		final Boolean axisGrids = this.chartProperties.getYAxisGrids();
 		return (axisGrids != null) && axisGrids.booleanValue();
 	}
@@ -1104,17 +981,14 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * 
 	 * @return
 	 */
-	public final SeriesCollection getSeriesCollection()
-	{
+	public final SeriesCollection getSeriesCollection() {
 		return this.collection;
 	}
 
 	private static int maxHeight = -1;
 
-	public static int getMaxHeight(final UserInterface graphics, final Font tickFont)
-	{
-		if (maxHeight == -1)
-		{
+	public static int getMaxHeight(final UserInterface graphics, final Font tickFont) {
+		if (maxHeight == -1) {
 			final Font oldFont = graphics.getFont();
 			graphics.setFont(tickFont);
 			maxHeight = graphics.getFontHeight();
@@ -1124,8 +998,7 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	}
 
 	protected void showAlternateBackgroundColors(final UserInterface graphics, final int startYPosition,
-			final int availablePixels, final int eachDataWidth, int startXPosition, final int endXPosition)
-	{
+			final int availablePixels, final int eachDataWidth, int startXPosition, final int endXPosition) {
 		// if (chartTitleRect != null)
 		// {
 		// availablePixels -= chartTitleRect.height;
@@ -1159,20 +1032,19 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 		 * graphics.fillRectangle(startXPosition, currYPosition -
 		 * iRectanglesHeight, iRectanglesWidth, iRectanglesHeight); } else {
 		 * graphics.fillRectangle(startXPosition, currYPosition -
-		 * iRectanglesHeight + 1, iRectanglesWidth, iRectanglesHeight - 1); } } }
+		 * iRectanglesHeight + 1, iRectanglesWidth, iRectanglesHeight - 1); } }
+		 * }
 		 */
-		for (boolean first = true; currYPosition < endYPosition; currYPosition += eachDataWidth, first = !first)
-		{
-			if (endYPosition - currYPosition < eachDataWidth)
-			{
+		for (boolean first = true; currYPosition < endYPosition; currYPosition += eachDataWidth, first = !first) {
+			if (endYPosition - currYPosition < eachDataWidth) {
 				iRectanglesHeight = (endYPosition - currYPosition);
 			}
 			// iRectanglesHeight = Math.min(eachDataWidth, endYPosition -
 			// currYPosition);
 			graphics.setBackground(arrAlternateColors[first ? 0 : 1]);
 			addtion = (!this.isXAxisGrid() && (currYPosition + eachDataWidth < endYPosition)) ? 0 : 1;
-			graphics.fillRectangle(startXPosition, currYPosition + addtion, iRectanglesWidth, iRectanglesHeight
-					+ addtion);
+			graphics.fillRectangle(startXPosition, currYPosition + addtion, iRectanglesWidth,
+					iRectanglesHeight + addtion);
 		}
 		graphics.setBackground(oldBackGroundColor);
 	}
@@ -1185,25 +1057,21 @@ public class AppComplexChart extends AppChart implements IScrollableChart
 	 * @param max
 	 * 
 	 */
-	public void setMinMaxYValue(final long min, final long max)
-	{
+	public void setMinMaxYValue(final long min, final long max) {
 		this.iMinYValue = min;
 		this.iMaxYValue = max;
 		this.bMinMaxYValueSet = true;
 	}
 
-	public boolean isScrollable()
-	{
+	public boolean isScrollable() {
 		return this.scrollable;
 	}
 
-	public void setScrollable(final boolean scrollable)
-	{
+	public void setScrollable(final boolean scrollable) {
 		this.scrollable = scrollable;
 	}
 
-	public int getIncrement()
-	{
+	public int getIncrement() {
 		return this.barht;
 	}
 

@@ -1,6 +1,5 @@
 package com.queryio.core.bean;
 
-
 public class TagParser {
 	int id;
 	String tagName;
@@ -9,7 +8,9 @@ public class TagParser {
 	String fileTypes;
 	String className;
 	boolean onIngest;
-	public TagParser(int id, String tagName, String description, String jarName, String fileTypes, String className, boolean onIngest) {
+
+	public TagParser(int id, String tagName, String description, String jarName, String fileTypes, String className,
+			boolean onIngest) {
 		this.id = id;
 		this.tagName = tagName;
 		this.description = description;
@@ -17,8 +18,8 @@ public class TagParser {
 		this.fileTypes = fileTypes;
 		this.className = className;
 		this.onIngest = onIngest;
-	}	
-	
+	}
+
 	public String getTagName() {
 		return tagName;
 	}
@@ -58,16 +59,20 @@ public class TagParser {
 	public int getId() {
 		return id;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public String getJarName() {
 		return jarName;
 	}
+
 	public String getFileTypes() {
 		return fileTypes;
 	}
+
 	public String getClassName() {
 		return className;
-	}	
+	}
 }

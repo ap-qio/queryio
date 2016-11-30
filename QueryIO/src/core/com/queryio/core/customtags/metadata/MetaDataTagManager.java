@@ -83,16 +83,16 @@ public class MetaDataTagManager {
 			}
 		}
 	}
-	
+
 	public static JSONObject getAllCustomTagsMetadataDetail(String aoData) throws Exception {
 		Connection connection = null;
 
 		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-			if(aoData == null){
+			if (aoData == null) {
 				CustomTagMetadataDAO.getAllCustomTagsMetadataDetail(connection);
 			} else
-			return CustomTagMetadataDAO.getAllCustomTagsMetadataDetail(connection, aoData);
+				return CustomTagMetadataDAO.getAllCustomTagsMetadataDetail(connection, aoData);
 		} finally {
 			try {
 				CoreDBManager.closeConnection(connection);
@@ -119,21 +119,22 @@ public class MetaDataTagManager {
 		}
 	}
 
-//	public static ArrayList<Map<String, String>> getAllCustomTagsMetadataDetail() throws Exception {
-//		Connection connection = null;
-//
-//		try {
-//			connection = CoreDBManager.getQueryIODBConnection();
-//
-//			return CustomTagMetadataDAO.getAllCustomTagsMetadataDetail(connection);
-//		} finally {
-//			try {
-//				CoreDBManager.closeConnection(connection);
-//			} catch (Exception e) {
-//				AppLogger.getLogger().fatal("Error closing database connection.", e);
-//			}
-//		}
-//	}
+	// public static ArrayList<Map<String, String>>
+	// getAllCustomTagsMetadataDetail() throws Exception {
+	// Connection connection = null;
+	//
+	// try {
+	// connection = CoreDBManager.getQueryIODBConnection();
+	//
+	// return CustomTagMetadataDAO.getAllCustomTagsMetadataDetail(connection);
+	// } finally {
+	// try {
+	// CoreDBManager.closeConnection(connection);
+	// } catch (Exception e) {
+	// AppLogger.getLogger().fatal("Error closing database connection.", e);
+	// }
+	// }
+	// }
 
 	public static void insertCustomTagMetadatData(String id, String metadata, String desc, boolean isActive,
 			String dbType, String fileType, String nameNodeId, String tableName, String dataTaggingTimeInfo,
@@ -187,6 +188,7 @@ public class MetaDataTagManager {
 			}
 		}
 	}
+
 	// Added to update MapredJobConfig table
 	public static void updateMapRedJobConfig(String jobName, String jobArguments) throws Exception {
 		Connection connection = null;
@@ -204,25 +206,25 @@ public class MetaDataTagManager {
 		}
 	}
 	// Added for fetching JobNames from CUSTOMTAG_METADATA table
-//	public static String getJobNameForDataTag(String id) throws Exception {
-//		Connection connection = null;
-//		String jobNames = null;
-//		try {
-//			connection = CoreDBManager.getQueryIODBConnection();
-//
-//			jobNames = CustomTagMetadataDAO.selectJobNamesForDataTag(connection, id);
-//			if (jobNames == null) {
-//				AppLogger.getLogger().fatal("Job Name not found");
-//			}
-//		} finally {
-//			try {
-//				CoreDBManager.closeConnection(connection);
-//			} catch (Exception e) {
-//				AppLogger.getLogger().fatal("Error closing database connection.", e);
-//			}
-//		}
-//		return jobNames;
-//	}
+	// public static String getJobNameForDataTag(String id) throws Exception {
+	// Connection connection = null;
+	// String jobNames = null;
+	// try {
+	// connection = CoreDBManager.getQueryIODBConnection();
+	//
+	// jobNames = CustomTagMetadataDAO.selectJobNamesForDataTag(connection, id);
+	// if (jobNames == null) {
+	// AppLogger.getLogger().fatal("Job Name not found");
+	// }
+	// } finally {
+	// try {
+	// CoreDBManager.closeConnection(connection);
+	// } catch (Exception e) {
+	// AppLogger.getLogger().fatal("Error closing database connection.", e);
+	// }
+	// }
+	// return jobNames;
+	// }
 
 	public static int activateCustomTagMetadatData(ArrayList ids, boolean isActivate) throws Exception {
 		Connection connection = null;
@@ -295,7 +297,8 @@ public class MetaDataTagManager {
 		}
 	}
 
-	public static void addColumnInAllMetadataTables(String nameNodeId, DBTypeProperties props, JSONObject tagsJson) throws Exception {
+	public static void addColumnInAllMetadataTables(String nameNodeId, DBTypeProperties props, JSONObject tagsJson)
+			throws Exception {
 		Connection connection = null;
 		Configuration conf = null;
 		try {
@@ -307,15 +310,17 @@ public class MetaDataTagManager {
 			JSONArray tagsArr = ((JSONArray) tagsJson.get("Tags"));
 			for (Object obj : tagsArr) {
 				JSONObject tag = (JSONObject) obj;
-				
+
 				String columnType = (String) tag.get("dataType");
-				if (AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("columnType : " + columnType);
-				
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("columnType : " + columnType);
+
 				String columnName = (String) tag.get("TagName");
-				if (AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("columnName : " + columnName);
-	
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("columnName : " + columnName);
+
 				columnType = props.getTypeMap().get(MetadataConstants.STATIC_DATATYPES_TO_WRAPPER_MAP.get(columnType));
-	
+
 				if (props.getKeyFromValue(columnType).equals(MetadataConstants.STRING_WRAPPER_CLASS))
 					columnType += "(" + UserDefinedTagUtils.MAX_COL_SIZE + ")";
 				ArrayList<String> metadataTables = CustomTagMetadataDAO.getAllTableNames(connection);
@@ -337,27 +342,28 @@ public class MetaDataTagManager {
 		Connection connection = null;
 		Configuration conf = null;
 		try {
-			
+
 			conf = RemoteManager.getNameNodeConfiguration(nameNodeId);
 			String connectionName = conf.get(QueryIOConstants.CUSTOM_TAG_DB_DBSOURCEID);
 			connection = CoreDBManager.getCustomTagDBConnection(connectionName);
 
-			
 			JSONArray tagsArr = ((JSONArray) tagsJson.get("Tags"));
 			for (Object obj : tagsArr) {
 				JSONObject tag = (JSONObject) obj;
-				
+
 				String columnType = (String) tag.get("dataType");
-				if (AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("columnType : " + columnType);
-				
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("columnType : " + columnType);
+
 				String columnName = (String) tag.get("TagName");
-				if (AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("columnName : " + columnName);
-	
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("columnName : " + columnName);
+
 				columnType = props.getTypeMap().get(MetadataConstants.STATIC_DATATYPES_TO_WRAPPER_MAP.get(columnType));
-	
+
 				if (props.getKeyFromValue(columnType).equals(MetadataConstants.STRING_WRAPPER_CLASS))
 					columnType += "(" + UserDefinedTagUtils.MAX_COL_SIZE + ")";
-	
+
 				UserDefinedTagDAO.addColumn(connection, tableName, columnName, columnType);
 			}
 

@@ -12,40 +12,41 @@ package com.amazon.s3;
 import java.util.Date;
 
 /**
- * A structure representing a single object stored in S3.  Returned as a part of ListBucketResponse.
+ * A structure representing a single object stored in S3. Returned as a part of
+ * ListBucketResponse.
  */
 public class ListEntry {
-    /**
-     * The name of the object
-     */
-    public String key;
+	/**
+	 * The name of the object
+	 */
+	public String key;
 
-    /**
-     * The date at which the object was last modified.
-     */
-    public Date lastModified;
+	/**
+	 * The date at which the object was last modified.
+	 */
+	public Date lastModified;
 
-    /**
-     * The object's ETag, which can be used for conditional GETs.
-     */
-    public String eTag;
+	/**
+	 * The object's ETag, which can be used for conditional GETs.
+	 */
+	public String eTag;
 
-    /**
-     * The size of the object in bytes.
-     */
-    public long size;
+	/**
+	 * The size of the object in bytes.
+	 */
+	public long size;
 
-    /**
-     * The object's storage class
-     */
-    public String storageClass;
+	/**
+	 * The object's storage class
+	 */
+	public String storageClass;
 
-    /**
-     * The object's owner
-     */
-    public Owner owner;
+	/**
+	 * The object's owner
+	 */
+	public Owner owner;
 
-    public String toString() {
-        return key;
-    }
+	public String toString() {
+		return key;
+	}
 }

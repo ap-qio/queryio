@@ -54,7 +54,8 @@ public class NodeOperation {
 		} else {
 			cmd.append("bin/hdfs");
 		}
-		cmd.append(" --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc").append(separator).append("namenode-conf_").append(nodeId).append(separator)
+		cmd.append(" --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc").append(separator)
+				.append("namenode-conf_").append(nodeId).append(separator)
 				.append(" namenode -format -force -nonInteractive -clusterid queryio");
 		return executeHadoopCommand(cmd.toString(), installDir, true, 0, false, true);
 	}
@@ -63,16 +64,16 @@ public class NodeOperation {
 		if (AppLogger.getLogger().isDebugEnabled())
 			AppLogger.getLogger().debug("Starting " + nodeType);
 		String cmd = null;
-		if (nodeType.equals(QueryIOConstants.NAMENODE) || nodeType.equals(QueryIOConstants.DATANODE) || nodeType.equals(QueryIOConstants.SECONDARYNAMENODE)
+		if (nodeType.equals(QueryIOConstants.NAMENODE) || nodeType.equals(QueryIOConstants.DATANODE)
+				|| nodeType.equals(QueryIOConstants.SECONDARYNAMENODE)
 				|| nodeType.equals(QueryIOConstants.JOURNALNODE)) {
 			if (PlatformHandler.isWindows()) {
-				cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator
-						+ "hdfs.cmd"
-						+ " --queryionodeid " + nodeId 
-						+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-						+ separator + nodeType + "-conf_" + nodeId + " " + nodeType;
+				cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd"
+						+ " --queryionodeid " + nodeId + " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME
+						+ separator + "etc" + separator + nodeType + "-conf_" + nodeId + " " + nodeType;
 			} else {
-				cmd = "sbin/hadoop-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " " + QueryIOConstants.START + " " + nodeType;
+				cmd = "sbin/hadoop-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " "
+						+ QueryIOConstants.START + " " + nodeType;
 			}
 
 			QueryIOResponse response = executeHadoopCommand(cmd, installDir, false, 0, false, true);
@@ -100,20 +101,22 @@ public class NodeOperation {
 		} else if (nodeType.equals(QueryIOConstants.RESOURCEMANAGER)) {
 			if (PlatformHandler.isWindows()) {
 				cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "yarn.cmd"
-//						+ " --queryionodeid " + nodeId
-						+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-						+ separator + nodeType + "-conf_" + nodeId + " " + nodeType;
+				// + " --queryionodeid " + nodeId
+						+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+						+ nodeType + "-conf_" + nodeId + " " + nodeType;
 			} else {
-				cmd = "sbin/yarn-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " " + QueryIOConstants.START + " " + nodeType;
+				cmd = "sbin/yarn-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " " + QueryIOConstants.START
+						+ " " + nodeType;
 			}
 			QueryIOResponse response = executeHadoopCommand(cmd, installDir, false, 0, false, true);
 			if (response.isSuccessful()) {
 				if (!PlatformHandler.isWindows()) {
-					cmd = "sbin/mr-jobhistory-daemon.sh --config etc/resourcemanager-conf_" + nodeId + " start historyserver"; // Windows
-																																// version
-																																// don't
-																																// have
-																																// historyServer
+					cmd = "sbin/mr-jobhistory-daemon.sh --config etc/resourcemanager-conf_" + nodeId
+							+ " start historyserver"; // Windows
+														// version
+														// don't
+														// have
+														// historyServer
 					response = executeHadoopCommand(cmd, installDir, false, 0, false, true);
 				}
 				if (response.isSuccessful()) {
@@ -132,12 +135,13 @@ public class NodeOperation {
 			return response;
 		} else {
 			if (PlatformHandler.isWindows()) {
-				cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "yarn.cmd" 
-//						+ " --queryionodeid " + nodeId 
-						+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-						+ separator + nodeType + "-conf_" + nodeId + " " + nodeType;
+				cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "yarn.cmd"
+				// + " --queryionodeid " + nodeId
+						+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+						+ nodeType + "-conf_" + nodeId + " " + nodeType;
 			} else {
-				cmd = "sbin/yarn-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " " + QueryIOConstants.START + " " + nodeType;
+				cmd = "sbin/yarn-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " " + QueryIOConstants.START
+						+ " " + nodeType;
 			}
 			QueryIOResponse response = executeHadoopCommand(cmd, installDir, false, 0, false, true);
 			if (response.isSuccessful()) {
@@ -181,7 +185,8 @@ public class NodeOperation {
 	public static QueryIOResponse stopNode(String installDir, String nodeType, String nodeId) {
 		if (AppLogger.getLogger().isDebugEnabled())
 			AppLogger.getLogger().debug("Stopping " + nodeType);
-		if (nodeType.equals(QueryIOConstants.NAMENODE) || nodeType.equals(QueryIOConstants.DATANODE) || nodeType.equals(QueryIOConstants.SECONDARYNAMENODE)
+		if (nodeType.equals(QueryIOConstants.NAMENODE) || nodeType.equals(QueryIOConstants.DATANODE)
+				|| nodeType.equals(QueryIOConstants.SECONDARYNAMENODE)
 				|| nodeType.equals(QueryIOConstants.JOURNALNODE)) {
 			QueryIOResponse response = new QueryIOResponse(false, "");
 			if (PlatformHandler.isWindows()) {
@@ -190,7 +195,8 @@ public class NodeOperation {
 			} else {
 				if (AppLogger.getLogger().isDebugEnabled())
 					AppLogger.getLogger().debug("Unix based platform.");
-				String cmd = "sbin/hadoop-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " " + QueryIOConstants.STOP + " " + nodeType;
+				String cmd = "sbin/hadoop-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " "
+						+ QueryIOConstants.STOP + " " + nodeType;
 				response = executeHadoopCommand(cmd, installDir, false, 0, false, true);
 			}
 			if (response.isSuccessful()) {
@@ -220,16 +226,18 @@ public class NodeOperation {
 				boolean isSuccess = killProcessWindows(getNodeClass(nodeType));
 				response.setSuccessful(isSuccess);
 			} else {
-				String cmd = "sbin/yarn-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " " + QueryIOConstants.STOP + " " + nodeType;
+				String cmd = "sbin/yarn-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " "
+						+ QueryIOConstants.STOP + " " + nodeType;
 				response = executeHadoopCommand(cmd, installDir, false, 0, false, true);
 			}
 
 			if (!PlatformHandler.isWindows()) {
-				String cmd = "sbin/mr-jobhistory-daemon.sh --config etc/resourcemanager-conf_" + nodeId + " stop historyserver"; // Windows
-																																	// version
-																																	// don't
-																																	// have
-																																	// historyServer
+				String cmd = "sbin/mr-jobhistory-daemon.sh --config etc/resourcemanager-conf_" + nodeId
+						+ " stop historyserver"; // Windows
+													// version
+													// don't
+													// have
+													// historyServer
 				response = executeHadoopCommand(cmd, installDir, false, 0, false, true);
 			}
 
@@ -248,7 +256,8 @@ public class NodeOperation {
 				boolean isSuccess = killProcessWindows(getNodeClass(nodeType));
 				response.setSuccessful(isSuccess);
 			} else {
-				String cmd = "sbin/yarn-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " " + QueryIOConstants.STOP + " " + nodeType;
+				String cmd = "sbin/yarn-daemon.sh --config etc/" + nodeType + "-conf_" + nodeId + " "
+						+ QueryIOConstants.STOP + " " + nodeType;
 				response = executeHadoopCommand(cmd, installDir, false, 0, false, true);
 			}
 
@@ -269,8 +278,9 @@ public class NodeOperation {
 			AppLogger.getLogger().debug("performing bootstrapStandby.");
 		String cmd = null;
 		if (PlatformHandler.isWindows()) {
-			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd" + " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-					+ separator + "namenode-conf_" + nodeId + " namenode -bootstrapStandby";
+			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd"
+					+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+					+ "namenode-conf_" + nodeId + " namenode -bootstrapStandby";
 		} else {
 			cmd = "bin/hdfs --config etc/namenode-conf_" + nodeId + " namenode -bootstrapStandby";
 		}
@@ -283,8 +293,9 @@ public class NodeOperation {
 			AppLogger.getLogger().debug("initializeSharedEdits.");
 		String cmd = null;
 		if (PlatformHandler.isWindows()) {
-			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd" + " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-					+ separator + "namenode-conf_" + nodeId + " namenode -initializeSharedEdits";
+			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd"
+					+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+					+ "namenode-conf_" + nodeId + " namenode -initializeSharedEdits";
 		} else {
 			cmd = "bin/hdfs --config etc/namenode-conf_" + nodeId + " namenode -initializeSharedEdits";
 		}
@@ -297,8 +308,9 @@ public class NodeOperation {
 			AppLogger.getLogger().debug("performing transitionToActive.");
 		String cmd = null;
 		if (PlatformHandler.isWindows()) {
-			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd" + " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-					+ separator + "namenode-conf_" + nodeId + " haadmin -transitionToActive " + activeNode;
+			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd"
+					+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+					+ "namenode-conf_" + nodeId + " haadmin -transitionToActive " + activeNode;
 		} else {
 			cmd = "bin/hdfs --config etc/namenode-conf_" + nodeId + " haadmin -transitionToActive " + activeNode;
 		}
@@ -311,10 +323,12 @@ public class NodeOperation {
 			AppLogger.getLogger().debug("Running fsck command.");
 		String cmd = null;
 		if (PlatformHandler.isWindows()) {
-			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd" + " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-					+ separator + "namenode-conf_" + nodeId + " fsck / -files -blocks -racks";
+			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd"
+					+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+					+ "namenode-conf_" + nodeId + " fsck / -files -blocks -racks";
 		} else {
-			cmd = "bin/hdfs --config etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + "/ fsck / -files -blocks -racks";
+			cmd = "bin/hdfs --config etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId
+					+ "/ fsck / -files -blocks -racks";
 		}
 
 		return executeHadoopCommand(cmd, installDir, false, 0, true, true);
@@ -325,10 +339,15 @@ public class NodeOperation {
 			AppLogger.getLogger().debug("Running Balancer.");
 		String cmd = null;
 		if (PlatformHandler.isWindows()) {
-			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd" + " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-					+ separator + "namenode-conf_" + nodeId + " balancer";
+			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd"
+					+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+					+ "namenode-conf_" + nodeId + " balancer";
 		} else {
-			cmd = "bin/hdfs --config etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + " balancer";// -D" + DFSConfigKeys.DFS_NAMESERVICES + "=";
+			cmd = "bin/hdfs --config etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + " balancer";// -D"
+																											// +
+																											// DFSConfigKeys.DFS_NAMESERVICES
+																											// +
+																											// "=";
 		}
 
 		return executeHadoopCommand(cmd, installDir, false, 0, true, true);
@@ -339,8 +358,9 @@ public class NodeOperation {
 			AppLogger.getLogger().debug("Refreshing Nodes.");
 		String cmd = null;
 		if (PlatformHandler.isWindows()) {
-			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd" + " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-					+ separator + QueryIOConstants.NAMENODE + "-conf_" + nodeId + separator + " dfsadmin -refreshNodes";
+			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd"
+					+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+					+ QueryIOConstants.NAMENODE + "-conf_" + nodeId + separator + " dfsadmin -refreshNodes";
 		} else {
 			cmd = "bin/hdfs --config etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + "/ dfsadmin -refreshNodes";
 		}
@@ -353,10 +373,12 @@ public class NodeOperation {
 			AppLogger.getLogger().debug("Setting safemode to " + (safemode ? "ON" : "OFF") + ".");
 		String cmd = null;
 		if (PlatformHandler.isWindows()) {
-			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd" + " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-					+ separator + "namenode-conf_" + nodeId + "/ dfsadmin -safemode " + (safemode ? "enter" : "leave");
+			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd"
+					+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+					+ "namenode-conf_" + nodeId + "/ dfsadmin -safemode " + (safemode ? "enter" : "leave");
 		} else {
-			cmd = "bin/hdfs --config etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + "/ dfsadmin -safemode " + (safemode ? "enter" : "leave");
+			cmd = "bin/hdfs --config etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + "/ dfsadmin -safemode "
+					+ (safemode ? "enter" : "leave");
 		}
 
 		return executeHadoopCommand(cmd, installDir, false, 0, false, true);
@@ -367,16 +389,19 @@ public class NodeOperation {
 			AppLogger.getLogger().debug("Performing failover. Failover args: " + failoverArg);
 		String cmd = null;
 		if (PlatformHandler.isWindows()) {
-			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd" + " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc"
-					+ separator + "namenode-conf_" + nodeId + "/ haadmin -failover " + failoverArg;
+			cmd = installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "bin" + separator + "hdfs.cmd"
+					+ " --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc" + separator
+					+ "namenode-conf_" + nodeId + "/ haadmin -failover " + failoverArg;
 		} else {
-			cmd = "bin/hdfs --config etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + "/ haadmin -failover " + failoverArg;
+			cmd = "bin/hdfs --config etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + "/ haadmin -failover "
+					+ failoverArg;
 		}
 
 		return executeHadoopCommand(cmd, installDir, false, 0, true, true);
 	}
 
-	public static QueryIOResponse executeHadoopCommand(String cmd, String installDir, final boolean unblock, int exitCode, boolean getOutput, boolean appendHadoopDir) {
+	public static QueryIOResponse executeHadoopCommand(String cmd, String installDir, final boolean unblock,
+			int exitCode, boolean getOutput, boolean appendHadoopDir) {
 		if (AppLogger.getLogger().isDebugEnabled())
 			AppLogger.getLogger().debug(cmd);
 		Process process = null;
@@ -390,11 +415,13 @@ public class NodeOperation {
 				process = Runtime.getRuntime().exec(cmd, null, new File(installDir));
 			}
 			inputWriter = new StringWriter();
-			final StreamPumper spInput = new StreamPumper(new BufferedReader(new InputStreamReader(process.getInputStream())), inputWriter);
+			final StreamPumper spInput = new StreamPumper(
+					new BufferedReader(new InputStreamReader(process.getInputStream())), inputWriter);
 			spInput.start();
 			errorWriter = new StringWriter();
 			if (process.getErrorStream() != null) {
-				final StreamPumper spError = new StreamPumper(new BufferedReader(new InputStreamReader(process.getErrorStream())), errorWriter);
+				final StreamPumper spError = new StreamPumper(
+						new BufferedReader(new InputStreamReader(process.getErrorStream())), errorWriter);
 				spError.start();
 			}
 
@@ -413,8 +440,8 @@ public class NodeOperation {
 			}
 
 			process.waitFor();
-//			Thread.sleep(10000); // TODO: Windows temp handling. Uncomment
-									// process.waitFor() later.
+			// Thread.sleep(10000); // TODO: Windows temp handling. Uncomment
+			// process.waitFor() later.
 			int count = 0;
 			while (!spInput.isProcessCompleted() && (count < 5)) {
 				Thread.sleep(100);
@@ -425,25 +452,29 @@ public class NodeOperation {
 				AppLogger.getLogger().debug("errorWriter.toString()" + errorWriter.toString());
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("inputWriter.toString()" + inputWriter.toString());
-			 if(AppLogger.getLogger().isDebugEnabled())
-			 AppLogger.getLogger().debug("targetProcess.exitValue()" +
-			 process.exitValue()); //TODO: Windows temp handling. Uncomment this later.
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug("targetProcess.exitValue()" + process.exitValue()); // TODO:
+																								// Windows
+																								// temp
+																								// handling.
+																								// Uncomment
+																								// this
+																								// later.
 
-			 if (process.exitValue() != exitCode ||
-			 errorWriter.toString().contains("Exception") ||
-			 inputWriter.toString().contains("Exception"))
-			 if (process.exitValue() != exitCode) // TODO: Windows temp handling.
-			 {
-			 String msg = errorWriter.toString();
-			 if(msg.isEmpty())
-			 msg = inputWriter.toString();
-			 return new QueryIOResponse(false,
-			 "Operation failed with following error.\n" +
-			 (msg.indexOf("FATAL") != -1 ? msg.substring(msg.indexOf("FATAL"))
-			 : msg));
-			 }
+			if (process.exitValue() != exitCode || errorWriter.toString().contains("Exception")
+					|| inputWriter.toString().contains("Exception"))
+				if (process.exitValue() != exitCode) // TODO: Windows temp
+														// handling.
+				{
+					String msg = errorWriter.toString();
+					if (msg.isEmpty())
+						msg = inputWriter.toString();
+					return new QueryIOResponse(false, "Operation failed with following error.\n"
+							+ (msg.indexOf("FATAL") != -1 ? msg.substring(msg.indexOf("FATAL")) : msg));
+				}
 			if (getOutput)
-				return new QueryIOResponse(true, QueryIOConstants.NODE_OPERATION_SUCCESS + "\n" + inputWriter.toString());
+				return new QueryIOResponse(true,
+						QueryIOConstants.NODE_OPERATION_SUCCESS + "\n" + inputWriter.toString());
 			else
 				return new QueryIOResponse(true, QueryIOConstants.NODE_OPERATION_SUCCESS);
 		} catch (final Exception ex) {
@@ -498,7 +529,8 @@ public class NodeOperation {
 	}
 
 	public static QueryIOResponse updateHadoopEnv(String installDir, String nodeType, String nodeId) {
-		String sourceFileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/core-site.xml";
+		String sourceFileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId
+				+ "/core-site.xml";
 		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId;
 		if (PlatformHandler.isWindows()) {
 			fileName += "/hadoop-env.cmd";
@@ -539,16 +571,20 @@ public class NodeOperation {
 					updateConf(conf.get(QueryIOConstants.HADOOP_HEAP_SIZE), "HADOOP_HEAPSIZE", strLine, sb, false);
 					d = true;
 				} else if (!e && strLine.startsWith(exportConstant + " HADOOP_NAMENODE_OPTS")) {
-					updateConf(conf.get(QueryIOConstants.NAMENODE_OPTS_KEY), "HADOOP_NAMENODE_OPTS", strLine, sb, false);
+					updateConf(conf.get(QueryIOConstants.NAMENODE_OPTS_KEY), "HADOOP_NAMENODE_OPTS", strLine, sb,
+							false);
 					e = true;
 				} else if (!f && strLine.startsWith(exportConstant + " HADOOP_DATANODE_OPTS")) {
-					updateConf(conf.get(QueryIOConstants.DATANODE_OPTS_KEY), "HADOOP_DATANODE_OPTS", strLine, sb, false);
+					updateConf(conf.get(QueryIOConstants.DATANODE_OPTS_KEY), "HADOOP_DATANODE_OPTS", strLine, sb,
+							false);
 					f = true;
 				} else if (!g && strLine.startsWith(exportConstant + " HADOOP_SECONDARYNAMENODE_OPTS")) {
-					updateConf(conf.get(QueryIOConstants.SECONDARYNAMENODE_OPTS_KEY), "HADOOP_SECONDARYNAMENODE_OPTS", strLine, sb, false);
+					updateConf(conf.get(QueryIOConstants.SECONDARYNAMENODE_OPTS_KEY), "HADOOP_SECONDARYNAMENODE_OPTS",
+							strLine, sb, false);
 					g = true;
 				} else if (!h && strLine.startsWith(exportConstant + " HADOOP_JOURNALNAMENODE_OPTS")) {
-					updateConf(conf.get(QueryIOConstants.JOURNALNODE_OPTS_KEY), "HADOOP_JOURNALNAMENODE_OPTS", strLine, sb, false);
+					updateConf(conf.get(QueryIOConstants.JOURNALNODE_OPTS_KEY), "HADOOP_JOURNALNAMENODE_OPTS", strLine,
+							sb, false);
 					h = true;
 				} else {
 					sb.append(strLine);
@@ -575,7 +611,8 @@ public class NodeOperation {
 				updateConf(conf.get(QueryIOConstants.DATANODE_OPTS_KEY), "HADOOP_DATANODE_OPTS", sb, false);
 			}
 			if (!g) {
-				updateConf(conf.get(QueryIOConstants.SECONDARYNAMENODE_OPTS_KEY), "HADOOP_SECONDARYNAMENODE_OPTS", sb, false);
+				updateConf(conf.get(QueryIOConstants.SECONDARYNAMENODE_OPTS_KEY), "HADOOP_SECONDARYNAMENODE_OPTS", sb,
+						false);
 			}
 			if (!h) {
 				updateConf(conf.get(QueryIOConstants.JOURNALNODE_OPTS_KEY), "HADOOP_JOURNALNAMENODE_OPTS", sb, false);
@@ -648,7 +685,8 @@ public class NodeOperation {
 	}
 
 	public static QueryIOResponse updateYarnEnv(String installDir, String nodeType, String nodeId) {
-		String sourceFileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/yarn-site.xml";
+		String sourceFileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId
+				+ "/yarn-site.xml";
 		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId;
 		if (PlatformHandler.isWindows()) {
 			fileName += "/yarn-env.cmd";
@@ -675,7 +713,8 @@ public class NodeOperation {
 			String strLine;
 			StringBuffer sb = new StringBuffer();
 			StringBuffer originalSB = new StringBuffer();
-			boolean b1 = false, b2 = false, b3 = false, b4 = false, b5 = false, b6 = false, b7 = false, b8 = false, b9 = false, b10 = false;
+			boolean b1 = false, b2 = false, b3 = false, b4 = false, b5 = false, b6 = false, b7 = false, b8 = false,
+					b9 = false, b10 = false;
 			// Read File Line By Line
 			String val;
 			while ((strLine = br.readLine()) != null) {
@@ -843,7 +882,8 @@ public class NodeOperation {
 			fos = new FileOutputStream(new File(fileName));
 			fos.write(str.getBytes());
 
-			String fileName2 = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/mapred-env.sh";
+			String fileName2 = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId
+					+ "/mapred-env.sh";
 			fstream = new FileInputStream(fileName2);
 			// Get the object of DataInputStream
 			in = new DataInputStream(fstream);
@@ -946,7 +986,8 @@ public class NodeOperation {
 
 	public static QueryIOResponse copyEditsDirToSharedDir(String installDir, String nodeId) {
 		Configuration conf = new Configuration(false);
-		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/namenode-conf_" + nodeId + "/hdfs-site.xml";
+		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/namenode-conf_" + nodeId
+				+ "/hdfs-site.xml";
 
 		FileInputStream fis = null;
 		try {
@@ -985,7 +1026,8 @@ public class NodeOperation {
 
 	public static QueryIOResponse copySharedDirLogstoEditsLogs(String installDir, String nodeId) {
 		Configuration conf = new Configuration(false);
-		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/namenode-conf_" + nodeId + "/hdfs-site.xml";
+		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/namenode-conf_" + nodeId
+				+ "/hdfs-site.xml";
 
 		FileInputStream fis = null;
 		try {
@@ -1079,7 +1121,8 @@ public class NodeOperation {
 		}
 	}
 
-	public static QueryIOResponse updateNetworkConfig(String installDir, String nodeId, String[] hostIps, String[] rackNames) {
+	public static QueryIOResponse updateNetworkConfig(String installDir, String nodeId, String[] hostIps,
+			String[] rackNames) {
 		StringBuffer sb = null;
 		if (PlatformHandler.isWindows()) {
 			sb = updateNetworkConfigWindows(hostIps, rackNames);
@@ -1087,7 +1130,8 @@ public class NodeOperation {
 			sb = updateNetworkConfigUnixBased(hostIps, rackNames);
 		}
 
-		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + File.separator + "etc" + File.separator + QueryIOConstants.NAMENODE + "-conf_" + nodeId + File.separator;
+		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + File.separator + "etc" + File.separator
+				+ QueryIOConstants.NAMENODE + "-conf_" + nodeId + File.separator;
 		if (PlatformHandler.isWindows()) {
 			fileName += "topologyConfig.bat";
 		} else {
@@ -1170,9 +1214,11 @@ public class NodeOperation {
 			if (configDir.exists()) {
 				FileUtil.fullyDelete(configDir);
 			}
-			copyFolder(new File(installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf"), configDir, true);
+			copyFolder(new File(installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf"),
+					configDir, true);
 			if (nodeType.equals(QueryIOConstants.NAMENODE)) {
-				File topologyConfigFile = new File(installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/topologyConfig.sh");
+				File topologyConfigFile = new File(installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType
+						+ "-conf_" + nodeId + "/topologyConfig.sh");
 				topologyConfigFile.setExecutable(true);
 				topologyConfigFile.setReadable(true);
 				topologyConfigFile.setWritable(true);
@@ -1184,21 +1230,26 @@ public class NodeOperation {
 		}
 	}
 
-	public static QueryIOResponse updateConfiguration(String installDir, String nodeType, String nodeId, String configFileName, ArrayList property, ArrayList value, boolean refresh) {
+	public static QueryIOResponse updateConfiguration(String installDir, String nodeType, String nodeId,
+			String configFileName, ArrayList property, ArrayList value, boolean refresh) {
 		Configuration conf = new Configuration(false);
 
-		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/" + configFileName;
+		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/"
+				+ configFileName;
 		if (AppLogger.getLogger().isDebugEnabled())
 			AppLogger.getLogger().debug("updating fileName: " + fileName + " for " + nodeId);
 		FileOutputStream fos = null;
 		FileInputStream fis = null;
 		try {
 
-			File file = new File(installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId);
+			File file = new File(
+					installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId);
 			if (!file.exists()) {
-				copyFolder(new File(installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf"), file, true);
+				copyFolder(new File(installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf"), file,
+						true);
 				if (nodeType.equals(QueryIOConstants.NAMENODE)) {
-					File topologyConfigFile = new File(installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/topologyConfig.sh");
+					File topologyConfigFile = new File(installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/"
+							+ nodeType + "-conf_" + nodeId + "/topologyConfig.sh");
 					topologyConfigFile.setExecutable(true);
 					topologyConfigFile.setReadable(true);
 					topologyConfigFile.setWritable(true);
@@ -1242,10 +1293,12 @@ public class NodeOperation {
 		}
 	}
 
-	public static QueryIOResponse unsetConfiguration(String installDir, String nodeType, String nodeId, String configFileName, ArrayList property) {
+	public static QueryIOResponse unsetConfiguration(String installDir, String nodeType, String nodeId,
+			String configFileName, ArrayList property) {
 		Configuration conf = new Configuration(false);
 
-		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/" + configFileName;
+		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/"
+				+ configFileName;
 		if (AppLogger.getLogger().isDebugEnabled())
 			AppLogger.getLogger().debug("fileName: " + fileName);
 		FileOutputStream fos = null;
@@ -1284,9 +1337,11 @@ public class NodeOperation {
 		}
 	}
 
-	public static ArrayList getConfiguration(String installDir, String nodeType, String nodeId, String configFileName, ArrayList property) {
+	public static ArrayList getConfiguration(String installDir, String nodeType, String nodeId, String configFileName,
+			ArrayList property) {
 		Configuration conf = new Configuration(false);
-		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/" + configFileName;
+		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/"
+				+ configFileName;
 		ArrayList result = new ArrayList();
 		FileInputStream fis = null;
 		try {
@@ -1309,9 +1364,11 @@ public class NodeOperation {
 		return result;
 	}
 
-	public static String[] getAllConfiguration(String installDir, String nodeType, String nodeId, String configFileName) {
+	public static String[] getAllConfiguration(String installDir, String nodeType, String nodeId,
+			String configFileName) {
 		Configuration conf = new Configuration(false);
-		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/" + configFileName;
+		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + nodeType + "-conf_" + nodeId + "/"
+				+ configFileName;
 		FileInputStream fis = null;
 		List list = new ArrayList();
 		try {
@@ -1346,7 +1403,8 @@ public class NodeOperation {
 	}
 
 	public static QueryIOResponse updateList(String installDir, String nodeId, String[] datanodeAdds, String listName) {
-		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + "/" + listName;
+		String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NAMENODE + "-conf_"
+				+ nodeId + "/" + listName;
 		AppLogger.getLogger().fatal("Updating " + listName + " list. Size: " + datanodeAdds.length);
 		BufferedWriter output = null;
 		try {
@@ -1375,20 +1433,23 @@ public class NodeOperation {
 	public static QueryIOResponse startQueryIOServices(String installDir, String nodeId) {
 		int port1 = getOS3ServerPort(installDir, nodeId);
 		if (port1 == -1) {
-			return new QueryIOResponse(false, "Property " + QueryIOConstants.QUERYIO_OS3SERVER_PORT + " is absent in Node " + nodeId + " configuration.");
+			return new QueryIOResponse(false, "Property " + QueryIOConstants.QUERYIO_OS3SERVER_PORT
+					+ " is absent in Node " + nodeId + " configuration.");
 		}
 		int port2 = getHDFSOverFTPServerPort(installDir, nodeId);
 		if (port2 == -1) {
-			return new QueryIOResponse(false, "Property " + QueryIOConstants.QUERYIO_HDFSOVERFTP_PORT + " is absent in Node " + nodeId + " configuration.");
+			return new QueryIOResponse(false, "Property " + QueryIOConstants.QUERYIO_HDFSOVERFTP_PORT
+					+ " is absent in Node " + nodeId + " configuration.");
 		}
 		String dir = installDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + File.separator + "bin";
 		String cmd = null;
 		if (PlatformHandler.isWindows()) {
-			cmd = dir + separator + "start_servers.bat " + installDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + " " + port2 + " " + port1 + " " + installDir + QueryIOConstants.HADOOP_DIR_NAME
-					+ "/etc/namenode-conf_" + nodeId;
+			cmd = dir + separator + "start_servers.bat " + installDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + " "
+					+ port2 + " " + port1 + " " + installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/namenode-conf_"
+					+ nodeId;
 		} else {
-			cmd = "sh start_servers.sh " + installDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + " " + port2 + " " + port1 + " " + installDir + QueryIOConstants.HADOOP_DIR_NAME
-					+ "/etc/namenode-conf_" + nodeId;
+			cmd = "sh start_servers.sh " + installDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + " " + port2 + " "
+					+ port1 + " " + installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/namenode-conf_" + nodeId;
 		}
 		QueryIOResponse response = executeCommand(dir, cmd);
 
@@ -1419,7 +1480,8 @@ public class NodeOperation {
 		// TODO stop through script
 		int port = getHDFSOverFTPServerPort(installDir, nodeId);
 		if (port == -1) {
-			return new QueryIOResponse(false, "Property " + QueryIOConstants.QUERYIO_HDFSOVERFTP_PORT + " is absent in Node " + nodeId + " configuration.");
+			return new QueryIOResponse(false, "Property " + QueryIOConstants.QUERYIO_HDFSOVERFTP_PORT
+					+ " is absent in Node " + nodeId + " configuration.");
 		}
 		String pid = null;
 		if (PlatformHandler.isWindows()) {
@@ -1447,18 +1509,21 @@ public class NodeOperation {
 		try {
 			process = Runtime.getRuntime().exec(cmd, null, new File(dir));
 			inputWriter = new StringWriter();
-			final StreamPumper spInput = new StreamPumper(new BufferedReader(new InputStreamReader(process.getInputStream())), inputWriter);
+			final StreamPumper spInput = new StreamPumper(
+					new BufferedReader(new InputStreamReader(process.getInputStream())), inputWriter);
 			spInput.start();
 			errorWriter = new StringWriter();
 			if (process.getErrorStream() != null) {
-				final StreamPumper spError = new StreamPumper(new BufferedReader(new InputStreamReader(process.getErrorStream())), errorWriter);
+				final StreamPumper spError = new StreamPumper(
+						new BufferedReader(new InputStreamReader(process.getErrorStream())), errorWriter);
 				spError.start();
 			}
 
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("Waiting ..");
 			int i = 0;
-			while (i < 60 && !inputWriter.toString().contains("STARTUP:SUCCESS") && !errorWriter.toString().contains("STARTUP:SUCCESS")) {
+			while (i < 60 && !inputWriter.toString().contains("STARTUP:SUCCESS")
+					&& !errorWriter.toString().contains("STARTUP:SUCCESS")) {
 				Thread.sleep(1000);
 				i++;
 				if (AppLogger.getLogger().isDebugEnabled())
@@ -1477,7 +1542,8 @@ public class NodeOperation {
 
 		} catch (final Exception ex) {
 			AppLogger.getLogger().fatal(ex.getMessage(), ex);
-			return new QueryIOResponse(true, QueryIOConstants.NAMENODE_SERVICES_STARTED_FAILED + "\n" + ex.getMessage());
+			return new QueryIOResponse(true,
+					QueryIOConstants.NAMENODE_SERVICES_STARTED_FAILED + "\n" + ex.getMessage());
 		} finally {
 			if (errorWriter != null) {
 				try {
@@ -1520,10 +1586,12 @@ public class NodeOperation {
 		try {
 			if (nodeType.equals(QueryIOConstants.NAMENODE)) {
 				Configuration conf = new Configuration(false);
-				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + "/hdfs-site.xml";
+				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NAMENODE
+						+ "-conf_" + nodeId + "/hdfs-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
-				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NAMENODE + "-conf_" + nodeId + "/core-site.xml";
+				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NAMENODE
+						+ "-conf_" + nodeId + "/core-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
 
@@ -1597,10 +1665,12 @@ public class NodeOperation {
 				}
 			} else if (nodeType.equals(QueryIOConstants.DATANODE)) {
 				Configuration conf = new Configuration(false);
-				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.DATANODE + "-conf_" + nodeId + "/hdfs-site.xml";
+				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.DATANODE
+						+ "-conf_" + nodeId + "/hdfs-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
-				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.DATANODE + "-conf_" + nodeId + "/core-site.xml";
+				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.DATANODE
+						+ "-conf_" + nodeId + "/core-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
 
@@ -1639,14 +1709,17 @@ public class NodeOperation {
 				}
 			} else if (nodeType.equals(QueryIOConstants.SECONDARYNAMENODE)) {
 				Configuration conf = new Configuration(false);
-				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.SECONDARYNAMENODE + "-conf_" + nodeId + "/hdfs-site.xml";
+				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/"
+						+ QueryIOConstants.SECONDARYNAMENODE + "-conf_" + nodeId + "/hdfs-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
-				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.SECONDARYNAMENODE + "-conf_" + nodeId + "/core-site.xml";
+				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.SECONDARYNAMENODE
+						+ "-conf_" + nodeId + "/core-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
 
-				String server = conf.get(DFSConfigKeys.DFS_NAMENODE_SECONDARY_HTTP_ADDRESS_KEY + "." + conf.get(DFSConfigKeys.DFS_NAMESERVICES));
+				String server = conf.get(DFSConfigKeys.DFS_NAMENODE_SECONDARY_HTTP_ADDRESS_KEY + "."
+						+ conf.get(DFSConfigKeys.DFS_NAMESERVICES));
 				try {
 					portList.add(Integer.parseInt(server.split(":")[1]));
 				} catch (Exception e) {
@@ -1667,10 +1740,12 @@ public class NodeOperation {
 				}
 			} else if (nodeType.equals(QueryIOConstants.JOURNALNODE)) {
 				Configuration conf = new Configuration(false);
-				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.JOURNALNODE + "-conf_" + nodeId + "/hdfs-site.xml";
+				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.JOURNALNODE
+						+ "-conf_" + nodeId + "/hdfs-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
-				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.JOURNALNODE + "-conf_" + nodeId + "/core-site.xml";
+				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.JOURNALNODE
+						+ "-conf_" + nodeId + "/core-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
 
@@ -1701,10 +1776,12 @@ public class NodeOperation {
 				}
 			} else if (nodeType.equals(QueryIOConstants.RESOURCEMANAGER)) {
 				Configuration conf = new Configuration(false);
-				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.RESOURCEMANAGER + "-conf_" + nodeId + "/yarn-site.xml";
+				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/"
+						+ QueryIOConstants.RESOURCEMANAGER + "-conf_" + nodeId + "/yarn-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
-				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.RESOURCEMANAGER + "-conf_" + nodeId + "/mapred-site.xml";
+				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.RESOURCEMANAGER
+						+ "-conf_" + nodeId + "/mapred-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
 
@@ -1771,10 +1848,12 @@ public class NodeOperation {
 				}
 			} else if (nodeType.equals(QueryIOConstants.NODEMANAGER)) {
 				Configuration conf = new Configuration(false);
-				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NODEMANAGER + "-conf_" + nodeId + "/yarn-site.xml";
+				String fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NODEMANAGER
+						+ "-conf_" + nodeId + "/yarn-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
-				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NODEMANAGER + "-conf_" + nodeId + "/mapred-site.xml";
+				fileName = installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/" + QueryIOConstants.NODEMANAGER
+						+ "-conf_" + nodeId + "/mapred-site.xml";
 				fis = new FileInputStream(new File(fileName));
 				conf.addResource(fis);
 
@@ -1954,10 +2033,9 @@ public class NodeOperation {
 		String installedHadoop = getInstalledHadoopDir(path);
 		AppLogger.getLogger().fatal("installedDir : " + installedHadoop);
 		if (!installedHadoop.isEmpty()) {
-			  if (installedHadoop.equals(QueryIOConstants.HADOOP_DIR_NAME)) {
+			if (installedHadoop.equals(QueryIOConstants.HADOOP_DIR_NAME)) {
 				return;
-			}
-			  else if (installedHadoop.equals(QueryIOConstants.HADOOP_2_4_0_DIR_NAME)) {
+			} else if (installedHadoop.equals(QueryIOConstants.HADOOP_2_4_0_DIR_NAME)) {
 				UpgradeHadoop2_4_0To2_7_0.startUpgrade(path);
 			} else if (installedHadoop.equals(QueryIOConstants.HADOOP_2_2_0_DIR_NAME)) {
 				UpgradeHadoop2_2_0To2_4_0.startUpgrade(path);
@@ -1968,7 +2046,7 @@ public class NodeOperation {
 			} else if (installedHadoop.equals(QueryIOConstants.HADOOP_2_7_0_DIR_NAME)) {
 				UpgradeHadoop2_7_0To2_7_1.startUpgrade(path);
 			}
-			  
+
 		}
 	}
 
@@ -2014,10 +2092,14 @@ public class NodeOperation {
 		String home = hostHome;
 		if (!hostHome.endsWith("/"))
 			hostHome = hostHome + "/";
-		String[] filePaths = { hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/start_agent.sh", hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/stop_agent.sh",
-				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/start_hadoop.sh", hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/start_hive.sh",
-				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/start_queryio_services.sh", hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/stop_hadoop.sh",
-				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/stop_hive.sh", hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/stop_queryio_services.sh",
+		String[] filePaths = { hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/start_agent.sh",
+				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/stop_agent.sh",
+				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/start_hadoop.sh",
+				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/start_hive.sh",
+				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/start_queryio_services.sh",
+				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/stop_hadoop.sh",
+				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/stop_hive.sh",
+				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/stop_queryio_services.sh",
 				hostHome + QueryIOConstants.SCRIPTS_DIR_NAME + "/upgrade_namenode.sh", };
 
 		for (String filePath : filePaths) {
@@ -2063,7 +2145,8 @@ public class NodeOperation {
 	public static void updateStartServerManually(String home) {
 		if (home.endsWith("/"))
 			home = home.substring(0, home.length() - 1);
-		String filePath = home + File.separator + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + File.separator + "bin/start_servers_manually.sh";
+		String filePath = home + File.separator + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + File.separator
+				+ "bin/start_servers_manually.sh";
 		File in = new File(filePath);
 		File out = new File(filePath);
 
@@ -2121,13 +2204,13 @@ public class NodeOperation {
 		// QueryIOConstants.HADOOP_DIR_NAME
 		if (AppLogger.getLogger().isDebugEnabled())
 			AppLogger.getLogger().debug("updateJavaHome() : " + javaHomePath);
-		
+
 		String extention = PlatformHandler.isWindows() ? ".cmd" : ".sh";
 		// TODO: Temp windows handling. Remove this line later.
-//		javaHomePath = "C:\\Program Files\\Java\\jdk1.7.0_11";
-//		if (javaHomePath.contains(" ") && !javaHomePath.startsWith("\"")) {
-//			javaHomePath = "\"" + javaHomePath + "\"";
-//		}
+		// javaHomePath = "C:\\Program Files\\Java\\jdk1.7.0_11";
+		// if (javaHomePath.contains(" ") && !javaHomePath.startsWith("\"")) {
+		// javaHomePath = "\"" + javaHomePath + "\"";
+		// }
 		String[] filePaths = {
 				// installDir + QueryIOConstants.HADOOP_DIR_NAME + "/bin/yarn",
 				installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/datanode-conf/hadoop-env" + extention,
@@ -2141,10 +2224,12 @@ public class NodeOperation {
 				installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/nodemanager-conf/mapred-env" + extention,
 				installDir + QueryIOConstants.HADOOP_DIR_NAME + "/etc/resourcemanager-conf/mapred-env" + extention,
 
-		// installDir + QueryIOConstants.HADOOP_DIR_NAME + "/bin/hdfs",
-		// installDir + QueryIOConstants.HADOOP_DIR_NAME + "/bin/mapred",
-		// installDir + QueryIOConstants.HADOOP_DIR_NAME + "/bin/rcc",
-		// installDir + QueryIOConstants.HADOOP_DIR_NAME + "/bin/hadoop"};
+				// installDir + QueryIOConstants.HADOOP_DIR_NAME + "/bin/hdfs",
+				// installDir + QueryIOConstants.HADOOP_DIR_NAME +
+				// "/bin/mapred",
+				// installDir + QueryIOConstants.HADOOP_DIR_NAME + "/bin/rcc",
+				// installDir + QueryIOConstants.HADOOP_DIR_NAME +
+				// "/bin/hadoop"};
 		};
 		List<String> filePathsList = Arrays.asList(filePaths);
 		filePaths = new String[filePathsList.size()];
@@ -2209,14 +2294,17 @@ public class NodeOperation {
 	public static void updateLoggerPropertiesFile(String installDir) {
 		if (AppLogger.getLogger().isDebugEnabled())
 			AppLogger.getLogger().debug("updateLoggerPropertiesFile()");
-		String propFilePath = installDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + "/webapps/hdfs-over-ftp/WEB-INF/log4j.properties";
+		String propFilePath = installDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME
+				+ "/webapps/hdfs-over-ftp/WEB-INF/log4j.properties";
 		updateLoggerPropertiesFile(propFilePath, "ftp", installDir, "ftpserver");
 
-		propFilePath = installDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + "/webapps/os3server/WEB-INF/os3log4j.properties";
+		propFilePath = installDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME
+				+ "/webapps/os3server/WEB-INF/os3log4j.properties";
 		updateLoggerPropertiesFile(propFilePath, "os3", installDir, "os3server");
 	}
 
-	private static void updateLoggerPropertiesFile(String propFilePath, String prefix, String homeDir, String logFileName) {
+	private static void updateLoggerPropertiesFile(String propFilePath, String prefix, String homeDir,
+			String logFileName) {
 		File in = new File(propFilePath);
 		File out = new File(propFilePath);
 
@@ -2231,7 +2319,8 @@ public class NodeOperation {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				if (line.contains("log4j.appender." + prefix + ".File")) {
-					lines.add("log4j.appender." + prefix + ".File=" + homeDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME + "/logs/" + logFileName + ".log");
+					lines.add("log4j.appender." + prefix + ".File=" + homeDir + QueryIOConstants.QUERYIOSERVERS_DIR_NAME
+							+ "/logs/" + logFileName + ".log");
 				} else {
 					lines.add(line);
 				}
@@ -2322,7 +2411,8 @@ public class NodeOperation {
 		}
 	}
 
-	public static QueryIOResponse updateHiveSiteConfiguration(String installDir, String nodeId, ArrayList property, ArrayList value, boolean refresh) {
+	public static QueryIOResponse updateHiveSiteConfiguration(String installDir, String nodeId, ArrayList property,
+			ArrayList value, boolean refresh) {
 		Configuration conf = new Configuration(false);
 
 		String fileName = installDir + QueryIOConstants.HIVE_DIR_NAME + "/conf/hive-site.xml";
@@ -2506,11 +2596,12 @@ public class NodeOperation {
 		} else {
 			cmd.append("bin/hdfs");
 		}
-		cmd.append(" --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc").append(separator).append("namenode-conf_").append(nodeId).append(separator)
+		cmd.append(" --config " + installDir + QueryIOConstants.HADOOP_DIR_NAME + separator + "etc").append(separator)
+				.append("namenode-conf_").append(nodeId).append(separator)
 				.append(" dfsadmin -refreshUserToGroupsMappings");
 		return executeHadoopCommand(cmd.toString(), installDir, true, 0, false, true);
 	}
-	
+
 	public static void main(String[] args) {
 		String[] ips = { "192.168.0.25", "192.168.0.22", "192.168.0.2" };
 		String[] rackNames = { "/default-rack", "/my-rack", "/your-rack" };

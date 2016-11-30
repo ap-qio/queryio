@@ -28,57 +28,45 @@ import java.io.OutputStream;
  * 
  * @author Exceed Consultancy Services
  */
-public class Ping
-{
+public class Ping {
 	/**
 	 * Method ping
 	 * 
 	 * @param targetIPAddress
 	 * @return average response time of remote machine
 	 */
-	public static int ping(final String pingPath, final String targetNameOrIPAddress) throws Exception
-	{
+	public static int ping(final String pingPath, final String targetNameOrIPAddress) throws Exception {
 		String str;
 		int iAvgRTT = -1;
 		Process ping = null;
 		BufferedReader in = null;
 		final String osName = System.getProperty("os.name");
 
-		try
-		{
-			if (osName.indexOf("Windows") != -1)
-			{
-				// try executing ping. IOException is thrown if ping is not in path
-				try
-				{
+		try {
+			if (osName.indexOf("Windows") != -1) {
+				// try executing ping. IOException is thrown if ping is not in
+				// path
+				try {
 					ping = Runtime.getRuntime().exec("ping " + targetNameOrIPAddress);
+				} catch (final IOException ioex) {
+					// TODO - SHOULD WE LOG THIS?
 				}
-				catch (final IOException ioex)
-				{
-					//TODO - SHOULD WE LOG THIS?
-				}
-				if (ping == null)
-				{
+				if (ping == null) {
 					ping = Runtime.getRuntime().exec(pingPath + File.pathSeparator + "ping " + targetNameOrIPAddress);
 				}
 
 				in = new BufferedReader(new InputStreamReader(ping.getInputStream()));
-				while ((str = in.readLine()) != null)
-				{
-					if (str.trim().startsWith("Unknown"))
-					{
+				while ((str = in.readLine()) != null) {
+					if (str.trim().startsWith("Unknown")) {
 						throw new RuntimeException("Error pinging to the target machine");
 					}
-					if (str.trim().startsWith("Packets"))
-					{
+					if (str.trim().startsWith("Packets")) {
 						final String lostPercent = str.substring(str.indexOf('(') + 1, str.indexOf('%'));
-						if (Integer.parseInt(lostPercent) == 100)
-						{
+						if (Integer.parseInt(lostPercent) == 100) {
 							throw new RuntimeException("Error pinging to the target machine");
 						}
 					}
-					if (str.trim().startsWith("Minimum"))
-					{
+					if (str.trim().startsWith("Minimum")) {
 						String sAvgRTT = str.substring(str.lastIndexOf("=") + 1);
 						// remove leading spaces
 						sAvgRTT = sAvgRTT.trim();
@@ -88,42 +76,32 @@ public class Ping
 						iAvgRTT = (int) Float.parseFloat(sAvgRTT);
 					}
 				}
-			}
-			else if (osName.indexOf("Linux") != -1)
-			{
-				// try executing ping. IOException is thrown if ping is not in path
-				try
-				{
+			} else if (osName.indexOf("Linux") != -1) {
+				// try executing ping. IOException is thrown if ping is not in
+				// path
+				try {
 					ping = Runtime.getRuntime().exec("ping -c 4 " + targetNameOrIPAddress);
-				}
-				catch (final IOException ioex)
-				{
-					//TODO - SHOULD WE LOG THIS?
+				} catch (final IOException ioex) {
+					// TODO - SHOULD WE LOG THIS?
 				}
 
-				if (ping == null)
-				{
+				if (ping == null) {
 					ping = Runtime.getRuntime().exec(pingPath + "/ping -c 4 " + targetNameOrIPAddress);
 				}
 				in = new BufferedReader(new InputStreamReader(ping.getInputStream()));
-				while ((str = in.readLine()) != null)
-				{
-					if (str.trim().startsWith("Unknown"))
-					{
+				while ((str = in.readLine()) != null) {
+					if (str.trim().startsWith("Unknown")) {
 						throw new RuntimeException("Error pinging to the target machine");
 					}
-					if (str.trim().endsWith("loss"))
-					{
+					if (str.trim().endsWith("loss")) {
 						str = str.substring(0, str.indexOf('%'));
 						final String lostPercent = str.substring(str.lastIndexOf(' ') + 1);
-						if (Integer.parseInt(lostPercent) == 100)
-						{
+						if (Integer.parseInt(lostPercent) == 100) {
 							throw new RuntimeException("Error pinging to the target machine");
 						}
 					}
 
-					if (str.trim().startsWith("round-trip ") || str.trim().startsWith("rtt "))
-					{
+					if (str.trim().startsWith("round-trip ") || str.trim().startsWith("rtt ")) {
 						final String sRTT = str.substring(str.lastIndexOf("=") + 1);
 						// remove min value
 						String sAvgRTT = sRTT.substring(sRTT.indexOf("/") + 1);
@@ -139,41 +117,32 @@ public class Ping
 					// String sAvgRTT = sRTT.substring(sRTT.indexOf("/") + 1);
 					// //remove max and mdev values
 					// sAvgRTT = sAvgRTT.substring(0, sAvgRTT.indexOf("/") - 1);
-					//	
+					//
 					// iAvgRTT = Integer.parseInt(sAvgRTT);
 					// }
 				}
-			}
-			else
-			{
-				// try executing ping. IOException is thrown if ping is not in path
-				try
-				{
+			} else {
+				// try executing ping. IOException is thrown if ping is not in
+				// path
+				try {
 					ping = Runtime.getRuntime().exec("ping  -s 32 -c 4 " + targetNameOrIPAddress);
-				}
-				catch (final IOException ioex)
-				{
-					//TODO - SHOULD WE LOG THIS?
+				} catch (final IOException ioex) {
+					// TODO - SHOULD WE LOG THIS?
 				}
 
-				if (ping == null)
-				{
+				if (ping == null) {
 					ping = Runtime.getRuntime().exec(pingPath + "/ping -s 32 -c 4 " + targetNameOrIPAddress);
 				}
 				in = new BufferedReader(new InputStreamReader(ping.getInputStream()));
-				while ((str = in.readLine()) != null)
-				{
-					if (str.trim().startsWith("no answer"))
-					{
+				while ((str = in.readLine()) != null) {
+					if (str.trim().startsWith("no answer")) {
 						throw new RuntimeException("Error pinging to the target machine");
 					}
-					if (str.trim().startsWith("ping: unknown"))
-					{
+					if (str.trim().startsWith("ping: unknown")) {
 						throw new RuntimeException("Error pinging to the target machine");
 					}
 
-					if (str.trim().startsWith("round-trip "))
-					{
+					if (str.trim().startsWith("round-trip ")) {
 						final String sRTT = str.substring(str.lastIndexOf("=") + 1);
 						// remove min value
 						String sAvgRTT = sRTT.substring(sRTT.indexOf("/") + 1);
@@ -189,55 +158,48 @@ public class Ping
 					// String sAvgRTT = sRTT.substring(sRTT.indexOf("/") + 1);
 					// //remove max value
 					// sAvgRTT = sAvgRTT.substring(0, sAvgRTT.indexOf("/") - 1);
-					//	
+					//
 					// iAvgRTT = Integer.parseInt(sAvgRTT);
 					// }
 				}
 			}
-		}
-		finally
-		{
-			if (in != null)
-			{
-			    try
-			    {
-			        in.close();
-			    }
-			    catch (Exception e) {}
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (Exception e) {
+				}
 			}
-			if (ping != null)
-			{
-			    InputStream err = ping.getErrorStream();
-			    try
-			    {
-			        err.close();
-			    }
-			    catch (Exception e) {}
-			    OutputStream out = ping.getOutputStream();
-			    try
-                {
-			        out.close();
-                }
-                catch (Exception e){}
+			if (ping != null) {
+				InputStream err = ping.getErrorStream();
+				try {
+					err.close();
+				} catch (Exception e) {
+				}
+				OutputStream out = ping.getOutputStream();
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
 				ping.destroy();
 			}
 		}
 		return iAvgRTT;
 	}
 
-//	public static void main(final String[] args) throws Exception
-//	{
-		// Output line from linux system
-		// String str = "4 packets transmitted, 0 packets received, 0% packet
-		// loss";
-		// str = str.substring(0, str.indexOf('%'));
-		// String lostPercent = str.substring(str.lastIndexOf(' ') + 1);
-		// if(Integer.parseInt(lostPercent) == 100)
-		// {
-		// throw new RuntimeException("Error pinging to the target machine");
-		// }
+	// public static void main(final String[] args) throws Exception
+	// {
+	// Output line from linux system
+	// String str = "4 packets transmitted, 0 packets received, 0% packet
+	// loss";
+	// str = str.substring(0, str.indexOf('%'));
+	// String lostPercent = str.substring(str.lastIndexOf(' ') + 1);
+	// if(Integer.parseInt(lostPercent) == 100)
+	// {
+	// throw new RuntimeException("Error pinging to the target machine");
+	// }
 
-		// System.out.println("In main");
-		// Ping.ping(null, "ecs_1");
-//	}
+	// System.out.println("In main");
+	// Ping.ping(null, "ecs_1");
+	// }
 }

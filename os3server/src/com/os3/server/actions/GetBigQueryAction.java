@@ -1,4 +1,5 @@
 package com.os3.server.actions;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,32 +17,35 @@ import com.queryio.common.DFSMap;
 public class GetBigQueryAction extends BaseAction {
 
 	protected final Logger logger = Logger.getLogger(getClass());
-	
-	public void execute(String operation, HttpServletRequest request, HttpServletResponse response, Map<String, Object> helperMap, int apiType) throws Exception {
-		String requestId =  (String)helperMap.get(OS3Constants.X_OS3_REQUESTID);
-		String token =  (String)request.getHeader(OS3Constants.AUTHORIZATION);
-		
+
+	public void execute(String operation, HttpServletRequest request, HttpServletResponse response,
+			Map<String, Object> helperMap, int apiType) throws Exception {
+		String requestId = (String) helperMap.get(OS3Constants.X_OS3_REQUESTID);
+		String token = (String) request.getHeader(OS3Constants.AUTHORIZATION);
+
 		String queryId = (String) request.getHeader(OS3Constants.X_OS3_BIGQUERYID);
-		
+
 		logger.debug("GetBigQuery request received");
-		
+
 		FileSystem dfs = null;
-		
+
 		if (token == null) {
 			ErrorResponseWriter.missingAuthorizationHeader(helperMap, response, null, requestId, apiType);
 			return;
 		}
-		
+
 		String username = DFSMap.getUserForToken(token);
-		if(username==null){
+		if (username == null) {
 			ErrorResponseWriter.invalidToken(helperMap, response, null, requestId, apiType);
 			return;
 		}
-		
-		if(queryId==null){
-			ResponseWriter.writeGetAllBigQueriesResponse(dfs, apiType, response, requestId, BigQueryManager.getAllBigQueries());
+
+		if (queryId == null) {
+			ResponseWriter.writeGetAllBigQueriesResponse(dfs, apiType, response, requestId,
+					BigQueryManager.getAllBigQueries());
 		} else {
-			ResponseWriter.writeGetAllBigQueriesResponse(dfs, apiType, response, requestId, BigQueryManager.getBigQuery(queryId, username));
+			ResponseWriter.writeGetAllBigQueriesResponse(dfs, apiType, response, requestId,
+					BigQueryManager.getBigQuery(queryId, username));
 		}
 	}
 }

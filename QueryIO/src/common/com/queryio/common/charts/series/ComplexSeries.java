@@ -23,37 +23,31 @@ import com.queryio.common.exporter.dstruct.Color;
  * 
  * @author Exceed Consultancy Services
  */
-public class ComplexSeries
-{
+public class ComplexSeries {
 	private final String name;
 
-	ComplexSeries(final String name)
-	{
+	ComplexSeries(final String name) {
 		this.name = name;
 	}
 
 	StartEndSeries[] startEndSeries = null;
 
-	void intialize(final int seriesCount)
-	{
+	void intialize(final int seriesCount) {
 		this.startEndSeries = new StartEndSeries[seriesCount];
 	}
 
 	public void intializeSeries(final int startEndSeriesIndex, final String name, final Color seriesColor,
-			final int capacity)
-	{
+			final int capacity) {
 		this.startEndSeries[startEndSeriesIndex] = new StartEndSeries(name);
 		this.startEndSeries[startEndSeriesIndex].setSeriesColor(seriesColor);
 		this.startEndSeries[startEndSeriesIndex].initialize(capacity);
 	}
 
-	public StartEndSeries getSeries(final int index)
-	{
+	public StartEndSeries getSeries(final int index) {
 		return this.startEndSeries[index];
 	}
 
-	public final int getSeriesCount()
-	{
+	public final int getSeriesCount() {
 		return this.startEndSeries.length;
 	}
 
@@ -62,8 +56,7 @@ public class ComplexSeries
 	 * 
 	 * @return
 	 */
-	public final String getName()
-	{
+	public final String getName() {
 		return this.name;
 	}
 

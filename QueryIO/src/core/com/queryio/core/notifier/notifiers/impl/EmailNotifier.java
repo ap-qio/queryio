@@ -37,8 +37,7 @@ import com.queryio.core.notifier.notifiers.INotifier;
  *
  * @author Exceed Consultancy Services
  */
-public abstract class EmailNotifier implements INotifier
-{
+public abstract class EmailNotifier implements INotifier {
 	private static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
 	private int iSmtpPort = 25;
 	private boolean secureProtocol = false;
@@ -50,7 +49,6 @@ public abstract class EmailNotifier implements INotifier
 	private String sSendersUserName = null;
 	private String sSendersPassword = null;
 	private int importanceLevel = 5;
-
 
 	private String sEmailSubject = null;
 	private String sMessageBody = null;
@@ -64,98 +62,78 @@ public abstract class EmailNotifier implements INotifier
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see com.appperfect.monitor.notifier.notifiers.INotifier#initPropertySet(com.appperfect.monitor.notifier.dstruct.PropertySet)
+	 * @see
+	 * com.appperfect.monitor.notifier.notifiers.INotifier#initPropertySet(com.
+	 * appperfect.monitor.notifier.dstruct.PropertySet)
 	 */
-	public void initPropertySet(final PropertySet propSet) throws Exception
-	{
+	public void initPropertySet(final PropertySet propSet) throws Exception {
 		LinkedList llValues = null;
 
-		if (propSet == null)
-		{
+		if (propSet == null) {
 			throw new RuntimeException(RM.getString("VALUE_NO_PROPERTIES_FOR_EMAIL_MSG")); //$NON-NLS-1$
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.SMTP_PORT);
-		if (llValues != null)
-		{
-			try
-			{
+		if (llValues != null) {
+			try {
 				this.setSmtpPort(Integer.parseInt((String) llValues.get(0)));
-			}
-			catch (final NumberFormatException e)
-			{
+			} catch (final NumberFormatException e) {
 				this.iSmtpPort = 25;
-//				AppLogger.getLogger().log(
-//						AppLogger.getPriority(AppLogger.FATAL), e.getMessage(), e); //$NON-NLS-1$
+				// AppLogger.getLogger().log(
+				// AppLogger.getPriority(AppLogger.FATAL), e.getMessage(), e);
+				// //$NON-NLS-1$
 			}
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.SMTP_ADDRESS);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setSmtpAddress((String) llValues.get(0));
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(RM.getString("VALUE_NO_SMTP_ADDRESS_FOR_EMAIL_MSG")); //$NON-NLS-1$
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.SMTP_SECURE);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setSecureProtocol(new Boolean((String) llValues.get(0)).booleanValue());
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.SENDER_ADDRESS);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setSendersEmailAddress((String) llValues.get(0));
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(RM.getString("VALUE_NO_SENDER_ADDRESS_FOR_EMAIL_MSG")); //$NON-NLS-1$
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.RECIPIENTS_ADDRESS);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setRecepientsAddresses(llValues);
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(RM.getString("VALUE_NO_RECEPIENT_ADDRESS_FOR_EMAIL_MSG")); //$NON-NLS-1$
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.SENDER_NAME);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setSendersName((String) llValues.get(0));
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(RM.getString("VALUE_NO_SENDERS_NAME_FOR_EMAIL_MSG")); //$NON-NLS-1$
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.AUTHREQD);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setAuthRequired(new Boolean((String) llValues.get(0)).booleanValue());
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.SENDER_USER_NAME);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setSendersUserName((String) llValues.get(0));
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.SENDER_PASSWORD);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setSendersPassword((String) llValues.get(0));
 		}
 		llValues = propSet.getProperty(INotifierConstants.NOTIF_PRIORITY);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setImportanceLevel(Integer.parseInt((String) llValues.get(0)));
 		}
 	}
@@ -163,28 +141,26 @@ public abstract class EmailNotifier implements INotifier
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see com.appperfect.monitor.notifier.notifiers.INotifier#notifyEvent(com.appperfect.monitor.notifier.common.NotificationEvent)
+	 * @see com.appperfect.monitor.notifier.notifiers.INotifier#notifyEvent(com.
+	 * appperfect.monitor.notifier.common.NotificationEvent)
 	 */
-	public String notifyEvent(final NotificationEvent event) throws Exception
-	{
+	public String notifyEvent(final NotificationEvent event) throws Exception {
 		this.setValue(event);
-		try
-		{
-			if (this.llRecepientsAddresses == null || this.llRecepientsAddresses.size() == 0)
-			{
+		try {
+			if (this.llRecepientsAddresses == null || this.llRecepientsAddresses.size() == 0) {
 				throw new RuntimeException("Email notification is called without any recepients."); //$NON-NLS-1$
 			}
 			final Logger logger = AppLogger.getLogger();
 			boolean debug = Level.DEBUG.isGreaterOrEqual(logger.getEffectiveLevel());
 			EmailSender.sendMessage(this, debug);
-			logger.log(AppLogger.getPriority(AppLogger.FATAL), "Email sent successfully, Subject of the mail: " + this.getEmailSubject()); //$NON-NLS-1$
-		}
-		catch (final Exception ex)
-		{
-//			AppLogger.getLogger().fatal("Error sending email", ex); //$NON-NLS-1$
+			logger.log(AppLogger.getPriority(AppLogger.FATAL),
+					"Email sent successfully, Subject of the mail: " + this.getEmailSubject()); //$NON-NLS-1$
+		} catch (final Exception ex) {
+			// AppLogger.getLogger().fatal("Error sending email", ex);
+			// //$NON-NLS-1$
 			throw ex;
 		}
-		
+
 		return null;
 	}
 
@@ -193,8 +169,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @param smtpAddress
 	 */
-	protected final void setSmtpAddress(final String smtpAddress)
-	{
+	protected final void setSmtpAddress(final String smtpAddress) {
 		this.sSmtpAddress = smtpAddress;
 	}
 
@@ -203,8 +178,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @return String
 	 */
-	protected final String getSmtpAddress()
-	{
+	protected final String getSmtpAddress() {
 		return this.sSmtpAddress;
 	}
 
@@ -213,8 +187,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @param smtpPort
 	 */
-	protected final void setSmtpPort(final int smtpPort)
-	{
+	protected final void setSmtpPort(final int smtpPort) {
 		this.iSmtpPort = smtpPort;
 	}
 
@@ -223,8 +196,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @return int
 	 */
-	protected final int getSmtpPort()
-	{
+	protected final int getSmtpPort() {
 		return this.iSmtpPort;
 	}
 
@@ -233,8 +205,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @param sendersEmailAddress
 	 */
-	protected final void setSendersEmailAddress(final String sendersEmailAddress)
-	{
+	protected final void setSendersEmailAddress(final String sendersEmailAddress) {
 		this.sSendersEmailAddress = sendersEmailAddress;
 	}
 
@@ -243,8 +214,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @return String
 	 */
-	protected final String getSendersEmailAddress()
-	{
+	protected final String getSendersEmailAddress() {
 		return this.sSendersEmailAddress;
 	}
 
@@ -253,8 +223,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @param recepientsAddresses
 	 */
-	protected final void setRecepientsAddresses(final LinkedList recepientsAddresses)
-	{
+	protected final void setRecepientsAddresses(final LinkedList recepientsAddresses) {
 		this.llRecepientsAddresses = recepientsAddresses;
 	}
 
@@ -263,8 +232,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @return LinkedList
 	 */
-	protected final LinkedList getRecepientsAddresses()
-	{
+	protected final LinkedList getRecepientsAddresses() {
 		return this.llRecepientsAddresses;
 	}
 
@@ -273,8 +241,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @param sendersName
 	 */
-	protected final void setSendersName(final String sendersName)
-	{
+	protected final void setSendersName(final String sendersName) {
 		this.sSendersName = sendersName;
 	}
 
@@ -283,8 +250,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @return String
 	 */
-	protected final String getSendersName()
-	{
+	protected final String getSendersName() {
 		return this.sSendersName;
 	}
 
@@ -293,8 +259,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @param sendersUserName
 	 */
-	protected final void setSendersUserName(final String sendersUserName)
-	{
+	protected final void setSendersUserName(final String sendersUserName) {
 		this.sSendersUserName = sendersUserName;
 	}
 
@@ -303,8 +268,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @return String
 	 */
-	protected final String getSendersUserName()
-	{
+	protected final String getSendersUserName() {
 		return this.sSendersUserName;
 	}
 
@@ -313,8 +277,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @param sendersPassword
 	 */
-	protected final void setSendersPassword(final String sendersPassword)
-	{
+	protected final void setSendersPassword(final String sendersPassword) {
 		this.sSendersPassword = sendersPassword;
 	}
 
@@ -323,8 +286,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @return String
 	 */
-	protected final String getSendersPassword()
-	{
+	protected final String getSendersPassword() {
 		return this.sSendersPassword;
 	}
 
@@ -333,8 +295,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @param emailSubject
 	 */
-	protected final void setEmailSubject(final String emailSubject)
-	{
+	protected final void setEmailSubject(final String emailSubject) {
 		this.sEmailSubject = emailSubject;
 	}
 
@@ -343,8 +304,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @return String
 	 */
-	protected final String getEmailSubject()
-	{
+	protected final String getEmailSubject() {
 		return this.sEmailSubject;
 	}
 
@@ -353,8 +313,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @param messageBody
 	 */
-	protected final void setMessageBody(final String messageBody)
-	{
+	protected final void setMessageBody(final String messageBody) {
 		this.sMessageBody = messageBody;
 	}
 
@@ -363,8 +322,7 @@ public abstract class EmailNotifier implements INotifier
 	 *
 	 * @return String
 	 */
-	protected final String getMessageBody()
-	{
+	protected final String getMessageBody() {
 		return this.sMessageBody;
 	}
 
@@ -383,42 +341,36 @@ public abstract class EmailNotifier implements INotifier
 	/**
 	 * @return
 	 */
-	public final boolean isAuthRequired()
-	{
+	public final boolean isAuthRequired() {
 		return this.bAuthRequired;
 	}
 
 	/**
 	 * @param b
 	 */
-	public void setAuthRequired(final boolean b)
-	{
+	public void setAuthRequired(final boolean b) {
 		this.bAuthRequired = b;
 	}
 
 	/**
 	 * @return
 	 */
-	public final ArrayList getAttachmentFiles()
-	{
+	public final ArrayList getAttachmentFiles() {
 		return this.attachmentFiles;
 	}
 
 	/**
 	 * @param list
 	 */
-	public void setAttachmentFiles(final ArrayList list)
-	{
+	public void setAttachmentFiles(final ArrayList list) {
 		this.attachmentFiles = list;
 	}
 
-	public boolean isSecureProtocol() 
-	{
+	public boolean isSecureProtocol() {
 		return secureProtocol;
 	}
 
-	public void setSecureProtocol(boolean secureProtocol) 
-	{
+	public void setSecureProtocol(boolean secureProtocol) {
 		this.secureProtocol = secureProtocol;
 	}
 

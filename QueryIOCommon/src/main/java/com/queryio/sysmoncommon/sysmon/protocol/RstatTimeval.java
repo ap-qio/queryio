@@ -28,24 +28,20 @@ import org.acplt.oncrpc.XdrEncodingStream;
  * @author Exceed Consultancy Services
  * 
  */
-public class RstatTimeval implements XdrAble
-{
+public class RstatTimeval implements XdrAble {
 	public int tv_sec;
 	public int tv_usec;
 
-	public RstatTimeval(final XdrDecodingStream xdr) throws OncRpcException, IOException
-	{
+	public RstatTimeval(final XdrDecodingStream xdr) throws OncRpcException, IOException {
 		this.xdrDecode(xdr);
 	}
 
-	public void xdrEncode(final XdrEncodingStream xdr) throws OncRpcException, IOException
-	{
+	public void xdrEncode(final XdrEncodingStream xdr) throws OncRpcException, IOException {
 		xdr.xdrEncodeInt(this.tv_sec);
 		xdr.xdrEncodeInt(this.tv_usec);
 	}
 
-	public void xdrDecode(final XdrDecodingStream xdr) throws OncRpcException, IOException
-	{
+	public void xdrDecode(final XdrDecodingStream xdr) throws OncRpcException, IOException {
 		this.tv_sec = xdr.xdrDecodeInt();
 		this.tv_usec = xdr.xdrDecodeInt();
 	}

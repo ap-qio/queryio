@@ -18,7 +18,8 @@ public class TagDataBean implements Writable {
 
 	private List<UserDefinedTag> tags;
 	private boolean updateSchema;
-    private boolean isError;
+	private boolean isError;
+
 	public TagDataBean() {
 	}
 
@@ -43,27 +44,25 @@ public class TagDataBean implements Writable {
 	public void setUpdateSchema(boolean updateSchema) {
 		this.updateSchema = updateSchema;
 	}
-	
-	public void setIsError(boolean isError)
-	{
-		this.isError = isError; 
+
+	public void setIsError(boolean isError) {
+		this.isError = isError;
 	}
-	
-	public boolean isError()
-	{
+
+	public boolean isError() {
 		return this.isError;
 	}
 
 	@Override
 	public void write(DataOutput out) throws IOException {
-		
-		int size = (tags==null)?0:tags.size();
+
+		int size = (tags == null) ? 0 : tags.size();
 		out.writeInt(size);
 		for (int i = 0; i < size; i++) {
 			UserDefinedTag tag = tags.get(i);
 			out.writeUTF(tag.getKey());
 			Object value = tag.getValue();
-			LOG.info("Value : "+value);
+			LOG.info("Value : " + value);
 			out.writeUTF(value.getClass().getCanonicalName());
 			if (value instanceof String) {
 				out.writeUTF(String.valueOf(value));
@@ -76,7 +75,7 @@ public class TagDataBean implements Writable {
 			} else if (value instanceof Integer) {
 				out.writeInt((Integer) value);
 			}
-			//out.writeUTF(type);
+			// out.writeUTF(type);
 		}
 		out.writeBoolean(this.updateSchema);
 		out.writeBoolean(this.isError);

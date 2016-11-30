@@ -30,25 +30,23 @@ import com.queryio.core.notifier.common.NotificationEvent;
  * 
  * @author Exceed Consultancy Services
  */
-public class MCEmailNotifier extends EmailNotifier
-{
+public class MCEmailNotifier extends EmailNotifier {
 	public static final String EMAIL_SUBJECT = "Important - MonitorConsole Alert";
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.appperfect.monitor.notifier.notifiers.impl.email.EmailNotifier#setValue(com.appperfect.monitor.notifier.common.NotificationEvent)
+	 * @see com.appperfect.monitor.notifier.notifiers.impl.email.EmailNotifier#
+	 * setValue(com.appperfect.monitor.notifier.common.NotificationEvent)
 	 */
-	public void setValue(final NotificationEvent event) throws Exception
-	{
-		String subject = event.containsProperty(INotifierConstants.ALERT_SUBJECT) ? 
-			(String) event.getProperty(INotifierConstants.ALERT_SUBJECT):EMAIL_SUBJECT;
+	public void setValue(final NotificationEvent event) throws Exception {
+		String subject = event.containsProperty(INotifierConstants.ALERT_SUBJECT)
+				? (String) event.getProperty(INotifierConstants.ALERT_SUBJECT) : EMAIL_SUBJECT;
 		String message = (String) event.getProperty(INotifierConstants.ALERT_MESSAGE);
 		this.setEmailSubject(subject);
 		this.setMessageBody(message);
-		if (event.containsProperty(INotifierConstants.MESSAGE_ATTACHMENTS))
-		{
-			this.setAttachmentFiles((ArrayList)event.getProperty(INotifierConstants.MESSAGE_ATTACHMENTS));
+		if (event.containsProperty(INotifierConstants.MESSAGE_ATTACHMENTS)) {
+			this.setAttachmentFiles((ArrayList) event.getProperty(INotifierConstants.MESSAGE_ATTACHMENTS));
 		}
 	}
 }

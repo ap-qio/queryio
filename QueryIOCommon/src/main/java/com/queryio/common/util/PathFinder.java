@@ -23,10 +23,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 
-import com.queryio.common.util.IntHashMap;
-import com.queryio.common.util.PlatformHandler;
-
-
 /**
  * This class provides static method to find Product Home, Images home etc. from
  * the URL provided
@@ -34,44 +30,37 @@ import com.queryio.common.util.PlatformHandler;
  * @author Exceed Consultancy Services
  * @version 1.0
  */
-public class PathFinder
-{
+public class PathFinder {
 	private static String sDevSuiteHome; // To Store Product Path
 	private static String sDevSuiteUIHome; // To Store Devsuite UI Path
 	private static String sImagesHome; // To Store Images Path
 	private static String sLibHome; // To Store Lib folder path
 	private static String sLastOpenedFolder; // To Store the Last Open Folder
-//	private static FilenameFilter jarFilter;
+	// private static FilenameFilter jarFilter;
 
-//	static
-//	{
-//		jarFilter = new FilenameFilter()
-//		{
-//			public boolean accept(final File dir, final String name)
-//			{
-//				return name.endsWith(".jar"); //$NON-NLS-1$
-//			}
-//		};
-//	}
+	// static
+	// {
+	// jarFilter = new FilenameFilter()
+	// {
+	// public boolean accept(final File dir, final String name)
+	// {
+	// return name.endsWith(".jar"); //$NON-NLS-1$
+	// }
+	// };
+	// }
 
-	private static void checkXMLDriver()
-	{
+	private static void checkXMLDriver() {
 		final String xmlDriver = System.getProperty("org.xml.sax.driver"); //$NON-NLS-1$
-		if (xmlDriver == null)
-		{
+		if (xmlDriver == null) {
 			System.setProperty("org.xml.sax.driver", "org.apache.xerces.parsers.SAXParser"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
-	public static void setPath(final String path, final boolean ui)
-	{
+	public static void setPath(final String path, final boolean ui) {
 		checkXMLDriver();
-		if (ui)
-		{
+		if (ui) {
 			sDevSuiteUIHome = path;
-		}
-		else
-		{
+		} else {
 			sDevSuiteHome = path;
 			sImagesHome = sDevSuiteHome + "images" + File.separatorChar;//$NON-NLS-1$
 			sLibHome = sDevSuiteHome + "lib";//$NON-NLS-1$
@@ -80,7 +69,6 @@ public class PathFinder
 			System.setProperty("jasper.reports.compile.class.path", cpDir); //$NON-NLS-1$
 		}
 	}
-		
 
 	/*
 	 * public static void setReportsPath(String path, int productType, boolean
@@ -88,12 +76,12 @@ public class PathFinder
 	 * sCAReportsHome = path; break; } case IProductConstants.UNIT_TESTER: {
 	 * sUTReportsHome = path; break; } case IProductConstants.JAVA_PROFILER: {
 	 * sJPReportsHome = path; break; } case IProductConstants.LOAD_TESTER: {
-	 * sLTReportsHome = path; break; } case IProductConstants.FUNCTIONAL_TESTER: {
-	 * sFTReportsHome = path; break; } case IProductConstants.CODE_COVERAGE: {
-	 * sCCReportsHome = path; break; } case IProductConstants.AGENTLESS_MONITOR: {
-	 * sAMReportsHome = path; break; } case
-	 * IProductConstants.WIN_FUNCTIONAL_TESTER: { sWTReportsHome = path; break; }
-	 * default: { break; } } }
+	 * sLTReportsHome = path; break; } case IProductConstants.FUNCTIONAL_TESTER:
+	 * { sFTReportsHome = path; break; } case IProductConstants.CODE_COVERAGE: {
+	 * sCCReportsHome = path; break; } case IProductConstants.AGENTLESS_MONITOR:
+	 * { sAMReportsHome = path; break; } case
+	 * IProductConstants.WIN_FUNCTIONAL_TESTER: { sWTReportsHome = path; break;
+	 * } default: { break; } } }
 	 */
 
 	/**
@@ -102,8 +90,7 @@ public class PathFinder
 	 * @param url
 	 * @return String
 	 */
-	public static final String getProductPath(final URL url)
-	{
+	public static final String getProductPath(final URL url) {
 		String sPath = null;
 		/*
 		 * Block to check whether the XML driver property is set or not If not
@@ -111,45 +98,35 @@ public class PathFinder
 		 */
 		checkXMLDriver();
 
-		try
-		{
-			if (url != null)
-			{
+		try {
+			if (url != null) {
 				String sProductpath = url.getFile();
 				if (url.getProtocol().equalsIgnoreCase("jar")) //$NON-NLS-1$
 				{
 					int iStartIndex = 0;
-					iStartIndex = PlatformHandler.isWindows() ? (sProductpath.indexOf(":/") + 2) : (sProductpath.indexOf(":") + 1); //$NON-NLS-1$ //$NON-NLS-2$
+					iStartIndex = PlatformHandler.isWindows() ? (sProductpath.indexOf(":/") + 2) //$NON-NLS-1$
+							: (sProductpath.indexOf(":") + 1); //$NON-NLS-1$
 					sProductpath = sProductpath.substring(iStartIndex, sProductpath.indexOf("!/")); //$NON-NLS-1$ //$NON-NLS-2$
 					sProductpath = new File(sProductpath).getParent();
 					sProductpath = new File(sProductpath).getCanonicalPath();
-				}
-				else
-				{
+				} else {
 					final File f = new File(sProductpath, "../../../.."); //$NON-NLS-1$
 					sProductpath = f.getPath();
-					try
-					{
+					try {
 						sProductpath = f.getCanonicalPath();
-					}
-					catch (final Exception ex)
-					{
+					} catch (final Exception ex) {
 						sProductpath = f.getAbsolutePath();
 					}
 				}
 				sPath = StaticUtilities.urlDecode(sProductpath); // ,
 				// "UTF-8");
 				// //$NON-NLS-1$
-			}
-			else
-			{
+			} else {
 				sPath = PlatformHandler.USER_DIR + File.separatorChar;// Set
 				// Product
 				// Home
 			}
-		}
-		catch (final Exception e)
-		{
+		} catch (final Exception e) {
 			sPath = PlatformHandler.USER_DIR + File.separatorChar;
 		}
 		return sPath;
@@ -160,13 +137,11 @@ public class PathFinder
 	 * 
 	 * @return String
 	 */
-	public static final String getDevSuiteHome()
-	{
+	public static final String getDevSuiteHome() {
 		return sDevSuiteHome;
 	}
-	
-	public static final String getDevSuiteHomeWithForwardSlash()
-	{
+
+	public static final String getDevSuiteHomeWithForwardSlash() {
 		return StaticUtilities.replaceAll(sDevSuiteHome, '\\', '/');
 	}
 
@@ -175,8 +150,7 @@ public class PathFinder
 	 * 
 	 * @return String
 	 */
-	public static final String getImagesHome()
-	{
+	public static final String getImagesHome() {
 		return sImagesHome;
 	}
 
@@ -185,83 +159,77 @@ public class PathFinder
 	 * 
 	 * @return devsuite\lib folder path
 	 */
-	public static final String getLibHome(final boolean bAddEndFileSeparator)
-	{
-		if (bAddEndFileSeparator && !sLibHome.endsWith(File.separator))
-		{
+	public static final String getLibHome(final boolean bAddEndFileSeparator) {
+		if (bAddEndFileSeparator && !sLibHome.endsWith(File.separator)) {
 			return sLibHome + File.separatorChar;
 		}
 		return sLibHome;
 	}
-	
-	public static final String getLibHome(final int productType, final boolean bAddEndFileSeparator)
-	{
+
+	public static final String getLibHome(final int productType, final boolean bAddEndFileSeparator) {
 		final File stdHome = new File(getProductHome(productType));
 		File tsCoreHome;
-		if (stdHome.getName().indexOf('_') != -1) // will not be called in development system
+		if (stdHome.getName().indexOf('_') != -1) // will not be called in
+													// development system
 		{
-			tsCoreHome = new File(stdHome.getParentFile(), ServiceUtilities.DIR_TEST_STUDIO + stdHome.getName().substring(stdHome.getName().indexOf('_')));
-			
-		}
-		else
-		{
+			tsCoreHome = new File(stdHome.getParentFile(),
+					ServiceUtilities.DIR_TEST_STUDIO + stdHome.getName().substring(stdHome.getName().indexOf('_')));
+
+		} else {
 			tsCoreHome = new File(stdHome.getParentFile(), ServiceUtilities.DIR_TEST_STUDIO);
 		}
 		String libHome = new File(tsCoreHome, "lib").getAbsolutePath();
-		if (bAddEndFileSeparator && !libHome.endsWith(File.separator))
-		{
+		if (bAddEndFileSeparator && !libHome.endsWith(File.separator)) {
 			return libHome + File.separatorChar;
 		}
 		return libHome;
 	}
-	
 
-	public static final String getProductUIHome(final int productType)
-	{
+	public static final String getProductUIHome(final int productType) {
 		String sProductHome = sDevSuiteUIHome;
-//		switch (productType)
-//		{
-//			case IProductConstants.CODE_ANALYZER:
-//			{
-//				sProductHome = sCAProductUIHome;
-//				break;
-//			}
-//			case IProductConstants.UNIT_TESTER:
-//			{
-//				sProductHome = sUTProductUIHome;
-//				break;
-//			}
-//			case IProductConstants.JAVA_PROFILER:
-//			{
-//				sProductHome = sJPProductUIHome;
-//				break;
-//			}
-//			case IProductConstants.LOAD_TESTER:
-//			{
-//				sProductHome = sLTProductUIHome;
-//				break;
-//			}
-//			case IProductConstants.FUNCTIONAL_TESTER:
-//			{
-//				sProductHome = sFTProductUIHome;
-//				break;
-//			}
-//			case IProductConstants.CODE_COVERAGE:
-//			{
-//				sProductHome = sCCProductUIHome;
-//				break;
-//			}
-//			case IProductConstants.AGENTLESS_MONITOR:
-//			{
-//				sProductHome = sAMProductUIHome;
-//				break;
-//			}
-//			case IProductConstants.APP_TEST:
-//			{
-//				sProductHome = sWTProductUIHome;
-//				break;
-//			}
-//		}
+		// switch (productType)
+		// {
+		// case IProductConstants.CODE_ANALYZER:
+		// {
+		// sProductHome = sCAProductUIHome;
+		// break;
+		// }
+		// case IProductConstants.UNIT_TESTER:
+		// {
+		// sProductHome = sUTProductUIHome;
+		// break;
+		// }
+		// case IProductConstants.JAVA_PROFILER:
+		// {
+		// sProductHome = sJPProductUIHome;
+		// break;
+		// }
+		// case IProductConstants.LOAD_TESTER:
+		// {
+		// sProductHome = sLTProductUIHome;
+		// break;
+		// }
+		// case IProductConstants.FUNCTIONAL_TESTER:
+		// {
+		// sProductHome = sFTProductUIHome;
+		// break;
+		// }
+		// case IProductConstants.CODE_COVERAGE:
+		// {
+		// sProductHome = sCCProductUIHome;
+		// break;
+		// }
+		// case IProductConstants.AGENTLESS_MONITOR:
+		// {
+		// sProductHome = sAMProductUIHome;
+		// break;
+		// }
+		// case IProductConstants.APP_TEST:
+		// {
+		// sProductHome = sWTProductUIHome;
+		// break;
+		// }
+		// }
 		return sProductHome;
 	}
 
@@ -271,52 +239,51 @@ public class PathFinder
 	 * @param productType
 	 * @return
 	 */
-	public static final String getProductHome(final int productType)
-	{
+	public static final String getProductHome(final int productType) {
 		String sProductHome = null;
-//		switch (productType)
-//		{
-//			case IProductConstants.CODE_ANALYZER:
-//			{
-//				sProductHome = sCAProductHome;
-//				break;
-//			}
-//			case IProductConstants.UNIT_TESTER:
-//			{
-//				sProductHome = sUTProductHome;
-//				break;
-//			}
-//			case IProductConstants.JAVA_PROFILER:
-//			{
-//				sProductHome = sJPProductHome;
-//				break;
-//			}
-//			case IProductConstants.LOAD_TESTER:
-//			{
-//				sProductHome = sLTProductHome;
-//				break;
-//			}
-//			case IProductConstants.FUNCTIONAL_TESTER:
-//			{
-//				sProductHome = sFTProductHome;
-//				break;
-//			}
-//			case IProductConstants.CODE_COVERAGE:
-//			{
-//				sProductHome = sCCProductHome;
-//				break;
-//			}
-//			case IProductConstants.AGENTLESS_MONITOR:
-//			{
-//				sProductHome = sAMProductHome;
-//				break;
-//			}
-//			case IProductConstants.APP_TEST:
-//			{
-//				sProductHome = sWTProductHome;
-//				break;
-//			}
-//		}
+		// switch (productType)
+		// {
+		// case IProductConstants.CODE_ANALYZER:
+		// {
+		// sProductHome = sCAProductHome;
+		// break;
+		// }
+		// case IProductConstants.UNIT_TESTER:
+		// {
+		// sProductHome = sUTProductHome;
+		// break;
+		// }
+		// case IProductConstants.JAVA_PROFILER:
+		// {
+		// sProductHome = sJPProductHome;
+		// break;
+		// }
+		// case IProductConstants.LOAD_TESTER:
+		// {
+		// sProductHome = sLTProductHome;
+		// break;
+		// }
+		// case IProductConstants.FUNCTIONAL_TESTER:
+		// {
+		// sProductHome = sFTProductHome;
+		// break;
+		// }
+		// case IProductConstants.CODE_COVERAGE:
+		// {
+		// sProductHome = sCCProductHome;
+		// break;
+		// }
+		// case IProductConstants.AGENTLESS_MONITOR:
+		// {
+		// sProductHome = sAMProductHome;
+		// break;
+		// }
+		// case IProductConstants.APP_TEST:
+		// {
+		// sProductHome = sWTProductHome;
+		// break;
+		// }
+		// }
 		return sProductHome;
 	}
 
@@ -326,52 +293,51 @@ public class PathFinder
 	 * @param productType
 	 * @return
 	 */
-	public static final String getReportsHome(final int productType)
-	{
+	public static final String getReportsHome(final int productType) {
 		String sReportsHome = null;
-//		switch (productType)
-//		{
-//			case IProductConstants.CODE_ANALYZER:
-//			{
-//				sReportsHome = sCAReportsHome;
-//				break;
-//			}
-//			case IProductConstants.UNIT_TESTER:
-//			{
-//				sReportsHome = sUTReportsHome;
-//				break;
-//			}
-//			case IProductConstants.JAVA_PROFILER:
-//			{
-//				sReportsHome = sJPReportsHome;
-//				break;
-//			}
-//			case IProductConstants.LOAD_TESTER:
-//			{
-//				sReportsHome = sLTReportsHome;
-//				break;
-//			}
-//			case IProductConstants.FUNCTIONAL_TESTER:
-//			{
-//				sReportsHome = sFTReportsHome;
-//				break;
-//			}
-//			case IProductConstants.CODE_COVERAGE:
-//			{
-//				sReportsHome = sCCReportsHome;
-//				break;
-//			}
-//			case IProductConstants.AGENTLESS_MONITOR:
-//			{
-//				sReportsHome = sAMReportsHome;
-//				break;
-//			}
-//			case IProductConstants.APP_TEST:
-//			{
-//				sReportsHome = sWTReportsHome;
-//				break;
-//			}
-//		}
+		// switch (productType)
+		// {
+		// case IProductConstants.CODE_ANALYZER:
+		// {
+		// sReportsHome = sCAReportsHome;
+		// break;
+		// }
+		// case IProductConstants.UNIT_TESTER:
+		// {
+		// sReportsHome = sUTReportsHome;
+		// break;
+		// }
+		// case IProductConstants.JAVA_PROFILER:
+		// {
+		// sReportsHome = sJPReportsHome;
+		// break;
+		// }
+		// case IProductConstants.LOAD_TESTER:
+		// {
+		// sReportsHome = sLTReportsHome;
+		// break;
+		// }
+		// case IProductConstants.FUNCTIONAL_TESTER:
+		// {
+		// sReportsHome = sFTReportsHome;
+		// break;
+		// }
+		// case IProductConstants.CODE_COVERAGE:
+		// {
+		// sReportsHome = sCCReportsHome;
+		// break;
+		// }
+		// case IProductConstants.AGENTLESS_MONITOR:
+		// {
+		// sReportsHome = sAMReportsHome;
+		// break;
+		// }
+		// case IProductConstants.APP_TEST:
+		// {
+		// sReportsHome = sWTReportsHome;
+		// break;
+		// }
+		// }
 		return sReportsHome;
 	}
 
@@ -379,52 +345,51 @@ public class PathFinder
 	 * @param productType
 	 * @return
 	 */
-	public static final String getOutputHome(final int productType)
-	{
+	public static final String getOutputHome(final int productType) {
 		String sOutputHome = null;
-//		switch (productType)
-//		{
-//			case IProductConstants.CODE_ANALYZER:
-//			{
-//				sOutputHome = sCAOutputHome;
-//				break;
-//			}
-//			case IProductConstants.UNIT_TESTER:
-//			{
-//				sOutputHome = sUTOutputHome;
-//				break;
-//			}
-//			case IProductConstants.JAVA_PROFILER:
-//			{
-//				sOutputHome = sJPOutputHome;
-//				break;
-//			}
-//			case IProductConstants.LOAD_TESTER:
-//			{
-//				sOutputHome = sLTOutputHome;
-//				break;
-//			}
-//			case IProductConstants.FUNCTIONAL_TESTER:
-//			{
-//				sOutputHome = sFTOutputHome;
-//				break;
-//			}
-//			case IProductConstants.CODE_COVERAGE:
-//			{
-//				sOutputHome = sCCOutputHome;
-//				break;
-//			}
-//			case IProductConstants.AGENTLESS_MONITOR:
-//			{
-//				sOutputHome = sAMOutputHome;
-//				break;
-//			}
-//			case IProductConstants.APP_TEST:
-//			{
-//				sOutputHome = sWTOutputHome;
-//				break;
-//			}
-//		}
+		// switch (productType)
+		// {
+		// case IProductConstants.CODE_ANALYZER:
+		// {
+		// sOutputHome = sCAOutputHome;
+		// break;
+		// }
+		// case IProductConstants.UNIT_TESTER:
+		// {
+		// sOutputHome = sUTOutputHome;
+		// break;
+		// }
+		// case IProductConstants.JAVA_PROFILER:
+		// {
+		// sOutputHome = sJPOutputHome;
+		// break;
+		// }
+		// case IProductConstants.LOAD_TESTER:
+		// {
+		// sOutputHome = sLTOutputHome;
+		// break;
+		// }
+		// case IProductConstants.FUNCTIONAL_TESTER:
+		// {
+		// sOutputHome = sFTOutputHome;
+		// break;
+		// }
+		// case IProductConstants.CODE_COVERAGE:
+		// {
+		// sOutputHome = sCCOutputHome;
+		// break;
+		// }
+		// case IProductConstants.AGENTLESS_MONITOR:
+		// {
+		// sOutputHome = sAMOutputHome;
+		// break;
+		// }
+		// case IProductConstants.APP_TEST:
+		// {
+		// sOutputHome = sWTOutputHome;
+		// break;
+		// }
+		// }
 		return sOutputHome;
 	}
 
@@ -434,19 +399,15 @@ public class PathFinder
 	 * @param fileName
 	 * @return
 	 */
-	public static String getAbsolutePath(String fileName, final int productType)
-	{
-		try
-		{
+	public static String getAbsolutePath(String fileName, final int productType) {
+		try {
 			if ((fileName != null) && (fileName.length() > 0) && (fileName.charAt(0) == '.')
-					&& (getProductHome(productType) != null)) //$NON-NLS-1$
+					&& (getProductHome(productType) != null)) // $NON-NLS-1$
 			{
 				fileName = fileName.substring(2, fileName.length());
 				fileName = new File(getProductHome(productType), fileName).getCanonicalPath();
 			}
-		}
-		catch (final Exception e)
-		{
+		} catch (final Exception e) {
 			fileName = new File(getProductHome(productType), fileName).getAbsolutePath();
 		}
 		return fileName;
@@ -458,23 +419,17 @@ public class PathFinder
 	 * @param fileName
 	 * @return String
 	 */
-	public static String getRelativePath(String fileName, final int productType)
-	{
-		if ((fileName != null) && (fileName.length() > 0))
-		{
-			if (fileName.charAt(0) != '.') //$NON-NLS-1$
+	public static String getRelativePath(String fileName, final int productType) {
+		if ((fileName != null) && (fileName.length() > 0)) {
+			if (fileName.charAt(0) != '.') // $NON-NLS-1$
 			{
-				if (fileName.startsWith(getProductHome(productType)))
-				{
-					final int pathIndex = getProductHome(productType).endsWith(File.separator) ? (getProductHome(
-							productType).length() - 1) : getProductHome(productType).length();
-					if (fileName.charAt(pathIndex) == File.separatorChar)
-					{
+				if (fileName.startsWith(getProductHome(productType))) {
+					final int pathIndex = getProductHome(productType).endsWith(File.separator)
+							? (getProductHome(productType).length() - 1) : getProductHome(productType).length();
+					if (fileName.charAt(pathIndex) == File.separatorChar) {
 						fileName = fileName.substring(pathIndex);
-						if ((fileName.length() > 1) && (fileName.charAt(1) == '.'))
-						{
-							if ((fileName.length() > 2) && (fileName.charAt(2) != '.'))
-							{
+						if ((fileName.length() > 1) && (fileName.charAt(1) == '.')) {
+							if ((fileName.length() > 2) && (fileName.charAt(2) != '.')) {
 								return fileName.substring(1);
 							}
 						}
@@ -493,8 +448,7 @@ public class PathFinder
 	 * @param origPath
 	 * @return
 	 */
-	public static String getSystemSpecificEscapedPath(final String origPath)
-	{
+	public static String getSystemSpecificEscapedPath(final String origPath) {
 		return ServiceUtilities.getSystemSpecificEscapedPath(origPath, PlatformHandler.isWindows());
 	}
 
@@ -506,8 +460,7 @@ public class PathFinder
 	 * @param bForWindows
 	 * @return
 	 */
-	public static String getSystemSpecificEscapedPath(final String origPath, final boolean bForWindows)
-	{
+	public static String getSystemSpecificEscapedPath(final String origPath, final boolean bForWindows) {
 		return ServiceUtilities.getSystemSpecificEscapedPath(origPath, bForWindows);
 		/*
 		 * String path = null; if(bForWindows) { if (origPath.endsWith("\\"))
@@ -526,8 +479,7 @@ public class PathFinder
 	 * 
 	 * @return
 	 */
-	public static String getLastOpenedFolder()
-	{
+	public static String getLastOpenedFolder() {
 		return sLastOpenedFolder;
 	}
 
@@ -536,8 +488,7 @@ public class PathFinder
 	 * 
 	 * @param bString
 	 */
-	public static void setLastOpenedFolder(final String bString)
-	{
+	public static void setLastOpenedFolder(final String bString) {
 		sLastOpenedFolder = bString;
 	}
 
@@ -548,8 +499,7 @@ public class PathFinder
 	 * @param jdkPath
 	 * @return
 	 */
-	public static String getJrePath(final String jdkPath)
-	{
+	public static String getJrePath(final String jdkPath) {
 		return ServiceUtilities.getJrePath(jdkPath);
 		// if(PlatformHandler.isMacOS())
 		// {
@@ -574,34 +524,26 @@ public class PathFinder
 	 * @param JDKHome
 	 * @return
 	 */
-	public static String getBootClassPath(final String JDKHome)
-	{
+	public static String getBootClassPath(final String JDKHome) {
 		// TODO: Don't know what forms the bootclasspath on Mac OS X
 		// if it is /Library/Java/Home/lib then following code will work fine
 		// else we need to change it to
 		// new File(PathFinder.getJrePath(JDKHome), "../Classes");
 		File jreLibFolder = null;
-		if (PlatformHandler.isMacOS())
-		{
+		if (PlatformHandler.isMacOS()) {
 			jreLibFolder = new File(PathFinder.getJrePath(JDKHome), ".." + File.separatorChar + "Classes"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else
-		{
+		} else {
 			jreLibFolder = new File(PathFinder.getJrePath(JDKHome), "lib"); //$NON-NLS-1$
 		}
 		final StringBuffer sb = new StringBuffer();
 
-		final File[] libFiles = jreLibFolder.listFiles(new FilenameFilter()
-		{
-			public boolean accept(File dir, String name)
-			{
+		final File[] libFiles = jreLibFolder.listFiles(new FilenameFilter() {
+			public boolean accept(File dir, String name) {
 				return name.endsWith(".jar"); //$NON-NLS-1$
 			}
 		});
-		if (libFiles != null)
-		{
-			for (int i = 0; i < libFiles.length; i++)
-			{
+		if (libFiles != null) {
+			for (int i = 0; i < libFiles.length; i++) {
 				final File file = libFiles[i];
 				sb.append(file.getAbsolutePath());
 				sb.append(File.pathSeparatorChar);
@@ -622,8 +564,7 @@ public class PathFinder
 	 * @see #setEclipseHome(String)
 	 * @return
 	 */
-	public static String getEclipseHome()
-	{
+	public static String getEclipseHome() {
 		return ECLIPSE_HOME;
 	}
 
@@ -632,23 +573,17 @@ public class PathFinder
 	 * 
 	 * @return
 	 */
-	public static void setEclipseHome(final String eclipseHome)
-	{
+	public static void setEclipseHome(final String eclipseHome) {
 		ECLIPSE_HOME = eclipseHome;
 	}
 
-	public static String resolveLocation(String location)
-	{
-		if (PlatformHandler.isWindows() && (location.charAt(0) == '/'))
-		{
+	public static String resolveLocation(String location) {
+		if (PlatformHandler.isWindows() && (location.charAt(0) == '/')) {
 			location = location.substring(1);
 		}
-		try
-		{
+		try {
 			location = new File(location).getCanonicalPath() + File.separatorChar;
-		}
-		catch (final IOException ex)
-		{
+		} catch (final IOException ex) {
 			location = new File(location).getAbsolutePath() + File.separatorChar;
 		}
 		return location;
@@ -658,30 +593,21 @@ public class PathFinder
 	 * Copy of this method exists in JREFunctions. Please keep both copies in
 	 * sync
 	 */
-	public static String getClassPathEntry(final String parent, final String filter, final String jarName)
-	{
+	public static String getClassPathEntry(final String parent, final String filter, final String jarName) {
 		final File folder = new File(parent);
 
-		if (folder.exists())
-		{
-			final File[] files = folder.listFiles(new FileFilter()
-			{
-				public boolean accept(File pathname)
-				{
+		if (folder.exists()) {
+			final File[] files = folder.listFiles(new FileFilter() {
+				public boolean accept(File pathname) {
 					return (pathname.getName().startsWith(filter));
 				}
 			});
-			for (int i = 0; i < files.length; i++)
-			{
-				if (files[i].isFile())
-				{
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isFile()) {
 					return files[i].getAbsolutePath();
-				}
-				else if (jarName != null)
-				{
+				} else if (jarName != null) {
 					final File file = searchFile(files[i], jarName);
-					if (file != null)
-					{
+					if (file != null) {
 						return file.getAbsolutePath();
 					}
 				}
@@ -694,20 +620,14 @@ public class PathFinder
 	 * Copy of this method exists in JREFunctions. Please keep both copies in
 	 * sync
 	 */
-	private static File searchFile(final File parent, final String fileName)
-	{
+	private static File searchFile(final File parent, final String fileName) {
 		final File[] files = parent.listFiles();
-		for (int i = 0; i < files.length; i++)
-		{
-			if (files[i].isFile() && files[i].getName().equals(fileName))
-			{
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isFile() && files[i].getName().equals(fileName)) {
 				return files[i];
-			}
-			else if (files[i].isDirectory())
-			{
+			} else if (files[i].isDirectory()) {
 				final File file = searchFile(files[i], fileName);
-				if (file != null)
-				{
+				if (file != null) {
 					return file;
 				}
 			}
@@ -722,8 +642,7 @@ public class PathFinder
 	 * @param applicationID
 	 * @param path
 	 */
-	public static void setStandaloneHome(final int applicationID, final String path)
-	{
+	public static void setStandaloneHome(final int applicationID, final String path) {
 		mapStandaloneHome.put(applicationID, path);
 	}
 
@@ -734,8 +653,7 @@ public class PathFinder
 	 * @param applicationID
 	 * @return
 	 */
-	public static String getStandaloneProductHome(final int applicationID)
-	{
+	public static String getStandaloneProductHome(final int applicationID) {
 		return (String) mapStandaloneHome.get(applicationID);
 	}
 }

@@ -5,43 +5,41 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import jregex.Pattern;
-import jregex.Replacer;
-
 import com.queryio.common.IOSProtocolConstants;
 import com.queryio.sysmoncommon.sysmon.dstruct.LogInfo;
 
-public abstract class AbstractProtocolWrapper
-{
+import jregex.Pattern;
+import jregex.Replacer;
+
+public abstract class AbstractProtocolWrapper {
 	public static final int BUFFER_SIZE = 512;
-	
+
 	protected BufferedReader lineReader;
 	protected BufferedReader errLineReader;
 	protected InputStream in;
 	protected OutputStream out;
 	protected int iWaitTime = 10000;
 	protected int iTargetOSType = IOSProtocolConstants.LINUX;
-	
+
 	public static final String APPPERFECT_PROMPT = "APPPERFECT>";
 	public static final String APPPERFECT_PROMPT_WINDOWS = "APPPERFECT$G";
 	protected String[] matches = new String[] { APPPERFECT_PROMPT };
 	protected static final int NLOOP = 10;
-	
+
 	protected String hostName;
 	protected String userName;
 	protected String password;
 	protected int portId;
-	
+
 	protected String firewallUserName = "";
 	protected String firewallPassword = "";
 	protected String superUserName = "";
 	protected String superUserPassword = "";
-	
+
 	/**
 	 * @param targetOsType
 	 */
-	public AbstractProtocolWrapper(String hostName, String userName, String password, int portId, int iTargetOSType)
-	{
+	public AbstractProtocolWrapper(String hostName, String userName, String password, int portId, int iTargetOSType) {
 		this.hostName = hostName;
 		this.userName = userName;
 		this.password = password;
@@ -49,23 +47,19 @@ public abstract class AbstractProtocolWrapper
 		this.iTargetOSType = iTargetOSType;
 	}
 
-	public void setFirewallUserName(String firewallUserName)
-	{
+	public void setFirewallUserName(String firewallUserName) {
 		this.firewallUserName = firewallUserName;
 	}
 
-	public void setFirewallPassword(String firewallPassword)
-	{
+	public void setFirewallPassword(String firewallPassword) {
 		this.firewallPassword = firewallPassword;
 	}
 
-	public void setSuperUserName(String superUserName)
-	{
+	public void setSuperUserName(String superUserName) {
 		this.superUserName = superUserName;
 	}
 
-	public void setSuperUserPassword(String superUserPassword)
-	{
+	public void setSuperUserPassword(String superUserPassword) {
 		this.superUserPassword = superUserPassword;
 	}
 
@@ -80,43 +74,43 @@ public abstract class AbstractProtocolWrapper
 	public abstract String getTopOutputforMac() throws IOException;
 
 	public abstract String getTopOutputForLinux() throws IOException;
-	
+
 	public abstract String getIostatOutputForSolaris() throws IOException;
 
-	public abstract String getIostatOutputForLinux(boolean nfs) throws IOException;	
-	
+	public abstract String getIostatOutputForLinux(boolean nfs) throws IOException;
+
 	/**
 	 * @param cmd
 	 * @throws IOException
 	 */
-	public void send(String cmd) throws IOException
-	{
-//		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Sending command: " + cmd);
+	public void send(String cmd) throws IOException {
+		// if(AppLogger.getLogger().isDebugEnabled())
+		// AppLogger.getLogger().debug("Sending command: " + cmd);
 		out.write((cmd + "\n").getBytes());
 		out.flush();
 	}
-	
+
 	/**
 	 * Send a command to the remote host and return the result of the command
 	 */
-	public String execute(String cmd, boolean bApplyTimeOut) throws IOException
-	{
+	public String execute(String cmd, boolean bApplyTimeOut) throws IOException {
 		send(cmd);
 		return waitfor(matches, bApplyTimeOut);
-	}	
+	}
+
 	/**
 	 * @param match
 	 * @param bApplyTimeOut
 	 * @return
 	 * @throws IOException
 	 */
-	public final String waitfor(String match, boolean bApplyTimeOut) throws IOException
-	{
+	public final String waitfor(String match, boolean bApplyTimeOut) throws IOException {
 		String[] matches = new String[1];
 		matches[0] = match;
 
 		return waitfor(matches, bApplyTimeOut);
 	}
+
 	/**
 	 * method waitfor Wait for a string to come from the remote host and return
 	 * all that characters that are received until that happens (including the
@@ -127,13 +121,10 @@ public abstract class AbstractProtocolWrapper
 	 * @return
 	 * @throws IOException
 	 */
-	protected String waitfor(String[] searchElements, boolean bApplyTimeOut)
-			throws IOException
-	{
-		//System.out.println("started waitFor command ..."+cmd);
+	protected String waitfor(String[] searchElements, boolean bApplyTimeOut) throws IOException {
+		// System.out.println("started waitFor command ..."+cmd);
 		ScriptHandler[] handlers = new ScriptHandler[searchElements.length];
-		for (int i = 0; i < searchElements.length; i++)
-		{
+		for (int i = 0; i < searchElements.length; i++) {
 			// initialize the handlers
 			handlers[i] = new ScriptHandler();
 			handlers[i].setup(searchElements[i]);
@@ -143,122 +134,92 @@ public abstract class AbstractProtocolWrapper
 		StringBuffer ret = new StringBuffer();
 		String current;
 		int count = 0;
-		while(n >= 0)
-		{
+		while (n >= 0) {
 			int av = in.available();
-			if(av != 0)
-			{
+			if (av != 0) {
 				n = in.read(b);
-				if(n > 0)
-				{
-					current = new String( b, 0, n );
-					ret.append( current );
-					for ( int i = 0; i < handlers.length ; i++ )
-					{
-						if ( handlers[i].match( b, n ) )
-						{
+				if (n > 0) {
+					current = new String(b, 0, n);
+					ret.append(current);
+					for (int i = 0; i < handlers.length; i++) {
+						if (handlers[i].match(b, n)) {
 							return ret.toString();
 						} // if
 					} // for
 				} // if
-			}
-			else if(bApplyTimeOut)
-			{
-				if(count <= NLOOP)
-				{
+			} else if (bApplyTimeOut) {
+				if (count <= NLOOP) {
 					count++;
+				} else {
+					return null; // process timed out
 				}
-				else
-				{
-					return null;	//process timed out
-				}
-				try 
-				{
-					//System.out.println("Going to sleep()");
-					Thread.sleep(iWaitTime/NLOOP);
-					//System.out.println("came out of sleep()");
-				} 
-				catch (InterruptedException e) 
-				{
+				try {
+					// System.out.println("Going to sleep()");
+					Thread.sleep(iWaitTime / NLOOP);
+					// System.out.println("came out of sleep()");
+				} catch (InterruptedException e) {
 					// SUPRESS EXCEPTION
 				}
-			}		
+			}
 		} // while
 		return null; // should never happen
 	}
 
-	public void setWaitingTime(int timeInms)
-	{
+	public void setWaitingTime(int timeInms) {
 		iWaitTime = timeInms;
 	}
 
-	public Process getDummyProcess()
-	{
+	public Process getDummyProcess() {
 		return null;
 	}
 
-	public static String replaceAll(String originalStr, String str1, String str2)
-	{
+	public static String replaceAll(String originalStr, String str1, String str2) {
 		Pattern p = new Pattern(str1);
 		Replacer r = p.replacer(str2);
 		return r.replace(originalStr);
 	}
-	
-	public String readLine() throws IOException
-	{
-		return (lineReader != null) ? lineReader.readLine():null;
+
+	public String readLine() throws IOException {
+		return (lineReader != null) ? lineReader.readLine() : null;
 	}
-	
-	private long searchInLogFileImpl(String command, String [] searchArray, long lastLine, LogInfo logInfo) throws Exception
-	{
+
+	private long searchInLogFileImpl(String command, String[] searchArray, long lastLine, LogInfo logInfo)
+			throws Exception {
 		long totalLines = lastLine;
 		send(command);
-		try
-		{
+		try {
 			String sshWait = System.getProperty("ssh.wait", "500");
 			long lWait = 500;
-			try
-			{
+			try {
 				lWait = Long.parseLong(sshWait);
-			}
-			catch (Exception exx)
-			{
-				
+			} catch (Exception exx) {
+
 			}
 			Thread.sleep(lWait);
-		}
-		catch(Exception e)
-		{
-			//DO NOTHING
+		} catch (Exception e) {
+			// DO NOTHING
 		}
 		String line = readLine();
-		if (this.superUserName != null && line != null && line.trim().length() == 0)
-		{
+		if (this.superUserName != null && line != null && line.trim().length() == 0) {
 			line = readLine();
 		}
-		if (line == null && errLineReader != null && errLineReader.ready())
-		{
+		if (line == null && errLineReader != null && errLineReader.ready()) {
 			String errLine = errLineReader.readLine();
-			if (errLine != null && errLine.indexOf("Permission denied") != -1)
-			{
+			if (errLine != null && errLine.indexOf("Permission denied") != -1) {
 				throw new RuntimeException("Error reading file: " + errLine);
 			}
 		}
-		while (line != null)
-		{
-			for (int i = 0; i < searchArray.length; i++) 
-			{
-				if(line.indexOf(searchArray[i]) != -1)
-				{
-					if (!logInfo.isFound())
-					{
+		while (line != null) {
+			for (int i = 0; i < searchArray.length; i++) {
+				if (line.indexOf(searchArray[i]) != -1) {
+					if (!logInfo.isFound()) {
 						logInfo.setFound(true);
 						logInfo.setLineNum(lastLine);
 						logInfo.setLine(line);
 						logInfo.setSearchString(searchArray[i]);
 					}
 					logInfo.incrementMatchCount();
-					logInfo.getMatchedItems().add(new String [] {String.valueOf(lastLine), searchArray[i], line});
+					logInfo.getMatchedItems().add(new String[] { String.valueOf(lastLine), searchArray[i], line });
 					break;
 				}
 			}
@@ -269,39 +230,36 @@ public abstract class AbstractProtocolWrapper
 		logInfo.setLastLineRead(lastLine);
 		return totalLines;
 	}
-	
-	public LogInfo searchInLogFile(String fileName, String tailCommandPrefix, String [] searchArray, long lastLine) throws Exception
-	{
+
+	public LogInfo searchInLogFile(String fileName, String tailCommandPrefix, String[] searchArray, long lastLine)
+			throws Exception {
 		long prevLastLine = lastLine;
 		final LogInfo logInfo = new LogInfo();
-		final long lastLineFound = searchInLogFileImpl(tailCommandPrefix + lastLine + " " + fileName, searchArray, lastLine, logInfo);
-		//System.out.println("Previous: " + prevLastLine + " new: " + lastLineFound);
-		if (!logInfo.isFound() && prevLastLine == lastLineFound)
-		{
-			// does that mean there is no addition to the log file or the log file was deleted, hence it now 
+		final long lastLineFound = searchInLogFileImpl(tailCommandPrefix + lastLine + " " + fileName, searchArray,
+				lastLine, logInfo);
+		// System.out.println("Previous: " + prevLastLine + " new: " +
+		// lastLineFound);
+		if (!logInfo.isFound() && prevLastLine == lastLineFound) {
+			// does that mean there is no addition to the log file or the log
+			// file was deleted, hence it now
 			// has lesser no of lines?
 			long newLastLineFound = -1;
 			// Fire "wc -l fileName" command to get the line numbers in the file
 			String result = execute("wc -l " + fileName, true);
-			if (result != null)
-			{
+			if (result != null) {
 				result = result.trim();
 				int spaceIndex = result.indexOf(' ');
-				if (spaceIndex != -1)
-				{
-					try
-					{
+				if (spaceIndex != -1) {
+					try {
 						newLastLineFound = Long.parseLong(result.substring(0, spaceIndex));
-					}
-					catch (Exception ex)
-					{
+					} catch (Exception ex) {
 						// do nothing
 					}
 				}
 			}
-			//System.out.println("Result: " + result + " new last line: " + newLastLineFound);
-			if (newLastLineFound != -1 && newLastLineFound < (lastLineFound - 1))
-			{
+			// System.out.println("Result: " + result + " new last line: " +
+			// newLastLineFound);
+			if (newLastLineFound != -1 && newLastLineFound < (lastLineFound - 1)) {
 				final LogInfo checkLogInfo = new LogInfo();
 				searchInLogFileImpl(tailCommandPrefix + "1 " + fileName, searchArray, 1, checkLogInfo);
 				return checkLogInfo;
@@ -309,9 +267,8 @@ public abstract class AbstractProtocolWrapper
 		}
 		return logInfo;
 	}
-	
-	public BufferedReader getLineReader() 
-	{
+
+	public BufferedReader getLineReader() {
 		return lineReader;
 	}
 

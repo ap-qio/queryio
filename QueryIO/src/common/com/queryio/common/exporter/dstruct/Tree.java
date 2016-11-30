@@ -27,8 +27,7 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class Tree extends ExportableItem
-{
+public class Tree extends ExportableItem {
 	private final TreeModel model;
 
 	/**
@@ -39,8 +38,7 @@ public class Tree extends ExportableItem
 	 * @param width
 	 * @param height
 	 */
-	public Tree(final int left, final int top, final int width, final int height, final TreeModel model)
-	{
+	public Tree(final int left, final int top, final int width, final int height, final TreeModel model) {
 		super(left, top, width, height);
 		this.model = model;
 	}
@@ -50,8 +48,7 @@ public class Tree extends ExportableItem
 	 * 
 	 * @see com.queryio.sysmoncommon.exporter.dstruct.IExportableItem#getType()
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return ExportConstants.ITEM_TYPE_TREE;
 	}
 
@@ -60,8 +57,7 @@ public class Tree extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final TreeModel getModel()
-	{
+	public final TreeModel getModel() {
 		return this.model;
 	}
 }

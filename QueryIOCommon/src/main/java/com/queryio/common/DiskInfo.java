@@ -1,38 +1,31 @@
 package com.queryio.common;
 
-public class DiskInfo 
-{
+public class DiskInfo {
 	String name;
 	String capacity;
 	String availableSpace;
-	
-	public String getName() 
-	{
+
+	public String getName() {
 		return name;
 	}
-	
-	public void setName(String name) 
-	{
+
+	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getCapacity() 
-	{
+
+	public String getCapacity() {
 		return capacity;
 	}
-	
-	public void setCapacity(String capacity) 
-	{
+
+	public void setCapacity(String capacity) {
 		this.capacity = capacity;
 	}
-	
-	public String getAvailableSpace() 
-	{
+
+	public String getAvailableSpace() {
 		return availableSpace;
 	}
-	
-	public void setAvailableSpace(String free) 
-	{
+
+	public void setAvailableSpace(String free) {
 		this.availableSpace = free;
 	}
 }

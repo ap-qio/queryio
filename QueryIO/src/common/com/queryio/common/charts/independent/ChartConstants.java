@@ -26,10 +26,8 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * @author Exceed Consultancy Services
  */
 @SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
-public class ChartConstants
-{
-	private ChartConstants()
-	{
+public class ChartConstants {
+	private ChartConstants() {
 		// DO Nothing - Private Constructor to prevent instantiation of class.
 	}
 
@@ -44,18 +42,22 @@ public class ChartConstants
 	public static final Color COLOR_BLACK = new Color(0x00, 0x00, 0x00);
 	public static final Color COLOR_ALTERNATE = new Color(0xf8, 0xf8, 0xf8);
 	public static final Color COLOR_GRAY = new Color(0xe0, 0xe0, 0xe0);
-	public static final Color COLOR_LIGHT_GRAY = new Color(0xeb, 0xeb, 0xeb);//Used for plot area in AM
+	public static final Color COLOR_LIGHT_GRAY = new Color(0xeb, 0xeb, 0xeb);// Used
+																				// for
+																				// plot
+																				// area
+																				// in
+																				// AM
 	public static final Color COLOR_DARK_GRAY = new Color(0x80, 0x80, 0x80);
 	// public static final Color GRID_COLOR = new Color((int)(0xe0 * 0.99),
 	// (int)(0xe0 * 0.99), (int)(0xe0 * 0.99));
 	public static final Color GRID_COLOR = new Color(0xe6, 0xe6, 0xe6);
-//	public static final Color GRID_COLOR = COLOR_ALTERNATE;
+	// public static final Color GRID_COLOR = COLOR_ALTERNATE;
 	public static final Color PIE_CHARTBORDER = COLOR_BLACK;
 
 	public static final int GRID_LINE_THICKNESS = 1;
 
-	static
-	{
+	static {
 		// String sFontName = "Tahoma";
 		// TITLE_FONT = new Font(sFontName, 10, Font.STYLE_BOLD);
 		// AXIS_FONT = new Font(sFontName, 9, Font.STYLE_PLAIN);
@@ -64,16 +66,14 @@ public class ChartConstants
 		// TICK_FONT8 = new Font(sFontName, 6, Font.STYLE_PLAIN);
 	}
 
-	public static void rectangleCheck(final UserInterface userInterface, final Rectangle rect, final Color fillColor)
-	{
+	public static void rectangleCheck(final UserInterface userInterface, final Rectangle rect, final Color fillColor) {
 		final Color oldColor = userInterface.getBackground();
 		userInterface.setBackground(fillColor);
 		userInterface.fillRectangle(rect);
 		userInterface.setBackground(oldColor);
 	}
 
-	public static String format(final int value)
-	{
+	public static String format(final int value) {
 		return String.valueOf(value);
 	}
 }

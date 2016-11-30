@@ -11,16 +11,12 @@ import com.queryio.common.database.TableConstants;
 import com.queryio.core.bean.QueryIOService;
 
 public class QueryIOServiceDAO {
-	public static void insert(Connection connection, QueryIOService service)
-			throws Exception {
+	public static void insert(Connection connection, QueryIOService service) throws Exception {
 		PreparedStatement pst = null;
 		try {
-			String query = "INSERT INTO "
-					+ TableConstants.TABLE_QUERYIOSERVICES + "("
-					+ ColumnConstants.COL_QUERYIOSERVICES_NODEID + ","
-					+ ColumnConstants.COL_QUERYIOSERVICES_NODETYPE + ","
-					+ ColumnConstants.COL_QUERYIOSERVICES_STATUS
-					+ ") VALUES (?, ?, ?)";
+			String query = "INSERT INTO " + TableConstants.TABLE_QUERYIOSERVICES + "("
+					+ ColumnConstants.COL_QUERYIOSERVICES_NODEID + "," + ColumnConstants.COL_QUERYIOSERVICES_NODETYPE
+					+ "," + ColumnConstants.COL_QUERYIOSERVICES_STATUS + ") VALUES (?, ?, ?)";
 			pst = connection.prepareStatement(query);
 			pst.setString(1, service.getNodeId());
 			pst.setString(2, service.getServiceType());
@@ -31,12 +27,10 @@ public class QueryIOServiceDAO {
 		}
 	}
 
-	public static void delete(Connection connection, String nodeId)
-			throws Exception {
+	public static void delete(Connection connection, String nodeId) throws Exception {
 		PreparedStatement pst = null;
 		try {
-			String query = "DELETE FROM "
-					+ TableConstants.TABLE_QUERYIOSERVICES + " WHERE "
+			String query = "DELETE FROM " + TableConstants.TABLE_QUERYIOSERVICES + " WHERE "
 					+ ColumnConstants.COL_QUERYIOSERVICES_NODEID + " = ?";
 
 			pst = connection.prepareStatement(query);
@@ -47,14 +41,13 @@ public class QueryIOServiceDAO {
 		}
 	}
 
-	public static void updateStatus(Connection connection, String nodeId,
-			String serviceType, String status) throws Exception {
+	public static void updateStatus(Connection connection, String nodeId, String serviceType, String status)
+			throws Exception {
 		PreparedStatement pst = null;
 		try {
-			String query = "UPDATE " + TableConstants.TABLE_QUERYIOSERVICES
-					+ " SET " + ColumnConstants.COL_QUERYIOSERVICES_STATUS
-					+ " = ? WHERE " + ColumnConstants.COL_QUERYIOSERVICES_NODEID
-					+ " = ? AND "
+			String query = "UPDATE " + TableConstants.TABLE_QUERYIOSERVICES + " SET "
+					+ ColumnConstants.COL_QUERYIOSERVICES_STATUS + " = ? WHERE "
+					+ ColumnConstants.COL_QUERYIOSERVICES_NODEID + " = ? AND "
 					+ ColumnConstants.COL_QUERYIOSERVICES_NODETYPE + " = ?";
 			pst = connection.prepareStatement(query);
 			pst.setString(1, status);
@@ -66,25 +59,20 @@ public class QueryIOServiceDAO {
 		}
 	}
 
-	public static QueryIOService get(Connection connection, String nodeId,
-			String serviceType) throws SQLException {
+	public static QueryIOService get(Connection connection, String nodeId, String serviceType) throws SQLException {
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		QueryIOService service = null;
 		try {
-			String query = "SELECT "
-					+ ColumnConstants.COL_QUERYIOSERVICES_STATUS + " FROM "
-					+ TableConstants.TABLE_QUERYIOSERVICES + " WHERE "
-					+ ColumnConstants.COL_QUERYIOSERVICES_NODEID + " = ? AND "
-					+ ColumnConstants.COL_QUERYIOSERVICES_NODETYPE + " = ?";
+			String query = "SELECT " + ColumnConstants.COL_QUERYIOSERVICES_STATUS + " FROM "
+					+ TableConstants.TABLE_QUERYIOSERVICES + " WHERE " + ColumnConstants.COL_QUERYIOSERVICES_NODEID
+					+ " = ? AND " + ColumnConstants.COL_QUERYIOSERVICES_NODETYPE + " = ?";
 			pst = connection.prepareStatement(query);
 			pst.setString(1, nodeId);
 			pst.setString(2, serviceType);
 			rs = pst.executeQuery();
 			if (rs.next()) {
-				service = new QueryIOService(
-						nodeId,
-						serviceType,
+				service = new QueryIOService(nodeId, serviceType,
 						rs.getString(ColumnConstants.COL_QUERYIOSERVICES_STATUS));
 			}
 		} finally {

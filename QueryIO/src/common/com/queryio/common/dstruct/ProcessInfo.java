@@ -23,8 +23,7 @@ import java.io.Serializable;
  * 
  * @author Exceed Consultancy Services
  */
-public class ProcessInfo implements Serializable
-{
+public class ProcessInfo implements Serializable {
 	/**
 	 * 
 	 */
@@ -41,17 +40,16 @@ public class ProcessInfo implements Serializable
 	/**
 	 * Constructs ProcessInfo object
 	 * 
-	 * @param name -
-	 *            process name
-	 * @param id -
-	 *            process id
-	 * @param memUsage -
-	 *            memory usage by the process
-	 * @param processorTime -
-	 *            Total processor time used by the process
+	 * @param name
+	 *            - process name
+	 * @param id
+	 *            - process id
+	 * @param memUsage
+	 *            - memory usage by the process
+	 * @param processorTime
+	 *            - Total processor time used by the process
 	 */
-	public ProcessInfo(final String name, final int id, final int memUsage, final float processorTime)
-	{
+	public ProcessInfo(final String name, final int id, final int memUsage, final float processorTime) {
 		this.sName = name;
 		this.iProcessId = id;
 		this.iMemoryUsage = memUsage;
@@ -61,22 +59,21 @@ public class ProcessInfo implements Serializable
 	/**
 	 * Constructs ProcessInfo object
 	 * 
-	 * @param name -
-	 *            process name
-	 * @param id -
-	 *            process id
-	 * @param memUsage -
-	 *            memory usage by the process
-	 * @param processorTime -
-	 *            Total processor time used by the process
-	 * @param memUsagePeak -
-	 *            Peak memory usage
-	 * @param threadCount -
-	 *            thread Count
+	 * @param name
+	 *            - process name
+	 * @param id
+	 *            - process id
+	 * @param memUsage
+	 *            - memory usage by the process
+	 * @param processorTime
+	 *            - Total processor time used by the process
+	 * @param memUsagePeak
+	 *            - Peak memory usage
+	 * @param threadCount
+	 *            - thread Count
 	 */
 	public ProcessInfo(final String name, final int id, final int memUsage, final float processorTime,
-			final int memUsagePeak, final int threadCount)
-	{
+			final int memUsagePeak, final int threadCount) {
 		this(name, id, memUsage, processorTime);
 		this.iPeakMemoryUsage = memUsagePeak;
 		this.iThreadCount = threadCount;
@@ -87,8 +84,7 @@ public class ProcessInfo implements Serializable
 	 * 
 	 * @return String
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return this.sName;
 	}
 
@@ -97,10 +93,8 @@ public class ProcessInfo implements Serializable
 	 * 
 	 * @return int
 	 */
-	public int getProcessID() throws Exception
-	{
-		if ((this.iProcessId < 0) || (this.iProcessId > Integer.MAX_VALUE))
-		{
+	public int getProcessID() throws Exception {
+		if ((this.iProcessId < 0) || (this.iProcessId > Integer.MAX_VALUE)) {
 			throw new Exception("Process Id incorrect");
 		}
 		return this.iProcessId;
@@ -111,10 +105,8 @@ public class ProcessInfo implements Serializable
 	 * 
 	 * @return int
 	 */
-	public int getMemoryUsage() throws Exception
-	{
-		if ((this.iMemoryUsage < 0) || (this.iMemoryUsage > Integer.MAX_VALUE))
-		{
+	public int getMemoryUsage() throws Exception {
+		if ((this.iMemoryUsage < 0) || (this.iMemoryUsage > Integer.MAX_VALUE)) {
 			throw new Exception("Memory usage value is incorrect");
 		}
 		return this.iMemoryUsage;
@@ -125,10 +117,8 @@ public class ProcessInfo implements Serializable
 	 * 
 	 * @return float
 	 */
-	public int getProcessorTime() throws Exception
-	{
-		if ((this.fProcessorTime < 0) || (this.fProcessorTime > Float.POSITIVE_INFINITY))
-		{
+	public int getProcessorTime() throws Exception {
+		if ((this.fProcessorTime < 0) || (this.fProcessorTime > Float.POSITIVE_INFINITY)) {
 			throw new Exception("Processor time value is incorrect");
 		}
 		return Math.round(this.fProcessorTime);
@@ -139,10 +129,8 @@ public class ProcessInfo implements Serializable
 	 * 
 	 * @return int
 	 */
-	public int getPeakMemoryUsage()
-	{
-		if ((this.iPeakMemoryUsage < 0) || (this.iPeakMemoryUsage > Integer.MAX_VALUE))
-		{
+	public int getPeakMemoryUsage() {
+		if ((this.iPeakMemoryUsage < 0) || (this.iPeakMemoryUsage > Integer.MAX_VALUE)) {
 			throw new RuntimeException("Peak memory usage value is incorrect");
 		}
 		return this.iPeakMemoryUsage;
@@ -153,32 +141,26 @@ public class ProcessInfo implements Serializable
 	 * 
 	 * @return int
 	 */
-	public int getThreadCount()
-	{
-		if ((this.iThreadCount < 0) || (this.iThreadCount > Integer.MAX_VALUE))
-		{
+	public int getThreadCount() {
+		if ((this.iThreadCount < 0) || (this.iThreadCount > Integer.MAX_VALUE)) {
 			throw new RuntimeException("Thread count value is incorrect");
 		}
 		return this.iThreadCount;
 	}
 
-	public String getUserName() 
-	{
+	public String getUserName() {
 		return userName;
 	}
 
-	public void setUserName(String userName) 
-	{
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-	public String getCommand() 
-	{
+	public String getCommand() {
 		return command;
 	}
 
-	public void setCommand(String command) 
-	{
+	public void setCommand(String command) {
 		this.command = command;
 	}
 }

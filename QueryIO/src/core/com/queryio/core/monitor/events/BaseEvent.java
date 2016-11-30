@@ -22,14 +22,12 @@ package com.queryio.core.monitor.events;
  * 
  * @author Exceed Consultancy Services
  */
-public abstract class BaseEvent
-{
+public abstract class BaseEvent {
 	private long timeStamp = -1;
 
 	private EventDispatcher dispatcher = null;
 
-	public BaseEvent(final long ts, final EventDispatcher ed)
-	{
+	public BaseEvent(final long ts, final EventDispatcher ed) {
 		this.timeStamp = ts;
 		this.dispatcher = ed;
 	}
@@ -39,8 +37,7 @@ public abstract class BaseEvent
 	 * 
 	 * @return
 	 */
-	public EventDispatcher getDispatcher()
-	{
+	public EventDispatcher getDispatcher() {
 		return this.dispatcher;
 	}
 
@@ -49,8 +46,7 @@ public abstract class BaseEvent
 	 * 
 	 * @return
 	 */
-	public long getTimeStamp()
-	{
+	public long getTimeStamp() {
 		return this.timeStamp;
 	}
 

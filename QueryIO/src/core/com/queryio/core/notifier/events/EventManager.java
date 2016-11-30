@@ -28,19 +28,18 @@ import com.queryio.core.notifier.common.NotificationEvent;
  *
  * @author Exceed Consultancy Services
  */
-public final class EventManager
-{
+public final class EventManager {
 	private static EventManager evtMgr = null;
 	private String sConfigXMLFilePath = null;
 	private String sNotifMgrIPAddress = null;
 	private int iNotifMgrPort = -1;
 
 	private EventSender evtSender = null;
+
 	/**
 	 * Default Constructor
 	 */
-	private EventManager()
-	{
+	private EventManager() {
 		this.sNotifMgrIPAddress = null;
 		this.iNotifMgrPort = EventConstants.DEF_SOCKET_PORT;
 
@@ -52,10 +51,8 @@ public final class EventManager
 	 *
 	 * @return EventManager
 	 */
-	public static EventManager getInstance()
-	{
-		if (evtMgr == null)
-		{
+	public static EventManager getInstance() {
+		if (evtMgr == null) {
 			evtMgr = new EventManager();
 		}
 
@@ -67,8 +64,7 @@ public final class EventManager
 	 *
 	 * @throws Exception
 	 */
-	public void initializeEventManager() throws Exception
-	{
+	public void initializeEventManager() throws Exception {
 		final EventXMLFileParser fileParser = new EventXMLFileParser();
 		fileParser.retreiveNotificationManagerProperties();
 
@@ -81,8 +77,7 @@ public final class EventManager
 	 *
 	 * @param event
 	 */
-	public void postEvent(final NotificationEvent evt) throws Exception
-	{
+	public void postEvent(final NotificationEvent evt) throws Exception {
 		this.evtSender.sendEventToNotifMgr(evt);
 	}
 
@@ -91,8 +86,7 @@ public final class EventManager
 	 *
 	 * @param path
 	 */
-	public void setConfigXMLFilePath(final String path)
-	{
+	public void setConfigXMLFilePath(final String path) {
 		this.sConfigXMLFilePath = path;
 	}
 
@@ -101,8 +95,7 @@ public final class EventManager
 	 *
 	 * @return String
 	 */
-	public final String getConfigXMLFilePath()
-	{
+	public final String getConfigXMLFilePath() {
 		return this.sConfigXMLFilePath;
 	}
 
@@ -112,17 +105,12 @@ public final class EventManager
 	 * @param notifMgrPort
 	 *            The NotifMgrPort to set
 	 */
-	public void setNotifMgrPort(final String notifMgrPort)
-	{
-		try
-		{
+	public void setNotifMgrPort(final String notifMgrPort) {
+		try {
 			this.iNotifMgrPort = Integer.parseInt(notifMgrPort);
-		}
-		catch (final NumberFormatException e)
-		{
+		} catch (final NumberFormatException e) {
 			this.iNotifMgrPort = EventConstants.DEF_SOCKET_PORT;
-			AppLogger.getLogger().log(
-					AppLogger.getPriority(AppLogger.FATAL), e.getMessage(), e); //$NON-NLS-1$
+			AppLogger.getLogger().log(AppLogger.getPriority(AppLogger.FATAL), e.getMessage(), e); // $NON-NLS-1$
 		}
 	}
 
@@ -132,8 +120,7 @@ public final class EventManager
 	 * @param notifMgrIPAddress
 	 *            The NotifMgrIPAddress to set
 	 */
-	public void setNotifMgrIPAddress(final String notifMgrIPAddress)
-	{
+	public void setNotifMgrIPAddress(final String notifMgrIPAddress) {
 		this.sNotifMgrIPAddress = notifMgrIPAddress;
 	}
 
@@ -149,6 +136,7 @@ public final class EventManager
 	 * evtMgr.postEvent(evt);
 	 *
 	 * evt = new NotificationEvent("trial2"); evt.addProperty("name", "check
-	 * trial2"); evt.addProperty("id", new Integer(100)); } catch(Exception ex) { } }
+	 * trial2"); evt.addProperty("id", new Integer(100)); } catch(Exception ex)
+	 * { } }
 	 */
 }

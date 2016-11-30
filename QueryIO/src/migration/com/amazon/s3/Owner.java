@@ -13,6 +13,6 @@ package com.amazon.s3;
  * A structure representing the owner of an object, used as a part of ListEntry.
  */
 public class Owner {
-    public String id;
-    public String displayName;
+	public String id;
+	public String displayName;
 }

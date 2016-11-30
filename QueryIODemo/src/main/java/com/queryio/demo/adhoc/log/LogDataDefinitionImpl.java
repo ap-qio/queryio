@@ -9,10 +9,15 @@ public class LogDataDefinitionImpl implements IDataDefinition {
 
 	@Override
 	public ArrayList<ColumnMetadata> getColumnMetadata() {
-//		String[] colNames = new String[]{"FILEPATH", "CATEGORY", "CLASS", "DATE", "FILE", "LINE", "LOCATION", "MDC", "MESSAGE", "METHOD", "ELAPSED", "NDC", "PRIORITY", "SEQUENCE", "THREAD"};
-//		String[] sqlTypes = new String[]{"VARCHAR(1280)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)",
-//				"VARCHAR(5000)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)"};
-		
+		// String[] colNames = new String[]{"FILEPATH", "CATEGORY", "CLASS",
+		// "DATE", "FILE", "LINE", "LOCATION", "MDC", "MESSAGE", "METHOD",
+		// "ELAPSED", "NDC", "PRIORITY", "SEQUENCE", "THREAD"};
+		// String[] sqlTypes = new String[]{"VARCHAR(1280)", "VARCHAR(255)",
+		// "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)",
+		// "VARCHAR(255)", "VARCHAR(255)",
+		// "VARCHAR(5000)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)",
+		// "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)"};
+
 		ArrayList<ColumnMetadata> colMetaDataList = new ArrayList<ColumnMetadata>();
 		colMetaDataList.add(new ColumnMetadata("FILEPATH", String.class, 1280));
 		colMetaDataList.add(new ColumnMetadata("CATEGORY", String.class, 255));
@@ -29,15 +34,16 @@ public class LogDataDefinitionImpl implements IDataDefinition {
 		colMetaDataList.add(new ColumnMetadata("PRIORITY", String.class, 255));
 		colMetaDataList.add(new ColumnMetadata("SEQUENCE", String.class, 255));
 		colMetaDataList.add(new ColumnMetadata("THREAD", String.class, 255));
-		
+
 		return colMetaDataList;
 	}
+
 	@Override
 	public String getTableName() {
 		return "adhoc_logparserjob";
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		System.out.println(new LogDataDefinitionImpl().getColumnMetadata());
 	}
 }

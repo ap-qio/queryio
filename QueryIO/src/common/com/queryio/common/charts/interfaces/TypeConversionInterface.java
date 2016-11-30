@@ -26,8 +26,7 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public interface TypeConversionInterface
-{
+public interface TypeConversionInterface {
 	Color getConvertedColor(Object uiColor);
 
 	Object getUIColor(Color convertedColor);

@@ -25,8 +25,7 @@ import java.io.File;
  * @author Exceed Consultancy Services.
  * @version 1.0
  */
-public interface IFileList
-{
+public interface IFileList {
 	/**
 	 * Method isExists.
 	 * 

@@ -21,7 +21,6 @@ import com.queryio.common.EnvironmentalConstants;
 import com.queryio.common.QueryIOConstants;
 import com.queryio.common.database.CoreDBManager;
 import com.queryio.common.util.AppLogger;
-import com.queryio.common.util.SecurityHandler;
 import com.queryio.core.bean.MigrationInfo;
 import com.queryio.core.bean.User;
 import com.queryio.core.dao.MigrationInfoDAO;

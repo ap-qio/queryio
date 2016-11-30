@@ -17,11 +17,12 @@ public class GroupInformationProvider extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public GroupInformationProvider() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			provideGroupNames(response);
 		} catch (Exception e) {
@@ -29,7 +30,8 @@ public class GroupInformationProvider extends HttpServlet {
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			provideGroupNames(response);
 		} catch (Exception e) {
@@ -40,23 +42,20 @@ public class GroupInformationProvider extends HttpServlet {
 	private void provideGroupNames(HttpServletResponse response) throws Exception {
 		PrintWriter writer = null;
 		Connection connection = null;
-		try{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 			writer = response.getWriter();
-			
+
 			writer.write(UGIProvider.getUserGroupInformation());
-		}finally{
-			try
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
-			if(writer != null){
-				writer.flush();	
-			}			
+			if (writer != null) {
+				writer.flush();
+			}
 		}
 	}
 }

@@ -35,13 +35,12 @@ import com.queryio.common.util.StaticUtilities;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class HTMLWriter
-{
+public class HTMLWriter {
 	private static final transient ResourceManager RM = ExportManager.RM;
 
 	// Characters used
 	private static final char NEWLINE = '\n';
-//	private static final char TAB = '\t';
+	// private static final char TAB = '\t';
 	private static final char GT = '>';
 	private static final char LT = '<';
 	private static final char EQUAL = '=';
@@ -59,8 +58,7 @@ public class HTMLWriter
 	 * Constructor
 	 * 
 	 */
-	HTMLWriter()
-	{
+	HTMLWriter() {
 		this.init();
 	}
 
@@ -68,8 +66,7 @@ public class HTMLWriter
 	 * Method reInitialize
 	 * 
 	 */
-	void reInitialize()
-	{
+	void reInitialize() {
 		this.init();
 	}
 
@@ -78,8 +75,7 @@ public class HTMLWriter
 	 * 
 	 * @param sTagName
 	 */
-	void startTag(final String sTagName)
-	{
+	void startTag(final String sTagName) {
 		this.startTag(sTagName, null, null);
 	}
 
@@ -89,20 +85,16 @@ public class HTMLWriter
 	 * @param sTagName
 	 * @param attrs
 	 */
-	void startTag(final String sTagName, final String[] attrs, final String[] values)
-	{
+	void startTag(final String sTagName, final String[] attrs, final String[] values) {
 		this.tempBuffer.setLength(0);
-//		this.addTabs(this.tempBuffer);
+		// this.addTabs(this.tempBuffer);
 		this.tempBuffer.append(LT);
 		this.tempBuffer.append(sTagName);
 		this.addAttributes(this.tempBuffer, attrs, values);
 		this.tempBuffer.append(GT);
-		if (sTagName.equals(this.sTagTD))
-		{
+		if (sTagName.equals(this.sTagTD)) {
 			this.bTagisTD = true;
-		}
-		else
-		{
+		} else {
 			this.tempBuffer.append(NEWLINE);
 		}
 		this.buffer.append(this.tempBuffer);
@@ -115,17 +107,13 @@ public class HTMLWriter
 	 * 
 	 * @param sTagName
 	 */
-	void endTag(final String sTagName)
-	{
+	void endTag(final String sTagName) {
 		this.numTabs--;
 		this.tempBuffer.setLength(0);
-		if (sTagName.equals(this.sTagTD))
-		{
+		if (sTagName.equals(this.sTagTD)) {
 			this.bTagisTD = false;
-		}
-		else
-		{
-//			this.addTabs(this.tempBuffer);
+		} else {
+			// this.addTabs(this.tempBuffer);
 		}
 		this.tempBuffer.append(LT);
 		this.tempBuffer.append(SLASH);
@@ -143,10 +131,9 @@ public class HTMLWriter
 	 * @param attrs
 	 * @param values
 	 */
-	void writeTag(final String sTagName, final String[] attrs, final String[] values)
-	{
+	void writeTag(final String sTagName, final String[] attrs, final String[] values) {
 		this.tempBuffer.setLength(0);
-//		this.addTabs(this.tempBuffer);
+		// this.addTabs(this.tempBuffer);
 		this.tempBuffer.append(LT);
 		this.tempBuffer.append(sTagName);
 		this.addAttributes(this.tempBuffer, attrs, values);
@@ -162,17 +149,13 @@ public class HTMLWriter
 	 * 
 	 * @param text
 	 */
-	void writeText(final String text)
-	{
+	void writeText(final String text) {
 		this.tempBuffer.setLength(0);
-		if (!this.bTagisTD)
-		{
-//			this.addTabs(this.tempBuffer);
+		if (!this.bTagisTD) {
+			// this.addTabs(this.tempBuffer);
 			this.tempBuffer.append(StaticUtilities.htmlEncode(text));
 			this.tempBuffer.append(NEWLINE);
-		}
-		else
-		{
+		} else {
 			this.tempBuffer.append(StaticUtilities.htmlEncode(text));
 		}
 		this.buffer.append(this.tempBuffer);
@@ -183,8 +166,7 @@ public class HTMLWriter
 	 * 
 	 * @param text
 	 */
-	void writePlainTextLine(final String text)
-	{
+	void writePlainTextLine(final String text) {
 		this.writePlainTextLine(text, true);
 	}
 
@@ -193,10 +175,9 @@ public class HTMLWriter
 	 * 
 	 * @param text
 	 */
-	void writePlainTextLine(final String text, final boolean addNewLine)
-	{
+	void writePlainTextLine(final String text, final boolean addNewLine) {
 		this.tempBuffer.setLength(0);
-//		this.addTabs(this.tempBuffer);
+		// this.addTabs(this.tempBuffer);
 		this.tempBuffer.append(text);
 		this.tempBuffer.append(NEWLINE);
 
@@ -208,29 +189,19 @@ public class HTMLWriter
 	 * 
 	 * @param file
 	 */
-	void writeFile(final String path, final String fileName) throws ExporterException
-	{
+	void writeFile(final String path, final String fileName) throws ExporterException {
 		BufferedWriter writer = null;
-		try
-		{
+		try {
 			writer = new BufferedWriter(new FileWriter(new File(path, fileName)));
 			writer.write(this.buffer.toString());
-		}
-		catch (final Throwable e)
-		{
+		} catch (final Throwable e) {
 			throw new ExporterException(RM.getString("ERR_WRITING_FILE") + fileName, e); //$NON-NLS-1$
-		}
-		finally
-		{
-			try
-			{
-				if (writer != null)
-				{
+		} finally {
+			try {
+				if (writer != null) {
 					writer.close();
 				}
-			}
-			catch (final Throwable e)
-			{
+			} catch (final Throwable e) {
 				throw new ExporterException(RM.getString("ERR_WRITING_FILE") + fileName, e); //$NON-NLS-1$
 			}
 		}
@@ -242,8 +213,7 @@ public class HTMLWriter
 	 * Method init
 	 * 
 	 */
-	private void init()
-	{
+	private void init() {
 		this.buffer.setLength(0);
 		this.numTabs = 0;
 	}
@@ -255,15 +225,13 @@ public class HTMLWriter
 	 * @param attrs
 	 * @param values
 	 */
-	private void addAttributes(final StringBuffer buff, final String[] attrs, final String[] values)
-	{
+	private void addAttributes(final StringBuffer buff, final String[] attrs, final String[] values) {
 		int len1, len2 = 0;
 		if ((attrs != null) && ((len1 = attrs.length) > 0)) // $IGN_Avoid_assignment_in_if$
 		{
 			if ((values != null) && ((len2 = values.length) > 0)) // $IGN_Avoid_assignment_in_if$
 			{
-				for (int i = 0; i < len2; i++)
-				{
+				for (int i = 0; i < len2; i++) {
 					buff.append(SPACE);
 					buff.append(attrs[i]);
 					buff.append(EQUAL);
@@ -273,8 +241,7 @@ public class HTMLWriter
 					len1--;
 				}
 			}
-			for (int i = 0; i < len1; i++)
-			{
+			for (int i = 0; i < len1; i++) {
 				buff.append(SPACE);
 				buff.append(attrs[len2 + i]);
 			}
@@ -286,11 +253,11 @@ public class HTMLWriter
 	 * 
 	 * @param buff
 	 */
-//	private void addTabs(final StringBuffer buff)
-//	{
-//		 for (int i = 0; i < numTabs; i++)
-//		 {
-//			 buff.append(TAB);
-//		 }
-//	}
+	// private void addTabs(final StringBuffer buff)
+	// {
+	// for (int i = 0; i < numTabs; i++)
+	// {
+	// buff.append(TAB);
+	// }
+	// }
 }

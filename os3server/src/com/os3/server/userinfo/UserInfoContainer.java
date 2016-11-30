@@ -11,18 +11,18 @@ public class UserInfoContainer {
 
 	private static HashMap<String, String> userInfoMap = new HashMap<String, String>();
 	private static HashMap<String, String> userGroupMap = new HashMap<String, String>();
-	
-	public static void setUserInfo(HashMap<String, String> userInfo){
+
+	public static void setUserInfo(HashMap<String, String> userInfo) {
 		userInfoMap = userInfo;
 	}
-	
-	public static void setUserGroupInfo(HashMap<String, String> userInfo){
+
+	public static void setUserGroupInfo(HashMap<String, String> userInfo) {
 		userGroupMap = userInfo;
 	}
-	
+
 	public static void setUserInfo(String userInfo) {
 		LOGGER.debug("Updating user info");
-		
+
 		if (userInfo == null) {
 			LOGGER.debug("User information is not available");
 		}
@@ -45,36 +45,36 @@ public class UserInfoContainer {
 
 				LOGGER.debug("USER: " + userName + " : " + password + " : " + group);
 			}
-			
-			synchronized(userInfoMap){
+
+			synchronized (userInfoMap) {
 				userInfoMap = users;
 			}
-			synchronized(userGroupMap){
+			synchronized (userGroupMap) {
 				userGroupMap = groups;
 			}
 		}
 	}
 
-	public static String getDefaultGroupForUser(String userName){
-		synchronized(userGroupMap){
+	public static String getDefaultGroupForUser(String userName) {
+		synchronized (userGroupMap) {
 			return userGroupMap.get(userName);
 		}
 	}
-	
-	public static boolean validateUser(String userName, String password) throws Exception{
-		synchronized(userInfoMap){
+
+	public static boolean validateUser(String userName, String password) throws Exception {
+		synchronized (userInfoMap) {
 			String pass = userInfoMap.get(userName);
-		
+
 			LOGGER.debug("User provided: " + password + ", in record: " + pass);
-			
-			if(pass!=null){
+
+			if (pass != null) {
 				pass = SecurityHandler.decryptData(pass);
 			}
-			
-			if(pass!=null && pass.equals(password)){
+
+			if (pass != null && pass.equals(password)) {
 				return true;
 			}
-			
+
 			return false;
 		}
 	}

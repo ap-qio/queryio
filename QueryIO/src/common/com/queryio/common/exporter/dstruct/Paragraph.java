@@ -25,9 +25,8 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 10.5
  */
-public class Paragraph extends ExportableItem
-{
-	private final Label [] items;
+public class Paragraph extends ExportableItem {
+	private final Label[] items;
 	private final boolean useNewLineInsteadOfPargraph;
 
 	/**
@@ -38,9 +37,8 @@ public class Paragraph extends ExportableItem
 	 * @param width
 	 * @param height
 	 */
-	public Paragraph(final int left, final int top, final int width, final int height,
-		final Label [] items, boolean useNewLineInsteadOfPargraph)
-	{
+	public Paragraph(final int left, final int top, final int width, final int height, final Label[] items,
+			boolean useNewLineInsteadOfPargraph) {
 		super(left, top, width, height);
 		this.items = items;
 		this.useNewLineInsteadOfPargraph = useNewLineInsteadOfPargraph;
@@ -51,8 +49,7 @@ public class Paragraph extends ExportableItem
 	 * 
 	 * @see com.queryio.sysmoncommon.exporter.dstruct.IExportableItem#getType()
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return ExportConstants.ITEM_TYPE_PARAGRAH;
 	}
 
@@ -61,13 +58,11 @@ public class Paragraph extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final Label [] getItems()
-	{
+	public final Label[] getItems() {
 		return this.items;
 	}
 
-	public boolean isUseNewLineInsteadOfPargraph() 
-	{
+	public boolean isUseNewLineInsteadOfPargraph() {
 		return useNewLineInsteadOfPargraph;
 	}
 }

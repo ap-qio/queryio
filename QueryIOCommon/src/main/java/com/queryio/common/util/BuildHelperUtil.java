@@ -33,7 +33,7 @@ public class BuildHelperUtil {
 	private static long bytesSaved = 0;
 	private static String installerLibsDir;
 	private static String installerMvFilesScript;
-	private static final String USER_INSTALL_DIR = "$USER_INSTALL_DIR"; 
+	private static final String USER_INSTALL_DIR = "$USER_INSTALL_DIR";
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		if (args.length < 1) {
@@ -50,10 +50,12 @@ public class BuildHelperUtil {
 		System.out.println("buildDir: " + buildDir);
 		FileUtils.write(new File(installerMvFilesScript), "USER_INSTALL_DIR=$1\n\n", true);
 		traverse(buildDir);
-		System.out.println("Total space saved (MB): " + (bytesSaved / (1024*1024)));
+		System.out.println("Total space saved (MB): " + (bytesSaved / (1024 * 1024)));
 		for (Map.Entry<String, List<String>> entry : jarMap.entrySet()) {
 			if (entry.getValue().size() > 1) {
-//				System.out.println(entry.getKey() + "(" + entry.getValue().size() +  " times)" + " => " + entry.getValue());
+				// System.out.println(entry.getKey() + "(" +
+				// entry.getValue().size() + " times)" + " => " +
+				// entry.getValue());
 			}
 		}
 	}
@@ -70,13 +72,14 @@ public class BuildHelperUtil {
 				if (locations == null) {
 					jarMap.put(key, new ArrayList<String>());
 					locations = jarMap.get(key);
-				}
-				else {
+				} else {
 					bytesSaved += file.length();
 				}
 				System.out.println("Moving " + file.getAbsolutePath() + " to " + installerLibsDir + "/" + key);
-				Files.move(Paths.get(file.getAbsolutePath()), Paths.get(installerLibsDir + "/" + key), StandardCopyOption.REPLACE_EXISTING);
-				String command = "cp \"" + USER_INSTALL_DIR + "/InstallerLibs/" + key + "\" \"" + USER_INSTALL_DIR + "/" + file.getAbsolutePath().replace(buildDirHome, "") + "\"\n";
+				Files.move(Paths.get(file.getAbsolutePath()), Paths.get(installerLibsDir + "/" + key),
+						StandardCopyOption.REPLACE_EXISTING);
+				String command = "cp \"" + USER_INSTALL_DIR + "/InstallerLibs/" + key + "\" \"" + USER_INSTALL_DIR + "/"
+						+ file.getAbsolutePath().replace(buildDirHome, "") + "\"\n";
 				FileUtils.write(new File(installerMvFilesScript), command, true);
 				locations.add(file.getParent().replace(buildDirHome, ""));
 

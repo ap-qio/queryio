@@ -96,7 +96,7 @@ public class FileUpload extends HttpServlet {
 			boolean extractArchives = false;
 			long fileSize = -1;
 
-//			String logicalTagsJSONId = null;
+			// String logicalTagsJSONId = null;
 
 			String compressionType = EncryptionHandler.NONE;
 			String encryptionType = EncryptionHandler.NONE;
@@ -167,7 +167,7 @@ public class FileUpload extends HttpServlet {
 							fileSize = totalBytesAvailable;
 
 						jsono.put("size", fileSize);
-					
+
 						if (nameNodeId == null) {
 							connection = CoreDBManager.getQueryIODBConnection();
 							@SuppressWarnings("rawtypes")
@@ -235,7 +235,7 @@ public class FileUpload extends HttpServlet {
 		} catch (TagParserException ex) {
 			String errorMessage = "Tag processing failed but file uploaded succesfully. Reason: " + ex.getMessage();
 			jsono.put("success", errorMessage);
-			
+
 		} catch (Exception ex) {
 			// fileUploadListener.setStatus("Failed");
 			// fileUploadListener.setErrorMsg(ex.getLocalizedMessage());
@@ -470,7 +470,7 @@ public class FileUpload extends HttpServlet {
 		} catch (TagParserException ex) {
 			String errorMessage = "Tag processing failed but file uploaded succesfully. Reason: " + ex.getMessage();
 			updateStatusCompleted(connection, migrationInfo);
-			
+
 		} catch (Exception e) {
 			if (migrationInfo != null)
 				updateStatusFailed(connection, migrationInfo);

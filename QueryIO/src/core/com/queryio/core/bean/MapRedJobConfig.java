@@ -15,8 +15,8 @@ public class MapRedJobConfig {
 	boolean isRecursive;
 	String filterQuery;
 
-	public MapRedJobConfig(String namenodeId, String rmId, String jobName, String jarName, String libJars, String files, String className,
-			String arguments, boolean isRecursive, boolean isFilterApply, String filterQuery) {
+	public MapRedJobConfig(String namenodeId, String rmId, String jobName, String jarName, String libJars, String files,
+			String className, String arguments, boolean isRecursive, boolean isFilterApply, String filterQuery) {
 		this.namenodeId = namenodeId;
 		this.rmId = rmId;
 		this.jobName = jobName;

@@ -22,12 +22,12 @@ public class PDFCustomTagParser implements IUserDefinedParser {
 	List<UserDefinedTag> list = new ArrayList<UserDefinedTag>();
 	String tableName = "";
 	private static final Log LOG = LogFactory.getLog(PDFCustomTagParser.class);
-	private static Map<String,TableMetadata> map = new HashMap<String, TableMetadata>();
-	static {		
+	private static Map<String, TableMetadata> map = new HashMap<String, TableMetadata>();
+	static {
 		// PDF
 		List<ColumnMetadata> list = new ArrayList<ColumnMetadata>();
 		list.add(new ColumnMetadata("CONTENT_TYPE", String.class, 64));
-		list.add(new ColumnMetadata("TITLE", String.class, 128));		
+		list.add(new ColumnMetadata("TITLE", String.class, 128));
 		list.add(new ColumnMetadata("SUBJECT", String.class, 128));
 		list.add(new ColumnMetadata("AUTHOR", String.class, 128));
 		list.add(new ColumnMetadata("KEYWORDS", String.class, 1024));
@@ -38,18 +38,19 @@ public class PDFCustomTagParser implements IUserDefinedParser {
 		list.add(new ColumnMetadata("TRAPPED", String.class, 64));
 		map.put("pdf", new TableMetadata("PDF", list));
 	}
+
 	@Override
 	public void parseStream(InputStream is, String fileExtension) throws Throwable {
 		LOG.debug("New PDFCustomTagParser is now parsing document.");
 		PDDocument doc = PDDocument.load(is);
 		PDDocumentInformation info = doc.getDocumentInformation();
 		Set<String> keys = info.getMetadataKeys();
-		for(String key : keys){
+		for (String key : keys) {
 			String value = info.getCustomMetadataValue(key);
-			if(key != null && !key.isEmpty() && value != null && !value.isEmpty()){
+			if (key != null && !key.isEmpty() && value != null && !value.isEmpty()) {
 				this.list.add(new UserDefinedTag(key, value));
 				LOG.debug("Parser found tag: " + key + "\t" + value);
-			}				
+			}
 		}
 		String key = "NPages";
 		Object value = doc.getNumberOfPages();
@@ -81,8 +82,8 @@ public class PDFCustomTagParser implements IUserDefinedParser {
 	}
 
 	@Override
-	public void parseStream(InputStream is, String fileExtension,
-			JSONObject tagsJSON, Map<String, String> coreTags) throws Exception {
-		
+	public void parseStream(InputStream is, String fileExtension, JSONObject tagsJSON, Map<String, String> coreTags)
+			throws Exception {
+
 	}
 }

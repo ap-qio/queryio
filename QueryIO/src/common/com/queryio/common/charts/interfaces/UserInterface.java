@@ -28,9 +28,8 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public interface UserInterface
-{
-	
+public interface UserInterface {
+
 	boolean showSeriesSelector();
 
 	UserInterface getScratchUserInterface();
@@ -108,16 +107,16 @@ public interface UserInterface
 	Color getForeground();
 
 	LineAttributes getLineStyle();
-	
+
 	void setLineStyle(LineAttributes lineStyle);
 
-//	int getLineStyle();
-//
-//	void setLineStyle(int lineStyle);
-//	
-//	float getLineWidth();
-//
-//	void setLineWidth(float lineWidth);
+	// int getLineStyle();
+	//
+	// void setLineStyle(int lineStyle);
+	//
+	// float getLineWidth();
+	//
+	// void setLineWidth(float lineWidth);
 
 	void drawRectangle(int x, int y, int width, int height);
 

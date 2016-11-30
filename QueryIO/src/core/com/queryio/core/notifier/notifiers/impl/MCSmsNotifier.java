@@ -28,15 +28,15 @@ import com.queryio.core.notifier.common.NotificationEvent;
  * 
  * @author Exceed Consultancy Services
  */
-public class MCSmsNotifier extends SmsNotifier
-{
+public class MCSmsNotifier extends SmsNotifier {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.appperfect.monitor.notifier.notifiers.impl.sms.SmsNotifier#setValue(com.appperfect.monitor.notifier.common.NotificationEvent)
+	 * @see
+	 * com.appperfect.monitor.notifier.notifiers.impl.sms.SmsNotifier#setValue(
+	 * com.appperfect.monitor.notifier.common.NotificationEvent)
 	 */
-	public void setValue(final NotificationEvent event) throws Exception
-	{
+	public void setValue(final NotificationEvent event) throws Exception {
 		this.setMessage((String) event.getProperty(INotifierConstants.ALERT_MESSAGE));
 	}
 }

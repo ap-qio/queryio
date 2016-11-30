@@ -33,8 +33,7 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements IScrollableChart
-{
+public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements IScrollableChart {
 	private static final int TICKMARK = 1;
 	private static final int TICKMARKVALUEINSET = 2;
 	private static final int DEFAULT_MAX_CHARS_ON_YAXIS = 3;
@@ -45,8 +44,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	private Rectangle yAxisRect = null;
 	private boolean scrollable = false;
 
-	public void drawScrollableArea(final UserInterface graphics, int originY, final int width, final int maximum)
-	{
+	public void drawScrollableArea(final UserInterface graphics, int originY, final int width, final int maximum) {
 		// draw X-Axis
 		this.drawXAxis(graphics, originY, width, maximum);
 
@@ -61,24 +59,20 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 
 	public abstract void drawSeries(UserInterface graphics, int originY);
 
-	public int getIncrement()
-	{
+	public int getIncrement() {
 		return this.eachDataWidth;
 	}
 
-	public Rectangle getSeriesPlotBounds()
-	{
+	public Rectangle getSeriesPlotBounds() {
 		return new Rectangle(this.plotRect.x, this.plotRect.y, this.plotRect.width + 1, this.plotRect.height + 1);
 	}
 
-	public int getTotalPlotHeight()
-	{
+	public int getTotalPlotHeight() {
 		int currentCount = this.getXAxisSeries().getCurrentCount();
 		return this.eachDataWidth * (currentCount > 0 ? currentCount : 1);
 	}
-	
-	public int getTotalChartHeight(UserInterface graphics, int width, int height)
-	{
+
+	public int getTotalChartHeight(UserInterface graphics, int width, int height) {
 		calculateDimensions(graphics, width, height);
 		int currentCount = this.getXAxisSeries().getCurrentCount();
 		final Font oldFont = graphics.getFont();
@@ -86,46 +80,37 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		graphics.setFont(defaultTickFont);
 		int locatEachDataWidth = graphics.getFontHeight() * 2 + TICKMARKVALUEINSET - 2;
 		graphics.setFont(oldFont);
-		
-		int newHeight = locatEachDataWidth * (currentCount > 0 ? (currentCount+2) : 1);
-		if (newHeight > chartAreaRect.height)
-		{
+
+		int newHeight = locatEachDataWidth * (currentCount > 0 ? (currentCount + 2) : 1);
+		if (newHeight > chartAreaRect.height) {
 			height += newHeight - chartAreaRect.height;
 		}
 		return height;
 	}
 
-
-	public Rectangle getXAxisTitleBounds()
-	{
+	public Rectangle getXAxisTitleBounds() {
 		return this.xAxisTitleRect;
 	}
 
-	public Rectangle getYAxisBounds()
-	{
+	public Rectangle getYAxisBounds() {
 		return this.yAxisRect;
 	}
 
-	public Rectangle getYAxisTitleBounds()
-	{
+	public Rectangle getYAxisTitleBounds() {
 		return this.yAxisTitleRect;
 	}
 
-	public boolean isScrollable()
-	{
+	public boolean isScrollable() {
 		return this.scrollable;
 	}
 
-	public void setScrollable(final boolean scrollable)
-	{
+	public void setScrollable(final boolean scrollable) {
 		this.scrollable = scrollable;
 	}
 
-	public AppHorizontalSimpleChart(final UserInterface userInterface, final int nodeType, final int productID)
-	{
+	public AppHorizontalSimpleChart(final UserInterface userInterface, final int nodeType, final int productID) {
 		super(userInterface, true, nodeType, productID);
-		if (this.chartProperties.isStretchAlternateBackground() == null)
-		{
+		if (this.chartProperties.isStretchAlternateBackground() == null) {
 			this.chartProperties.setStretchAlternateBackground(true);
 		}
 	}
@@ -144,16 +129,14 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	/**
 	 * @see com.queryio.sysmoncommon.charts.swt.AppSimpleChart#configureOrientationOfXandYAxisTitles()
 	 */
-	protected void configureOrientationOfXandYAxisTitles()
-	{
+	protected void configureOrientationOfXandYAxisTitles() {
 		this.chartProperties.getXAxisTitle().setOrientation(Title.ORIENTATION_VERTICAL);
 	}
 
 	/**
 	 * @see com.queryio.sysmoncommon.charts.swt.AppChart#drawArea(org.eclipse.swt.graphics.GC)
 	 */
-	public void drawArea(final UserInterface graphics)
-	{
+	public void drawArea(final UserInterface graphics) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 
@@ -162,8 +145,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		this.calculateDimensions(graphics);
 
 		Title axisTitle = this.chartProperties.getYAxisTitle();
-		if ((axisTitle != null) && this.chartProperties.getShowYAxisTitle().booleanValue())
-		{
+		if ((axisTitle != null) && this.chartProperties.getShowYAxisTitle().booleanValue()) {
 			graphics.setClipping(this.yAxisTitleRect);
 			axisTitle.setBackgroundColor(this.chartProperties.getYAxisTitleBackgroundColour());
 			axisTitle.setTextColor(this.chartProperties.getYAxisTitleTextColour());
@@ -171,8 +153,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		}
 
 		axisTitle = this.chartProperties.getXAxisTitle();
-		if ((axisTitle != null) && this.chartProperties.getShowXAxisTitle().booleanValue())
-		{
+		if ((axisTitle != null) && this.chartProperties.getShowXAxisTitle().booleanValue()) {
 			graphics.setClipping(this.xAxisTitleRect);
 			axisTitle.setBackgroundColor(this.chartProperties.getXAxisTitleBackgroundColour());
 			axisTitle.setTextColor(this.chartProperties.getXAxisTitleTextColour());
@@ -198,8 +179,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		// draw Y-axis
 		this.drawYAxis(graphics);
 
-		if (!this.scrollable)
-		{
+		if (!this.scrollable) {
 			// draw X-axis
 			this.drawXAxis(graphics);
 
@@ -218,8 +198,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	 * @param chartHeight
 	 * @return
 	 */
-	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight)
-	{
+	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight) {
 		return this.getMaxBarsAllowed(chartWidth, chartHeight, XAxisSeries.TIMEVALUES);
 	}
 
@@ -231,8 +210,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	 * @param typeOfXAxisData
 	 * @return
 	 */
-	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight, final int typeOfXAxisData)
-	{
+	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight, final int typeOfXAxisData) {
 		return this.getMaxBarsAllowed(chartWidth, chartHeight, DEFAULT_MAX_CHARS_ON_YAXIS, typeOfXAxisData);
 	}
 
@@ -242,13 +220,12 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	 * maximum number of bars).
 	 */
 	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight, int maxCharsOnYAxis,
-			final int typeOfXAxisData)
-	{
+			final int typeOfXAxisData) {
 		int iMaxBarsDrawable = 0;
 		maxCharsOnYAxis = maxCharsOnYAxis <= 0 ? DEFAULT_MAX_CHARS_ON_YAXIS : maxCharsOnYAxis;
 
-		final UserInterface dummyUserInterface = UIGraphicsFactory.getUserInterface(this.getUserInterface()
-				.getUserInterfaceType());
+		final UserInterface dummyUserInterface = UIGraphicsFactory
+				.getUserInterface(this.getUserInterface().getUserInterfaceType());
 		dummyUserInterface.createGraphics(chartWidth, chartHeight);
 
 		this.calculateDimensions(dummyUserInterface, chartWidth, chartHeight);
@@ -259,8 +236,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		this.setEachBarWidthHHMMSSVariables(dummyUserInterface, typeOfXAxisData);
 
 		int shiftXAxis = this.getMaxHeight(dummyUserInterface, defaultTickFont) + INSET_FOR_TICK_VALUE_FROM_TICK_MARK;
-		if (this.yAxisTitleRect != null)
-		{
+		if (this.yAxisTitleRect != null) {
 			shiftXAxis += this.yAxisTitleRect.height;
 		}
 
@@ -277,13 +253,11 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	 * @param chartGraphics
 	 * @param typeOfXAxisData
 	 */
-	private void setEachBarWidthHHMMSSVariables(final UserInterface chartGraphics, final int typeOfXAxisData)
-	{
+	private void setEachBarWidthHHMMSSVariables(final UserInterface chartGraphics, final int typeOfXAxisData) {
 		this.iMinWidthReqdDefaultFont = chartGraphics.getFontHeight() * 2 + TICKMARKVALUEINSET;
 	}
 
-	protected void drawXAxis(final UserInterface graphics)
-	{
+	protected void drawXAxis(final UserInterface graphics) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		final int Y_COR_OF_TOP_BORDER = this.plotRect.y;
@@ -314,17 +288,14 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		int currTickXOnY;
 		int nextTickXOnY;
 
-		for (int indexOfSeries = 0; indexOfSeries < series.getCapacity() + 1; indexOfSeries++)
-		{
+		for (int indexOfSeries = 0; indexOfSeries < series.getCapacity() + 1; indexOfSeries++) {
 			currTickXOnY = startXpxOnY + this.eachDataWidth * indexOfSeries;
 			nextTickXOnY = startXpxOnY + this.eachDataWidth * (indexOfSeries + 1);
-			if (currTickXOnY > (this.plotRect.height - this.shiftXAxisAbove - 5))
-			{
+			if (currTickXOnY > (this.plotRect.height - this.shiftXAxisAbove - 5)) {
 				break;
 			}
 
-			if (this.isXAxisGrid())
-			{
+			if (this.isXAxisGrid()) {
 				// Draws the grid lines vertical to the X - Axis
 				graphics.setForeground(ChartConstants.GRID_COLOR);
 				final LineAttributes oldLine = graphics.getLineStyle();
@@ -336,20 +307,18 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 			// boolean bDrawTickMark = true;
 
 			// Decide the tick value, and write in center aligned.
-			if (indexOfSeries != series.getCapacity())
-			{
+			if (indexOfSeries != series.getCapacity()) {
 				tickValueLHSx = currTickXOnY;
-				if (tickValueLHSx < this.plotRect.y)
-				{
+				if (tickValueLHSx < this.plotRect.y) {
 					tickValueLHSx = this.plotRect.y + this.eachDataWidth * indexOfSeries - TICKMARK;
 				}
 
-				if (((series != null) && (series.getFormattedValue(indexOfSeries).equals(String.valueOf(Long.MIN_VALUE)) || ((series != null) && series.getFormattedValue(indexOfSeries).equals(IProductConstants.EMPTY_STRING)) ||  (series.getFormattedValue(indexOfSeries).charAt(0) == '-'))))
-				{
+				if (((series != null) && (series.getFormattedValue(indexOfSeries).equals(String.valueOf(Long.MIN_VALUE))
+						|| ((series != null)
+								&& series.getFormattedValue(indexOfSeries).equals(IProductConstants.EMPTY_STRING))
+						|| (series.getFormattedValue(indexOfSeries).charAt(0) == '-')))) {
 					// do nothing
-				}
-				else
-				{
+				} else {
 					// Draw Tick marks on the X Axis
 					strTickValue = series.getFormattedValue(indexOfSeries);
 
@@ -364,8 +333,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 
 					oldFont = graphics.getFont();
 					graphics.setFont(defaultTickFont);
-					if ((indexOfSeries != series.getCapacity()) || !(series instanceof XAxisTimeSeries))
-					{
+					if ((indexOfSeries != series.getCapacity()) || !(series instanceof XAxisTimeSeries)) {
 						graphics.setBackground(this.chartProperties.getTickBackgroundColour());
 						graphics.setForeground(this.chartProperties.getTickTextColour());
 						graphics.drawString(String.valueOf(strTickValue),
@@ -377,11 +345,12 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 			}
 			/*
 			 * else if ( ( xAxisSeriesLongValues != null &&
-			 * (xAxisSeriesLongValues.getFormattedValue(series.getCapacity()-1).equals(String.valueOf(Long.MIN_VALUE)) ||
-			 * xAxisSeriesLongValues.getFormattedValue(series.getCapacity()-1).startsWith("-")) )
-			 * ||(xAxisSeriesStringValues != null &&
-			 * xAxisSeriesStringValues.getFormattedValue(series.getCapacity()-1).equals("")) ) {
-			 * bDrawTickMark = false; }
+			 * (xAxisSeriesLongValues.getFormattedValue(series.getCapacity()-1).
+			 * equals(String.valueOf(Long.MIN_VALUE)) ||
+			 * xAxisSeriesLongValues.getFormattedValue(series.getCapacity()-1).
+			 * startsWith("-")) ) ||(xAxisSeriesStringValues != null &&
+			 * xAxisSeriesStringValues.getFormattedValue(series.getCapacity()-1)
+			 * .equals("")) ) { bDrawTickMark = false; }
 			 */
 
 			/*
@@ -404,8 +373,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		graphics.drawLine(startXpx, Y_COR_OF_TOP_BORDER, endXpx, Y_COR_OF_TOP_BORDER);
 	}
 
-	protected void drawXAxis(final UserInterface graphics, final int originY, final int width, final int originHt)
-	{
+	protected void drawXAxis(final UserInterface graphics, final int originY, final int width, final int originHt) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		final int Y_COR_OF_TOP_BORDER = originY;
@@ -413,7 +381,6 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 
 		final XAxisSeries series = this.getXAxisSeries();
 		int count = series.getCurrentCount();
-
 
 		final int startXpx = this.shiftYaxisToRHS;
 
@@ -432,13 +399,12 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 
 		this.xStart = startXpx;
 
-		if (this.bShowAlternateBackground)
-		{
-			this.showAlternateBackgroundColors(graphics, 0, maximum, this.eachDataWidth, this.chartProperties
-					.isStretchAlternateBackground().booleanValue() ? -1 : this.shiftYaxisToRHS, width);
+		if (this.bShowAlternateBackground) {
+			this.showAlternateBackgroundColors(graphics, 0, maximum, this.eachDataWidth,
+					this.chartProperties.isStretchAlternateBackground().booleanValue() ? -1 : this.shiftYaxisToRHS,
+					width);
 		}
-		if (this.isYAxisGrid())
-		{
+		if (this.isYAxisGrid()) {
 			this.drawYAxisGrids(graphics, startXpx, width, originY, maximum);
 		}
 
@@ -447,11 +413,9 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 
 		int currTickXOnY;
 
-		for (int indexOfSeries = 0; indexOfSeries < count; indexOfSeries++)
-		{
+		for (int indexOfSeries = 0; indexOfSeries < count; indexOfSeries++) {
 			currTickXOnY = this.eachDataWidth * indexOfSeries;
-			if (this.isXAxisGrid() && (currTickXOnY >= originY))
-			{
+			if (this.isXAxisGrid() && (currTickXOnY >= originY)) {
 				// Draws the grid lines vertical to the X - Axis
 				graphics.setForeground(ChartConstants.GRID_COLOR);
 				graphics.setBackground(background);
@@ -461,14 +425,12 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 				graphics.setLineStyle(oldLine);
 			}
 
-			if (((series != null) && (series.getFormattedValue(indexOfSeries).equals(
-				String.valueOf(Long.MIN_VALUE)) || (series.getFormattedValue(indexOfSeries).charAt(0) == '-')))
-				|| ((series != null) && series.getFormattedValue(indexOfSeries).equals(IProductConstants.EMPTY_STRING)))
-			{
+			if (((series != null) && (series.getFormattedValue(indexOfSeries).equals(String.valueOf(Long.MIN_VALUE))
+					|| (series.getFormattedValue(indexOfSeries).charAt(0) == '-')))
+					|| ((series != null)
+							&& series.getFormattedValue(indexOfSeries).equals(IProductConstants.EMPTY_STRING))) {
 				// do nothing
-			}
-			else
-			{
+			} else {
 				// Draw Tick marks on the X Axis
 				strTickValue = series.getFormattedValue(indexOfSeries);
 
@@ -479,12 +441,11 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 
 				oldFont = graphics.getFont();
 				graphics.setFont(defaultTickFont);
-				if ((indexOfSeries != count) || !(series instanceof XAxisTimeSeries))
-				{
+				if ((indexOfSeries != count) || !(series instanceof XAxisTimeSeries)) {
 					graphics.setBackground(this.chartProperties.getTickBackgroundColour());
 					graphics.setForeground(this.chartProperties.getTickTextColour());
-					graphics.drawString(String.valueOf(strTickValue), INSET_FOR_TICK_VALUE_FROM_AXIS, currTickXOnY
-							+ this.eachDataWidth / 4, true);
+					graphics.drawString(String.valueOf(strTickValue), INSET_FOR_TICK_VALUE_FROM_AXIS,
+							currTickXOnY + this.eachDataWidth / 4, true);
 				}
 				graphics.setFont(oldFont);
 			}
@@ -505,8 +466,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	/**
 	 * @see com.queryio.sysmoncommon.charts.swt.AppSimpleChart#drawYAxis(org.eclipse.swt.graphics.GC)
 	 */
-	protected final void drawYAxis(final UserInterface graphics)
-	{
+	protected final void drawYAxis(final UserInterface graphics) {
 		// Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 
@@ -516,20 +476,18 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		final int yCor = this.plotRect.y + ht;
 		this.yAxisRect = new Rectangle(this.plotRect.x, yCor, this.plotRect.width + 1, yCor - ht - 1);
 
-		if (this.bShowAlternateBackground && !this.scrollable)
-		{
-			this.showAlternateBackgroundColors(graphics, this.plotRect.y, 
-				this.plotRect.height - this.shiftXAxisAbove - INSET_FOR_TICK_VALUE_FROM_AXIS, 
-				this.eachDataWidth, this.chartProperties.isStretchAlternateBackground().booleanValue() ? 
-				(this.plotRect.x + 1) : (this.plotRect.x + this.shiftYaxisToRHS), 
-				this.plotRect.x + this.plotRect.width);
+		if (this.bShowAlternateBackground && !this.scrollable) {
+			this.showAlternateBackgroundColors(graphics, this.plotRect.y,
+					this.plotRect.height - this.shiftXAxisAbove - INSET_FOR_TICK_VALUE_FROM_AXIS,
+					this.eachDataWidth, this.chartProperties.isStretchAlternateBackground().booleanValue()
+							? (this.plotRect.x + 1) : (this.plotRect.x + this.shiftYaxisToRHS),
+					this.plotRect.x + this.plotRect.width);
 		}
 
 		final int INSET = 1;
-		if (this.isYAxisGrid() && !this.scrollable)
-		{
-			this.drawYAxisGrids(graphics, this.plotRect.x + this.shiftYaxisToRHS, this.plotRect.width, this.plotRect.y
-					- INSET, yCor);
+		if (this.isYAxisGrid() && !this.scrollable) {
+			this.drawYAxisGrids(graphics, this.plotRect.x + this.shiftYaxisToRHS, this.plotRect.width,
+					this.plotRect.y - INSET, yCor);
 		}
 
 		final int minMax[] = this.getYAxisMinMaxValues();
@@ -544,15 +502,12 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 
 		final int factor = (endYval - startYval > 5 ? 5 : 1);
 
-		if (!this.bMinMaxYValueSet)
-		{
-			if (startYval % factor != 0)
-			{
+		if (!this.bMinMaxYValueSet) {
+			if (startYval % factor != 0) {
 				startYval -= (startYval % factor);
 			}
 
-			if (endYval % factor != 0)
-			{
+			if (endYval % factor != 0) {
 				endYval += (factor - endYval % factor);
 			}
 		}
@@ -564,21 +519,17 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		int maxWidthOfOneTickValue = graphics.stringExtent(IProductConstants.EMPTY_STRING + minMax[1]).x;
 		maxWidthOfOneTickValue += (maxWidthOfOneTickValue / 2) + 2;
 		int tickCount = availablePxs / maxWidthOfOneTickValue;
-		if (tickCount <= 0)
-		{
+		if (tickCount <= 0) {
 			tickCount = 1;
 		}
 
-		if (this.bMinMaxYValueSet)
-		{
+		if (this.bMinMaxYValueSet) {
 			/*
 			 * find the tickCount which will divide (endYval - startYval)
 			 * exactly
 			 */
-			for (int i = tickCount; i >= 1; i--)
-			{
-				if ((endYval - startYval) % i == 0)
-				{
+			for (int i = tickCount; i >= 1; i--) {
+				if ((endYval - startYval) % i == 0) {
 					tickCount = i;
 					break;
 				}
@@ -590,17 +541,14 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		 * min) on y axis)
 		 */
 		int tickInterval = Math.abs(endYval - startYval) / tickCount;
-		if (tickInterval == 0)
-		{
+		if (tickInterval == 0) {
 			tickInterval = 1;
 		}
-		if (!this.bMinMaxYValueSet && (tickInterval % factor != 0))
-		{
+		if (!this.bMinMaxYValueSet && (tickInterval % factor != 0)) {
 			// convert tick interval into multiple of factor
 			tickInterval += (factor - tickInterval % factor);
 		}
-		if (!this.bMinMaxYValueSet)
-		{
+		if (!this.bMinMaxYValueSet) {
 			tickCount = Math.round(Math.abs(endYval - startYval) / tickInterval) + 1;
 		}
 
@@ -612,8 +560,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 
 		int currYPos = this.plotRect.x + this.shiftYaxisToRHS;
 		String value = null;
-		for (int i = 0; i < tickCount + 1; i++)
-		{
+		for (int i = 0; i < tickCount + 1; i++) {
 			// if (isYAxisGrid() && (i != 0))
 			// {
 			// oldColor = graphics.getForeground();
@@ -627,20 +574,16 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 			// }
 			graphics.setBackground(this.chartProperties.getTickBackgroundColour());
 			graphics.setForeground(this.chartProperties.getTickTextColour());
-			if ((i != 0) && (currYPos != X_COR_OF_RHS_BORDER))
-			{
+			if ((i != 0) && (currYPos != X_COR_OF_RHS_BORDER)) {
 				graphics.drawLine(currYPos, yCor, currYPos, yCor + TICK_MARK_LENGTH);
 			}
 			value = ChartConstants.format(startYval + i * tickInterval);
-			if (this.scrollable || (i != tickCount))
-			{
-				graphics.drawString(value, currYPos - graphics.stringExtent(value).x / 2, yCor
-						+ INSET_FOR_TICK_VALUE_FROM_TICK_MARK, true);
-			}
-			else
-			{
-				graphics.drawString(value, currYPos - graphics.stringExtent(value).x, yCor
-						+ INSET_FOR_TICK_VALUE_FROM_TICK_MARK, true);
+			if (this.scrollable || (i != tickCount)) {
+				graphics.drawString(value, currYPos - graphics.stringExtent(value).x / 2,
+						yCor + INSET_FOR_TICK_VALUE_FROM_TICK_MARK, true);
+			} else {
+				graphics.drawString(value, currYPos - graphics.stringExtent(value).x,
+						yCor + INSET_FOR_TICK_VALUE_FROM_TICK_MARK, true);
 			}
 			currYPos += edw;
 		}
@@ -658,8 +601,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	}
 
 	private void drawYAxisGrids(final UserInterface graphics, final int startXpx, final int endXpx, final int startY,
-			final int endY)
-	{
+			final int endY) {
 		final int minMax[] = this.getYAxisMinMaxValues();
 		graphics.setFont(this.chartProperties.getTickFont());
 
@@ -670,15 +612,12 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 
 		final int factor = (endYval - startYval > 5 ? 5 : 1);
 
-		if (!this.bMinMaxYValueSet)
-		{
-			if (startYval % factor != 0)
-			{
+		if (!this.bMinMaxYValueSet) {
+			if (startYval % factor != 0) {
 				startYval -= (startYval % factor);
 			}
 
-			if (endYval % factor != 0)
-			{
+			if (endYval % factor != 0) {
 				endYval += (factor - endYval % factor);
 			}
 		}
@@ -690,21 +629,17 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		int maxWidthOfOneTickValue = graphics.stringExtent(IProductConstants.EMPTY_STRING + minMax[1]).x;
 		maxWidthOfOneTickValue += (maxWidthOfOneTickValue / 2) + 2;
 		int tickCount = availablePxs / maxWidthOfOneTickValue;
-		if (tickCount <= 0)
-		{
+		if (tickCount <= 0) {
 			tickCount = 1;
 		}
 
-		if (this.bMinMaxYValueSet)
-		{
+		if (this.bMinMaxYValueSet) {
 			/*
 			 * find the tickCount which will divide (endYval - startYval)
 			 * exactly
 			 */
-			for (int i = tickCount; i >= 1; i--)
-			{
-				if ((endYval - startYval) % i == 0)
-				{
+			for (int i = tickCount; i >= 1; i--) {
+				if ((endYval - startYval) % i == 0) {
 					tickCount = i;
 					break;
 				}
@@ -716,27 +651,22 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		 * min) on y axis)
 		 */
 		int tickInterval = Math.abs(endYval - startYval) / tickCount;
-		if (tickInterval == 0)
-		{
+		if (tickInterval == 0) {
 			tickInterval = 1;
 		}
-		if (!this.bMinMaxYValueSet && (tickInterval % factor != 0))
-		{
+		if (!this.bMinMaxYValueSet && (tickInterval % factor != 0)) {
 			// convert tick interval into multiple of factor
 			tickInterval += (factor - tickInterval % factor);
 		}
-		if (!this.bMinMaxYValueSet)
-		{
+		if (!this.bMinMaxYValueSet) {
 			tickCount = Math.round(Math.abs(endYval - startYval) / tickInterval) + 1;
 		}
 		final int edw = availablePxs / tickCount;
 
 		int currYPos = startXpx;
 		Color oldColor;
-		for (int i = 0; i < tickCount + 1; i++)
-		{
-			if (i != 0)
-			{
+		for (int i = 0; i < tickCount + 1; i++) {
+			if (i != 0) {
 				oldColor = graphics.getForeground();
 				graphics.setForeground(ChartConstants.GRID_COLOR);
 				// do not show dotted-line for horizontal charts.
@@ -754,8 +684,7 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 	}
 
 	protected void showAlternateBackgroundColors(final UserInterface graphics, final int startYPosition,
-			final int availablePixels, final int eachDataWidth, final int startXPosition, final int endXPosition)
-	{
+			final int availablePixels, final int eachDataWidth, final int startXPosition, final int endXPosition) {
 		// if (chartTitleRect != null)
 		// {
 		// availablePixels -= chartTitleRect.height;
@@ -769,24 +698,21 @@ public abstract class AppHorizontalSimpleChart extends AppSimpleChart implements
 		int addtion = 0;
 		final Color arrAlternateColors[] = new Color[] { this.getAreaColor(),
 				this.chartProperties.getAlternateBackgroundColour() };
-		for (boolean first = true; currYPosition < endYPosition; currYPosition += eachDataWidth, first = !first)
-		{
-			if (endYPosition - currYPosition < eachDataWidth)
-			{
+		for (boolean first = true; currYPosition < endYPosition; currYPosition += eachDataWidth, first = !first) {
+			if (endYPosition - currYPosition < eachDataWidth) {
 				iRectanglesHeight = (endYPosition - currYPosition) + 2;
 			}
 			// iRectanglesHeight = Math.min(eachDataWidth, endYPosition -
 			// currYPosition);
 			graphics.setBackground(arrAlternateColors[first ? 0 : 1]);
 			addtion = (!this.isXAxisGrid() && (currYPosition + eachDataWidth < endYPosition)) ? 0 : 1;
-			graphics.fillRectangle(startXPosition, currYPosition + addtion, iRectanglesWidth, iRectanglesHeight
-					+ addtion);
+			graphics.fillRectangle(startXPosition, currYPosition + addtion, iRectanglesWidth,
+					iRectanglesHeight + addtion);
 		}
 		graphics.setBackground(oldBackGroundColor);
 	}
 
-	protected int resolveYCorordinate(final long value)
-	{
+	protected int resolveYCorordinate(final long value) {
 		final float retVal = this.yStart + this.ySlope * (value - this.yStartValue);
 		return (int) retVal;
 	}

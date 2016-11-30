@@ -120,7 +120,7 @@ public class JTLParser {
 	private static ArrayList<String> dummyEntryLablesListEndsWith = new ArrayList<String>();
 	private static ArrayList<String> dummyEntryLablesListStartsWith = new ArrayList<String>();
 	private static ArrayList<String> dummyEntryLablesListContains = new ArrayList<String>();
-	
+
 	static {
 		dummyEntryLablesListEndsWith.add("/CHECKOUT/START");
 		dummyEntryLablesListEndsWith.add("/CART");
@@ -156,7 +156,8 @@ public class JTLParser {
 	LinkedHashMap<String, Integer> labelErrorCountTotal = null;
 	LinkedHashMap<String, Long> labelBytesTotal = null;
 
-	public static Record parseLine(final String line, JTLRecordMetaData metaData, Mapper<Object, Text, Text, Record>.Context context) {
+	public static Record parseLine(final String line, JTLRecordMetaData metaData,
+			Mapper<Object, Text, Text, Record>.Context context) {
 		Record recordBean = null;
 		final String[] values = line.split("\\s*,\\s*");
 		boolean isValidated = validateRecord(values);
@@ -176,8 +177,7 @@ public class JTLParser {
 			if (SKIP_LABELS.contains(recordBean.getLabel().toUpperCase())) {
 				recordBean = null;
 				context.getCounter(JOB_COUNTER.SKIPPED_LABELS).increment(1);
-			} else if (recordBean.getBytes() == 0
-					&& recordBean.getLatency() == 0.0) {
+			} else if (recordBean.getBytes() == 0 && recordBean.getLatency() == 0.0) {
 				recordBean = null;
 				context.getCounter(JOB_COUNTER.ZERO_BYTES_AND_LATENCY).increment(1);
 			}
@@ -186,71 +186,77 @@ public class JTLParser {
 	}
 
 	private static Record getRecordBean(final String[] values, JTLRecordMetaData metaData) {
-		
+
 		Record record = new Record();
-		try {			
-			
+		try {
+
 			final String label = values[metaData.getLabelIndex()];
 			record.setLabel(label);
-			
+
 			final double latency = Double.valueOf(values[metaData.getLatencyIndex()]);
 			record.setLatency(latency);
-			
+
 			final long currentTimestamp = Long.valueOf(values[metaData.getStartTimestampIndex()]);
-			
-			int sampleIndex = (int) ((currentTimestamp - metaData.getStartTime()) / (metaData.getSampleDuration() * 1000));
+
+			int sampleIndex = (int) ((currentTimestamp - metaData.getStartTime())
+					/ (metaData.getSampleDuration() * 1000));
 			record.setSampleValue(sampleIndex + 1);
-			
+
 			record.setTickStartTime(getStartTickTime(currentTimestamp, metaData, sampleIndex));
 			record.setTickEndTime(getEndTickTime(currentTimestamp, metaData, sampleIndex));
-			
+
 			final long bytes = Long.valueOf(values[metaData.getBytesIndex()]);
 			record.setBytes(bytes);
-			
+
 			final boolean success = Boolean.parseBoolean(values[metaData.getErrorCountIndex()]);
 			record.setSuccess(success);
-			
+
 			final long errorCount = success ? 0 : 1;
 			record.setErrorCount(errorCount);
-			
+
 			record.setTaskCount(1l);
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			record = null;
 		}
-		
+
 		return record;
-		
+
 	}
 
 	private static long getStartTickTime(long currentTimestamp, JTLRecordMetaData metaData, long sampleIndex) {
 		return getTick(currentTimestamp, metaData, sampleIndex, true);
 	}
 
-	private static long getTick(long currentTimestamp, JTLRecordMetaData metaData, long sampleIndex, boolean startBucket) {
-		
+	private static long getTick(long currentTimestamp, JTLRecordMetaData metaData, long sampleIndex,
+			boolean startBucket) {
+
 		int index = (int) (sampleIndex + (startBucket ? 0 : 1));
-		if(index >= metaData.getTicks().size()) {
-			throw new RuntimeException("Record's time does not fit into ticks. calculated index : " + index + ", total ticks: " + metaData.getTicks().size() + ", currentTimestamp : " + new Date(currentTimestamp));
+		if (index >= metaData.getTicks().size()) {
+			throw new RuntimeException(
+					"Record's time does not fit into ticks. calculated index : " + index + ", total ticks: "
+							+ metaData.getTicks().size() + ", currentTimestamp : " + new Date(currentTimestamp));
 		}
 		long tickTime = metaData.getTicks().get(index);
-//		System.out.println("Current time : " + new Date(currentTimestamp) + ", tickTime : " + new Date(tickTime) + ", startBucket : " + startBucket);
+		// System.out.println("Current time : " + new Date(currentTimestamp) +
+		// ", tickTime : " + new Date(tickTime) + ", startBucket : " +
+		// startBucket);
 		return tickTime;
 	}
-	
+
 	private static long getEndTickTime(long currentTimestamp, JTLRecordMetaData metaData, long sampleIndex) {
 		long tickTime = getTick(currentTimestamp, metaData, sampleIndex, false);
-		
+
 		return tickTime > metaData.getEndTime() ? metaData.getEndTime() : tickTime;
 	}
 
 	private static boolean validateRecord(String[] values) {
-		return values != null && values.length >= 7;	// TODO: Is that fine?
+		return values != null && values.length >= 7; // TODO: Is that fine?
 	}
-	
+
 	public boolean insertDummyRow(final String label) {
-		
+
 		for (final String dummyLabel : JTLParser.dummyEntryLablesListEndsWith) {
 			if (label.endsWith(dummyLabel)) {
 				return true;
@@ -266,7 +272,7 @@ public class JTLParser {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }

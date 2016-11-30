@@ -4,32 +4,30 @@ import org.apache.commons.fileupload.ProgressListener;
 
 public class FileUploadListener implements ProgressListener {
 
-	private volatile long 
-    bytesRead = 0L,
-    contentLength = 0L,
-    item = 0L;
+	private volatile long bytesRead = 0L, contentLength = 0L, item = 0L;
 	private String errorMsgStr;
 	private String status;
-	
-	
-	
 
 	public FileUploadListener() {
 		super();
 		this.status = "Started";
 	}
-	
+
 	public void update(long aBytesRead, long aContentLength, int anItem) {
 		bytesRead = aBytesRead;
 		contentLength = aContentLength;
-//		item = anItem;
-		this.status="Uploading";
-//		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Uploading File item :"+this.item+" bytes read :"+this.bytesRead+" of total conten length :"+this.contentLength);
-	}   
+		// item = anItem;
+		this.status = "Uploading";
+		// if(AppLogger.getLogger().isDebugEnabled())
+		// AppLogger.getLogger().debug("Uploading File item :"+this.item+" bytes
+		// read :"+this.bytesRead+" of total conten length
+		// :"+this.contentLength);
+	}
+
 	public void setItem(long anItem) {
 		this.item = anItem;
 	}
-	
+
 	public String getErrorMsg() {
 		return errorMsgStr;
 	}
@@ -47,7 +45,7 @@ public class FileUploadListener implements ProgressListener {
 	}
 
 	public long getBytesRead() {
-			return bytesRead;
+		return bytesRead;
 	}
 
 	public long getContentLength() {
@@ -57,6 +55,5 @@ public class FileUploadListener implements ProgressListener {
 	public long getItem() {
 		return item;
 	}
-	
-	
+
 }

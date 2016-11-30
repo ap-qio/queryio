@@ -23,11 +23,10 @@ package com.queryio.common.exporter.dstruct;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public abstract class ExportableItem implements IExportableItem
-{
+public abstract class ExportableItem implements IExportableItem {
 	private final int left, top;
 	private int width, height;
-	private boolean xmlExport = true; 
+	private boolean xmlExport = true;
 
 	/**
 	 * Constructor
@@ -37,8 +36,7 @@ public abstract class ExportableItem implements IExportableItem
 	 * @param width
 	 * @param height
 	 */
-	protected ExportableItem(final int left, final int top, final int width, final int height)
-	{
+	protected ExportableItem(final int left, final int top, final int width, final int height) {
 		this.left = left;
 		this.top = top;
 		this.width = width;
@@ -50,8 +48,7 @@ public abstract class ExportableItem implements IExportableItem
 	 * 
 	 * @return
 	 */
-	public final int getHeight()
-	{
+	public final int getHeight() {
 		return this.height;
 	}
 
@@ -60,8 +57,7 @@ public abstract class ExportableItem implements IExportableItem
 	 * 
 	 * @return
 	 */
-	public final int getLeft()
-	{
+	public final int getLeft() {
 		return this.left;
 	}
 
@@ -70,8 +66,7 @@ public abstract class ExportableItem implements IExportableItem
 	 * 
 	 * @return
 	 */
-	public final int getTop()
-	{
+	public final int getTop() {
 		return this.top;
 	}
 
@@ -80,13 +75,11 @@ public abstract class ExportableItem implements IExportableItem
 	 * 
 	 * @return
 	 */
-	public final int getWidth()
-	{
+	public final int getWidth() {
 		return this.width;
 	}
 
-	public void setSize(final int width, final int height)
-	{
+	public void setSize(final int width, final int height) {
 		this.height = height;
 		this.width = width;
 	}
@@ -98,6 +91,5 @@ public abstract class ExportableItem implements IExportableItem
 	public void setXmlExport(boolean xmlExport) {
 		this.xmlExport = xmlExport;
 	}
-	
-	
+
 }

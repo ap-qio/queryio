@@ -8,15 +8,17 @@ public class DBEntry {
 
 	List<UserDefinedTag> tags;
 	String tableName;
-	
+
 	public DBEntry(List<UserDefinedTag> tags, String tableName) {
 		this.tags = tags;
 		this.tableName = tableName;
 	}
-	public List<UserDefinedTag> getTags(){
+
+	public List<UserDefinedTag> getTags() {
 		return tags;
 	}
-	public String getTableName(){
+
+	public String getTableName() {
 		return tableName;
 	}
 }

@@ -1,16 +1,13 @@
 package com.queryio.common.util;
 
-public class Count 
-{
-	long count=0;
-	
-	public void increment()
-	{
+public class Count {
+	long count = 0;
+
+	public void increment() {
 		count++;
 	}
-	
-	public long getCount()
-	{
+
+	public long getCount() {
 		return count;
 	}
 }

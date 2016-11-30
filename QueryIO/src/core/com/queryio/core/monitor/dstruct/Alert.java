@@ -24,19 +24,18 @@ package com.queryio.core.monitor.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class Alert
-{
+public class Alert {
 	/* ruleId of the violated rule */
 	private String ruleId;
 
 	private String hostname;
 	/* controllerId of the violated rule */
 	private String nodeId;
-	
+
 	private String description;
-	
+
 	/* startTime when the rule got violated */
-	private String  startTime;
+	private String startTime;
 
 	/*
 	 * endTime when the rule got resetted, it will be -1 if the rule has not got
@@ -52,8 +51,7 @@ public class Alert
 	 * 
 	 * @return
 	 */
-	public String getRuleId()
-	{
+	public String getRuleId() {
 		return this.ruleId;
 	}
 
@@ -62,8 +60,7 @@ public class Alert
 	 * 
 	 * @return
 	 */
-	public String getNodeId()
-	{
+	public String getNodeId() {
 		return this.nodeId;
 	}
 
@@ -72,8 +69,7 @@ public class Alert
 	 * 
 	 * @return
 	 */
-	public String getStartTime()
-	{
+	public String getStartTime() {
 		return this.startTime;
 	}
 
@@ -82,8 +78,7 @@ public class Alert
 	 * 
 	 * @return
 	 */
-	public String getEndTime()
-	{
+	public String getEndTime() {
 		return this.endTime;
 	}
 
@@ -92,8 +87,7 @@ public class Alert
 	 * 
 	 * @return
 	 */
-	public String getSeverity()
-	{
+	public String getSeverity() {
 		return this.severity;
 	}
 
@@ -102,8 +96,7 @@ public class Alert
 	 * 
 	 * @param string
 	 */
-	public void setRuleId(final String string)
-	{
+	public void setRuleId(final String string) {
 		this.ruleId = string;
 	}
 
@@ -112,8 +105,7 @@ public class Alert
 	 * 
 	 * @param string
 	 */
-	public void setNodeId(final String nodeId)
-	{
+	public void setNodeId(final String nodeId) {
 		this.nodeId = nodeId;
 	}
 
@@ -122,8 +114,7 @@ public class Alert
 	 * 
 	 * @param l
 	 */
-	public void setStartTime(final String l)
-	{
+	public void setStartTime(final String l) {
 		this.startTime = l;
 	}
 
@@ -132,8 +123,7 @@ public class Alert
 	 * 
 	 * @param l
 	 */
-	public void setEndTime(final String l)
-	{
+	public void setEndTime(final String l) {
 		this.endTime = l;
 	}
 
@@ -142,8 +132,7 @@ public class Alert
 	 * 
 	 * @param string
 	 */
-	public void setSeverity(final String string)
-	{
+	public void setSeverity(final String string) {
 		this.severity = string;
 	}
 
@@ -152,8 +141,7 @@ public class Alert
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("Alert: ");
 
 		sbToString.append(" RuleId=");
@@ -177,9 +165,8 @@ public class Alert
 	public void setHostname(String hostname) {
 		this.hostname = hostname;
 	}
-	
-	public String getDescription() 
-	{
+
+	public String getDescription() {
 		return description;
 	}
 

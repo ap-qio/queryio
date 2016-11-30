@@ -26,8 +26,7 @@ import com.queryio.common.util.QueueItem;
  * 
  * @author Exceed Consultancy Services
  */
-public class EventQueueItem implements QueueItem
-{
+public class EventQueueItem implements QueueItem {
 	private BaseEvent baseEvent;
 	static long counter = 0;
 	final long number;
@@ -37,8 +36,7 @@ public class EventQueueItem implements QueueItem
 	 * 
 	 * @param event
 	 */
-	public EventQueueItem(final BaseEvent event)
-	{
+	public EventQueueItem(final BaseEvent event) {
 		this.baseEvent = event;
 		number = ++counter;
 	}
@@ -48,8 +46,7 @@ public class EventQueueItem implements QueueItem
 	 * 
 	 * @return BaseEvent
 	 */
-	public BaseEvent getBaseEvent()
-	{
+	public BaseEvent getBaseEvent() {
 		return this.baseEvent;
 	}
 
@@ -59,28 +56,26 @@ public class EventQueueItem implements QueueItem
 	 * @param baseEvent
 	 *            The baseEvent to set
 	 */
-	public void setBaseEvent(final BaseEvent baseEvent)
-	{
+	public void setBaseEvent(final BaseEvent baseEvent) {
 		this.baseEvent = baseEvent;
 	}
 
-	public void serve()
-	{
+	public void serve() {
 		/*
-		if (baseEvent == null)
-		{
-			AppLogger.getLogger(IProductConstants.AGENTLESS_MONITOR).fatal("Event served QueueItem (NULL base event) counter: " + number);
-		}
-		else if (baseEvent instanceof ControllerStateChangeEvent)
-		{
-			ControllerStateChangeEvent ce = (ControllerStateChangeEvent)baseEvent;
-			AppLogger.getLogger(IProductConstants.AGENTLESS_MONITOR).fatal("Event served QueueItem counter: " + number + " controller: " + ce.getControllerId() + " current state: " + ce.getCurrentState() + " new state: " + ce.getNewState());
-		}
-		else
-		{
-			AppLogger.getLogger(IProductConstants.AGENTLESS_MONITOR).fatal("Event served QueueItem counter: " + number + " class: " + baseEvent.getClass().getName());
-		}
-		*/
+		 * if (baseEvent == null) {
+		 * AppLogger.getLogger(IProductConstants.AGENTLESS_MONITOR).
+		 * fatal("Event served QueueItem (NULL base event) counter: " + number);
+		 * } else if (baseEvent instanceof ControllerStateChangeEvent) {
+		 * ControllerStateChangeEvent ce =
+		 * (ControllerStateChangeEvent)baseEvent;
+		 * AppLogger.getLogger(IProductConstants.AGENTLESS_MONITOR).
+		 * fatal("Event served QueueItem counter: " + number + " controller: " +
+		 * ce.getControllerId() + " current state: " + ce.getCurrentState() +
+		 * " new state: " + ce.getNewState()); } else {
+		 * AppLogger.getLogger(IProductConstants.AGENTLESS_MONITOR).
+		 * fatal("Event served QueueItem counter: " + number + " class: " +
+		 * baseEvent.getClass().getName()); }
+		 */
 		this.baseEvent.getDispatcher().dispatchEvent(this.baseEvent);
 	}
 }

@@ -24,16 +24,14 @@ import java.io.ByteArrayOutputStream;
  * 
  * @author Exceed Consultancy Services
  */
-public class PngOutputStream extends ByteArrayOutputStream
-{
+public class PngOutputStream extends ByteArrayOutputStream {
 	private byte[] byteArrayToUse = null;
 	private boolean referenceChanged = false;
 
 	/**
 	 * 
 	 */
-	public PngOutputStream(final byte[] array)
-	{
+	public PngOutputStream(final byte[] array) {
 		super();
 		this.byteArrayToUse = array;
 	}
@@ -41,8 +39,7 @@ public class PngOutputStream extends ByteArrayOutputStream
 	/**
 	 * @param size
 	 */
-	public PngOutputStream(final int size, final byte[] array)
-	{
+	public PngOutputStream(final int size, final byte[] array) {
 		super(size);
 		this.byteArrayToUse = array;
 	}
@@ -52,10 +49,8 @@ public class PngOutputStream extends ByteArrayOutputStream
 	 * 
 	 * @see java.io.ByteArrayOutputStream#toByteArray()
 	 */
-	public synchronized byte[] toByteArray()
-	{
-		if ((this.byteArrayToUse == null) || (this.byteArrayToUse.length < this.count))
-		{
+	public synchronized byte[] toByteArray() {
+		if ((this.byteArrayToUse == null) || (this.byteArrayToUse.length < this.count)) {
 			this.byteArrayToUse = new byte[this.count];
 			this.referenceChanged = true;
 		}
@@ -63,34 +58,29 @@ public class PngOutputStream extends ByteArrayOutputStream
 		return this.byteArrayToUse;
 	}
 
-	public final boolean hasReferenceChanged()
-	{
+	public final boolean hasReferenceChanged() {
 		return this.referenceChanged;
 	}
 
-	public final int getLastPosition()
-	{
+	public final int getLastPosition() {
 		return this.count;
 	}
 
 	/**
 	 * @param bs
 	 */
-	public void setByteArray(final byte[] bs)
-	{
+	public void setByteArray(final byte[] bs) {
 		this.byteArrayToUse = bs;
 	}
 
 	/**
 	 * @param b
 	 */
-	public void setReferenceChanged(final boolean b)
-	{
+	public void setReferenceChanged(final boolean b) {
 		this.referenceChanged = b;
 	}
 
-	public void setLastPosition(final int count)
-	{
+	public void setLastPosition(final int count) {
 		this.count = count;
 	}
 

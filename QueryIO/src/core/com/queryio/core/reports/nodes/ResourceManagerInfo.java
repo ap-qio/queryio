@@ -35,7 +35,7 @@ import com.queryio.core.monitor.charts.Series;
 import com.queryio.core.monitor.managers.ChartManager;
 import com.queryio.core.monitor.managers.SummaryManager;
 
-public class ResourceManagerInfo extends AbstractExportableNode{
+public class ResourceManagerInfo extends AbstractExportableNode {
 	/**
 	 * 
 	 */
@@ -45,128 +45,128 @@ public class ResourceManagerInfo extends AbstractExportableNode{
 	Host host;
 	String title = "";
 	Node node;
-	private static UserInterface userInterface = UIGraphicsFactory.getUserInterface(IProductConstants.USER_INTERFACE_SWING);
-	public ResourceManagerInfo(String exportedFileName, Timestamp startTimestamp, Timestamp endTimestamp, Host host, Node node, String title) {
-		super("ResourceManager Info Report Id: " + node.getId() + " Host: " + host.getHostIP(), 0, "ResourceManager Info Report Id: " + node.getId() + " Host: " + host.getHostIP(), exportedFileName, "ResourceManager Info Report Id: " + node.getId() + " Host: " + host.getHostIP());
+	private static UserInterface userInterface = UIGraphicsFactory
+			.getUserInterface(IProductConstants.USER_INTERFACE_SWING);
+
+	public ResourceManagerInfo(String exportedFileName, Timestamp startTimestamp, Timestamp endTimestamp, Host host,
+			Node node, String title) {
+		super("ResourceManager Info Report Id: " + node.getId() + " Host: " + host.getHostIP(), 0,
+				"ResourceManager Info Report Id: " + node.getId() + " Host: " + host.getHostIP(), exportedFileName,
+				"ResourceManager Info Report Id: " + node.getId() + " Host: " + host.getHostIP());
 		this.startTimestamp = startTimestamp;
 		this.endTimestamp = endTimestamp;
 		this.host = host;
-		this.node=node;
+		this.node = node;
 		this.title = title;
 		this.setFilePath(EnvironmentalConstants.getReportsDirectory());
 	}
+
 	@Override
 	public IExportableItem[] getItems() {
-		ArrayList chartDataList = ChartManager.getResourceManagerChartDataBetweenTime(node.getId(), startTimestamp, endTimestamp);
-		SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MM-dd hh:mm a");	
+		ArrayList chartDataList = ChartManager.getResourceManagerChartDataBetweenTime(node.getId(), startTimestamp,
+				endTimestamp);
+		SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MM-dd hh:mm a");
 		IExportableItem[] items = new IExportableItem[chartDataList.size() + 9];
-		
-		items[0] = new Label(0, 0, 100, 20, " Generated On: "+ sdf.format((new Date()).getTime()));
+
+		items[0] = new Label(0, 0, 100, 20, " Generated On: " + sdf.format((new Date()).getTime()));
 		items[2] = new Label(0, 0, 100, 20, " Host Name: " + host.getHostIP());
 		items[4] = new Label(0, 0, 100, 20, " Report Filter:");
-		items[6] = new Label(0, 0, 100, 20," Start Time: "+ sdf.format(startTimestamp.getTime())+"  End Time: "+ sdf.format(endTimestamp.getTime()));
-		items[7] = new Label(0, 0, 100, 20," ");
-		items[8] = new Group(0, 0, 100, 50, "", new IExportableItem[]
-					{				
-						new Chart(0, 0, 49, 30, getPieChart()),				
-						new Table(50, 0, 49, 30, getStatusSummaryTableModel(), new int[] { 50 }, null)
-					});
-		int k=0;
+		items[6] = new Label(0, 0, 100, 20, " Start Time: " + sdf.format(startTimestamp.getTime()) + "  End Time: "
+				+ sdf.format(endTimestamp.getTime()));
+		items[7] = new Label(0, 0, 100, 20, " ");
+		items[8] = new Group(0, 0, 100, 50, "", new IExportableItem[] { new Chart(0, 0, 49, 30, getPieChart()),
+				new Table(50, 0, 49, 30, getStatusSummaryTableModel(), new int[] { 50 }, null) });
+		int k = 0;
 		int i = 0;
-		for(i = 0; i < chartDataList.size()/2; i ++){
-			items[i + 9] = new Group(0, 0, 100, 25, "", new IExportableItem[]
-				{
-					new Chart(0, 0, 49, 20, getChart((ChartData)chartDataList.get(k++))),
-					new Chart(0, 0, 49, 20, getChart((ChartData)chartDataList.get(k++)))
-				});
+		for (i = 0; i < chartDataList.size() / 2; i++) {
+			items[i + 9] = new Group(0, 0, 100, 25, "",
+					new IExportableItem[] { new Chart(0, 0, 49, 20, getChart((ChartData) chartDataList.get(k++))),
+							new Chart(0, 0, 49, 20, getChart((ChartData) chartDataList.get(k++))) });
 		}
-		if(chartDataList.size() % 2 == 1)
-		{
-			items[i + 9] = new Group(0, 0, 50, 25, "", new IExportableItem[]
-					{
-						new Chart(0, 0, 49, 20, getChart((ChartData)chartDataList.get(k++))),
-					});
+		if (chartDataList.size() % 2 == 1) {
+			items[i + 9] = new Group(0, 0, 50, 25, "",
+					new IExportableItem[] { new Chart(0, 0, 49, 20, getChart((ChartData) chartDataList.get(k++))), });
 		}
 		return items;
 	}
 
 	private TableModel getStatusSummaryTableModel() {
-		ArrayList clusterSumm = SummaryManager.getResourceManagerAppsDetailStatusSummaryForId(node.getId());	
+		ArrayList clusterSumm = SummaryManager.getResourceManagerAppsDetailStatusSummaryForId(node.getId());
 
-		String[] colNames = {"Status Summary"};
+		String[] colNames = { "Status Summary" };
 		DefaultTableModel tableModel = new DefaultTableModel(colNames, 0);
-		
+
 		Object o[];
-		for(int i = 0; i < clusterSumm.size(); i ++){			
+		for (int i = 0; i < clusterSumm.size(); i++) {
 			Parameter p = (Parameter) clusterSumm.get(i);
 			o = new Object[1];
 			o[0] = (String) p.getName() + " :  " + p.getValue();
 			tableModel.addRow(o);
-		}				
+		}
 		return tableModel;
-		
+
 	}
+
 	private AppChart getPieChart() {
 		ArrayList clusterInfo = SummaryManager.getResourceManagerAppsDetailForId(node.getId());
 
-		AppPieChart pieChart = new AppPieChart(userInterface, ChartPropertiesManager.TYPE_RUNTIME_CHARTS, IProductConstants.QUERYIO);
+		AppPieChart pieChart = new AppPieChart(userInterface, ChartPropertiesManager.TYPE_RUNTIME_CHARTS,
+				IProductConstants.QUERYIO);
 		pieChart.setBackgroundColor(ChartConstants.COLOR_WHITE);
 		pieChart.setChartTitle("Application Summary");
 		pieChart.showTitle(true);
 		pieChart.showBorder(true);
 		pieChart.setAlternateBackgroundColor(ChartConstants.COLOR_ALTERNATE);
 		pieChart.showLegend(true);
-		
+
 		int appsRunning = (Integer) clusterInfo.get(0);
 		int appsPending = (Integer) clusterInfo.get(1);
 		int appsCompleted = (Integer) clusterInfo.get(2);
 		int appsKilled = (Integer) clusterInfo.get(3);
-		
+
 		Double appsRunningPer = (Double) (appsRunning * 1.0);
 		Double appsPendingPer = (Double) (appsPending * 1.0);
 		Double appsCompletedPer = (Double) (appsCompleted * 1.0);
 		Double appsKilledPer = (Double) (appsKilled * 1.0);
-		
-		if(!(appsRunningPer==0 && appsPendingPer==0 && appsCompletedPer==0 && appsKilledPer==0))
-		{
+
+		if (!(appsRunningPer == 0 && appsPendingPer == 0 && appsCompletedPer == 0 && appsKilledPer == 0)) {
 			pieChart.initializeSeries(clusterInfo.size());
-			while(appsRunningPer > Integer.MAX_VALUE)
-			{
+			while (appsRunningPer > Integer.MAX_VALUE) {
 				appsRunningPer /= 100;
 				appsPendingPer /= 100;
 				appsCompletedPer /= 100;
 				appsKilledPer /= 100;
 			}
-			
+
 			pieChart.setSeriesName(0, "Running");
 			pieChart.setSeriesValue(0, appsRunningPer.intValue());
-			
+
 			pieChart.setSeriesName(1, "Pending");
 			pieChart.setSeriesValue(1, appsPendingPer.intValue());
-			
+
 			pieChart.setSeriesName(2, "Completed");
 			pieChart.setSeriesValue(2, appsCompletedPer.intValue());
-			
+
 			pieChart.setSeriesName(3, "Killed");
 			pieChart.setSeriesValue(3, appsKilledPer.intValue());
-			
+
 			pieChart.setSeriesColour(0, Color.decode("#CC9752"));
 			pieChart.setSeriesColour(1, Color.decode("#996699"));
 			pieChart.setSeriesColour(2, Color.decode("#FFCC00"));
 			pieChart.setSeriesColour(3, Color.decode("#EAA228"));
-		}
-		else{
+		} else {
 			pieChart.initializeSeries(1);
 			pieChart.setSeriesName(0, "No Data");
 			pieChart.setSeriesValue(0, 100);
 			pieChart.setSeriesColour(0, Color.decode("#808080"));
 		}
-		return pieChart;		
+		return pieChart;
 	}
-	
-	private AppChart getChart(ChartData cd){ 		
-		
-		final AppLineChart lineChart = new AppLineChart(userInterface, ChartPropertiesManager.TYPE_RUNTIME_CHARTS, IProductConstants.QUERYIO);
+
+	private AppChart getChart(ChartData cd) {
+
+		final AppLineChart lineChart = new AppLineChart(userInterface, ChartPropertiesManager.TYPE_RUNTIME_CHARTS,
+				IProductConstants.QUERYIO);
 		lineChart.initializeSeries(cd.getSeriesList().size(), cd.getDataPoints().size(), false);
 		lineChart.setChartTitle(cd.getChartName());
 		lineChart.showTitle(true);
@@ -180,84 +180,77 @@ public class ResourceManagerInfo extends AbstractExportableNode{
 		lineChart.showXAxisGrids(true);
 		lineChart.showMarker(true);
 		lineChart.setLogarithmic(true);
-//		lineChart.setYAxisSeriesColour(0, new Color(16, 146, 50));
-//		lineChart.showLabel(true);
-		
-		final XAxisLongSeries xSeries = (XAxisLongSeries)lineChart.getXAxisSeries();
-		
-		
+		// lineChart.setYAxisSeriesColour(0, new Color(16, 146, 50));
+		// lineChart.showLabel(true);
+
+		final XAxisLongSeries xSeries = (XAxisLongSeries) lineChart.getXAxisSeries();
+
 		long timestamp;
 		int value, max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
-		if(cd.getDataPoints().size()>23){
-			int diff = cd.getDataPoints().size()/23;
-			if(diff==1){
-				diff = (int)(((float)cd.getDataPoints().size()/23)+0.5);
+		if (cd.getDataPoints().size() > 23) {
+			int diff = cd.getDataPoints().size() / 23;
+			if (diff == 1) {
+				diff = (int) (((float) cd.getDataPoints().size() / 23) + 0.5);
 			}
-			for (int index = 0,i=0; index < cd.getDataPoints().size(); index +=diff,i++) 
-			{
-				timestamp = (Long)cd.getDataPoints().get(index);
-				xSeries.setValue(i, timestamp);		
+			for (int index = 0, i = 0; index < cd.getDataPoints().size(); index += diff, i++) {
+				timestamp = (Long) cd.getDataPoints().get(index);
+				xSeries.setValue(i, timestamp);
 			}
-			for (int index = 0; index < cd.getSeriesList().size(); index ++) 
-			{
+			for (int index = 0; index < cd.getSeriesList().size(); index++) {
 				Series series = (Series) cd.getSeriesList().get(index);
 				lineChart.setYAxisSeriesText(index, series.getName());
-				YAxisSeries ySeries = (YAxisSeries)lineChart.getYAxisSeries(index);
-				int j=0;
-				for(int i = 0 ; i < series.getValues().size(); i +=diff,j++){
+				YAxisSeries ySeries = (YAxisSeries) lineChart.getYAxisSeries(index);
+				int j = 0;
+				for (int i = 0; i < series.getValues().size(); i += diff, j++) {
 					String str = String.valueOf(series.getValues().get(i));
-					if(str != null && !str.equals("null"))
-						value = ((Double)(Double.parseDouble(str))).intValue();
-					else{
+					if (str != null && !str.equals("null"))
+						value = ((Double) (Double.parseDouble(str))).intValue();
+					else {
 						value = 0;
 					}
 					ySeries.setValue(j, value);
-					if(value > max){
+					if (value > max) {
 						max = value;
 					}
-					if(value < min){
+					if (value < min) {
 						min = value;
 					}
 				}
 				lineChart.setMinMaxYValue(j, max + 10);
-			}	
-		}
-		else{
-			for (int index = 0; index < cd.getDataPoints().size(); index ++) 
-			{
-				timestamp = (Long)cd.getDataPoints().get(index);
-				xSeries.setValue(index, timestamp);		
 			}
-			for (int index = 0; index < cd.getSeriesList().size(); index ++) 
-			{
+		} else {
+			for (int index = 0; index < cd.getDataPoints().size(); index++) {
+				timestamp = (Long) cd.getDataPoints().get(index);
+				xSeries.setValue(index, timestamp);
+			}
+			for (int index = 0; index < cd.getSeriesList().size(); index++) {
 				Series series = (Series) cd.getSeriesList().get(index);
 				lineChart.setYAxisSeriesText(index, series.getName());
-				YAxisSeries ySeries = (YAxisSeries)lineChart.getYAxisSeries(index);
-				for(int i = 0 ; i < series.getValues().size(); i ++){
+				YAxisSeries ySeries = (YAxisSeries) lineChart.getYAxisSeries(index);
+				for (int i = 0; i < series.getValues().size(); i++) {
 					String str = String.valueOf(series.getValues().get(i));
-					if(str != null && !str.equals("null"))
-						value = ((Double)(Double.parseDouble(str))).intValue();
-					else{
+					if (str != null && !str.equals("null"))
+						value = ((Double) (Double.parseDouble(str))).intValue();
+					else {
 						value = 0;
 					}
 					ySeries.setValue(i, value);
-					if(value > max){
+					if (value > max) {
 						max = value;
 					}
-					if(value < min){
+					if (value < min) {
 						min = value;
 					}
 				}
 				lineChart.setMinMaxYValue(index, max + 10);
-			}		
+			}
 		}
-		return lineChart;		
+		return lineChart;
 	}
-
 
 	@Override
 	public String getHeaderText() {
 		return title;
 	}
-	
+
 }

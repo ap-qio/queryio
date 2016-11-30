@@ -24,114 +24,99 @@ import com.queryio.common.database.DBTypeProperties;
 import com.queryio.common.database.DriverShim;
 import com.queryio.common.util.AppLogger;
 
-public class GenericDBConfigDAO 
-{
-	public static String[] getAllDatabaseNames() throws FileNotFoundException
-	{
+public class GenericDBConfigDAO {
+	public static String[] getAllDatabaseNames() throws FileNotFoundException {
 		String filePath = "";
 		File file = null;
-		
+
 		filePath = EnvironmentalConstants.getAppHome() + File.separator + QueryIOConstants.DB_CONFIG_FOLDER;
-//		filePath = "/QueryIO/tomcat/webapps/queryio/DBTypeConfig";
+		// filePath = "/QueryIO/tomcat/webapps/queryio/DBTypeConfig";
 		file = new File(filePath);
-		
+
 		return file.list((FilenameFilter) HiddenFileFilter.VISIBLE);
 	}
-	
-	public static ArrayList<String> getAllGenericDataTypes()
-	{
+
+	public static ArrayList<String> getAllGenericDataTypes() {
 		ArrayList<String> arr = new ArrayList<String>();
 		Iterator it = MetadataConstants.STATIC_DATATYPES_TO_WRAPPER_MAP.keySet().iterator();
-		
-		while(it.hasNext())
-		{
-			try
-			{
+
+		while (it.hasNext()) {
+			try {
 				String key = it.next().toString();
 				arr.add(key);
-			}
-			catch(Exception e)
-			{
-				AppLogger.getLogger().fatal("Cannot get generic data types : " , e);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Cannot get generic data types : ", e);
 			}
 		}
-		
+
 		return arr;
 	}
-	
-	public static String getGenericDataType(String type, DBTypeProperties props)
-	{
+
+	public static String getGenericDataType(String type, DBTypeProperties props) {
 		Class wrapperClass;
-		
-		if(props.getKeyFromValue(type) != null)
-		{
+
+		if (props.getKeyFromValue(type) != null) {
 			wrapperClass = props.getKeyFromValue(type);
 			return MetadataConstants.STATIC_WRAPPER_MAP_TO_DATATYPES.get(wrapperClass);
-		}
-		else
+		} else
 			return MetadataConstants.GENERIC_DATA_TYPE_STRING;
 
 	}
-	
-	private static Connection verifyDatabaseSettings(String driverName, String url, String username, String password, String jarFile) throws Exception 
-	{
-		File file = new File(EnvironmentalConstants.getAppHome()+QueryIOConstants.JDBC_JAR_DIR+File.separator+jarFile);
-		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("URL: "+file.toURI().toURL());
+
+	private static Connection verifyDatabaseSettings(String driverName, String url, String username, String password,
+			String jarFile) throws Exception {
+		File file = new File(
+				EnvironmentalConstants.getAppHome() + QueryIOConstants.JDBC_JAR_DIR + File.separator + jarFile);
+		if (AppLogger.getLogger().isDebugEnabled())
+			AppLogger.getLogger().debug("URL: " + file.toURI().toURL());
 		URL u = file.toURI().toURL();
 		String classname = driverName;
 		URLClassLoader ucl = new URLClassLoader(new URL[] { u });
-		Driver driver = (Driver)Class.forName(classname, true, ucl).newInstance();
+		Driver driver = (Driver) Class.forName(classname, true, ucl).newInstance();
 		DriverManager.registerDriver(new DriverShim(driver));
 		return DriverManager.getConnection(url, username, password);
 	}
-	
-	public static String getDefaultSchemaFromDBName(String dbName)
-	{
+
+	public static String getDefaultSchemaFromDBName(String dbName) {
 		Connection conn = null;
 		String defaultSchemaQuery = null;
 		String schemaName = null;
 		DBTypeProperties props = null;
 		CustomTagDBConfig dbConfig = null;
-		
+
 		Statement stmt = null;
 		ResultSet rs = null;
-		
-		try
-		{
+
+		try {
 			dbConfig = CustomTagDBConfigManager.getConfig(dbName);
-			conn = verifyDatabaseSettings(dbConfig.getCustomTagDriverClass(), dbConfig.getCustomTagUrl(), dbConfig.getCustomTagUserName(), dbConfig.getCustomTagPassword(), dbConfig.getCustomTagDriverJarPath());
+			conn = verifyDatabaseSettings(dbConfig.getCustomTagDriverClass(), dbConfig.getCustomTagUrl(),
+					dbConfig.getCustomTagUserName(), dbConfig.getCustomTagPassword(),
+					dbConfig.getCustomTagDriverJarPath());
 			props = CustomTagDBConfigManager.getDatabaseDataTypeMap(dbName, null);
-			
+
 			defaultSchemaQuery = props.getDefaultSchema();
-			
+
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(defaultSchemaQuery);
-			if (rs.next())
-			{
+			if (rs.next()) {
 				schemaName = rs.getString(1);
 			}
-			
-		}
-		catch(Exception e)
-		{
+
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getLocalizedMessage(), e);
 		}
-		
+
 		return schemaName;
 	}
-	
-	public static void main(String args[])
-	{
-		try 
-		{
-//			String arr[] = getAllDatabaseNames();
-//			for(int i=0; i<arr.length; i++)
-//				System.out.println(arr[i]);
-//			System.out.println(getAllGenericDataTypes().toString());
+
+	public static void main(String args[]) {
+		try {
+			// String arr[] = getAllDatabaseNames();
+			// for(int i=0; i<arr.length; i++)
+			// System.out.println(arr[i]);
+			// System.out.println(getAllGenericDataTypes().toString());
 			getDefaultSchemaFromDBName("newDB");
-		}
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

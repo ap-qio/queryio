@@ -17,29 +17,25 @@ import com.queryio.core.bean.Node;
 
 public class HadoopServiceDAO {
 
-	public static void insert(Connection connection, HadoopService hadoopService) throws Exception{
+	public static void insert(Connection connection, HadoopService hadoopService) throws Exception {
 		PreparedStatement ps = null;
-		try
-		{
+		try {
 			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.PREPARED_QRY_INSERT_HADOOPSERVICE);
 			ps.setString(1, hadoopService.getNodeId());
 			ps.setTimestamp(2, hadoopService.getTimeOfCall());
 			ps.setString(3, hadoopService.getType());
 			ps.setString(4, hadoopService.getStatus());
 			ps.setString(5, hadoopService.getOutputFilePath());
-			
+
 			CoreDBManager.executeUpdateStatement(connection, ps);
-		}
-		finally
-		{
+		} finally {
 			DatabaseFunctions.closePreparedStatement(ps);
-		}	
+		}
 	}
-	
-	public static void update(Connection connection, HadoopService hadoopService) throws Exception{
+
+	public static void update(Connection connection, HadoopService hadoopService) throws Exception {
 		PreparedStatement ps = null;
-		try
-		{
+		try {
 			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.PREPARED_QRY_UPDATE_HADOOPSERVICE);
 
 			ps.setString(1, hadoopService.getStatus());
@@ -47,24 +43,22 @@ public class HadoopServiceDAO {
 			ps.setString(3, hadoopService.getNodeId());
 			ps.setTimestamp(4, hadoopService.getTimeOfCall());
 			ps.setString(5, hadoopService.getType());
-			
+
 			CoreDBManager.executeUpdateStatement(connection, ps);
-		}
-		finally
-		{
+		} finally {
 			DatabaseFunctions.closePreparedStatement(ps);
-		}	
+		}
 	}
 
-	public static ArrayList getAll(Connection connection) throws Exception{
+	public static ArrayList getAll(Connection connection) throws Exception {
 		ArrayList data = new ArrayList();
 		Statement st = null;
 		ResultSet rs = null;
-		try{
+		try {
 			st = connection.createStatement();
 			rs = st.executeQuery("SELECT * FROM " + TableConstants.TABLE_HADOOPSERVICES);
 
-			while(rs.next()){
+			while (rs.next()) {
 				ArrayList rowData = new ArrayList();
 				String id = rs.getString(ColumnConstants.COL_HADOOPSERVICES_NODEID);
 				Node node = NodeDAO.getNode(connection, id);
@@ -74,25 +68,26 @@ public class HadoopServiceDAO {
 				rowData.add(rs.getString(ColumnConstants.COL_HADOOPSERVICES_TIMEOFCALL));
 				rowData.add(rs.getString(ColumnConstants.COL_HADOOPSERVICES_TYPE));
 				rowData.add(rs.getString(ColumnConstants.COL_HADOOPSERVICES_STATUS));
-				rowData.add(rs.getString(ColumnConstants.COL_HADOOPSERVICES_OUTPUTFILEPATH));		
+				rowData.add(rs.getString(ColumnConstants.COL_HADOOPSERVICES_OUTPUTFILEPATH));
 				data.add(rowData);
 			}
-		}finally{
+		} finally {
 			DatabaseFunctions.closeSQLObjects(st, rs);
 		}
-		return data;		
+		return data;
 	}
-	
-	public static ArrayList delete(Connection connection, String nodeId) throws Exception{
+
+	public static ArrayList delete(Connection connection, String nodeId) throws Exception {
 		ArrayList data = new ArrayList();
 		Statement st = null;
-		try{
+		try {
 			st = connection.createStatement();
-			st.execute("DELETE FROM " + TableConstants.TABLE_HADOOPSERVICES + " WHERE " + ColumnConstants.COL_HADOOPSERVICES_NODEID + " = '"+nodeId+"'");			
-		}finally{
+			st.execute("DELETE FROM " + TableConstants.TABLE_HADOOPSERVICES + " WHERE "
+					+ ColumnConstants.COL_HADOOPSERVICES_NODEID + " = '" + nodeId + "'");
+		} finally {
 			DatabaseFunctions.closeStatement(st);
 		}
-		return data;		
+		return data;
 	}
 
 }

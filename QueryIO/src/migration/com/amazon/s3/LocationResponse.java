@@ -19,71 +19,71 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * A Response object returned from AWSAuthConnection.getBucketLocation().
- * Parses the response XML and exposes the location constraint
- * via the geteLocation() method.
+ * A Response object returned from AWSAuthConnection.getBucketLocation(). Parses
+ * the response XML and exposes the location constraint via the geteLocation()
+ * method.
  */
 public class LocationResponse extends Response {
-    String location;
-    
-    /**
-     * Parse the response to a ?location query.
-     */
-    public LocationResponse(HttpURLConnection connection) throws IOException {
-        super(connection);
-        if (connection.getResponseCode() < 400) {
-            try {
-                XMLReader xr = Utils.createXMLReader();;
-                LocationResponseHandler handler = new LocationResponseHandler();
-                xr.setContentHandler(handler);
-                xr.setErrorHandler(handler);
+	String location;
 
-                xr.parse(new InputSource(connection.getInputStream()));
-                this.location = handler.location;
-            } catch (SAXException e) {
-                throw new RuntimeException("Unexpected error parsing ListAllMyBuckets xml", e);
-            }
-        } else {
-            this.location = "<error>";
-        }
-    }
+	/**
+	 * Parse the response to a ?location query.
+	 */
+	public LocationResponse(HttpURLConnection connection) throws IOException {
+		super(connection);
+		if (connection.getResponseCode() < 400) {
+			try {
+				XMLReader xr = Utils.createXMLReader();
+				;
+				LocationResponseHandler handler = new LocationResponseHandler();
+				xr.setContentHandler(handler);
+				xr.setErrorHandler(handler);
 
-    /**
-     * Report the location-constraint for a bucket.
-     * A value of null indicates an error; 
-     * the empty string indicates no constraint;
-     * and any other value is an actual location constraint value.
-     */
-    public String getLocation() {
-        return location;
-    }
+				xr.parse(new InputSource(connection.getInputStream()));
+				this.location = handler.location;
+			} catch (SAXException e) {
+				throw new RuntimeException("Unexpected error parsing ListAllMyBuckets xml", e);
+			}
+		} else {
+			this.location = "<error>";
+		}
+	}
 
-    /**
-     * Helper class to parse LocationConstraint response XML
-     */
-    static class LocationResponseHandler extends DefaultHandler {
-        String location = null;
-        private StringBuffer currText = null;
-        
-        public void startDocument() {
-        }
+	/**
+	 * Report the location-constraint for a bucket. A value of null indicates an
+	 * error; the empty string indicates no constraint; and any other value is
+	 * an actual location constraint value.
+	 */
+	public String getLocation() {
+		return location;
+	}
 
-        public void startElement(String uri, String name, String qName, Attributes attrs) {
-            if (name.equals("LocationConstraint")) {
-                this.currText = new StringBuffer();
-            }
-        }
+	/**
+	 * Helper class to parse LocationConstraint response XML
+	 */
+	static class LocationResponseHandler extends DefaultHandler {
+		String location = null;
+		private StringBuffer currText = null;
 
-        public void endElement(String uri, String name, String qName) {
-            if (name.equals("LocationConstraint")) {
-                location = this.currText.toString();
-                this.currText = null;
-            }
-        }
-        
-        public void characters(char ch[], int start, int length) {
-            if (currText != null)
-                this.currText.append(ch, start, length);
-        }
-    }
+		public void startDocument() {
+		}
+
+		public void startElement(String uri, String name, String qName, Attributes attrs) {
+			if (name.equals("LocationConstraint")) {
+				this.currText = new StringBuffer();
+			}
+		}
+
+		public void endElement(String uri, String name, String qName) {
+			if (name.equals("LocationConstraint")) {
+				location = this.currText.toString();
+				this.currText = null;
+			}
+		}
+
+		public void characters(char ch[], int start, int length) {
+			if (currText != null)
+				this.currText.append(ch, start, length);
+		}
+	}
 }

@@ -10,7 +10,7 @@ public class IISLogDataDefinitionImpl implements IDataDefinition {
 	@Override
 	public ArrayList<ColumnMetadata> getColumnMetadata() {
 		ArrayList<ColumnMetadata> colMetaDataList = new ArrayList<ColumnMetadata>();
-		
+
 		colMetaDataList.add(new ColumnMetadata("FILEPATH", String.class, 1280));
 		colMetaDataList.add(new ColumnMetadata("CLIENT_IP", String.class, 128));
 		colMetaDataList.add(new ColumnMetadata("USERNAME", String.class, 255));
@@ -27,15 +27,16 @@ public class IISLogDataDefinitionImpl implements IDataDefinition {
 		colMetaDataList.add(new ColumnMetadata("REQUESTTYPE", String.class, 128));
 		colMetaDataList.add(new ColumnMetadata("TARGETOFOPER", String.class, 255));
 		colMetaDataList.add(new ColumnMetadata("PARAMETERS", String.class, 255));
-		
+
 		return colMetaDataList;
 	}
+
 	@Override
 	public String getTableName() {
 		return "adhoc_iislogparserjob";
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		System.out.println(new IISLogDataDefinitionImpl().getColumnMetadata());
 	}
 }

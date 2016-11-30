@@ -34,77 +34,65 @@ import javax.swing.tree.DefaultTreeModel;
 import com.queryio.common.QueryIOConstants;
 import com.queryio.common.util.DataTypes;
 
-
 /**
  * 
  * @author Exceed Consultancy Services
  */
-public final class JMXDataManager
-{
+public final class JMXDataManager {
 	private static final char COLUMN_ATTR_SEPERATOR = '_';
-	
+
 	private ArrayList monitoredHistoricalAttributes = null;
 	private ArrayList monitoredSummaryAttributes = null;
-	
+
 	private boolean monitoredHistoricalAttributesChanged = false;
 	private boolean monitoredSummaryAttributesChanged = false;
-	
-	
+
 	private ArrayList monitoredHistoricalObjectNames = null;
 	private ArrayList monitoredSummaryObjectNames = null;
-	
+
 	private MBeanServerConnection server = null;
-	
+
 	private ControllerAttribute controllerAttribute = null;
-	
+
 	private BaseController base = null;
-	
+
 	private transient DefaultMutableTreeNode parentNode = null;
-	
+
 	private DefaultTreeModel dynamicAttributes = null;
-	
-	void init(final BaseController base) throws SecurityException, IllegalArgumentException
-	{
+
+	void init(final BaseController base) throws SecurityException, IllegalArgumentException {
 		this.base = base;
 	}
-	
-	public void setServer(final MBeanServerConnection server)
-	{
+
+	public void setServer(final MBeanServerConnection server) {
 		this.server = server;
 	}
-	
-	void setMonitoredHistoricalAttributes(final ArrayList attrList)
-	{
+
+	void setMonitoredHistoricalAttributes(final ArrayList attrList) {
 		this.monitoredHistoricalAttributes = attrList;
 		this.monitoredHistoricalAttributesChanged = true;
 	}
-	
-	void setMonitoredSummaryAttributes(final ArrayList attrList)
-	{
+
+	void setMonitoredSummaryAttributes(final ArrayList attrList) {
 		this.monitoredSummaryAttributes = attrList;
 		this.monitoredSummaryAttributesChanged = true;
 	}
-	
-	private ArrayList getObjectNames(final ArrayList alAttrbutes) throws Exception
-	{
+
+	private ArrayList getObjectNames(final ArrayList alAttrbutes) throws Exception {
 		ArrayList alObjects = null;
-		if ((alAttrbutes != null) && (alAttrbutes.size() > 0))
-		{
+		if ((alAttrbutes != null) && (alAttrbutes.size() > 0)) {
 			alObjects = new ArrayList();
 			ControllerAttribute ca = null;
 			String name = null;
 			int index = -1;
-			for (final Iterator iter = alAttrbutes.iterator(); iter.hasNext();)
-			{
+			for (final Iterator iter = alAttrbutes.iterator(); iter.hasNext();) {
 				ca = (ControllerAttribute) iter.next();
 				name = ca.getName();
 				index = name.lastIndexOf(QueryIOConstants.ATTRIBUTE_OBJECT_SEPERATOR);
-				if (index != -1)
-				{
+				if (index != -1) {
 					name = name.substring(0, index);
 				}
-				if (!alObjects.contains(name))
-				{					
+				if (!alObjects.contains(name)) {
 					alObjects.add(name);
 				}
 			}
@@ -112,48 +100,39 @@ public final class JMXDataManager
 		return alObjects;
 	}
 
-	private Set getAllRegisteredObjectNames() throws IOException
-	{
+	private Set getAllRegisteredObjectNames() throws IOException {
 		return this.server.queryMBeans(null, null);
 	}
-	
-	private String getObjectNameType(final ObjectName name)
-	{
+
+	private String getObjectNameType(final ObjectName name) {
 		// Some MBeans have property j2eeType
 		// If j2eeType is not there then check for property type
 		String type = name.getKeyProperty("j2eeType");
-		if (type == null)
-		{
+		if (type == null) {
 			type = name.getKeyProperty("type");
 		}
-		if (type == null)
-		{
+		if (type == null) {
 			type = name.getKeyProperty("Type");
 		}
-		if (type == null)
-		{
+		if (type == null) {
 			int colonIndex = name.getCanonicalName().indexOf(':');
-			if (colonIndex != -1)
-			{
+			if (colonIndex != -1) {
 				type = name.getCanonicalName().substring(0, colonIndex);
 			}
 		}
 		return type;
 	}
-	
-	private String getObjectShortName(final ObjectName name)
-	{
+
+	private String getObjectShortName(final ObjectName name) {
 		String shortName = name.getKeyProperty("name");
-		if (shortName == null)
-		{
+		if (shortName == null) {
 			shortName = name.getKeyProperty("Name");
 		}
 		return shortName;
 	}
-	
+
 	private ControllerAttribute createControllerAttribute(final String name, final String shortName,
-			final String columnName, final int dataType)
-	{
+			final String columnName, final int dataType) {
 		ControllerAttribute attribute = null;
 		attribute = new ControllerAttribute();
 		attribute.setName(name);
@@ -164,18 +143,15 @@ public final class JMXDataManager
 		attribute.setChartable(DataTypes.isNumeric(dataType));
 		return attribute;
 	}
-	
-	private void setParentNode(final String name, final String shortName) throws Exception
-	{
+
+	private void setParentNode(final String name, final String shortName) throws Exception {
 		final int childCount = this.parentNode.getChildCount();
 		DefaultMutableTreeNode node = null;
 		ControllerAttribute attribute = null;
-		for (int i = 0; i < childCount; i++)
-		{
+		for (int i = 0; i < childCount; i++) {
 			node = (DefaultMutableTreeNode) this.parentNode.getChildAt(i);
 			attribute = (ControllerAttribute) node.getUserObject();
-			if (name.equals(attribute.getName()))
-			{
+			if (name.equals(attribute.getName())) {
 				this.parentNode = node;
 				return;
 			}
@@ -187,9 +163,8 @@ public final class JMXDataManager
 		this.parentNode.add(node);
 		this.parentNode = node;
 	}
-	
-	DefaultTreeModel constructMonitoredAttributesTree(final ArrayList attributes) throws Exception
-	{
+
+	DefaultTreeModel constructMonitoredAttributesTree(final ArrayList attributes) throws Exception {
 		this.parentNode = new DefaultMutableTreeNode("Root Node");
 		final DefaultTreeModel dynamicAttributes = new DefaultTreeModel(this.parentNode);
 		ControllerAttribute ca = null;
@@ -199,34 +174,27 @@ public final class JMXDataManager
 		boolean bObjectName = false;
 		String type = null;
 		String name = null;
-		for (final Iterator iter = attributes.iterator(); iter.hasNext();)
-		{
+		for (final Iterator iter = attributes.iterator(); iter.hasNext();) {
 			ca = (ControllerAttribute) iter.next();
 			oName = ca.getName();
-			
+
 			lastIndex = oName.lastIndexOf(ca.getShortName());
-			if (lastIndex > 0)
-			{
+			if (lastIndex > 0) {
 				oName = oName.substring(0, lastIndex - 1);
 			}
-			try
-			{
+			try {
 				bObjectName = false;
 				on = new ObjectName(oName);
 				bObjectName = true;
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				// supress the exception, as it may not be possible to create
 				// ObjectName, i.e. it is pre-defined
 				// attribute
 			}
-			if (bObjectName)
-			{
+			if (bObjectName) {
 				type = this.getObjectNameType(on);
 				name = this.getObjectShortName(on);
-				if (name == null)
-				{
+				if (name == null) {
 					name = oName;
 				}
 				// set the parent to type of the object name
@@ -242,145 +210,118 @@ public final class JMXDataManager
 
 				// set the parent back to root
 				this.parentNode = (DefaultMutableTreeNode) this.parentNode.getParent();
-			}
-			else
-			{
-				if (lastIndex > 0)
-				{
-					final StringTokenizer stk = new StringTokenizer(oName, 
-							String.valueOf('_'));
+			} else {
+				if (lastIndex > 0) {
+					final StringTokenizer stk = new StringTokenizer(oName, String.valueOf('_'));
 					String token = null;
 					final int tokens = stk.countTokens();
 					int var = 0;
-					while (stk.hasMoreTokens())
-					{
+					while (stk.hasMoreTokens()) {
 						token = stk.nextToken();
 						// set the parent to type of the object name
-						if(var > 0)
+						if (var > 0)
 							this.setParentNode(oName, token);
 						else
 							this.setParentNode(token, token);
 						var++;
 					}
 					this.parentNode.add(new DefaultMutableTreeNode(ca));
-					for (int i = 0; i < tokens; i++)
-					{
+					for (int i = 0; i < tokens; i++) {
 						// set the parent back to the original position
 						this.parentNode = (DefaultMutableTreeNode) this.parentNode.getParent();
 					}
-				}
-				else
-				{
+				} else {
 					this.parentNode.add(new DefaultMutableTreeNode(ca));
 				}
 			}
 		}
 		return dynamicAttributes;
 	}
-	
-	public boolean matches(ArrayList list, String onName)
-	{
+
+	public boolean matches(ArrayList list, String onName) {
 		String s;
-//		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("onName: " + onName);
-		for(int i=0; i<list.size(); i++)
-		{
-			s = (String)list.get(i);
-//			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("s: " + s);
-			if(onName.startsWith(s.split(",")[0]))
+		// if(AppLogger.getLogger().isDebugEnabled())
+		// AppLogger.getLogger().debug("onName: " + onName);
+		for (int i = 0; i < list.size(); i++) {
+			s = (String) list.get(i);
+			// if(AppLogger.getLogger().isDebugEnabled())
+			// AppLogger.getLogger().debug("s: " + s);
+			if (onName.startsWith(s.split(",")[0]))
 				return true;
 		}
-		
+
 		return false;
 	}
-	
-	public String findMatch(ArrayList list, String onName)
-	{
+
+	public String findMatch(ArrayList list, String onName) {
 		String s;
-//		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("onName: " + onName);
-		for(int i=0; i<list.size(); i++)
-		{
-			s = (String)list.get(i);
-//			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("s: " + s);
-			if(onName.startsWith(s.split(",")[0]))
+		// if(AppLogger.getLogger().isDebugEnabled())
+		// AppLogger.getLogger().debug("onName: " + onName);
+		for (int i = 0; i < list.size(); i++) {
+			s = (String) list.get(i);
+			// if(AppLogger.getLogger().isDebugEnabled())
+			// AppLogger.getLogger().debug("s: " + s);
+			if (onName.startsWith(s.split(",")[0]))
 				return s.split(",")[0];
 		}
-		
+
 		return "";
 	}
+
 	/*
-	 * public int findMatchIndex(ArrayList list, String onName)
-	{
+	 * public int findMatchIndex(ArrayList list, String onName) { String s =
+	 * null;
+	 * 
+	 * for(int i=0; i<list.size(); i++) { s =
+	 * ((ControllerAttribute)list.get(i)).getName();
+	 * 
+	 * if(s.contains(",") && onName.contains(",")) {
+	 * if((onName.split(",")[1]).equals((s.split(",")[1]))) return i; } else {
+	 * if(onName.equals(s)) return i; } }
+	 * 
+	 * return -1; }
+	 */
+	public int findMatchIndex(ArrayList list, String onName) {
 		String s = null;
 
-		for(int i=0; i<list.size(); i++)
-		{
-			s = ((ControllerAttribute)list.get(i)).getName();
-			
-			if(s.contains(",") && onName.contains(","))
-			{
-				if((onName.split(",")[1]).equals((s.split(",")[1])))
-					return i;
-			}
-			else
-			{
-				if(onName.equals(s))
-					return i;
-			}
-		}
-		
-		return -1;
-	}
-	 * */
-	public int findMatchIndex(ArrayList list, String onName)
-	{
-		String s = null;
+		for (int i = 0; i < list.size(); i++) {
+			s = ((ControllerAttribute) list.get(i)).getName();
 
-		for(int i=0; i<list.size(); i++)
-		{
-			s = ((ControllerAttribute)list.get(i)).getName();
-			
-			if(s.contains(",") && onName.contains(","))
-			{
+			if (s.contains(",") && onName.contains(",")) {
 				String[] arr1 = onName.split(",");
 				String[] arr2 = s.split(",");
-				if((arr1[arr1.length -1]).equals(arr2[arr2.length - 1]))
+				if ((arr1[arr1.length - 1]).equals(arr2[arr2.length - 1]))
 					return i;
-			}
-			else
-			{
-				if(onName.equals(s))
+			} else {
+				if (onName.equals(s))
 					return i;
 			}
 		}
-		
+
 		return -1;
 	}
-	
-	public void collectHistoricalData() throws Exception
-	{
-		if (this.monitoredHistoricalAttributes == null)
-		{
-//			System.out.println("No attriutes to monitor");
+
+	public void collectHistoricalData() throws Exception {
+		if (this.monitoredHistoricalAttributes == null) {
+			// System.out.println("No attriutes to monitor");
 			return;
 		}
 
-		if (this.monitoredHistoricalAttributesChanged)
-		{
+		if (this.monitoredHistoricalAttributesChanged) {
 			this.monitoredHistoricalObjectNames = this.getObjectNames(this.monitoredHistoricalAttributes);
 			this.monitoredHistoricalAttributesChanged = false;
 		}
 
 		final Set objectNameSet = this.getAllRegisteredObjectNames();
-		
-		if (objectNameSet != null)
-		{
+
+		if (objectNameSet != null) {
 			ObjectInstance instance = null;
 			MBeanInfo info = null;
 			ObjectName on = null;
 			String onName = null;
 			String onType = null;
 			String onShortName = null;
-			
+
 			String attrName = null;
 			String attrType = null;
 			MBeanAttributeInfo[] attributes = null;
@@ -388,19 +329,20 @@ public final class JMXDataManager
 			ControllerAttribute attribute = null;
 			final StringBuffer sbAttributeName = new StringBuffer();
 
-			if (this.controllerAttribute == null)
-			{
+			if (this.controllerAttribute == null) {
 				this.controllerAttribute = new ControllerAttribute();
 			}
-			
-//			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("MONITORED OB N: " + this.monitoredHistoricalObjectNames);
-			
-			for (final Iterator iter = objectNameSet.iterator(); iter.hasNext();)
-			{
+
+			// if(AppLogger.getLogger().isDebugEnabled())
+			// AppLogger.getLogger().debug("MONITORED OB N: " +
+			// this.monitoredHistoricalObjectNames);
+
+			for (final Iterator iter = objectNameSet.iterator(); iter.hasNext();) {
 				instance = (ObjectInstance) iter.next();
-				
-//				System.out.println("instance.getObjectName(): " + instance.getObjectName());
-				
+
+				// System.out.println("instance.getObjectName(): " +
+				// instance.getObjectName());
+
 				on = instance.getObjectName();
 
 				// get the name of the ObjectName (cannonical name)
@@ -409,54 +351,48 @@ public final class JMXDataManager
 				onType = this.getObjectNameType(on);
 				// get the short name of the ObjectName
 				onShortName = this.getObjectShortName(on);
-				if (onShortName == null)
-				{
+				if (onShortName == null) {
 					onShortName = onName;
 				}
-				if (matches(this.monitoredHistoricalObjectNames,onName))
-				{
+				if (matches(this.monitoredHistoricalObjectNames, onName)) {
 
 					// get all the MBeanInfo of the ObjectName.
 					info = this.server.getMBeanInfo(on);
 					attributes = info.getAttributes();
 
-					if (attributes.length > 0)
-					{
+					if (attributes.length > 0) {
 						int index = -1;
-						for (int j = 0; j < attributes.length; j++)
-						{
+						for (int j = 0; j < attributes.length; j++) {
 							attrName = attributes[j].getName();
 							attrType = attributes[j].getType();
-							
+
 							sbAttributeName.setLength(0);
 							sbAttributeName.append(onName);
 							sbAttributeName.append(QueryIOConstants.ATTRIBUTE_OBJECT_SEPERATOR);
 							sbAttributeName.append(attrName);
-	
+
 							this.controllerAttribute.setName(sbAttributeName.toString());
-							
-							index = findMatchIndex(this.monitoredHistoricalAttributes, this.controllerAttribute.toString());
-							
-							if (index == -1)
-							{
+
+							index = findMatchIndex(this.monitoredHistoricalAttributes,
+									this.controllerAttribute.toString());
+
+							if (index == -1) {
 								continue;
 							}
 							attribute = (ControllerAttribute) this.monitoredHistoricalAttributes.get(index);
-							try
-							{
+							try {
 								value = this.server.getAttribute(on, attrName);
-							}
-							catch (final Exception e)
-							{
-//								AppLogger.getLogger().fatal(this.base.getNodeType() + ": Error collecting data for attribute : " + attrName, e); //$NON-NLS-1$
+							} catch (final Exception e) {
+								// AppLogger.getLogger().fatal(this.base.getNodeType()
+								// + ": Error collecting data for attribute : "
+								// + attrName, e); //$NON-NLS-1$
 								continue;
 							}
 							if ((value != null) && value.getClass().equals(String.class)
-									&& (((String) value).length() > attribute.getMaxLength()))
-							{
+									&& (((String) value).length() > attribute.getMaxLength())) {
 								value = ((String) value).substring(0, attribute.getMaxLength());
 							}
-						
+
 							this.base.setHistoricalValue(attribute, value);
 						}
 					}
@@ -464,32 +400,28 @@ public final class JMXDataManager
 			}
 		}
 	}
-	
-	public void collectSummaryData() throws Exception
-	{
-		if (this.monitoredSummaryAttributes == null)
-		{
-//			System.out.println("No attriutes to monitor");
+
+	public void collectSummaryData() throws Exception {
+		if (this.monitoredSummaryAttributes == null) {
+			// System.out.println("No attriutes to monitor");
 			return;
 		}
 
-		if (this.monitoredSummaryAttributesChanged)
-		{
+		if (this.monitoredSummaryAttributesChanged) {
 			this.monitoredSummaryObjectNames = this.getObjectNames(this.monitoredSummaryAttributes);
 			this.monitoredSummaryAttributesChanged = false;
 		}
 
 		final Set objectNameSet = this.getAllRegisteredObjectNames();
-		
-		if (objectNameSet != null)
-		{
+
+		if (objectNameSet != null) {
 			ObjectInstance instance = null;
 			MBeanInfo info = null;
 			ObjectName on = null;
 			String onName = null;
 			String onType = null;
 			String onShortName = null;
-			
+
 			String attrName = null;
 			String attrType = null;
 			MBeanAttributeInfo[] attributes = null;
@@ -497,15 +429,13 @@ public final class JMXDataManager
 			ControllerAttribute attribute = null;
 			final StringBuffer sbAttributeName = new StringBuffer();
 
-			if (this.controllerAttribute == null)
-			{
+			if (this.controllerAttribute == null) {
 				this.controllerAttribute = new ControllerAttribute();
 			}
 
-			for (final Iterator iter = objectNameSet.iterator(); iter.hasNext();)
-			{
+			for (final Iterator iter = objectNameSet.iterator(); iter.hasNext();) {
 				instance = (ObjectInstance) iter.next();
-				
+
 				on = instance.getObjectName();
 
 				// get the name of the ObjectName (cannonical name)
@@ -514,55 +444,49 @@ public final class JMXDataManager
 				onType = this.getObjectNameType(on);
 				// get the short name of the ObjectName
 				onShortName = this.getObjectShortName(on);
-				if (onShortName == null)
-				{
+				if (onShortName == null) {
 					onShortName = onName;
 				}
-				
-				if (matches(this.monitoredSummaryObjectNames,onName))
-				{
+
+				if (matches(this.monitoredSummaryObjectNames, onName)) {
 					info = this.server.getMBeanInfo(on);
 					attributes = info.getAttributes();
 
-					if (attributes.length > 0)
-					{
+					if (attributes.length > 0) {
 						int index = -1;
-						for (int j = 0; j < attributes.length; j++)
-						{
+						for (int j = 0; j < attributes.length; j++) {
 							attrName = attributes[j].getName();
 							attrType = attributes[j].getType();
-							
+
 							sbAttributeName.setLength(0);
 							sbAttributeName.append(onName);
 							sbAttributeName.append(QueryIOConstants.ATTRIBUTE_OBJECT_SEPERATOR);
 							sbAttributeName.append(attrName);
-	
+
 							this.controllerAttribute.setName(sbAttributeName.toString());
 
-							index = findMatchIndex(this.monitoredSummaryAttributes, this.controllerAttribute.toString());
+							index = findMatchIndex(this.monitoredSummaryAttributes,
+									this.controllerAttribute.toString());
 
-							if (index == -1)
-							{
+							if (index == -1) {
 								continue;
 							}
-							
+
 							attribute = (ControllerAttribute) this.monitoredSummaryAttributes.get(index);
-							try
-							{
+							try {
 								value = this.server.getAttribute(on, attrName);
-								
-							}
-							catch (final Exception e)
-							{
-								//AppLogger.getLogger().fatal("Error collecting data for attribute : " + attrName, e); //$NON-NLS-1$
+
+							} catch (final Exception e) {
+								// AppLogger.getLogger().fatal("Error collecting
+								// data for attribute : " + attrName, e);
+								// //$NON-NLS-1$
 								continue;
 							}
 							if ((value != null) && value.getClass().equals(String.class)
-									&& (((String) value).length() > attribute.getMaxLength()))
-							{
+									&& (((String) value).length() > attribute.getMaxLength())) {
 								value = ((String) value).substring(0, attribute.getMaxLength());
 							}
-						
+
 							this.base.setSummaryValue(attribute, value);
 						}
 					}
@@ -570,24 +494,21 @@ public final class JMXDataManager
 			}
 		}
 	}
-	
-	DefaultTreeModel getWritableMBeans() throws Exception
-	{
+
+	DefaultTreeModel getWritableMBeans() throws Exception {
 		final Set objectNameSet = this.getAllRegisteredObjectNames();
 
 		this.parentNode = new DefaultMutableTreeNode("Root Node");
 		this.dynamicAttributes = new DefaultTreeModel(this.parentNode);
 
-		if (objectNameSet != null)
-		{
+		if (objectNameSet != null) {
 			String onType = null;
 			String onName = null;
 			String onShortName = null;
 			ObjectInstance on = null;
 			ObjectName name = null;
 
-			for (final Iterator iter = objectNameSet.iterator(); iter.hasNext();)
-			{
+			for (final Iterator iter = objectNameSet.iterator(); iter.hasNext();) {
 				// get the ObjectInstance
 				on = (ObjectInstance) iter.next();
 				// get the ObjectName from ObjectInstance
@@ -595,8 +516,7 @@ public final class JMXDataManager
 				// get the type of the ObjectName
 				onType = this.getObjectNameType(name);
 				// If type is null ignore the MBean
-				if (onType == null)
-				{
+				if (onType == null) {
 					continue;
 				}
 
@@ -605,26 +525,24 @@ public final class JMXDataManager
 
 				// get the short name of the ObjectName
 				onShortName = this.getObjectShortName(name);
-				if (onShortName == null)
-				{
+				if (onShortName == null) {
 					onShortName = onName;
 				}
 				MBeanInfo info = null;
-				try
-				{
+				try {
 					info = this.server.getMBeanInfo(name);
-				}
-				catch (final Exception ex)
-				{
-//					AppLogger.getLogger().log(
-//							AppLogger.getPriority(AppLogger.FATAL), "Canonical name: " + onName + " name: " + name
-//							+ " short: " + onShortName + " type: " + onType, ex); //$NON-NLS-1$
-//					base.getLogger().fatal("Canonical name: " + onName + " name: " + name
-//							+ " short: " + onShortName + " type: " + onType, ex);
+				} catch (final Exception ex) {
+					// AppLogger.getLogger().log(
+					// AppLogger.getPriority(AppLogger.FATAL), "Canonical name:
+					// " + onName + " name: " + name
+					// + " short: " + onShortName + " type: " + onType, ex);
+					// //$NON-NLS-1$
+					// base.getLogger().fatal("Canonical name: " + onName + "
+					// name: " + name
+					// + " short: " + onShortName + " type: " + onType, ex);
 				}
 
-				if (info == null)
-				{
+				if (info == null) {
 					continue;
 				}
 				// set the parent back to type of the object name

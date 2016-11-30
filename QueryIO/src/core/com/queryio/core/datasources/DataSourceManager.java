@@ -11,8 +11,7 @@ import com.queryio.core.dao.DataSourceDAO;
 
 public class DataSourceManager {
 
-	public static DWRResponse addFTPDataSource(String id, String host,
-			int port, String username, String password) {
+	public static DWRResponse addFTPDataSource(String id, String host, int port, String username, String password) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
 		Connection connection = null;
@@ -20,14 +19,14 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			int dC = DataSourceDAO.getDataConnectionType(connection, id);
-			
-			if(dC!=-1) {
+
+			if (dC != -1) {
 				response.setDwrResponse(false, "Data connection with specified id already exists", 500);
 				return response;
 			}
-			
+
 			DataSourceDAO.addDataConnection(connection, id, QueryIOConstants.DATA_CONNECTION_TYPE_FTP);
-			
+
 			FTPDataSource ds = new FTPDataSource();
 			ds.setId(id);
 			ds.setHost(host);
@@ -45,13 +44,12 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
+
 	public static DWRResponse updateFTPDataSource(String id, String host, int port, String username, String password) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
@@ -63,28 +61,20 @@ public class DataSourceManager {
 			addFTPDataSource(id, host, port, username, password);
 
 			response.setDwrResponse(true, "Datasource updated successfully", 200);
-		} 
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be updated", 500);
-		}
-		finally 
-		{
-			try 
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
-	public static DWRResponse addSFTPDataSource(String id, String host,
-			int port, String username, String password) {
+
+	public static DWRResponse addSFTPDataSource(String id, String host, int port, String username, String password) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
 		Connection connection = null;
@@ -92,14 +82,14 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			int dC = DataSourceDAO.getDataConnectionType(connection, id);
-			
-			if(dC!=-1) {
+
+			if (dC != -1) {
 				response.setDwrResponse(false, "Data connection with specified id already exists", 500);
 				return response;
 			}
-			
+
 			DataSourceDAO.addDataConnection(connection, id, QueryIOConstants.DATA_CONNECTION_TYPE_SFTP);
-			
+
 			SFTPDataSource ds = new SFTPDataSource();
 			ds.setId(id);
 			ds.setHost(host);
@@ -117,13 +107,12 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
+
 	public static DWRResponse updateSFTPDataSource(String id, String host, int port, String username, String password) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
@@ -135,26 +124,19 @@ public class DataSourceManager {
 			addSFTPDataSource(id, host, port, username, password);
 
 			response.setDwrResponse(true, "Datasource updated successfully", 200);
-		} 
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be updated", 500);
-		}
-		finally 
-		{
-			try 
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
+
 	public static DWRResponse addHTTPDataSource(String id, String baseURL, String username, String password) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
@@ -163,14 +145,14 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			int dC = DataSourceDAO.getDataConnectionType(connection, id);
-			
-			if(dC!=-1) {
+
+			if (dC != -1) {
 				response.setDwrResponse(false, "Data connection with specified id already exists", 500);
 				return response;
 			}
-			
+
 			DataSourceDAO.addDataConnection(connection, id, QueryIOConstants.DATA_CONNECTION_TYPE_HTTP);
-			
+
 			HTTPDataSource ds = new HTTPDataSource();
 			ds.setId(id);
 			ds.setBaseURL(baseURL);
@@ -180,26 +162,19 @@ public class DataSourceManager {
 			DataSourceDAO.addHTTPDataSource(connection, ds);
 
 			response.setDwrResponse(true, "Datasource added successfully", 200);
-		}
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be added", 500);
-		}
-		finally 
-		{
-			try
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
+
 	public static DWRResponse updateHTTPDataSource(String id, String baseURL, String username, String password) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
@@ -211,27 +186,22 @@ public class DataSourceManager {
 			addHTTPDataSource(id, baseURL, username, password);
 
 			response.setDwrResponse(true, "Datasource updated successfully", 200);
-		} 
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be updated", 500);
-		}
-		finally 
-		{
-			try 
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
-	public static DWRResponse addEmailDataSource(String id, String emailAddress, String password, String mailServerAddress, String accountName, String protocol, String socket, String port, String connectionTimeOut, String readTimeOut) {
+
+	public static DWRResponse addEmailDataSource(String id, String emailAddress, String password,
+			String mailServerAddress, String accountName, String protocol, String socket, String port,
+			String connectionTimeOut, String readTimeOut) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
 		Connection connection = null;
@@ -239,18 +209,18 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			int dC = DataSourceDAO.getDataConnectionType(connection, id);
-			
-			if(dC!=-1) {
+
+			if (dC != -1) {
 				response.setDwrResponse(false, "Data connection with specified id already exists", 500);
 				return response;
 			}
-			
+
 			int portInt = Integer.parseInt(port);
 			long connTimeOut = Long.parseLong(connectionTimeOut);
 			long rdTimeOut = Long.parseLong(readTimeOut);
-			
+
 			DataSourceDAO.addDataConnection(connection, id, QueryIOConstants.DATA_CONNECTION_TYPE_EMAIL);
-			
+
 			EmailDataSource ds = new EmailDataSource();
 			ds.setId(id);
 			ds.setEmailAddress(emailAddress);
@@ -266,28 +236,22 @@ public class DataSourceManager {
 			DataSourceDAO.addEmailDataSource(connection, ds);
 
 			response.setDwrResponse(true, "Datasource added successfully", 200);
-		}
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be added", 500);
-		}
-		finally 
-		{
-			try
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
-	public static DWRResponse updateEmailDataSource(String id, String emailAddress, String password, String mailServerAddress, String accountName, String protocol, String socket, String port, String connectionTimeOut, String readTimeOut) 
-	{
+
+	public static DWRResponse updateEmailDataSource(String id, String emailAddress, String password,
+			String mailServerAddress, String accountName, String protocol, String socket, String port,
+			String connectionTimeOut, String readTimeOut) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
 		Connection connection = null;
@@ -295,29 +259,23 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			DataSourceDAO.deleteDataConnection(connection, id);
-			addEmailDataSource(id, emailAddress, password, mailServerAddress, accountName, protocol, socket, port, connectionTimeOut, readTimeOut);
+			addEmailDataSource(id, emailAddress, password, mailServerAddress, accountName, protocol, socket, port,
+					connectionTimeOut, readTimeOut);
 
 			response.setDwrResponse(true, "Datasource updated successfully", 200);
-		} 
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be updated", 500);
-		}
-		finally 
-		{
-			try 
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
+
 	public static DWRResponse addHDFSDataSource(String id, String host, int port, String group, String username) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
@@ -326,14 +284,14 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			int dC = DataSourceDAO.getDataConnectionType(connection, id);
-			
-			if(dC!=-1) {
+
+			if (dC != -1) {
 				response.setDwrResponse(false, "Data connection with specified id already exists", 500);
 				return response;
 			}
-			
+
 			DataSourceDAO.addDataConnection(connection, id, QueryIOConstants.DATA_CONNECTION_TYPE_HDFS);
-			
+
 			HDFSDataSource ds = new HDFSDataSource();
 			ds.setId(id);
 			ds.setHost(host);
@@ -351,13 +309,12 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
+
 	public static DWRResponse updateHDFSDataSource(String id, String host, int port, String group, String username) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
@@ -369,26 +326,19 @@ public class DataSourceManager {
 			addHDFSDataSource(id, host, port, group, username);
 
 			response.setDwrResponse(true, "Datasource updated successfully", 200);
-		} 
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be updated", 500);
-		}
-		finally 
-		{
-			try 
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
+
 	public static DWRResponse addSSHDataSource(String id, String host, int port, String user, String pass, String key) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
@@ -397,14 +347,14 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			int dC = DataSourceDAO.getDataConnectionType(connection, id);
-			
-			if(dC!=-1) {
+
+			if (dC != -1) {
 				response.setDwrResponse(false, "Data connection with specified id already exists", 500);
 				return response;
 			}
-			
+
 			DataSourceDAO.addDataConnection(connection, id, QueryIOConstants.DATA_CONNECTION_TYPE_SSH);
-			
+
 			SSHDataSource ds = new SSHDataSource();
 			ds.setId(id);
 			ds.setHost(host);
@@ -412,7 +362,7 @@ public class DataSourceManager {
 			ds.setUsername(user);
 			ds.setPassword(pass);
 			ds.setKey(key);
-			
+
 			DataSourceDAO.addSSHDataSource(connection, ds);
 
 			response.setDwrResponse(true, "Datasource added successfully", 200);
@@ -423,20 +373,20 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
-	public static DWRResponse updateDBDataSource(String id, String driver, String connUrl, String username, String password, String driverJar) {
+
+	public static DWRResponse updateDBDataSource(String id, String driver, String connUrl, String username,
+			String password, String driverJar) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
 		Connection connection = null;
-		try{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-			
+
 			DataSourceDAO.deleteDataConnection(connection, id);
 			DataBaseDataSource ds = new DataBaseDataSource();
 			ds.setId(id);
@@ -445,34 +395,36 @@ public class DataSourceManager {
 			ds.setUserName(username);
 			ds.setPassword(password);
 			ds.setJarFileName(driverJar);
-			
-			AppLogger.getLogger().debug(ds.getId() + " : " + ds.getDriver() + " : " + ds.getConnectionURL() + " : " + ds.getUserName() + " : " + ds.getPassword() + " : " + ds.getJarFileName());
-			
+
+			AppLogger.getLogger().debug(ds.getId() + " : " + ds.getDriver() + " : " + ds.getConnectionURL() + " : "
+					+ ds.getUserName() + " : " + ds.getPassword() + " : " + ds.getJarFileName());
+
 			DataSourceDAO.addDataConnection(connection, id, QueryIOConstants.DATA_CONNECTION_TYPE_DATABASE);
 			DataSourceDAO.addDataBaseDataSource(connection, ds);
-			
+
 			response.setDwrResponse(true, "Datasource updated successfully", 200);
-			
-		}catch(Exception e){
-			AppLogger.getLogger().fatal(e.getMessage() , e);
+
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be updated", 500);
-		}finally{
-			try{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}catch(Exception e){
-				AppLogger.getLogger().fatal("Error closing database connection." , e);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
-			try{
-				if(connection!=null)
+			try {
+				if (connection != null)
 					connection.close();
-			}catch (Exception e) {
-				AppLogger.getLogger().fatal("Error closing database connection." , e);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
-	public static DWRResponse updateSSHDataSource(String id, String host, int port, String user, String pass, String key) {
+
+	public static DWRResponse updateSSHDataSource(String id, String host, int port, String user, String pass,
+			String key) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
 		Connection connection = null;
@@ -483,29 +435,20 @@ public class DataSourceManager {
 			addSSHDataSource(id, host, port, user, pass, key);
 
 			response.setDwrResponse(true, "Datasource updated successfully", 200);
-		} 
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be updated", 500);
-		}
-		finally 
-		{
-			try 
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
-	
-	public static DWRResponse addS3DataSource(String id, String accessKey,
-			String secretAccessKey) {
+
+	public static DWRResponse addS3DataSource(String id, String accessKey, String secretAccessKey) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
 		Connection connection = null;
@@ -513,14 +456,14 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			int dC = DataSourceDAO.getDataConnectionType(connection, id);
-			
-			if(dC!=-1) {
+
+			if (dC != -1) {
 				response.setDwrResponse(false, "Data connection with specified id already exists", 500);
 				return response;
 			}
-			
+
 			DataSourceDAO.addDataConnection(connection, id, QueryIOConstants.DATA_CONNECTION_TYPE_S3);
-			
+
 			S3DataSource ds = new S3DataSource();
 			ds.setId(id);
 			ds.setAccessKey(accessKey);
@@ -536,15 +479,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
-	public static DWRResponse updateS3DataSource(String id, String accessKey, String secretAccessKey) 
-	{
+
+	public static DWRResponse updateS3DataSource(String id, String accessKey, String secretAccessKey) {
 		DWRResponse response = new DWRResponse();
 		response.setId(id);
 		Connection connection = null;
@@ -552,28 +493,21 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 			DataSourceDAO.deleteDataConnection(connection, id);
 			addS3DataSource(id, accessKey, secretAccessKey);
-			
+
 			response.setDwrResponse(true, "Datasource updated successfully", 200);
-		}
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			response.setDwrResponse(false, "Datasource could not be updated", 500);
-		}
-		finally 
-		{
-			try 
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;
 	}
-	
+
 	public static ArrayList getAllFTPDataSources() {
 		Connection connection = null;
 
@@ -587,14 +521,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static ArrayList getAllHDFSDataSources() {
 		Connection connection = null;
 
@@ -608,14 +541,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static ArrayList getAllHTTPDataSources() {
 		Connection connection = null;
 
@@ -623,23 +555,19 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			return DataSourceDAO.getALLHTTPDataSources(connection);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
-		}
-		finally {
+		} finally {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static ArrayList getAllEmailDataSources() {
 		Connection connection = null;
 
@@ -653,8 +581,7 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
@@ -674,14 +601,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static ArrayList getAllDataConnections() {
 		Connection connection = null;
 
@@ -695,14 +621,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static Object getDataSource(String id) {
 		Connection connection = null;
 
@@ -710,23 +635,23 @@ public class DataSourceManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			int type = DataSourceDAO.getDataConnectionType(connection, id);
-			if(type==QueryIOConstants.DATA_CONNECTION_TYPE_FTP) {
-				return DataSourceDAO.getFTPDataSource(connection, id); 
-			} else if(type==QueryIOConstants.DATA_CONNECTION_TYPE_S3) {
+			if (type == QueryIOConstants.DATA_CONNECTION_TYPE_FTP) {
+				return DataSourceDAO.getFTPDataSource(connection, id);
+			} else if (type == QueryIOConstants.DATA_CONNECTION_TYPE_S3) {
 				return DataSourceDAO.getS3DataSource(connection, id);
-			} else if(type==QueryIOConstants.DATA_CONNECTION_TYPE_HTTP) {
+			} else if (type == QueryIOConstants.DATA_CONNECTION_TYPE_HTTP) {
 				return DataSourceDAO.getHTTPDataSource(connection, id);
-			}else if(type==QueryIOConstants.DATA_CONNECTION_TYPE_EMAIL) {
+			} else if (type == QueryIOConstants.DATA_CONNECTION_TYPE_EMAIL) {
 				return DataSourceDAO.getEmailDataSource(connection, id);
-			}else if(type==QueryIOConstants.DATA_CONNECTION_TYPE_HDFS) {
+			} else if (type == QueryIOConstants.DATA_CONNECTION_TYPE_HDFS) {
 				return DataSourceDAO.getHDFSDataSource(connection, id);
-			}else if(type==QueryIOConstants.DATA_CONNECTION_TYPE_SSH) {
+			} else if (type == QueryIOConstants.DATA_CONNECTION_TYPE_SSH) {
 				return DataSourceDAO.getSSHDataSource(connection, id);
-			}else if(type==QueryIOConstants.DATA_CONNECTION_TYPE_SFTP) {
+			} else if (type == QueryIOConstants.DATA_CONNECTION_TYPE_SFTP) {
 				return DataSourceDAO.getSFTPDataSource(connection, id);
-			}else if(type==QueryIOConstants.DATA_CONNECTION_TYPE_DATABASE) {
-				return DataSourceDAO.getDBDataSource(connection, id);	}			
-			else {
+			} else if (type == QueryIOConstants.DATA_CONNECTION_TYPE_DATABASE) {
+				return DataSourceDAO.getDBDataSource(connection, id);
+			} else {
 				return null;
 			}
 		} catch (Exception e) {
@@ -735,13 +660,12 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return null;
 	}
-	
+
 	public static FTPDataSource getFTPDataSource(String id) {
 		Connection connection = null;
 
@@ -755,14 +679,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static SFTPDataSource getSFTPDataSource(String id) {
 		Connection connection = null;
 
@@ -776,14 +699,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static HDFSDataSource getHDFSDataSource(String id) {
 		Connection connection = null;
 
@@ -797,14 +719,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static SSHDataSource getSSHDataSource(String id) {
 		Connection connection = null;
 
@@ -818,29 +739,29 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return null;
 	}
+
 	public static DataBaseDataSource getDBDataSource(String id) {
 		Connection connection = null;
-		try{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 			return DataSourceDAO.getDBDataSource(connection, id);
-		}catch(Exception e){
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
-		}finally {
+		} finally {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return null;
 	}
+
 	public static HTTPDataSource getHTTPDataSource(String id) {
 		Connection connection = null;
 
@@ -854,14 +775,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static EmailDataSource getEmailDataSource(String id) {
 		Connection connection = null;
 
@@ -875,14 +795,13 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static S3DataSource getS3DataSource(String id) {
 		Connection connection = null;
 
@@ -896,24 +815,23 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static DWRResponse deleteDataConnection(ArrayList<String> id) {
 		DWRResponse response = new DWRResponse();
-//		response.setId(id);
+		// response.setId(id);
 		Connection connection = null;
 		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-			
-			for(int i=0; i<id.size(); i++)
+
+			for (int i = 0; i < id.size(); i++)
 				DataSourceDAO.deleteDataConnection(connection, id.get(i).toString());
-			
+
 			response.setDwrResponse(true, "Entries deleted successfully", 200);
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
@@ -922,8 +840,7 @@ public class DataSourceManager {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal(
-						"Error closing database connection.", e);
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return response;

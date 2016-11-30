@@ -10,17 +10,17 @@ import com.queryio.common.database.CoreDBManager;
 
 public class CustomTagsManager {
 	protected static final Logger LOGGER = Logger.getLogger(CustomTagsManager.class);
-	
-	public static TableModel getBigQueryResults(String poolName, String query) throws Exception{
+
+	public static TableModel getBigQueryResults(String poolName, String query) throws Exception {
 		Connection connection = null;
-		try{
+		try {
 			connection = CoreDBManager.getCustomTagDBConnection(poolName);
 			LOGGER.debug("Connected to database: " + connection.getMetaData().getURL());
 			return CustomTagsDAO.getBigQueryResults(connection, query);
 		} finally {
-			try{
+			try {
 				CoreDBManager.closeConnection(connection);
-			} catch(Exception e){
+			} catch (Exception e) {
 				LOGGER.fatal(e.getMessage(), e);
 			}
 		}

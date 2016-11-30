@@ -7,7 +7,7 @@ import java.io.IOException;
 import org.apache.hadoop.io.Writable;
 
 public class ConsolidatedRecord extends Record implements Writable {
-	
+
 	private Double minLatency;
 	private Double maxLatency;
 	private Double avgLatency;
@@ -17,63 +17,78 @@ public class ConsolidatedRecord extends Record implements Writable {
 	private Double avgTps;
 	private Long successCount;
 	private Double successPercentage;
-	
+
 	public Double getAvgTps() {
 		return avgTps;
 	}
+
 	public void setAvgTps(Double avgTps) {
 		this.avgTps = avgTps;
 	}
+
 	public Long getSuccessCount() {
 		return successCount;
 	}
+
 	public void setSuccessCount(Long successCount) {
 		this.successCount = successCount;
 	}
+
 	public Double getSuccessPercentage() {
 		return successPercentage;
 	}
+
 	public void setSuccessPercentage(Double successPercentage) {
 		this.successPercentage = successPercentage;
 	}
+
 	public Double getMinLatency() {
 		return minLatency;
 	}
+
 	public void setMinLatency(Double minLatency) {
 		this.minLatency = minLatency;
 	}
+
 	public Double getMaxLatency() {
 		return maxLatency;
 	}
+
 	public void setMaxLatency(Double maxLatency) {
 		this.maxLatency = maxLatency;
 	}
+
 	public Double getAvgLatency() {
 		return avgLatency;
 	}
+
 	public void setAvgLatency(Double avgLatency) {
 		this.avgLatency = avgLatency;
 	}
+
 	public Long getMinBytes() {
 		return minBytes;
 	}
+
 	public void setMinBytes(Long minBytes) {
 		this.minBytes = minBytes;
 	}
+
 	public Long getMaxBytes() {
 		return maxBytes;
 	}
+
 	public void setMaxBytes(Long maxBytes) {
 		this.maxBytes = maxBytes;
 	}
-	
-	
+
 	public ConsolidatedRecord() {
-		
-	}	
+
+	}
+
 	public ConsolidatedRecord(Record record) {
 		super(record);
-		
+
 		minLatency = Double.MAX_VALUE;
 		maxLatency = Double.MIN_VALUE;
 		avgLatency = 0.0;
@@ -83,13 +98,13 @@ public class ConsolidatedRecord extends Record implements Writable {
 		avgTps = 0.0;
 		successCount = 0l;
 		successPercentage = 0.0;
-	}	
-	
+	}
+
 	@Override
 	public void write(DataOutput out) throws IOException {
-		
+
 		super.write(out);
-		
+
 		out.writeDouble(minLatency);
 		out.writeDouble(maxLatency);
 		out.writeDouble(avgLatency);
@@ -103,9 +118,9 @@ public class ConsolidatedRecord extends Record implements Writable {
 
 	@Override
 	public void readFields(DataInput in) throws IOException {
-		
+
 		super.readFields(in);
-		
+
 		minLatency = in.readDouble();
 		maxLatency = in.readDouble();
 		avgLatency = in.readDouble();
@@ -116,14 +131,17 @@ public class ConsolidatedRecord extends Record implements Writable {
 		successCount = in.readLong();
 		successPercentage = in.readDouble();
 	}
-	
+
 	@Override
 	public String toString() {
-		return label + "," + tickStartTime + "," + tickEndTime + "," + sampleValue + "," + latency + "," + bytes + "," + errorCount + "," + success + "," + minLatency + "," + maxLatency + "," + avgLatency + "," + minBytes + "," + maxBytes + "," + getAvgBytes() + "," + getTaskCount() + "," + avgTps + "," + getSuccessCount() + "," + successPercentage;
+		return label + "," + tickStartTime + "," + tickEndTime + "," + sampleValue + "," + latency + "," + bytes + ","
+				+ errorCount + "," + success + "," + minLatency + "," + maxLatency + "," + avgLatency + "," + minBytes
+				+ "," + maxBytes + "," + getAvgBytes() + "," + getTaskCount() + "," + avgTps + "," + getSuccessCount()
+				+ "," + successPercentage;
 	}
-	
+
 	public static ConsolidatedRecord getObjectWithDefaultInitialization() {
-		
+
 		ConsolidatedRecord record = new ConsolidatedRecord();
 		record.minLatency = 0.0;
 		record.maxLatency = 0.0;
@@ -134,7 +152,7 @@ public class ConsolidatedRecord extends Record implements Writable {
 		record.avgTps = 0.0;
 		record.successCount = 0l;
 		record.successPercentage = 0.0;
-		
+
 		record.tickStartTime = 0l;
 		record.tickEndTime = 0l;
 		record.latency = 0.0;
@@ -143,27 +161,29 @@ public class ConsolidatedRecord extends Record implements Writable {
 		record.success = false;
 		record.sampleValue = 0;
 		record.taskCount = 0l;
-		
+
 		return record;
 	}
+
 	public Double getAvgBytes() {
 		return avgBytes;
 	}
+
 	public void setAvgBytes(Double avgBytes) {
 		this.avgBytes = avgBytes;
 	}
-	
+
 	public void computeAdditionalDetail() {
 		long taskCount = getTaskCount();
-		
+
 		setAvgBytes(taskCount == 0 ? 0.0 : getBytes() / taskCount);
 		setAvgLatency(taskCount == 0 ? 0.0 : getLatency() / taskCount);
-		
+
 		long errorCount = getErrorCount();
-		long totalTime = (getTickEndTime() - getTickStartTime()) / 1000;	// Seconds
+		long totalTime = (getTickEndTime() - getTickStartTime()) / 1000; // Seconds
 		double successPercentage = (taskCount == 0) ? 0 : (((taskCount - errorCount) * 100.0) / taskCount);
-		double avgTps = totalTime == 0 ? 0.0 : ((taskCount-errorCount) * 1.0) / ((float)(totalTime));
-		
+		double avgTps = totalTime == 0 ? 0.0 : ((taskCount - errorCount) * 1.0) / ((float) (totalTime));
+
 		setSuccessCount(taskCount - errorCount);
 		setSuccessPercentage(successPercentage);
 		setAvgTps(avgTps);

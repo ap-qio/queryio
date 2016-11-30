@@ -20,17 +20,15 @@ package com.queryio.sysmoncommon.sysmon;
 /**
  * @author Administrator
  * 
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ *         To change the template for this generated type comment go to
+ *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class CommandNotFoundException extends Exception
-{
+public class CommandNotFoundException extends Exception {
 	private static final long serialVersionUID = 752600005701000043L;
 	private final String command;
 	private final String dataFetched;
 
-	public CommandNotFoundException(final String dataFetched, final String command)
-	{
+	public CommandNotFoundException(final String dataFetched, final String command) {
 		super(command + " not found in the path.");
 		this.command = command;
 		this.dataFetched = dataFetched;
@@ -41,12 +39,9 @@ public class CommandNotFoundException extends Exception
 	 * 
 	 * @see java.lang.Throwable#getMessage()
 	 */
-	public String getMessage()
-	{
-		if ("iostat".equals(this.command))
-		{
-			return "Error while fetching "
-					+ this.dataFetched
+	public String getMessage() {
+		if ("iostat".equals(this.command)) {
+			return "Error while fetching " + this.dataFetched
 					+ ". Please verify that iostat is there in the environmental variable 'PATH'. iostat is not available by default on some Linux systems. Please refer to documentation for further deatils.";
 		}
 		return "Error while fetching " + this.dataFetched + ". Please verify that " + this.command

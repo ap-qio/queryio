@@ -23,19 +23,16 @@ import com.queryio.common.exporter.dstruct.Color;
  * 
  * @author Exceed Consultancy Services
  */
-public abstract class Series
-{
+public abstract class Series {
 	private String text;
 
 	private Color seriesColor = null;
 
-	public Series()
-	{
+	public Series() {
 		this(null);
 	}
 
-	public Series(final String text)
-	{
+	public Series(final String text) {
 		this.text = text;
 	}
 
@@ -44,8 +41,7 @@ public abstract class Series
 	 * 
 	 * @return
 	 */
-	public final Color getSeriesColor()
-	{
+	public final Color getSeriesColor() {
 		return this.seriesColor;
 	}
 
@@ -54,8 +50,7 @@ public abstract class Series
 	 * 
 	 * @return
 	 */
-	public final String getText()
-	{
+	public final String getText() {
 		return this.text;
 	}
 
@@ -64,8 +59,7 @@ public abstract class Series
 	 * 
 	 * @param color
 	 */
-	public void setSeriesColor(final Color color)
-	{
+	public void setSeriesColor(final Color color) {
 		this.seriesColor = color;
 	}
 
@@ -74,8 +68,7 @@ public abstract class Series
 	 * 
 	 * @param string
 	 */
-	public void setText(final String string)
-	{
+	public void setText(final String string) {
 		this.text = string;
 	}
 

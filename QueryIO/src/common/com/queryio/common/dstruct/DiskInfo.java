@@ -21,8 +21,7 @@ package com.queryio.common.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class DiskInfo
-{
+public class DiskInfo {
 	private final String sName;
 	protected float fReadsPerSec;
 	protected float fWritesPerSec;
@@ -30,15 +29,14 @@ public class DiskInfo
 	/**
 	 * Constructs DiskInfo object
 	 * 
-	 * @param name -
-	 *            name of the dsik
-	 * @param readsPerSec -
-	 *            no of reads per second
-	 * @param writesPerSec -
-	 *            no of writes per second
+	 * @param name
+	 *            - name of the dsik
+	 * @param readsPerSec
+	 *            - no of reads per second
+	 * @param writesPerSec
+	 *            - no of writes per second
 	 */
-	public DiskInfo(final String name, final float readsPerSec, final float writesPerSec)
-	{
+	public DiskInfo(final String name, final float readsPerSec, final float writesPerSec) {
 		this.sName = name;
 		this.fReadsPerSec = readsPerSec;
 		this.fWritesPerSec = writesPerSec;
@@ -49,8 +47,7 @@ public class DiskInfo
 	 * 
 	 * @return disk name
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return this.sName;
 	}
 
@@ -59,36 +56,30 @@ public class DiskInfo
 	 * 
 	 * @return no of reads per second
 	 */
-	public float getReadsPerSec() throws Exception
-	{
-		if ((this.fReadsPerSec < 0) || (this.fReadsPerSec > Float.POSITIVE_INFINITY))
-		{
+	public float getReadsPerSec() throws Exception {
+		if ((this.fReadsPerSec < 0) || (this.fReadsPerSec > Float.POSITIVE_INFINITY)) {
 			throw new Exception("Reads per sec value is incorrect");
 		}
 		return this.fReadsPerSec;
 	}
 
-	public void setReadsPerSec(float fReadsPerSec)
-	{
+	public void setReadsPerSec(float fReadsPerSec) {
 		this.fReadsPerSec = fReadsPerSec;
 	}
-	
+
 	/**
 	 * Returns writes per second of the disk
 	 * 
 	 * @return no of writes per second
 	 */
-	public float getWritesPerSec() throws Exception
-	{
-		if ((this.fWritesPerSec < 0) || (this.fWritesPerSec > Float.POSITIVE_INFINITY))
-		{
+	public float getWritesPerSec() throws Exception {
+		if ((this.fWritesPerSec < 0) || (this.fWritesPerSec > Float.POSITIVE_INFINITY)) {
 			throw new Exception("Writes per sec value is incorrect");
 		}
 		return this.fWritesPerSec;
 	}
-	
-	public void setWritesPerSec(float fWritesPerSec)
-	{
+
+	public void setWritesPerSec(float fWritesPerSec) {
 		this.fWritesPerSec = fWritesPerSec;
 	}
 }

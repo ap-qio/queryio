@@ -12,8 +12,7 @@ import java.util.NoSuchElementException;
  * 
  * @author Exceed Consultancy Services
  */
-public class StringTokenizer implements Enumeration
-{
+public class StringTokenizer implements Enumeration {
 	private int currentPosition;
 	private int newPosition;
 	private final int maxPosition;
@@ -31,20 +30,16 @@ public class StringTokenizer implements Enumeration
 	/**
 	 * Set maxDelimChar to the highest char in the delimiter set.
 	 */
-	private void setMaxDelimChar()
-	{
-		if (this.delimiters == null)
-		{
+	private void setMaxDelimChar() {
+		if (this.delimiters == null) {
 			this.maxDelimChar = 0;
 			return;
 		}
 
 		char m = 0;
-		for (int i = 0; i < this.delimiters.length; i++)
-		{
+		for (int i = 0; i < this.delimiters.length; i++) {
 			final char c = this.delimiters[i];
-			if (m < c)
-			{
+			if (m < c) {
 				m = c;
 			}
 		}
@@ -53,8 +48,7 @@ public class StringTokenizer implements Enumeration
 
 	/**
 	 * Constructs a string tokenizer for the specified string. All characters in
-	 * the <code>delim</code> argument are the delimiters for separating
-	 * tokens.
+	 * the <code>delim</code> argument are the delimiters for separating tokens.
 	 * <p>
 	 * If the <code>returnDelims</code> flag is <code>true</code>, then the
 	 * delimiter characters are also returned as tokens. Each delimiter is
@@ -62,8 +56,8 @@ public class StringTokenizer implements Enumeration
 	 * the delimiter characters are skipped and only serve as separators between
 	 * tokens.
 	 * <p>
-	 * Note that if <tt>delim</tt> is <tt>null</tt>, this constructor does
-	 * not throw an exception. However, trying to invoke other methods on the
+	 * Note that if <tt>delim</tt> is <tt>null</tt>, this constructor does not
+	 * throw an exception. However, trying to invoke other methods on the
 	 * resulting <tt>StringTokenizer</tt> may result in a
 	 * <tt>NullPointerException</tt>.
 	 * 
@@ -74,8 +68,7 @@ public class StringTokenizer implements Enumeration
 	 * @param returnDelims
 	 *            flag indicating whether to return the delimiters as tokens.
 	 */
-	public StringTokenizer(final String str, final String delim, final boolean returnDelims)
-	{
+	public StringTokenizer(final String str, final String delim, final boolean returnDelims) {
 		this.currentPosition = 0;
 		this.newPosition = -1;
 		this.delimsChanged = false;
@@ -88,32 +81,30 @@ public class StringTokenizer implements Enumeration
 
 	/**
 	 * Constructs a string tokenizer for the specified string. The characters in
-	 * the <code>delim</code> argument are the delimiters for separating
-	 * tokens. Delimiter characters themselves will not be treated as tokens.
+	 * the <code>delim</code> argument are the delimiters for separating tokens.
+	 * Delimiter characters themselves will not be treated as tokens.
 	 * 
 	 * @param str
 	 *            a string to be parsed.
 	 * @param delim
 	 *            the delimiters.
 	 */
-	public StringTokenizer(final String str, final String delim)
-	{
+	public StringTokenizer(final String str, final String delim) {
 		this(str, delim, false);
 	}
 
 	/**
 	 * Constructs a string tokenizer for the specified string. The tokenizer
 	 * uses the default delimiter set, which is
-	 * <code>"&nbsp;&#92;t&#92;n&#92;r&#92;f"</code>: the space character,
-	 * the tab character, the newline character, the carriage-return character,
-	 * and the form-feed character. Delimiter characters themselves will not be
+	 * <code>"&nbsp;&#92;t&#92;n&#92;r&#92;f"</code>: the space character, the
+	 * tab character, the newline character, the carriage-return character, and
+	 * the form-feed character. Delimiter characters themselves will not be
 	 * treated as tokens.
 	 * 
 	 * @param str
 	 *            a string to be parsed.
 	 */
-	public StringTokenizer(final String str)
-	{
+	public StringTokenizer(final String str) {
 		this(str, " \t\n\r\f", false); //$NON-NLS-1$
 	}
 
@@ -133,12 +124,9 @@ public class StringTokenizer implements Enumeration
 	 * @return
 	 * 
 	 */
-	private boolean isDelimiter(final char c)
-	{
-		for (int x = 0; x < this.delimiters.length; ++x)
-		{
-			if (this.delimiters[x] == c)
-			{
+	private boolean isDelimiter(final char c) {
+		for (int x = 0; x < this.delimiters.length; ++x) {
+			if (this.delimiters[x] == c) {
 				return true;
 			}
 		}
@@ -150,19 +138,15 @@ public class StringTokenizer implements Enumeration
 	 * false, returns the index of the first non-delimiter character at or after
 	 * startPos. If retDelims is true, startPos is returned.
 	 */
-	private int skipDelimiters(final int startPos)
-	{
-		if (this.delimiters == null)
-		{
+	private int skipDelimiters(final int startPos) {
+		if (this.delimiters == null) {
 			throw new NullPointerException();
 		}
 
 		int position = startPos;
-		while (!this.retDelims && (position < this.maxPosition))
-		{
+		while (!this.retDelims && (position < this.maxPosition)) {
 			final char c = this.str[position];
-			if ((c > this.maxDelimChar) || !this.isDelimiter(c))
-			{
+			if ((c > this.maxDelimChar) || !this.isDelimiter(c)) {
 				break;
 			}
 			position++;
@@ -174,23 +158,18 @@ public class StringTokenizer implements Enumeration
 	 * Skips ahead from startPos and returns the index of the next delimiter
 	 * character encountered, or maxPosition if no such delimiter is found.
 	 */
-	private int scanToken(final int startPos)
-	{
+	private int scanToken(final int startPos) {
 		int position = startPos;
-		while (position < this.maxPosition)
-		{
+		while (position < this.maxPosition) {
 			final char c = this.str[position];
-			if ((c <= this.maxDelimChar) && this.isDelimiter(c))
-			{
+			if ((c <= this.maxDelimChar) && this.isDelimiter(c)) {
 				break;
 			}
 			position++;
 		}
-		if (this.retDelims && (startPos == position))
-		{
+		if (this.retDelims && (startPos == position)) {
 			final char c = this.str[position];
-			if ((c <= this.maxDelimChar) && this.isDelimiter(c))
-			{
+			if ((c <= this.maxDelimChar) && this.isDelimiter(c)) {
 				position++;
 			}
 		}
@@ -206,8 +185,7 @@ public class StringTokenizer implements Enumeration
 	 *         the string after the current position; <code>false</code>
 	 *         otherwise.
 	 */
-	public boolean hasMoreTokens()
-	{
+	public boolean hasMoreTokens() {
 		/*
 		 * Temporary store this position and use it in the following nextToken()
 		 * method only if the delimiters have'nt been changed in that
@@ -224,23 +202,21 @@ public class StringTokenizer implements Enumeration
 	 * @exception NoSuchElementException
 	 *                if there are no more tokens in this tokenizer's string.
 	 */
-	public String nextToken()
-	{
+	public String nextToken() {
 		/*
 		 * If next position already computed in hasMoreElements() and delimiters
 		 * have changed between the computation and this invocation, then use
 		 * the computed value.
 		 */
 
-		this.currentPosition = ((this.newPosition >= 0) && !this.delimsChanged) ? this.newPosition : this
-				.skipDelimiters(this.currentPosition);
+		this.currentPosition = ((this.newPosition >= 0) && !this.delimsChanged) ? this.newPosition
+				: this.skipDelimiters(this.currentPosition);
 
 		/* Reset these anyway */
 		this.delimsChanged = false;
 		this.newPosition = -1;
 
-		if (this.currentPosition >= this.maxPosition)
-		{
+		if (this.currentPosition >= this.maxPosition) {
 			throw new NoSuchElementException();
 		}
 		final int start = this.currentPosition;
@@ -263,8 +239,7 @@ public class StringTokenizer implements Enumeration
 	 * @exception NoSuchElementException
 	 *                if there are no more tokens in this tokenizer's string.
 	 */
-	public String nextToken(final String delim)
-	{
+	public String nextToken(final String delim) {
 		this.delimiters = delim.toCharArray();
 
 		/* delimiter string specified, so set the appropriate flag. */
@@ -284,14 +259,13 @@ public class StringTokenizer implements Enumeration
 	 * @see java.util.Enumeration
 	 * @see java.util.StringTokenizer#hasMoreTokens()
 	 */
-	public boolean hasMoreElements()
-	{
+	public boolean hasMoreElements() {
 		return this.hasMoreTokens();
 	}
 
 	/**
-	 * Returns the same value as the <code>nextToken</code> method, except
-	 * that its declared return value is <code>Object</code> rather than
+	 * Returns the same value as the <code>nextToken</code> method, except that
+	 * its declared return value is <code>Object</code> rather than
 	 * <code>String</code>. It exists so that this class can implement the
 	 * <code>Enumeration</code> interface.
 	 * 
@@ -301,8 +275,7 @@ public class StringTokenizer implements Enumeration
 	 * @see java.util.Enumeration
 	 * @see java.util.StringTokenizer#nextToken()
 	 */
-	public Object nextElement()
-	{
+	public Object nextElement() {
 		return this.nextToken();
 	}
 
@@ -315,15 +288,12 @@ public class StringTokenizer implements Enumeration
 	 *         delimiter set.
 	 * @see java.util.StringTokenizer#nextToken()
 	 */
-	public int countTokens()
-	{
+	public int countTokens() {
 		int count = 0;
 		int currpos = this.currentPosition;
-		while (currpos < this.maxPosition)
-		{
+		while (currpos < this.maxPosition) {
 			currpos = this.skipDelimiters(currpos);
-			if (currpos >= this.maxPosition)
-			{
+			if (currpos >= this.maxPosition) {
 				break;
 			}
 			currpos = this.scanToken(currpos);

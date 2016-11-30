@@ -12,8 +12,7 @@ public class OS3CheckSum {
 	private MessageDigest mdigest;
 	private StringBuilder result;
 	// Hexadecimal digits
-	final static char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7',
-			'8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+	final static char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
 	/**
 	 * Creates a message digest with the specified algorithm name.

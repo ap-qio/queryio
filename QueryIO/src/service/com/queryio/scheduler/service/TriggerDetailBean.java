@@ -1,18 +1,15 @@
 package com.queryio.scheduler.service;
 
-public class TriggerDetailBean 
-{
-	
+public class TriggerDetailBean {
+
 	private String jobName = null;
 	private String jobGroup = null;
-	private String  startTime = null;
-	private String  endTime = null;
-	private String  status = null;
+	private String startTime = null;
+	private String endTime = null;
+	private String status = null;
 	private String reasonForFailure = null;
 	private Integer id = null;
-	
-	
-	
+
 	public String getJobGroup() {
 		return jobGroup;
 	}
@@ -20,7 +17,7 @@ public class TriggerDetailBean
 	public void setJobGroup(String jobGroup) {
 		this.jobGroup = jobGroup;
 	}
-	
+
 	public Integer getID() {
 		return id;
 	}
@@ -37,43 +34,35 @@ public class TriggerDetailBean
 		this.reasonForFailure = reasonForFailure;
 	}
 
-	public String getJobName() 
-	{
+	public String getJobName() {
 		return jobName;
 	}
-	
-	public void setJobName(String jobName) 
-	{
+
+	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
-	
-	public String getStartTime() 
-	{
+
+	public String getStartTime() {
 		return startTime;
 	}
-	
-	public void setStartTime(String startTime) 
-	{
+
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-	
-	public String getEndTime() 
-	{
+
+	public String getEndTime() {
 		return endTime;
 	}
-	
-	public void setEndTime(String endTime) 
-	{
+
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
-	public String getStatus() 
-	{
+
+	public String getStatus() {
 		return status;
 	}
-	
-	public void setStatus(String status) 
-	{
+
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

@@ -30,47 +30,37 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public class AppHorizontalLineChart extends AppHorizontalSimpleChart
-{
+public class AppHorizontalLineChart extends AppHorizontalSimpleChart {
 	private boolean marker = false;
 
-	public AppHorizontalLineChart(final UserInterface userInterface, final int nodeType, final int productID)
-	{
+	public AppHorizontalLineChart(final UserInterface userInterface, final int nodeType, final int productID) {
 		super(userInterface, nodeType, productID);
 		this.bShowAlternateBackground = true;
 	}
 
-	public final boolean isMarker()
-	{
+	public final boolean isMarker() {
 		return this.marker;
 	}
 
-	public void showMarker(final boolean marker)
-	{
+	public void showMarker(final boolean marker) {
 		this.marker = marker;
 	}
 
-	public void drawSeries(final UserInterface graphics, final int originY)
-	{
+	public void drawSeries(final UserInterface graphics, final int originY) {
 		final Series[] yAxisSeries = this.getYAxisSeries();
 		final int lenYAxisSeries = yAxisSeries.length;
-		if (lenYAxisSeries > 0)
-		{
-			for (int i = 0; i < yAxisSeries.length; i++)
-			{
+		if (lenYAxisSeries > 0) {
+			for (int i = 0; i < yAxisSeries.length; i++) {
 				this.drawSeries(graphics, i, (YAxisSeries) yAxisSeries[i], true, 0, originY);
 			}
 		}
 	}
 
-	public void drawSeries(final UserInterface graphics)
-	{
+	public void drawSeries(final UserInterface graphics) {
 		final Series[] yAxisSeries = this.getYAxisSeries();
 		final int lenYAxisSeries = yAxisSeries.length;
-		if (lenYAxisSeries > 0)
-		{
-			for (int i = 0; i < yAxisSeries.length; i++)
-			{
+		if (lenYAxisSeries > 0) {
+			for (int i = 0; i < yAxisSeries.length; i++) {
 				this.drawSeries(graphics, i, (YAxisSeries) yAxisSeries[i], false, this.yStart, this.yStart);
 			}
 		}
@@ -83,22 +73,19 @@ public class AppHorizontalLineChart extends AppHorizontalSimpleChart
 	 * @param yAxisSeries
 	 * @param shift
 	 */
-	private void drawSeries(final UserInterface graphics, final int iYAxisSeriesIndex, 
-		final YAxisSeries yAxisSeries, boolean renderAll, final int startY, final int maxYLimit)
-	{
-		if (!this.shouldDrawSeries(iYAxisSeriesIndex))
-		{
+	private void drawSeries(final UserInterface graphics, final int iYAxisSeriesIndex, final YAxisSeries yAxisSeries,
+			boolean renderAll, final int startY, final int maxYLimit) {
+		if (!this.shouldDrawSeries(iYAxisSeriesIndex)) {
 			return;
 		}
-		
+
 		Color oldForeground = graphics.getForeground();
 		graphics.setBackground(getColorForIndex(iYAxisSeriesIndex, this.chartProperties));
 		graphics.setForeground(getColorForIndex(iYAxisSeriesIndex, this.chartProperties));
-		
+
 		int iCurrentCount = 0;
 		XAxisSeries xAxisSeries = this.getXAxisSeries();
 		iCurrentCount = xAxisSeries.getCurrentCount();
-
 
 		int yValue;
 		int xCor;
@@ -109,36 +96,31 @@ public class AppHorizontalLineChart extends AppHorizontalSimpleChart
 
 		final int yStartCor = startY;
 		final int xConstant = xStart - shiftXAxisAbove;
-		for (int i = 0; i < iCurrentCount; i++)
-		{
+		for (int i = 0; i < iCurrentCount; i++) {
 			yValue = yAxisSeries.getValue(i);
 			xCor = this.resolveYCorordinate(yValue);
-			yCor = yStartCor + ((i + 1) * this.eachDataWidth) - this.eachDataWidth/2;
-			if (!renderAll && ((yCor + 1) > this.plotRect.height))
-			{
+			yCor = yStartCor + ((i + 1) * this.eachDataWidth) - this.eachDataWidth / 2;
+			if (!renderAll && ((yCor + 1) > this.plotRect.height)) {
 				break;
 			}
-			
-			if (this.bShowToolTip)
-			{
+
+			if (this.bShowToolTip) {
 				final Rectangle marker = new Rectangle(xConstant + xCor - 3, yCor - 3, 6, 6);
 				String formattedXValue = getXAxisSeries().getFormattedValue(i);
-				this.addMarkerObject(new MarkerObject(marker, String.valueOf(yValue), formattedXValue, i, 
-					iYAxisSeriesIndex));
+				this.addMarkerObject(
+						new MarkerObject(marker, String.valueOf(yValue), formattedXValue, i, iYAxisSeriesIndex));
 			}
-			
-			if (Integer.MIN_VALUE != yValue)
-			{
-				if (this.isMarker())
-				{
+
+			if (Integer.MIN_VALUE != yValue) {
+				if (this.isMarker()) {
 					graphics.drawRectangle(xConstant + xCor - 2, yCor - 2, 4, 4);
 					graphics.fillRectangle(xConstant + xCor - 2, yCor - 2, 4, 4);
 				}
-				if (Integer.MIN_VALUE != prevYValue)
-				{
-					
+				if (Integer.MIN_VALUE != prevYValue) {
+
 					final LineAttributes oldLine = graphics.getLineStyle();
-					graphics.setLineStyle(new LineAttributes(2.25f, LineAttributes.CAP_ROUND, LineAttributes.JOIN_ROUND, LineAttributes.LINE_STYLE_SOLID));
+					graphics.setLineStyle(new LineAttributes(2.25f, LineAttributes.CAP_ROUND, LineAttributes.JOIN_ROUND,
+							LineAttributes.LINE_STYLE_SOLID));
 					graphics.drawLine(xConstant + prevXCor, prevYCor, xConstant + xCor, yCor);
 					graphics.setLineStyle(oldLine);
 				}

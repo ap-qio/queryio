@@ -23,8 +23,7 @@ import com.queryio.common.charts.interfaces.UserInterface;
 /**
  * @author Exceed Consultancy Services
  */
-public class XAxisStringSeries extends XAxisSeries
-{
+public class XAxisStringSeries extends XAxisSeries {
 	public static final String DUMMYMAXVALUE = "OOOOOOOOOO"; //$NON-NLS-1$
 
 	protected String[] values = null;
@@ -33,27 +32,21 @@ public class XAxisStringSeries extends XAxisSeries
 
 	private String maxValue = IProductConstants.EMPTY_STRING;
 
-
-	public XAxisStringSeries()
-	{
+	public XAxisStringSeries() {
 		super(STRINGVALUES);
 	}
 
-	public XAxisStringSeries(final String text)
-	{
+	public XAxisStringSeries(final String text) {
 		super(STRINGVALUES, text);
 	}
 
-	public void initialize(int capacity)
-	{
-		if (capacity <= 0)
-		{
+	public void initialize(int capacity) {
+		if (capacity <= 0) {
 			capacity = 1;
 		}
 
 		this.values = new String[capacity];
-		for (int i = 0; i < capacity; i++)
-		{
+		for (int i = 0; i < capacity; i++) {
 			this.values[i] = IProductConstants.EMPTY_STRING;
 		}
 		this.currentIndex = -1;
@@ -61,66 +54,55 @@ public class XAxisStringSeries extends XAxisSeries
 		this.maxValue = IProductConstants.EMPTY_STRING;
 	}
 
-	public int getCapacity()
-	{
+	public int getCapacity() {
 		return (this.values != null ? this.values.length : 0);
 	}
 
-	public void setValue(final int index, final String value)
-	{
+	public void setValue(final int index, final String value) {
 		this.values[index] = value;
 
-		if (this.minValue.length() > value.length())
-		{
+		if (this.minValue.length() > value.length()) {
 			this.minValue = value;
 		}
 
-		if (this.maxValue.length() < value.length())
-		{
+		if (this.maxValue.length() < value.length()) {
 			this.maxValue = value;
 		}
 		this.currentIndex = Math.max(this.currentIndex, index);
 	}
 
-	public void setNextValue(final String value)
-	{
+	public void setNextValue(final String value) {
 		this.setValue(++this.currentIndex, value);
 	}
 
-	public final String getMaxValue()
-	{
+	public final String getMaxValue() {
 		return this.maxValue;
 	}
 
-	public final String getMinValue()
-	{
+	public final String getMinValue() {
 		return this.minValue;
 	}
 
-	public String getFormattedValue(final int index)
-	{
-		if(index>=values.length)	return "";
+	public String getFormattedValue(final int index) {
+		if (index >= values.length)
+			return "";
 		return this.values[index];
 	}
 
-	public String[] getMinMaxValues(final UserInterface graphics)
-	{
+	public String[] getMinMaxValues(final UserInterface graphics) {
 		int minValue = Integer.MAX_VALUE;
 		int maxValue = Integer.MIN_VALUE;
 
 		String strMinValue = IProductConstants.EMPTY_STRING;
 		String strMaxValue = IProductConstants.EMPTY_STRING;
 
-		for (int i = 0; i < this.values.length; i++)
-		{
-			if (minValue < graphics.getStringWidth(this.values[i]))
-			{
+		for (int i = 0; i < this.values.length; i++) {
+			if (minValue < graphics.getStringWidth(this.values[i])) {
 				minValue = graphics.getStringWidth(this.values[i]);
 				strMinValue = this.values[i];
 			}
 
-			if (graphics.getStringWidth(this.values[i]) > maxValue)
-			{
+			if (graphics.getStringWidth(this.values[i]) > maxValue) {
 				maxValue = graphics.getStringWidth(this.values[i]);
 				strMaxValue = this.values[i];
 			}
@@ -129,13 +111,11 @@ public class XAxisStringSeries extends XAxisSeries
 		return new String[] { strMinValue, strMaxValue };
 	}
 
-	public String getFormattedMaxValue() 
-	{
+	public String getFormattedMaxValue() {
 		return getMaxValue();
 	}
 
-	public String getFormattedMinValue() 
-	{
+	public String getFormattedMinValue() {
 		return getMinValue();
 	}
 }

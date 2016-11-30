@@ -24,15 +24,12 @@ import com.queryio.sysmoncommon.sysmon.ResultParsingException;
 import com.queryio.sysmoncommon.sysmon.dstruct.MemoryInfo;
 import com.queryio.sysmoncommon.sysmon.dstruct.ProcessInfo;
 
-public class LinuxParserForTop_3_5_1 extends GenericLinuxDataParser
-{
-	public LinuxParserForTop_3_5_1()
-	{
+public class LinuxParserForTop_3_5_1 extends GenericLinuxDataParser {
+	public LinuxParserForTop_3_5_1() {
 		super();
 	}
 
-	public void parseTopCommand(final String output) throws ResultParsingException
-	{
+	public void parseTopCommand(final String output) throws ResultParsingException {
 		/*
 		 * last pid: 13951; load averages: 0.04, 0.62, 0.53 12:11:55 81
 		 * processes: 1 running, 80 sleeping CPU states: 0.0% user, 0.0% nice,
@@ -73,40 +70,32 @@ public class LinuxParserForTop_3_5_1 extends GenericLinuxDataParser
 		if (output != null) // output will be null if this method gets called
 		// after disconnect
 		{
-			try
-			{
+			try {
 				// boolean bSecond = false;
 				String temp = null;
 				String sLine = null;
 
 				final StringTokenizer st = new StringTokenizer(output, "\r\n\f");
-				while (st.hasMoreTokens())
-				{
+				while (st.hasMoreTokens()) {
 					sLine = st.nextToken();
 					/*
 					 * In case of Linux 9 CPU states: cpu user nice system irq
 					 * softirq iowait idle total 5.7% 0.3% 3.3% 0.1% 0.0% 5.5%
 					 * 84.6%
 					 */
-					if (sLine.toLowerCase().startsWith("cpu") && (sLine.indexOf("idle") != -1))
-					{
+					if (sLine.toLowerCase().startsWith("cpu") && (sLine.indexOf("idle") != -1)) {
 						final StringTokenizer line = new StringTokenizer(sLine);
 						String sPrevToken;
 						String token = null;
-						while (line.hasMoreTokens())
-						{
+						while (line.hasMoreTokens()) {
 							sPrevToken = token;
 							token = line.nextToken();
-							if (token.indexOf("idle") != -1)
-							{
+							if (token.indexOf("idle") != -1) {
 								temp = sPrevToken.substring(0, sPrevToken.length() - 1);
 								temp = temp.trim();
-								try
-								{
+								try {
 									idleCpuTime = this.nf.parse(temp).floatValue();
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									e.printStackTrace();
 									idleCpuTime = 100;
 								}
@@ -118,63 +107,45 @@ public class LinuxParserForTop_3_5_1 extends GenericLinuxDataParser
 					 * Memory: 482M used, 12M free, 123M buf Swap: 1408K used,
 					 * 1018M free
 					 */
-					if (sLine.startsWith("Memory:"))
-					{
+					if (sLine.startsWith("Memory:")) {
 						final StringTokenizer line = new StringTokenizer(sLine);
 						String sPrevToken;
 						temp = null;
 						boolean bSwap = false;
 						int memory = 0;
-						while (line.hasMoreTokens())
-						{
+						while (line.hasMoreTokens()) {
 							sPrevToken = temp;
 							temp = line.nextToken();
-							if (temp.indexOf("used") != -1)
-							{
-								try
-								{
+							if (temp.indexOf("used") != -1) {
+								try {
 									memory = this.nf.parse(sPrevToken).intValue() / 1024;
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									memory = 0;
 								}
-								if (bSwap)
-								{
+								if (bSwap) {
 									usedVirtualMemory = memory;
-								}
-								else
-								{
+								} else {
 									usedMemory = memory;
 								}
 							}
-							if (temp.indexOf("free") != -1)
-							{
-								try
-								{
+							if (temp.indexOf("free") != -1) {
+								try {
 									memory = this.nf.parse(sPrevToken).intValue() / 1024;
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									memory = 0;
 								}
-								if (bSwap)
-								{
+								if (bSwap) {
 									freeVirtualMemory = memory;
-								}
-								else
-								{
+								} else {
 									freeMemory = memory;
 								}
 							}
-							if (temp.indexOf("Swap:") != -1)
-							{
+							if (temp.indexOf("Swap:") != -1) {
 								bSwap = true;
 							}
 						}
 						this.physicalMemInfo = new MemoryInfo((usedMemory + freeMemory), usedMemory, freeMemory);
-						if (bSwap)
-						{
+						if (bSwap) {
 							this.virtualMemInfo = new MemoryInfo((usedVirtualMemory + freeVirtualMemory),
 									usedVirtualMemory, freeVirtualMemory);
 						}
@@ -183,16 +154,12 @@ public class LinuxParserForTop_3_5_1 extends GenericLinuxDataParser
 					 * PID USERNAME PRI NICE SIZE RES STATE TIME WCPU CPU
 					 * COMMAND 1 root 15 0 1364K 80K sleep 0:03 0.00% 0.00% init
 					 */
-					if (bProcesses)
-					{
+					if (bProcesses) {
 						final StringTokenizer line = new StringTokenizer(sLine);
 						temp = line.nextToken(); // PID:
-						try
-						{
+						try {
 							iPID = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							iPID = 0;
 						}
 						sUserName = line.nextToken(); // SKIP USERNAME
@@ -201,17 +168,13 @@ public class LinuxParserForTop_3_5_1 extends GenericLinuxDataParser
 						line.nextToken(); // SKIP SIZE
 						// read RES i.e. memory used
 						temp = line.nextToken();
-						try
-						{
+						try {
 							iProcessMemory = this.nf.parse(temp).intValue();
 							final char ch = temp.charAt(temp.length() - 1);
-							if ((ch == 'M') || (ch == 'm'))
-							{
+							if ((ch == 'M') || (ch == 'm')) {
 								iProcessMemory = iProcessMemory * 1024;
 							}
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							iProcessMemory = 0;
 						}
 
@@ -221,12 +184,9 @@ public class LinuxParserForTop_3_5_1 extends GenericLinuxDataParser
 
 						// read %CPU i.e. cpu usage
 						temp = line.nextToken();
-						try
-						{
+						try {
 							fCpuUsage = this.nf.parse(temp).floatValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							fCpuUsage = 0;
 						}
 
@@ -242,22 +202,16 @@ public class LinuxParserForTop_3_5_1 extends GenericLinuxDataParser
 					 * In case of Linux 9 PID USER PRI NI SIZE RSS SHARE STAT
 					 * %CPU %MEM TIME CPU COMMAND *
 					 */
-					if (sLine.indexOf("PID USER") != -1)
-					{
+					if (sLine.indexOf("PID USER") != -1) {
 						bProcesses = true;
-						if (this.processInfoList == null)
-						{
+						if (this.processInfoList == null) {
 							this.processInfoList = new LinkedList();
-						}
-						else
-						{
+						} else {
 							this.processInfoList.clear();
 						}
 					}
 				}
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				throw new ResultParsingException("Collect Data " + ex.getMessage(), output);
 			}
 		}

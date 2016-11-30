@@ -20,17 +20,15 @@ package com.queryio.sysmoncommon.sysmon;
 /**
  * @author Administrator
  * 
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ *         To change the template for this generated type comment go to
+ *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class ResultParsingException extends Exception
-{
+public class ResultParsingException extends Exception {
 	private static final long serialVersionUID = 752600005701000044L;
 	private final String result;
 	private final String dataFetched;
 
-	public ResultParsingException(final String dataFetched, final String result)
-	{
+	public ResultParsingException(final String dataFetched, final String result) {
 		this.dataFetched = dataFetched;
 		this.result = result;
 	}
@@ -38,16 +36,14 @@ public class ResultParsingException extends Exception
 	/**
 	 * @return
 	 */
-	public String getDataFetched()
-	{
+	public String getDataFetched() {
 		return this.dataFetched;
 	}
 
 	/**
 	 * @return
 	 */
-	public String getResult()
-	{
+	public String getResult() {
 		return this.result;
 	}
 

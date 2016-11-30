@@ -24,15 +24,13 @@ import org.ks.cm.parser.OperatorExpression;
 /**
  * @author Exceed Consultancy Services
  */
-public class PowOperatorExpression extends OperatorExpression
-{
+public class PowOperatorExpression extends OperatorExpression {
 	private static final long serialVersionUID = 7526000057010002400L;
 
 	/**
 	 * @see java.lang.Object#Object()
 	 */
-	public PowOperatorExpression()
-	{
+	public PowOperatorExpression() {
 		super();
 	}
 
@@ -42,32 +40,28 @@ public class PowOperatorExpression extends OperatorExpression
 	 * @param left
 	 * @param right
 	 */
-	public PowOperatorExpression(final Expression left, final Expression right)
-	{
+	public PowOperatorExpression(final Expression left, final Expression right) {
 		super(left, right);
 	}
 
 	/**
 	 * @see org.ks.cm.parser.Expression#calculate()
 	 */
-	public double calculate() throws ExpressionException
-	{
+	public double calculate() throws ExpressionException {
 		return Math.pow(this.left.calculate(), this.right.calculate());
 	}
 
 	/**
 	 * @see org.ks.cm.parser.OperatorExpression#getPriority()
 	 */
-	public byte getPriority()
-	{
+	public byte getPriority() {
 		return 110;
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer('[');
 		sbToString.append(this.left.toString());
 		sbToString.append('^');

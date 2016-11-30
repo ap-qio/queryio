@@ -32,8 +32,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.queryio.common.IOSProtocolConstants;
-import com.queryio.common.util.PlatformHandler;
-import com.queryio.common.util.StreamPumper;
 
 /**
  * 
@@ -41,8 +39,7 @@ import com.queryio.common.util.StreamPumper;
  * @author Exceed Consultancy Services
  * @version 1.0
  */
-public class GetIpAddress
-{
+public class GetIpAddress {
 	private static final String UNIX_COMMAND1 = "/sbin/ifconfig -a"; //$NON-NLS-1$
 	private static final String UNIX_COMMAND2 = "ifconfig -a"; //$NON-NLS-1$
 	private static final String WINDOWS_COMMAND = "ipconfig /all"; //$NON-NLS-1$
@@ -52,86 +49,64 @@ public class GetIpAddress
 	private ArrayList ipAddresses = null;
 	private List hostIds = null;
 
-	public void fetchAllDetails() throws Exception
-	{
+	public void fetchAllDetails() throws Exception {
 		this.primaryIpAddress = this.getIpAddress();
 		this.fetchAllIpAddresses();
 	}
 
-	public String getPrimaryHostID()
-	{
+	public String getPrimaryHostID() {
 		return this.primaryHostId;
 	}
 
-	public String getPrimaryIPAddress()
-	{
-		if (this.primaryIpAddress == null)
-		{
-			try
-			{
+	public String getPrimaryIPAddress() {
+		if (this.primaryIpAddress == null) {
+			try {
 				this.primaryIpAddress = this.getIpAddress();
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				// DO NOTHING
 			}
 		}
 		return this.primaryIpAddress;
 	}
 
-	public ArrayList getAllIpAddresses()
-	{
+	public ArrayList getAllIpAddresses() {
 		return this.ipAddresses;
 	}
 
-	public List getAllHostIDs()
-	{
+	public List getAllHostIDs() {
 		return this.hostIds;
 	}
 
-	private String getIpAddress() throws Exception
-	{
+	private String getIpAddress() throws Exception {
 		String ipAddress = null;
-		if (PlatformHandler.isWindows())
-		{
+		if (PlatformHandler.isWindows()) {
 			ipAddress = this.getWindowsIp();
-		}
-		else
-		{
+		} else {
 			this.fetchAllIpAddresses();
-			if (this.ipAddresses.size() > 0)
-			{
+			if (this.ipAddresses.size() > 0) {
 				ipAddress = (String) this.ipAddresses.get(0);
 			}
 		}
 		return ipAddress;
 	}
 
-	private void fetchAllIpAddresses() throws Exception
-	{
+	private void fetchAllIpAddresses() throws Exception {
 		final boolean windows = PlatformHandler.isWindows();
 		String command = null;
 		boolean passEnvs = false;
-		if (windows)
-		{
+		if (windows) {
 			command = WINDOWS_COMMAND;
-		}
-		else
-		{
+		} else {
 			final File ifConfig = new File("/sbin/ifconfig"); //$NON-NLS-1$
-			if (ifConfig.exists())
-			{
+			if (ifConfig.exists()) {
 				command = UNIX_COMMAND1;
-			}
-			else
-			{
+			} else {
 				command = UNIX_COMMAND2;
 				passEnvs = true;
 			}
 		}
 		String[] env = null;
-		if (passEnvs)
-		{
+		if (passEnvs) {
 			// we want to add /sbin to the path variable.
 			final Map mapEnv = PlatformHandler.getEnvVariables();
 			final Iterator iterator = mapEnv.keySet().iterator();
@@ -139,12 +114,10 @@ public class GetIpAddress
 			final StringBuffer value = new StringBuffer();
 			boolean hasPathVariable = false;
 			final ArrayList envs = new ArrayList(mapEnv.size() + 1);
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()) {
 				key = (String) iterator.next();
 				final String keyValue = (String) mapEnv.get(key);
-				if ((key != null) && (keyValue != null))
-				{
+				if ((key != null) && (keyValue != null)) {
 					value.append(key);
 					value.append('=');
 					if (!hasPathVariable && key.equalsIgnoreCase("path")) //$NON-NLS-1$
@@ -158,8 +131,7 @@ public class GetIpAddress
 					value.setLength(0);
 				}
 			}
-			if (!hasPathVariable)
-			{
+			if (!hasPathVariable) {
 				envs.add("PATH=/sbin:"); //$NON-NLS-1$
 			}
 			env = new String[envs.size()];
@@ -168,32 +140,29 @@ public class GetIpAddress
 
 		final Process targetProcess = Runtime.getRuntime().exec(command, env);
 		final StringWriter inputWriter = new StringWriter();
-		final StreamPumper spInput = new StreamPumper(new BufferedReader(new InputStreamReader(targetProcess
-				.getInputStream())), inputWriter);
+		final StreamPumper spInput = new StreamPumper(
+				new BufferedReader(new InputStreamReader(targetProcess.getInputStream())), inputWriter);
 		spInput.start();
 		final StringWriter errorWriter = new StringWriter();
-		if (targetProcess.getErrorStream() != null)
-		{
-			final StreamPumper spError = new StreamPumper(new BufferedReader(new InputStreamReader(targetProcess
-					.getErrorStream())), errorWriter);
+		if (targetProcess.getErrorStream() != null) {
+			final StreamPumper spError = new StreamPumper(
+					new BufferedReader(new InputStreamReader(targetProcess.getErrorStream())), errorWriter);
 			spError.start();
 		}
 		targetProcess.waitFor();
 		int count = 0;
-		while (!spInput.isProcessCompleted() && (count < 5))
-		{
+		while (!spInput.isProcessCompleted() && (count < 5)) {
 			Thread.sleep(100);
 			count++;
 		}
 
-		if (errorWriter.getBuffer().length() > 0)
-		{
-			AppLogger.getLogger().info("Following error occured while executing the process: " + errorWriter.toString()); //$NON-NLS-1$
+		if (errorWriter.getBuffer().length() > 0) {
+			AppLogger.getLogger()
+					.info("Following error occured while executing the process: " + errorWriter.toString()); //$NON-NLS-1$
 		}
 
 		final BufferedReader reader = new BufferedReader(new StringReader(inputWriter.toString()));
-		if (windows)
-		{
+		if (windows) {
 			this.getWindowsIp(reader);
 			return;
 		}
@@ -201,15 +170,11 @@ public class GetIpAddress
 		this.getUnixIp(reader, linux);
 	}
 
-	private String getWindowsIp() throws Exception
-	{
-		try
-		{
+	private String getWindowsIp() throws Exception {
+		try {
 			InetAddress.getLocalHost().getAddress();
 			return InetAddress.getLocalHost().getHostAddress();
-		}
-		catch (final UnknownHostException e1)
-		{
+		} catch (final UnknownHostException e1) {
 			// e1.printStackTrace();
 		}
 		return null;
@@ -224,39 +189,33 @@ public class GetIpAddress
 	 * 
 	 * Ethernet adapter DSL:
 	 */
-	private void getWindowsIp(final BufferedReader reader) throws Exception
-	{
+	private void getWindowsIp(final BufferedReader reader) throws Exception {
 		this.getPrimaryIPAddress();
 		this.ipAddresses = new ArrayList(5);
 		this.hostIds = new ArrayList(5);
 		String line = reader.readLine();
 		String address;
 		String hostId = null;
-		while (line != null)
-		{
+		while (line != null) {
 			line = line.trim();
 			if (line.startsWith("Physical Address. ")) //$NON-NLS-1$
 			{
-				final int spaceIndex = line.lastIndexOf(' '); //$NON-NLS-1$
+				final int spaceIndex = line.lastIndexOf(' '); // $NON-NLS-1$
 				hostId = line.substring(spaceIndex + 1);
 				this.hostIds.add(hostId);
-			}
-			else if (line.startsWith("IP Address. ") || line.startsWith("IPv4 Address. ")) //$NON-NLS-1$
+			} else if (line.startsWith("IP Address. ") || line.startsWith("IPv4 Address. ")) //$NON-NLS-1$
 			{
-				final int spaceIndex = line.lastIndexOf(' '); //$NON-NLS-1$
+				final int spaceIndex = line.lastIndexOf(' '); // $NON-NLS-1$
 				address = line.substring(spaceIndex + 1);
 				if (line.startsWith("IPv4 Address. ")) //$NON-NLS-1$
 				{
-					if (address.indexOf("(Preferred)") != -1)
-					{
+					if (address.indexOf("(Preferred)") != -1) {
 						address = address.substring(0, address.indexOf("(Preferred)"));
 					}
 				}
-				if (!IOSProtocolConstants.LOOPBACKADDRESS.equals(address))
-				{
+				if (!IOSProtocolConstants.LOOPBACKADDRESS.equals(address)) {
 					this.ipAddresses.add(address);
-					if (address.equals(this.primaryIpAddress))
-					{
+					if (address.equals(this.primaryIpAddress)) {
 						this.primaryHostId = hostId;
 					}
 				}
@@ -294,8 +253,7 @@ public class GetIpAddress
 	/**
 	 * @param reader
 	 */
-	private void getUnixIp(final BufferedReader reader, final boolean linux) throws Exception
-	{
+	private void getUnixIp(final BufferedReader reader, final boolean linux) throws Exception {
 		final String INET_SPACE = "inet "; //$NON-NLS-1$
 		final String HW_ADDR = linux ? " HWaddr " : "ether "; //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -304,137 +262,109 @@ public class GetIpAddress
 		this.hostIds = new ArrayList(5);
 		String hostId = null;
 		String line = reader.readLine();
-		while (line != null)
-		{
+		while (line != null) {
 			line = line.trim();
-			if (line.indexOf(HW_ADDR) != -1)
-			{
+			if (line.indexOf(HW_ADDR) != -1) {
 				final int startIndex = line.indexOf(HW_ADDR) + HW_ADDR.length();
 				hostId = line.substring(startIndex);
 				this.hostIds.add(hostId);
-				if (!fetched)
-				{
+				if (!fetched) {
 					this.primaryHostId = hostId;
 					fetched = true;
 				}
-			}
-			else if (line.startsWith(INET_SPACE))
-			{
+			} else if (line.startsWith(INET_SPACE)) {
 				final int startIndex = linux ? line.indexOf(':', INET_SPACE.length()) + 1 : INET_SPACE.length();
 				final String address = line.substring(startIndex, line.indexOf(' ', INET_SPACE.length()));
-				if (!IOSProtocolConstants.LOOPBACKADDRESS.equals(address))
-				{
+				if (!IOSProtocolConstants.LOOPBACKADDRESS.equals(address)) {
 					this.ipAddresses.add(address);
 				}
 			}
 			line = reader.readLine();
 		}
-		
-		if(ipAddresses.size() == 0){
+
+		if (ipAddresses.size() == 0) {
 			this.ipAddresses.add(IOSProtocolConstants.LOOPBACKADDRESS);
 		}
 	}
 
-	public String getHostName() throws Exception
-	{
+	public String getHostName() throws Exception {
 		final InetAddress localAddr = InetAddress.getLocalHost();
 		return localAddr.getHostName();
 	}
-	
-	public static String getCanonicalHostName(String host)
-	{
+
+	public static String getCanonicalHostName(String host) {
 		String sHostName = null;
 		InetAddress inetaddress = null;
-		try
-		{
-			inetaddress = (host == null || host.trim().length() == 0)?
-				InetAddress.getLocalHost():InetAddress.getByName(host);
+		try {
+			inetaddress = (host == null || host.trim().length() == 0) ? InetAddress.getLocalHost()
+					: InetAddress.getByName(host);
 			final Class __Class = inetaddress.getClass();
 			// Called using reflection as not available in JDK 13
-			final Method __method = __Class.getMethod("getCanonicalHostName", (Class[])null); //$NON-NLS-1$
+			final Method __method = __Class.getMethod("getCanonicalHostName", (Class[]) null); //$NON-NLS-1$
 			__method.setAccessible(true);
-			try
-			{
-				sHostName = (String) __method.invoke(inetaddress, (Object [])null);
-				if (sHostName.equals(inetaddress.getHostAddress()))
-				{
+			try {
+				sHostName = (String) __method.invoke(inetaddress, (Object[]) null);
+				if (sHostName.equals(inetaddress.getHostAddress())) {
 					sHostName = inetaddress.getHostName();
 				}
-			}
-			catch (final IllegalAccessException iae)
-			{
+			} catch (final IllegalAccessException iae) {
+				sHostName = inetaddress.getHostName();
+			} catch (final InvocationTargetException ite) {
 				sHostName = inetaddress.getHostName();
 			}
-			catch (final InvocationTargetException ite)
-			{
-				sHostName = inetaddress.getHostName();
-			}
+		} catch (final NoSuchMethodException nsme) {
+			sHostName = inetaddress != null ? inetaddress.getHostName() : host;
+		} catch (final UnknownHostException uhe) {
+			sHostName = inetaddress != null ? inetaddress.getHostName() : host;
 		}
-		catch (final NoSuchMethodException nsme)
-		{
-			sHostName = inetaddress != null ? inetaddress.getHostName():host;
-		}
-		catch (final UnknownHostException uhe)
-		{
-			sHostName = inetaddress != null ? inetaddress.getHostName():host;
-		}
-		return sHostName != null ? sHostName:host;
+		return sHostName != null ? sHostName : host;
 	}
 
-	public String getCanonicalHostName() throws Exception
-	{
+	public String getCanonicalHostName() throws Exception {
 		return getCanonicalHostName(null);
 	}
 
-	public static boolean isLocalMachine(final String hostName)
-	{
+	public static boolean isLocalMachine(final String hostName) {
 		if ((hostName == null) || "".equals(hostName) || IOSProtocolConstants.LOOPBACKADDRESS.equals(hostName)
-				|| IOSProtocolConstants.LOCALHOST.equals(hostName)) //$NON-NLS-1$	//$NON-NLS-2$
+				|| IOSProtocolConstants.LOCALHOST.equals(hostName)) // $NON-NLS-1$
+																	// //$NON-NLS-2$
 		{
 			// new InetAddress(null) returns local machine's address.
 			return true;
 		}
 
 		final GetIpAddress gp = new GetIpAddress();
-		try
-		{
+		try {
 			return (gp.getCanonicalHostName().equals(hostName) || hostName.equals(gp.getPrimaryIPAddress()));
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 
 		}
 		return false;
 	}
 
-	
-	public String getCommaSeparatedListOfIPAddresses()
-	{
+	public String getCommaSeparatedListOfIPAddresses() {
 		final StringBuffer buffer = new StringBuffer();
 		final int n = ipAddresses.size();
-		for(int i = 0; i < n; i++)
-		{
-			buffer.append((String)ipAddresses.get(i));
-			if (i < n - 1)
-			{
+		for (int i = 0; i < n; i++) {
+			buffer.append((String) ipAddresses.get(i));
+			if (i < n - 1) {
 				buffer.append(',');
 			}
 		}
 		return buffer.toString();
 	}
-	
-	public static void main(final String[] args) throws Exception
-	{
+
+	public static void main(final String[] args) throws Exception {
 		// Has been verified for Windows, Linux & MAC OSX.
 		final GetIpAddress gp = new GetIpAddress();
 		gp.fetchAllDetails();
-		System.out.println("Host name: " + gp.getCanonicalHostName() + " Primary IP Address: " + gp.getPrimaryIPAddress() + " Primary Host ID: " + gp.getPrimaryHostID()); //$NON-NLS-1$	//$NON-NLS-2$
+		System.out.println("Host name: " + gp.getCanonicalHostName() + " Primary IP Address: " //$NON-NLS-1$ //$NON-NLS-2$
+				+ gp.getPrimaryIPAddress() + " Primary Host ID: " + gp.getPrimaryHostID());
 		System.out.println("All IP addresses: " + gp.getAllIpAddresses()); //$NON-NLS-1$
 		String ipAddressList = gp.getCommaSeparatedListOfIPAddresses();
 		System.out.println(ipAddressList);
 		String[] ipAddresses = ipAddressList.split(",");
-		for(int i = 0; i < ipAddresses.length; i++)
-		{
+		for (int i = 0; i < ipAddresses.length; i++) {
 			System.out.println(i + " : " + ipAddresses[i]);
 		}
 	}

@@ -29,14 +29,12 @@ import com.queryio.sysmoncommon.sysmon.dstruct.ProcessInfo;
 import com.queryio.sysmoncommon.sysmon.dstruct.UnixNetworkInfo;
 import com.queryio.sysmoncommon.sysmon.protocol.AbstractProtocolWrapper;
 
-public class GenericSolarisDataParser extends AbstractDataParser
-{
-	public void parseTopMemCommand(final String output) throws ResultParsingException
-	{
-		//DO NOTHING
+public class GenericSolarisDataParser extends AbstractDataParser {
+	public void parseTopMemCommand(final String output) throws ResultParsingException {
+		// DO NOTHING
 	}
-	public void parseVmstatCommand(final String output) throws ResultParsingException
-	{
+
+	public void parseVmstatCommand(final String output) throws ResultParsingException {
 		int freeVirtualMemory = 0;
 		int freePhysicalMemory = 0;
 
@@ -52,84 +50,60 @@ public class GenericSolarisDataParser extends AbstractDataParser
 		if (output != null) // output will be null if this method gets called
 		// after disconnect
 		{
-			try
-			{
+			try {
 				String temp = null;
 				String sValue = null;
 				String sLine = null;
 				final StringTokenizer st = new StringTokenizer(output, "\r\n\f");
 				StringTokenizer stHeader = null;
 				String headerLine = null;
-				while (st.hasMoreTokens())
-				{
+				while (st.hasMoreTokens()) {
 					sLine = st.nextToken();
-					if (sLine.toLowerCase().indexOf("swap") != -1)
-					{
+					if (sLine.toLowerCase().indexOf("swap") != -1) {
 						headerLine = sLine;
 						continue;
-					}
-					else if (headerLine == null)
-					{
+					} else if (headerLine == null) {
 						continue;
 					}
 					stHeader = new StringTokenizer(headerLine);
 					final StringTokenizer stValues = new StringTokenizer(sLine);
 
-					while (stHeader.hasMoreTokens() && stValues.hasMoreTokens())
-					{
+					while (stHeader.hasMoreTokens() && stValues.hasMoreTokens()) {
 						temp = stHeader.nextToken().toLowerCase();
 						sValue = stValues.nextToken();
-						if (temp.equals("swap"))
-						{
-							try
-							{
+						if (temp.equals("swap")) {
+							try {
 								freeVirtualMemory = this.nf.parse(sValue).intValue() / 1024;
-								if (this.virtualMemInfo != null)
-								{
+								if (this.virtualMemInfo != null) {
 									this.virtualMemInfo.setAvailable(freeVirtualMemory);
 									this.virtualMemInfo.setTotal(freeVirtualMemory + this.virtualMemInfo.getUsed());
-								}
-								else
-								{
+								} else {
 									this.virtualMemInfo = new MemoryInfo(freeVirtualMemory, 0, freeVirtualMemory);
 								}
+							} catch (final Exception e) {
 							}
-							catch (final Exception e)
-							{
-							}
-						}
-						else if (temp.equals("free"))
-						{
-							try
-							{
+						} else if (temp.equals("free")) {
+							try {
 								freePhysicalMemory = this.nf.parse(sValue).intValue() / 1024;
-								if (this.physicalMemInfo != null)
-								{
+								if (this.physicalMemInfo != null) {
 									this.physicalMemInfo.setAvailable(freePhysicalMemory);
 									this.physicalMemInfo.setTotal(freePhysicalMemory + this.physicalMemInfo.getUsed());
-								}
-								else
-								{
+								} else {
 									this.physicalMemInfo = new MemoryInfo(freePhysicalMemory, 0, freePhysicalMemory);
 								}
-							}
-							catch (final Exception e)
-							{
+							} catch (final Exception e) {
 							}
 							// break;
 						}
 					}
 				}
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				throw new ResultParsingException("Collect Data " + ex.getMessage(), output);
 			}
 		}
 	}
 
-	public void parseTopCommand(final String output) throws ResultParsingException
-	{
+	public void parseTopCommand(final String output) throws ResultParsingException {
 		/*
 		 * last pid: 14684; load averages: 0.12, 0.05, 0.12 18:08:20 67
 		 * processes: 66 sleeping, 1 on cpu
@@ -157,49 +131,39 @@ public class GenericSolarisDataParser extends AbstractDataParser
 		if (output != null) // output will be null if this method gets called
 		// after disconnect
 		{
-			try
-			{
+			try {
 				String temp = null;
 				String sLine = null;
 				final StringTokenizer st = new StringTokenizer(output, "\r\n\f");
-				while (st.hasMoreTokens())
-				{
+				while (st.hasMoreTokens()) {
 					sLine = st.nextToken();
 					/*
-					 * last pid: 14684; load averages: 0.12, 0.05, 0.12 18:08:20 
+					 * last pid: 14684; load averages: 0.12, 0.05, 0.12 18:08:20
 					 * 67 processes: 66 sleeping, 1 on cpu
 					 */
-					if (sLine.indexOf("processes:") > 0)
-		            {
-		                line = new StringTokenizer(sLine, " ");
-		                temp = line.nextToken(); // read total number of process
-		                temp = temp.trim();
-		                try
-		                {
-		                    noOfProcs = nf.parse(temp).intValue();
-		                }
-		                catch (final Exception e)
-		                {
-		                    noOfProcs = 0;
-		                }
-		            }
+					if (sLine.indexOf("processes:") > 0) {
+						line = new StringTokenizer(sLine, " ");
+						temp = line.nextToken(); // read total number of process
+						temp = temp.trim();
+						try {
+							noOfProcs = nf.parse(temp).intValue();
+						} catch (final Exception e) {
+							noOfProcs = 0;
+						}
+					}
 					/*
 					 * Memory: 256M real, 170M free, 44M swap in use, 651M swap
 					 * free
 					 */
-					else if (sLine.startsWith("Memory:"))
-					{
+					else if (sLine.startsWith("Memory:")) {
 						line = new StringTokenizer(sLine);
 						temp = line.nextToken(); // Memory:
 						temp = line.nextToken();
 						temp = temp.trim();
 						temp = temp.substring(0, temp.length() - 1);
-						try
-						{
+						try {
 							usedMemory = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							usedMemory = 0;
 						}
 						temp = line.nextToken(); // Ignore as it is String
@@ -207,12 +171,9 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						temp = line.nextToken();
 						temp = temp.trim();
 						temp = temp.substring(0, temp.length() - 1);
-						try
-						{
+						try {
 							freeMemory = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							freeMemory = 0;
 						}
 						this.physicalMemInfo = new MemoryInfo(usedMemory, (usedMemory - freeMemory), freeMemory);
@@ -222,12 +183,9 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						temp = line.nextToken();
 						temp = temp.trim();
 						temp = temp.substring(0, temp.length() - 1);
-						try
-						{
+						try {
 							usedMemory = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							usedMemory = 0;
 						}
 						line.nextToken(); // Ignore as it is String swap,
@@ -237,12 +195,9 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						temp = temp.trim();
 						temp = temp.substring(0, temp.length() - 1);
 
-						try
-						{
+						try {
 							freeMemory = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							freeMemory = 0;
 						}
 						this.virtualMemInfo = new MemoryInfo((usedMemory + freeMemory), usedMemory, freeMemory);
@@ -251,21 +206,16 @@ public class GenericSolarisDataParser extends AbstractDataParser
 					 * PID USERNAME LWP PRI NICE SIZE RES STATE TIME CPU COMMAND
 					 * 14684 ras 1 0 0 1712K 1048K cpu 0:00 2.08% top
 					 */
-					else if (bProcesses)
-					{
-						if (sLine.indexOf(AbstractProtocolWrapper.APPPERFECT_PROMPT) != -1)
-						{
+					else if (bProcesses) {
+						if (sLine.indexOf(AbstractProtocolWrapper.APPPERFECT_PROMPT) != -1) {
 							break;
 						}
 						line = new StringTokenizer(sLine);
 						temp = line.nextToken(); // PID:
 						temp = temp.trim();
-						try
-						{
+						try {
 							iPID = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							iPID = 0;
 						}
 						sUserName = line.nextToken(); // USERNAME
@@ -276,12 +226,9 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						temp = line.nextToken(); // RES
 						temp = temp.trim();
 						temp = temp.substring(0, temp.length() - 1);
-						try
-						{
+						try {
 							iMemUsage = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							iMemUsage = 0;
 						}
 						temp = line.nextToken(); // STATE,
@@ -289,12 +236,9 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						temp = line.nextToken(); // CPU
 						temp = temp.trim();
 						temp = temp.substring(0, temp.length() - 1);
-						try
-						{
+						try {
 							fCPUUsage = Math.round(this.nf.parse(temp).floatValue());
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							fCPUUsage = 0;
 						}
 						sProcessName = line.nextToken(); // COMMAND,
@@ -303,30 +247,22 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						pInfo = new ProcessInfo(sProcessName, iPID, iMemUsage, fCPUUsage);
 						pInfo.setUserName(sUserName);
 						this.processInfoList.add(pInfo);
-					}
-					else if (sLine.indexOf("PID USERNAME") != -1)
-					{
-						if (this.processInfoList == null)
-						{
+					} else if (sLine.indexOf("PID USERNAME") != -1) {
+						if (this.processInfoList == null) {
 							this.processInfoList = new LinkedList();
-						}
-						else
-						{
+						} else {
 							this.processInfoList.clear();
 						}
 						bProcesses = true;
 					}
 				}
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				throw new ResultParsingException("Collect Data " + ex.getMessage(), output);
 			}
 		}
 	}
 
-	public void parsePrstatCommand(final String output) throws ResultParsingException
-	{
+	public void parsePrstatCommand(final String output) throws ResultParsingException {
 		// Command:-prstat -ac -n 25 1
 		// ====================================================
 		/*
@@ -361,13 +297,11 @@ public class GenericSolarisDataParser extends AbstractDataParser
 			boolean bMemoryInfo = false;
 			int tmpMemory = 0;
 
-			try
-			{
+			try {
 				String temp = null;
 				String sLine = null;
 				final StringTokenizer st = new StringTokenizer(output, "\r\n\f");
-				while (st.hasMoreTokens())
-				{
+				while (st.hasMoreTokens()) {
 					sLine = st.nextToken();
 
 					/*
@@ -376,10 +310,8 @@ public class GenericSolarisDataParser extends AbstractDataParser
 					 * daemon 2576K 1736K 0.7% 0:00.00 0.0% Total: 48 processes,
 					 * 130 lwps, load averages: 0.02, 0.04, 0.11
 					 */
-					if (bMemoryInfo)
-					{
-						if (sLine.indexOf("Total:") != -1)
-						{
+					if (bMemoryInfo) {
+						if (sLine.indexOf("Total:") != -1) {
 							final int totalMemory = ((usedMemory * 100) / percentageUsed) / 1024; // convert
 							// to
 							// MB
@@ -398,44 +330,33 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						temp = line.nextToken(); // Ignore NPROC
 						temp = line.nextToken(); // Ignore USERNAME
 						temp = line.nextToken(); // Ignore SIZE
-						try
-						{
+						try {
 							tmpMemory = this.nf.parse(temp).intValue();
 							final int ch = temp.charAt(temp.length() - 1);
-							if ((ch == 'M') || (ch == 'm'))
-							{
+							if ((ch == 'M') || (ch == 'm')) {
 								tmpMemory = tmpMemory * 1024;
 							}
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							tmpMemory = 0;
 						}
 						usedVirtualMemory += tmpMemory; // in KBytes
 
 						temp = line.nextToken(); // RSS
-						try
-						{
+						try {
 							tmpMemory = this.nf.parse(temp).intValue();
 							final int ch = temp.charAt(temp.length() - 1);
-							if ((ch == 'M') || (ch == 'm'))
-							{
+							if ((ch == 'M') || (ch == 'm')) {
 								tmpMemory = tmpMemory * 1024;
 							}
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							tmpMemory = 0;
 						}
 						usedMemory += tmpMemory; // in KBytes
 
 						temp = line.nextToken(); // MEMORY
-						try
-						{
+						try {
 							tmpMemory = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							tmpMemory = 0;
 						}
 						percentageUsed += tmpMemory; // as %
@@ -444,46 +365,36 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						temp = line.nextToken(); // Ignore CPU
 
 					}
-					if (sLine.indexOf("NPROC USERNAME") != -1)
-					{
+					if (sLine.indexOf("NPROC USERNAME") != -1) {
 						bMemoryInfo = true;
 						bProcesses = false;
 					}
-					
-					if (!bProcesses && sLine.indexOf("load averages:") != -1)
-					{
-						String allLoadAvgs = sLine.substring(sLine.indexOf("load averages:") + "load averages:".length()).trim();
+
+					if (!bProcesses && sLine.indexOf("load averages:") != -1) {
+						String allLoadAvgs = sLine
+								.substring(sLine.indexOf("load averages:") + "load averages:".length()).trim();
 						float value = 0.0f;
 						StringTokenizer stk = new StringTokenizer(allLoadAvgs, ",");
 						temp = stk.nextToken().trim();
-						try
-						{
+						try {
 							value = this.nf.parse(temp).floatValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							value = 0.0f;
-						}						
+						}
 						f1MinLoadAvg = value;
 						temp = stk.nextToken().trim();
-						try
-						{
+						try {
 							value = this.nf.parse(temp).floatValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							value = 0.0f;
-						}						
+						}
 						f5MinLoadAvg = value;
 						temp = stk.nextToken().trim();
-						try
-						{
+						try {
 							value = this.nf.parse(temp).floatValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							value = 0.0f;
-						}						
+						}
 						f15MinLoadAvg = value;
 					}
 
@@ -492,21 +403,16 @@ public class GenericSolarisDataParser extends AbstractDataParser
 					 * PROCESS/NLWP 430 ras 1424K 1040K cpu0 58 0 0:00.00 0.4%
 					 * prstat/1
 					 */
-					if (bProcesses)
-					{
-						if (sLine.indexOf(AbstractProtocolWrapper.APPPERFECT_PROMPT) != -1)
-						{
+					if (bProcesses) {
+						if (sLine.indexOf(AbstractProtocolWrapper.APPPERFECT_PROMPT) != -1) {
 							break;
 						}
 						line = new StringTokenizer(sLine);
 						temp = line.nextToken(); // PID:
 						temp = temp.trim();
-						try
-						{
+						try {
 							iPID = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							iPID = 0;
 						}
 						temp = line.nextToken(); // USERNAME
@@ -514,17 +420,13 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						temp = line.nextToken(); // RSS
 						// temp = temp.trim();
 						// temp = temp.substring(0, temp.length() - 1);
-						try
-						{
+						try {
 							iMemUsage = this.nf.parse(temp).intValue();
 							final char ch = temp.charAt(temp.length() - 1);
-							if ((ch == 'M') || (ch == 'm'))
-							{
+							if ((ch == 'M') || (ch == 'm')) {
 								iMemUsage = iMemUsage * 1024;
 							}
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							iMemUsage = 0;
 						}
 						temp = line.nextToken(); // STATE
@@ -534,17 +436,13 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						temp = line.nextToken(); // CPU
 						// temp = temp.trim();
 						temp = temp.substring(0, temp.length() - 1);
-						try
-						{
+						try {
 							fCPUUsage = Math.round(this.nf.parse(temp).floatValue());
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							fCPUUsage = 0;
 						}
 						sProcessName = line.nextToken(); // PROCESS/NLWP,
-						if (sProcessName.indexOf('/') != -1)
-						{
+						if (sProcessName.indexOf('/') != -1) {
 							sProcessName = sProcessName.substring(0, sProcessName.lastIndexOf('/'));
 						}
 						this.fCpuUsageTime += fCPUUsage;
@@ -555,30 +453,23 @@ public class GenericSolarisDataParser extends AbstractDataParser
 						// pid = " + iPID + ", memusage = " +
 						// pInfo.getMemoryUsage() );
 					}
-					if (sLine.indexOf("PID USERNAME") != -1)
-					{
-						if (this.processInfoList == null)
-						{
+					if (sLine.indexOf("PID USERNAME") != -1) {
+						if (this.processInfoList == null) {
 							this.processInfoList = new LinkedList();
-						}
-						else
-						{
+						} else {
 							this.processInfoList.clear();
 						}
 						bProcesses = true;
 					}
 				}
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 				throw new ResultParsingException("Collect Data " + ex.getMessage(), output);
 			}
 		}
 	}
 
-	public void parseNetStatCommand(final String output) throws ResultParsingException
-	{
+	public void parseNetStatCommand(final String output) throws ResultParsingException {
 		/*
 		 * netstat -i --- returns the network interface info for all the
 		 * interfaces Name Mtu Net/Dest Address Ipkts Ierrs Opkts Oerrs Collis
@@ -593,12 +484,9 @@ public class GenericSolarisDataParser extends AbstractDataParser
 		 * APPPERFECT>
 		 */
 
-		if (this.networkInfoList == null)
-		{
+		if (this.networkInfoList == null) {
 			this.networkInfoList = new LinkedList();
-		}
-		else
-		{
+		} else {
 			this.networkInfoList.clear();
 		}
 		/*
@@ -618,29 +506,24 @@ public class GenericSolarisDataParser extends AbstractDataParser
 			 * output >> " + output); } else { output = "Name Mtu Net/Dest
 			 * Address Ipkts Ierrs Opkts Oerrs Collis Queue"; } }
 			 */
-			try
-			{
+			try {
 				String sLine = null;
 				final StringTokenizer st = new StringTokenizer(output, "\r\n\f");
-				while (st.hasMoreTokens())
-				{
+				while (st.hasMoreTokens()) {
 					sLine = st.nextToken();
 					/*
 					 * Memory: 256M real, 170M free, 44M swap in use, 651M swap
 					 * free
 					 */
-					if ((sLine.indexOf("Name") != -1) && (sLine.indexOf("Mtu") != -1))
-					{
+					if ((sLine.indexOf("Name") != -1) && (sLine.indexOf("Mtu") != -1)) {
 						continue;
 					}
-					if (sLine.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT))
-					{
+					if (sLine.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT)) {
 						break;
 					}
 					final StringTokenizer line = new StringTokenizer(sLine);
 					final String name = line.nextToken();
-					if (name.startsWith("lo"))
-					{
+					if (name.startsWith("lo")) {
 						continue;
 					}
 					// read the interface maximum transmission unit -
@@ -667,17 +550,14 @@ public class GenericSolarisDataParser extends AbstractDataParser
 					final UnixNetworkInfo nInfo = new UnixNetworkInfo(name, 0, recvOK, xmitOK);
 					this.networkInfoList.add(nInfo);
 				}
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				ex.printStackTrace(System.out);
 				throw new ResultParsingException("Network Usage " + ex.getMessage(), output);
 			}
 		}
 	}
 
-	public void parseIOStatCommand(final String output) throws ResultParsingException
-	{
+	public void parseIOStatCommand(final String output) throws ResultParsingException {
 		/*
 		 * device r/s w/s kr/s kw/s wait actv svc_t %w %b dad0 1.4 2.7 20.9 45.2
 		 * 0.4 0.1 117.1 2 5 fd0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0 0 sd0 0.0 0.0 0.0
@@ -689,12 +569,9 @@ public class GenericSolarisDataParser extends AbstractDataParser
 		 * info. Every line represents a disk. Read till the next token begins
 		 * with "[userid"
 		 */
-		if (this.diskInfoList == null)
-		{
+		if (this.diskInfoList == null) {
 			this.diskInfoList = new LinkedList();
-		}
-		else
-		{
+		} else {
 			this.diskInfoList.clear();
 		}
 		// System.out.println("iostat -x -d 1 output:\n" + output);
@@ -702,23 +579,18 @@ public class GenericSolarisDataParser extends AbstractDataParser
 		// after disconnect
 		{
 			final StringTokenizer st = new StringTokenizer(output);
-			try
-			{
-				while (st.hasMoreTokens())
-				{
+			try {
+				while (st.hasMoreTokens()) {
 					final String data = st.nextToken();
 
-					if (data.equals("%b"))
-					{
+					if (data.equals("%b")) {
 						break;
 					}
 				}
-				while (st.hasMoreTokens())
-				{
+				while (st.hasMoreTokens()) {
 					// read the disk name
 					final String name = st.nextToken();
-					if (name.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT))
-					{
+					if (name.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT)) {
 						break;
 					}
 					// read the readpersec
@@ -746,16 +618,13 @@ public class GenericSolarisDataParser extends AbstractDataParser
 					final DiskInfo dInfo = new DiskInfo(name, fReadpersec, fWritepersec);
 					this.diskInfoList.add(dInfo);
 				}
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				throw new ResultParsingException("Disk Info " + ex.getMessage(), output);
 			}
 		}
 	}
 
-	public void parseDFCommand(final String output) throws ResultParsingException
-	{
+	public void parseDFCommand(final String output) throws ResultParsingException {
 		/*
 		 * df -k --- returns the disk space info for all the mounted file
 		 * systems Format in LINUX is Filesystem 1k-blocks Used Available Use%
@@ -769,32 +638,24 @@ public class GenericSolarisDataParser extends AbstractDataParser
 		 * the next token begins with "[userid"
 		 */
 		StringTokenizer st = null;
-		if (this.diskSpaceInfoList == null)
-		{
+		if (this.diskSpaceInfoList == null) {
 			this.diskSpaceInfoList = new LinkedList();
-		}
-		else
-		{
+		} else {
 			this.diskSpaceInfoList.clear();
 		}
 		// System.out.println("df -k output:\n" + output);
 		st = new StringTokenizer(output);
-		try
-		{
-			while (st.hasMoreTokens())
-			{
+		try {
+			while (st.hasMoreTokens()) {
 				final String temp = st.nextToken();
-				if (temp.startsWith("on"))
-				{
+				if (temp.startsWith("on")) {
 					break;
 				}
 			}
 
-			while (st.hasMoreTokens())
-			{
+			while (st.hasMoreTokens()) {
 				final String sFileSystemName = st.nextToken();
-				if (sFileSystemName.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT))
-				{
+				if (sFileSystemName.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT)) {
 					break;
 				}
 
@@ -815,14 +676,10 @@ public class GenericSolarisDataParser extends AbstractDataParser
 				final DriveInfo dInfo = new DriveInfo(sFileSystemName, fTotalSpace, fUsedSpace);
 				this.diskSpaceInfoList.add(dInfo);
 			}
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			throw new ResultParsingException("Disk Space Info" + ex.getMessage(), output);
 		}
 	}
-
-
 
 	/*
 	 * public static void main(String srgs[]) throws Exception { //

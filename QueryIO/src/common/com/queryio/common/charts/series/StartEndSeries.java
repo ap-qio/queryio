@@ -20,8 +20,7 @@ package com.queryio.common.charts.series;
 /**
  * @author Exceed Consultancy Services
  */
-public class StartEndSeries extends Series
-{
+public class StartEndSeries extends Series {
 	private long[] start = null;
 
 	private long[] end = null;
@@ -35,23 +34,19 @@ public class StartEndSeries extends Series
 	/**
 	 * 
 	 */
-	StartEndSeries()
-	{
+	StartEndSeries() {
 		super();
 	}
 
 	/**
 	 * @param text
 	 */
-	StartEndSeries(final String text)
-	{
+	StartEndSeries(final String text) {
 		super(text);
 	}
 
-	public void initialize(int capacity)
-	{
-		if (capacity <= 0)
-		{
+	public void initialize(int capacity) {
+		if (capacity <= 0) {
 			capacity = 1;
 		}
 		this.start = new long[capacity];
@@ -62,24 +57,19 @@ public class StartEndSeries extends Series
 		this.maxValue = Long.MIN_VALUE;
 	}
 
-	private void init(final int startIndex, final int length)
-	{
-		for (int i = startIndex; i < length; i++)
-		{
+	private void init(final int startIndex, final int length) {
+		for (int i = startIndex; i < length; i++) {
 			this.start[i] = Long.MIN_VALUE;
 			this.end[i] = Long.MIN_VALUE;
 		}
 	}
 
-	public int getCapacity()
-	{
+	public int getCapacity() {
 		return (this.start != null ? this.start.length : 0);
 	}
 
-	public void setValue(final int index, final long startValue, final long endValue)
-	{
-		if (index >= this.getCapacity())
-		{
+	public void setValue(final int index, final long startValue, final long endValue) {
+		if (index >= this.getCapacity()) {
 			final int newLen = Math.round(this.getCapacity() * 1.75f);
 			// increase the size of series object by increment
 			final long[] destStart = new long[newLen];
@@ -95,34 +85,28 @@ public class StartEndSeries extends Series
 
 		this.start[index] = startValue;
 		this.end[index] = endValue;
-		if (Long.MIN_VALUE != startValue)
-		{
+		if (Long.MIN_VALUE != startValue) {
 			this.minValue = Math.min(this.minValue, startValue);
 		}
-		if (Long.MIN_VALUE != endValue)
-		{
+		if (Long.MIN_VALUE != endValue) {
 			this.maxValue = Math.max(this.maxValue, endValue);
 		}
 		this.currentIndex = Math.max(this.currentIndex, index);
 	}
 
-	public void setNextValue(final long startValue, final long endValue)
-	{
+	public void setNextValue(final long startValue, final long endValue) {
 		this.setValue(++this.currentIndex, startValue, endValue);
 	}
 
-	public void updateEndValue(final long endValue)
-	{
+	public void updateEndValue(final long endValue) {
 		this.setValue(this.currentIndex, this.start[this.currentIndex], endValue);
 	}
 
-	public long getStartValue(final int index)
-	{
+	public long getStartValue(final int index) {
 		return this.start[index];
 	}
 
-	public long getEndValue(final int index)
-	{
+	public long getEndValue(final int index) {
 		return this.end[index];
 	}
 
@@ -131,8 +115,7 @@ public class StartEndSeries extends Series
 	 * 
 	 * @return
 	 */
-	public final long getMaxValue()
-	{
+	public final long getMaxValue() {
 		return this.maxValue;
 	}
 
@@ -141,13 +124,11 @@ public class StartEndSeries extends Series
 	 * 
 	 * @return
 	 */
-	public final long getMinValue()
-	{
+	public final long getMinValue() {
 		return this.minValue;
 	}
 
-	public int getCurrentCount()
-	{
+	public int getCurrentCount() {
 		return this.currentIndex + 1;
 	}
 

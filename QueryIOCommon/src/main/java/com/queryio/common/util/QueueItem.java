@@ -24,7 +24,6 @@ package com.queryio.common.util;
  * 
  * @author Exceed Consultancy Services
  */
-public interface QueueItem
-{
+public interface QueueItem {
 	void serve();
 }

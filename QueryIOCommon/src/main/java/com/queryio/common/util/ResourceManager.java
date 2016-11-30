@@ -22,8 +22,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class ResourceManager
-{
+public class ResourceManager {
 	protected static final Locale LOCALE = Locale.getDefault();
 
 	protected static final String SLANGUAGE = LOCALE.getLanguage();
@@ -34,8 +33,7 @@ public class ResourceManager
 
 	private ResourceBundle resourceBundle = null;
 
-	protected ResourceManager(final ResourceBundle resourceBundle)
-	{
+	protected ResourceManager(final ResourceBundle resourceBundle) {
 		this.resourceBundle = resourceBundle;
 	}
 
@@ -44,8 +42,7 @@ public class ResourceManager
 	 * ResourceManager(ResourceManager.getBundle(resource)); }
 	 */
 
-	protected static ResourceBundle getBundle(String resource)
-	{
+	protected static ResourceBundle getBundle(String resource) {
 		int n = (SLANGUAGE.length() > 0) ? 2 : 1;
 		n += (SCOUNTRY.length() > 0) ? 1 : 0;
 		n += (SVARIANT.length() > 0) ? 1 : 0;
@@ -53,45 +50,34 @@ public class ResourceManager
 		final String[] resourceNames = new String[n];
 		final String[] names = { resource, "_" + SLANGUAGE, "_" + SCOUNTRY, "__" + SVARIANT }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		resourceNames[0] = names[0];
-		for (int i = 1; i < n; i++)
-		{
+		for (int i = 1; i < n; i++) {
 			resourceNames[i] = resourceNames[i - 1] + names[i];
 		}
 		boolean bFound = false;
 		ResourceBundle tempBundle = null;
-		for (int i = n - 1; i >= 0; i--)
-		{
+		for (int i = n - 1; i >= 0; i--) {
 			resource = resourceNames[i];
-			try
-			{
+			try {
 				// We need to pass emty locale here else it searches by
 				// providing the default locale, but in our defautl case we are
 				// not providing the files with locales appended.
-				if (i == 0)
-				{
-					tempBundle = ResourceBundle.getBundle(resource, new Locale("",
-							"", ""));
-				}
-				else
-				{
+				if (i == 0) {
+					tempBundle = ResourceBundle.getBundle(resource, new Locale("", "", ""));
+				} else {
 					// This call internally adds Locale.getDefault()
 					tempBundle = ResourceBundle.getBundle(resource);
 				}
-				if ((tempBundle != null) && tempBundle.getKeys().hasMoreElements())
-				{
+				if ((tempBundle != null) && tempBundle.getKeys().hasMoreElements()) {
 					bFound = true;
 					break;
 				}
-			}
-			catch (final MissingResourceException e)
-			{
+			} catch (final MissingResourceException e) {
 				// Ignore this....we are just trying to find the appropriate
 				// resoruce.
 			}
 		}
 
-		if (bFound)
-		{
+		if (bFound) {
 			return tempBundle;
 		}
 		AppLogger.getLogger().fatal("Cannot proceed without loading resources.\nTerminating...\n" + resource); //$NON-NLS-1$
@@ -99,14 +85,10 @@ public class ResourceManager
 		return null;
 	}
 
-	public String getString(final String key)
-	{
-		try
-		{
+	public String getString(final String key) {
+		try {
 			return this.resourceBundle.getString(key);
-		}
-		catch (final MissingResourceException e)
-		{
+		} catch (final MissingResourceException e) {
 			return '!' + key + '!';
 		}
 	}

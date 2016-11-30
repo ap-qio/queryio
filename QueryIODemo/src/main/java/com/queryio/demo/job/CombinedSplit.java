@@ -19,23 +19,24 @@ public class CombinedSplit extends InputSplit implements Writable {
 	List<FileSplit> splits;
 	private long length;
 	private List<String> hosts;
-	
-	public List<FileSplit> getAllSplits(){
+
+	public List<FileSplit> getAllSplits() {
 		return splits;
 	}
+
 	public CombinedSplit() {
 		LOG.info("made new combined split.");
 		splits = new ArrayList<FileSplit>();
 		hosts = new ArrayList<String>();
 		length = 0L;
 	}
-	
-	public void createSplit(Path file, long start, long length, String[] hosts){		
+
+	public void createSplit(Path file, long start, long length, String[] hosts) {
 		splits.add(new FileSplit(file, start, length, hosts));
 		LOG.info(splits.size() + ". added file split for file: " + file.toString() + ".");
 		this.length += length;
-		for(String host : hosts){
-			if(!this.hosts.contains(host)){
+		for (String host : hosts) {
+			if (!this.hosts.contains(host)) {
 				this.hosts.add(host);
 			}
 		}
@@ -52,27 +53,27 @@ public class CombinedSplit extends InputSplit implements Writable {
 		hosts.toArray(hostArray);
 		return hostArray;
 	}
-	
+
 	@Override
 	public void readFields(DataInput in) throws IOException {
 		int totalSplits = in.readInt();
-		for(int i = 0; i < totalSplits;  i++){
+		for (int i = 0; i < totalSplits; i++) {
 			FileSplit split = new FileSplit();
 			split.readFields(in);
 			this.length += split.getLength();
-			for(String host : split.getLocations()){
-				if(!this.hosts.contains(host)){
+			for (String host : split.getLocations()) {
+				if (!this.hosts.contains(host)) {
 					this.hosts.add(host);
 				}
 			}
 			splits.add(split);
 		}
 	}
-	
+
 	@Override
 	public void write(DataOutput out) throws IOException {
 		out.writeInt(splits.size());
-		for(FileSplit split : splits){
+		for (FileSplit split : splits) {
 			split.write(out);
 		}
 	}

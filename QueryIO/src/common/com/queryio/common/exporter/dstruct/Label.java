@@ -25,10 +25,9 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class Label extends ExportableItem
-{
+public class Label extends ExportableItem {
 	private String sText;
-	
+
 	private int fontStyle = Font.STYLE_PLAIN;
 
 	/**
@@ -40,8 +39,7 @@ public class Label extends ExportableItem
 	 * @param height
 	 * @param sText
 	 */
-	public Label(final int left, final int top, final int width, final int height, final String sText)
-	{
+	public Label(final int left, final int top, final int width, final int height, final String sText) {
 		super(left, top, width, height);
 		this.sText = sText;
 	}
@@ -51,8 +49,7 @@ public class Label extends ExportableItem
 	 * 
 	 * @see com.queryio.sysmoncommon.exporter.dstruct.IExportableItem#getType()
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return ExportConstants.ITEM_TYPE_LABEL;
 	}
 
@@ -61,8 +58,7 @@ public class Label extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final String getText()
-	{
+	public final String getText() {
 		return this.sText;
 	}
 
@@ -71,18 +67,15 @@ public class Label extends ExportableItem
 	 * 
 	 * @param string
 	 */
-	public void setText(final String string)
-	{
+	public void setText(final String string) {
 		this.sText = string;
 	}
 
-	public int getFontStyle() 
-	{
+	public int getFontStyle() {
 		return fontStyle;
 	}
 
-	public void setFontStyle(int fontStyle) 
-	{
+	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
 	}
 }

@@ -22,15 +22,18 @@ public class ByteArrayInputStreamExt extends ByteArrayInputStream {
 
 	/**
 	 * Returns internal buffer of ByteArrayInputStream for reuse.
-	 * {@link ByteArrayInputStreamExt#reset(int)} should be called after buffer is populated with new data to reset position and set new length.
+	 * {@link ByteArrayInputStreamExt#reset(int)} should be called after buffer
+	 * is populated with new data to reset position and set new length.
+	 * 
 	 * @return
 	 */
 	public byte[] getBuffer() {
 		return buf;
 	}
-	
+
 	/**
 	 * Reset ByteArrayInputStream buffer for reuse.
+	 * 
 	 * @param length
 	 */
 	public void reset(int length) {

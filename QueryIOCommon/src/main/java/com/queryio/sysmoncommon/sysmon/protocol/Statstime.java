@@ -28,8 +28,7 @@ import org.acplt.oncrpc.XdrEncodingStream;
  * @author Exceed Consultancy Services
  * 
  */
-public class Statstime implements XdrAble
-{
+public class Statstime implements XdrAble {
 	public int[] cp_time;
 	public int[] dk_xfer;
 	public int v_pgpgin;
@@ -47,18 +46,15 @@ public class Statstime implements XdrAble
 	public RstatTimeval curtime;
 	public int if_opackets;
 
-	public Statstime()
-	{
+	public Statstime() {
 		// Default constructor
 	}
 
-	public Statstime(final XdrDecodingStream xdr) throws OncRpcException, IOException
-	{
+	public Statstime(final XdrDecodingStream xdr) throws OncRpcException, IOException {
 		this.xdrDecode(xdr);
 	}
 
-	public void xdrEncode(final XdrEncodingStream xdr) throws OncRpcException, IOException
-	{
+	public void xdrEncode(final XdrEncodingStream xdr) throws OncRpcException, IOException {
 		xdr.xdrEncodeIntFixedVector(this.cp_time, RstatConstants.CPUSTATES);
 		xdr.xdrEncodeIntFixedVector(this.dk_xfer, RstatConstants.DK_NDRIVE);
 		xdr.xdrEncodeInt(this.v_pgpgin);
@@ -77,8 +73,7 @@ public class Statstime implements XdrAble
 		xdr.xdrEncodeInt(this.if_opackets);
 	}
 
-	public void xdrDecode(final XdrDecodingStream xdr) throws OncRpcException, IOException
-	{
+	public void xdrDecode(final XdrDecodingStream xdr) throws OncRpcException, IOException {
 		this.cp_time = xdr.xdrDecodeIntFixedVector(RstatConstants.CPUSTATES);
 		this.dk_xfer = xdr.xdrDecodeIntFixedVector(RstatConstants.DK_NDRIVE);
 		this.v_pgpgin = xdr.xdrDecodeInt();

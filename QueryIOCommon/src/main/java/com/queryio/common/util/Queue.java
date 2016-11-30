@@ -19,9 +19,6 @@ package com.queryio.common.util;
 
 import java.util.LinkedList;
 
-import com.queryio.common.util.AppLogger;
-
-
 /**
  * It is an implementation of a Queue. If there are items in the queue, then the
  * items are processed else the queue waits for items to join which can be
@@ -29,8 +26,7 @@ import com.queryio.common.util.AppLogger;
  * 
  * @author Exceed Consultancy Services
  */
-public class Queue extends LinkedList implements Runnable
-{
+public class Queue extends LinkedList implements Runnable {
 	private static final long serialVersionUID = -8129581485102282990L;
 
 	private String name;
@@ -45,8 +41,7 @@ public class Queue extends LinkedList implements Runnable
 	 * 
 	 * @param name
 	 */
-	Queue(final String name)
-	{
+	Queue(final String name) {
 		this.name = name;
 		this.bRunning = false;
 		this.bWaiting = false;
@@ -56,8 +51,7 @@ public class Queue extends LinkedList implements Runnable
 	/**
 	 * Method stop.
 	 */
-	void stop()
-	{
+	void stop() {
 		this.bContinue = false;
 		this.wakeup();
 	}
@@ -67,14 +61,11 @@ public class Queue extends LinkedList implements Runnable
 	 * 
 	 * @param item
 	 */
-	public void addItem(final QueueItem item)
-	{
-		synchronized (this)
-		{
+	public void addItem(final QueueItem item) {
+		synchronized (this) {
 			final boolean added = add(item);
-			if (debug && item != null)
-			{
-				AppLogger.getLogger().info("QueueItem("+ item.hashCode() + ") added: " + added);
+			if (debug && item != null) {
+				AppLogger.getLogger().info("QueueItem(" + item.hashCode() + ") added: " + added);
 			}
 			this.notifyAll();
 		}
@@ -85,58 +76,45 @@ public class Queue extends LinkedList implements Runnable
 	 * 
 	 * @return QueueItem
 	 */
-	private final QueueItem getFirstItem()
-	{
-		synchronized (this)
-		{
-			if (size() == 0)
-			{
+	private final QueueItem getFirstItem() {
+		synchronized (this) {
+			if (size() == 0) {
 				return null;
 			}
-			return (QueueItem)removeFirst();
+			return (QueueItem) removeFirst();
 		}
 	}
 
 	/**
 	 * @see java.lang.Runnable#run()
 	 */
-	public void run()
-	{
+	public void run() {
 		this.bRunning = true;
 		this.bContinue = true;
 		QueueItem item = null;
-		while (this.bContinue)
-		{
-			try
-			{
+		while (this.bContinue) {
+			try {
 				item = this.getFirstItem();
-				while (this.bContinue && (item != null))
-				{
-					if (debug)
-					{
-						AppLogger.getLogger().info("QueueItem("+ item.hashCode() + ") served");
+				while (this.bContinue && (item != null)) {
+					if (debug) {
+						AppLogger.getLogger().info("QueueItem(" + item.hashCode() + ") served");
 					}
 					item.serve();
 					item = this.getFirstItem();
 				}
 				// confirm stop has not been called before going into wait
-				if (this.bContinue)
-				{
-					synchronized (this)
-					{
+				if (this.bContinue) {
+					synchronized (this) {
 						this.bWaiting = true;
 						this.wait(15000);
 						this.bWaiting = false;
 					}
 				}
-			}
-			catch (InterruptedException ie)
-			{
+			} catch (InterruptedException ie) {
 				// do not log this exception
-				AppLogger.getLogger().info("Queue interrupted name: " + name + ", exception message: " + ie.getMessage());
-			}
-			catch (final Exception e)
-			{
+				AppLogger.getLogger()
+						.info("Queue interrupted name: " + name + ", exception message: " + ie.getMessage());
+			} catch (final Exception e) {
 				// do not log this exception
 				AppLogger.getLogger().fatal("Error while serving a queue: " + name, e);
 			}
@@ -147,16 +125,12 @@ public class Queue extends LinkedList implements Runnable
 	/**
 	 * Method wakeup.
 	 */
-	public final void wakeup()
-	{
-		if (debug)
-		{
+	public final void wakeup() {
+		if (debug) {
 			AppLogger.getLogger().info("Queue: " + name + " wakeup called explicitly");
 		}
-		synchronized (this)
-		{
-			if (this.bWaiting)
-			{
+		synchronized (this) {
+			if (this.bWaiting) {
 				this.notifyAll();
 			}
 		}
@@ -167,8 +141,7 @@ public class Queue extends LinkedList implements Runnable
 	 * 
 	 * @return boolean
 	 */
-	public final boolean isRunning()
-	{
+	public final boolean isRunning() {
 		return this.bRunning;
 	}
 
@@ -177,8 +150,7 @@ public class Queue extends LinkedList implements Runnable
 	 * 
 	 * @return int current size of the queue
 	 */
-	public final int getSize()
-	{
+	public final int getSize() {
 		return size();
 	}
 
@@ -187,8 +159,7 @@ public class Queue extends LinkedList implements Runnable
 	 * 
 	 * @return String
 	 */
-	public final String getName()
-	{
+	public final String getName() {
 		return this.name;
 	}
 
@@ -198,8 +169,7 @@ public class Queue extends LinkedList implements Runnable
 	 * @param name
 	 *            The name to set
 	 */
-	public final void setName(final String name)
-	{
+	public final void setName(final String name) {
 		this.name = name;
 	}
 
@@ -208,8 +178,7 @@ public class Queue extends LinkedList implements Runnable
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer(this.name);
 		sbToString.append(" run: "); //$NON-NLS-1$
 		sbToString.append(this.bRunning);

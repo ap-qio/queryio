@@ -25,8 +25,7 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class HTMLPage extends ExportableItem
-{
+public class HTMLPage extends ExportableItem {
 	private final String fileName;
 
 	/**
@@ -38,8 +37,7 @@ public class HTMLPage extends ExportableItem
 	 * @param height
 	 * @param fileName
 	 */
-	public HTMLPage(final int left, final int top, final int width, final int height, final String fileName)
-	{
+	public HTMLPage(final int left, final int top, final int width, final int height, final String fileName) {
 		super(left, top, width, height);
 		this.fileName = fileName;
 	}
@@ -49,8 +47,7 @@ public class HTMLPage extends ExportableItem
 	 * 
 	 * @see com.queryio.sysmoncommon.exporter.dstruct.IExportableItem#getType()
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return ExportConstants.ITEM_TYPE_HTMLPAGE;
 	}
 
@@ -59,8 +56,7 @@ public class HTMLPage extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final String getFileName()
-	{
+	public final String getFileName() {
 		return this.fileName;
 	}
 }

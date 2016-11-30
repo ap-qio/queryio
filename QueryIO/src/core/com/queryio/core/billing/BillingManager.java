@@ -25,163 +25,149 @@ import com.queryio.core.notification.NotificationHandler;
 import com.queryio.core.notifier.notifiers.NotificationManager;
 import com.queryio.core.reports.nodes.BillingInvoice;
 
-public class BillingManager
-{
+public class BillingManager {
 	private static String imgSrc = EnvironmentalConstants.getAppHome() + "images/hpcsReport.jpg";
-	
-	private static String generateBillingReport(int exportType, String title, Timestamp startTimestamp, Timestamp endTimestamp) throws Exception
-	{
+
+	private static String generateBillingReport(int exportType, String title, Timestamp startTimestamp,
+			Timestamp endTimestamp) throws Exception {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		String fileName =  QueryIOConstants.BILLING_INVOICE_REPORT + currentTimestamp.getDate() + "_" + 
-		(currentTimestamp.getMonth()+1) + "_" + (1900 + currentTimestamp.getYear() + "_" + 
-		currentTimestamp.getHours() + "_" + currentTimestamp.getMinutes());
-		
-		BillingInvoice report = new BillingInvoice(fileName, startTimestamp, endTimestamp, title);	
-		
+		String fileName = QueryIOConstants.BILLING_INVOICE_REPORT + currentTimestamp.getDate() + "_"
+				+ (currentTimestamp.getMonth() + 1) + "_" + (1900 + currentTimestamp.getYear() + "_"
+						+ currentTimestamp.getHours() + "_" + currentTimestamp.getMinutes());
+
+		BillingInvoice report = new BillingInvoice(fileName, startTimestamp, endTimestamp, title);
+
 		ExportManager.getInstance().exportNode(null, imgSrc, report, exportType);
-		
+
 		return fileName + "." + ExportConstants.getFileExtension(exportType);
 	}
 
-	public static void mailBillingReport(String exportFormat, ArrayList usersIdList, String title, String startTime, String endTime, boolean defaultReport) throws Exception
-	{
+	public static void mailBillingReport(String exportFormat, ArrayList usersIdList, String title, String startTime,
+			String endTime, boolean defaultReport) throws Exception {
 		NotificationManager notifMgr = NotificationManager.getInstance();
 		notifMgr.setConfigXMLFilePath(EnvironmentalConstants.getWebinfDirectory());
 		notifMgr.initializeNotificationManager();
 		NotifyBean notify = new NotifyBean();
-		
+
 		ArrayList usersList = null;
-		
+
 		Connection connection = null;
-		try
-		{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 			notify = NotifyDAO.getNotificationSettings(connection);
-			
-			if (defaultReport)
-			{
+
+			if (defaultReport) {
 				Timestamp start = parseDateString(startTime);
 				Timestamp end = parseDateString(endTime);
-				
-				if (!BillingDAO.updateBillingReportEntry(connection, end))		// If returns true, then entry already present and updated. No need to insert entry.
-					BillingDAO.insertBillingReportEntry(connection, BillingDAO.calculateBillingData(connection, NodeDAO.getAllDatanodes(connection), start, end));
+
+				if (!BillingDAO.updateBillingReportEntry(connection, end)) // If
+																			// returns
+																			// true,
+																			// then
+																			// entry
+																			// already
+																			// present
+																			// and
+																			// updated.
+																			// No
+																			// need
+																			// to
+																			// insert
+																			// entry.
+					BillingDAO.insertBillingReportEntry(connection, BillingDAO.calculateBillingData(connection,
+							NodeDAO.getAllDatanodes(connection), start, end));
 			}
-			
+
 			usersList = new ArrayList();
-			for(int i = 0; i < usersIdList.size(); i++)
-			{
-				User user = UserDAO.getUserDetail(connection, Integer.parseInt((String)usersIdList.get(i)));
+			for (int i = 0; i < usersIdList.size(); i++) {
+				User user = UserDAO.getUserDetail(connection, Integer.parseInt((String) usersIdList.get(i)));
 				usersList.add(user);
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal("Error in Mailing Report", e);
-		}
-		finally
-		{
-			try
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing connection", e);
-			}	
+			}
 		}
-		
+
 		ArrayList attachments = new ArrayList();
-		
+
 		String reportName = viewBillingReport(exportFormat, title, startTime, endTime);
 		attachments.add(EnvironmentalConstants.getAppHome() + reportName);
 		if (Integer.parseInt(exportFormat) == ExportConstants.EXPORT_TYPE_HTML)
-			attachments.add(EnvironmentalConstants.getAppHome() + reportName + QueryIOConstants.REPORTS_HTML_FILES_APPEND);
-		
+			attachments
+					.add(EnvironmentalConstants.getAppHome() + reportName + QueryIOConstants.REPORTS_HTML_FILES_APPEND);
+
 		notify.setAttachments(attachments);
 		NotificationHandler.generateEmailNotification(notifMgr, title, title, notify, usersList, true);
 	}
-	
-	public static String viewBillingReport(String exportFormat, String title, String startTime, String endTime)
-	{
+
+	public static String viewBillingReport(String exportFormat, String title, String startTime, String endTime) {
 		// generate attachments
-		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(exportFormat + " " + " " + title + " " + startTime + " " + endTime);
-		
+		if (AppLogger.getLogger().isDebugEnabled())
+			AppLogger.getLogger().debug(exportFormat + " " + " " + title + " " + startTime + " " + endTime);
+
 		Timestamp start = parseDateString(startTime);
 		Timestamp end = parseDateString(endTime);
-		
+
 		String attachments = "";
 		Connection connection = null;
-		try
-		{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 
-			attachments =  QueryIOConstants.REPORTS_QUERYIO + File.separator  + generateBillingReport(Integer.parseInt(exportFormat), title, start, end);
-		}
-		catch(Exception e)
-		{
+			attachments = QueryIOConstants.REPORTS_QUERYIO + File.separator
+					+ generateBillingReport(Integer.parseInt(exportFormat), title, start, end);
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal("Error Exporting Report", e);
 			return "";
-		}
-		finally
-		{
-			try
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing connection", e);
 			}
 		}
 		return attachments;
 	}
-	
+
 	// For Billing Report Data
-	public static SummaryTable getBillingReportSummaryTable(Timestamp startTime, Timestamp endTime)
-	{
+	public static SummaryTable getBillingReportSummaryTable(Timestamp startTime, Timestamp endTime) {
 		Connection connection = null;
-		
-		try
-		{
+
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-			return BillingDAO.getBillingReportSummaryTable(connection, HostDAO.getDataNodeHostNames(connection), startTime, endTime);
-		}
-		catch (Exception e)
-		{
+			return BillingDAO.getBillingReportSummaryTable(connection, HostDAO.getDataNodeHostNames(connection),
+					startTime, endTime);
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal("getBillingReportSummaryTable() failed with exception: " + e.getMessage(), e);
-		}
-		finally
-		{
-			try
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
 		return null;
 	}
-	
-	public static Timestamp parseDateString(String dateString)
-	{
+
+	public static Timestamp parseDateString(String dateString) {
 		Timestamp ts = null;
-		try
-		{
+		try {
 			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			Date dt = format.parse(dateString);
 			ts = new Timestamp(dt.getTime());
-		}
-		catch(Exception e)
-		{
-			AppLogger.getLogger().fatal(e.getMessage(),e);
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
 		}
 		return ts;
 	}
-	
-//	public static void main(String args[])
-//	{
-//		System.out.println(viewBillingReport("0", "Sample Invoice", "07/05/2012 06:00:00", "07/06/2012 06:00:00"));
-//	}
+
+	// public static void main(String args[])
+	// {
+	// System.out.println(viewBillingReport("0", "Sample Invoice", "07/05/2012
+	// 06:00:00", "07/06/2012 06:00:00"));
+	// }
 }

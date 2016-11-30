@@ -3,18 +3,16 @@ package com.queryio.core.monitor.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SummaryTable implements Serializable
-{
+public class SummaryTable implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private ArrayList colNames;
 	private ArrayList rows;
 	private long totalRowCount;
-	
-	
+
 	public long getTotalRowCount() {
 		return totalRowCount;
 	}
@@ -23,37 +21,32 @@ public class SummaryTable implements Serializable
 		this.totalRowCount = totalRowCount;
 	}
 
-	public SummaryTable()
-	{
+	public SummaryTable() {
 		this.colNames = new ArrayList();
 		this.rows = new ArrayList();
 	}
-	
-	public ArrayList getColNames() 
-	{
+
+	public ArrayList getColNames() {
 		return colNames;
 	}
-	
-	public void setColNames(ArrayList colNames) 
-	{
+
+	public void setColNames(ArrayList colNames) {
 		this.colNames = colNames;
 	}
-	
-	public void addRow(ArrayList row)
-	{
+
+	public void addRow(ArrayList row) {
 		rows.add(row);
 	}
-	
-	public ArrayList getRows() 
-	{
+
+	public ArrayList getRows() {
 		return rows;
 	}
-	
-	public void setRows(ArrayList rows) 
-	{
+
+	public void setRows(ArrayList rows) {
 		this.rows = rows;
 	}
-	public void setRow(int index, ArrayList row){
+
+	public void setRow(int index, ArrayList row) {
 		this.rows.set(index, row);
 	}
 }

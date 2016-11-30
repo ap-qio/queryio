@@ -8,7 +8,8 @@ public class InvalidRequestURIException extends Exception {
 	/**
 	 * Instantiates a new bad request exception.
 	 *
-	 * @param arg0 the arg0
+	 * @param arg0
+	 *            the arg0
 	 */
 	public InvalidRequestURIException(String arg0) {
 		super(arg0);

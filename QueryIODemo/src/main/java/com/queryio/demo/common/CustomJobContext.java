@@ -12,23 +12,23 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hdfs.DFSInputStream;
 import org.apache.hadoop.hdfs.DistributedFileSystem;
 
-
 public class CustomJobContext {
 	private static FileSystem dfs = null;
 	private static Configuration conf = null;
 	private static final Log LOG = LogFactory.getLog(CustomJobContext.class);
-	
-	public static void initialize(Configuration conf) throws IOException{
+
+	public static void initialize(Configuration conf) throws IOException {
 		LOG.info("Initializing CustomJobContext..");
 		CustomJobContext.conf = conf;
 		initialize();
 	}
-	private static void initialize() throws IOException{
+
+	private static void initialize() throws IOException {
 		dfs = FileSystem.get(conf);
 	}
-	
-	public static InputStream getInputStream(FileStatus fileStatus) throws IOException{
-		if(dfs == null){
+
+	public static InputStream getInputStream(FileStatus fileStatus) throws IOException {
+		if (dfs == null) {
 			initialize();
 		}
 		String src = fileStatus.getPath().toUri().getPath();
@@ -48,16 +48,16 @@ public class CustomJobContext {
 		}
 		return qioInputStream;
 	}
-	
-	public static FileStatus getFileStatus(Path path) throws IOException{
-		if(dfs == null){
+
+	public static FileStatus getFileStatus(Path path) throws IOException {
+		if (dfs == null) {
 			initialize();
 		}
 		return dfs.getFileStatus(path);
 	}
-	
-	public static void shutdown() throws IOException{
-		if(dfs != null){
+
+	public static void shutdown() throws IOException {
+		if (dfs != null) {
 			dfs.close();
 		}
 	}

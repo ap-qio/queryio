@@ -21,8 +21,7 @@ package com.queryio.core.notifier.common;
  * 
  * @author Exceed Consultancy Services
  */
-public interface INotifierConstants
-{
+public interface INotifierConstants {
 	// Event types
 	String ALERT_RAISED_NOTIFICATION = "AlertRaisedNotification"; //$NON-NLS-1$
 
@@ -81,9 +80,9 @@ public interface INotifierConstants
 	String SENDER_USER_NAME = "SenderUserName"; //$NON-NLS-1$
 	String SENDER_PASSWORD = "SenderPassword"; //$NON-NLS-1$
 	String AUTHREQD = "AuthenticationRequired"; //$NON-NLS-1$
-	
-	String NOTIF_PRIORITY = "ImpotanceLevel";	// For e-mail Priority
-	
+
+	String NOTIF_PRIORITY = "ImpotanceLevel"; // For e-mail Priority
+
 	// Constants for SMS Notifier
 	String COM_PORT = "ComPort"; //$NON-NLS-1$
 	String SENDERS_MOBILE_NO = "SendersMobileNo"; //$NON-NLS-1$
@@ -104,10 +103,10 @@ public interface INotifierConstants
 
 	// Constants for Custom Notifier
 	String CUSTOM_PROGRAM = "CustomProgram"; //$NON-NLS-1$
-	
+
 	// Constants for Log Notifier
 	String LOGFILE_NAME = "LogFile"; //$NON-NLS-1$
-	
+
 	// Constants for Database Notifier
 	String DB_DRIVER = "DatabaseDriver"; //$NON-NLS-1$
 	String DB_URL = "DatabaseURL"; //$NON-NLS-1$
@@ -116,7 +115,7 @@ public interface INotifierConstants
 	String DB_JAR = "DatabaseJar"; //$NON-NLS-1$
 	String DB_TABLE = "DatabaseTable"; //$NON-NLS-1$
 	String DB_COLUMN = "DatabaseColumn"; //$NON-NLS-1$
-	
+
 	// Constants for SNMP Trap Notifier
 	String SNMP_TRAP_HOST = "Host";
 	String SNMP_TRAP_VERSION = "SNMP Version";

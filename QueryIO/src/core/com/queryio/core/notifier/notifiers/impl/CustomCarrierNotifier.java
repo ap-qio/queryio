@@ -29,11 +29,10 @@ import com.queryio.core.notifier.notifiers.INotifier;
 /**
  * @author Administrator
  * 
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ *         To change the template for this generated type comment go to
+ *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CustomCarrierNotifier implements INotifier
-{
+public abstract class CustomCarrierNotifier implements INotifier {
 	static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
 
 	private String sMessage = null;
@@ -44,24 +43,21 @@ public abstract class CustomCarrierNotifier implements INotifier
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.appperfect.common.notifier.notifiers.INotifier#initPropertySet(com.appperfect.common.notifier.dstruct.PropertySet)
+	 * @see
+	 * com.appperfect.common.notifier.notifiers.INotifier#initPropertySet(com.
+	 * appperfect.common.notifier.dstruct.PropertySet)
 	 */
-	public void initPropertySet(final PropertySet propSet) throws Exception
-	{
+	public void initPropertySet(final PropertySet propSet) throws Exception {
 		LinkedList llValues = null;
 
-		if (propSet == null)
-		{
+		if (propSet == null) {
 			throw new RuntimeException(RM.getString("VALUE_NO_PROPERTIES_MSG")); //$NON-NLS-1$
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.CUSTOM_CARRIER_LOCATIONS);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setRecepientsUserIds(llValues);
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(RM.getString("VALUE_NO_RECEPIENT_USERS_MSG")); //$NON-NLS-1$
 		}
 	}
@@ -69,14 +65,14 @@ public abstract class CustomCarrierNotifier implements INotifier
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.appperfect.common.notifier.notifiers.INotifier#notifyEvent(com.appperfect.common.notifier.common.NotificationEvent)
+	 * @see com.appperfect.common.notifier.notifiers.INotifier#notifyEvent(com.
+	 * appperfect.common.notifier.common.NotificationEvent)
 	 */
-	public String notifyEvent(final NotificationEvent event) throws Exception
-	{
+	public String notifyEvent(final NotificationEvent event) throws Exception {
 		this.setValue(event);
 		final CustomCarrierSender sender = new CustomCarrierSender(this);
 		sender.sendMessage();
-		
+
 		return null;
 	}
 
@@ -85,8 +81,7 @@ public abstract class CustomCarrierNotifier implements INotifier
 	 * 
 	 * @param recepientsUserIds
 	 */
-	protected final void setRecepientsUserIds(final LinkedList recepientsUserIds)
-	{
+	protected final void setRecepientsUserIds(final LinkedList recepientsUserIds) {
 		this.llRecepientsUserIds = recepientsUserIds;
 	}
 
@@ -95,8 +90,7 @@ public abstract class CustomCarrierNotifier implements INotifier
 	 * 
 	 * @return LinkedList
 	 */
-	protected final LinkedList getRecepientsUserIds()
-	{
+	protected final LinkedList getRecepientsUserIds() {
 		return this.llRecepientsUserIds;
 	}
 
@@ -105,8 +99,7 @@ public abstract class CustomCarrierNotifier implements INotifier
 	 * 
 	 * @param message
 	 */
-	protected final void setMessage(final String message)
-	{
+	protected final void setMessage(final String message) {
 		this.sMessage = message;
 	}
 
@@ -115,8 +108,7 @@ public abstract class CustomCarrierNotifier implements INotifier
 	 * 
 	 * @return String
 	 */
-	protected final String getMessage()
-	{
+	protected final String getMessage() {
 		return this.sMessage;
 	}
 }

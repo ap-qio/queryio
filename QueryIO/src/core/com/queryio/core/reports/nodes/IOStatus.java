@@ -12,7 +12,8 @@ public class IOStatus extends AbstractExportableNode {
 	 * 
 	 */
 	private static final long serialVersionUID = -9133956418982545274L;
-	private Timestamp currentTimestamp; 
+	private Timestamp currentTimestamp;
+
 	protected IOStatus(String exportedFileName, Timestamp currentTimestamp) {
 		super("I/O Status Report", 0, "I/O Status Report", exportedFileName, "I/O Status Report");
 		this.currentTimestamp = currentTimestamp;
@@ -26,7 +27,7 @@ public class IOStatus extends AbstractExportableNode {
 	}
 
 	@Override
-	public String getHeaderText() {		
+	public String getHeaderText() {
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MM-dd hh:mm a");
 		return "I/O Status Report  " + sdf.format(currentTimestamp.getTime());
 	}

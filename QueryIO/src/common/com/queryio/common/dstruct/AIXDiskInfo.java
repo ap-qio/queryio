@@ -21,16 +21,14 @@ package com.queryio.common.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class AIXDiskInfo extends DiskInfo
-{
+public class AIXDiskInfo extends DiskInfo {
 	private long lTotalReads = 0;
 	private long lTotalWrites = 0;
 
 	private long lReadTimeStamp = 0;
 	private long lWriteTimeStamp = 0;
-	
-	public AIXDiskInfo(final String name, final long lTotalReads, final long lTotalWrites)
-	{
+
+	public AIXDiskInfo(final String name, final long lTotalReads, final long lTotalWrites) {
 		super(name, 0, 0);
 		this.lTotalReads = lTotalReads;
 		this.lTotalWrites = lTotalWrites;
@@ -40,40 +38,34 @@ public class AIXDiskInfo extends DiskInfo
 		this.lWriteTimeStamp = ts;
 	}
 
-	public long getTotalReads() throws Exception
-	{
-		if ((this.lTotalReads < 0) || (this.lTotalReads > Long.MAX_VALUE))
-		{
+	public long getTotalReads() throws Exception {
+		if ((this.lTotalReads < 0) || (this.lTotalReads > Long.MAX_VALUE)) {
 			throw new Exception("Total reads value is incorrect");
 		}
 		return this.lTotalReads;
 	}
 
-	public long getTotalWrites() throws Exception
-	{
-		if ((this.lTotalWrites < 0) || (this.lTotalWrites > Long.MAX_VALUE))
-		{
+	public long getTotalWrites() throws Exception {
+		if ((this.lTotalWrites < 0) || (this.lTotalWrites > Long.MAX_VALUE)) {
 			throw new Exception("Total writes value is incorrect");
 		}
 		return this.lTotalWrites;
 	}
 
-	public void setTotalReads(final long totalReads)
-	{
+	public void setTotalReads(final long totalReads) {
 		// calculate the reads per second from the older value
 		// this has to be done only if it is not the first time
 		// that the disk has been found
 		final long lCurrTimeStamp = System.currentTimeMillis();
 		long lTimeStampDiffInSecs = (lCurrTimeStamp - this.lReadTimeStamp) / 1000;
 		lTimeStampDiffInSecs = (lTimeStampDiffInSecs > 0 ? lTimeStampDiffInSecs : 1);
-		this.fReadsPerSec = Math.max(0, (float)((totalReads - this.lTotalReads) / lTimeStampDiffInSecs));
+		this.fReadsPerSec = Math.max(0, (float) ((totalReads - this.lTotalReads) / lTimeStampDiffInSecs));
 
 		this.lReadTimeStamp = lCurrTimeStamp;
 		this.lTotalReads = totalReads;
 	}
 
-	public void setTotalWrites(final long totalWrites)
-	{
+	public void setTotalWrites(final long totalWrites) {
 		// calculate the writes per second from the older value
 		// this has to be done only if it is not the first time
 		// that the disk has been found
@@ -81,7 +73,7 @@ public class AIXDiskInfo extends DiskInfo
 		long lTimeStampDiffInSecs = (lCurrTimeStamp - this.lWriteTimeStamp) / 1000;
 
 		lTimeStampDiffInSecs = (lTimeStampDiffInSecs > 0 ? lTimeStampDiffInSecs : 1);
-		this.fWritesPerSec = Math.max(0, (float)((totalWrites - this.lTotalWrites) / lTimeStampDiffInSecs));
+		this.fWritesPerSec = Math.max(0, (float) ((totalWrites - this.lTotalWrites) / lTimeStampDiffInSecs));
 
 		this.lWriteTimeStamp = lCurrTimeStamp;
 		this.lTotalWrites = totalWrites;

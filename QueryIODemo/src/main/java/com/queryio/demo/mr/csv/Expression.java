@@ -28,14 +28,14 @@ public class Expression {
 	private int operator;
 	private String value;
 
-	private static final short TYPE_BOOLEAN=1;
-	private static final short TYPE_INTEGER=2;
-	private static final short TYPE_DECIMAL=3;
-	private static final short TYPE_STRING=4;
-	private static final short TYPE_DATE=5;
-	
+	private static final short TYPE_BOOLEAN = 1;
+	private static final short TYPE_INTEGER = 2;
+	private static final short TYPE_DECIMAL = 3;
+	private static final short TYPE_STRING = 4;
+	private static final short TYPE_DATE = 5;
+
 	List<String> list = null;
-	
+
 	public String getColumn() {
 		return column;
 	}
@@ -86,10 +86,9 @@ public class Expression {
 			return false;
 		}
 	}
-	
+
 	public boolean isBoolean(String data) {
-		return (data.trim().toLowerCase().equals("true") || data.trim()
-				.toLowerCase().equals("false")) ? true : false;
+		return (data.trim().toLowerCase().equals("true") || data.trim().toLowerCase().equals("false")) ? true : false;
 	}
 
 	public boolean evaluate(String checkValue) {
@@ -138,149 +137,136 @@ public class Expression {
 			return TYPE_DECIMAL;
 		} else if (isBoolean(checkValue) && isBoolean(value)) {
 			return TYPE_BOOLEAN;
-		} else if(isDate(checkValue) && isDate(value)) { 
+		} else if (isDate(checkValue) && isDate(value)) {
 			return TYPE_DATE;
 		} else {
 			return TYPE_STRING;
 		}
 	}
-	
+
 	public boolean gt(String checkValue, String value) {
 		short type = getType(checkValue, value);
-		switch(type) {
+		switch (type) {
 		case TYPE_INTEGER:
 			return Long.parseLong(checkValue) > Long.parseLong(value);
 		case TYPE_DECIMAL:
-			return Double.parseDouble(checkValue) > Double
-					.parseDouble(value);
+			return Double.parseDouble(checkValue) > Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return (Boolean.parseBoolean(checkValue) == true)
-					&& (Boolean.parseBoolean(value) == false);
+			return (Boolean.parseBoolean(checkValue) == true) && (Boolean.parseBoolean(value) == false);
 		case TYPE_DATE:
 			return new Date(checkValue).getTime() > new Date(value).getTime();
 		default:
 			return checkValue.compareTo(value) > 0 ? true : false;
 		}
 	}
-	
+
 	public boolean lt(String checkValue, String value) {
 		short type = getType(checkValue, value);
-		switch(type) {
+		switch (type) {
 		case TYPE_INTEGER:
 			return Long.parseLong(checkValue) < Long.parseLong(value);
 		case TYPE_DECIMAL:
-			return Double.parseDouble(checkValue) < Double
-					.parseDouble(value);
+			return Double.parseDouble(checkValue) < Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return (Boolean.parseBoolean(checkValue) == false)
-					&& (Boolean.parseBoolean(value) == true);
+			return (Boolean.parseBoolean(checkValue) == false) && (Boolean.parseBoolean(value) == true);
 		case TYPE_DATE:
 			return new Date(checkValue).getTime() < new Date(value).getTime();
 		default:
 			return checkValue.compareTo(value) < 0 ? true : false;
 		}
 	}
-	
+
 	public boolean gteq(String checkValue, String value) {
 		short type = getType(checkValue, value);
-		switch(type) {
+		switch (type) {
 		case TYPE_INTEGER:
 			return Long.parseLong(checkValue) >= Long.parseLong(value);
 		case TYPE_DECIMAL:
-			return Double.parseDouble(checkValue) >= Double
-					.parseDouble(value);
+			return Double.parseDouble(checkValue) >= Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return !((Boolean.parseBoolean(checkValue) == false) && (Boolean
-					.parseBoolean(value) == true));
+			return !((Boolean.parseBoolean(checkValue) == false) && (Boolean.parseBoolean(value) == true));
 		case TYPE_DATE:
 			return new Date(checkValue).getTime() >= new Date(value).getTime();
 		default:
 			return checkValue.compareTo(value) >= 0 ? true : false;
 		}
 	}
-	
+
 	public boolean lteq(String checkValue, String value) {
 		short type = getType(checkValue, value);
-		switch(type) {
+		switch (type) {
 		case TYPE_INTEGER:
 			return Long.parseLong(checkValue) <= Long.parseLong(value);
 		case TYPE_DECIMAL:
-			return Double.parseDouble(checkValue) <= Double
-					.parseDouble(value);
+			return Double.parseDouble(checkValue) <= Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return !((Boolean.parseBoolean(checkValue) == true) && (Boolean
-					.parseBoolean(value) == false));
+			return !((Boolean.parseBoolean(checkValue) == true) && (Boolean.parseBoolean(value) == false));
 		case TYPE_DATE:
 			return new Date(checkValue).getTime() <= new Date(value).getTime();
 		default:
 			return checkValue.compareTo(value) <= 0 ? true : false;
 		}
 	}
-	
+
 	public boolean eq(String checkValue, String value) {
 		short type = getType(checkValue, value);
-		switch(type) {
+		switch (type) {
 		case TYPE_INTEGER:
 			return Long.parseLong(checkValue) == Long.parseLong(value);
 		case TYPE_DECIMAL:
-			return Double.parseDouble(checkValue) == Double
-					.parseDouble(value);
+			return Double.parseDouble(checkValue) == Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return Boolean.parseBoolean(checkValue) == Boolean
-					.parseBoolean(value);
+			return Boolean.parseBoolean(checkValue) == Boolean.parseBoolean(value);
 		case TYPE_DATE:
 			return new Date(checkValue).getTime() == new Date(value).getTime();
 		default:
 			return checkValue.compareTo(value) == 0 ? true : false;
 		}
 	}
-	
+
 	public boolean neq(String checkValue, String value) {
 		short type = getType(checkValue, value);
-		switch(type) {
+		switch (type) {
 		case TYPE_INTEGER:
 			return Long.parseLong(checkValue) != Long.parseLong(value);
 		case TYPE_DECIMAL:
-			return Double.parseDouble(checkValue) != Double
-					.parseDouble(value);
+			return Double.parseDouble(checkValue) != Double.parseDouble(value);
 		case TYPE_BOOLEAN:
-			return Boolean.parseBoolean(checkValue) != Boolean
-					.parseBoolean(value);
+			return Boolean.parseBoolean(checkValue) != Boolean.parseBoolean(value);
 		case TYPE_DATE:
 			return new Date(checkValue).getTime() != new Date(value).getTime();
 		default:
 			return checkValue.compareTo(value) != 0 ? true : false;
 		}
 	}
-	
+
 	public boolean like(final String expression, final String value) {
 		String regex = quotemeta(expression);
 		regex = regex.replace("_", ".").replace("%", ".*?");
-		Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
-				| Pattern.DOTALL);
-		return p.matcher( value).matches();
+		Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+		return p.matcher(value).matches();
 	}
-	
+
 	public boolean notLike(final String expression, final String value) {
-		return ! like(expression, value);
+		return !like(expression, value);
 	}
-	
+
 	public void populateList() {
 		list = new ArrayList<String>();
 		String str = value.substring(value.indexOf("("), value.lastIndexOf(")"));
 		boolean quoteStart = false;
 		StringBuffer sBuf = new StringBuffer();
-		for(int i=0; i<str.length(); i++) {
-			if(str.charAt(i)=='\\') {
-				if((i+1)<str.length() && str.charAt(i+1)=='"') {
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == '\\') {
+				if ((i + 1) < str.length() && str.charAt(i + 1) == '"') {
 					sBuf.append('"');
 					i++;
 				} else {
 					sBuf.append(str.charAt(i));
 				}
-			} else if(str.charAt(i)=='"') {
+			} else if (str.charAt(i) == '"') {
 				quoteStart = !quoteStart;
-				if( ! quoteStart) {
+				if (!quoteStart) {
 					list.add(sBuf.toString());
 				} else {
 					sBuf.setLength(0);
@@ -291,35 +277,35 @@ public class Expression {
 			}
 		}
 	}
-	
+
 	public boolean in(final String checkValue) {
-		if(list==null) {
+		if (list == null) {
 			populateList();
 		}
-		
-		for(int i=0; i<list.size(); i++) {
-			if(eq(checkValue, list.get(i))) {
+
+		for (int i = 0; i < list.size(); i++) {
+			if (eq(checkValue, list.get(i))) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public boolean notIn(final String checkValue) {
-		return ! in(checkValue);
+		return !in(checkValue);
 	}
-	
+
 	public boolean between(final String checkValue) {
-		if(list==null) {
+		if (list == null) {
 			populateList();
 		}
-		
+
 		return gteq(checkValue, list.get(0)) && lt(checkValue, list.get(1));
 	}
-	
+
 	public boolean notBetween(final String checkValue) {
-		return ! between(checkValue);
+		return !between(checkValue);
 	}
 
 	public String quotemeta(String s) {

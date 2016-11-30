@@ -12,8 +12,9 @@ public class ResetRootPermissionsThread extends Thread {
 	String group;
 	int permissions;
 	boolean recursive;
-	
-	public ResetRootPermissionsThread(Host host, Node node, String path, String group, int permissions, boolean recursive){
+
+	public ResetRootPermissionsThread(Host host, Node node, String path, String group, int permissions,
+			boolean recursive) {
 		this.host = host;
 		this.node = node;
 		this.path = path;
@@ -21,37 +22,42 @@ public class ResetRootPermissionsThread extends Thread {
 		this.permissions = permissions;
 		this.recursive = recursive;
 	}
-	
-	public void run(){
-		String rootUser = QueryIOAgentManager.getOSUserName(host,
-				node);
-		
+
+	public void run() {
+		String rootUser = QueryIOAgentManager.getOSUserName(host, node);
+
 		// Wait first time to get namenode started.
 		try {
 			Thread.sleep(40000);
 		} catch (InterruptedException e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 		}
-		
-		if (rootUser != null){
+
+		if (rootUser != null) {
 			boolean success = false;
-			while( ! success){
-				
-				if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Attempting to reset permissions on root directory on node: " + this.node.getId());
-				if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("rootUser : " + rootUser);
-				success = PermissionsManager.setFileOwnerAndPermissions(this.node.getId(),
-						rootUser, this.path, rootUser, this.group, permissions, recursive);
-						
+			while (!success) {
+
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger()
+							.debug("Attempting to reset permissions on root directory on node: " + this.node.getId());
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("rootUser : " + rootUser);
+				success = PermissionsManager.setFileOwnerAndPermissions(this.node.getId(), rootUser, this.path,
+						rootUser, this.group, permissions, recursive);
+
 				try {
 					Thread.sleep(30000);
 				} catch (InterruptedException e) {
 					AppLogger.getLogger().fatal(e.getMessage(), e);
 				}
 			}
-			
-			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Permissions reset successful on node: " + this.node.getId());
+
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug("Permissions reset successful on node: " + this.node.getId());
 		} else {
-			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Could not reset permissions on node: " + this.node.getId() + ", username not available");
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug(
+						"Could not reset permissions on node: " + this.node.getId() + ", username not available");
 		}
 	}
 }

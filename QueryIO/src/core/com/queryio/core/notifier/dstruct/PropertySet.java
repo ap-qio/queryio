@@ -28,8 +28,7 @@ import java.util.LinkedList;
  * 
  * @author Exceed Consultancy Services
  */
-public class PropertySet
-{
+public class PropertySet {
 	private String sName = null;
 
 	// key = propery name
@@ -41,8 +40,7 @@ public class PropertySet
 	 * 
 	 * @param name
 	 */
-	public PropertySet(final String name)
-	{
+	public PropertySet(final String name) {
 		this.sName = name;
 		this.htProperties = new Hashtable();
 	}
@@ -52,8 +50,7 @@ public class PropertySet
 	 * 
 	 * @return String
 	 */
-	public final String getName()
-	{
+	public final String getName() {
 		return this.sName;
 	}
 
@@ -63,19 +60,15 @@ public class PropertySet
 	 * @param name
 	 * @param value
 	 */
-	public void addProperty(final String name, final String value)
-	{
+	public void addProperty(final String name, final String value) {
 		final Object oValue = this.htProperties.get(name);
 		LinkedList llValues = null;
 
-		if (oValue == null)
-		{
+		if (oValue == null) {
 			llValues = new LinkedList();
 			llValues.add(value);
 			this.htProperties.put(name, llValues);
-		}
-		else
-		{
+		} else {
 			llValues = (LinkedList) oValue;
 			llValues.add(value);
 		}
@@ -87,8 +80,7 @@ public class PropertySet
 	 * @param name
 	 * @return LinkedList
 	 */
-	public LinkedList getProperty(final String name)
-	{
+	public LinkedList getProperty(final String name) {
 		return (LinkedList) this.htProperties.get(name);
 	}
 
@@ -100,16 +92,14 @@ public class PropertySet
 	 * 
 	 * @return Hashtable
 	 */
-	public final Hashtable getAllProperties()
-	{
+	public final Hashtable getAllProperties() {
 		return this.htProperties;
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("\tPropertySet: sName = "); //$NON-NLS-1$
 		sbToString.append(this.sName);
 		sbToString.append("\n\t\tProperties: "); //$NON-NLS-1$

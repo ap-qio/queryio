@@ -21,8 +21,7 @@ package com.queryio.common.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class DriveInfo
-{
+public class DriveInfo {
 	private final String sName;
 	private final float fTotalSpace;
 	private final float fUsedSpace;
@@ -30,15 +29,14 @@ public class DriveInfo
 	/**
 	 * Constructs DriveInfo object
 	 * 
-	 * @param name -
-	 *            name of the drive
-	 * @param totalSpace -
-	 *            total space on the drive
-	 * @param usedSpace -
-	 *            used space on the drive
+	 * @param name
+	 *            - name of the drive
+	 * @param totalSpace
+	 *            - total space on the drive
+	 * @param usedSpace
+	 *            - used space on the drive
 	 */
-	public DriveInfo(final String name, final float totalSpace, final float usedSpace)
-	{
+	public DriveInfo(final String name, final float totalSpace, final float usedSpace) {
 		this.sName = name;
 		this.fTotalSpace = totalSpace;
 		this.fUsedSpace = usedSpace;
@@ -49,8 +47,7 @@ public class DriveInfo
 	 * 
 	 * @return drive name
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return this.sName;
 	}
 
@@ -59,10 +56,8 @@ public class DriveInfo
 	 * 
 	 * @return Total space of drive (GB for windows and MB for Linux)
 	 */
-	public float getTotalSpace() throws Exception
-	{
-		if ((this.fTotalSpace < 0) || (this.fTotalSpace > Float.POSITIVE_INFINITY))
-		{
+	public float getTotalSpace() throws Exception {
+		if ((this.fTotalSpace < 0) || (this.fTotalSpace > Float.POSITIVE_INFINITY)) {
 			throw new Exception("Total space value is incorrect");
 		}
 		return this.fTotalSpace;
@@ -73,10 +68,8 @@ public class DriveInfo
 	 * 
 	 * @return used space on the drive (GB for windows and MB for Linux)
 	 */
-	public float getUsedSpace() throws Exception
-	{
-		if ((this.fUsedSpace < 0) || (this.fUsedSpace > Float.POSITIVE_INFINITY))
-		{
+	public float getUsedSpace() throws Exception {
+		if ((this.fUsedSpace < 0) || (this.fUsedSpace > Float.POSITIVE_INFINITY)) {
 			throw new Exception("Total used value is incorrect");
 		}
 		return this.fUsedSpace;

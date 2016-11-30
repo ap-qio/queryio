@@ -23,43 +23,32 @@ import com.queryio.sysmoncommon.pdh.dstruct.AttributeNode;
 import com.queryio.sysmoncommon.sysmon.dstruct.ProcessInfo;
 import com.queryio.sysmoncommon.sysmon.dstruct.WindowsNetworkInfo;
 
-public class PdhNativeAPI
-{
+public class PdhNativeAPI {
 	/*
 	 * Load the library that implements Native interface
 	 */
-	static
-	{
-		try
-		{
-			try
-			{
+	static {
+		try {
+			try {
 				final String dllHome = System.getProperty("queryio.dll.home"); //$NON-NLS-1$
 				System.out.println("dllHome : " + dllHome);
 				boolean loaded = false;
-				if (dllHome != null)
-				{
-					final File file = new File(dllHome, "lib" + File.separatorChar + "pdhlib.dll"); //$NON-NLS-1$	//$NON-NLS-2$
-					if (file.exists())
-					{
+				if (dllHome != null) {
+					final File file = new File(dllHome, "lib" + File.separatorChar + "pdhlib.dll"); //$NON-NLS-1$ //$NON-NLS-2$
+					if (file.exists()) {
 						System.load(file.getCanonicalPath());
 						loaded = true;
 						System.out.println("yersssss : " + file.getAbsolutePath());
 					}
 				}
 
-				if (!loaded)
-				{
+				if (!loaded) {
 					System.loadLibrary("pdhlib"); //$NON-NLS-1$
 				}
-			}
-			catch (final Throwable th)
-			{
+			} catch (final Throwable th) {
 				System.loadLibrary("pdhlib"); //$NON-NLS-1$
 			}
-		}
-		catch (final Throwable th)
-		{
+		} catch (final Throwable th) {
 			th.printStackTrace();
 			System.err.println("pdhlib.dll not found"); //$NON-NLS-1$
 		}
@@ -86,6 +75,6 @@ public class PdhNativeAPI
 	public native static boolean connectForCredential(String domainName, String machineIp, String userName,
 			String password);
 
-	public native static boolean disconnectForHost(String domainName, String machineIp);	
+	public native static boolean disconnectForHost(String domainName, String machineIp);
 
 }

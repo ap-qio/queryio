@@ -21,8 +21,7 @@ package com.queryio.common.exporter.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class Rectangle implements java.io.Serializable
-{
+public class Rectangle implements java.io.Serializable {
 	private static final long serialVersionUID = 752600005701000035L;
 	/**
 	 * the x coordinate of the rectangle
@@ -57,8 +56,7 @@ public class Rectangle implements java.io.Serializable
 	 * @param height
 	 *            the height of the rectangle
 	 */
-	public Rectangle(final int x, final int y, final int width, final int height)
-	{
+	public Rectangle(final int x, final int y, final int width, final int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -71,25 +69,21 @@ public class Rectangle implements java.io.Serializable
 	 * 
 	 * @return a string representation of the rectangle
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return "Rectangle {" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + "}"; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	}
 
-	public boolean contains(final int X, final int Y)
-	{
+	public boolean contains(final int X, final int Y) {
 		int w = this.width;
 		int h = this.height;
-		if ((w | h) < 0)
-		{
+		if ((w | h) < 0) {
 			// At least one of the dimensions is negative...
 			return false;
 		}
 		// Note: if either dimension is zero, tests below must return false...
 		final int x = this.x;
 		final int y = this.y;
-		if ((X < x) || (Y < y))
-		{
+		if ((X < x) || (Y < y)) {
 			return false;
 		}
 		w += x;

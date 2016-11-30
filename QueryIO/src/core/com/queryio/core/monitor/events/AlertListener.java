@@ -20,8 +20,7 @@ package com.queryio.core.monitor.events;
 /**
  * @author Exceed Consultancy Services
  */
-public interface AlertListener
-{
+public interface AlertListener {
 	String GENERATOR_QUEUE_NAME = "Alert Generator-";
 
 	/**

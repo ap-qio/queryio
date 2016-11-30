@@ -31,8 +31,7 @@ import com.queryio.core.notifier.common.NotificationEvent;
  * 
  * @author Exceed Consultancy Services
  */
-class EventSender
-{
+class EventSender {
 	// private EventManager evtMgr = null;
 
 	static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
@@ -46,15 +45,11 @@ class EventSender
 	 * @param notifMgrIPAddress
 	 * @param notifMgrPort
 	 */
-	EventSender(final String notifMgrIPAddress, final int notifMgrPort)
-	{
-		try
-		{
+	EventSender(final String notifMgrIPAddress, final int notifMgrPort) {
+		try {
 			final Socket sockTarget = new Socket(notifMgrIPAddress, notifMgrPort);
 			this.os = new ObjectOutputStream(new BufferedOutputStream(sockTarget.getOutputStream()));
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			throw new RuntimeException(RM.getString("VALUE_ERROR_SOCKET_MSG") + ex.toString()); //$NON-NLS-1$
 		}
 
@@ -65,15 +60,11 @@ class EventSender
 	 * This is the method which sends the notification Event in the Socket and
 	 * is responsible to actually post the Event to the Notification Server
 	 */
-	void sendEventToNotifMgr(final NotificationEvent evt)
-	{
-		try
-		{
+	void sendEventToNotifMgr(final NotificationEvent evt) {
+		try {
 			this.os.writeObject(evt);
 			this.os.flush();
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			throw new RuntimeException(RM.getString("VALUE_ERROR_EVENT_OBJECT_MSG") + ex.toString()); //$NON-NLS-1$
 		}
 	}

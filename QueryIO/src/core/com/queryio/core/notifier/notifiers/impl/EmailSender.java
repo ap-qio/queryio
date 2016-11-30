@@ -18,27 +18,21 @@ import org.springframework.mail.javamail.MimeMessageHelper;
  * @author Exceed Consultancy Services
  */
 @SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
-class EmailSender
-{
+class EmailSender {
 	/**
 	 * @param emailNotif
 	 */
-	private EmailSender()
-	{
+	private EmailSender() {
 		// DO NOTHING
 	}
-	
-	private static boolean isNotAlreadyPresent(ArrayList list, String email)
-	{
+
+	private static boolean isNotAlreadyPresent(ArrayList list, String email) {
 		boolean bNotPresent = true;
-		if(list != null && list.size() > 0)
-		{
+		if (list != null && list.size() > 0) {
 			String em;
-			for(int i = 0; i < list.size(); i++)
-			{
+			for (int i = 0; i < list.size(); i++) {
 				em = (String) list.get(i);
-				if(em.equalsIgnoreCase(email))
-				{
+				if (em.equalsIgnoreCase(email)) {
 					bNotPresent = false;
 					break;
 				}
@@ -48,43 +42,37 @@ class EmailSender
 	}
 
 	// JavaMail implementation
-	static void sendMessage(final EmailNotifier emailNotifier, final boolean debug) throws Exception
-	{
+	static void sendMessage(final EmailNotifier emailNotifier, final boolean debug) throws Exception {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		if (debug)
-		{
+		if (debug) {
 			mailSender.getJavaMailProperties().setProperty("mail.debug", "false");
 		}
 		mailSender.setHost(emailNotifier.getSmtpAddress());
-		mailSender.setProtocol(emailNotifier.isSecureProtocol() ? "smtps":"smtp");
+		mailSender.setProtocol(emailNotifier.isSecureProtocol() ? "smtps" : "smtp");
 		mailSender.setPort(emailNotifier.getSmtpPort());
-		if (emailNotifier.isAuthRequired())
-		{
+		if (emailNotifier.isAuthRequired()) {
 			mailSender.setUsername(emailNotifier.getSendersUserName());
 			mailSender.setPassword(emailNotifier.getSendersPassword());
 		}
 		final ArrayList attachments = emailNotifier.getAttachmentFiles();
 		final boolean hasAttachments = (attachments != null) && (attachments.size() > 0);
-		
+
 		final LinkedList llEmailAddresses = emailNotifier.getRecepientsAddresses();
 		final ArrayList llRecepientsAddresses = new ArrayList();
 		String email;
 		String emailAddress;
 		StringTokenizer stk;
-		for(int j = 0; j < llEmailAddresses.size(); j++)
-		{
+		for (int j = 0; j < llEmailAddresses.size(); j++) {
 			email = (String) llEmailAddresses.get(j);
 			stk = new StringTokenizer(email, ";");
-			while(stk.hasMoreTokens())
-			{
+			while (stk.hasMoreTokens()) {
 				emailAddress = stk.nextToken();
-				if(isNotAlreadyPresent(llRecepientsAddresses, emailAddress))
-				{
+				if (isNotAlreadyPresent(llRecepientsAddresses, emailAddress)) {
 					llRecepientsAddresses.add(emailAddress);
 				}
-			}		
+			}
 		}
-		String [] to = new String [llRecepientsAddresses.size()];
+		String[] to = new String[llRecepientsAddresses.size()];
 		llRecepientsAddresses.toArray(to);
 		final MimeMessage mm = mailSender.createMimeMessage();
 		// use the true flag to indicate you need a multipart message
@@ -95,17 +83,14 @@ class EmailSender
 		mmh.setText(emailNotifier.getMessageBody(), Boolean.getBoolean("notification.email.html"));
 		// Specifying to mail id
 		mmh.setTo(to);
-		
+
 		mmh.setPriority(emailNotifier.getImportanceLevel());
-		
-		if (hasAttachments)
-		{
+
+		if (hasAttachments) {
 			// Add all the attachments
-			for (int i = 0; i < attachments.size(); i++)
-			{
+			for (int i = 0; i < attachments.size(); i++) {
 				final File file = new File((String) attachments.get(i));
-				if (file.exists())
-				{
+				if (file.exists()) {
 					mmh.addAttachment(file.getName(), file);
 				}
 			}
@@ -113,48 +98,31 @@ class EmailSender
 		// Now send the message
 		mailSender.send(mm);
 	}
-	
+
 	/*
-	// JGmail implementation
-	static void sendMessage(final EmailNotifier emailNotifier) throws Exception
-	{
-		final SMTP smtp = new SMTP(emailNotifier.getSmtpAddress());
-		// smtp.addStatusListener(this);
-
-		// Put our parameters into the message
-		smtp.setFrom(emailNotifier.getSendersName(), emailNotifier.getSendersEmailAddress());
-		smtp.setSubject(emailNotifier.getEmailSubject());
-		smtp.setBody(emailNotifier.getMessageBody());
-		final ArrayList attachments = emailNotifier.getAttachmentFiles();
-		if ((attachments != null) && (attachments.size() > 0))
-		{
-			for (int i = 0; i < attachments.size(); i++)
-			{
-				final File file = new File((String) attachments.get(i));
-				if (file.exists())
-				{
-					smtp.addAttachment(file.getAbsolutePath());
-				}
-			}
-		}
-
-		// Specifying to mail id
-		final LinkedList llRecepientsAddresses = emailNotifier.getRecepientsAddresses();
-		final int iSize = llRecepientsAddresses.size();
-		for (int i = 0; i < iSize; i++)
-		{
-			smtp.addTo(null, (String) llRecepientsAddresses.get(i));
-		}
-
-		if (emailNotifier.isAuthRequired())
-		{
-			smtp.setAuthType(SMTP.AUTH_LOGIN);
-			smtp.setUserName(emailNotifier.getSendersUserName());
-			smtp.setPassword(emailNotifier.getSendersPassword().toCharArray());
-		}
-
-		//Now send the message
-		smtp.send();
-	}
-	*/
+	 * // JGmail implementation static void sendMessage(final EmailNotifier
+	 * emailNotifier) throws Exception { final SMTP smtp = new
+	 * SMTP(emailNotifier.getSmtpAddress()); // smtp.addStatusListener(this);
+	 * 
+	 * // Put our parameters into the message
+	 * smtp.setFrom(emailNotifier.getSendersName(),
+	 * emailNotifier.getSendersEmailAddress());
+	 * smtp.setSubject(emailNotifier.getEmailSubject());
+	 * smtp.setBody(emailNotifier.getMessageBody()); final ArrayList attachments
+	 * = emailNotifier.getAttachmentFiles(); if ((attachments != null) &&
+	 * (attachments.size() > 0)) { for (int i = 0; i < attachments.size(); i++)
+	 * { final File file = new File((String) attachments.get(i)); if
+	 * (file.exists()) { smtp.addAttachment(file.getAbsolutePath()); } } }
+	 * 
+	 * // Specifying to mail id final LinkedList llRecepientsAddresses =
+	 * emailNotifier.getRecepientsAddresses(); final int iSize =
+	 * llRecepientsAddresses.size(); for (int i = 0; i < iSize; i++) {
+	 * smtp.addTo(null, (String) llRecepientsAddresses.get(i)); }
+	 * 
+	 * if (emailNotifier.isAuthRequired()) { smtp.setAuthType(SMTP.AUTH_LOGIN);
+	 * smtp.setUserName(emailNotifier.getSendersUserName());
+	 * smtp.setPassword(emailNotifier.getSendersPassword().toCharArray()); }
+	 * 
+	 * //Now send the message smtp.send(); }
+	 */
 }

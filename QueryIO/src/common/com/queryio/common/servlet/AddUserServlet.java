@@ -16,36 +16,40 @@ import com.queryio.core.dao.UserDAO;
 import com.queryio.core.permissions.GroupDAO;
 import com.queryio.core.permissions.UserGroupDAO;
 
-public class AddUserServlet extends HttpServlet{
+public class AddUserServlet extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			doProcess(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			doProcess(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		boolean isDemoUserAdded = false;
-		
+
 		String[] groupNames = new String[1];
 		String userGroup = null;
 		String userRole = null;
 		String userName = null;
 		String password = null;
-		
+
 		String email = request.getParameter("email");
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
-		
+
 		userRole = request.getParameter("userRole");
 
 		if ((userRole != null) && (QueryIOConstants.DEFAULT_GROUP_NAME_DEMO.equalsIgnoreCase(userRole))) {
@@ -55,18 +59,18 @@ public class AddUserServlet extends HttpServlet{
 			RandomString rs = new RandomString(8);
 			password = rs.nextString();
 			isDemoUserAdded = true;
-			
+
 		} else {
 			userGroup = QueryIOConstants.DEFAULT_GROUP_NAME;
 			userRole = QueryIOConstants.ROLES_ADMIN;
 			userName = request.getParameter("userName");
 			password = request.getParameter("password");
 		}
-		
-		groupNames[0]=userGroup;
-		
+
+		groupNames[0] = userGroup;
+
 		Connection connection = null;
-		
+
 		connection = CoreDBManager.getQueryIODBConnection();
 		User user = new User();
 		user.setUserName(userName);
@@ -74,15 +78,16 @@ public class AddUserServlet extends HttpServlet{
 		user.setLastName(lastName);
 		user.setPassword(password);
 		user.setEmail(email);
-		DWRResponse dwrResponse =new DWRResponse();
-		
+		DWRResponse dwrResponse = new DWRResponse();
+
 		GroupDAO.addGroup(connection, userGroup);
 		UserDAO.insertUser(connection, user, userRole, dwrResponse);
 		UserGroupDAO.addUserToGroup(connection, userName, userGroup, true);
-		
-		if (dwrResponse.isTaskSuccess()){
+
+		if (dwrResponse.isTaskSuccess()) {
 			if (isDemoUserAdded) {
-				String message = "Demo user has been created successfully. Please login with userName as: <b>" + userName + "</b> and password as: <b>" + password + "</b>";
+				String message = "Demo user has been created successfully. Please login with userName as: <b>"
+						+ userName + "</b> and password as: <b>" + password + "</b>";
 				request.getSession().setAttribute("message", message);
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			} else {

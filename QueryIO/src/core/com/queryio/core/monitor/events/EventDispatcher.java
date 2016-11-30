@@ -22,7 +22,6 @@ package com.queryio.core.monitor.events;
  * 
  * @author Exceed Consultancy Services
  */
-public interface EventDispatcher
-{
+public interface EventDispatcher {
 	void dispatchEvent(BaseEvent event);
 }

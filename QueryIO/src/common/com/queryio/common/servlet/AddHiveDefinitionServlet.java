@@ -36,7 +36,7 @@ public class AddHiveDefinitionServlet extends HttpServlet {
 
 	protected DWRResponse doProcess(HttpServletRequest request, HttpServletResponse response)
 			throws SQLIntegrityConstraintViolationException {
-		
+
 		DWRResponse dwrResponse = new DWRResponse();
 		// format
 		// "{\"fileType\":\"CSV\",\"adHocId\":\"Hive5\",\"nameNodeId\":\"NameNode1\",\"rmId\":\"ResourceManager1\",\"sourcePath\":\"/Data/csv\",\"parseRecursive\":true,\"adHocTableName\":\"HiveCSVTable5\",\"fileName\":\"C:\\fakepath\\MachineLogs_1364454240895.csv\",\"filePathPattern\":\".*\\.csv\",\"fields\":\"[{\"colName\":\"FILEPATH\",\"colType\":\"STRING(1280)\",\"colIndex\":0},{\"colName\":\"IP\",\"colType\":\"STRING(255)\",\"colIndex\":1},{\"colName\":\"CPU\",\"colType\":\"INTEGER\",\"colIndex\":2},{\"colName\":\"RAM\",\"colType\":\"INTEGER\",\"colIndex\":3},{\"colName\":\"DISKREAD\",\"colType\":\"INTEGER\",\"colIndex\":4},{\"colName\":\"DISKWRITE\",\"colType\":\"INTEGER\",\"colIndex\":5},{\"colName\":\"NETREAD\",\"colType\":\"INTEGER\",\"colIndex\":6},{\"colName\":\"NETWRITE\",\"colType\":\"INTEGER\",\"colIndex\":7}]\",\"delimiter\":\",\",\"valueSeparator\":\"\",\"isFirstRowHeader\":true,\"encoding\":\"UTF-8\",\"isSkipAllRecordsString\":null}";
@@ -71,8 +71,9 @@ public class AddHiveDefinitionServlet extends HttpServlet {
 						.debug("adHocTableName : " + adHocTableName + "  fileName " + fileName + "filePathPattern :"
 								+ filePathPattern + " pattern " + pattern + " fields " + fields + "  :: delimiter "
 								+ delimiter);
-				AppLogger.getLogger().debug("valueSeparator : " + valueSeparator + "  isFirstRowHeader " + isFirstRowHeader
-						+ " encoding :" + encoding + " isSkipAllRecordsString " + isSkipAllRecordsString);
+				AppLogger.getLogger()
+						.debug("valueSeparator : " + valueSeparator + "  isFirstRowHeader " + isFirstRowHeader
+								+ " encoding :" + encoding + " isSkipAllRecordsString " + isSkipAllRecordsString);
 			}
 
 			if (QueryIOConstants.ADHOC_TYPE_CSV.equalsIgnoreCase(fileType)) {
@@ -109,8 +110,8 @@ public class AddHiveDefinitionServlet extends HttpServlet {
 		} catch (Exception e) {
 			AppLogger.getLogger().error(e.getMessage(), e);
 			if (AppLogger.getLogger().isDebugEnabled()) {
-				AppLogger.getLogger().debug("Exception occured dwrResponse is ::" + dwrResponse.getResponseMessage() + " Response code :: "
-					+ dwrResponse.getResponseCode());
+				AppLogger.getLogger().debug("Exception occured dwrResponse is ::" + dwrResponse.getResponseMessage()
+						+ " Response code :: " + dwrResponse.getResponseCode());
 			}
 		}
 		return dwrResponse;

@@ -21,46 +21,45 @@ import org.apache.hadoop.mapreduce.lib.input.LineRecordReader;
 
 import com.queryio.demo.common.CustomQIODFSInputStream;
 
-public class CustomRecordReader extends RecordReader<List<FileStatus>, List<InputStream>>{
+public class CustomRecordReader extends RecordReader<List<FileStatus>, List<InputStream>> {
 
-	  private static final Log LOG = LogFactory.getLog(LineRecordReader.class);
-  
-	  private List<InputStream> buffer = new ArrayList<InputStream>();
-	  private boolean valueRead = false;
-	  private List<FileStatus> fileStatus = new ArrayList<FileStatus>();
-	  	
-	  public void initialize(InputSplit genericSplit,
-	                         TaskAttemptContext context) throws IOException {
-//		try {
-//			Thread.sleep(120000);
-//		} catch (InterruptedException e1) {
-//			LOG.fatal(e1.getMessage(), e1);
-//		}
+	private static final Log LOG = LogFactory.getLog(LineRecordReader.class);
+
+	private List<InputStream> buffer = new ArrayList<InputStream>();
+	private boolean valueRead = false;
+	private List<FileStatus> fileStatus = new ArrayList<FileStatus>();
+
+	public void initialize(InputSplit genericSplit, TaskAttemptContext context) throws IOException {
+		// try {
+		// Thread.sleep(120000);
+		// } catch (InterruptedException e1) {
+		// LOG.fatal(e1.getMessage(), e1);
+		// }
 		CombinedSplit split = (CombinedSplit) genericSplit;
-	    Configuration job = context.getConfiguration();
-	    
-	    for(FileSplit fileSplit : split.getAllSplits()){
-	    	Path file = fileSplit.getPath();
-	    	FileSystem dfs = file.getFileSystem(job);
-		    // open the file and get InputStream
-		    
-	    	fileStatus.add(dfs.getFileStatus(file));
-		    LOG.info("Reading file: "+ file);
-		    
-		    DFSInputStream dfsInputStream = null;
+		Configuration job = context.getConfiguration();
+
+		for (FileSplit fileSplit : split.getAllSplits()) {
+			Path file = fileSplit.getPath();
+			FileSystem dfs = file.getFileSystem(job);
+			// open the file and get InputStream
+
+			fileStatus.add(dfs.getFileStatus(file));
+			LOG.info("Reading file: " + file);
+
+			DFSInputStream dfsInputStream = null;
 			InputStream qioInputStream = null;
-			
+
 			String filePath = file.toString();
 			LOG.info("filePath: " + filePath);
-			
+
 			String src = filePath;
-			if(src.contains("://")) {
+			if (src.contains("://")) {
 				src = src.substring(src.indexOf("://") + 3);
 				src = src.substring(src.indexOf("/"));
 			}
-			
+
 			LOG.info("Modified filePath: " + src);
-			
+
 			DistributedFileSystem fs = (DistributedFileSystem) dfs;
 			dfsInputStream = (DFSInputStream) fs.getClient().open(src);
 			try {
@@ -72,32 +71,31 @@ public class CustomRecordReader extends RecordReader<List<FileStatus>, List<Inpu
 				}
 				throw new IOException(e.getMessage());
 			}
-			
-		    buffer.add(qioInputStream);	
-	    }
-	  }
-	  
-	  
-	  public boolean nextKeyValue() throws IOException {
-	    return !valueRead;
-	  }
 
-	  public List<FileStatus> getCurrentKey() {
-	    return fileStatus;
-	  }
+			buffer.add(qioInputStream);
+		}
+	}
 
-	  public List<InputStream> getCurrentValue() {
+	public boolean nextKeyValue() throws IOException {
+		return !valueRead;
+	}
+
+	public List<FileStatus> getCurrentKey() {
+		return fileStatus;
+	}
+
+	public List<InputStream> getCurrentValue() {
 		valueRead = true;
-	    return buffer;
-	  }
+		return buffer;
+	}
 
-	  /**
-	   * Get the progress within the split
-	   */
-	  public float getProgress() throws IOException {
-	    return 1;
-	  }
-	  
-	  public synchronized void close() throws IOException {
-	   }
+	/**
+	 * Get the progress within the split
+	 */
+	public float getProgress() throws IOException {
+		return 1;
+	}
+
+	public synchronized void close() throws IOException {
+	}
 }

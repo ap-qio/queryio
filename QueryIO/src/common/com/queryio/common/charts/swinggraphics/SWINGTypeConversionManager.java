@@ -30,58 +30,46 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public class SWINGTypeConversionManager implements TypeConversionInterface
-{
+public class SWINGTypeConversionManager implements TypeConversionInterface {
 	private static final int FONT_ADJUSTMENT = 1;
 
-	public Color getConvertedColor(final Object uiColor)
-	{
+	public Color getConvertedColor(final Object uiColor) {
 		final java.awt.Color uiColorObj = (java.awt.Color) uiColor;
 		return new Color(uiColorObj.getRed(), uiColorObj.getGreen(), uiColorObj.getBlue());
 	}
 
-	public Object getUIColor(final Color convertedColor)
-	{
+	public Object getUIColor(final Color convertedColor) {
 		return new java.awt.Color(convertedColor.red, convertedColor.green, convertedColor.blue);
 	}
 
-	public Font getConvertedFont(final Object uiFont)
-	{
+	public Font getConvertedFont(final Object uiFont) {
 		final java.awt.Font uiFontObj = (java.awt.Font) uiFont;
 
 		int style = Font.STYLE_PLAIN;
-		if (uiFontObj.isBold())
-		{
+		if (uiFontObj.isBold()) {
 			style = Font.STYLE_BOLD;
-		}
-		else if (uiFontObj.isItalic())
-		{
+		} else if (uiFontObj.isItalic()) {
 			style = Font.STYLE_ITALIC;
 		}
 		return new Font(uiFontObj.getName(), uiFontObj.getSize() - FONT_ADJUSTMENT, style);
 	}
 
-	public Object getUIFont(final Font convertedFont)
-	{
+	public Object getUIFont(final Font convertedFont) {
 		return new java.awt.Font(convertedFont.name, convertedFont.style, convertedFont.size + FONT_ADJUSTMENT);
 	}
 
-	public Point getConvertedPoint(final Object uiPoint)
-	{
+	public Point getConvertedPoint(final Object uiPoint) {
 		final java.awt.Point uiPointObj = (java.awt.Point) uiPoint;
 		return new Point(uiPointObj.x, uiPointObj.y);
 	}
 
-	public Object getUIPoint(final Point convertedPoint)
-	{
+	public Object getUIPoint(final Point convertedPoint) {
 		return new java.awt.Point(convertedPoint.x, convertedPoint.y);
 	}
 
-	public Rectangle getConvertedRectangle(final Object uiRectangle)
-	{
+	public Rectangle getConvertedRectangle(final Object uiRectangle) {
 		Rectangle rectangle = null;
-		if (uiRectangle != null)
-		{
+		if (uiRectangle != null) {
 			final Shape uiShapeObj = (Shape) uiRectangle;
 			final Rectangle2D rectangle2D = uiShapeObj.getBounds2D();
 			rectangle = new Rectangle((int) rectangle2D.getX(), (int) rectangle2D.getY(), (int) rectangle2D.getWidth(),
@@ -90,8 +78,7 @@ public class SWINGTypeConversionManager implements TypeConversionInterface
 		return rectangle;
 	}
 
-	public Object getUIRectangle(final Rectangle convertedRectangle)
-	{
+	public Object getUIRectangle(final Rectangle convertedRectangle) {
 		return (convertedRectangle != null) ? new java.awt.Rectangle(convertedRectangle.x, convertedRectangle.y,
 				convertedRectangle.width, convertedRectangle.height) : null;
 	}

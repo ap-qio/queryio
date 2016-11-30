@@ -35,8 +35,7 @@ import com.queryio.common.util.StaticUtilities;
  * 
  * @author Exceed Consultancy Services
  */
-class EventXMLFileParser extends DefaultHandler implements ErrorHandler
-{
+class EventXMLFileParser extends DefaultHandler implements ErrorHandler {
 	static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
 
 	private boolean bIPAddress = false;
@@ -45,8 +44,7 @@ class EventXMLFileParser extends DefaultHandler implements ErrorHandler
 	/**
 	 * Retreives the Notification Manager properties like the IPAddress, Port
 	 */
-	void retreiveNotificationManagerProperties()
-	{
+	void retreiveNotificationManagerProperties() {
 
 		final EventManager evtMgr = EventManager.getInstance();
 
@@ -55,20 +53,16 @@ class EventXMLFileParser extends DefaultHandler implements ErrorHandler
 				: EventConstants.DEF_XMLFILE_PATH;
 		final StringBuffer sbFileNamePath = new StringBuffer();
 
-		if (sFileNameWithPath.endsWith(File.separator))
-		{
+		if (sFileNameWithPath.endsWith(File.separator)) {
 			sbFileNamePath.append(sFileNameWithPath);
 			sbFileNamePath.append(EventConstants.XMLFILENAME);
-		}
-		else
-		{
+		} else {
 			sbFileNamePath.append(sFileNameWithPath);
 			sbFileNamePath.append(File.separator);
 			sbFileNamePath.append(EventConstants.XMLFILENAME);
 		}
 
-		try
-		{
+		try {
 			// parsing the xml fil
 			// XMLReader parser =
 			// XMLReaderFactory.createXMLReader(EventConstants.XMLPARSER);
@@ -77,9 +71,7 @@ class EventXMLFileParser extends DefaultHandler implements ErrorHandler
 			// BufferedInputStream(new
 			// FileInputStream(sbFileNamePath.toString())), "UTF-8")));
 			StaticUtilities.parseXML(this, new File(sbFileNamePath.toString()));
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			final StringBuffer sbException = new StringBuffer(RM.getString("VALUE_ERROR_PARSING_MSG")); //$NON-NLS-1$
 			sbException.append(sbFileNamePath.toString());
 			sbException.append(" file:\n"); //$NON-NLS-1$
@@ -94,13 +86,11 @@ class EventXMLFileParser extends DefaultHandler implements ErrorHandler
 	 *      Attributes)
 	 */
 	public void startElement(final String namespaceURI, final String localName, final String qualifiedName,
-			final Attributes atts)
-	{
+			final Attributes atts) {
 		if (qualifiedName.equals("IP")) //$NON-NLS-1$
 		{
 			this.bIPAddress = true;
-		}
-		else if (qualifiedName.equals("SocketPort")) //$NON-NLS-1$
+		} else if (qualifiedName.equals("SocketPort")) //$NON-NLS-1$
 		{
 			this.bPort = true;
 		}
@@ -109,14 +99,10 @@ class EventXMLFileParser extends DefaultHandler implements ErrorHandler
 	/**
 	 * @see org.xml.sax.ContentHandler#characters(char[], int, int)
 	 */
-	public void characters(final char[] text, final int start, final int length)
-	{
-		if (this.bIPAddress)
-		{
+	public void characters(final char[] text, final int start, final int length) {
+		if (this.bIPAddress) {
 			EventManager.getInstance().setNotifMgrIPAddress(new String(text, start, length));
-		}
-		else if (this.bPort)
-		{
+		} else if (this.bPort) {
 			EventManager.getInstance().setNotifMgrPort(new String(text, start, length));
 		}
 	}
@@ -124,13 +110,11 @@ class EventXMLFileParser extends DefaultHandler implements ErrorHandler
 	/**
 	 * @see org.xml.sax.ContentHandler#endElement(String, String, String)
 	 */
-	public void endElement(final String namespaceURI, final String localName, final String qualifiedName)
-	{
+	public void endElement(final String namespaceURI, final String localName, final String qualifiedName) {
 		if (qualifiedName.equals("IP")) //$NON-NLS-1$
 		{
 			this.bIPAddress = false;
-		}
-		else if (qualifiedName.equals("SocketPort")) //$NON-NLS-1$
+		} else if (qualifiedName.equals("SocketPort")) //$NON-NLS-1$
 		{
 			this.bPort = false;
 		}

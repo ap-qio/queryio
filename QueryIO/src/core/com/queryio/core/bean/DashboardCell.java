@@ -1,7 +1,6 @@
 package com.queryio.core.bean;
 
-public class DashboardCell
-{
+public class DashboardCell {
 	public static final int CELL_EMPTY = 0;
 	public static final int CELL_SUSPENDED = 1;
 	public static final int CELL_OK = 2;
@@ -18,8 +17,7 @@ public class DashboardCell
 	 * 
 	 * @return
 	 */
-	public long getStartTime()
-	{
+	public long getStartTime() {
 		return this.startTime;
 	}
 
@@ -28,8 +26,7 @@ public class DashboardCell
 	 * 
 	 * @param l
 	 */
-	public void setStartTime(final long l)
-	{
+	public void setStartTime(final long l) {
 		this.startTime = l;
 	}
 
@@ -38,8 +35,7 @@ public class DashboardCell
 	 * 
 	 * @return
 	 */
-	public int getState()
-	{
+	public int getState() {
 		return this.state;
 	}
 
@@ -48,8 +44,7 @@ public class DashboardCell
 	 * 
 	 * @param i
 	 */
-	public void setState(final int i)
-	{
+	public void setState(final int i) {
 		this.state = i;
 	}
 

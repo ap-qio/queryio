@@ -1,6 +1,5 @@
 package com.queryio.core.bean;
 
-
 public class TagParserConfig {
 	int id;
 	String tagName;
@@ -8,12 +7,12 @@ public class TagParserConfig {
 	String jarName;
 	String fileTypes;
 	String className;
-	String namenodeId;	
+	String namenodeId;
 	boolean onIngest;
 	boolean isActive;
-	
-	public TagParserConfig(int id, String tagName, String description, String jarName, String fileTypes, String className, String namenodeId, 
-			boolean onIngest, boolean isActive) {
+
+	public TagParserConfig(int id, String tagName, String description, String jarName, String fileTypes,
+			String className, String namenodeId, boolean onIngest, boolean isActive) {
 		this.id = id;
 		this.tagName = tagName;
 		this.description = description;
@@ -23,8 +22,8 @@ public class TagParserConfig {
 		this.namenodeId = namenodeId;
 		this.onIngest = onIngest;
 		this.isActive = isActive;
-	}	
-	
+	}
+
 	public String getNamenodeId() {
 		return namenodeId;
 	}
@@ -40,7 +39,7 @@ public class TagParserConfig {
 	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	
+
 	public String getTagName() {
 		return tagName;
 	}
@@ -76,19 +75,23 @@ public class TagParserConfig {
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public String getJarName() {
 		return jarName;
 	}
+
 	public String getFileTypes() {
 		return fileTypes;
 	}
+
 	public String getClassName() {
 		return className;
 	}

@@ -17,7 +17,6 @@
  */
 package com.queryio.common.service.remote;
 
-public interface RemoteService
-{
+public interface RemoteService {
 	String QUERYIO_SERVICE_BEAN = "/app/QueryIOService";
 }

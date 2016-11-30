@@ -19,15 +19,16 @@ public class CSVDataDefinitionImpl implements IDataDefinition {
 		colMetaDataList.add(new ColumnMetadata("DISKWRITE", Float.class));
 		colMetaDataList.add(new ColumnMetadata("NETREAD", Float.class));
 		colMetaDataList.add(new ColumnMetadata("NETWRITE", Float.class));
-		
+
 		return colMetaDataList;
 	}
+
 	@Override
 	public String getTableName() {
 		return "adhoc_csvparserjob";
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		System.out.println(new CSVDataDefinitionImpl().getColumnMetadata());
 	}
 }

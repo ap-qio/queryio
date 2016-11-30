@@ -24,15 +24,12 @@ import com.queryio.sysmoncommon.sysmon.ResultParsingException;
 import com.queryio.sysmoncommon.sysmon.dstruct.MemoryInfo;
 import com.queryio.sysmoncommon.sysmon.dstruct.ProcessInfo;
 
-public class LinuxParserForTop_Unknown_v2 extends GenericLinuxDataParser
-{
-	public LinuxParserForTop_Unknown_v2()
-	{
+public class LinuxParserForTop_Unknown_v2 extends GenericLinuxDataParser {
+	public LinuxParserForTop_Unknown_v2() {
 		super();
 	}
 
-	public void parseTopCommand(final String output) throws ResultParsingException
-	{
+	public void parseTopCommand(final String output) throws ResultParsingException {
 		/*
 		 * Output of "top -c" command on Redhat Linux 7.2
 		 * 
@@ -62,38 +59,30 @@ public class LinuxParserForTop_Unknown_v2 extends GenericLinuxDataParser
 		if (output != null) // output will be null if this method gets called
 		// after disconnect
 		{
-			try
-			{
+			try {
 				String temp = null;
 				String sLine = null;
 
 				final StringTokenizer st = new StringTokenizer(output, "\r\n\f");
-				while (st.hasMoreTokens())
-				{
+				while (st.hasMoreTokens()) {
 					sLine = st.nextToken();
 					/*
 					 * In case of Linux 7.2 CPU states: 0.9% user, 8.6% system,
 					 * 0.0% nice, 90.3% idle
 					 */
-					if (sLine.toLowerCase().startsWith("cpu") && (sLine.indexOf("idle") != -1))
-					{
+					if (sLine.toLowerCase().startsWith("cpu") && (sLine.indexOf("idle") != -1)) {
 						final StringTokenizer line = new StringTokenizer(sLine);
 						String sPrevToken;
 						String token = null;
-						while (line.hasMoreTokens())
-						{
+						while (line.hasMoreTokens()) {
 							sPrevToken = token;
 							token = line.nextToken();
-							if (token.indexOf("idle") != -1)
-							{
+							if (token.indexOf("idle") != -1) {
 								temp = sPrevToken.substring(0, sPrevToken.length() - 1);
 								temp = temp.trim();
-								try
-								{
+								try {
 									idleCpuTime = this.nf.parse(temp).floatValue();
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									e.printStackTrace();
 									idleCpuTime = 100;
 								}
@@ -105,21 +94,15 @@ public class LinuxParserForTop_Unknown_v2 extends GenericLinuxDataParser
 					 * Mem: 512364K av, 456112K used, 56252K free, 56K shrd,
 					 * 140636K buff
 					 */
-					if (sLine.startsWith("Mem:"))
-					{
+					if (sLine.startsWith("Mem:")) {
 						final StringTokenizer line = new StringTokenizer(sLine);
-						while (line.hasMoreTokens())
-						{
+						while (line.hasMoreTokens()) {
 							temp = line.nextToken();
-							if (temp.indexOf("av,") != -1)
-							{
+							if (temp.indexOf("av,") != -1) {
 								temp = line.nextToken().trim();
-								try
-								{
+								try {
 									usedMemory = this.nf.parse(temp).intValue() / 1024;
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									usedMemory = 0;
 								}
 								temp = line.nextToken(); // Ignore as it is
@@ -127,47 +110,36 @@ public class LinuxParserForTop_Unknown_v2 extends GenericLinuxDataParser
 
 								temp = line.nextToken();
 								temp = temp.trim();
-								try
-								{
+								try {
 									freeMemory = this.nf.parse(temp).intValue() / 1024;
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									freeMemory = 0;
 								}
-								this.physicalMemInfo = new MemoryInfo((usedMemory + freeMemory), usedMemory, freeMemory);
+								this.physicalMemInfo = new MemoryInfo((usedMemory + freeMemory), usedMemory,
+										freeMemory);
 							}
 						}
 					}
-					/* Swap: 2048276K av, 0K used, 2048276K free 57100K cached */
-					if (sLine.startsWith("Swap:"))
-					{
+					/*
+					 * Swap: 2048276K av, 0K used, 2048276K free 57100K cached
+					 */
+					if (sLine.startsWith("Swap:")) {
 						final StringTokenizer line = new StringTokenizer(sLine);
-						while (line.hasMoreTokens())
-						{
+						while (line.hasMoreTokens()) {
 							temp = line.nextToken();
-							if (temp.indexOf("av,") != -1)
-							{
+							if (temp.indexOf("av,") != -1) {
 								temp = line.nextToken().trim();
-								try
-								{
+								try {
 									usedMemory = this.nf.parse(temp).intValue() / 1000;
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									usedMemory = 0;
 								}
-							}
-							else if (temp.indexOf("used,") != -1)
-							{
+							} else if (temp.indexOf("used,") != -1) {
 								temp = line.nextToken();
 								temp = temp.trim();
-								try
-								{
+								try {
 									freeMemory = this.nf.parse(temp).intValue() / 1000;
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									freeMemory = 0;
 								}
 							}
@@ -179,16 +151,12 @@ public class LinuxParserForTop_Unknown_v2 extends GenericLinuxDataParser
 					 * %CPU %MEM TIME COMMAND 29530 root 15 0 5084 5084 3580 S
 					 * 7.1 0.9 3:37 gtop
 					 */
-					if (bProcesses)
-					{
+					if (bProcesses) {
 						final StringTokenizer line = new StringTokenizer(sLine);
 						temp = line.nextToken(); // PID:
-						try
-						{
+						try {
 							iPID = this.nf.parse(temp).intValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							iPID = 0;
 						}
 						sUserName = line.nextToken(); // SKIP USER
@@ -197,17 +165,13 @@ public class LinuxParserForTop_Unknown_v2 extends GenericLinuxDataParser
 						line.nextToken(); // SKIP SIZE
 						// read RSS i.e. memory used
 						temp = line.nextToken();
-						try
-						{
+						try {
 							iProcessMemory = this.nf.parse(temp).intValue();
 							final char ch = temp.charAt(temp.length() - 1);
-							if ((ch == 'M') || (ch == 'm'))
-							{
+							if ((ch == 'M') || (ch == 'm')) {
 								iProcessMemory = iProcessMemory * 1024;
 							}
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							iProcessMemory = 0;
 						}
 
@@ -218,12 +182,9 @@ public class LinuxParserForTop_Unknown_v2 extends GenericLinuxDataParser
 						temp = line.nextToken();
 						temp = temp.trim();
 						temp = temp.substring(0, temp.length());
-						try
-						{
+						try {
 							fCpuUsage = this.nf.parse(temp).floatValue();
-						}
-						catch (final Exception e)
-						{
+						} catch (final Exception e) {
 							fCpuUsage = 0;
 						}
 
@@ -251,22 +212,16 @@ public class LinuxParserForTop_Unknown_v2 extends GenericLinuxDataParser
 					 * In case of Linux 9 PID USER PRI NI SIZE RSS SHARE STAT
 					 * %CPU %MEM TIME CPU COMMAND *
 					 */
-					if (sLine.indexOf("PID USER") != -1)
-					{
+					if (sLine.indexOf("PID USER") != -1) {
 						bProcesses = true;
-						if (this.processInfoList == null)
-						{
+						if (this.processInfoList == null) {
 							this.processInfoList = new LinkedList();
-						}
-						else
-						{
+						} else {
 							this.processInfoList.clear();
 						}
 					}
 				}
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				throw new ResultParsingException("Collect Data " + ex.getMessage(), output);
 			}
 		}

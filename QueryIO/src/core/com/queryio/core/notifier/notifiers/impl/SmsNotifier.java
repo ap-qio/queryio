@@ -32,8 +32,7 @@ import com.queryio.core.notifier.notifiers.INotifier;
  * 
  * @author Exceed Consultancy Services
  */
-public abstract class SmsNotifier implements INotifier
-{
+public abstract class SmsNotifier implements INotifier {
 	static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
 
 	private String comPort = null;
@@ -50,77 +49,56 @@ public abstract class SmsNotifier implements INotifier
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.appperfect.monitor.notifier.notifiers.INotifier#initPropertySet(com.appperfect.monitor.notifier.dstruct.PropertySet)
+	 * @see
+	 * com.appperfect.monitor.notifier.notifiers.INotifier#initPropertySet(com.
+	 * appperfect.monitor.notifier.dstruct.PropertySet)
 	 */
-	public void initPropertySet(final PropertySet propSet) throws Exception
-	{
+	public void initPropertySet(final PropertySet propSet) throws Exception {
 		LinkedList llValues = null;
 
-		if (propSet == null)
-		{
+		if (propSet == null) {
 			throw new RuntimeException(RM.getString("VALUE_NO_PROPERTIES_FOR_SMS_MSG")); //$NON-NLS-1$
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.COM_PORT);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setComPort((String) llValues.get(0));
 		}
 
 		llValues = propSet.getProperty(INotifierConstants.SENDERS_MOBILE_NO);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setSendersMobileNo((String) llValues.get(0));
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(RM.getString("VALUE_NO_SENDERS_MOBILE_NUMBER_MSG")); //$NON-NLS-1$
 		}
-		
+
 		llValues = propSet.getProperty(INotifierConstants.MOBILE_MFG);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.sMobileMfg = (String) llValues.get(0);
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException("Mobile manfacturer not set"); //$NON-NLS-1$
 		}
 		llValues = propSet.getProperty(INotifierConstants.MOBILE_MODEL);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.sMobileModel = (String) llValues.get(0);
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException("Mobile's model not set"); //$NON-NLS-1$
 		}
 		llValues = propSet.getProperty(INotifierConstants.BAUD_RATE);
-		if (llValues != null)
-		{
-			try
-			{
+		if (llValues != null) {
+			try {
 				this.baudRate = Integer.parseInt((String) llValues.get(0));
-			}
-			catch (final NumberFormatException e)
-			{
+			} catch (final NumberFormatException e) {
 				throw new RuntimeException("Baud rate should be integer, specified value: " + (String) llValues.get(0)); //$NON-NLS-1$
 			}
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException("Baud rate not set"); //$NON-NLS-1$
 		}
-		
-		
 
 		llValues = propSet.getProperty(INotifierConstants.RECIPIENTS_MOBILE_NO);
-		if (llValues != null)
-		{
+		if (llValues != null) {
 			this.setRecepientsMobileNos(llValues);
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(RM.getString("VALUE_NO_RECEPIENT_MOBILE_NUMBER_MSG")); //$NON-NLS-1$
 		}
 	}
@@ -128,13 +106,13 @@ public abstract class SmsNotifier implements INotifier
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.appperfect.monitor.notifier.notifiers.INotifier#notifyEvent(com.appperfect.monitor.notifier.common.NotificationEvent)
+	 * @see com.appperfect.monitor.notifier.notifiers.INotifier#notifyEvent(com.
+	 * appperfect.monitor.notifier.common.NotificationEvent)
 	 */
-	public String notifyEvent(final NotificationEvent event) throws Exception
-	{
+	public String notifyEvent(final NotificationEvent event) throws Exception {
 		this.setValue(event);
 		new SmsSender().sendMessage(this);
-		
+
 		return null;
 	}
 
@@ -143,8 +121,7 @@ public abstract class SmsNotifier implements INotifier
 	 * 
 	 * @param s
 	 */
-	protected final void setComPort(final String s)
-	{
+	protected final void setComPort(final String s) {
 		this.comPort = s;
 	}
 
@@ -153,8 +130,7 @@ public abstract class SmsNotifier implements INotifier
 	 * 
 	 * @return String
 	 */
-	protected final String getComPort()
-	{
+	protected final String getComPort() {
 		return this.comPort;
 	}
 
@@ -163,8 +139,7 @@ public abstract class SmsNotifier implements INotifier
 	 * 
 	 * @param sendersMobileNo
 	 */
-	protected final void setSendersMobileNo(final String sendersMobileNo)
-	{
+	protected final void setSendersMobileNo(final String sendersMobileNo) {
 		this.sSendersMobileNo = sendersMobileNo;
 	}
 
@@ -173,8 +148,7 @@ public abstract class SmsNotifier implements INotifier
 	 * 
 	 * @return String
 	 */
-	protected final String getSendersMobileNo()
-	{
+	protected final String getSendersMobileNo() {
 		return this.sSendersMobileNo;
 	}
 
@@ -183,8 +157,7 @@ public abstract class SmsNotifier implements INotifier
 	 * 
 	 * @param recepientsAddresses
 	 */
-	protected final void setRecepientsMobileNos(final LinkedList recepientsMobileNos)
-	{
+	protected final void setRecepientsMobileNos(final LinkedList recepientsMobileNos) {
 		this.llRecepientsMobileNos = recepientsMobileNos;
 	}
 
@@ -193,8 +166,7 @@ public abstract class SmsNotifier implements INotifier
 	 * 
 	 * @return LinkedList
 	 */
-	protected final LinkedList getRecepientsMobileNos()
-	{
+	protected final LinkedList getRecepientsMobileNos() {
 		return this.llRecepientsMobileNos;
 	}
 
@@ -203,8 +175,7 @@ public abstract class SmsNotifier implements INotifier
 	 * 
 	 * @param message
 	 */
-	protected final void setMessage(final String message)
-	{
+	protected final void setMessage(final String message) {
 		this.sMessage = message;
 	}
 
@@ -213,23 +184,19 @@ public abstract class SmsNotifier implements INotifier
 	 * 
 	 * @return String
 	 */
-	protected final String getMessage()
-	{
+	protected final String getMessage() {
 		return this.sMessage;
 	}
 
-	public String getMobileManufacturer() 
-	{
+	public String getMobileManufacturer() {
 		return sMobileMfg;
 	}
 
-	public String getMobileModel() 
-	{
+	public String getMobileModel() {
 		return sMobileModel;
 	}
 
-	public int getBaudRate() 
-	{
+	public int getBaudRate() {
 		return baudRate;
 	}
 }

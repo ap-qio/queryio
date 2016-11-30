@@ -23,8 +23,7 @@ import java.io.Serializable;
  * @author Exceed Consultancy Services
  * 
  */
-public class MBeanOperation implements Serializable
-{
+public class MBeanOperation implements Serializable {
 	private static final long serialVersionUID = 6296199064967717131L;
 	/*
 	 * private static String DATATYPE_STRING = "java.lang.String"; private
@@ -54,12 +53,10 @@ public class MBeanOperation implements Serializable
 	 * @param returnType
 	 * @throws Exception
 	 */
-	public MBeanOperation(final String name, final Object[] parameters, final String returnType) throws Exception
-	{
+	public MBeanOperation(final String name, final Object[] parameters, final String returnType) throws Exception {
 		this.name = name;
 		this.parameters = new MBeanParameter[parameters.length];
-		for (int i = 0; i < parameters.length; i++)
-		{
+		for (int i = 0; i < parameters.length; i++) {
 			this.parameters[i] = (MBeanParameter) parameters[i];
 		}
 		this.returnType = returnType;
@@ -73,81 +70,73 @@ public class MBeanOperation implements Serializable
 	 * @return
 	 */
 	/*
-	 * private Object getDefaultValue(String parameterDataType) throws Exception {
-	 * Object returnValue = null; if(DATATYPE_STRING.equals(parameterDataType)) {
-	 * returnValue = new String(); } else
-	 * if(DATATYPE_INT.equals(parameterDataType)) { returnValue = new
-	 * Integer(0); } else if(DATATYPE_LONG.equals(parameterDataType)) {
+	 * private Object getDefaultValue(String parameterDataType) throws Exception
+	 * { Object returnValue = null;
+	 * if(DATATYPE_STRING.equals(parameterDataType)) { returnValue = new
+	 * String(); } else if(DATATYPE_INT.equals(parameterDataType)) { returnValue
+	 * = new Integer(0); } else if(DATATYPE_LONG.equals(parameterDataType)) {
 	 * returnValue = new Long(0); } else
 	 * if(DATATYPE_FLOAT.equals(parameterDataType)) { returnValue = new
 	 * Float(0); } else if(DATATYPE_DOULBE.equals(parameterDataType)) {
 	 * returnValue = new Double(0); } else { // If the datatype is fully
 	 * qualified datatype then create a new instance of the class. //
 	 * returnValue =
-	 * ClassLoader.getSystemClassLoader().loadClass(parameterDataType).newInstance(); }
-	 * return returnValue; }
+	 * ClassLoader.getSystemClassLoader().loadClass(parameterDataType).
+	 * newInstance(); } return returnValue; }
 	 */
 	/**
 	 * @return
 	 */
-	public String getReturnType()
-	{
+	public String getReturnType() {
 		return this.returnType;
 	}
 
 	/**
 	 * @return
 	 */
-	public Object getReturnValue()
-	{
+	public Object getReturnValue() {
 		return this.returnValue;
 	}
 
 	/**
 	 * @param string
 	 */
-	public void setReturnType(final String string)
-	{
+	public void setReturnType(final String string) {
 		this.returnType = string;
 	}
 
 	/**
 	 * @param object
 	 */
-	public void setReturnValue(final Object object)
-	{
+	public void setReturnValue(final Object object) {
 		this.returnValue = object;
 	}
 
 	/**
 	 * @return
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return this.name;
 	}
 
 	/**
 	 * @param string
 	 */
-	public void setName(final String string)
-	{
+	public void setName(final String string) {
 		this.name = string;
 	}
 
 	/**
 	 * @return
 	 */
-	public MBeanParameter[] getParameters()
-	{
+	public MBeanParameter[] getParameters() {
 		return this.parameters;
 	}
 
 	/**
 	 * @param parameters
 	 */
-	public void setParameters(final MBeanParameter[] parameters)
-	{
+	public void setParameters(final MBeanParameter[] parameters) {
 		this.parameters = parameters;
 	}
 

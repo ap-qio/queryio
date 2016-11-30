@@ -31,8 +31,7 @@ import com.queryio.common.util.ResourceManager;
  * 
  * @author Exceed Consultancy Services
  */
-public class NotificationEvent implements Serializable
-{
+public class NotificationEvent implements Serializable {
 	static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
 	private static final long serialVersionUID = 752600005701000039L;
 	private final String sEventType;
@@ -47,10 +46,8 @@ public class NotificationEvent implements Serializable
 	 * @param eventType
 	 * @throws Exception
 	 */
-	public NotificationEvent(final String eventType) throws Exception
-	{
-		if (eventType == null)
-		{
+	public NotificationEvent(final String eventType) throws Exception {
+		if (eventType == null) {
 			throw new RuntimeException(RM.getString("VALUE_EVENT_TYPE_NULL_MSG")); //$NON-NLS-1$
 		}
 
@@ -65,15 +62,12 @@ public class NotificationEvent implements Serializable
 	 * @param oValue
 	 * @throws Exception
 	 */
-	public void addProperty(final String sName, final Object oValue) throws Exception
-	{
-		if (oValue == null)
-		{
+	public void addProperty(final String sName, final Object oValue) throws Exception {
+		if (oValue == null) {
 			throw new RuntimeException(RM.getString("VALUE_PROPERTY_NULL_MSG")); //$NON-NLS-1$
 		}
 
-		if (this.htProperties.containsKey(sName))
-		{
+		if (this.htProperties.containsKey(sName)) {
 			throw new RuntimeException(RM.getString("VALUE_PROPERTRY_SAME_NAME_MSG")); //$NON-NLS-1$
 		}
 		this.htProperties.put(sName, oValue);
@@ -85,14 +79,10 @@ public class NotificationEvent implements Serializable
 	 * @param sName
 	 * @throws Exception
 	 */
-	public void removeProperty(final String sName) throws Exception
-	{
-		if (this.htProperties.containsKey(sName))
-		{
+	public void removeProperty(final String sName) throws Exception {
+		if (this.htProperties.containsKey(sName)) {
 			this.htProperties.remove(sName);
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(RM.getString("VALUE_PROPERTY_DOES_NOT_EXIST_MSG")); //$NON-NLS-1$
 		}
 	}
@@ -104,20 +94,15 @@ public class NotificationEvent implements Serializable
 	 * @param oValue
 	 * @throws Exception
 	 */
-	public void setProperty(final String sName, final Object oValue) throws Exception
-	{
-		if (oValue == null)
-		{
+	public void setProperty(final String sName, final Object oValue) throws Exception {
+		if (oValue == null) {
 			throw new RuntimeException(RM.getString("VALUE_PROPERTY_NULL_MSG")); //$NON-NLS-1$
 		}
 
-		if (this.htProperties.containsKey(sName))
-		{
+		if (this.htProperties.containsKey(sName)) {
 			this.htProperties.remove(sName);
 			this.htProperties.put(sName, oValue);
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(RM.getString("VALUE_SET_PROPERTY_DOES_NOT_EXISTS_MSG")); //$NON-NLS-1$
 		}
 	}
@@ -127,13 +112,11 @@ public class NotificationEvent implements Serializable
 	 * 
 	 * @return String
 	 */
-	public final String getEventType()
-	{
+	public final String getEventType() {
 		return this.sEventType;
 	}
-	
-	public boolean containsProperty(final String sName)
-	{
+
+	public boolean containsProperty(final String sName) {
 		return this.htProperties.get(sName) != null;
 	}
 
@@ -144,11 +127,9 @@ public class NotificationEvent implements Serializable
 	 * @return Object
 	 * @throws Exception
 	 */
-	public Object getProperty(final String sName) throws Exception
-	{
+	public Object getProperty(final String sName) throws Exception {
 		final Object oValue = this.htProperties.get(sName);
-		if (oValue == null)
-		{
+		if (oValue == null) {
 			throw new RuntimeException(RM.getString("VALUE_RETRIEVE_PROPERTY_DOES_NOT_EXISTS_MSG")); //$NON-NLS-1$
 		}
 
@@ -163,10 +144,8 @@ public class NotificationEvent implements Serializable
 	 * @return Hashtable
 	 * @throws Exception
 	 */
-	public Hashtable getAllProperties(final String sName) throws Exception
-	{
-		if (this.htProperties == null)
-		{
+	public Hashtable getAllProperties(final String sName) throws Exception {
+		if (this.htProperties == null) {
 			throw new RuntimeException(RM.getString("VALUE_NO_PROPERTY")); //$NON-NLS-1$
 		}
 

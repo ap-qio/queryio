@@ -31,8 +31,7 @@ import com.queryio.common.exporter.dstruct.Point;
  * 
  * @author Exceed Consultancy Services
  */
-public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
-{
+public abstract class AppAbstractBarChart extends AppVerticalSimpleChart {
 	private static final int TICKMARK = 1;
 	private static final int TICKMARKVALUEINSET = 2;
 	private static final int DEFAULT_MAX_CHARS_ON_YAXIS = 3;
@@ -41,18 +40,15 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 	private int iMinWidthReqdDefaultFont = 0;
 	private int iMinWidthReqd8Font = 0;
 
-	public AppAbstractBarChart(final UserInterface userInterface, final int nodeType, final int productID)
-	{
+	public AppAbstractBarChart(final UserInterface userInterface, final int nodeType, final int productID) {
 		super(userInterface, nodeType, productID);
 	}
 
-	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight)
-	{
+	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight) {
 		return this.getMaxBarsAllowed(chartWidth, chartHeight, XAxisSeries.TIMEVALUES);
 	}
 
-	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight, final int typeOfXAxisData)
-	{
+	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight, final int typeOfXAxisData) {
 		return this.getMaxBarsAllowed(chartWidth, chartHeight, DEFAULT_MAX_CHARS_ON_YAXIS, typeOfXAxisData);
 	}
 
@@ -62,13 +58,12 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 	 * maximum number of bars).
 	 */
 	public int getMaxBarsAllowed(final int chartWidth, final int chartHeight, int maxCharsOnYAxis,
-			final int typeOfXAxisData)
-	{
+			final int typeOfXAxisData) {
 		int iMaxBarsDrawable = 0;
 		maxCharsOnYAxis = maxCharsOnYAxis <= 0 ? DEFAULT_MAX_CHARS_ON_YAXIS : maxCharsOnYAxis;
 
-		final UserInterface dummyUserInterface = UIGraphicsFactory.getUserInterface(this.getUserInterface()
-				.getUserInterfaceType());
+		final UserInterface dummyUserInterface = UIGraphicsFactory
+				.getUserInterface(this.getUserInterface().getUserInterfaceType());
 		dummyUserInterface.createGraphics(chartWidth, chartHeight);
 
 		this.calculateDimensions(dummyUserInterface, chartWidth, chartHeight);
@@ -89,18 +84,15 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 		return iMaxBarsDrawable;
 	}
 
-	public void initializeSeries(final int noOfYAxis, final int capacity)
-	{
+	public void initializeSeries(final int noOfYAxis, final int capacity) {
 		this.initializeSeries(noOfYAxis, capacity, XAxisSeries.TIMEVALUES);
 	}
 
-	public void initializeSeries(final int noOfYAxis, final int capacity, final int typeOfXAxisData)
-	{
+	public void initializeSeries(final int noOfYAxis, final int capacity, final int typeOfXAxisData) {
 		super.initializeSeries(noOfYAxis, capacity, typeOfXAxisData);
-		if (this.iMinWidthReqd8Font == 0)
-		{
-			final UserInterface dummyUserInterface = UIGraphicsFactory.getUserInterface(this.getUserInterface()
-					.getUserInterfaceType());
+		if (this.iMinWidthReqd8Font == 0) {
+			final UserInterface dummyUserInterface = UIGraphicsFactory
+					.getUserInterface(this.getUserInterface().getUserInterfaceType());
 			dummyUserInterface.createGraphics(200, 200);
 			this.setEachBarWidthHHMMSSVariables(dummyUserInterface, typeOfXAxisData);
 			dummyUserInterface.disposeGraphics();
@@ -108,32 +100,26 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 		}
 	}
 
-	private void setEachBarWidthHHMMSSVariables(final UserInterface chartGraphics, final int typeOfXAxisData)
-	{
+	private void setEachBarWidthHHMMSSVariables(final UserInterface chartGraphics, final int typeOfXAxisData) {
 		String maxXAxisValue = null;
-		switch (typeOfXAxisData)
-		{
-			case XAxisSeries.INTVALUES:
-			{
-				maxXAxisValue = String.valueOf(Integer.MAX_VALUE);
-				break;
-			}
-			case XAxisSeries.LONGVALUES:
-			{
-				maxXAxisValue = String.valueOf(Long.MAX_VALUE);
-				break;
-			}
-			case XAxisSeries.STRINGVALUES:
-			{
-				maxXAxisValue = XAxisStringSeries.DUMMYMAXVALUE;
-				break;
-			}
-			case XAxisSeries.TIMEVALUES: // $IGN_Use_break_for_each_case$
-			default:
-			{
-				maxXAxisValue = TimeValueFormatter.getDummyMaxTimeValue();
-				break;
-			}
+		switch (typeOfXAxisData) {
+		case XAxisSeries.INTVALUES: {
+			maxXAxisValue = String.valueOf(Integer.MAX_VALUE);
+			break;
+		}
+		case XAxisSeries.LONGVALUES: {
+			maxXAxisValue = String.valueOf(Long.MAX_VALUE);
+			break;
+		}
+		case XAxisSeries.STRINGVALUES: {
+			maxXAxisValue = XAxisStringSeries.DUMMYMAXVALUE;
+			break;
+		}
+		case XAxisSeries.TIMEVALUES: // $IGN_Use_break_for_each_case$
+		default: {
+			maxXAxisValue = TimeValueFormatter.getDummyMaxTimeValue();
+			break;
+		}
 		}
 
 		chartGraphics.setFont(this.chartProperties.getTickFont());
@@ -145,8 +131,7 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 
 	public abstract void drawSeries(UserInterface graphics);
 
-	protected void drawXAxis(final UserInterface graphics)
-	{
+	protected void drawXAxis(final UserInterface graphics) {
 		Color oldColor;
 		final XAxisSeries series = this.getXAxisSeries();
 
@@ -166,21 +151,20 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 		final String maxValue = series.getFormattedMaxValue();
 		int iTickValueWidth = graphics.stringExtent(maxValue + TICKMARKVALUEINSET).x;
 
-		if ((this.eachDataWidth < this.iMinWidthReqd8Font) && (this.eachDataWidth >= FONT_HEIGHT + TICKMARKVALUEINSET))
-		{
+		if ((this.eachDataWidth < this.iMinWidthReqd8Font)
+				&& (this.eachDataWidth >= FONT_HEIGHT + TICKMARKVALUEINSET)) {
 			iTickValueWidth = graphics.stringExtent(maxValue + TICKMARKVALUEINSET).y;
 			yCor -= iTickValueWidth;
 			this.iShiftYAxisAbove = iTickValueWidth;
-		}
-		else
-		{
+		} else {
 			this.iShiftYAxisAbove = 0;
 		}
 		this.fillArea(graphics);
 
 		// draw X-Axis line
 		LineAttributes oldLine = graphics.getLineStyle();
-		graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND, LineAttributes.LINE_STYLE_SOLID));
+		graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND,
+				LineAttributes.LINE_STYLE_SOLID));
 		graphics.drawLine(startXpx, yCor, endXpx, yCor);
 		graphics.setLineStyle(oldLine);
 
@@ -188,7 +172,8 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 		graphics.setForeground(ChartConstants.COLOR_DARK_GRAY);
 		// draw surrounding line (top most grid line, along x axis)
 		oldLine = graphics.getLineStyle();
-		graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND, LineAttributes.LINE_STYLE_SOLID));
+		graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND,
+				LineAttributes.LINE_STYLE_SOLID));
 		graphics.drawLine(startXpx, this.plotRect.y, endXpx, this.plotRect.y);
 		graphics.setLineStyle(oldLine);
 		graphics.setForeground(oldColor);
@@ -201,18 +186,17 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 		int currTickX;
 		int nextTickX;
 
-		for (int i = 0; i < series.getCapacity() + 1; i++)
-		{
+		for (int i = 0; i < series.getCapacity() + 1; i++) {
 			currTickX = startXpx + this.eachDataWidth * i;
 			nextTickX = startXpx + this.eachDataWidth * (i + 1);
 
-			if (this.isXAxisGrid())
-			{
+			if (this.isXAxisGrid()) {
 				// Draws the grid lines vertical to the X - Axis
 				oldColor = graphics.getForeground();
 				graphics.setForeground(ChartConstants.GRID_COLOR);
 				oldLine = graphics.getLineStyle();
-				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND, LineAttributes.LINE_STYLE_SOLID));
+				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND,
+						LineAttributes.LINE_STYLE_SOLID));
 				graphics.drawLine(currTickX, this.plotRect.y, currTickX, yCor);
 				graphics.setLineStyle(oldLine);
 				graphics.setForeground(oldColor);
@@ -221,30 +205,25 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 			boolean bDrawTickMark = true;
 
 			// Decide the tick value, and write in center aligned.
-			if (i != series.getCapacity())
-			{
+			if (i != series.getCapacity()) {
 				tickValueLHSx = currTickX;
-				if (tickValueLHSx < this.plotRect.x)
-				{
+				if (tickValueLHSx < this.plotRect.x) {
 					tickValueLHSx = this.plotRect.x + this.eachDataWidth * i - TICKMARK;
 				}
 
-				if (((series != null) && (series.getFormattedValue(i).equals(
-					String.valueOf(Long.MIN_VALUE)) || ((series.getFormattedValue(i).length()!=0) && (series.getFormattedValue(i).charAt(0) == '-'))))
-				||
-					((series != null) && series.getFormattedValue(i).equals(IProductConstants.EMPTY_STRING)))
-				{
+				if (((series != null) && (series.getFormattedValue(i).equals(String.valueOf(Long.MIN_VALUE))
+						|| ((series.getFormattedValue(i).length() != 0)
+								&& (series.getFormattedValue(i).charAt(0) == '-'))))
+						|| ((series != null) && series.getFormattedValue(i).equals(IProductConstants.EMPTY_STRING))) {
 
-					if ((i == 0) || (((series != null) && 
-						(series.getFormattedValue(i - 1).equals(String.valueOf(Long.MIN_VALUE)) || 
-						(series.getFormattedValue(i - 1).charAt(0) == '-'))) || 
-						((series != null) && series.getFormattedValue(i - 1).equals(IProductConstants.EMPTY_STRING))))
-					{
+					if ((i == 0) || (((series != null)
+							&& (series.getFormattedValue(i - 1).equals(String.valueOf(Long.MIN_VALUE))
+									|| (series.getFormattedValue(i - 1).charAt(0) == '-')))
+							|| ((series != null)
+									&& series.getFormattedValue(i - 1).equals(IProductConstants.EMPTY_STRING)))) {
 						bDrawTickMark = false;
 					}
-				}
-				else
-				{
+				} else {
 
 					// Draw Tick marks on the X Axis
 					strTickValue = series.getFormattedValue(i);
@@ -254,18 +233,14 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 					final float freeSpace = (nextTickX - tickValueLHSx) - point.x;
 					float leaveSpaceFromDrawX = freeSpace / 2;
 
-					if (this.eachDataWidth < this.iMinWidthReqd8Font)
-					{
-						if ((nextTickX - currTickX) >= FONT_HEIGHT + TICKMARKVALUEINSET)
-						{
+					if (this.eachDataWidth < this.iMinWidthReqd8Font) {
+						if ((nextTickX - currTickX) >= FONT_HEIGHT + TICKMARKVALUEINSET) {
 							leaveSpaceFromDrawX = ((nextTickX - tickValueLHSx) - point.y) / 2;
 							graphics.drawStringVertically(String.valueOf(strTickValue),
 									(int) (tickValueLHSx + leaveSpaceFromDrawX),
 									(int) (yCor + this.shiftXAxisAbove * 0.30f));
 						}
-					}
-					else
-					{
+					} else {
 						// if(i != 0 || !(series instanceof XAxisTimeSeries))
 						// {
 						graphics.drawString(String.valueOf(strTickValue), (int) (tickValueLHSx + leaveSpaceFromDrawX),
@@ -273,22 +248,21 @@ public abstract class AppAbstractBarChart extends AppVerticalSimpleChart
 						// }
 					}
 				}
-			}
-			else if (((series != null) && 
-				(series.getFormattedValue(series.getCapacity() - 1).equals(String.valueOf(Long.MIN_VALUE)) || 
-				(((series.getFormattedValue(i).length()!=0) && series.getFormattedValue(series.getCapacity() - 1).charAt(0) == '-'))))
-				|| ((series != null) && series.getFormattedValue(series.getCapacity() - 1).equals(IProductConstants.EMPTY_STRING)))
-			{
+			} else if (((series != null)
+					&& (series.getFormattedValue(series.getCapacity() - 1).equals(String.valueOf(Long.MIN_VALUE))
+							|| (((series.getFormattedValue(i).length() != 0)
+									&& series.getFormattedValue(series.getCapacity() - 1).charAt(0) == '-'))))
+					|| ((series != null) && series.getFormattedValue(series.getCapacity() - 1)
+							.equals(IProductConstants.EMPTY_STRING))) {
 				bDrawTickMark = false;
 			}
 
-			if (bDrawTickMark)
-			{
+			if (bDrawTickMark) {
 				// Draw tick marks on X axis.
-				if (i != 0)
-				{
+				if (i != 0) {
 					oldLine = graphics.getLineStyle();
-					graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND, LineAttributes.LINE_STYLE_SOLID));
+					graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND,
+							LineAttributes.LINE_STYLE_SOLID));
 					graphics.drawLine(currTickX, yCor, currTickX, yCor + TICK_MARK_LENGTH);
 					graphics.setLineStyle(oldLine);
 				}

@@ -16,12 +16,13 @@ import com.queryio.common.EnvironmentalConstants;
 public class StreamUtilities {
 
 	private static Logger logger = Logger.getLogger(StreamUtilities.class);
-	public static long getContentLength(HttpServletRequest request, HttpServletResponse response, long defaultValue, boolean isRequest) {
+
+	public static long getContentLength(HttpServletRequest request, HttpServletResponse response, long defaultValue,
+			boolean isRequest) {
 		String contentLength = null;
-		if(isRequest) {
+		if (isRequest) {
 			contentLength = request.getHeader(OS3Constants.CONTENT_LENGTH);
-		}
-		else {
+		} else {
 			contentLength = response.getHeader(OS3Constants.CONTENT_LENGTH);
 		}
 		if (contentLength != null) {
@@ -30,16 +31,17 @@ public class StreamUtilities {
 		return defaultValue;
 	}
 
-	public static String getRequestInformation(Map<String, Object> helperMap, HttpServletRequest request, int responseCode, String operation) {
+	public static String getRequestInformation(Map<String, Object> helperMap, HttpServletRequest request,
+			int responseCode, String operation) {
 		StringBuilder buffer = getStringBuilder(helperMap);
 		buffer.append("RequestId: ");
 		buffer.append(helperMap != null ? helperMap.get(OS3Constants.X_OS3_REQUESTID) : "");
 		buffer.append(" client: ");
 		buffer.append(request.getRemoteAddr());
-        buffer.append(" operation: ");
-        buffer.append(operation);
-        buffer.append(" response code: ");
-        buffer.append(responseCode);
+		buffer.append(" operation: ");
+		buffer.append(operation);
+		buffer.append(" response code: ");
+		buffer.append(responseCode);
 		return buffer.toString();
 	}
 
@@ -48,15 +50,16 @@ public class StreamUtilities {
 			try {
 				is.close();
 			} catch (IOException ioe1) {
-				if (logger.isDebugEnabled()) logger.debug("Failed to close input stream");
+				if (logger.isDebugEnabled())
+					logger.debug("Failed to close input stream");
 			}
 		}
 	}
 
 	public static StringBuilder getStringBuilder(Map<String, Object> helperMap) {
-		if (helperMap != null){
-			StringBuilder stringBuilder = ((StringBuilder)helperMap.get(OS3Constants.STRING_BUILDER));
-			if(stringBuilder == null) {
+		if (helperMap != null) {
+			StringBuilder stringBuilder = ((StringBuilder) helperMap.get(OS3Constants.STRING_BUILDER));
+			if (stringBuilder == null) {
 				stringBuilder = new StringBuilder();
 				helperMap.put(OS3Constants.STRING_BUILDER, stringBuilder);
 			} else {
@@ -67,81 +70,85 @@ public class StreamUtilities {
 		return new StringBuilder();
 	}
 
-	public static StreamWriteStatus writeToStream(InputStream stream, OutputStream baos, long len) throws IOException, NoSuchAlgorithmException {
+	public static StreamWriteStatus writeToStream(InputStream stream, OutputStream baos, long len)
+			throws IOException, NoSuchAlgorithmException {
 		logger.debug("Writing to stream");
 		StreamWriteStatus status = new StreamWriteStatus();
-		
+
 		OS3CheckSum ocs = new OS3CheckSum("MD5");
-			
+
 		final byte[] readBuffer = new byte[EnvironmentalConstants.getStreamBufferSize()];
 		int bytesIn = 0;
 		long readSoFar = 0;
-		while (readSoFar < len && (bytesIn = stream.read(readBuffer, 0, (int) Math.min(readBuffer.length, len - readSoFar))) != -1) {
+		while (readSoFar < len
+				&& (bytesIn = stream.read(readBuffer, 0, (int) Math.min(readBuffer.length, len - readSoFar))) != -1) {
 			baos.write(readBuffer, 0, bytesIn);
 			ocs.update(readBuffer, 0, bytesIn);
-			
+
 			readSoFar += bytesIn;
 		}
-		
+
 		status.setCheckSum(ocs.getValue());
 		status.setSize(readSoFar);
-		
+
 		logger.debug("Writing to stream...complete");
-		
+
 		return status;
 	}
 
-	public static StreamWriteStatus writeToStream(InputStream stream, OutputStream baos, long len, boolean calcCheckSum) throws IOException, NoSuchAlgorithmException {
-		
+	public static StreamWriteStatus writeToStream(InputStream stream, OutputStream baos, long len, boolean calcCheckSum)
+			throws IOException, NoSuchAlgorithmException {
+
 		StreamWriteStatus status = new StreamWriteStatus();
-		
-		if(calcCheckSum)
-		{
+
+		if (calcCheckSum) {
 			OS3CheckSum ocs = new OS3CheckSum(EnvironmentalConstants.getEncryptionType());
-			
+
 			final byte[] readBuffer = new byte[EnvironmentalConstants.getStreamBufferSize()];
 			int bytesIn = 0;
 			long readSoFar = 0;
-			while (readSoFar < len && (bytesIn = stream.read(readBuffer, 0, (int) Math.min(readBuffer.length, len - readSoFar))) != -1) {
+			while (readSoFar < len && (bytesIn = stream.read(readBuffer, 0,
+					(int) Math.min(readBuffer.length, len - readSoFar))) != -1) {
 				baos.write(readBuffer, 0, bytesIn);
-				
+
 				ocs.update(readBuffer, 0, bytesIn);
-				
+
 				readSoFar += bytesIn;
 				baos.flush();
 			}
-			
+
 			status.setCheckSum(ocs.getValue());
 			status.setSize(readSoFar);
-		}
-		else
-		{
+		} else {
 			final byte[] readBuffer = new byte[EnvironmentalConstants.getStreamBufferSize()];
 			int bytesIn = 0;
 			long readSoFar = 0;
-			while (readSoFar < len && (bytesIn = stream.read(readBuffer, 0, (int) Math.min(readBuffer.length, len - readSoFar))) != -1) {
+			while (readSoFar < len && (bytesIn = stream.read(readBuffer, 0,
+					(int) Math.min(readBuffer.length, len - readSoFar))) != -1) {
 				baos.write(readBuffer, 0, bytesIn);
-				
+
 				readSoFar += bytesIn;
 				baos.flush();
 			}
-			
+
 			status.setSize(readSoFar);
 		}
-		
+
 		return status;
 	}
-	
-	public static long writeToStream(InputStream stream, OutputStream baos, long lowerBound, long higherBound) throws IOException {
-		if(lowerBound == 0 && higherBound == 0){
+
+	public static long writeToStream(InputStream stream, OutputStream baos, long lowerBound, long higherBound)
+			throws IOException {
+		if (lowerBound == 0 && higherBound == 0) {
 			return writeToStream(stream, baos);
-		} else{
+		} else {
 			final byte[] readBuffer = new byte[EnvironmentalConstants.getStreamBufferSize()];
 			int bytesIn = 0;
 			long readSoFar = 0;
 			long len = higherBound - lowerBound + 1;
 			stream.skip(lowerBound);
-			while (readSoFar < len && (bytesIn = stream.read(readBuffer, 0, (int) Math.min(readBuffer.length, len - readSoFar))) != -1) {
+			while (readSoFar < len && (bytesIn = stream.read(readBuffer, 0,
+					(int) Math.min(readBuffer.length, len - readSoFar))) != -1) {
 				baos.write(readBuffer, 0, bytesIn);
 				readSoFar += bytesIn;
 				baos.flush();
@@ -149,17 +156,17 @@ public class StreamUtilities {
 			return readSoFar;
 		}
 	}
-	
-	public static String getStreamCheckSum(InputStream stream) throws IOException, NoSuchAlgorithmException
-	{
+
+	public static String getStreamCheckSum(InputStream stream) throws IOException, NoSuchAlgorithmException {
 		OS3CheckSum ocs = new OS3CheckSum(EnvironmentalConstants.getEncryptionType());
-		
+
 		final byte[] readBuffer = new byte[EnvironmentalConstants.getStreamBufferSize()];
 		int bytesIn = 0;
 		while ((bytesIn = stream.read(readBuffer)) != -1) {
-			if(ocs!=null)	ocs.update(readBuffer, 0, bytesIn);
+			if (ocs != null)
+				ocs.update(readBuffer, 0, bytesIn);
 		}
-		
+
 		return ocs.getValue();
 	}
 
@@ -167,7 +174,7 @@ public class StreamUtilities {
 		final byte[] readBuffer = new byte[EnvironmentalConstants.getStreamBufferSize()];
 		int bytesIn = 0;
 		long readSoFar = 0;
-		while((bytesIn = stream.read(readBuffer, 0, readBuffer.length)) != -1) {
+		while ((bytesIn = stream.read(readBuffer, 0, readBuffer.length)) != -1) {
 			baos.write(readBuffer, 0, bytesIn);
 			readSoFar += bytesIn;
 			baos.flush();
@@ -179,18 +186,18 @@ public class StreamUtilities {
 		final byte[] readBuffer = new byte[EnvironmentalConstants.getStreamBufferSize()];
 		int bytesIn = 0;
 		long readSoFar = 0;
-		while((bytesIn = stream.read(readBuffer, 0, readBuffer.length)) != -1) {
+		while ((bytesIn = stream.read(readBuffer, 0, readBuffer.length)) != -1) {
 			readSoFar += bytesIn;
 		}
 		return readSoFar;
 	}
-	
+
 	public static String[] splitPathInfo(HttpServletRequest request) {
 		String pathInfo = request.getPathInfo();
-		if(pathInfo.startsWith("/")){
+		if (pathInfo.startsWith("/")) {
 			pathInfo = pathInfo.substring(1, pathInfo.length());
 		}
-		if(pathInfo.isEmpty()){
+		if (pathInfo.isEmpty()) {
 			return null;
 		}
 		return pathInfo.split("/");

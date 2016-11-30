@@ -25,8 +25,7 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class Group extends ExportableItem
-{
+public class Group extends ExportableItem {
 	private String sHeading;
 	private IExportableItem[] items;
 
@@ -38,8 +37,7 @@ public class Group extends ExportableItem
 	 * @param width
 	 * @param height
 	 */
-	public Group(final int left, final int top, final int width, final int height)
-	{
+	public Group(final int left, final int top, final int width, final int height) {
 		this(left, top, width, height, null, null);
 	}
 
@@ -54,8 +52,7 @@ public class Group extends ExportableItem
 	 * @param items
 	 */
 	public Group(final int left, final int top, final int width, final int height, final String heading,
-			final IExportableItem[] items)
-	{
+			final IExportableItem[] items) {
 		super(left, top, width, height);
 		this.sHeading = heading;
 		this.items = items;
@@ -66,8 +63,7 @@ public class Group extends ExportableItem
 	 * 
 	 * @see com.queryio.sysmoncommon.exporter.dstruct.IExportableItem#getType()
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return ExportConstants.ITEM_TYPE_GROUP;
 	}
 
@@ -76,8 +72,7 @@ public class Group extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final String getHeading()
-	{
+	public final String getHeading() {
 		return this.sHeading;
 	}
 
@@ -86,8 +81,7 @@ public class Group extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final IExportableItem[] getItems()
-	{
+	public final IExportableItem[] getItems() {
 		return this.items;
 	}
 
@@ -96,8 +90,7 @@ public class Group extends ExportableItem
 	 * 
 	 * @param s
 	 */
-	public void setHeading(final String s)
-	{
+	public void setHeading(final String s) {
 		this.sHeading = s;
 	}
 
@@ -106,8 +99,7 @@ public class Group extends ExportableItem
 	 * 
 	 * @param items
 	 */
-	public void setItems(final IExportableItem[] items)
-	{
+	public void setItems(final IExportableItem[] items) {
 		this.items = items;
 	}
 }

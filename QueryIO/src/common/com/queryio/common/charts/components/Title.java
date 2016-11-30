@@ -30,8 +30,7 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public final class Title
-{
+public final class Title {
 	public static final int ORIENTATION_HORIZONTAL = 0;
 
 	public static final int ORIENTATION_VERTICAL = 1;
@@ -50,13 +49,11 @@ public final class Title
 
 	private Object[] args = null;
 
-	public Title()
-	{
+	public Title() {
 		this(IProductConstants.EMPTY_STRING);
 	}
 
-	public Title(final String text)
-	{
+	public Title(final String text) {
 		this.text = text;
 	}
 
@@ -65,8 +62,7 @@ public final class Title
 	 * 
 	 * @return
 	 */
-	public final Color getBackgroundColor()
-	{
+	public final Color getBackgroundColor() {
 		return this.backgroundColor;
 	}
 
@@ -75,8 +71,7 @@ public final class Title
 	 * 
 	 * @return
 	 */
-	public final Font getFont()
-	{
+	public final Font getFont() {
 		return this.font;
 	}
 
@@ -85,8 +80,7 @@ public final class Title
 	 * 
 	 * @return
 	 */
-	public final int getOrientation()
-	{
+	public final int getOrientation() {
 		return this.orientation;
 	}
 
@@ -95,8 +89,7 @@ public final class Title
 	 * 
 	 * @return
 	 */
-	public final String getText()
-	{
+	public final String getText() {
 		return this.args == null ? this.text : MessageFormat.format(this.text, this.args);
 	}
 
@@ -105,8 +98,7 @@ public final class Title
 	 * 
 	 * @return
 	 */
-	public final Color getTextColor()
-	{
+	public final Color getTextColor() {
 		return this.textColor;
 	}
 
@@ -115,8 +107,7 @@ public final class Title
 	 * 
 	 * @return
 	 */
-	public final boolean isTitle()
-	{
+	public final boolean isTitle() {
 		return this.showTitle;
 	}
 
@@ -125,8 +116,7 @@ public final class Title
 	 * 
 	 * @param color
 	 */
-	public void setBackgroundColor(final Color color)
-	{
+	public void setBackgroundColor(final Color color) {
 		this.backgroundColor = color;
 	}
 
@@ -135,8 +125,7 @@ public final class Title
 	 * 
 	 * @param string
 	 */
-	public void setFont(final Font fnt)
-	{
+	public void setFont(final Font fnt) {
 		this.font = fnt;
 		this.maxHeight = -1;
 	}
@@ -146,8 +135,7 @@ public final class Title
 	 * 
 	 * @param i
 	 */
-	public void setOrientation(final int i)
-	{
+	public void setOrientation(final int i) {
 		this.orientation = i;
 	}
 
@@ -156,8 +144,7 @@ public final class Title
 	 * 
 	 * @param string
 	 */
-	public void setText(final String string)
-	{
+	public void setText(final String string) {
 		this.text = string;
 	}
 
@@ -166,8 +153,7 @@ public final class Title
 	 * 
 	 * @param color
 	 */
-	public void setTextColor(final Color color)
-	{
+	public void setTextColor(final Color color) {
 		this.textColor = color;
 	}
 
@@ -176,17 +162,14 @@ public final class Title
 	 * 
 	 * @param title
 	 */
-	public void showTitle(final boolean title)
-	{
+	public void showTitle(final boolean title) {
 		this.showTitle = title;
 	}
 
 	private int maxHeight = -1;
 
-	public int getMaxHeight(final UserInterface userInterface)
-	{
-		if (this.maxHeight == -1)
-		{
+	public int getMaxHeight(final UserInterface userInterface) {
+		if (this.maxHeight == -1) {
 			final Font oldFont = userInterface.getFont();
 			userInterface.setFont(this.font);
 			this.maxHeight = userInterface.getFontHeight() + 2;
@@ -195,8 +178,7 @@ public final class Title
 		return this.maxHeight;
 	}
 
-	public final void draw(final UserInterface graphics, final double angle)
-	{
+	public final void draw(final UserInterface graphics, final double angle) {
 		final Rectangle r = graphics.getClipping();
 		final String title = this.getText();
 		graphics.setFont(this.font);
@@ -207,40 +189,31 @@ public final class Title
 		final int height = point.y;
 		int x;
 		int y;
-		if (this.orientation == ORIENTATION_VERTICAL)
-		{
+		if (this.orientation == ORIENTATION_VERTICAL) {
 			x = r.x + (r.width - height) / 2;
 			y = r.y + (r.height - width) / 2;
-		}
-		else
-		{
+		} else {
 			x = r.x + (r.width - width) / 2;
 			y = r.y + (r.height - height) / 2;
 		}
 		Color bgColor = null;
-		if (this.backgroundColor != null)
-		{
+		if (this.backgroundColor != null) {
 			bgColor = graphics.getBackground();
 			graphics.setBackground(this.backgroundColor);
-			//graphics.fillRectangle(x, x + width, y, y + height);
+			// graphics.fillRectangle(x, x + width, y, y + height);
 		}
 		graphics.setForeground(this.textColor);
-		if (this.orientation == ORIENTATION_VERTICAL)
-		{
+		if (this.orientation == ORIENTATION_VERTICAL) {
 			graphics.drawStringVertically(title, x, y);
-		}
-		else
-		{
+		} else {
 			graphics.drawString(title, x, y, true);
 		}
-		if (this.backgroundColor != null)
-		{
+		if (this.backgroundColor != null) {
 			graphics.setBackground(bgColor);
 		}
 	}
 
-	public final void setArguments(final String[] args)
-	{
+	public final void setArguments(final String[] args) {
 		this.args = args;
 	}
 }

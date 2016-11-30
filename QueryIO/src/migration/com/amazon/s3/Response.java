@@ -13,13 +13,13 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 
 /**
- * The parent class of all other Responses.  This class keeps track of the
+ * The parent class of all other Responses. This class keeps track of the
  * HttpURLConnection response.
  */
 public class Response {
-    public HttpURLConnection connection;
+	public HttpURLConnection connection;
 
-    public Response(HttpURLConnection connection) throws IOException {
-        this.connection = connection;
-    }
+	public Response(HttpURLConnection connection) throws IOException {
+		this.connection = connection;
+	}
 }

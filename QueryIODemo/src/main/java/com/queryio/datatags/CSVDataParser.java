@@ -25,60 +25,59 @@ import com.queryio.plugin.datatags.UserDefinedTag;
 
 public class CSVDataParser extends AbstractDataTagParser {
 	HashMap<String, String> curValueMap = new HashMap<String, String>();
-	
+
 	Map<Integer, String> columns;
-	
+
 	JSONObject parsingDetailsJSON;
-	
+
 	private String delimiter;
 	private String valueSeparator;
-	private boolean hasHeader = false;			// Default
-	private String encoding = "UTF-8";			// Default
-	private boolean skipAll = false;			// Default
+	private boolean hasHeader = false; // Default
+	private String encoding = "UTF-8"; // Default
+	private boolean skipAll = false; // Default
 	private String pattern = null;
 
-	
-	private boolean isGlobalOperator = false;			// Default
-	
+	private boolean isGlobalOperator = false; // Default
+
 	public CSVDataParser(JSONObject tagsIInfo, Map<String, String> coreTags) {
-		
-		super(tagsIInfo, coreTags, true);			// for logical
-		
+
+		super(tagsIInfo, coreTags, true); // for logical
+
 		if (tagsIInfo == null)
 			return;
-		
+
 		JSONArray fieldsJSON = (JSONArray) tagsIInfo.get(FIELDS_KEY);
-		
+
 		columns = new HashMap<Integer, String>();
-		
-		if (fieldsJSON == null)
-		{
+
+		if (fieldsJSON == null) {
 			isGlobalOperator = true;
 			return;
 		}
-		
+
 		for (int i = 0; i < fieldsJSON.size(); i++) {
 			JSONObject field = (JSONObject) fieldsJSON.get(i);
-			columns.put(Integer.parseInt(String.valueOf(field.get(COL_INDEX_KEY))), String.valueOf(field.get(COL_NAME_KEY)).toUpperCase());
+			columns.put(Integer.parseInt(String.valueOf(field.get(COL_INDEX_KEY))),
+					String.valueOf(field.get(COL_NAME_KEY)).toUpperCase());
 		}
-		
+
 		JSONObject parsingDetailsJSON = (JSONObject) tagsIInfo.get(PARSE_DETAILS_KEY);
-		
+
 		delimiter = String.valueOf(parsingDetailsJSON.get(DELIMITER_KEY));
-        valueSeparator = String.valueOf(parsingDetailsJSON.get(VALUE_SEPERATOR_KEY));
-        hasHeader = Boolean.parseBoolean(String.valueOf(parsingDetailsJSON.get(HAS_HEADER_KEY)));
-        encoding = String.valueOf(parsingDetailsJSON.get(ENCODING_KEY));
-        skipAll = Boolean.parseBoolean(String.valueOf(parsingDetailsJSON.get(ERROR_ACTION_KEY)));
+		valueSeparator = String.valueOf(parsingDetailsJSON.get(VALUE_SEPERATOR_KEY));
+		hasHeader = Boolean.parseBoolean(String.valueOf(parsingDetailsJSON.get(HAS_HEADER_KEY)));
+		encoding = String.valueOf(parsingDetailsJSON.get(ENCODING_KEY));
+		skipAll = Boolean.parseBoolean(String.valueOf(parsingDetailsJSON.get(ERROR_ACTION_KEY)));
 		pattern = getPattern(delimiter, valueSeparator);
 
 	}
 
 	@Override
 	public void parseStream(InputStream is, String fileExtension) throws Exception {
-		
+
 		if (tagsJSON == null)
 			return;
-		
+
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is, encoding));
 		String str = null;
 
@@ -107,39 +106,41 @@ public class CSVDataParser extends AbstractDataTagParser {
 		else
 			return "\"([^" + delimiter + "]*)\"|([^" + delimiter + "]+)";
 	}
-	
-	public void parseLine(String line, String pattern, boolean isRecordLevel) throws IOException, InterruptedException, SQLException{
-		if(columns!=null){
+
+	public void parseLine(String line, String pattern, boolean isRecordLevel)
+			throws IOException, InterruptedException, SQLException {
+		if (columns != null) {
 			if (coreTags != null) {
 				Iterator<String> it = coreTags.keySet().iterator();
-				while (it.hasNext())
-				{
+				while (it.hasNext()) {
 					String key = it.next();
 					curValueMap.put(key, coreTags.get(key));
-//					curValueMap.put(this.columns.get(0), coreTags.get("FILEPATH"));			// For FILEPATH
+					// curValueMap.put(this.columns.get(0),
+					// coreTags.get("FILEPATH")); // For FILEPATH
 				}
 			}
-			
+
 			Matcher m = Pattern.compile(pattern).matcher(line);
-	        int index = 0;			// There is no FILEPATH field, so starting it with 0 for proper functioning.
+			int index = 0; // There is no FILEPATH field, so starting it with 0
+							// for proper functioning.
 			while (m.find()) {
-	            if (m.group(1) != null) {
-	            	if(this.columns.get(index)!=null) {
-	            		curValueMap.put(this.columns.get(index), m.group(1));
-	            	}
-	            } else {
-	            	if(this.columns.get(index)!=null) {
-	            		curValueMap.put(this.columns.get(index), m.group(2));
-	            	}
-	            }
-	            index++;
-	        }
-			
+				if (m.group(1) != null) {
+					if (this.columns.get(index) != null) {
+						curValueMap.put(this.columns.get(index), m.group(1));
+					}
+				} else {
+					if (this.columns.get(index) != null) {
+						curValueMap.put(this.columns.get(index), m.group(2));
+					}
+				}
+				index++;
+			}
+
 			if (isRecordLevel)
 				evaluateRecordEntry(curValueMap, line);
 			else
 				evaluateCurrentEntry(curValueMap, line);
-		} 
+		}
 	}
 
 	@Override
@@ -159,24 +160,22 @@ public class CSVDataParser extends AbstractDataTagParser {
 	}
 
 	@Override
-	public void parse(Reader reader, TableMetadata tableMetadata,
-			Metadata metadata) throws Exception {
+	public void parse(Reader reader, TableMetadata tableMetadata, Metadata metadata) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public boolean parseMapRecord(String value, long offset)
-			throws Exception {
+	public boolean parseMapRecord(String value, long offset) throws Exception {
 		if (hasHeader && offset == 0) {
 			return false;
-		}	
+		}
 		if (isGlobalOperator)
 			evaluateRecordEntry(curValueMap, value);
 		else
 			this.parseLine(value, pattern, true);
-		
+
 		return true;
-		
+
 	}
 }

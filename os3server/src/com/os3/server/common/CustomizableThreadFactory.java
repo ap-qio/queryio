@@ -15,13 +15,14 @@ public class CustomizableThreadFactory implements ThreadFactory {
 
 	public CustomizableThreadFactory(boolean daemon, String threadNamePrefix) {
 		this.daemon = daemon;
-		//setThreadNamePrefix(threadNamePrefix);
+		// setThreadNamePrefix(threadNamePrefix);
 		this.threadNamePrefix = threadNamePrefix == null ? "Thread-" : threadNamePrefix;
 	}
 
 	public Thread newThread(Runnable runnable) {
-		Thread thread = threadGroup != null ? new Thread(threadGroup, runnable, threadNamePrefix + threadNumber.getAndIncrement()) : new Thread(runnable, threadNamePrefix
-				+ threadNumber.getAndIncrement());
+		Thread thread = threadGroup != null
+				? new Thread(threadGroup, runnable, threadNamePrefix + threadNumber.getAndIncrement())
+				: new Thread(runnable, threadNamePrefix + threadNumber.getAndIncrement());
 		thread.setDaemon(daemon);
 		return thread;
 	}

@@ -17,9 +17,7 @@
  */
 package com.queryio.sysmoncommon.sysmon.parser;
 
-public class LinuxRHD_9_Top_Unknown_v1_Parser extends LinuxParserForTop_Unknown_v1
-{
-	public LinuxRHD_9_Top_Unknown_v1_Parser()
-	{
+public class LinuxRHD_9_Top_Unknown_v1_Parser extends LinuxParserForTop_Unknown_v1 {
+	public LinuxRHD_9_Top_Unknown_v1_Parser() {
 	}
 }

@@ -99,7 +99,7 @@ public class AsyncRequestProcessor implements Runnable {
 			}
 
 		} else if (token.contains("/hive")) {
-				operation = OS3Constants.OPERATION_ADD_HIVE;
+			operation = OS3Constants.OPERATION_ADD_HIVE;
 		} else {
 			if (request.getHeader(OS3Constants.USERNAME) != null) {
 				operation = OS3Constants.OPERATION_LOGIN;

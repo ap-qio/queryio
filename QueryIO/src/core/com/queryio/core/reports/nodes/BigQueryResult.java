@@ -18,7 +18,7 @@ import com.queryio.core.customtags.BigQueryIdentifiers;
 import com.queryio.core.customtags.CustomTagsManager;
 import com.queryio.core.dao.NodeDAO;
 
-public class BigQueryResult extends AbstractExportableNode{
+public class BigQueryResult extends AbstractExportableNode {
 	/**
 	 * 
 	 */
@@ -28,33 +28,35 @@ public class BigQueryResult extends AbstractExportableNode{
 	private int records;
 	private String connectionPool = "";
 	JSONObject properties;
-	
-	public BigQueryResult(String namenodeId, String exportedFileName, String query, int records) throws Exception{
+
+	public BigQueryResult(String namenodeId, String exportedFileName, String query, int records) throws Exception {
 		super("Big Query Result", 0, "Big Query Result", exportedFileName, "Big Query Result");
 		Connection connection = null;
-		try{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 			this.connectionPool = NodeDAO.getDBNameForNameNodeMapping(connection, namenodeId);
-		}finally{
+		} finally {
 			CoreDBManager.closeConnection(connection);
-		}		 
+		}
 		this.query = query;
 		this.records = records;
 		this.setFilePath(EnvironmentalConstants.getReportsDirectory());
 	}
+
 	public BigQueryResult(String exportedFileName, JSONObject properties, int records) {
 		super("Big Query Result", 0, "Big Query Result", exportedFileName, "Big Query Result");
-		
+
 		this.query = (String) properties.get(BigQueryIdentifiers.SQLQUERY);
 		this.properties = properties;
-		
+
 		this.records = records;
 		this.setFilePath(EnvironmentalConstants.getReportsDirectory());
 	}
+
 	@Override
 	public IExportableItem[] getItems() {
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MM-dd hh:mm a");
-		
+
 		TableModel tableModel = null;
 		try {
 			tableModel = CustomTagsManager.getBigQueryResultTableModel(connectionPool, query, records, properties);
@@ -62,20 +64,18 @@ public class BigQueryResult extends AbstractExportableNode{
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 		}
 		int colCount = tableModel.getColumnCount();
-		int width = 100/colCount;
+		int width = 100 / colCount;
 		int[] colWidths = new int[colCount];
-		for(int i=0; i<colWidths.length; i++){
+		for (int i = 0; i < colWidths.length; i++) {
 			colWidths[i] = width;
 		}
-		
-		IExportableItem[] items = new IExportableItem[]
-			{
+
+		IExportableItem[] items = new IExportableItem[] {
 				new Label(0, 0, 100, 20, " Generated On: " + sdf.format(new java.util.Date())),
 				new Label(0, 0, 100, 20, " " + query),
-				new Label(0,0,100,20, " " + this.properties.get(BigQueryIdentifiers.QUERYHEADER)),
+				new Label(0, 0, 100, 20, " " + this.properties.get(BigQueryIdentifiers.QUERYHEADER)),
 				new Table(0, 0, 99, 50, tableModel, colWidths, "Big Query Result"),
-				new Label(0,0,100,20, " " + this.properties.get(BigQueryIdentifiers.QUERYFOOTER)),
-			};
+				new Label(0, 0, 100, 20, " " + this.properties.get(BigQueryIdentifiers.QUERYFOOTER)), };
 		return items;
 	}
 
@@ -83,7 +83,8 @@ public class BigQueryResult extends AbstractExportableNode{
 	public String getHeaderText() {
 		return this.title;
 	}
-	public void setTitle(String title){
-		this.title=title;
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

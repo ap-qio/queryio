@@ -25,8 +25,7 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class TabFolder extends ExportableItem
-{
+public class TabFolder extends ExportableItem {
 	private final String id;
 	private final String[] tabNames;
 	private final IExportableItem[][] items;
@@ -43,8 +42,7 @@ public class TabFolder extends ExportableItem
 	 * @param items
 	 */
 	public TabFolder(final int left, final int top, final int width, final int height, final String id,
-			final String[] tabNames, final IExportableItem[][] items)
-	{
+			final String[] tabNames, final IExportableItem[][] items) {
 		super(left, top, width, height);
 		this.id = id;
 		this.tabNames = tabNames;
@@ -56,8 +54,7 @@ public class TabFolder extends ExportableItem
 	 * 
 	 * @see com.queryio.sysmoncommon.exporter.dstruct.IExportableItem#getType()
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return ExportConstants.ITEM_TYPE_TABFOLDER;
 	}
 
@@ -66,8 +63,7 @@ public class TabFolder extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final String getId()
-	{
+	public final String getId() {
 		return this.id;
 	}
 
@@ -76,8 +72,7 @@ public class TabFolder extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final String[] getTabNames()
-	{
+	public final String[] getTabNames() {
 		return this.tabNames;
 	}
 
@@ -86,8 +81,7 @@ public class TabFolder extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final IExportableItem[][] getItems()
-	{
+	public final IExportableItem[][] getItems() {
 		return this.items;
 	}
 }

@@ -27,14 +27,12 @@ import com.queryio.common.util.ResourceManager;
  * 
  * @author Exceed Consultancy Services
  */
-public class AppPieChartTableModel extends DefaultTableModel
-{
+public class AppPieChartTableModel extends DefaultTableModel {
 	private static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_CommonUI"); //$NON-NLS-1$
 	private static final long serialVersionUID = 752600005701000029L;
 	private String[][] tableValues;
 
-	public AppPieChartTableModel(final AppPieChart chart)
-	{
+	public AppPieChartTableModel(final AppPieChart chart) {
 		this.addColumns();
 		this.populateValues(chart);
 	}
@@ -45,8 +43,7 @@ public class AppPieChartTableModel extends DefaultTableModel
 	 * @param chart
 	 *            The chart whose data is being represented in table form.
 	 */
-	private void populateValues(final AppPieChart chart)
-	{
+	private void populateValues(final AppPieChart chart) {
 		this.tableValues = chart.getTableValues();
 	}
 
@@ -56,19 +53,16 @@ public class AppPieChartTableModel extends DefaultTableModel
 	 * @param chart
 	 *            The chart whose data is being represented in table form.
 	 */
-	private void addColumns()
-	{
+	private void addColumns() {
 		this.addColumn(RM.getString("COL_LEGEND"));
 		this.addColumn(RM.getString("COL_PERCENTAGE"));
 	}
 
-	public int getRowCount()
-	{
+	public int getRowCount() {
 		return this.tableValues != null ? this.tableValues.length : 0;
 	}
 
-	public Object getValueAt(final int row, final int column)
-	{
+	public Object getValueAt(final int row, final int column) {
 		return this.tableValues[row][column];
 	}
 }

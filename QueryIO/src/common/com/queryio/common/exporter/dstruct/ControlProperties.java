@@ -14,31 +14,30 @@ import com.queryio.common.util.ResourceManager;
  * @author manoj
  * 
  */
-public class ControlProperties implements Serializable
-{
+public class ControlProperties implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8019425593504191656L;
 
 	static final transient ResourceManager RM = CommonResourceManager.loadResources("Common_UICommon"); //$NON-NLS-1$
-	
+
 	public static final int DEFAULT_SIZE = 10;
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 15;
 	public static final int MIN_HEIGHT = 10;
-	public static final String[] HORZ_ALIGNMENTS = new String[] { "Left", //$NON-NLS-1$ 
+	public static final String[] HORZ_ALIGNMENTS = new String[] { "Left", //$NON-NLS-1$
 			"Center", //$NON-NLS-1$
 			"Right", //$NON-NLS-1$
 			"Justify" }; //$NON-NLS-1$
-	public static final String[] VERT_ALIGNMENTS = new String[] { "Top", //$NON-NLS-1$ 
+	public static final String[] VERT_ALIGNMENTS = new String[] { "Top", //$NON-NLS-1$
 			"Middle", //$NON-NLS-1$
 			"Bottom" }; //$NON-NLS-1$
-	public static final String[] FONT_STYLES = new String[] { "Regular", //$NON-NLS-1$ 
+	public static final String[] FONT_STYLES = new String[] { "Regular", //$NON-NLS-1$
 			"Italic", //$NON-NLS-1$
 			"Bold", //$NON-NLS-1$
 			"Bold Italic" }; //$NON-NLS-1$
-	public static final String[] FONT_SIZES = new String[] { "8", //$NON-NLS-1$ 
+	public static final String[] FONT_SIZES = new String[] { "8", //$NON-NLS-1$
 			"9", //$NON-NLS-1$
 			"10", //$NON-NLS-1$
 			"11", //$NON-NLS-1$
@@ -47,7 +46,7 @@ public class ControlProperties implements Serializable
 			"16", //$NON-NLS-1$
 			"18", //$NON-NLS-1$
 			"20", //$NON-NLS-1$
-			"22" }; //$NON-NLS-1$	
+			"22" }; //$NON-NLS-1$
 
 	protected boolean bCustomized;
 	protected String sFontName;
@@ -78,18 +77,15 @@ public class ControlProperties implements Serializable
 	protected int xVal = Integer.MAX_VALUE;
 	protected int yVal = Integer.MAX_VALUE;
 
-	public int getSection()
-	{
+	public int getSection() {
 		return this.iSection;
 	}
 
-	public void setSection(final int iSection)
-	{
+	public void setSection(final int iSection) {
 		this.iSection = iSection;
 	}
 
-	public void setProperties(final ControlProperties control)
-	{
+	public void setProperties(final ControlProperties control) {
 		this.sFontName = control.sFontName;
 		this.iSize = control.iSize;
 		this.bBold = control.bBold;
@@ -121,8 +117,7 @@ public class ControlProperties implements Serializable
 	 * Default Constructor of the class CommonProperties(CommonProperties.java)
 	 * 
 	 */
-	public ControlProperties()
-	{
+	public ControlProperties() {
 		this.sFontName = "Arial"; //$NON-NLS-1$
 		this.iSize = DEFAULT_SIZE;
 		this.bBold = false;
@@ -150,20 +145,20 @@ public class ControlProperties implements Serializable
 	 * Constructor of the class Control(Control.java)
 	 * 
 	 */
-	public ControlProperties(final ControlProperties control)
-	{
+	public ControlProperties(final ControlProperties control) {
 		this.setProperties(control);
 	}
 
 	/*
 	 * public void setSectionProperties(int iSection) { this.iSection =
-	 * iSection; DefaultProperties defProps = DEFAULT_PROPERTIES; if (defProps !=
-	 * null && iSection != -1) { DefaultZoneProperties defZoneProps =
-	 * defProps.getDefPropsForZone(IReportDesigner.REPORT_SECTIONS_DISPLAY_STRINGS[iSection]);
-	 * sFontName = defZoneProps.getFontName(); iSize =
-	 * defZoneProps.getFontSize(); bBold = defZoneProps.isBold(); bItalic =
-	 * defZoneProps.isItalic(); bUnderline = defZoneProps.isUnderline();
-	 * bStrikeThrough = defZoneProps.isStrikeThrough();
+	 * iSection; DefaultProperties defProps = DEFAULT_PROPERTIES; if (defProps
+	 * != null && iSection != -1) { DefaultZoneProperties defZoneProps =
+	 * defProps.getDefPropsForZone(IReportDesigner.
+	 * REPORT_SECTIONS_DISPLAY_STRINGS[iSection]); sFontName =
+	 * defZoneProps.getFontName(); iSize = defZoneProps.getFontSize(); bBold =
+	 * defZoneProps.isBold(); bItalic = defZoneProps.isItalic(); bUnderline =
+	 * defZoneProps.isUnderline(); bStrikeThrough =
+	 * defZoneProps.isStrikeThrough();
 	 * 
 	 * foreColor = defZoneProps.getForeColor(); bTransparent =
 	 * defZoneProps.isTransparent(); backColor = defZoneProps.getBackColor();
@@ -179,13 +174,14 @@ public class ControlProperties implements Serializable
 	 * DEFAULT_HEIGHT; bCustomized = false; } }
 	 * 
 	 * public ControlProperties(int iSection) { this(); this.iSection =
-	 * iSection; DefaultProperties defProps = DEFAULT_PROPERTIES; if (defProps !=
-	 * null && iSection != -1) { DefaultZoneProperties defZoneProps =
-	 * defProps.getDefPropsForZone(IReportDesigner.REPORT_SECTIONS_DISPLAY_STRINGS[iSection]);
-	 * sFontName = defZoneProps.getFontName(); iSize =
-	 * defZoneProps.getFontSize(); bBold = defZoneProps.isBold(); bItalic =
-	 * defZoneProps.isItalic(); bUnderline = defZoneProps.isUnderline();
-	 * bStrikeThrough = defZoneProps.isStrikeThrough();
+	 * iSection; DefaultProperties defProps = DEFAULT_PROPERTIES; if (defProps
+	 * != null && iSection != -1) { DefaultZoneProperties defZoneProps =
+	 * defProps.getDefPropsForZone(IReportDesigner.
+	 * REPORT_SECTIONS_DISPLAY_STRINGS[iSection]); sFontName =
+	 * defZoneProps.getFontName(); iSize = defZoneProps.getFontSize(); bBold =
+	 * defZoneProps.isBold(); bItalic = defZoneProps.isItalic(); bUnderline =
+	 * defZoneProps.isUnderline(); bStrikeThrough =
+	 * defZoneProps.isStrikeThrough();
 	 * 
 	 * foreColor = defZoneProps.getForeColor(); bTransparent =
 	 * defZoneProps.isTransparent(); backColor = defZoneProps.getBackColor();
@@ -221,49 +217,38 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @param sProperties
 	 */
-	public void setControlProperties(final String sProperties)
-	{
+	public void setControlProperties(final String sProperties) {
 		final StringTokenizer strTok = new StringTokenizer(sProperties, "|"); //$NON-NLS-1$
 		this.sFontName = strTok.nextToken();
 		if (strTok.nextToken().equals("true")) //$NON-NLS-1$
 		{
 			this.bBold = true;
-		}
-		else
-		{
+		} else {
 			this.bBold = false;
 		}
 		if (strTok.nextToken().equals("true")) //$NON-NLS-1$
 		{
 			this.bItalic = true;
-		}
-		else
-		{
+		} else {
 			this.bItalic = false;
 		}
 		this.iSize = Integer.parseInt(strTok.nextToken());
 		if (strTok.nextToken().equals("true")) //$NON-NLS-1$
 		{
 			this.bUnderline = true;
-		}
-		else
-		{
+		} else {
 			this.bUnderline = false;
 		}
 		if (strTok.nextToken().equals("true")) //$NON-NLS-1$
 		{
 			this.bStrikeThrough = true;
-		}
-		else
-		{
+		} else {
 			this.bStrikeThrough = false;
 		}
 		if (strTok.nextToken().equals("true")) //$NON-NLS-1$
 		{
 			this.bTransparent = true;
-		}
-		else
-		{
+		} else {
 			this.bTransparent = false;
 		}
 
@@ -273,34 +258,22 @@ public class ControlProperties implements Serializable
 		// bHorizontalAlignment = Byte.parseByte(strTok.nextToken());
 		// bVerticalAlignment = Byte.parseByte(strTok.nextToken());
 		final String sHorizAlign = strTok.nextToken();
-		if (HORZ_ALIGNMENTS[0].equals(sHorizAlign))
-		{
+		if (HORZ_ALIGNMENTS[0].equals(sHorizAlign)) {
 			this.bHorizontalAlignment = 1;// HORIZONTAL_ALIGN_LEFT;
-		}
-		else if (HORZ_ALIGNMENTS[1].equals(sHorizAlign))
-		{
+		} else if (HORZ_ALIGNMENTS[1].equals(sHorizAlign)) {
 			this.bHorizontalAlignment = 2;// HORIZONTAL_ALIGN_CENTER;
-		}
-		else if (HORZ_ALIGNMENTS[2].equals(sHorizAlign))
-		{
+		} else if (HORZ_ALIGNMENTS[2].equals(sHorizAlign)) {
 			this.bHorizontalAlignment = 3;// HORIZONTAL_ALIGN_RIGHT;
-		}
-		else
-		{
+		} else {
 			this.bHorizontalAlignment = 4;// HORIZONTAL_ALIGN_JUSTIFIED;
 		}
 
 		final String sVerticalAlign = strTok.nextToken();
-		if (VERT_ALIGNMENTS[0].equals(sVerticalAlign))
-		{
+		if (VERT_ALIGNMENTS[0].equals(sVerticalAlign)) {
 			this.bVerticalAlignment = 1;// VERTICAL_ALIGN_TOP;
-		}
-		else if (VERT_ALIGNMENTS[1].equals(sVerticalAlign))
-		{
+		} else if (VERT_ALIGNMENTS[1].equals(sVerticalAlign)) {
 			this.bVerticalAlignment = 2;// VERTICAL_ALIGN_MIDDLE;
-		}
-		else
-		{
+		} else {
 			this.bVerticalAlignment = 3;// VERTICAL_ALIGN_BOTTOM;
 		}
 
@@ -312,9 +285,7 @@ public class ControlProperties implements Serializable
 		if (strTok.nextToken().equals("true")) //$NON-NLS-1$
 		{
 			this.bAlternateColor = true;
-		}
-		else
-		{
+		} else {
 			this.bAlternateColor = false;
 		}
 
@@ -328,8 +299,7 @@ public class ControlProperties implements Serializable
 	 * @return String - all the properties concatenated into a single string
 	 *         separated by '|'
 	 */
-	public String getPropertiesAsString()
-	{
+	public String getPropertiesAsString() {
 		final StringBuffer sbProps = new StringBuffer(this.sFontName);
 		sbProps.append('|');
 		sbProps.append(this.bBold);
@@ -348,21 +318,15 @@ public class ControlProperties implements Serializable
 		sbProps.append('|');
 		sbProps.append(Color.toAWTColorString(this.backColor));
 		sbProps.append('|');
-		if (((this.bHorizontalAlignment - 1) >= 0) && ((this.bHorizontalAlignment - 1) < HORZ_ALIGNMENTS.length))
-		{
+		if (((this.bHorizontalAlignment - 1) >= 0) && ((this.bHorizontalAlignment - 1) < HORZ_ALIGNMENTS.length)) {
 			sbProps.append(HORZ_ALIGNMENTS[this.bHorizontalAlignment - 1]);
-		}
-		else
-		{
+		} else {
 			sbProps.append(this.bHorizontalAlignment); // should never happen
 		}
 		sbProps.append('|');
-		if (((this.bVerticalAlignment - 1) >= 0) && ((this.bVerticalAlignment - 1) < VERT_ALIGNMENTS.length))
-		{
+		if (((this.bVerticalAlignment - 1) >= 0) && ((this.bVerticalAlignment - 1) < VERT_ALIGNMENTS.length)) {
 			sbProps.append(VERT_ALIGNMENTS[this.bVerticalAlignment - 1]);
-		}
-		else
-		{
+		} else {
 			sbProps.append(this.bVerticalAlignment);
 		}
 		sbProps.append('|');
@@ -388,8 +352,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return Color
 	 */
-	public final Color getBackColor()
-	{
+	public final Color getBackColor() {
 		return this.backColor;
 	}
 
@@ -398,8 +361,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return boolean
 	 */
-	public final boolean isBold()
-	{
+	public final boolean isBold() {
 		return this.bBold;
 	}
 
@@ -408,8 +370,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return boolean
 	 */
-	public final boolean isItalic()
-	{
+	public final boolean isItalic() {
 		return this.bItalic;
 	}
 
@@ -418,8 +379,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return boolean
 	 */
-	public final boolean isStrikeThrough()
-	{
+	public final boolean isStrikeThrough() {
 		return this.bStrikeThrough;
 	}
 
@@ -428,8 +388,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return boolean
 	 */
-	public final boolean isUnderline()
-	{
+	public final boolean isUnderline() {
 		return this.bUnderline;
 	}
 
@@ -438,8 +397,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return Color
 	 */
-	public final Color getForeColor()
-	{
+	public final Color getForeColor() {
 		return this.foreColor;
 	}
 
@@ -448,10 +406,8 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return int
 	 */
-	public int getHeight()
-	{
-		if ((this.iSize + 4) > this.iHeight)
-		{
+	public int getHeight() {
+		if ((this.iSize + 4) > this.iHeight) {
 			this.iHeight = this.iSize + 4;
 		}
 		return this.iHeight;
@@ -462,13 +418,11 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return int
 	 */
-	public final int getSize()
-	{
+	public final int getSize() {
 		return this.iSize;
 	}
 
-	public final int getFontSize()
-	{
+	public final int getFontSize() {
 		return this.iSize;
 	}
 
@@ -477,8 +431,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return int
 	 */
-	public int getWidth()
-	{
+	public int getWidth() {
 		return this.iWidth;
 	}
 
@@ -487,8 +440,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return String
 	 */
-	public final String getFontName()
-	{
+	public final String getFontName() {
 		return this.sFontName;
 	}
 
@@ -497,8 +449,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return byte
 	 */
-	public final byte getHorizontalAlignment()
-	{
+	public final byte getHorizontalAlignment() {
 		return this.bHorizontalAlignment;
 	}
 
@@ -507,8 +458,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return byte
 	 */
-	public final byte getVerticalAlignment()
-	{
+	public final byte getVerticalAlignment() {
 		return this.bVerticalAlignment;
 	}
 
@@ -518,8 +468,7 @@ public class ControlProperties implements Serializable
 	 * @param bColor
 	 *            void
 	 */
-	public void setBackColor(final Color bColor)
-	{
+	public void setBackColor(final Color bColor) {
 		this.backColor = bColor;
 		this.bCustomized = true;
 	}
@@ -530,8 +479,7 @@ public class ControlProperties implements Serializable
 	 * @param bB
 	 *            void
 	 */
-	public void setBold(final boolean bB)
-	{
+	public void setBold(final boolean bB) {
 		this.bBold = bB;
 		this.bCustomized = true;
 	}
@@ -542,8 +490,7 @@ public class ControlProperties implements Serializable
 	 * @param bB
 	 *            void
 	 */
-	public void setItalic(final boolean bB)
-	{
+	public void setItalic(final boolean bB) {
 		this.bItalic = bB;
 		this.bCustomized = true;
 	}
@@ -554,8 +501,7 @@ public class ControlProperties implements Serializable
 	 * @param bB
 	 *            void
 	 */
-	public void setStrikeThrough(final boolean bB)
-	{
+	public void setStrikeThrough(final boolean bB) {
 		this.bStrikeThrough = bB;
 		this.bCustomized = true;
 	}
@@ -566,8 +512,7 @@ public class ControlProperties implements Serializable
 	 * @param bB
 	 *            void
 	 */
-	public void setUnderline(final boolean bB)
-	{
+	public void setUnderline(final boolean bB) {
 		this.bUnderline = bB;
 		this.bCustomized = true;
 	}
@@ -578,8 +523,7 @@ public class ControlProperties implements Serializable
 	 * @param bColor
 	 *            void
 	 */
-	public void setForeColor(final Color bColor)
-	{
+	public void setForeColor(final Color bColor) {
 		this.foreColor = bColor;
 		this.bCustomized = true;
 	}
@@ -590,8 +534,7 @@ public class ControlProperties implements Serializable
 	 * @param bI
 	 *            void
 	 */
-	public void setHeight(final int bI)
-	{
+	public void setHeight(final int bI) {
 		this.iHeight = bI;
 	}
 
@@ -601,8 +544,7 @@ public class ControlProperties implements Serializable
 	 * @param bI
 	 *            void
 	 */
-	public void setSize(final int bI)
-	{
+	public void setSize(final int bI) {
 		this.iSize = bI;
 		this.bCustomized = true;
 	}
@@ -613,8 +555,7 @@ public class ControlProperties implements Serializable
 	 * @param bI
 	 *            void
 	 */
-	public void setWidth(final int bI)
-	{
+	public void setWidth(final int bI) {
 		this.iWidth = bI;
 	}
 
@@ -624,8 +565,7 @@ public class ControlProperties implements Serializable
 	 * @param bString
 	 *            void
 	 */
-	public void setFontName(final String bString)
-	{
+	public void setFontName(final String bString) {
 		this.sFontName = bString;
 		this.bCustomized = true;
 	}
@@ -636,8 +576,7 @@ public class ControlProperties implements Serializable
 	 * @param bAlign
 	 * @return void
 	 */
-	public void setHorizontalAlignment(final byte bAlign)
-	{
+	public void setHorizontalAlignment(final byte bAlign) {
 		this.bHorizontalAlignment = bAlign;
 		this.bCustomized = true;
 	}
@@ -648,8 +587,7 @@ public class ControlProperties implements Serializable
 	 * @param bAlign
 	 * @return void
 	 */
-	public void setVerticalAlignment(final byte bAlign)
-	{
+	public void setVerticalAlignment(final byte bAlign) {
 		this.bVerticalAlignment = bAlign;
 		this.bCustomized = true;
 	}
@@ -659,8 +597,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return int
 	 */
-	public final int getXPos()
-	{
+	public final int getXPos() {
 		return this.xPos;
 	}
 
@@ -669,8 +606,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return int
 	 */
-	public final int getYPos()
-	{
+	public final int getYPos() {
 		return this.yPos;
 	}
 
@@ -680,8 +616,7 @@ public class ControlProperties implements Serializable
 	 * @param bI
 	 *            void
 	 */
-	public void setXPos(final int bI)
-	{
+	public void setXPos(final int bI) {
 		this.xPos = bI;
 	}
 
@@ -691,8 +626,7 @@ public class ControlProperties implements Serializable
 	 * @param bI
 	 *            void
 	 */
-	public void setYPos(final int bI)
-	{
+	public void setYPos(final int bI) {
 		this.yPos = bI;
 	}
 
@@ -701,8 +635,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return Color
 	 */
-	public final Color getAlternateBackColor()
-	{
+	public final Color getAlternateBackColor() {
 		return this.alternateBackColor;
 	}
 
@@ -711,8 +644,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return Color
 	 */
-	public final Color getAlternateForeColor()
-	{
+	public final Color getAlternateForeColor() {
 		return this.alternateForeColor;
 	}
 
@@ -721,8 +653,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return boolean
 	 */
-	public final boolean isAlternateColor()
-	{
+	public final boolean isAlternateColor() {
 		return this.bAlternateColor;
 	}
 
@@ -732,8 +663,7 @@ public class ControlProperties implements Serializable
 	 * @param bColor
 	 *            void
 	 */
-	public void setAlternateBackColor(final Color bColor)
-	{
+	public void setAlternateBackColor(final Color bColor) {
 		this.alternateBackColor = bColor;
 		this.bCustomized = true;
 	}
@@ -744,8 +674,7 @@ public class ControlProperties implements Serializable
 	 * @param bColor
 	 *            void
 	 */
-	public void setAlternateForeColor(final Color bColor)
-	{
+	public void setAlternateForeColor(final Color bColor) {
 		this.alternateForeColor = bColor;
 		this.bCustomized = true;
 	}
@@ -756,8 +685,7 @@ public class ControlProperties implements Serializable
 	 * @param bB
 	 *            void
 	 */
-	public void setAlternateColor(final boolean bB)
-	{
+	public void setAlternateColor(final boolean bB) {
 		this.bAlternateColor = bB;
 		this.bCustomized = true;
 	}
@@ -767,8 +695,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return boolean
 	 */
-	public final boolean isTransparent()
-	{
+	public final boolean isTransparent() {
 		return this.bTransparent;
 	}
 
@@ -778,8 +705,7 @@ public class ControlProperties implements Serializable
 	 * @param bB
 	 *            void
 	 */
-	public void setTransparent(final boolean bB)
-	{
+	public void setTransparent(final boolean bB) {
 		this.bTransparent = bB;
 		this.bCustomized = true;
 	}
@@ -789,10 +715,8 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return
 	 */
-	public byte getMode()
-	{
-		if (this.isTransparent())
-		{
+	public byte getMode() {
+		if (this.isTransparent()) {
 			return 2;// MODE_TRANSPARENT;
 		}
 		return 1;// MODE_OPAQUE;
@@ -803,8 +727,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer(RM.getString("VALUE_COMMON_PROPERTIES")); //$NON-NLS-1$
 		sbToString.append(RM.getString("VALUE_FONT_NAME")); //$NON-NLS-1$
 		sbToString.append(this.sFontName);
@@ -846,43 +769,35 @@ public class ControlProperties implements Serializable
 		return sbToString.toString();
 	}
 
-	public String getDisplayString()
-	{
+	public String getDisplayString() {
 		return RM.getString("VALUE_CONTROL"); //$NON-NLS-1$
 	}
 
-	public final boolean isCustomized()
-	{
+	public final boolean isCustomized() {
 		return this.bCustomized;
 	}
 
-	public final Color getBackground()
-	{
+	public final Color getBackground() {
 		return this.backColor;
 	}
 
-	public final Color getForeground()
-	{
+	public final Color getForeground() {
 		return this.foreColor;
 	}
 
-	public final int getY()
-	{
+	public final int getY() {
 		return this.yVal;
 	}
 
-	public void setY(final int position)
-	{
+	public void setY(final int position) {
 		this.yVal = position;
 	}
 
-	public final int getX()
-	{
+	public final int getX() {
 		return this.xVal;
 	}
 
-	public void setX(final int position)
-	{
+	public void setX(final int position) {
 		this.xVal = position;
 	}
 
@@ -896,8 +811,7 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getTextProperties()
-	{
+	public String getTextProperties() {
 		return this.getPropertiesAsString();
 	}
 
@@ -906,10 +820,8 @@ public class ControlProperties implements Serializable
 	 * 
 	 * @return
 	 */
-	public void setTextProperties(final String properties)
-	{
-		if ((properties != null) && (properties.length() > 0))
-		{
+	public void setTextProperties(final String properties) {
+		if ((properties != null) && (properties.length() > 0)) {
 			this.setControlProperties(properties);
 		}
 	}

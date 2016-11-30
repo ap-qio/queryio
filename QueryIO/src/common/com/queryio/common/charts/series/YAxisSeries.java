@@ -20,8 +20,7 @@ package com.queryio.common.charts.series;
 /**
  * @author Exceed Consultancy Services
  */
-public final class YAxisSeries extends Series
-{
+public final class YAxisSeries extends Series {
 	private int[] values = null;
 
 	private int minValue = Integer.MAX_VALUE;
@@ -30,26 +29,21 @@ public final class YAxisSeries extends Series
 
 	private int currentIndex = -1;
 
-	public YAxisSeries()
-	{
+	public YAxisSeries() {
 		super();
 	}
 
-	public YAxisSeries(final String text)
-	{
+	public YAxisSeries(final String text) {
 		super(text);
 	}
 
-	public void initialize(int capacity)
-	{
-		if (capacity <= 0)
-		{
+	public void initialize(int capacity) {
+		if (capacity <= 0) {
 			capacity = 1;
 		}
 
 		this.values = new int[capacity];
-		for (int i = 0; i < capacity; i++)
-		{
+		for (int i = 0; i < capacity; i++) {
 			this.values[i] = Integer.MIN_VALUE;
 		}
 		this.currentIndex = -1;
@@ -57,57 +51,45 @@ public final class YAxisSeries extends Series
 		this.maxValue = Integer.MIN_VALUE;
 	}
 
-	public int getCapacity()
-	{
+	public int getCapacity() {
 		return (this.values != null ? this.values.length : 0);
 	}
 
-	public void setValue(final int index, final int value)
-	{
+	public void setValue(final int index, final int value) {
 		this.values[index] = value;
-		if (Integer.MIN_VALUE != value)
-		{
+		if (Integer.MIN_VALUE != value) {
 			this.minValue = Math.min(this.minValue, value);
 			this.maxValue = Math.max(this.maxValue, value);
 		}
 		this.currentIndex = Math.max(this.currentIndex, index);
 	}
 
-	public void setNextValue(final int value)
-	{
+	public void setNextValue(final int value) {
 		this.setValue(++this.currentIndex, value);
 	}
 
-	public int getValue(final int index)
-	{
+	public int getValue(final int index) {
 		return this.values[index];
 	}
 
-	public final int getMaxValue()
-	{
+	public final int getMaxValue() {
 		return this.maxValue;
 	}
 
-	public int getCurrentIndex()
-	{
+	public int getCurrentIndex() {
 		return currentIndex;
 	}
 
-	public final int getMinValue()
-	{
+	public final int getMinValue() {
 		return this.minValue;
 	}
-	
-	public final void multiply(float multiplier)
-	{
-		if (values != null && currentIndex >= 0)
-		{
+
+	public final void multiply(float multiplier) {
+		if (values != null && currentIndex >= 0) {
 			this.minValue = Integer.MAX_VALUE;
 			this.maxValue = Integer.MIN_VALUE;
-			for (int i = 0; i <= currentIndex; i++) 
-			{
-				if (values[i] != Integer.MIN_VALUE)
-				{
+			for (int i = 0; i <= currentIndex; i++) {
+				if (values[i] != Integer.MIN_VALUE) {
 					values[i] = Math.round(values[i] * multiplier);
 					this.minValue = Math.min(this.minValue, values[i]);
 					this.maxValue = Math.max(this.maxValue, values[i]);
@@ -116,8 +98,7 @@ public final class YAxisSeries extends Series
 		}
 	}
 
-	public int[] returnAllValues()
-	{
+	public int[] returnAllValues() {
 		return this.values;
 	}
 }

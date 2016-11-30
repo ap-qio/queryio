@@ -30,8 +30,7 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public abstract class AbstractExportableNode extends DefaultMutableTreeNode
-{
+public abstract class AbstractExportableNode extends DefaultMutableTreeNode {
 	/**
 	 * 
 	 */
@@ -45,142 +44,139 @@ public abstract class AbstractExportableNode extends DefaultMutableTreeNode
 	/**
 	 * Constructor
 	 * 
-	 * @param object :
-	 *            The object to be stored in the DefaultMutableTreeNode
-	 * @param imageId :
-	 *            The integer id for the image to be shown next to the node in
+	 * @param object
+	 *            : The object to be stored in the DefaultMutableTreeNode
+	 * @param imageId
+	 *            : The integer id for the image to be shown next to the node in
 	 *            the tree. This can be changed later on using the
 	 *            setImageId(int) method.
-	 * @param displayName :
-	 *            The text that appears next to the image of the node in the
+	 * @param displayName
+	 *            : The text that appears next to the image of the node in the
 	 *            tree. This can be changed later using the
 	 *            setDisplayName(String) method.
-	 * @param exportedFileName :
-	 *            The default file name for saving this node. This can be
+	 * @param exportedFileName
+	 *            : The default file name for saving this node. This can be
 	 *            changed later using the setFileName(String) method. This name
 	 *            is without the file extension.
 	 */
 	protected AbstractExportableNode(final Object object, final int imageId, final String displayName,
-			final String exportedFileName, final String viewId)
-	{
+			final String exportedFileName, final String viewId) {
 		super(object);
 		this.imageId = imageId;
 		this.displayName = displayName;
 		this.sExportedFileName = exportedFileName;
 		this.sViewId = viewId;
-		if (exportedFileName != null)
-		{
+		if (exportedFileName != null) {
 			this.sExportedFileName = this.fixFileName(this.sExportedFileName.replace(' ', '_'));
 		}
 	}
+
 	/**
 	 * @param fileName
 	 * @return
 	 */
-	private String fixFileName(String fileName)
-	{
-		for (int i = 0; i < fileName.length(); i++)
-		{
+	private String fixFileName(String fileName) {
+		for (int i = 0; i < fileName.length(); i++) {
 			final char temp = fileName.charAt(i);
-			if (!Character.isUnicodeIdentifierPart(temp))
-			{
+			if (!Character.isUnicodeIdentifierPart(temp)) {
 				fileName = fileName.replace(temp, '_');
 			}
 		}
 		return fileName;
 	}
+
 	/**
 	 * @return
 	 */
-	public String getExportedFileName()
-	{
+	public String getExportedFileName() {
 		return this.sExportedFileName;
 	}
+
 	/**
 	 * @param fileName
 	 */
-	public final void setExportedFileName(final String fileName)
-	{
+	public final void setExportedFileName(final String fileName) {
 		this.sExportedFileName = fileName;
 	}
+
 	/**
 	 * @return
 	 */
-	public final String getFilePath()
-	{
+	public final String getFilePath() {
 		return this.filePath;
 	}
+
 	/**
 	 * @param filePath
 	 */
-	public final void setFilePath(final String filePath)
-	{
+	public final void setFilePath(final String filePath) {
 		this.filePath = filePath;
 	}
+
 	/**
 	 * @return
 	 */
-	public int getImageID()
-	{
+	public int getImageID() {
 		return this.imageId;
 	}
+
 	/**
 	 * @param iImageID
 	 */
-	public void setImageID(final int iImageID)
-	{
+	public void setImageID(final int iImageID) {
 		this.imageId = iImageID;
 	}
+
 	/**
 	 * @return
 	 */
-	public String getViewId()
-	{
+	public String getViewId() {
 		return this.sViewId;
 	}
+
 	/**
 	 * @param viewId
 	 */
-	public void setViewId(final String viewId)
-	{
+	public void setViewId(final String viewId) {
 		this.sViewId = viewId;
 	}
+
 	/**
 	 * @return
 	 */
-	public String getDisplayName()
-	{
+	public String getDisplayName() {
 		return this.displayName;
 	}
+
 	/**
 	 * @param displayName
 	 */
-	public void setDisplayName(final String displayName)
-	{
+	public void setDisplayName(final String displayName) {
 		this.displayName = displayName;
 	}
+
 	/**
 	 * @param exportType
 	 * @return
 	 */
-	public final String getCompleteFileName(final int exportType)
-	{
+	public final String getCompleteFileName(final int exportType) {
 		return new File(this.filePath, this.sExportedFileName + ExportConstants.getFileExtensionWithDot(exportType))
 				.getAbsolutePath();
 	}
+
 	/**
 	 * @return
 	 */
-	public String[] getIdentifyingLabels()
-	{
+	public String[] getIdentifyingLabels() {
 		return null;
 	}
-	
-	public ReportHeader getReportHeader(){
+
+	public ReportHeader getReportHeader() {
 		return null;
 	}
-	
+
 	// Abstract methods
 	public abstract IExportableItem[] getItems();
+
 	public abstract String getHeaderText();
 }

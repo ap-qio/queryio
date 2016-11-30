@@ -32,8 +32,7 @@ import com.queryio.core.notifier.dstruct.Notifier;
  *
  * @author Exceed Consultancy Services
  */
-public final class NotificationManager
-{
+public final class NotificationManager {
 	private static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
 
 	private static NotificationManager notifMgr = null;
@@ -72,8 +71,7 @@ public final class NotificationManager
 	// }
 	// }
 
-	private NotificationManager()
-	{
+	private NotificationManager() {
 		this.htEventNotifiers = new Hashtable();
 	}
 
@@ -82,10 +80,8 @@ public final class NotificationManager
 	 *
 	 * @return NotificationManager
 	 */
-	public static NotificationManager getInstance()
-	{
-		if (notifMgr == null)
-		{
+	public static NotificationManager getInstance() {
+		if (notifMgr == null) {
 			notifMgr = new NotificationManager();
 		}
 
@@ -97,15 +93,13 @@ public final class NotificationManager
 	 *
 	 * @throws Exception
 	 */
-	public void initializeNotificationManager() throws Exception
-	{
+	public void initializeNotificationManager() throws Exception {
 		final NotifierXMLFileParser fileParser = new NotifierXMLFileParser();
 		fileParser.retreiveNotifierConfiguration();
 
 		// if socket communication is enabled then create the server
 		// socket to listen for incoming events
-		if (this.isSocketNotificationEnabled)
-		{
+		if (this.isSocketNotificationEnabled) {
 			this.reader = new EventReader(this.sServerIP, this.iSocketPort);
 			new Thread(this.reader).start();
 		}
@@ -118,18 +112,15 @@ public final class NotificationManager
 	 * @param event
 	 * @throws Exception
 	 */
-	public void fireEventReceived(final NotificationEvent event) throws Exception
-	{
+	public void fireEventReceived(final NotificationEvent event) throws Exception {
 		final String sEventType = event.getEventType();
 		final Object oValue = this.htEventNotifiers.get(sEventType);
 
-		if (oValue != null)
-		{
+		if (oValue != null) {
 			final LinkedList llNotifiers = (LinkedList) oValue;
 			final int iSize = llNotifiers.size();
 
-			for (int i = 0; i < iSize; i++)
-			{
+			for (int i = 0; i < iSize; i++) {
 				this.fireEventReceived(event, (Notifier) llNotifiers.get(i));
 			}
 		}
@@ -143,47 +134,39 @@ public final class NotificationManager
 	 * @param notif
 	 * @throws Exception
 	 */
-	public String fireEventReceived(final NotificationEvent event, final Notifier notif) throws Exception
-	{
+	public String fireEventReceived(final NotificationEvent event, final Notifier notif) throws Exception {
 		INotifier notifier = null;
-		
-		if (notif.getPropertySet() != null)
-		{
-			try
-			{
+
+		if (notif.getPropertySet() != null) {
+			try {
 				// instantiate the notifier class
 				final Class notifierClass = Class.forName(notif.getClassName());
 				notifier = (INotifier) notifierClass.newInstance();
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				throw new RuntimeException(RM.getString("VALUE_ERROR_NOTIFIER_CLASS_MSG") + ex.toString()); //$NON-NLS-1$
 			}
-			
-			try
-			{
+
+			try {
 				// initialize the propertySet of the Notifier
 				notifier.initPropertySet(notif.getPropertySet());
 				// notifyEvent to the Notifier
 				return notifier.notifyEvent(event);
-			}
-			catch (final Exception ex)
-			{
-//				AppLogger.getLogger().fatal(ex.getMessage(), ex);
-				
-//				ex.printStackTrace();		//TODO remove it.
-				
+			} catch (final Exception ex) {
+				// AppLogger.getLogger().fatal(ex.getMessage(), ex);
+
+				// ex.printStackTrace(); //TODO remove it.
+
 				final StringBuffer sbException = new StringBuffer(RM.getString("VALUE_ERROR_NOTIFYING_EVENT_MSG")); //$NON-NLS-1$
 				sbException.append(event.getEventType());
 				sbException.append(" using Notifier:"); //$NON-NLS-1$
 				sbException.append(notif.getName());
 				sbException.append('\n');
 				sbException.append(ex.toString());
-				
+
 				throw new RuntimeException(sbException.toString());
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -193,19 +176,15 @@ public final class NotificationManager
 	 * @param sEventType
 	 * @param notif
 	 */
-	public void registerEventNotifier(final String sEventType, final Notifier notif)
-	{
+	public void registerEventNotifier(final String sEventType, final Notifier notif) {
 		LinkedList llNotifiers = null;
 		final Object oValue = this.htEventNotifiers.get(sEventType);
 
-		if (oValue == null)
-		{
+		if (oValue == null) {
 			llNotifiers = new LinkedList();
 			llNotifiers.addLast(notif);
 			this.htEventNotifiers.put(sEventType, llNotifiers);
-		}
-		else
-		{
+		} else {
 			llNotifiers = (LinkedList) oValue;
 			llNotifiers.addLast(notif);
 		}
@@ -219,12 +198,10 @@ public final class NotificationManager
 	 * @return llNotifiers
 	 * @throws Exception
 	 */
-	public LinkedList getAllEventNotifiers(final String sEventType) throws Exception
-	{
+	public LinkedList getAllEventNotifiers(final String sEventType) throws Exception {
 		final Object oValue = this.htEventNotifiers.get(sEventType);
 
-		if (oValue == null)
-		{
+		if (oValue == null) {
 			throw new RuntimeException(RM.getString("VALUE_ERROR_EVENT_MSG")); //$NON-NLS-1$
 		}
 
@@ -239,18 +216,15 @@ public final class NotificationManager
 	 * @return Notifier
 	 * @throws Exception
 	 */
-	public Notifier getEventNotifier(final String sEventType, final String sNotifierName) throws Exception
-	{
-		try
-		{
+	public Notifier getEventNotifier(final String sEventType, final String sNotifierName) throws Exception {
+		try {
 			AppLogger.getLogger().debug("Total Keys : " + this.htEventNotifiers.keySet().size());
 			AppLogger.getLogger().debug("Event Type : " + sEventType);
 			Iterator iter = this.htEventNotifiers.keySet().iterator();
-			while(iter.hasNext())
+			while (iter.hasNext())
 				AppLogger.getLogger().debug("Key : " + iter.next());
 			final Object oValue = this.htEventNotifiers.get(sEventType);
-			if (oValue == null)
-			{
+			if (oValue == null) {
 				throw new RuntimeException("The event type is not registered with the Notification Manager"); //$NON-NLS-1$
 			}
 
@@ -259,23 +233,18 @@ public final class NotificationManager
 			final int iSize = llNotifiers.size();
 			boolean bNotifierFound = false;
 
-			for (int i = 0; i < iSize; i++)
-			{
+			for (int i = 0; i < iSize; i++) {
 				notif = (Notifier) llNotifiers.get(i);
-				if (notif.getName().equals(sNotifierName))
-				{
+				if (notif.getName().equals(sNotifierName)) {
 					bNotifierFound = true;
 					return notif;
 				}
 			}
 
-			if (bNotifierFound)
-			{
+			if (bNotifierFound) {
 				throw new RuntimeException(RM.getString("VALUE_NOTIFIER_NOT_ADDED_MSG")); //$NON-NLS-1$
 			}
-		}
-		catch (final Exception e)
-		{
+		} catch (final Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
@@ -288,8 +257,7 @@ public final class NotificationManager
 	 *
 	 * @param path
 	 */
-	public void setConfigXMLFilePath(final String path)
-	{
+	public void setConfigXMLFilePath(final String path) {
 		this.sConfigXMLFilePath = path;
 	}
 
@@ -298,8 +266,7 @@ public final class NotificationManager
 	 *
 	 * @return String
 	 */
-	public final String getConfigXMLFilePath()
-	{
+	public final String getConfigXMLFilePath() {
 		return this.sConfigXMLFilePath;
 	}
 
@@ -309,17 +276,12 @@ public final class NotificationManager
 	 * @param socketPort
 	 *            The SocketPort to set
 	 */
-	public void setSocketPort(final String socketPort)
-	{
-		try
-		{
+	public void setSocketPort(final String socketPort) {
+		try {
 			this.iSocketPort = Integer.parseInt(socketPort);
-		}
-		catch (final NumberFormatException e)
-		{
+		} catch (final NumberFormatException e) {
 			this.iSocketPort = NotifierConstants.DEF_SOCKET_PORT;
-			AppLogger.getLogger().log(
-					AppLogger.getPriority(AppLogger.FATAL), e.getMessage(), e); //$NON-NLS-1$
+			AppLogger.getLogger().log(AppLogger.getPriority(AppLogger.FATAL), e.getMessage(), e); // $NON-NLS-1$
 		}
 	}
 
@@ -328,8 +290,7 @@ public final class NotificationManager
 	 *
 	 * @return int
 	 */
-	public final int getSocketPort()
-	{
+	public final int getSocketPort() {
 		return this.iSocketPort;
 	}
 
@@ -339,8 +300,7 @@ public final class NotificationManager
 	 * @param serverIP
 	 *            The sServerIP to set
 	 */
-	public void setServerIP(final String serverIP)
-	{
+	public void setServerIP(final String serverIP) {
 		this.sServerIP = serverIP;
 	}
 
@@ -349,8 +309,7 @@ public final class NotificationManager
 	 *
 	 * @return String
 	 */
-	public final String getServerIP()
-	{
+	public final String getServerIP() {
 		return this.sServerIP;
 	}
 
@@ -360,8 +319,7 @@ public final class NotificationManager
 	 * @param isSocketNotificationEnabled
 	 *            The isSocketNotificationEnabled to set
 	 */
-	public void setIsSocketNotificationEnabled(final String sIsNotificationEnabled)
-	{
+	public void setIsSocketNotificationEnabled(final String sIsNotificationEnabled) {
 		if (sIsNotificationEnabled.equalsIgnoreCase("true")) //$NON-NLS-1$
 		{
 			this.isSocketNotificationEnabled = true;
@@ -373,8 +331,7 @@ public final class NotificationManager
 	 *
 	 * @return boolean
 	 */
-	public final boolean isSocketNotificationEnabled()
-	{
+	public final boolean isSocketNotificationEnabled() {
 		return this.isSocketNotificationEnabled;
 	}
 

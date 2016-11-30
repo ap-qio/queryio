@@ -19,68 +19,54 @@ package com.queryio.sysmoncommon.samples;
 
 import com.queryio.common.EnvironmentalConstants;
 import com.queryio.common.IOSProtocolConstants;
-
 import com.queryio.sysmoncommon.sysmon.DataParserFactory;
 import com.queryio.sysmoncommon.sysmon.UnixMonitor;
 import com.queryio.sysmoncommon.sysmon.dstruct.NetworkInfo;
 
-public class LinuxMonitor
-{
-//	private static String getValue(final String[] args, final int index, final String defaultValue)
-//	{
-//		if ((args != null) && (args.length > index))
-//		{
-//			return args[index];
-//		}
-//		return defaultValue;
-//	}
+public class LinuxMonitor {
+	// private static String getValue(final String[] args, final int index,
+	// final String defaultValue)
+	// {
+	// if ((args != null) && (args.length > index))
+	// {
+	// return args[index];
+	// }
+	// return defaultValue;
+	// }
 
-	public static NetworkInfo[] getNetworkInfo()
-	{
+	public static NetworkInfo[] getNetworkInfo() {
 		UnixMonitor monitor = null;
-		try
-		{
+		try {
 			DataParserFactory.initialize(EnvironmentalConstants.getAppHome() + "/Users/eshan/Desktop/");
 			monitor = new UnixMonitor("localhost", IOSProtocolConstants.LINUX);
 			monitor.setMonitorProcess(true);
 			monitor.setMonitorNFS(true);
 			monitor.setIOStatDisks("genevad");
-			monitor.initializeProtocol(IOSProtocolConstants.LINUX);			
+			monitor.initializeProtocol(IOSProtocolConstants.LINUX);
 			final boolean ping = monitor.ping();
-			
+
 			return monitor.getNetworkInfo();
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
+		} finally {
+			try {
 				monitor.disconnect();
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return null;
 	}
-	
-	public static void main(String[] args) 
-	{
+
+	public static void main(String[] args) {
 		final NetworkInfo[] networkInfo = getNetworkInfo();
-		
+
 		System.out.println("length: " + networkInfo.length);
-		for (int i1 = 0; i1 < networkInfo.length; i1++)
-		{
-			try 
-			{
-				System.out.println(networkInfo[i1].getRecdPacketsPerSec() + "\t" + networkInfo[i1].getSentPacketsPerSec() + "\t" + networkInfo[i1].getName());
-			}
-			catch (Exception e) 
-			{
+		for (int i1 = 0; i1 < networkInfo.length; i1++) {
+			try {
+				System.out.println(networkInfo[i1].getRecdPacketsPerSec() + "\t"
+						+ networkInfo[i1].getSentPacketsPerSec() + "\t" + networkInfo[i1].getName());
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

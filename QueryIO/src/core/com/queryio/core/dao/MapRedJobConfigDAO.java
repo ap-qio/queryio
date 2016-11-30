@@ -104,7 +104,8 @@ public class MapRedJobConfigDAO {
 			while (rs.next()) {
 
 				JSONObject obj = new JSONObject();
-//				String jobName = rs.getString(ColumnConstants.COL_MAPREDJOBCONFIG_JOBNAME);
+				// String jobName =
+				// rs.getString(ColumnConstants.COL_MAPREDJOBCONFIG_JOBNAME);
 				obj.put(ColumnConstants.COL_MAPREDJOBCONFIG_JOBNAME,
 						rs.getString(ColumnConstants.COL_MAPREDJOBCONFIG_JOBNAME));
 				// By default Recursive was true, and input path filter was

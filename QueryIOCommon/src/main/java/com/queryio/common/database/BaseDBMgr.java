@@ -22,11 +22,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import com.queryio.common.database.DBManager;
-import com.queryio.common.database.DatabaseConstants;
 import com.queryio.common.util.IntHashMap;
-
-
 
 /**
  * This class contains DB Functions to clear tables, get primary key for the
@@ -35,10 +31,10 @@ import com.queryio.common.util.IntHashMap;
  * @author Exceed consultancy Services
  * @version 1.0 Sep 4, 2003
  */
-public abstract class BaseDBMgr
-{
+public abstract class BaseDBMgr {
 	protected static final transient String END_BRACKET = ")"; //$NON-NLS-1$
-	public static final String TREND_TIMESTAMP_COLUMN_INSERT = ", " + DatabaseConstants.TREND_TIMESTAMP_COLUMN_NAME + " TIMESTAMP NOT NULL)"; //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String TREND_TIMESTAMP_COLUMN_INSERT = ", " + DatabaseConstants.TREND_TIMESTAMP_COLUMN_NAME //$NON-NLS-1$
+			+ " TIMESTAMP NOT NULL)"; //$NON-NLS-1$
 	public static final String PRIMARY_KEY = "PRIMARY KEY"; //$NON-NLS-1$
 
 	// public static ReportTableObject getTableColumns(String tableName, String
@@ -91,6 +87,7 @@ public abstract class BaseDBMgr
 	 *            table that participate in any relation
 	 * @return ReportTableObject
 	 */
+
 	// public static ReportTableObject getTableColumns(String tableName, String
 	// columns[],
 	// String headings[], Class klasses[], String relations[])
@@ -116,43 +113,32 @@ public abstract class BaseDBMgr
 	 * This method will return the list of all the TableNames in the DataBase in
 	 * a String Array.
 	 */
-	public static String[] getTableNames(final String connectionName)
-	{
+	public static String[] getTableNames(final String connectionName) {
 		final String[] types = { DBManager.TABLE };
 		final ArrayList alTableNames = new ArrayList();
 		Connection oConnection = null;
-		try
-		{
+		try {
 			oConnection = DBManager.getConnection(connectionName);
 			final DatabaseMetaData dbmd = oConnection.getMetaData();
 			final ResultSet resultSetTableInfo = dbmd.getTables(null, null, "%", types); //$NON-NLS-1$
 
-			while (resultSetTableInfo.next())
-			{
+			while (resultSetTableInfo.next()) {
 				alTableNames.add(resultSetTableInfo.getString(3));
 			}
-		}
-		catch (final Exception e)
-		{
-			
-		}
-		finally
-		{
-			if (oConnection != null)
-			{
+		} catch (final Exception e) {
+
+		} finally {
+			if (oConnection != null) {
 				DBManager.closeConnection(oConnection, connectionName);
 			}
 		}
 		return (String[]) alTableNames.toArray(new String[alTableNames.size()]);
 	}
 
-	public static int[] getUniqueValues(final int[] values)
-	{
-		if (values != null)
-		{
+	public static int[] getUniqueValues(final int[] values) {
+		if (values != null) {
 			final IntHashMap map = new IntHashMap(values.length);
-			for (int i = 0; i < values.length; i++)
-			{
+			for (int i = 0; i < values.length; i++) {
 				map.put(values[i], null);
 			}
 			return map.keys();

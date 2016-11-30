@@ -20,25 +20,19 @@ package com.queryio.common.charts.independent;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal")
-public class ChartTableModelFactory
-{
-	private ChartTableModelFactory()
-	{
+public class ChartTableModelFactory {
+	private ChartTableModelFactory() {
 
 	}
 
-	public static DefaultTableModel getChartTableModel(final AppChart appChart)
-	{
-		if (appChart instanceof AppSimpleChart)
-		{
+	public static DefaultTableModel getChartTableModel(final AppChart appChart) {
+		if (appChart instanceof AppSimpleChart) {
 			return new AppSimpleChartTableModel((AppSimpleChart) appChart);
 		}
-		if (appChart instanceof AppComplexChart)
-		{
+		if (appChart instanceof AppComplexChart) {
 			return new AppComplexChartTableModel((AppComplexChart) appChart);
 		}
-		if (appChart instanceof AppPieChart)
-		{
+		if (appChart instanceof AppPieChart) {
 			return new AppPieChartTableModel((AppPieChart) appChart);
 		}
 		return null;

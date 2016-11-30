@@ -34,16 +34,14 @@ import com.queryio.common.util.ResourceManager;
  * 
  * @author Exceed Consultancy Services
  */
-public class AppComplexChartTableModel extends DefaultTableModel
-{
+public class AppComplexChartTableModel extends DefaultTableModel {
 	private static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_CommonUI"); //$NON-NLS-1$
 	private static final long serialVersionUID = 752600005701000028L;
 	private final List values = new ArrayList();
 	private List row;
 	private boolean hasYAxisTitle;
 
-	public AppComplexChartTableModel(final AppComplexChart chart)
-	{
+	public AppComplexChartTableModel(final AppComplexChart chart) {
 		this.resetValues();
 		this.addColumns(chart);
 		this.populateValues(chart);
@@ -52,8 +50,7 @@ public class AppComplexChartTableModel extends DefaultTableModel
 	/**
 	 * reset all the values
 	 */
-	private void resetValues()
-	{
+	private void resetValues() {
 		this.values.clear();
 		this.hasYAxisTitle = false;
 	}
@@ -64,27 +61,22 @@ public class AppComplexChartTableModel extends DefaultTableModel
 	 * @param chart
 	 *            The chart whose data is being represented in table form.
 	 */
-	private void populateValues(final AppComplexChart chart)
-	{
+	private void populateValues(final AppComplexChart chart) {
 		final SeriesCollection seriesCollection = chart.getSeriesCollection();
 		final int currentCount = seriesCollection.getCurrentCount();
 		ComplexSeries complexSeries;
 		int complexSeriesCount;
 		StartEndSeries startEndSeries;
 		int startEndSeriesCurrentCount;
-		for (int i = 0; i < currentCount; i++)
-		{
+		for (int i = 0; i < currentCount; i++) {
 			complexSeries = seriesCollection.getComplexSeries(i);
 			complexSeriesCount = complexSeries.getSeriesCount();
-			for (int j = 0; j < complexSeriesCount; j++)
-			{
+			for (int j = 0; j < complexSeriesCount; j++) {
 				startEndSeries = complexSeries.getSeries(j);
 				startEndSeriesCurrentCount = startEndSeries.getCurrentCount();
-				for (int k = 0; k < startEndSeriesCurrentCount; k++)
-				{
+				for (int k = 0; k < startEndSeriesCurrentCount; k++) {
 					this.row = new ArrayList();
-					if (this.hasYAxisTitle)
-					{
+					if (this.hasYAxisTitle) {
 						this.row.add(complexSeries.getName());
 					}
 
@@ -103,11 +95,9 @@ public class AppComplexChartTableModel extends DefaultTableModel
 	 * @param chart
 	 *            The chart whose data is being represented in table form.
 	 */
-	private void addColumns(final AppComplexChart chart)
-	{
+	private void addColumns(final AppComplexChart chart) {
 		final String axisTitle = chart.getYAxisTitle();
-		if ((axisTitle != null) && (axisTitle.length() > 0))
-		{
+		if ((axisTitle != null) && (axisTitle.length() > 0)) {
 			this.addColumn(axisTitle);
 			this.hasYAxisTitle = true;
 		}
@@ -116,13 +106,11 @@ public class AppComplexChartTableModel extends DefaultTableModel
 		this.addColumn(RM.getString("COL_LEGEND")); //$NON-NLS-1$
 	}
 
-	public int getRowCount()
-	{
+	public int getRowCount() {
 		return this.values != null ? this.values.size() : 0;
 	}
 
-	public Object getValueAt(final int row, final int column)
-	{
+	public Object getValueAt(final int row, final int column) {
 		return ((List) this.values.get(row)).get(column);
 	}
 

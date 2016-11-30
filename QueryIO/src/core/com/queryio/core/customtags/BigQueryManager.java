@@ -563,7 +563,7 @@ public class BigQueryManager {
 
 	private static void updateProperties(Connection connection, JSONObject properties, String sqlQuery,
 			String selectedTable, String resultTableName, JSONArray allTables, String queryId, String namenodeId)
-					throws Exception {
+			throws Exception {
 		// sqlQuery = sqlQuery.replace(selectedTable, resultTableName);
 		properties.remove(BigQueryIdentifiers.RESULTTABLENAME);
 		// properties.put(BigQueryIdentifiers.SQLQUERY, sqlQuery);
@@ -890,7 +890,7 @@ public class BigQueryManager {
 
 				if (applicationStatus.equals(FinalApplicationStatus.SUCCEEDED.toString())) {
 
-					 writeResultInJSONFile(connection, executionId);
+					writeResultInJSONFile(connection, executionId);
 
 					QueryExecutionDAO.updateApplicationId(connection, executionId, null);
 					generateReport = true;

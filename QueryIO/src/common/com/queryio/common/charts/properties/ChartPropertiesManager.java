@@ -25,14 +25,12 @@ import com.queryio.common.util.IntHashMap;
  * 
  * @author Exceed Consultancy Services
  */
-public final class ChartPropertiesManager
-{
+public final class ChartPropertiesManager {
 	private static IntHashMap products;
 	public static final transient String PROPERTIES_FILE = "chartProperties.xml"; //$NON-NLS-1$
 	public static final int TYPE_RUNTIME_CHARTS = -1;
 
-	private ChartPropertiesManager()
-	{
+	private ChartPropertiesManager() {
 
 	}
 
@@ -48,8 +46,7 @@ public final class ChartPropertiesManager
 	 * @return an object of ChartProperties - the data structure representing
 	 *         all properties of the chart
 	 */
-	public static ChartProperties getChartProperties(final int productId, final int nodeType)
-	{
+	public static ChartProperties getChartProperties(final int productId, final int nodeType) {
 		// structure
 		/*
 		 * ChartPropertiesManager +-->IntHashMap [producttype, IntHashMap] +-->
@@ -58,24 +55,20 @@ public final class ChartPropertiesManager
 		 */
 
 		// for runtime generated charts
-		if (nodeType == TYPE_RUNTIME_CHARTS)
-		{
+		if (nodeType == TYPE_RUNTIME_CHARTS) {
 			return new ChartProperties();
 		}
 
-		if (products == null)
-		{
+		if (products == null) {
 			products = new IntHashMap();
 		}
 		IntHashMap productSpecificNodeTypes = (IntHashMap) products.get(productId);
-		if (productSpecificNodeTypes == null)
-		{
+		if (productSpecificNodeTypes == null) {
 			productSpecificNodeTypes = new IntHashMap();
 			products.put(productId, productSpecificNodeTypes);
 		}
 		ChartProperties chartProperties = (ChartProperties) productSpecificNodeTypes.get(nodeType);
-		if (chartProperties == null)
-		{
+		if (chartProperties == null) {
 			chartProperties = new ChartProperties();
 			productSpecificNodeTypes.put(nodeType, chartProperties);
 		}
@@ -99,8 +92,7 @@ public final class ChartPropertiesManager
 	// new ChartPropertiesWriter(settingsFolder).saveChartProperties(productId,
 	// (IntHashMap) productSpecificNodeTypes);
 	// }
-	public static IntHashMap getAllChartProperties(final int productId)
-	{
+	public static IntHashMap getAllChartProperties(final int productId) {
 		return (IntHashMap) products.get(productId);
 
 	}

@@ -1,7 +1,6 @@
 package com.queryio.common.util;
 
-public interface IMessageConstants
-{
+public interface IMessageConstants {
 	int INFORMATION = 0;
 	int WARNING = 1;
 	int QUESTION = 2;

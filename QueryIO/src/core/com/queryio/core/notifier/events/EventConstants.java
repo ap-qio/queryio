@@ -23,10 +23,8 @@ package com.queryio.core.notifier.events;
  * 
  * @author Exceed Consultancy Services
  */
-final class EventConstants
-{
-	private EventConstants()
-	{
+final class EventConstants {
+	private EventConstants() {
 		// Private Contructor provided
 	}
 

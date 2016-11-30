@@ -2,7 +2,6 @@ package com.os3.server.hadoop;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.ConnectException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -26,60 +25,56 @@ import com.queryio.plugin.datatags.UserDefinedTag;
 import com.queryio.stream.util.QIODFSInputStream;
 import com.queryio.stream.util.QIODFSOutputStream;
 
-public class DFSManager 
-{
+public class DFSManager {
 	private static final Logger LOGGER = Logger.getLogger(DFSManager.class);
 	public static final String ROOT_PATH = "/";
-	
-	public static boolean isValidBucketName(String bucketName)
-	{
-		//FIXME : Validate bucket name as per details on https://developers.google.com/storage/docs/bucketnaming
+
+	public static boolean isValidBucketName(String bucketName) {
+		// FIXME : Validate bucket name as per details on
+		// https://developers.google.com/storage/docs/bucketnaming
 		return true;
 	}
-	
-	public static boolean doesObjectExist(FileSystem dfs, String bucketName, String objectName) throws IOException
-	{
+
+	public static boolean doesObjectExist(FileSystem dfs, String bucketName, String objectName) throws IOException {
 		return dfs.exists(new Path(ROOT_PATH + bucketName, objectName));
 	}
-	
-	public static boolean doesPathExist(FileSystem dfs, Path path) throws IOException
-	{
+
+	public static boolean doesPathExist(FileSystem dfs, Path path) throws IOException {
 		return dfs.exists(path);
 	}
-	
+
 	public static FileStatus getPathStatus(FileSystem dfs, Path path) throws IOException {
 		return dfs.getFileStatus(path);
 	}
-	
+
 	public static void setOwner(FileSystem dfs, Path path, String owner, String group) throws IOException {
 		dfs.setOwner(path, owner, group);
 	}
-	
+
 	@SuppressWarnings("PMD.AvoidUsingShortType")
 	public static void setPermissions(FileSystem dfs, Path path, short permission) throws IOException {
-		dfs.setPermission(path, DFSManager.parsePermissions(permission)); 
+		dfs.setPermission(path, DFSManager.parsePermissions(permission));
 	}
-	
-	public static boolean isFile(FileSystem dfs, Path path) throws IOException
-	{
+
+	public static boolean isFile(FileSystem dfs, Path path) throws IOException {
 		return dfs.isFile(path);
 	}
-	
-	public static FileStatus getObjectStatus(FileSystem dfs, String bucketName, String objectName) throws IOException
-	{
+
+	public static FileStatus getObjectStatus(FileSystem dfs, String bucketName, String objectName) throws IOException {
 		Path objectPath = new Path(ROOT_PATH + bucketName, objectName);
 		return dfs.getFileStatus(objectPath);
 	}
-	
-	public static InputStream getObjectDataInputStream(FileSystem dfs, String bucketName, String objectName, String compressionType, String encryptionType) throws Exception
-	{
+
+	public static InputStream getObjectDataInputStream(FileSystem dfs, String bucketName, String objectName,
+			String compressionType, String encryptionType) throws Exception {
 		Path objectPath = new Path(ROOT_PATH + bucketName, objectName);
-		
+
 		DistributedFileSystem fs = (DistributedFileSystem) dfs;
 		QIODFSInputStream qioInputStream = null;
-		DFSInputStream dfsInputStream = (DFSInputStream) fs.getClient().open(objectPath.toUri().toString(), EnvironmentalConstants.getStreamBufferSize(), false);
+		DFSInputStream dfsInputStream = (DFSInputStream) fs.getClient().open(objectPath.toUri().toString(),
+				EnvironmentalConstants.getStreamBufferSize(), false);
 		try {
-			if(compressionType==null && encryptionType==null){
+			if (compressionType == null && encryptionType == null) {
 				qioInputStream = new QIODFSInputStream(dfsInputStream, fs, objectPath.toUri().toString());
 			} else {
 				qioInputStream = new QIODFSInputStream(dfsInputStream, compressionType, encryptionType, fs);
@@ -90,127 +85,130 @@ public class DFSManager
 			}
 			throw e;
 		}
-		
+
 		return qioInputStream;
 	}
-	
-	public static boolean doesBucketExists(FileSystem dfs, String bucketName) throws IOException
-	{
+
+	public static boolean doesBucketExists(FileSystem dfs, String bucketName) throws IOException {
 		return dfs.exists(new Path(ROOT_PATH, bucketName));
 	}
-	
-	public static FileStatus[] getObjectList(FileSystem dfs, String bucketName, BucketFilter filter) throws IOException
-	{
+
+	public static FileStatus[] getObjectList(FileSystem dfs, String bucketName, BucketFilter filter)
+			throws IOException {
 		return dfs.listStatus(new Path(ROOT_PATH, bucketName), filter);
 	}
-	
+
 	@SuppressWarnings("PMD.AvoidUsingShortType")
-	public static boolean createBucket(FileSystem dfs, String bucketName, String username, String group, short permission) throws IOException
-	{
-		if(dfs.mkdirs(new Path(ROOT_PATH, bucketName), DFSManager.parsePermissions(permission))){
+	public static boolean createBucket(FileSystem dfs, String bucketName, String username, String group,
+			short permission) throws IOException {
+		if (dfs.mkdirs(new Path(ROOT_PATH, bucketName), DFSManager.parsePermissions(permission))) {
 			dfs.setOwner(new Path(ROOT_PATH, bucketName), username, group);
 			return true;
 		}
 		return false;
 	}
-	
-	public static boolean createBucket(FileSystem dfs, String bucketName, String username, String group) throws IOException
-	{
-		if(dfs.mkdirs(new Path(ROOT_PATH, bucketName))){
+
+	public static boolean createBucket(FileSystem dfs, String bucketName, String username, String group)
+			throws IOException {
+		if (dfs.mkdirs(new Path(ROOT_PATH, bucketName))) {
 			dfs.setOwner(new Path(ROOT_PATH, bucketName), username, group);
 			return true;
 		}
 		return false;
 	}
-	
+
 	@SuppressWarnings("PMD.AvoidUsingShortType")
-	public static StreamWriteStatus createObject(String username, String group, short permission, FileSystem dfs, String bucketName, String objectName, long contentLength, InputStream is, List<UserDefinedTag> tags, String compressionType, String encryptionType) throws IOException, NoSuchAlgorithmException {
-		StreamWriteStatus status = createObject(username, group, dfs, bucketName, objectName, contentLength, is, tags, compressionType, encryptionType);
+	public static StreamWriteStatus createObject(String username, String group, short permission, FileSystem dfs,
+			String bucketName, String objectName, long contentLength, InputStream is, List<UserDefinedTag> tags,
+			String compressionType, String encryptionType) throws IOException, NoSuchAlgorithmException {
+		StreamWriteStatus status = createObject(username, group, dfs, bucketName, objectName, contentLength, is, tags,
+				compressionType, encryptionType);
 		dfs.setPermission(new Path(ROOT_PATH + bucketName, objectName), DFSManager.parsePermissions(permission));
 		return status;
 	}
-	
-	public static StreamWriteStatus createObject(String username, String group, FileSystem dfs, String bucketName, String objectName, long contentLength, InputStream is, List<UserDefinedTag> tags, String compressionType, String encryptionType) throws IOException, NoSuchAlgorithmException
-	{
+
+	public static StreamWriteStatus createObject(String username, String group, FileSystem dfs, String bucketName,
+			String objectName, long contentLength, InputStream is, List<UserDefinedTag> tags, String compressionType,
+			String encryptionType) throws IOException, NoSuchAlgorithmException {
 		Path objectPath = new Path(ROOT_PATH + bucketName, objectName);
 		LOGGER.debug("Creating object: " + objectPath);
 		QIODFSOutputStream cipherOutputStream = null;
 		StreamWriteStatus status = null;
 		DFSOutputStream dfsOutputStream = null;
-		try{
+		try {
 			DistributedFileSystem fs = (DistributedFileSystem) dfs;
 			dfsOutputStream = (DFSOutputStream) fs.getClient().create(objectPath.toUri().getPath(), true);
-//			dfs.setOwnerModified(objectPath, username, group);
-			
-			
+			// dfs.setOwnerModified(objectPath, username, group);
+
 			try {
-				cipherOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, compressionType, encryptionType, null, objectPath.toUri().getPath());
-				if (tags != null && tags.size() > 0){
+				cipherOutputStream = new QIODFSOutputStream(dfs, dfsOutputStream, compressionType, encryptionType, null,
+						objectPath.toUri().getPath());
+				if (tags != null && tags.size() > 0) {
 					cipherOutputStream.addTags(tags);
-				}	
+				}
 			} catch (Exception e) {
 				if (dfsOutputStream != null) {
 					dfsOutputStream.close();
 				}
 				throw new Error(e);
 			}
-			status = StreamUtilities.writeToStream(is, cipherOutputStream,
-					contentLength);
-			
+			status = StreamUtilities.writeToStream(is, cipherOutputStream, contentLength);
+
 			LOGGER.debug("Tags for " + objectPath + " are: " + tags);
-			
+
 			cipherOutputStream.flush();
 		} finally {
-			try{
-				if(cipherOutputStream!=null)	cipherOutputStream.close();
-			} catch(Exception e){
+			try {
+				if (cipherOutputStream != null)
+					cipherOutputStream.close();
+			} catch (Exception e) {
 				LOGGER.fatal(e.getMessage(), e);
 			}
 		}
-		
+
 		return status;
 	}
-	
-	private static List<FileStatus> getAllFilePaths(FileSystem dfs, String str, BucketFilter filter) throws Exception{
+
+	private static List<FileStatus> getAllFilePaths(FileSystem dfs, String str, BucketFilter filter) throws Exception {
 		Path path = new Path(str);
 		FileStatus stat = dfs.getFileStatus(path);
 		List list = new ArrayList();
 		list.add(stat);
-		
-		if(stat.isDirectory()){
+
+		if (stat.isDirectory()) {
 			FileStatus[] stats = dfs.listStatus(path);
-			for(int i = 0; i < stats.length; i ++){
-				if(!str.endsWith("/"))
+			for (int i = 0; i < stats.length; i++) {
+				if (!str.endsWith("/"))
 					str += "/";
 				list.addAll(getAllFilePaths(dfs, str + stats[i].getPath().getName(), filter));
 			}
 		}
-		return list;	    
+		return list;
 	}
-	
-//	public static void main(String[] args) throws Exception {
-//		Configuration conf = new Configuration();
-//		conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, "hdfs://192.168.0.12:9000");
-//		Thread.currentThread().setName("admin");
-//		
-//		Thread.dumpStack();
-//		
-//		FileSystem fs = FileSystem.get(conf);
-//		
-//		FsPermission permission = parsePermissions(Short.parseShort("777"));
-//		
-//		fs.setPermission(new Path("deletePutGetObject_29_01_2013_17_29_1359460782285"), permission);
-//		
-////		List<FileStatus> list = getAllFilePaths(fs, "/data2", null);
-////		
-////		for(int i=0; i<list.size(); i++) {
-////			System.out.println(list.get(i).getPath().toUri().toString());
-////		}
-//	}
-//	
+
+	// public static void main(String[] args) throws Exception {
+	// Configuration conf = new Configuration();
+	// conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, "hdfs://192.168.0.12:9000");
+	// Thread.currentThread().setName("admin");
+	//
+	// Thread.dumpStack();
+	//
+	// FileSystem fs = FileSystem.get(conf);
+	//
+	// FsPermission permission = parsePermissions(Short.parseShort("777"));
+	//
+	// fs.setPermission(new
+	// Path("deletePutGetObject_29_01_2013_17_29_1359460782285"), permission);
+	//
+	//// List<FileStatus> list = getAllFilePaths(fs, "/data2", null);
+	////
+	//// for(int i=0; i<list.size(); i++) {
+	//// System.out.println(list.get(i).getPath().toUri().toString());
+	//// }
+	// }
+	//
 	@SuppressWarnings("PMD.AvoidUsingShortType")
-	public static FsPermission parsePermissions(short permissions)
-	{
+	public static FsPermission parsePermissions(short permissions) {
 		FsAction u = getAction(permissions / 100);
 		int t = permissions % 100;
 		FsAction g = getAction(t / 10);
@@ -218,87 +216,85 @@ public class DFSManager
 
 		return new FsPermission(u, g, o, false);
 	}
-	
-	public static FsAction getAction(int i)
-	{
-		switch (i)
-		{
-			case 0: return FsAction.NONE;
-			case 1: return FsAction.EXECUTE;
-			case 2: return FsAction.WRITE;
-			case 3: return FsAction.WRITE_EXECUTE;
-			case 4: return FsAction.READ;
-			case 5: return FsAction.READ_EXECUTE;
-			case 6: return FsAction.READ_WRITE;
-			case 7: return FsAction.ALL;
-			default: return FsAction.READ;
+
+	public static FsAction getAction(int i) {
+		switch (i) {
+		case 0:
+			return FsAction.NONE;
+		case 1:
+			return FsAction.EXECUTE;
+		case 2:
+			return FsAction.WRITE;
+		case 3:
+			return FsAction.WRITE_EXECUTE;
+		case 4:
+			return FsAction.READ;
+		case 5:
+			return FsAction.READ_EXECUTE;
+		case 6:
+			return FsAction.READ_WRITE;
+		case 7:
+			return FsAction.ALL;
+		default:
+			return FsAction.READ;
 		}
 	}
-	
-	public static boolean deleteBucket(FileSystem dfs, String bucketName) throws IOException
-	{
+
+	public static boolean deleteBucket(FileSystem dfs, String bucketName) throws IOException {
 		Path bucketPath = new Path(ROOT_PATH, bucketName);
 		return dfs.delete(bucketPath, true);
 	}
-	
-	public static boolean deleteObject(FileSystem dfs, String bucketName, String objectName) throws IOException
-	{
+
+	public static boolean deleteObject(FileSystem dfs, String bucketName, String objectName) throws IOException {
 		Path objectPath = new Path(ROOT_PATH + bucketName, objectName);
 		return dfs.delete(objectPath, true);
 	}
-	
-	public static boolean isBucketEmpty(FileSystem dfs, String bucketName) throws IOException 
-	{
+
+	public static boolean isBucketEmpty(FileSystem dfs, String bucketName) throws IOException {
 		Path bucketPath = new Path(ROOT_PATH, bucketName);
 		FileStatus[] fs = dfs.listStatus(bucketPath);
 		return (fs == null || fs.length == 0);
 	}
 
-	public static String getFileCheckSum(FileSystem dfs, Path path) throws IOException 
-	{
+	public static String getFileCheckSum(FileSystem dfs, Path path) throws IOException {
 		FileChecksum checksum = dfs.getFileChecksum(path);
-		if(checksum != null){
-			//FIXME checksum algo is MD5-of-0MD5-of-512CRC32, we need just MD5
-//			System.out.println("Checksum algo " + checksum.getAlgorithmName());
+		if (checksum != null) {
+			// FIXME checksum algo is MD5-of-0MD5-of-512CRC32, we need just MD5
+			// System.out.println("Checksum algo " +
+			// checksum.getAlgorithmName());
 			return checksum.toString();
-		} 
+		}
 		return "";
 	}
-	
-	public static ArrayList getAllDirStats(FileSystem dfs) throws IOException, ConnectException
-	{
-		try 
-		{
+
+	public static ArrayList getAllDirStats(FileSystem dfs) throws IOException, ConnectException {
+		try {
 			return DFSManager.getAllDirStats(dfs, "/");
-		}
-		catch (Exception e1) 
-		{
+		} catch (Exception e1) {
 			LOGGER.error(e1.getMessage(), e1);
 		}
 		return null;
 	}
-	
-	public static ArrayList getAllDirStats(FileSystem dfs, String str) throws IOException, ConnectException
-	{
+
+	public static ArrayList getAllDirStats(FileSystem dfs, String str) throws IOException, ConnectException {
 		Path path = new Path(str);
-		
-		/*FileStatus stat = */dfs.getFileStatus(path);
+
+		/* FileStatus stat = */dfs.getFileStatus(path);
 		ArrayList list = new ArrayList();
 		FileStatus[] stats = dfs.listStatus(path);
-		for(int i = 0; i < stats.length; i++)
-		{
+		for (int i = 0; i < stats.length; i++) {
 			list.add(stats[i]);
 		}
-		return list;	    
+		return list;
 	}
-	
-	public static List listAllPath(FileSystem dfs, Path p) throws Exception{
+
+	public static List listAllPath(FileSystem dfs, Path p) throws Exception {
 		List list = new ArrayList();
 		FileStatus[] fileStatus = dfs.listStatus(p);
-		for(int i = 0; i < fileStatus.length; i++){
-			if(fileStatus[i].isDirectory()){
+		for (int i = 0; i < fileStatus.length; i++) {
+			if (fileStatus[i].isDirectory()) {
 				list.addAll(listAllPath(dfs, fileStatus[i].getPath()));
-			}else{
+			} else {
 				list.add(fileStatus[i]);
 			}
 		}

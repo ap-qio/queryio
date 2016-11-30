@@ -24,8 +24,7 @@ package com.queryio.common.util;
  * @author Exceed Consultancy Services
  * @version 1.0
  */
-public interface IBaseHelpMapIDs
-{
+public interface IBaseHelpMapIDs {
 	int INTRODUCTION = 1001;
 	int NEW_PROJECT = 1002;
 	int PROJECT_PROPERTIES = 1003;

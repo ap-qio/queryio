@@ -10,9 +10,9 @@ public class JTLDataDefinitionImpl implements IDataDefinition {
 
 	@Override
 	public ArrayList<ColumnMetadata> getColumnMetadata() {
-		
+
 		ArrayList<ColumnMetadata> colMetaDataList = new ArrayList<ColumnMetadata>();
-		
+
 		colMetaDataList.add(new ColumnMetadata("FILEPATH", String.class, 2550));
 		colMetaDataList.add(new ColumnMetadata("SAMPLE_LABEL", String.class, 1275));
 		colMetaDataList.add(new ColumnMetadata("SAMPLE_VALUE", Integer.class));
@@ -32,7 +32,7 @@ public class JTLDataDefinitionImpl implements IDataDefinition {
 		colMetaDataList.add(new ColumnMetadata("ERRORS_COUNT", Integer.class));
 		colMetaDataList.add(new ColumnMetadata("SUCCESS_COUNT", Integer.class));
 		colMetaDataList.add(new ColumnMetadata("SUCCESS_PERCENTAGE", Double.class));
-		
+
 		return colMetaDataList;
 	}
 
@@ -56,15 +56,16 @@ public class JTLDataDefinitionImpl implements IDataDefinition {
 		columnNames.add("ERRORS_COUNT");
 		columnNames.add("SUCCESS_COUNT");
 		columnNames.add("SUCCESS_PERCENTAGE");
-		
-		return columnNames;			// do not add "FILEPATH", as it is added by default in parser.
+
+		return columnNames; // do not add "FILEPATH", as it is added by default
+							// in parser.
 	}
-	
+
 	public String getTableName() {
 		return "JTL_PARSER_JOB";
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		System.out.println(new JTLDataDefinitionImpl().getColumnMetadata());
 	}
 }

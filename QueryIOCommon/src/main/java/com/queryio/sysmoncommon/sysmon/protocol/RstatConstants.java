@@ -21,10 +21,8 @@ package com.queryio.sysmoncommon.sysmon.protocol;
  * @author Exceed Consultancy Services
  * 
  */
-public final class RstatConstants
-{
-	private RstatConstants()
-	{
+public final class RstatConstants {
+	private RstatConstants() {
 		// private constructor declared
 	}
 

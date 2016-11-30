@@ -25,8 +25,7 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class LabelTextPanel extends ExportableItem
-{
+public class LabelTextPanel extends ExportableItem {
 	private final IExportableItem[][] items;
 
 	/**
@@ -38,8 +37,7 @@ public class LabelTextPanel extends ExportableItem
 	 * @param height
 	 */
 	public LabelTextPanel(final int left, final int top, final int width, final int height,
-			final IExportableItem[][] items)
-	{
+			final IExportableItem[][] items) {
 		super(left, top, width, height);
 		this.items = items;
 	}
@@ -49,8 +47,7 @@ public class LabelTextPanel extends ExportableItem
 	 * 
 	 * @see com.queryio.sysmoncommon.exporter.dstruct.IExportableItem#getType()
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return ExportConstants.ITEM_TYPE_LABELTEXTPANEL;
 	}
 
@@ -59,8 +56,7 @@ public class LabelTextPanel extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final IExportableItem[][] getItems()
-	{
+	public final IExportableItem[][] getItems() {
 		return this.items;
 	}
 }

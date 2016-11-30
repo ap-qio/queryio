@@ -22,22 +22,23 @@ import com.queryio.common.database.CoreDBManager;
 
 public class BigQueryManager {
 	protected static final Logger LOGGER = Logger.getLogger(BigQueryManager.class);
-	
+
 	public static void saveBigQuery(String jsonProperties, String user) throws Exception {
 		Connection connection = null;
 
 		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 			JSONParser parser = new JSONParser();
-			JSONObject properties = (JSONObject)parser.parse(jsonProperties);
-			
+			JSONObject properties = (JSONObject) parser.parse(jsonProperties);
+
 			properties.put("namenode", HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
 			properties.put("username", user);
 			String dbName = (String) properties.get(BigQueryIdentifiers.DBNAME);
-			
+
 			BigQueryDAO.deleteBigQuery(connection, (String) properties.get(BigQueryIdentifiers.QUERYID), user);
-			BigQueryDAO.saveBigQuery(connection, (String) properties.get(BigQueryIdentifiers.QUERYID), (String) properties.get(BigQueryIdentifiers.QUERYDESC), properties, dbName, user);
-			
+			BigQueryDAO.saveBigQuery(connection, (String) properties.get(BigQueryIdentifiers.QUERYID),
+					(String) properties.get(BigQueryIdentifiers.QUERYDESC), properties, dbName, user);
+
 		} finally {
 			try {
 				CoreDBManager.closeConnection(connection);
@@ -46,7 +47,7 @@ public class BigQueryManager {
 			}
 		}
 	}
-	
+
 	public static void deleteBigQuery(String queryId, String user) throws Exception {
 		Connection connection = null;
 		try {
@@ -60,7 +61,7 @@ public class BigQueryManager {
 			}
 		}
 	}
-	
+
 	public static JSONObject getAllBigQueries() throws Exception {
 		Connection connection = null;
 		try {
@@ -74,7 +75,7 @@ public class BigQueryManager {
 			}
 		}
 	}
-	
+
 	public static JSONObject getBigQuery(String id, String user) throws Exception {
 		Connection connection = null;
 		try {
@@ -88,76 +89,74 @@ public class BigQueryManager {
 			}
 		}
 	}
-	
-	public static int generateBigQueryReport(String queryId, String format, HttpServletResponse response, String user) throws Exception{
+
+	public static int generateBigQueryReport(String queryId, String format, HttpServletResponse response, String user)
+			throws Exception {
 		URL url = null;
 		HttpURLConnection httpCon = null;
 		int responseCode = 500;
-		try
-		{
+		try {
 			String urlPrefix = HadoopConstants.getHadoopConf().get("queryio.server.url");
-			if(urlPrefix==null){
+			if (urlPrefix == null) {
 				urlPrefix = "http://localhost:5678/queryio/";
 			}
 			url = new URL(urlPrefix + "GenerateReport");
-			
+
 			httpCon = (HttpURLConnection) url.openConnection();
-			
+
 			httpCon.setDoOutput(true);
 			httpCon.setRequestMethod("GET");
 
 			httpCon.addRequestProperty("queryId", queryId);
 			httpCon.addRequestProperty("format", format);
-			httpCon.addRequestProperty("namenode", HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
+			httpCon.addRequestProperty("namenode",
+					HadoopConstants.getHadoopConf().get(DFSConfigKeys.DFS_NAMESERVICE_ID));
 			httpCon.addRequestProperty("username", user);
-			
+
 			httpCon.connect();
-			
+
 			responseCode = httpCon.getResponseCode();
-			LOGGER.fatal("Resp. Code: "+responseCode);
-			if(httpCon.getResponseCode() == HttpStatus.SC_OK)
-			{
+			LOGGER.fatal("Resp. Code: " + responseCode);
+			if (httpCon.getResponseCode() == HttpStatus.SC_OK) {
 				InputStream is = null;
 				OutputStream os = null;
-				try{
+				try {
 					is = httpCon.getInputStream();
-					os = response.getOutputStream(); 
-					
+					os = response.getOutputStream();
+
 					int bufferSize = EnvironmentalConstants.getStreamBufferSize();
 					bufferSize = bufferSize != 0 ? bufferSize : 8192;
-					
+
 					IOUtils.copyBytes(is, os, bufferSize);
 				} finally {
-					if(is!=null){
-						try{
+					if (is != null) {
+						try {
 							is.close();
-						} catch(Exception e){
+						} catch (Exception e) {
 							LOGGER.fatal(e.getMessage(), e);
 						}
 					}
-					if(os!=null){
-						try{
+					if (os != null) {
+						try {
 							os.flush();
-						} catch(Exception e){
+						} catch (Exception e) {
 							LOGGER.fatal(e.getMessage(), e);
 						}
 					}
-				}	
-			}
-			else{
+				}
+			} else {
 				throw new Exception(httpCon.getResponseMessage());
 			}
-		}	
-		finally
-		{
-			if(httpCon!=null)	httpCon.disconnect();
+		} finally {
+			if (httpCon != null)
+				httpCon.disconnect();
 		}
 		return responseCode;
 	}
-	
+
 	public static void main(String[] args) throws ParseException {
 		String jsonProperties = "{\"resultTableName\":\"\",\"sqlQuery\":\"SELECT * FROM DATATAGS_pdf\",\"chartDetail\":{},\"selectedOrderBy\":[],\"selectedTable\":[\"DATATAGS_pdf\"],\"queryHeader\":{\"header\":{\"title\":\"\"}},\"selectedWhere\":[],\"limitResultRowsValue\":5000,\"setHighFidelityOutput\":false,\"aggregateOnColumn\":\"\",\"groupHeader\":{},\"queryFooter\":{\"footer\":{\"title\":\"\"}},\"setLimitResultRows\":false,\"groupFooter\":{},\"queryDesc\":\"Sample query\",\"colDetail\":{},\"dbName\":\"MetaStore\",\"colHeaderDetail\":{},\"selectedGroupBy\":[],\"selectedColumn\":{},\"queryId\":\"putBigQuery_1424423764028420000\"}";
 		JSONParser parser = new JSONParser();
-		JSONObject properties = (JSONObject)parser.parse(jsonProperties);
+		JSONObject properties = (JSONObject) parser.parse(jsonProperties);
 	}
 }

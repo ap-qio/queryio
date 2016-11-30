@@ -46,7 +46,8 @@ public class QueryIOAgent {
 			WebAppContext webapp = new WebAppContext();
 			webapp.setContextPath("/" + QueryIOConstants.AGENT_QUERYIO);
 			webapp.setWar(agentHome + File.separator + "webapps" + File.separator + QueryIOConstants.AGENT_QUERYIO);
-			webapp.setDescriptor(agentHome + File.separator + "webapps" + File.separator + QueryIOConstants.AGENT_QUERYIO + File.separator + "WEB_INF" + File.separator + "web.xml");
+			webapp.setDescriptor(agentHome + File.separator + "webapps" + File.separator
+					+ QueryIOConstants.AGENT_QUERYIO + File.separator + "WEB_INF" + File.separator + "web.xml");
 			server.setHandler(webapp);
 			server.start();
 			server.join();

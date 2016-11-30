@@ -27,8 +27,7 @@ import org.apache.hadoop.util.StringUtils;
 
 import com.queryio.common.QueryIOConstants;
 
-public class CustomInputFormat extends
-		InputFormat<List<FileStatus>, List<InputStream>> {
+public class CustomInputFormat extends InputFormat<List<FileStatus>, List<InputStream>> {
 	public static final String INPUT_DIR = "mapreduce.input.customfileinputformat.inputdir";
 	public static final String SPLIT_MAXSIZE = "mapreduce.input.customfileinputformat.split.maxsize";
 	public static final String SPLIT_MINSIZE = "mapreduce.input.customfileinputformat.split.minsize";
@@ -51,8 +50,7 @@ public class CustomInputFormat extends
 	public static final PathFilter HIDDEN_FILE_FILTER = new PathFilter() {
 		public boolean accept(Path p) {
 			String name = p.getName();
-			return !name.startsWith("_") && !name.startsWith(".")
-					&& !name.startsWith("job_");
+			return !name.startsWith("_") && !name.startsWith(".") && !name.startsWith("job_");
 		}
 	};
 
@@ -113,10 +111,8 @@ public class CustomInputFormat extends
 	 * @param filter
 	 *            the PathFilter class use for filtering the input paths.
 	 */
-	public static void setInputPathFilter(Job job,
-			Class<? extends PathFilter> filter) {
-		job.getConfiguration().setClass(PATHFILTER_CLASS, filter,
-				PathFilter.class);
+	public static void setInputPathFilter(Job job, Class<? extends PathFilter> filter) {
+		job.getConfiguration().setClass(PATHFILTER_CLASS, filter, PathFilter.class);
 	}
 
 	/**
@@ -162,8 +158,7 @@ public class CustomInputFormat extends
 	 * @return the maximum number of bytes a split can include
 	 */
 	public static long getMaxSplitSize(JobContext context) {
-		return context.getConfiguration()
-				.getLong(SPLIT_MAXSIZE, Long.MAX_VALUE);
+		return context.getConfiguration().getLong(SPLIT_MAXSIZE, Long.MAX_VALUE);
 	}
 
 	/**
@@ -174,10 +169,8 @@ public class CustomInputFormat extends
 	 */
 	public static PathFilter getInputPathFilter(JobContext context) {
 		Configuration conf = context.getConfiguration();
-		Class<?> filterClass = conf.getClass(PATHFILTER_CLASS, null,
-				PathFilter.class);
-		return (filterClass != null) ? (PathFilter) ReflectionUtils
-				.newInstance(filterClass, conf) : null;
+		Class<?> filterClass = conf.getClass(PATHFILTER_CLASS, null, PathFilter.class);
+		return (filterClass != null) ? (PathFilter) ReflectionUtils.newInstance(filterClass, conf) : null;
 	}
 
 	/**
@@ -198,8 +191,7 @@ public class CustomInputFormat extends
 		}
 
 		// get tokens for all the required FileSystems..
-		TokenCache.obtainTokensForNamenodes(job.getCredentials(), dirs,
-				job.getConfiguration());
+		TokenCache.obtainTokensForNamenodes(job.getCredentials(), dirs, job.getConfiguration());
 
 		List<IOException> errors = new ArrayList<IOException>();
 
@@ -226,29 +218,24 @@ public class CustomInputFormat extends
 		return result;
 	}
 
-	private List<FileStatus> getFiles(FileSystem fs, Path p,
-			PathFilter inputFilter, List<IOException> errors)
+	private List<FileStatus> getFiles(FileSystem fs, Path p, PathFilter inputFilter, List<IOException> errors)
 			throws IOException {
 		List<FileStatus> result = new ArrayList<FileStatus>();
 		FileStatus[] matches = fs.globStatus(p, inputFilter);
 		if (matches == null) {
 			errors.add(new IOException("Input path does not exist: " + p));
 		} else if (matches.length == 0) {
-			errors.add(new IOException("Input Pattern " + p
-					+ " matches 0 files"));
+			errors.add(new IOException("Input Pattern " + p + " matches 0 files"));
 		} else {
 			for (FileStatus globStat : matches) {
 				if (globStat.isDirectory()) {
-					for (FileStatus stat : fs.listStatus(globStat.getPath(),
-							inputFilter)) {
+					for (FileStatus stat : fs.listStatus(globStat.getPath(), inputFilter)) {
 						if (stat.isDirectory()) {
-							result.addAll(getFiles(fs, stat.getPath(),
-									inputFilter, errors));
+							result.addAll(getFiles(fs, stat.getPath(), inputFilter, errors));
 						} else {
 							if (fileTypesToPick != null) {
 								for (String fileTypeToPick : fileTypesToPick) {
-									if (stat.getPath().toString()
-											.endsWith(fileTypeToPick)) {
+									if (stat.getPath().toString().endsWith(fileTypeToPick)) {
 										result.add(stat);
 										break;
 									}
@@ -261,8 +248,7 @@ public class CustomInputFormat extends
 				} else {
 					if (fileTypesToPick != null) {
 						for (String fileTypeToPick : fileTypesToPick) {
-							if (globStat.getPath().toString()
-									.endsWith(fileTypeToPick)) {
+							if (globStat.getPath().toString().endsWith(fileTypeToPick)) {
 								result.add(globStat);
 								break;
 							}
@@ -281,8 +267,7 @@ public class CustomInputFormat extends
 	 * sub-classes to make sub-types
 	 */
 
-	protected void makeSplit(Path file, long start, long length,
-			String[] hosts, List<InputSplit> splits) {
+	protected void makeSplit(Path file, long start, long length, String[] hosts, List<InputSplit> splits) {
 		if (combinedSplit == null) {
 			combinedSplit = new CombinedSplit();
 		}
@@ -311,14 +296,14 @@ public class CustomInputFormat extends
 	 * @throws IOException
 	 */
 	public List<InputSplit> getSplits(JobContext job) throws IOException {
-//		try {
-//			Thread.sleep(60000);
-//		} catch (InterruptedException e1) {
-//			LOG.fatal(e1.getMessage(), e1);
-//		}
+		// try {
+		// Thread.sleep(60000);
+		// } catch (InterruptedException e1) {
+		// LOG.fatal(e1.getMessage(), e1);
+		// }
 		LOG.info("Fetching splits");
-		this.unitNumSplits = job.getConfiguration().getInt(
-				QueryIOConstants.QUERYIO_UNIT_NUM_SPLITS, defaultUnitNUmSplits);
+		this.unitNumSplits = job.getConfiguration().getInt(QueryIOConstants.QUERYIO_UNIT_NUM_SPLITS,
+				defaultUnitNUmSplits);
 		// generate splits
 		List<InputSplit> splits = new ArrayList<InputSplit>();
 		List<FileStatus> files = listStatus(job);
@@ -327,8 +312,7 @@ public class CustomInputFormat extends
 			long length = file.getLen();
 			if (length != 0) {
 				FileSystem fs = path.getFileSystem(job.getConfiguration());
-				BlockLocation[] blkLocations = fs.getFileBlockLocations(file,
-						0, length);
+				BlockLocation[] blkLocations = fs.getFileBlockLocations(file, 0, length);
 				makeSplit(path, 0, length, blkLocations[0].getHosts(), splits);
 			} else {
 				// Create empty hosts array for zero length files
@@ -350,15 +334,13 @@ public class CustomInputFormat extends
 		for (int i = 0; i < blkLocations.length; i++) {
 			// is the offset inside this block?
 			if ((blkLocations[i].getOffset() <= offset)
-					&& (offset < blkLocations[i].getOffset()
-							+ blkLocations[i].getLength())) {
+					&& (offset < blkLocations[i].getOffset() + blkLocations[i].getLength())) {
 				return i;
 			}
 		}
 		BlockLocation last = blkLocations[blkLocations.length - 1];
 		long fileLength = last.getOffset() + last.getLength() - 1;
-		throw new IllegalArgumentException("Offset " + offset
-				+ " is outside of file (0.." + fileLength + ")");
+		throw new IllegalArgumentException("Offset " + offset + " is outside of file (0.." + fileLength + ")");
 	}
 
 	/**
@@ -371,10 +353,8 @@ public class CustomInputFormat extends
 	 *            Comma separated paths to be set as the list of inputs for the
 	 *            map-reduce job.
 	 */
-	public static void setInputPaths(Job job, String commaSeparatedPaths)
-			throws IOException {
-		setInputPaths(job,
-				StringUtils.stringToPath(getPathStrings(commaSeparatedPaths)));
+	public static void setInputPaths(Job job, String commaSeparatedPaths) throws IOException {
+		setInputPaths(job, StringUtils.stringToPath(getPathStrings(commaSeparatedPaths)));
 	}
 
 	/**
@@ -387,8 +367,7 @@ public class CustomInputFormat extends
 	 *            Comma separated paths to be added to the list of inputs for
 	 *            the map-reduce job.
 	 */
-	public static void addInputPaths(Job job, String commaSeparatedPaths)
-			throws IOException {
+	public static void addInputPaths(Job job, String commaSeparatedPaths) throws IOException {
 		for (String str : getPathStrings(commaSeparatedPaths)) {
 			addInputPath(job, new Path(str));
 		}
@@ -404,17 +383,13 @@ public class CustomInputFormat extends
 	 *            the {@link Path}s of the input directories/files for the
 	 *            map-reduce job.
 	 */
-	public static void setInputPaths(Job job, Path... inputPaths)
-			throws IOException {
+	public static void setInputPaths(Job job, Path... inputPaths) throws IOException {
 		Configuration conf = job.getConfiguration();
-		Path path = inputPaths[0].getFileSystem(conf).makeQualified(
-				inputPaths[0]);
-		StringBuffer str = new StringBuffer(StringUtils.escapeString(path
-				.toString()));
+		Path path = inputPaths[0].getFileSystem(conf).makeQualified(inputPaths[0]);
+		StringBuffer str = new StringBuffer(StringUtils.escapeString(path.toString()));
 		for (int i = 1; i < inputPaths.length; i++) {
 			str.append(StringUtils.COMMA_STR);
-			path = inputPaths[i].getFileSystem(conf).makeQualified(
-					inputPaths[i]);
+			path = inputPaths[i].getFileSystem(conf).makeQualified(inputPaths[i]);
 			str.append(StringUtils.escapeString(path.toString()));
 		}
 		conf.set(INPUT_DIR, str.toString());
@@ -464,8 +439,7 @@ public class CustomInputFormat extends
 			}
 			case ',': {
 				if (!globPattern) {
-					pathStrings
-							.add(commaSeparatedPaths.substring(pathStart, i));
+					pathStrings.add(commaSeparatedPaths.substring(pathStart, i));
 					pathStart = i + 1;
 				}
 				break;
@@ -494,9 +468,8 @@ public class CustomInputFormat extends
 		return result;
 	}
 
-	public RecordReader<List<FileStatus>, List<InputStream>> createRecordReader(
-			InputSplit split, TaskAttemptContext context) throws IOException,
-			InterruptedException {
-			return new CustomRecordReader();
+	public RecordReader<List<FileStatus>, List<InputStream>> createRecordReader(InputSplit split,
+			TaskAttemptContext context) throws IOException, InterruptedException {
+		return new CustomRecordReader();
 	}
 }

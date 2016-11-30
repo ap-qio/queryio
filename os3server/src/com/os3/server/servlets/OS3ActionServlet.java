@@ -23,23 +23,25 @@ import com.os3.server.actions.BaseAction;
 import com.os3.server.common.OS3Constants;
 
 public class OS3ActionServlet extends HttpServlet {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 811232623584912580L;
-	
+
 	/** The logger. */
 	private static Logger logger = Logger.getLogger(OS3ActionServlet.class);
-	
+
 	/** The service counter. */
 	private AtomicLong serviceCounter = new AtomicLong();
-	
+
 	/** The shutting down. */
 	private volatile boolean shuttingDown;
-	
+
 	/** The action objects. */
 	private Map<String, BaseAction> actionObjects = new HashMap<String, BaseAction>();
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
 	 */
 
@@ -47,11 +49,12 @@ public class OS3ActionServlet extends HttpServlet {
 		super.init(config);
 		loadMapping(config.getServletContext().getRealPath(OS3Constants.MAPPING_FILE));
 	}
-	
+
 	/**
 	 * Creates the action object.
 	 *
-	 * @param actionClassName the action class name
+	 * @param actionClassName
+	 *            the action class name
 	 * @return the base action
 	 */
 	private BaseAction createActionObject(String actionClassName) {
@@ -68,12 +71,14 @@ public class OS3ActionServlet extends HttpServlet {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Load mapping.
 	 *
-	 * @param fileName the file name
-	 * @throws ServletException the servlet exception
+	 * @param fileName
+	 *            the file name
+	 * @throws ServletException
+	 *             the servlet exception
 	 */
 	private void loadMapping(String fileName) throws ServletException {
 		File file = new File(fileName);
@@ -95,112 +100,127 @@ public class OS3ActionServlet extends HttpServlet {
 					}
 				}
 			}
-			//Properties extend from Hashtable, which has all its operations as synchronized, so copy it to HashMap.
+			// Properties extend from Hashtable, which has all its operations as
+			// synchronized, so copy it to HashMap.
 			Enumeration<Object> keys = properties.keys();
 			while (keys.hasMoreElements()) {
 				String key = (String) keys.nextElement();
 				BaseAction action = createActionObject(properties.getProperty(key));
 				if (action != null) {
 					this.actionObjects.put(key, action);
-					if(logger.isInfoEnabled()) logger.info("Action object created for action " + key + ", action class name: " + properties.getProperty(key));
+					if (logger.isInfoEnabled())
+						logger.info("Action object created for action " + key + ", action class name: "
+								+ properties.getProperty(key));
 				} else {
-					logger.error("Could not create action for " + key + ", action class name: " + properties.getProperty(key));
+					logger.error("Could not create action for " + key + ", action class name: "
+							+ properties.getProperty(key));
 				}
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.
+	 * HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		processRequest(req, resp);
 	}
-	
-	
 
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		processRequest(req, resp);
-	}
-	
-
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		processRequest(req, resp);
 	}
 
-	
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		processRequest(req, resp);
 	}
-	
 
-	protected void doHead(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		processRequest(req, resp);
 	}
-	
+
+	protected void doHead(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		processRequest(req, resp);
+	}
+
 	/**
 	 * Process request.
 	 *
-	 * @param request the request
-	 * @param response the response
-	 * @throws ServletException the servlet exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the response
+	 * @throws ServletException
+	 *             the servlet exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
-	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-//		logger.error("Headers");
-//		Enumeration<String> headerEnum = request.getHeaderNames();
-//        if(headerEnum != null) {
-//            while(headerEnum.hasMoreElements()) {
-//                String headerName = headerEnum.nextElement();
-//                //Skip host header
-//                logger.error(headerName + " : " + request.getHeader(headerName));
-//            }
-//        }
-//        logger.error("-------");
-        
-//        if (logger.isDebugEnabled()) {
-//			logger.debug("Received client request, server shutting down: " + isShuttingDown() +  " async supported: " + request.isAsyncSupported() + " use thread pool for async: " + 
-//					Settings.getBoolean("USE_THREAD_POOL") + " URI: " + request.getRequestURI());
-//		}
-//		logger.error("ActionSevrelt request inputstream length " + request.getInputStream().available());
+	private void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// logger.error("Headers");
+		// Enumeration<String> headerEnum = request.getHeaderNames();
+		// if(headerEnum != null) {
+		// while(headerEnum.hasMoreElements()) {
+		// String headerName = headerEnum.nextElement();
+		// //Skip host header
+		// logger.error(headerName + " : " + request.getHeader(headerName));
+		// }
+		// }
+		// logger.error("-------");
+
+		// if (logger.isDebugEnabled()) {
+		// logger.debug("Received client request, server shutting down: " +
+		// isShuttingDown() + " async supported: " + request.isAsyncSupported()
+		// + " use thread pool for async: " +
+		// Settings.getBoolean("USE_THREAD_POOL") + " URI: " +
+		// request.getRequestURI());
+		// }
+		// logger.error("ActionSevrelt request inputstream length " +
+		// request.getInputStream().available());
 		if (!isShuttingDown()) {
-//			if (request.isAsyncSupported()) {
-//				final AsyncContext asyncCtx = request.startAsync(request, response);
-//				final Runnable command = new AsyncRequestProcessor(asyncCtx, this, this.actionObjects);
-//				if (Settings.getBoolean("USE_THREAD_POOL")) {
-//					Executor executor = (Executor)request.getServletContext().getAttribute(OS3Constants.ASYNC_REQUEST_EXECUTOR);
-//					executor.execute(command);
-//				} else{
-//					asyncCtx.start(command);
-//				}
-//			} else {
-				AsyncRequestProcessor.executeRequest(null, this, this.actionObjects, request, response);
-//			}
+			// if (request.isAsyncSupported()) {
+			// final AsyncContext asyncCtx = request.startAsync(request,
+			// response);
+			// final Runnable command = new AsyncRequestProcessor(asyncCtx,
+			// this, this.actionObjects);
+			// if (Settings.getBoolean("USE_THREAD_POOL")) {
+			// Executor executor =
+			// (Executor)request.getServletContext().getAttribute(OS3Constants.ASYNC_REQUEST_EXECUTOR);
+			// executor.execute(command);
+			// } else{
+			// asyncCtx.start(command);
+			// }
+			// } else {
+			AsyncRequestProcessor.executeRequest(null, this, this.actionObjects, request, response);
+			// }
 		} else {
-			logger.error("Server is shutting down hence cannot handle this request, we should not have received this request on this server.");
-			response.sendError(HttpServletResponse.SC_TEMPORARY_REDIRECT, "Server is shutting down hence cannot handle this request, please retry again.");
+			logger.error(
+					"Server is shutting down hence cannot handle this request, we should not have received this request on this server.");
+			response.sendError(HttpServletResponse.SC_TEMPORARY_REDIRECT,
+					"Server is shutting down hence cannot handle this request, please retry again.");
 			response.flushBuffer();
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.servlet.GenericServlet#destroy()
 	 */
-	
+
 	public void destroy() {
 		/*
 		 * Check to see whether there are still service methods running, and if
 		 * there are, tell them to stop.
 		 */
 		if (numServices() > 0) {
-		    if(logger.isDebugEnabled()) logger.debug("The number of services:" + numServices());
-		    setShuttingDown(true);
+			if (logger.isDebugEnabled())
+				logger.debug("The number of services:" + numServices());
+			setShuttingDown(true);
 		}
 		long timeout = OS3Constants.DESTROY_TIMEOUT;
 		/* Wait for the service methods to stop. */
@@ -208,23 +228,29 @@ public class OS3ActionServlet extends HttpServlet {
 			try {
 				Thread.sleep(5000);
 				timeout -= 5000;
-	            if(logger.isInfoEnabled()) logger.info("The number of services:" + numServices() + "  Time Out: "+ timeout);
-				
+				if (logger.isInfoEnabled())
+					logger.info("The number of services:" + numServices() + "  Time Out: " + timeout);
+
 			} catch (InterruptedException e) {
-				if(logger.isInfoEnabled()) logger.info("Ignore - Thread interrupted while waiting for the service methods to stop.");
+				if (logger.isInfoEnabled())
+					logger.info("Ignore - Thread interrupted while waiting for the service methods to stop.");
 			}
 		}
-		if(timeout <= 0) {
-			logger.error("Server is stopping but all requests may not be processed yet, the number of active requests is " + this.serviceCounter.get());
+		if (timeout <= 0) {
+			logger.error(
+					"Server is stopping but all requests may not be processed yet, the number of active requests is "
+							+ this.serviceCounter.get());
 		}
-		if(logger.isDebugEnabled()) logger.info("Destroying Request Thread");
+		if (logger.isDebugEnabled())
+			logger.info("Destroying Request Thread");
 		super.destroy();
 	}
 
 	/**
 	 * Sets the shutting down.
 	 *
-	 * @param flag the new shutting down
+	 * @param flag
+	 *            the new shutting down
 	 */
 	protected void setShuttingDown(boolean flag) {
 		this.shuttingDown = flag;

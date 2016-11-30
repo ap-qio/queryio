@@ -21,14 +21,12 @@ package com.queryio.common.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class WindowsNetworkInfo extends NetworkInfo
-{
+public class WindowsNetworkInfo extends NetworkInfo {
 	private static final long serialVersionUID = 752600005701000047L;
 
 	// called from native
 	public WindowsNetworkInfo(final String name, final int interfaceId, final float recdPacketsPerSec,
-			final float sentPacketsPerSec)
-	{
+			final float sentPacketsPerSec) {
 		super(name, interfaceId, recdPacketsPerSec, sentPacketsPerSec);
 	}
 

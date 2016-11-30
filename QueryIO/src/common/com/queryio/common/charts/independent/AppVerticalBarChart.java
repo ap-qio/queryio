@@ -27,36 +27,28 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public final class AppVerticalBarChart extends AppAbstractBarChart
-{
+public final class AppVerticalBarChart extends AppAbstractBarChart {
 	int width;
 
-	public AppVerticalBarChart(final UserInterface userInterface, final int nodeType, final int productID)
-	{
+	public AppVerticalBarChart(final UserInterface userInterface, final int nodeType, final int productID) {
 		super(userInterface, nodeType, productID);
 	}
 
-	public void drawSeries(final UserInterface graphics)
-	{
+	public void drawSeries(final UserInterface graphics) {
 		final Series[] yAxisSeries = this.getYAxisSeries();
 		int lenYAxisSeries = 0;
-		for (int i = 0; i < yAxisSeries.length; i++)
-		{
-			if (this.shouldDrawSeries(i))
-			{
+		for (int i = 0; i < yAxisSeries.length; i++) {
+			if (this.shouldDrawSeries(i)) {
 				lenYAxisSeries++;
 			}
 		}
-		if (lenYAxisSeries > 0)
-		{
+		if (lenYAxisSeries > 0) {
 			this.width = Math.max(1, (this.eachDataWidth - this.insetForBarOnOneside * 2) / lenYAxisSeries);
 			int each = 0;
-			for (int i = 0; i < yAxisSeries.length; i++)
-			{
-				if (this.shouldDrawSeries(i))
-				{
-					this.drawSeries(graphics, i, (YAxisSeries) yAxisSeries[i], each * this.width
-							+ this.insetForBarOnOneside);
+			for (int i = 0; i < yAxisSeries.length; i++) {
+				if (this.shouldDrawSeries(i)) {
+					this.drawSeries(graphics, i, (YAxisSeries) yAxisSeries[i],
+							each * this.width + this.insetForBarOnOneside);
 					each++;
 				}
 			}
@@ -71,23 +63,19 @@ public final class AppVerticalBarChart extends AppAbstractBarChart
 	 * @param shift
 	 */
 	private void drawSeries(final UserInterface graphics, final int iYAxisSeriesIndex, final YAxisSeries yAxisSeries,
-			final int shift)
-	{
+			final int shift) {
 		int iCurrentCount = this.getXAxisSeries().getCurrentCount();
 
 		int yValue;
 		int xCor;
 		int yCor;
 
-		for (int i = 0; i < iCurrentCount; i++)
-		{
+		for (int i = 0; i < iCurrentCount; i++) {
 			yValue = yAxisSeries.getValue(i);
 			xCor = this.xStart + i * this.eachDataWidth + shift;
 			yCor = this.resolveYCorordinate(yValue);
-			if ((Integer.MIN_VALUE != yValue) && (yCor < this.yStart))
-			{
-				if (this.bShowToolTip)
-				{
+			if ((Integer.MIN_VALUE != yValue) && (yCor < this.yStart)) {
+				if (this.bShowToolTip) {
 					final Rectangle marker = new Rectangle(xCor + 1, yCor, this.width, this.yStart - yCor);
 					final String xValue = this.getXAxisSeries().getFormattedValue(i);
 					final String formattedYValue = String.valueOf(yValue);

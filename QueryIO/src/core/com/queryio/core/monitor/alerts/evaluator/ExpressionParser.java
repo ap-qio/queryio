@@ -54,15 +54,13 @@ import com.queryio.core.monitor.common.ext.TimeDurationFunctionExpression;
  * 
  * @author Exceed Consultancy Services
  */
-public class ExpressionParser
-{
+public class ExpressionParser {
 	private final Parser parser;
 	private Map map = null;
 	private String errMsg = null;
 	private double value;
 	private Expression currentExpression = null;
-	
-	
+
 	public static void main(String[] args) {
 		ExpressionParser ep = new ExpressionParser();
 		ep.addVariableAsObject("attr0", 62.146385);
@@ -72,8 +70,7 @@ public class ExpressionParser
 	/**
 	 * @see java.lang.Object#Object()
 	 */
-	public ExpressionParser()
-	{
+	public ExpressionParser() {
 		this.parser = new Parser();
 
 		// setting the appropriate Expression classes for each of the operators
@@ -130,8 +127,7 @@ public class ExpressionParser
 	 * @param id
 	 * @param val
 	 */
-	public void addVariable(final String id, final double val)
-	{
+	public void addVariable(final String id, final double val) {
 		this.addVariableAsObject(id, new Double(val));
 	}
 
@@ -141,10 +137,8 @@ public class ExpressionParser
 	 * @param id
 	 * @param val
 	 */
-	public void addVariableAsObject(final String id, final Object val)
-	{
-		if (this.map == null)
-		{
+	public void addVariableAsObject(final String id, final Object val) {
+		if (this.map == null) {
 			this.map = new HashMap();
 		}
 
@@ -157,26 +151,22 @@ public class ExpressionParser
 	 * 
 	 * @param expression
 	 */
-	public void parseExpression(String expression)
-	{
+	public void parseExpression(String expression) {
 		this.errMsg = null;
 		this.value = -1;
 
-		try
-		{
+		try {
 			expression = StaticUtilities.searchAndReplace(expression, " ", "");
 			expression = StaticUtilities.searchAndReplace(expression, ":", "_");
 
 			final Expression expr = this.parser.parse(expression);
-			if (!this.isLogicalExpression(expr))
-			{
+			if (!this.isLogicalExpression(expr)) {
 				this.errMsg = "Error evaluating the expression, its not a logical expression";
 				return;
 			}
 			this.replaceVariableWithValues(expr);
 			final String msg = this.isExpressionComplete(expr);
-			if (!"".equals(msg))
-			{
+			if (!"".equals(msg)) {
 				this.errMsg = msg;
 				return;
 			}
@@ -184,45 +174,35 @@ public class ExpressionParser
 			this.currentExpression = expr;
 			this.value = expr.calculate();
 
-			if (this.value == -1)
-			{
+			if (this.value == -1) {
 				this.errMsg = "Error evaluating the expression";
 			}
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			this.errMsg = ex.getMessage();
-			if (this.errMsg == null)
-			{
-				AppLogger.getLogger().fatal("3  this.errMsg == null" ,ex);
+			if (this.errMsg == null) {
+				AppLogger.getLogger().fatal("3  this.errMsg == null", ex);
 
 				this.errMsg = "Error evaluating the expression";
 			}
 		}
 	}
-	
-	public void calculate()
-	{
+
+	public void calculate() {
 		this.errMsg = null;
 		this.value = -1;
-		try
-		{
+		try {
 			this.replaceVariableWithValues(this.currentExpression);
 			this.value = this.currentExpression.calculate();
-			if (this.value == -1)
-			{
+			if (this.value == -1) {
 				this.errMsg = "Error evaluating the expression";
 			}
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			this.errMsg = ex.getMessage();
-			if (this.errMsg == null)
-			{
+			if (this.errMsg == null) {
 				this.errMsg = "Error evaluating the expression";
 			}
 		}
-		
+
 	}
 
 	/**
@@ -231,16 +211,13 @@ public class ExpressionParser
 	 * @param expr
 	 * @throws Exception
 	 */
-	private void replaceVariableWithValues(final Expression expr) throws Exception
-	{
-		if (this.map != null)
-		{
+	private void replaceVariableWithValues(final Expression expr) throws Exception {
+		if (this.map != null) {
 			final Iterator itr = this.map.keySet().iterator();
 			String key = null;
 			Number val = null;
 
-			while (itr.hasNext())
-			{
+			while (itr.hasNext()) {
 				key = (String) itr.next();
 				val = (Number) this.map.get(key);
 				expr.setParameter(key, (val != null) ? val.doubleValue() : 0.0);
@@ -254,9 +231,9 @@ public class ExpressionParser
 	 * @param expr
 	 * @return
 	 */
-	private boolean isLogicalExpression(final Expression expr)
-	{
-		return ((expr instanceof LogicalExpression) || (expr instanceof TimeDurationFunctionExpression)  || (expr instanceof DurationFunctionExpression));
+	private boolean isLogicalExpression(final Expression expr) {
+		return ((expr instanceof LogicalExpression) || (expr instanceof TimeDurationFunctionExpression)
+				|| (expr instanceof DurationFunctionExpression));
 	}
 
 	/**
@@ -265,40 +242,30 @@ public class ExpressionParser
 	 * @param expr
 	 * @return
 	 */
-	private String isExpressionComplete(final Expression expr)
-	{
+	private String isExpressionComplete(final Expression expr) {
 		final StringBuffer sBuff = new StringBuffer();
 		final boolean isParamExp = expr instanceof ParameterExpression;
 
-		if (isParamExp)
-		{
+		if (isParamExp) {
 			final ParameterExpression pe = (ParameterExpression) expr;
-			if (!pe.isDefined())
-			{
+			if (!pe.isDefined()) {
 				sBuff.append("Unknown token '");
 				sBuff.append(pe.getName());
 				sBuff.append("' found in expression");
 				sBuff.append('\n');
 			}
-		}
-		else
-		{
+		} else {
 			final Expression[] expressions = expr.getSubexpressions();
-			final boolean isCustomFunc = expr instanceof TimeDurationFunctionExpression || expr instanceof DurationFunctionExpression;
+			final boolean isCustomFunc = expr instanceof TimeDurationFunctionExpression
+					|| expr instanceof DurationFunctionExpression;
 
-			if ((expressions != null) && (expressions.length > 0))
-			{
-				for (int i = 0; i < expressions.length; i++)
-				{
-					if (isCustomFunc)
-					{
-						if (!(expressions[i] instanceof ParameterExpression))
-						{
+			if ((expressions != null) && (expressions.length > 0)) {
+				for (int i = 0; i < expressions.length; i++) {
+					if (isCustomFunc) {
+						if (!(expressions[i] instanceof ParameterExpression)) {
 							sBuff.append(this.isExpressionComplete(expressions[i]));
 						}
-					}
-					else
-					{
+					} else {
 						sBuff.append(this.isExpressionComplete(expressions[i]));
 					}
 				}
@@ -310,10 +277,8 @@ public class ExpressionParser
 	/**
 	 * Method clearAll.
 	 */
-	public void clearAll()
-	{
-		if (this.map != null)
-		{
+	public void clearAll() {
+		if (this.map != null) {
 			this.map.clear();
 		}
 		currentExpression = null;
@@ -324,8 +289,7 @@ public class ExpressionParser
 	 * 
 	 * @return boolean
 	 */
-	public boolean hasError()
-	{
+	public boolean hasError() {
 		return (this.errMsg != null);
 	}
 
@@ -334,8 +298,7 @@ public class ExpressionParser
 	 * 
 	 * @return double
 	 */
-	public double getValue()
-	{
+	public double getValue() {
 		return this.value;
 	}
 
@@ -344,8 +307,7 @@ public class ExpressionParser
 	 * 
 	 * @return String
 	 */
-	public String getErrorInfo()
-	{
+	public String getErrorInfo() {
 		return this.errMsg;
 	}
 }

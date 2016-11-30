@@ -25,7 +25,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
 
-
 /**
  * This class is a utility class which provides methods to create an XML
  * document. It can also be used to write XML to any output stream wrapped which
@@ -41,8 +40,8 @@ import java.util.Map;
  * </CODE>
  * </P>
  * <P>
- * The entire document should be written within <code>startDocument()</code>
- * and <code>endDocument()</code> methods. The following sample code:
+ * The entire document should be written within <code>startDocument()</code> and
+ * <code>endDocument()</code> methods. The following sample code:
  * </p>
  * <p>
  * <code>xml.startDocument()<br>
@@ -66,8 +65,7 @@ import java.util.Map;
  * 
  * @version 1.0
  */
-public class XMLWriter
-{
+public class XMLWriter {
 	/** used to create the file, in this case buffering is done */
 	private Writer writer = null;
 
@@ -130,8 +128,7 @@ public class XMLWriter
 	 * Use the <code>setWriter</code> method before using any of the writer
 	 * methods.
 	 */
-	public XMLWriter()
-	{
+	public XMLWriter() {
 		// DO NOTHING
 	}
 
@@ -141,8 +138,7 @@ public class XMLWriter
 	 * @param writer
 	 *            an instance of java.io.Writer
 	 */
-	public XMLWriter(final Writer writerObj)
-	{
+	public XMLWriter(final Writer writerObj) {
 		this.writer = writerObj;
 	}
 
@@ -156,8 +152,7 @@ public class XMLWriter
 	 * @param bAutoClose
 	 *            whether to close the writer automatically.
 	 */
-	public XMLWriter(final Writer writerObj, final boolean prettyPrint, final boolean autoClose)
-	{
+	public XMLWriter(final Writer writerObj, final boolean prettyPrint, final boolean autoClose) {
 		this.writer = writerObj;
 		this.bPrettyPrint = prettyPrint;
 		this.bAutoClose = autoClose;
@@ -173,8 +168,7 @@ public class XMLWriter
 	 * @param bAutoClose
 	 *            whether to close the writer automatically.
 	 */
-	public XMLWriter(final OutputStream output, final boolean prettyPrint, final boolean autoClose)
-	{
+	public XMLWriter(final OutputStream output, final boolean prettyPrint, final boolean autoClose) {
 		this.out = output;
 		this.bPrettyPrint = prettyPrint;
 		this.bAutoClose = autoClose;
@@ -186,8 +180,7 @@ public class XMLWriter
 	 * @param writer
 	 *            the writer to which XML will be written.
 	 */
-	public void setWriter(final Writer writerObj)
-	{
+	public void setWriter(final Writer writerObj) {
 		this.writer = writerObj;
 	}
 
@@ -196,8 +189,7 @@ public class XMLWriter
 	 * 
 	 * @return the writer to which XML will be written.
 	 */
-	public final Writer getWriter()
-	{
+	public final Writer getWriter() {
 		return this.writer;
 	}
 
@@ -209,8 +201,7 @@ public class XMLWriter
 	 * @param bPrettyPrint
 	 *            whether to pretty print the document.
 	 */
-	public void setPrettyPrint(final boolean prettyPrint)
-	{
+	public void setPrettyPrint(final boolean prettyPrint) {
 		this.bPrettyPrint = prettyPrint;
 	}
 
@@ -223,34 +214,29 @@ public class XMLWriter
 	 * @param bAutoClose
 	 *            whether to close the writer automatically.
 	 */
-	public void setAutoClose(final boolean autoClose)
-	{
+	public void setAutoClose(final boolean autoClose) {
 		this.bAutoClose = autoClose;
 	}
 
 	/**
 	 * writes the start of the document
 	 */
-	public void startDocument() throws IOException
-	{
+	public void startDocument() throws IOException {
 		this.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"); //$NON-NLS-1$
 	}
 
 	/**
 	 * writes the start tag for an element, for eg : <Settings>
 	 */
-	public void startElement(final String elemName) throws IOException
-	{
+	public void startElement(final String elemName) throws IOException {
 		this.iElementLevel++;
 
-		if (this.bPrettyPrint)
-		{
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 
 			// write indent tabs
-			for (int i = 1; i < this.iElementLevel; i++)
-			{
+			for (int i = 1; i < this.iElementLevel; i++) {
 				this.write(TAB);
 			}
 		}
@@ -272,18 +258,15 @@ public class XMLWriter
 	 * @param attributes
 	 *            A <code>Hashtable</code> of name and value pairs.
 	 */
-	public void startElement(final String elemName, final Hashtable attributes) throws IOException
-	{
+	public void startElement(final String elemName, final Hashtable attributes) throws IOException {
 		this.iElementLevel++;
 
-		if (this.bPrettyPrint)
-		{
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 
 			// write indent tabs
-			for (int i = 1; i < this.iElementLevel; i++)
-			{
+			for (int i = 1; i < this.iElementLevel; i++) {
 				this.write(TAB);
 			}
 		}
@@ -292,11 +275,9 @@ public class XMLWriter
 		this.write(elemName);
 
 		// write the attributes...
-		if (attributes != null)
-		{
+		if (attributes != null) {
 			final Enumeration keys = attributes.keys();
-			while (keys.hasMoreElements())
-			{
+			while (keys.hasMoreElements()) {
 				final String key = (String) keys.nextElement();
 				final String value = (String) attributes.get(key);
 
@@ -305,12 +286,9 @@ public class XMLWriter
 				this.write(key);
 				this.write('=');
 				this.write(QUOTATION);
-				if (B_ENCODE)
-				{
+				if (B_ENCODE) {
 					this.write(xmlEncode(value));
-				}
-				else
-				{
+				} else {
 					this.write(value);
 				}
 				this.write(QUOTATION);
@@ -322,9 +300,9 @@ public class XMLWriter
 
 	/**
 	 * writes the start tag for an element along with attributes. The attributes
-	 * are to be supplied in a <code>java.util.Map</code> where both the key
-	 * and values are <code>String</code> objects. The key will be considered
-	 * as the attribute name and the value will be taken as attribute value. The
+	 * are to be supplied in a <code>java.util.Map</code> where both the key and
+	 * values are <code>String</code> objects. The key will be considered as the
+	 * attribute name and the value will be taken as attribute value. The
 	 * attribute value will automatically xml escaped.
 	 * 
 	 * @param elemName
@@ -332,8 +310,7 @@ public class XMLWriter
 	 * @param attributes
 	 *            A <code>Map</code> of name and value pairs.
 	 */
-	public void startElement(final String elemName, final Map attributes) throws IOException
-	{
+	public void startElement(final String elemName, final Map attributes) throws IOException {
 		this.startElement(elemName, new Hashtable(attributes));
 	}
 
@@ -352,8 +329,7 @@ public class XMLWriter
 	 * @param values
 	 *            Array of attribute values.
 	 */
-	public void startElement(final String elemName, final String[] keys, final String[] values) throws IOException
-	{
+	public void startElement(final String elemName, final String[] keys, final String[] values) throws IOException {
 		this.startElement(elemName, keys, values, keys.length);
 	}
 
@@ -373,8 +349,7 @@ public class XMLWriter
 	 * @param values
 	 *            Array of attribute values.
 	 */
-	public void writeElement(final String elemName, final String[] keys, final String[] values) throws IOException
-	{
+	public void writeElement(final String elemName, final String[] keys, final String[] values) throws IOException {
 		this.writeElement(elemName, keys, values, keys.length);
 	}
 
@@ -396,18 +371,15 @@ public class XMLWriter
 	 *            Number of Attributes to be taken from the array
 	 */
 	public void startElement(final String elemName, final String[] keys, final String[] values, final int len)
-			throws IOException
-	{
+			throws IOException {
 		this.iElementLevel++;
 
-		if (this.bPrettyPrint)
-		{
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 
 			// write indent tabs
-			for (int i = 1; i < this.iElementLevel; i++)
-			{
+			for (int i = 1; i < this.iElementLevel; i++) {
 				this.write(TAB);
 			}
 		}
@@ -416,25 +388,19 @@ public class XMLWriter
 		this.write(elemName);
 
 		// write the attributes...
-		if (keys != null)
-		{
-			for (int i = 0; i < len; i++)
-			{
+		if (keys != null) {
+			for (int i = 0; i < len; i++) {
 				final String key = keys[i];
 				final String value = values[i];
 				// write ' key="value"'
-				if (value != null)
-				{
+				if (value != null) {
 					this.write(' ');
 					this.write(key);
 					this.write('=');
 					this.write(QUOTATION);
-					if (B_ENCODE)
-					{
+					if (B_ENCODE) {
 						this.write(xmlEncode(value));
-					}
-					else
-					{
+					} else {
 						this.write(value);
 					}
 					this.write(QUOTATION);
@@ -464,18 +430,15 @@ public class XMLWriter
 	 *            Number of Attributes to be taken from the array
 	 */
 	public void writeElement(final String elemName, final String[] keys, final String[] values, final int len)
-			throws IOException
-	{
+			throws IOException {
 		this.iElementLevel++;
 
-		if (this.bPrettyPrint)
-		{
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 
 			// write indent tabs
-			for (int i = 1; i < this.iElementLevel; i++)
-			{
+			for (int i = 1; i < this.iElementLevel; i++) {
 				this.write(TAB);
 			}
 		}
@@ -484,24 +447,18 @@ public class XMLWriter
 		this.write(elemName);
 
 		// write the attributes...
-		if (keys != null)
-		{
-			for (int i = 0; i < len; i++)
-			{
+		if (keys != null) {
+			for (int i = 0; i < len; i++) {
 				final String key = keys[i];
 				final String value = values[i];
-				if (value != null)
-				{
+				if (value != null) {
 					this.write(' ');
 					this.write(key);
 					this.write('=');
 					this.write(QUOTATION);
-					if (B_ENCODE)
-					{
+					if (B_ENCODE) {
 						this.write(xmlEncode(value));
-					}
-					else
-					{
+					} else {
 						this.write(value);
 					}
 					this.write(QUOTATION);
@@ -530,17 +487,14 @@ public class XMLWriter
 	 * @param value
 	 *            String attribute values.
 	 */
-	public void startElement(final String elemName, final String key, final String value) throws IOException
-	{
+	public void startElement(final String elemName, final String key, final String value) throws IOException {
 		this.iElementLevel++;
 
-		if (this.bPrettyPrint)
-		{
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 			// write indent tabs
-			for (int i = 1; i < this.iElementLevel; i++)
-			{
+			for (int i = 1; i < this.iElementLevel; i++) {
 				this.write(TAB);
 			}
 		}
@@ -549,19 +503,15 @@ public class XMLWriter
 		this.write(elemName);
 
 		// write the attributes...
-		if ((key != null) && (value != null))
-		{
+		if ((key != null) && (value != null)) {
 			// write ' key="value"'
 			this.write(' ');
 			this.write(key);
 			this.write('=');
 			this.write(QUOTATION);
-			if (B_ENCODE)
-			{
+			if (B_ENCODE) {
 				this.write(xmlEncode(value));
-			}
-			else
-			{
+			} else {
 				this.write(value);
 			}
 			this.write(QUOTATION);
@@ -585,18 +535,15 @@ public class XMLWriter
 	 * @param value
 	 *            String attribute value.
 	 */
-	public void writeElement(final String elemName, final String key, final String value) throws IOException
-	{
+	public void writeElement(final String elemName, final String key, final String value) throws IOException {
 		this.iElementLevel++;
 
-		if (this.bPrettyPrint)
-		{
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 
 			// write indent tabs
-			for (int i = 1; i < this.iElementLevel; i++)
-			{
+			for (int i = 1; i < this.iElementLevel; i++) {
 				this.write(TAB);
 			}
 		}
@@ -605,19 +552,15 @@ public class XMLWriter
 		this.write(elemName);
 
 		// write the attributes...
-		if ((key != null) && (value != null))
-		{
+		if ((key != null) && (value != null)) {
 			// write ' key="value"'
 			this.write(' ');
 			this.write(key);
 			this.write('=');
 			this.write(QUOTATION);
-			if (B_ENCODE)
-			{
+			if (B_ENCODE) {
 				this.write(xmlEncode(value));
-			}
-			else
-			{
+			} else {
 				this.write(value);
 			}
 			this.write(QUOTATION);
@@ -634,8 +577,7 @@ public class XMLWriter
 	 * @param str
 	 * @throws IOException
 	 */
-	public void characters(final String str) throws IOException
-	{
+	public void characters(final String str) throws IOException {
 		this.write(xmlEncode(str));
 		this.bBodyChars = true;
 	}
@@ -643,19 +585,15 @@ public class XMLWriter
 	/**
 	 * writes the end tag for an element, for eg : </Settings>
 	 */
-	public void endElement(final String elemName) throws IOException
-	{
-		if (this.bPrettyPrint)
-		{
+	public void endElement(final String elemName) throws IOException {
+		if (this.bPrettyPrint) {
 			// only write a new line and indent tabs
 			// when closing a parent element without body characters
-			if (!this.bBodyChars)
-			{
+			if (!this.bBodyChars) {
 				this.write(LF);
 
 				// write indent tabs
-				for (int i = 1; i < this.iElementLevel; i++)
-				{
+				for (int i = 1; i < this.iElementLevel; i++) {
 					this.write(TAB);
 				}
 			}
@@ -672,10 +610,8 @@ public class XMLWriter
 	/**
 	 * writes an element with String content. for eg: <Name>Group1</Name>
 	 */
-	public void writeElement(final String elemName, final String characters) throws IOException
-	{
-		if (characters != null)
-		{
+	public void writeElement(final String elemName, final String characters) throws IOException {
+		if (characters != null) {
 			this.startElement(elemName);
 			this.characters(characters);
 			this.endElement(elemName);
@@ -686,8 +622,7 @@ public class XMLWriter
 	 * writes an element with String content. for eg: <Name>Group1</Name>
 	 */
 	public void writeElement(final String elemName, final Hashtable attributes, final String characters)
-			throws IOException
-	{
+			throws IOException {
 		this.startElement(elemName, attributes);
 		this.characters(characters);
 		this.endElement(elemName);
@@ -696,18 +631,15 @@ public class XMLWriter
 	/**
 	 * writes an empty element. for eg: <IsServiceRunning />
 	 */
-	public void writeEmptyElement(final String elemName) throws IOException
-	{
+	public void writeEmptyElement(final String elemName) throws IOException {
 		this.iElementLevel++;
 
-		if (this.bPrettyPrint)
-		{
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 
 			// write indent tabs
-			for (int i = 1; i < this.iElementLevel; i++)
-			{
+			for (int i = 1; i < this.iElementLevel; i++) {
 				this.write(TAB);
 			}
 		}
@@ -724,11 +656,9 @@ public class XMLWriter
 	 * call this method to specify end of document. It flushes the buffer and
 	 * closes the writer if auto-close is on.
 	 */
-	public void endDocument() throws IOException
-	{
+	public void endDocument() throws IOException {
 		this.flush();
-		if (this.bAutoClose)
-		{
+		if (this.bAutoClose) {
 			this.close();
 		}
 	}
@@ -737,15 +667,11 @@ public class XMLWriter
 	 * you will not need to call this if the autoclose flag is set to true while
 	 * creating this writer.
 	 */
-	public void close() throws IOException
-	{
-		if (this.writer != null)
-		{
+	public void close() throws IOException {
+		if (this.writer != null) {
 			this.flush();
 			this.writer.close();
-		}
-		else if (this.out != null)
-		{
+		} else if (this.out != null) {
 			this.out.close();
 		}
 	}
@@ -758,8 +684,7 @@ public class XMLWriter
 	 * never need to and should not call this if you are using the
 	 * java.io.Writer version constructor.
 	 */
-	public void write(final byte[] bytes) throws IOException
-	{
+	public void write(final byte[] bytes) throws IOException {
 		this.write(bytes, 0, bytes.length);
 	}
 
@@ -769,10 +694,8 @@ public class XMLWriter
 	 * never need to and should not call this if you are using the
 	 * java.io.Writer version constructor.
 	 */
-	public void write(final byte[] bytes, final int offset, final int len) throws IOException
-	{
-		if (this.out != null)
-		{
+	public void write(final byte[] bytes, final int offset, final int len) throws IOException {
+		if (this.out != null) {
 			this.out.write(bytes, offset, len);
 			this.out.flush();
 		}
@@ -782,16 +705,14 @@ public class XMLWriter
 	 * Note: OutputStream specific : writes the end of mime boundary to the
 	 * outputstream
 	 */
-	public void endBoundary() throws IOException
-	{
+	public void endBoundary() throws IOException {
 		this.write(MIME_BOUNDARY_BYTES);
 	}
 
 	/**
 	 * Note: OutputStream specific : writes a mime header to the outputstream
 	 */
-	public void writeHeader(final String headerName, final String headerValue) throws IOException
-	{
+	public void writeHeader(final String headerName, final String headerValue) throws IOException {
 		this.write(headerName);
 		this.write(": "); //$NON-NLS-1$
 		this.write(headerValue);
@@ -801,8 +722,7 @@ public class XMLWriter
 	/**
 	 * Note: OutputStream specific : writes a CRLF to denote end of mime headers
 	 */
-	public void endHeaders() throws IOException
-	{
+	public void endHeaders() throws IOException {
 		this.write(CRLF_BYTES);
 	}
 
@@ -811,8 +731,7 @@ public class XMLWriter
 	 * outputstream You should not write anything further to the stream, once
 	 * this method is called.
 	 */
-	public void finalBoundary() throws IOException
-	{
+	public void finalBoundary() throws IOException {
 		this.write(FINAL_MIME_BOUNDARY_BYTES);
 	}
 
@@ -824,28 +743,23 @@ public class XMLWriter
 	 * re-initialized. This method will not do anything if the parameter is null
 	 * or empty.
 	 */
-	public void write(final String str) throws IOException
-	{
+	public void write(final String str) throws IOException {
 		// in case u are writing to stream, dont buffer...
-		if (this.out != null)
-		{
+		if (this.out != null) {
 			this.out.write(str.getBytes());
 			this.out.flush();
 			return;
 		}
 
-		if ((str == null) || (str.length() == 0))
-		{
+		if ((str == null) || (str.length() == 0)) {
 			return;
 		}
 
-		if (this.sBuffer == null)
-		{
+		if (this.sBuffer == null) {
 			this.sBuffer = new StringBuffer(MAX_BUFFER);
 		}
 
-		if (this.sBuffer.length() + str.length() >= MAX_BUFFER)
-		{
+		if (this.sBuffer.length() + str.length() >= MAX_BUFFER) {
 			this.flush();
 		}
 
@@ -855,8 +769,7 @@ public class XMLWriter
 	/**
 	 * writes the char to the buffer. A convenient overloaded method.
 	 */
-	private void write(final char ch) throws IOException
-	{
+	private void write(final char ch) throws IOException {
 		this.write(String.valueOf(ch));
 	}
 
@@ -864,16 +777,13 @@ public class XMLWriter
 	 * writes the contents of the buffer to the stream and re-initializes the
 	 * buffer.
 	 */
-	private void flush() throws IOException
-	{
-		if (this.writer != null)
-		{
+	private void flush() throws IOException {
+		if (this.writer != null) {
 			this.writer.write(this.sBuffer.toString());
 			this.writer.flush();
 			this.sBuffer = new StringBuffer(MAX_BUFFER);
 		}
-		if (this.out != null)
-		{
+		if (this.out != null) {
 			this.out.flush();
 		}
 	}
@@ -884,50 +794,45 @@ public class XMLWriter
 	 * @param str
 	 * @return String
 	 */
-	public static String xmlEncode(final String str)
-	{
-		if (str == null)
-		{
+	public static String xmlEncode(final String str) {
+		if (str == null) {
 			return null;
 		}
 
-		if (str.length() == 0)
-		{
+		if (str.length() == 0) {
 			return "";
 		}
 
 		final StringBuffer sbEncode = new StringBuffer(str.length() * 2);
 		final char chrarry[] = str.toCharArray();
-		for (int i = 0; i < chrarry.length; i++)
-		{
+		for (int i = 0; i < chrarry.length; i++) {
 			final char ch = chrarry[i];
-			switch (ch)
-			{
-				case LESS_THAN:
-					sbEncode.append(EN_LESS_THAN);
-					break;
-				case GREATER_THAN:
-					sbEncode.append(EN_GREATER_THAN);
-					break;
-				case AMPERSAND:
-					sbEncode.append(EN_AMPERSAND);
-					break;
-				case APOSTROPHE:
-					sbEncode.append(EN_APOSTROPHE);
-					break;
-				case QUOTATION:
-					sbEncode.append(EN_QUOTATION);
-					break;
-				case 9: // $IGN_Use_break_for_each_case$
-				case 10: // $IGN_Use_break_for_each_case$
-				case 13:
-					sbEncode.append("&#x"); //$NON-NLS-1$
-					sbEncode.append(Integer.toHexString(ch));
-					sbEncode.append(";"); //$NON-NLS-1$
-					break;
-				default:
-					sbEncode.append(ch);
-					break;
+			switch (ch) {
+			case LESS_THAN:
+				sbEncode.append(EN_LESS_THAN);
+				break;
+			case GREATER_THAN:
+				sbEncode.append(EN_GREATER_THAN);
+				break;
+			case AMPERSAND:
+				sbEncode.append(EN_AMPERSAND);
+				break;
+			case APOSTROPHE:
+				sbEncode.append(EN_APOSTROPHE);
+				break;
+			case QUOTATION:
+				sbEncode.append(EN_QUOTATION);
+				break;
+			case 9: // $IGN_Use_break_for_each_case$
+			case 10: // $IGN_Use_break_for_each_case$
+			case 13:
+				sbEncode.append("&#x"); //$NON-NLS-1$
+				sbEncode.append(Integer.toHexString(ch));
+				sbEncode.append(";"); //$NON-NLS-1$
+				break;
+			default:
+				sbEncode.append(ch);
+				break;
 			}
 		}
 
@@ -939,8 +844,7 @@ public class XMLWriter
 	 * 
 	 * @param string
 	 */
-	public void writeCData(final String data) throws IOException
-	{
+	public void writeCData(final String data) throws IOException {
 		this.writeCData(data, true);
 	}
 
@@ -949,12 +853,9 @@ public class XMLWriter
 	 * 
 	 * @param string
 	 */
-	public void writeCData(final String data, final boolean checkForTrim) throws IOException
-	{
-		if (data != null)
-		{
-			if (checkForTrim && (data.trim().length() == 0))
-			{
+	public void writeCData(final String data, final boolean checkForTrim) throws IOException {
+		if (data != null) {
+			if (checkForTrim && (data.trim().length() == 0)) {
 				return;
 			}
 			this.write("<![CDATA["); //$NON-NLS-1$
@@ -968,8 +869,7 @@ public class XMLWriter
 	/**
 	 * 
 	 */
-	public void setElementLevel(final int level)
-	{
+	public void setElementLevel(final int level) {
 		this.iElementLevel = level;
 	}
 
@@ -979,52 +879,43 @@ public class XMLWriter
 	 * @param comments
 	 * @throws IOException
 	 */
-	public void writeComments(final ArrayList comments) throws IOException
-	{
-		if (this.bPrettyPrint)
-		{
+	public void writeComments(final ArrayList comments) throws IOException {
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 
 			// write indent tabs
-			for (int i = 1; i < this.iElementLevel; i++)
-			{
+			for (int i = 1; i < this.iElementLevel; i++) {
 				this.write(TAB);
 			}
 		}
 		this.write(COMMENT_START);
 
-		for (int cnt = 0; cnt < comments.size(); cnt++)
-		{
-			if (this.bPrettyPrint)
-			{
+		for (int cnt = 0; cnt < comments.size(); cnt++) {
+			if (this.bPrettyPrint) {
 				// write new line
 				this.write(LF);
 
 				// write indent tabs
-				for (int i = 1; i < this.iElementLevel; i++)
-				{
+				for (int i = 1; i < this.iElementLevel; i++) {
 					this.write(TAB);
 				}
 			}
 			this.write(comments.get(cnt).toString());
 		}
 
-		if (this.bPrettyPrint)
-		{
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 
 			// write indent tabs
-			for (int i = 1; i < this.iElementLevel; i++)
-			{
+			for (int i = 1; i < this.iElementLevel; i++) {
 				this.write(TAB);
 			}
 		}
 		this.write(COMMENT_END);
 
-		if (this.bPrettyPrint)
-		{
+		if (this.bPrettyPrint) {
 			// write new line
 			this.write(LF);
 		}

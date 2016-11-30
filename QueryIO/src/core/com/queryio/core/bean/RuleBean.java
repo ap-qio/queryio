@@ -24,8 +24,7 @@ import com.queryio.core.monitor.dstruct.Rule;
  * 
  * @author Exceed Consultancy Services
  */
-public class RuleBean extends Rule
-{
+public class RuleBean extends Rule {
 	private static final long serialVersionUID = 7526000057010002380L;
 	private String actionType = "add";
 
@@ -35,21 +34,18 @@ public class RuleBean extends Rule
 	private String[] aggregateFunctions = new String[0];
 	private String[] durations = new String[0];
 
-	public RuleBean()
-	{
+	public RuleBean() {
 	}
 
 	/**
 	 * @param ruleBean
 	 */
-	public RuleBean(final RuleBean ruleBean)
-	{
+	public RuleBean(final RuleBean ruleBean) {
 		super(ruleBean);
 		this.actionType = ruleBean.actionType;
 
 		final int length = ruleBean.attrNames.length;
-		if (length > 0)
-		{
+		if (length > 0) {
 			this.attrNames = new String[length];
 			System.arraycopy(ruleBean.attrNames, 0, this.attrNames, 0, length);
 
@@ -72,8 +68,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @return
 	 */
-	public String getActionType()
-	{
+	public String getActionType() {
 		return this.actionType;
 	}
 
@@ -82,8 +77,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @param string
 	 */
-	public void setActionType(final String string)
-	{
+	public void setActionType(final String string) {
 		this.actionType = string;
 	}
 
@@ -92,8 +86,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @return
 	 */
-	public String[] getAttrNames()
-	{
+	public String[] getAttrNames() {
 		return this.attrNames;
 	}
 
@@ -102,8 +95,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @return
 	 */
-	public String[] getConditions()
-	{
+	public String[] getConditions() {
 		return this.conditions;
 	}
 
@@ -112,8 +104,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @return
 	 */
-	public String[] getDurations()
-	{
+	public String[] getDurations() {
 		return this.durations;
 	}
 
@@ -122,8 +113,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @return
 	 */
-	public String[] getAggregateFunctions()
-	{
+	public String[] getAggregateFunctions() {
 		return this.aggregateFunctions;
 	}
 
@@ -132,8 +122,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @return
 	 */
-	public String[] getValues()
-	{
+	public String[] getValues() {
 		return this.values;
 	}
 
@@ -142,8 +131,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @param strings
 	 */
-	public void setAttrNames(final String[] strings)
-	{
+	public void setAttrNames(final String[] strings) {
 		this.attrNames = strings;
 	}
 
@@ -152,8 +140,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @param strings
 	 */
-	public void setConditions(final String[] strings)
-	{
+	public void setConditions(final String[] strings) {
 		this.conditions = strings;
 	}
 
@@ -162,8 +149,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @param strings
 	 */
-	public void setDurations(final String[] strings)
-	{
+	public void setDurations(final String[] strings) {
 		this.durations = strings;
 	}
 
@@ -172,8 +158,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @param strings
 	 */
-	public void setAggregateFunctions(final String[] strings)
-	{
+	public void setAggregateFunctions(final String[] strings) {
 		this.aggregateFunctions = strings;
 	}
 
@@ -182,8 +167,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @param strings
 	 */
-	public void setValues(final String[] strings)
-	{
+	public void setValues(final String[] strings) {
 		this.values = strings;
 	}
 
@@ -192,8 +176,7 @@ public class RuleBean extends Rule
 	 * Controller Selection is changed in the Add Rules page
 	 * 
 	 */
-	public void clearExpressionVariables()
-	{
+	public void clearExpressionVariables() {
 		this.attrNames = new String[0];
 		this.conditions = new String[0];
 		this.values = new String[0];
@@ -206,8 +189,7 @@ public class RuleBean extends Rule
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("RuleBean:");
 
 		sbToString.append(" RuleId=");
@@ -222,8 +204,7 @@ public class RuleBean extends Rule
 		sbToString.append(this.getAlertRaisedNotificationSubject());
 		sbToString.append(" Expressions=");
 
-		for (int i = 0; i < this.attrNames.length; i++)
-		{
+		for (int i = 0; i < this.attrNames.length; i++) {
 			sbToString.append('{');
 			sbToString.append("name=");
 			sbToString.append(this.attrNames[i]);

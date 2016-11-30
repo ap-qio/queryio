@@ -7,7 +7,7 @@ import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class JTLOutputFormat extends FileOutputFormat<Text, Record>{
+public class JTLOutputFormat extends FileOutputFormat<Text, Record> {
 
 	@Override
 	public RecordWriter<Text, Record> getRecordWriter(TaskAttemptContext arg0)
@@ -15,5 +15,5 @@ public class JTLOutputFormat extends FileOutputFormat<Text, Record>{
 
 		return null;
 	}
-	
+
 }

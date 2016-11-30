@@ -23,15 +23,13 @@ import org.ks.cm.parser.ExpressionException;
 /**
  * @author Exceed Consultancy Services
  */
-public class LesserEqualsOperatorExpression extends LogicalExpression
-{
+public class LesserEqualsOperatorExpression extends LogicalExpression {
 	private static final long serialVersionUID = 7526000057010002392L;
 
 	/**
 	 * @see java.lang.Object#Object()
 	 */
-	public LesserEqualsOperatorExpression()
-	{
+	public LesserEqualsOperatorExpression() {
 		super();
 	}
 
@@ -41,32 +39,28 @@ public class LesserEqualsOperatorExpression extends LogicalExpression
 	 * @param left
 	 * @param right
 	 */
-	public LesserEqualsOperatorExpression(final Expression left, final Expression right)
-	{
+	public LesserEqualsOperatorExpression(final Expression left, final Expression right) {
 		super(left, right);
 	}
 
 	/**
 	 * @see org.ks.cm.parser.Expression#calculate()
 	 */
-	public double calculate() throws ExpressionException
-	{
+	public double calculate() throws ExpressionException {
 		return (this.left.calculate() <= this.right.calculate()) ? 1.0 : 0.0;
 	}
 
 	/**
 	 * @see org.ks.cm.parser.OperatorExpression#getPriority()
 	 */
-	public byte getPriority()
-	{
+	public byte getPriority() {
 		return 50;
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer('[');
 		sbToString.append(this.left.toString());
 		sbToString.append("<=");

@@ -35,60 +35,51 @@ import com.queryio.sysmoncommon.sysmon.dstruct.ProcessInfo;
 import com.queryio.sysmoncommon.sysmon.dstruct.UnixNetworkInfo;
 import com.queryio.sysmoncommon.sysmon.protocol.AbstractProtocolWrapper;
 
-public class GenericLinuxDataParser extends AbstractDataParser
-{
+public class GenericLinuxDataParser extends AbstractDataParser {
 	private static final String NEW_LINE_TOKENS = "\r\n\f"; //$NON-NLS-1$
 
 	/**
 	 * @see com.queryio.sysmoncommon.sysmon.AbstractDataParser#parseTopMemCommand(java.lang.String)
 	 */
-	public void parseTopMemCommand(final String output) throws ResultParsingException
-	{
-		//DO NOTHING
+	public void parseTopMemCommand(final String output) throws ResultParsingException {
+		// DO NOTHING
 	}
-	
+
 	/**
 	 * @see com.queryio.sysmoncommon.sysmon.AbstractDataParser#parsePrstatCommand(java.lang.String)
 	 */
-	public void parsePrstatCommand(final String output) throws ResultParsingException
-	{
-		if (this.processInfoList == null)
-		{
+	public void parsePrstatCommand(final String output) throws ResultParsingException {
+		if (this.processInfoList == null) {
 			this.processInfoList = new LinkedList();
-		}
-		else
-		{
+		} else {
 			this.processInfoList.clear();
 		}
-	
-		if (output != null) // output will be null if this method gets called after disconnect
+
+		if (output != null) // output will be null if this method gets called
+							// after disconnect
 		{
 			String sLine = null;
-			String [] headers = null;
+			String[] headers = null;
 			final StringTokenizer st = new StringTokenizer(output, NEW_LINE_TOKENS);
 			ProcessInfo pInfo;
 			boolean bCanAdd = false;
-			while (st.hasMoreTokens())
-			{
+			while (st.hasMoreTokens()) {
 				sLine = st.nextToken();
 				if (sLine.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT) || sLine.trim().equals("$")) // prompt)
 				{
 					break;
-				}				
-				else if (headers == null)
-				{
+				} else if (headers == null) {
 					String lowercase = sLine.toLowerCase().trim();
-					if (lowercase.startsWith("pid ") || lowercase.startsWith("command") || lowercase.startsWith("user"))
-					{
+					if (lowercase.startsWith("pid ") || lowercase.startsWith("command")
+							|| lowercase.startsWith("user")) {
 						headers = getTokens(sLine.toLowerCase().trim());
 						continue;
 					}
 				}
-				if (headers == null)
-				{
+				if (headers == null) {
 					continue;
 				}
-				
+
 				String sProcessName = null;
 				String sUserName = null;
 				int iPID = 0;
@@ -97,140 +88,100 @@ public class GenericLinuxDataParser extends AbstractDataParser
 				long processorTime = 0;
 				int iThreadCount = 0;
 
-				final String [] values = getTokens(sLine);
+				final String[] values = getTokens(sLine);
 				int n = Math.min(headers.length, values.length);
-				try
-				{	bCanAdd = true;
-					for (int i = 0; i < n; i++) 
-					{
-						if (headers[i].equals("command"))
-						{
-							if(values[i].trim().length() == 0)
-							{
+				try {
+					bCanAdd = true;
+					for (int i = 0; i < n; i++) {
+						if (headers[i].equals("command")) {
+							if (values[i].trim().length() == 0) {
 								bCanAdd = false;
-							}
-							else							
-							{
+							} else {
 								sProcessName = values[i];
 							}
-						}
-						else if (headers[i].equals("pid"))
-						{
-							if(values[i].trim().length() == 0)
-							{
+						} else if (headers[i].equals("pid")) {
+							if (values[i].trim().length() == 0) {
 								bCanAdd = false;
-							}
-							else
-							{
+							} else {
 								iPID = this.nf.parse(values[i]).intValue();
 							}
-						}
-						else if (headers[i].equals("elapsed"))
-						{
-							try
-							{
+						} else if (headers[i].equals("elapsed")) {
+							try {
 								upTime = parsePSTime(values[i]);
-							}
-							catch(Exception e)
-							{
+							} catch (Exception e) {
 								bCanAdd = false;
 							}
-						}
-						else if (headers[i].equals("time"))
-						{
-							try
-							{
+						} else if (headers[i].equals("time")) {
+							try {
 								processorTime = parsePSTime(values[i]);
-							}
-							catch(Exception e)
-							{
-								bCanAdd = false;
-							}							
-						}
-						else if (headers[i].equals("%mem") || headers[i].equals("vsz")
-								|| headers[i].equals("sz"))
-						{
-							if(values[i].trim().length() == 0)
-							{
+							} catch (Exception e) {
 								bCanAdd = false;
 							}
-							else
-							{							
+						} else if (headers[i].equals("%mem") || headers[i].equals("vsz") || headers[i].equals("sz")) {
+							if (values[i].trim().length() == 0) {
+								bCanAdd = false;
+							} else {
 								iProcessMemory = this.nf.parse(values[i]).intValue();
 							}
-						}
-						else if (headers[i].equals("thcnt"))
-						{
-							if(values[i].trim().length() == 0)
-							{
+						} else if (headers[i].equals("thcnt")) {
+							if (values[i].trim().length() == 0) {
 								bCanAdd = false;
-							}
-							else
-							{							
+							} else {
 								iThreadCount = this.nf.parse(values[i]).intValue();
 							}
-						}
-						else if (headers[i].equals("user"))
-						{
-							if(values[i].trim().length() == 0)
-							{
+						} else if (headers[i].equals("user")) {
+							if (values[i].trim().length() == 0) {
 								bCanAdd = false;
-							}
-							else
-							{
+							} else {
 								sUserName = values[i];
 							}
 						}
 					}
-					if(bCanAdd)
-					{
+					if (bCanAdd) {
 						String fullProcessName = sProcessName;
-						// No need to check indexOf, bcoz if its -1, still it will begin from 0 which is
+						// No need to check indexOf, bcoz if its -1, still it
+						// will begin from 0 which is
 						// proper.
 						sProcessName = fullProcessName.substring(fullProcessName.lastIndexOf('/') + 1);
-						pInfo = new AIXProcessInfo(sProcessName, iPID, iProcessMemory, iThreadCount, upTime, processorTime);
-						if (n < values.length)
-						{
+						pInfo = new AIXProcessInfo(sProcessName, iPID, iProcessMemory, iThreadCount, upTime,
+								processorTime);
+						if (n < values.length) {
 							StringBuffer command = new StringBuffer(fullProcessName);
-							for (int j = n; j < values.length; j++) 
-							{
+							for (int j = n; j < values.length; j++) {
 								command.append(' ');
 								command.append(values[j]);
 							}
 							pInfo.setCommand(command.toString());
 						}
 						pInfo.setUserName(sUserName);
-						if (this.processFilter == null || this.processFilter.matches(pInfo))
-						{
+						if (this.processFilter == null || this.processFilter.matches(pInfo)) {
 							this.processInfoList.add(pInfo);
-							if (this.processFilter != null)
-							{
-								// even break will do the same, but return is better to avoid confusion
+							if (this.processFilter != null) {
+								// even break will do the same, but return is
+								// better to avoid confusion
 								// of which loop to break from.
 								return;
 							}
 						}
 					}
-				}
-				catch (Exception ex)
-				{
-					//DO NOTHING
+				} catch (Exception ex) {
+					// DO NOTHING
 				}
 			}
 		}
 	}
+
 	/**
 	 * @see com.queryio.sysmoncommon.sysmon.AbstractDataParser#parseVmstatCommand(java.lang.String)
 	 */
-	public void parseVmstatCommand(final String output) throws ResultParsingException
-	{
-		//DO NOTHING
-	}	
+	public void parseVmstatCommand(final String output) throws ResultParsingException {
+		// DO NOTHING
+	}
+
 	/**
 	 * @see com.queryio.sysmoncommon.sysmon.AbstractDataParser#parseTopCommand(java.lang.String)
 	 */
-	public void parseTopCommand(final String output) throws ResultParsingException
-	{
+	public void parseTopCommand(final String output) throws ResultParsingException {
 		/*
 		 * Output of "top -c" command on Redhat Linux 9
 		 * 
@@ -307,15 +258,13 @@ public class GenericLinuxDataParser extends AbstractDataParser
 		if (output != null) // output will be null if this method gets called
 		// after disconnect
 		{
-			try
-			{
+			try {
 				// boolean bSecond = false;
 				String temp = null;
 				String sLine = null;
 
 				final StringTokenizer st = new StringTokenizer(output, NEW_LINE_TOKENS);
-				while (st.hasMoreTokens())
-				{
+				while (st.hasMoreTokens()) {
 					sLine = st.nextToken();
 					/*
 					 * In case of Linux 9 CPU states: cpu user nice system irq
@@ -323,12 +272,10 @@ public class GenericLinuxDataParser extends AbstractDataParser
 					 * 84.6%
 					 */
 					if (sLine.toLowerCase().startsWith("cpu")
-							&& ((sLine.indexOf("idle") != -1) || (sLine.indexOf("id,") != -1)))
-					{
+							&& ((sLine.indexOf("idle") != -1) || (sLine.indexOf("id,") != -1))) {
 						final StringTokenizer line = new StringTokenizer(sLine, " \t,");
 						// skip "CPU states:" token(or even "Cpu(s):" token)
-						while (line.hasMoreTokens() && !line.nextToken().endsWith(":"))
-						{
+						while (line.hasMoreTokens() && !line.nextToken().endsWith(":")) {
 							// do nothing
 						}
 						if (sLine.indexOf('%') == -1) // no %, so assuming
@@ -337,28 +284,22 @@ public class GenericLinuxDataParser extends AbstractDataParser
 						{
 							final String sValueLine = st.nextToken();
 							final StringTokenizer values = new StringTokenizer(sValueLine);
-							while (line.hasMoreTokens())
-							{
+							while (line.hasMoreTokens()) {
 								final String token = line.nextToken();
 								temp = values.nextToken();
-								if ((token.indexOf("idle") != -1) || token.equals("id"))
-								{
+								if ((token.indexOf("idle") != -1) || token.equals("id")) {
 									temp = temp.substring(0, temp.length() - 1);
 									temp = temp.trim();
-									try
-									{
+									try {
 										idleCpuTime = this.nf.parse(temp).floatValue();
-									}
-									catch (final Exception e)
-									{
+									} catch (final Exception e) {
 										e.printStackTrace();
 										idleCpuTime = 100;
 									}
 									this.fCpuUsageTime = 100 - idleCpuTime;
 								}
 							}
-						}
-						else
+						} else
 						// % found, so assuming values specified on this line
 						{
 							/*
@@ -369,20 +310,15 @@ public class GenericLinuxDataParser extends AbstractDataParser
 							 */
 							String sPrevToken;
 							String token = null;
-							while (line.hasMoreTokens())
-							{
+							while (line.hasMoreTokens()) {
 								sPrevToken = token;
 								token = line.nextToken();
-								if ((token.indexOf("idle") != -1) || token.equals("id"))
-								{
+								if ((token.indexOf("idle") != -1) || token.equals("id")) {
 									temp = sPrevToken.substring(0, sPrevToken.length() - 1);
 									temp = temp.trim();
-									try
-									{
+									try {
 										idleCpuTime = this.nf.parse(temp).floatValue();
-									}
-									catch (final Exception e)
-									{
+									} catch (final Exception e) {
 										e.printStackTrace();
 										idleCpuTime = 100;
 									}
@@ -395,34 +331,24 @@ public class GenericLinuxDataParser extends AbstractDataParser
 					 * Mem: 512364K av, 456112K used, 56252K free, 56K shrd,
 					 * 140636K buff
 					 */
-					if (sLine.startsWith("Mem:"))
-					{
+					if (sLine.startsWith("Mem:")) {
 						final StringTokenizer line = new StringTokenizer(sLine);
 						String sPrevToken;
 						temp = null;
-						while (line.hasMoreTokens())
-						{
+						while (line.hasMoreTokens()) {
 							sPrevToken = temp;
 							temp = line.nextToken();
-							if (temp.indexOf("used") != -1)
-							{
-								try
-								{
+							if (temp.indexOf("used") != -1) {
+								try {
 									usedMemory = this.nf.parse(sPrevToken).intValue() / 1024;
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									usedMemory = 0;
 								}
 							}
-							if (temp.indexOf("free") != -1)
-							{
-								try
-								{
+							if (temp.indexOf("free") != -1) {
+								try {
 									freeMemory = this.nf.parse(sPrevToken).intValue() / 1024;
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									freeMemory = 0;
 								}
 							}
@@ -431,37 +357,31 @@ public class GenericLinuxDataParser extends AbstractDataParser
 						// freeMemory );
 						this.physicalMemInfo = new MemoryInfo((usedMemory + freeMemory), usedMemory, freeMemory);
 					}
-					/* Swap: 2048276K av, 0K used, 2048276K free 57100K cached */
-					if (sLine.startsWith("Swap:"))
-					{
+					/*
+					 * Swap: 2048276K av, 0K used, 2048276K free 57100K cached
+					 */
+					if (sLine.startsWith("Swap:")) {
 						final StringTokenizer line = new StringTokenizer(sLine);
 						String sPrevToken;
 						temp = null;
-						while (line.hasMoreTokens())
-						{
+						while (line.hasMoreTokens()) {
 							sPrevToken = temp;
 							temp = line.nextToken();
-							if (temp.indexOf("used") != -1)
-							{
-								try
-								{
-									usedMemory = this.nf.parse(sPrevToken).intValue() / 1000; // TODO why is
+							if (temp.indexOf("used") != -1) {
+								try {
+									usedMemory = this.nf.parse(sPrevToken).intValue() / 1000; // TODO
+																								// why
+																								// is
 									// this devided
 									// by 1000
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									usedMemory = 0;
 								}
 							}
-							if (temp.indexOf("free") != -1)
-							{
-								try
-								{
+							if (temp.indexOf("free") != -1) {
+								try {
 									freeMemory = this.nf.parse(sPrevToken).intValue() / 1000;
-								}
-								catch (final Exception e)
-								{
+								} catch (final Exception e) {
 									freeMemory = 0;
 								}
 							}
@@ -481,22 +401,16 @@ public class GenericLinuxDataParser extends AbstractDataParser
 					 * 
 					 * We need PID, COMMAND, %CPU and %MEM
 					 */
-					if (bProcesses)
-					{
-						if (!sLine.trim().equals(""))
-						{
+					if (bProcesses) {
+						if (!sLine.trim().equals("")) {
 							final StringTokenizer line = new StringTokenizer(sLine);
-							if (!((line.countTokens() == 12) || (line.countTokens() == 13)))
-							{
+							if (!((line.countTokens() == 12) || (line.countTokens() == 13))) {
 								continue;
 							}
 							temp = line.nextToken(); // PID:
-							try
-							{
+							try {
 								iPID = this.nf.parse(temp).intValue();
-							}
-							catch (final Exception e)
-							{
+							} catch (final Exception e) {
 								iPID = 0;
 							}
 							sUserName = line.nextToken(); // SKIP USER
@@ -505,17 +419,13 @@ public class GenericLinuxDataParser extends AbstractDataParser
 							line.nextToken(); // SKIP SIZE
 							// read RSS i.e. memory used
 							temp = line.nextToken();
-							try
-							{
+							try {
 								iProcessMemory = this.nf.parse(temp).intValue();
 								final char ch = temp.charAt(temp.length() - 1);
-								if ((ch == 'M') || (ch == 'm'))
-								{
+								if ((ch == 'M') || (ch == 'm')) {
 									iProcessMemory = iProcessMemory * 1024;
 								}
-							}
-							catch (final Exception e)
-							{
+							} catch (final Exception e) {
 								iProcessMemory = 0;
 							}
 
@@ -525,12 +435,9 @@ public class GenericLinuxDataParser extends AbstractDataParser
 							// read %CPU i.e. cpu usage
 							temp = line.nextToken();
 							// temp = temp.trim();
-							try
-							{
+							try {
 								fCpuUsage = this.nf.parse(temp).floatValue();
-							}
-							catch (final Exception e)
-							{
+							} catch (final Exception e) {
 								fCpuUsage = 0;
 							}
 
@@ -546,8 +453,7 @@ public class GenericLinuxDataParser extends AbstractDataParser
 							// }
 
 							line.nextToken(); // SKIP TIME
-							if (bLinux9)
-							{
+							if (bLinux9) {
 								line.nextToken(); // SKIP CPU
 							}
 							sProcessName = line.nextToken(); // COMMAND
@@ -566,52 +472,41 @@ public class GenericLinuxDataParser extends AbstractDataParser
 					 * In case of Linux 9 PID USER PRI NI SIZE RSS SHARE STAT
 					 * %CPU %MEM TIME CPU COMMAND *
 					 */
-					if (sLine.indexOf("PID USER") != -1)
-					{
+					if (sLine.indexOf("PID USER") != -1) {
 						bProcesses = true;
-						if (this.processInfoList == null)
-						{
+						if (this.processInfoList == null) {
 							this.processInfoList = new LinkedList();
-						}
-						else
-						{
+						} else {
 							this.processInfoList.clear();
 						}
-						if (sLine.indexOf("CPU COMMAND") != -1)
-						{
+						if (sLine.indexOf("CPU COMMAND") != -1) {
 							bLinux9 = true;
 						}
 					}
 				}
-			}
-			catch (final Exception ex)
-			{
+			} catch (final Exception ex) {
 				throw new ResultParsingException("Collect Data " + ex.getMessage(), output);
 			}
 		}
 	}
 
-	public void parseNetStatCommand(final String output) throws ResultParsingException
-	{
+	public void parseNetStatCommand(final String output) throws ResultParsingException {
 		/*
-		 * netstat -i -e --- returns the extended network interface info for all the interfaces
+		 * netstat -i -e --- returns the extended network interface info for all
+		 * the interfaces
 		 * 
-		  bond0   Link encap:Ethernet  HWaddr 00:30:48:CF:9B:18  
-		          inet addr:17.209.103.12  Bcast:17.209.103.255  Mask:255.255.255.0
-		          inet6 addr: fe80::230:48ff:fecf:9b18/64 Scope:Link
-		          UP BROADCAST RUNNING MASTER MULTICAST  MTU:1500  Metric:1
-		          RX packets:11854677260 errors:0 dropped:0 overruns:0 frame:0
-		          TX packets:20230554721 errors:0 dropped:0 overruns:0 carrier:0
-		          collisions:0 txqueuelen:0 
-		          RX bytes:5744669549117 (5.2 TiB)  TX bytes:20232387831537 (18.4 TiB)
+		 * bond0 Link encap:Ethernet HWaddr 00:30:48:CF:9B:18 inet
+		 * addr:17.209.103.12 Bcast:17.209.103.255 Mask:255.255.255.0 inet6
+		 * addr: fe80::230:48ff:fecf:9b18/64 Scope:Link UP BROADCAST RUNNING
+		 * MASTER MULTICAST MTU:1500 Metric:1 RX packets:11854677260 errors:0
+		 * dropped:0 overruns:0 frame:0 TX packets:20230554721 errors:0
+		 * dropped:0 overruns:0 carrier:0 collisions:0 txqueuelen:0 RX
+		 * bytes:5744669549117 (5.2 TiB) TX bytes:20232387831537 (18.4 TiB)
 		 */
 
-		if (this.networkInfoList == null)
-		{
+		if (this.networkInfoList == null) {
 			this.networkInfoList = new LinkedList();
-		}
-		else
-		{
+		} else {
 			this.networkInfoList.clear();
 		}
 		/*
@@ -621,104 +516,90 @@ public class GenericLinuxDataParser extends AbstractDataParser
 		 * next token begins with "[userid"
 		 */
 		final StringTokenizer st = new StringTokenizer(output, NEW_LINE_TOKENS);
-		while (st.hasMoreTokens())
-		{
-			if (st.nextToken().startsWith("Kernel"))
-			{
+		while (st.hasMoreTokens()) {
+			if (st.nextToken().startsWith("Kernel")) {
 				break;
 			}
 		}
 		String name = null;
 		String ipInterface = null;
 		String sLine = null;
-		try
-		{
+		try {
 			String rxOK = "";
 			String txOK = "";
-			while (st.hasMoreTokens())
-			{
+			while (st.hasMoreTokens()) {
 				sLine = st.nextToken().trim();
-				if(sLine == null || sLine.length() == 0 || sLine.startsWith("Interrupt") || sLine.startsWith("Memory"))
-				{
+				if (sLine == null || sLine.length() == 0 || sLine.startsWith("Interrupt")
+						|| sLine.startsWith("Memory")) {
 					continue;
 				}
-				if(sLine.indexOf("Link encap:") != -1 && sLine.indexOf("Ethernet") != -1)
-				{
+				if (sLine.indexOf("Link encap:") != -1 && sLine.indexOf("Ethernet") != -1) {
 					name = sLine;
 				}
-				
-				if (sLine.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT))
-				{
+
+				if (sLine.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT)) {
 					break;
 				}
 
 				rxOK = "";
 				txOK = "";
-				while (st.hasMoreTokens())
-				{
+				while (st.hasMoreTokens()) {
 					sLine = st.nextToken().trim();
-					if (sLine.startsWith("lo")) // do not read local loop back details
+					if (sLine.startsWith("lo")) // do not read local loop back
+												// details
 					{
 						continue;
 					}
-					
-					if(sLine.indexOf("inet addr:") != -1 && sLine.indexOf("inet addr:127.0.0.1") == -1)
-					{
+
+					if (sLine.indexOf("inet addr:") != -1 && sLine.indexOf("inet addr:127.0.0.1") == -1) {
 						ipInterface = sLine;
 					}
-					
-					//RX bytes:7532360691 (7.0 GiB)  TX bytes:7532360691 (7.0 GiB)
-					if (sLine.startsWith("RX bytes:")) // last line of current interface
+
+					// RX bytes:7532360691 (7.0 GiB) TX bytes:7532360691 (7.0
+					// GiB)
+					if (sLine.startsWith("RX bytes:")) // last line of current
+														// interface
 					{
 						sLine = sLine.substring(sLine.indexOf("RX bytes:") + "RX bytes:".length());
-						if(sLine.indexOf(' ') != -1)
-						{
+						if (sLine.indexOf(' ') != -1) {
 							rxOK = sLine.substring(0, sLine.indexOf(' '));
 						}
 
 						sLine = sLine.substring(sLine.indexOf("TX bytes:") + "TX bytes:".length());
-						if(sLine.indexOf(' ') != -1)
-						{
+						if (sLine.indexOf(' ') != -1) {
 							txOK = sLine.substring(0, sLine.indexOf(' '));
 						}
-						
+
 						break;
 					}
 				}
-				if (name != null && !name.startsWith("lo") && ipInterface != null)
-				{
+				if (name != null && !name.startsWith("lo") && ipInterface != null) {
 					rxOK = ((rxOK == null) || (rxOK.trim().length() == 0)) ? "0" : rxOK.trim();
 					txOK = ((txOK == null) || (txOK.trim().length() == 0)) ? "0" : txOK.trim();
 
 					long recvOK = Long.parseLong(rxOK) / 1024;
 					long sentOK = Long.parseLong(txOK) / 1024;
-					if(name.indexOf(' ') != -1)
-					{
+					if (name.indexOf(' ') != -1) {
 						name = name.substring(0, name.indexOf(' '));
 					}
 					final UnixNetworkInfo nInfo = new UnixNetworkInfo(name, 0, recvOK, sentOK);
-					this.networkInfoList.add(nInfo);						
+					this.networkInfoList.add(nInfo);
 					name = null;
 					ipInterface = null;
 				}
 			}
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			throw new ResultParsingException("Network Usage " + ex.getMessage(), output);
 		}
 	}
 
-	public void parseIOStatCommand(final String output) throws ResultParsingException
-	{
+	public void parseIOStatCommand(final String output) throws ResultParsingException {
 		/*
 		 * iostat -x -d --- returns the disk statitistics for all the disks
-			Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
-			sda              11.70         4.78       206.17   27307739 1178443612
-			sdb               0.00         0.00         0.59       4103    3351548
-			sdc               0.00         0.00         0.00       1678       8384
-			dm-0              0.15         0.00         0.59       2601    3359812
-		*/
+		 * Device: tps kB_read/s kB_wrtn/s kB_read kB_wrtn sda 11.70 4.78 206.17
+		 * 27307739 1178443612 sdb 0.00 0.00 0.59 4103 3351548 sdc 0.00 0.00
+		 * 0.00 1678 8384 dm-0 0.15 0.00 0.59 2601 3359812
+		 */
 		/*
 		 * Read the bytes and create string. Tokenize the string. Discard all
 		 * the tokes till "Blk_wrtn" token and then in next loop start reading
@@ -726,51 +607,44 @@ public class GenericLinuxDataParser extends AbstractDataParser
 		 * begins with "[userid"
 		 */
 
-		
 		String sLine = null;
 		String tempName = null;
-		if (output != null) // result will be null if this method gets called after disconnect
+		if (output != null) // result will be null if this method gets called
+							// after disconnect
 		{
 			boolean bDisks = false;
 			final StringTokenizer st = new StringTokenizer(output, "\r\n\f");
-			while (st.hasMoreTokens())
-			{
+			while (st.hasMoreTokens()) {
 				sLine = st.nextToken();
-				if (sLine.indexOf("Device:") != -1 && sLine.indexOf("kB_read/s") != -1)
-				{
+				if (sLine.indexOf("Device:") != -1 && sLine.indexOf("kB_read/s") != -1) {
 					bDisks = true;
-					if (this.diskInfoList == null)
-					{
+					if (this.diskInfoList == null) {
 						this.diskInfoList = new LinkedList();
-					}
-					else
-					{
+					} else {
 						this.diskInfoList.clear();
 					}
 					continue;
 				}
-				if(bDisks)
-				{
+				if (bDisks) {
 					final StringTokenizer line = new StringTokenizer(sLine);
 					tempName = line.nextToken(); // Device Name:
 					line.nextToken(); // tps
 					// read the read per sec
 					final String sReadpersec = line.nextToken();
 					// read the write per sec
-					final String sWritepersec = line.nextToken();					
-					
+					final String sWritepersec = line.nextToken();
+
 					final float fReadpersec = Float.parseFloat(sReadpersec);
 					final float fWritepersec = Float.parseFloat(sWritepersec);
 
 					final DiskInfo dInfo = new DiskInfo(tempName, fReadpersec, fWritepersec);
 					this.diskInfoList.add(dInfo);
 				}
-			}			
+			}
 		}
 	}
 
-	public void parseDFCommand(final String output) throws ResultParsingException
-	{
+	public void parseDFCommand(final String output) throws ResultParsingException {
 		/*
 		 * df -k --- returns the disk space info for all the mounted file
 		 * systems
@@ -781,46 +655,34 @@ public class GenericLinuxDataParser extends AbstractDataParser
 		 */
 
 		StringTokenizer st = null;
-		if (this.diskSpaceInfoList == null)
-		{
+		if (this.diskSpaceInfoList == null) {
 			this.diskSpaceInfoList = new LinkedList();
-		}
-		else
-		{
+		} else {
 			this.diskSpaceInfoList.clear();
 		}
 		st = new StringTokenizer(output, "\n\r"); //$NON-NLS-1$
-		try
-		{
+		try {
 			boolean bParse = false;
-			while (st.hasMoreTokens())
-			{
+			while (st.hasMoreTokens()) {
 				String temp = st.nextToken();
 				if ((temp.toLowerCase().indexOf("filesystem") != -1) && (temp.toLowerCase().indexOf("mounted") != -1)
-						&& (temp.toLowerCase().indexOf("on") != -1))
-				{
+						&& (temp.toLowerCase().indexOf("on") != -1)) {
 					bParse = true;
 					continue;
 				}
-				if (bParse)
-				{
+				if (bParse) {
 					StringTokenizer st1 = new StringTokenizer(temp);
 					final String sFileSystemName = st1.nextToken();
-					if (sFileSystemName.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT))
-					{
+					if (sFileSystemName.startsWith(AbstractProtocolWrapper.APPPERFECT_PROMPT)) {
 						break;
 					}
 
-					if (!st1.hasMoreTokens())
-					{
-						if (st.hasMoreTokens())
-						{
+					if (!st1.hasMoreTokens()) {
+						if (st.hasMoreTokens()) {
 							temp = st.nextToken();
 							st1 = new StringTokenizer(temp.trim());
 							st1.hasMoreTokens();
-						}
-						else
-						{
+						} else {
 							continue;
 						}
 					}
@@ -843,37 +705,34 @@ public class GenericLinuxDataParser extends AbstractDataParser
 					this.diskSpaceInfoList.add(dInfo);
 				}
 			}
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			throw new ResultParsingException("Disk Space Info " + ex.getMessage(), output);
 		}
 	}
 
-	public static void main(String[] args) throws Exception 
-	{
+	public static void main(String[] args) throws Exception {
 		GenericLinuxDataParser parser = new GenericLinuxDataParser();
 		File file = new File("F:\\Inbox\\motest1_netstat.txt");
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		String line = reader.readLine();
 		StringWriter writer = new StringWriter();
-		while (line != null) 
-		{
+		while (line != null) {
 			writer.write(line);
 			writer.write(System.getProperty("line.separator"));
 			line = reader.readLine();
 		}
 		reader.close();
-//		System.out.println(writer.toString());
+		// System.out.println(writer.toString());
 		parser.parseNetStatCommand(writer.toString());
 		// System.out.println("CPU: " + parser.getCPUUsage());
-//		parser.parseIOStatCommand(writer.toString());
+		// parser.parseIOStatCommand(writer.toString());
 		NetworkInfo[] arrr = parser.getNetworkInfo();
-		for(int i = 0; i < arrr.length; i++)
-		{
-			System.out.println(arrr[i].getName() + " recieved " + ((UnixNetworkInfo)arrr[i]).getTotalRecdPackets() * 1024 + " sent " +  ((UnixNetworkInfo)arrr[i]).getTotalSentPackets() * 1024);
+		for (int i = 0; i < arrr.length; i++) {
+			System.out
+					.println(arrr[i].getName() + " recieved " + ((UnixNetworkInfo) arrr[i]).getTotalRecdPackets() * 1024
+							+ " sent " + ((UnixNetworkInfo) arrr[i]).getTotalSentPackets() * 1024);
 		}
-//		parser.parseDFCommand(writer.toString());
+		// parser.parseDFCommand(writer.toString());
 	}
-	
+
 }

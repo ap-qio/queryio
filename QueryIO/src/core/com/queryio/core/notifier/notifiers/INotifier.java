@@ -27,8 +27,7 @@ import com.queryio.core.notifier.dstruct.PropertySet;
  * 
  * @author Exceed Consultancy Services
  */
-public interface INotifier
-{
+public interface INotifier {
 	/**
 	 * Initializes the PropertySet for the Notifier
 	 * 

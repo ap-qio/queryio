@@ -11,15 +11,16 @@ import com.queryio.common.database.QueryConstants;
 import com.queryio.core.bean.DiskMonitoredData;
 
 public class DiskMonitoredDataDAO {
-	public static void addMonitoredData(Connection connection, int hostId, String diskName, float diskReadPerSec, float diskWritesPerSec, String diskHealthStatus) throws Exception{
+	public static void addMonitoredData(Connection connection, int hostId, String diskName, float diskReadPerSec,
+			float diskWritesPerSec, String diskHealthStatus) throws Exception {
 		PreparedStatement deletePst = null;
 		PreparedStatement insertPst = null;
-		try{
+		try {
 			deletePst = connection.prepareStatement(QueryConstants.QRY_DELETE_DISKMONITOREDDATA);
 			deletePst.setInt(1, hostId);
 			deletePst.setString(2, diskName);
 			deletePst.execute();
-			
+
 			insertPst = connection.prepareStatement(QueryConstants.QRY_INSERT_DISKMONITOREDDATA);
 			insertPst.setInt(1, hostId);
 			insertPst.setString(2, diskName);
@@ -27,22 +28,23 @@ public class DiskMonitoredDataDAO {
 			insertPst.setFloat(4, diskWritesPerSec);
 			insertPst.setString(5, diskHealthStatus);
 			insertPst.execute();
-		}
-		finally{
+		} finally {
 			DatabaseFunctions.closePreparedStatement(insertPst);
 			DatabaseFunctions.closePreparedStatement(deletePst);
 		}
 	}
-	public static DiskMonitoredData getMonitoredData(Connection connection, int hostId, String diskName) throws Exception{
+
+	public static DiskMonitoredData getMonitoredData(Connection connection, int hostId, String diskName)
+			throws Exception {
 		DiskMonitoredData data = null;
 		ResultSet rs = null;
 		PreparedStatement pst = null;
-		try{
+		try {
 			pst = connection.prepareStatement(QueryConstants.QRY_SELECT_DISKMONITOREDDATA_DISK);
 			pst.setInt(1, hostId);
 			pst.setString(2, diskName);
 			rs = pst.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				data = new DiskMonitoredData();
 				data.setHostId(hostId);
 				data.setDiskName(diskName);
@@ -50,22 +52,23 @@ public class DiskMonitoredDataDAO {
 				data.setDiskByteWritesPerSec(rs.getFloat(ColumnConstants.COL_DISKMONITOREDDATA_DSKBYTEWRITESPERSEC));
 				data.setDiskHealthStatus(rs.getString(ColumnConstants.COL_DISKMONITOREDDATA_DISKHEALTHSTATUS));
 			}
-			
-		}finally{
+
+		} finally {
 			DatabaseFunctions.closeSQLObjects(pst, rs);
 		}
 		return data;
 	}
-	public static ArrayList getMonitoredDataOfAllDisks(Connection connection, int hostId) throws Exception{
+
+	public static ArrayList getMonitoredDataOfAllDisks(Connection connection, int hostId) throws Exception {
 		ArrayList result = new ArrayList();
 		DiskMonitoredData data = null;
 		ResultSet rs = null;
 		PreparedStatement pst = null;
-		try{
+		try {
 			pst = connection.prepareStatement(QueryConstants.QRY_SELECT_DISKMONITOREDDATA);
 			pst.setInt(1, hostId);
 			rs = pst.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				data = new DiskMonitoredData();
 				data.setHostId(hostId);
 				data.setDiskName(rs.getString(ColumnConstants.COL_DISKMONITOREDDATA_DISKNAME));
@@ -73,8 +76,8 @@ public class DiskMonitoredDataDAO {
 				data.setDiskByteWritesPerSec(rs.getFloat(ColumnConstants.COL_DISKMONITOREDDATA_DSKBYTEWRITESPERSEC));
 				data.setDiskHealthStatus(rs.getString(ColumnConstants.COL_DISKMONITOREDDATA_DISKHEALTHSTATUS));
 				result.add(data);
-			}			
-		}finally{
+			}
+		} finally {
 			DatabaseFunctions.closeSQLObjects(pst, rs);
 		}
 		return result;

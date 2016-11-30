@@ -8,7 +8,6 @@ package com.queryio.common.exporter.dstruct;
  * Do not write any code here.
  * 
  */
-public interface IAbstractExportableTreeModel
-{
+public interface IAbstractExportableTreeModel {
 	// DO NOTHING
 }

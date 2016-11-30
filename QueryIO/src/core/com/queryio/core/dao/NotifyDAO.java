@@ -14,25 +14,36 @@ import com.queryio.common.util.AppLogger;
 import com.queryio.core.bean.NotifyBean;
 
 public class NotifyDAO {
-	public static void updateNotificationSettings(Connection connection, NotifyBean notifyBean) throws Exception{
+	public static void updateNotificationSettings(Connection connection, NotifyBean notifyBean) throws Exception {
 		PreparedStatement pst = null;
 		Statement st = null;
-//		String PREPARED_QRY_UPDATE_NOTIFICATIONSETTINGS = "INSERT INTO " + TableConstants.TABLE_NOTIFICATIONSETTINGS + "(" 
-//				+ ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_ENABLED  + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SENDERNAME 
-//				+ "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SENDERADD + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SECUREDPROTOCOL 
-//				+ "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SMTPSERVER + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SMTPPORT 
-//				+ "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_AUTHREQUIRED + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_USERNAME 
-//				+ "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_PASSWORD	+ "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_ENABLED 
-//				+ "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_NUMBER + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_SERIALPORT 
-//				+ "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_MANUFACTURER + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_MODEL 
-//				+ "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_SELECTEDMODEL + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_BAUDRATE 
-//				+ "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_LOG_ENABLED + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_LOG_FILEPATH 
-//				+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		try{
+		// String PREPARED_QRY_UPDATE_NOTIFICATIONSETTINGS = "INSERT INTO " +
+		// TableConstants.TABLE_NOTIFICATIONSETTINGS + "("
+		// + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_ENABLED + "," +
+		// ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SENDERNAME
+		// + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SENDERADD +
+		// "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SECUREDPROTOCOL
+		// + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SMTPSERVER +
+		// "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SMTPPORT
+		// + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_AUTHREQUIRED + "," +
+		// ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_USERNAME
+		// + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_PASSWORD + ","
+		// + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_ENABLED
+		// + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_NUMBER + "," +
+		// ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_SERIALPORT
+		// + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_MANUFACTURER +
+		// "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_MODEL
+		// + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_SELECTEDMODEL +
+		// "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_BAUDRATE
+		// + "," + ColumnConstants.COL_NOTIFICATIONSETTINGS_LOG_ENABLED + "," +
+		// ColumnConstants.COL_NOTIFICATIONSETTINGS_LOG_FILEPATH
+		// + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		try {
 			st = connection.createStatement();
 			st.execute("DELETE FROM " + TableConstants.TABLE_NOTIFICATIONSETTINGS);
 
-			pst = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.PREPARED_QRY_UPDATE_NOTIFICATIONSETTINGS);
+			pst = DatabaseFunctions.getPreparedStatement(connection,
+					QueryConstants.PREPARED_QRY_UPDATE_NOTIFICATIONSETTINGS);
 			pst.setBoolean(1, notifyBean.isEmailEnabled());
 			pst.setString(2, notifyBean.getEmailSenderName());
 			pst.setString(3, notifyBean.getEmailSenderAddress());
@@ -51,39 +62,36 @@ public class NotifyDAO {
 			pst.setString(16, notifyBean.getSmsBaudRate());
 			pst.setBoolean(17, notifyBean.isLogEnabled());
 			pst.setString(18, notifyBean.getLogFilePath());
-			
+
 			CoreDBManager.executeUpdateStatement(connection, pst);
-			
-		}
-		catch (Exception e)
-		{
+
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
-		}
-		finally{
+		} finally {
 			DatabaseFunctions.closePreparedStatement(pst);
 			DatabaseFunctions.closeStatement(st);
 		}
 	}
-	public static NotifyBean getNotificationSettings(Connection connection) throws Exception{
+
+	public static NotifyBean getNotificationSettings(Connection connection) throws Exception {
 		NotifyBean notifyBean = new NotifyBean();
 		Statement st = null;
 		ResultSet rs = null;
-		try
-		{
-//			System.out.println("getNotificationSettings Try");
-			
+		try {
+			// System.out.println("getNotificationSettings Try");
+
 			String query = QueryConstants.QRY_GET_ALL_NOTIFICATIONSETTINGS;
 			st = connection.createStatement();
 			rs = st.executeQuery(query);
-			
-			if(rs.next())
-			{
-//				System.out.println("rs.next()");
-				
+
+			if (rs.next()) {
+				// System.out.println("rs.next()");
+
 				notifyBean.setAuthRequired(rs.getBoolean(ColumnConstants.COL_NOTIFICATIONSETTINGS_AUTHREQUIRED));
 				notifyBean.setEmailEnabled(rs.getBoolean(ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_ENABLED));
 				notifyBean.setEmailPassword(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_PASSWORD));
-				notifyBean.setEmailSenderAddress(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SENDERADD));
+				notifyBean
+						.setEmailSenderAddress(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SENDERADD));
 				notifyBean.setEmailSenderName(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SENDERNAME));
 				notifyBean.setEmailSMTPPort(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SMTPPORT));
 				notifyBean.setEmailSMTPServer(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_EMAIL_SMTPSERVER));
@@ -96,19 +104,16 @@ public class NotifyDAO {
 				notifyBean.setSmsManufacturer(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_MANUFACTURER));
 				notifyBean.setSmsModel(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_MODEL));
 				notifyBean.setSmsNumber(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_NUMBER));
-				notifyBean.setSmsSelectedModel(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_SELECTEDMODEL));
+				notifyBean
+						.setSmsSelectedModel(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_SELECTEDMODEL));
 				notifyBean.setSmsSerialPort(rs.getString(ColumnConstants.COL_NOTIFICATIONSETTINGS_SMS_SERIALPORT));
-				
-//				System.out.println("notifyBean");
-//				System.out.println(notifyBean);
+
+				// System.out.println("notifyBean");
+				// System.out.println(notifyBean);
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
-		}
-		finally
-		{
+		} finally {
 			DatabaseFunctions.closeResultSet(rs);
 			DatabaseFunctions.closeStatement(st);
 		}

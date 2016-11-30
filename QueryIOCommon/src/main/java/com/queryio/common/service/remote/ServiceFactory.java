@@ -27,8 +27,7 @@ import org.springframework.remoting.httpinvoker.HttpInvokerRequestExecutor;
 
 import com.queryio.common.util.StartupParameters;
 
-public class ServiceFactory
-{
+public class ServiceFactory {
 	private static final String[] PROTOCOLS = { "http", "https" };
 
 	public static final ServiceFactory INSTANCE = new ServiceFactory();
@@ -36,36 +35,30 @@ public class ServiceFactory
 	private HttpInvokerRequestExecutor httpInvokerRequestExecutor;
 	private final Map pathInterfaceMap;
 
-	private ServiceFactory()
-	{
+	private ServiceFactory() {
 		this.pathInterfaceMap = new HashMap();
 
 		this.pathInterfaceMap.put(RemoteService.QUERYIO_SERVICE_BEAN, QueryIOService.class);
-		
+
 	}
 
-	private synchronized HttpInvokerRequestExecutor getRequestExecutor()
-	{
-		if (this.httpInvokerRequestExecutor == null)
-		{
+	private synchronized HttpInvokerRequestExecutor getRequestExecutor() {
+		if (this.httpInvokerRequestExecutor == null) {
 			this.httpInvokerRequestExecutor = new CommonsHttpInvokerRequestExecutor();
 
-			((CommonsHttpInvokerRequestExecutor)this.httpInvokerRequestExecutor).setReadTimeout(StartupParameters.getSessionTimeout());
+			((CommonsHttpInvokerRequestExecutor) this.httpInvokerRequestExecutor)
+					.setReadTimeout(StartupParameters.getSessionTimeout());
 
 		}
 		return this.httpInvokerRequestExecutor;
 	}
 
 	public static String constructServiceURI(final int protocol, final String hostName, final int port,
-			final String contextPath)
-	{
+			final String contextPath) {
 		String ipAddress = hostName;
-		try
-		{
+		try {
 			ipAddress = InetAddress.getByName(hostName).getHostAddress();
-		}
-		catch (final Exception e)
-		{
+		} catch (final Exception e) {
 			// DO NOTHING
 		}
 
@@ -86,8 +79,7 @@ public class ServiceFactory
 	 * @param path
 	 * @return
 	 */
-	public RemoteService getRemoteService(final String serviceURI, final String serviceName)
-	{
+	public RemoteService getRemoteService(final String serviceURI, final String serviceName) {
 		final HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
 		bean.setServiceUrl(serviceURI + serviceName);
 		bean.setServiceInterface((Class) this.pathInterfaceMap.get(serviceName));
@@ -97,11 +89,8 @@ public class ServiceFactory
 	}
 
 	public RemoteService getRemoteService(final int protocol, final String hostName, final int port,
-			final String contextPath, final String serviceName)
-	{
+			final String contextPath, final String serviceName) {
 		return this.getRemoteService(constructServiceURI(protocol, hostName, port, contextPath), serviceName);
 	}
-	
-	
-	
+
 }

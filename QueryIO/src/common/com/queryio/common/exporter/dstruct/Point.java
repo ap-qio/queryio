@@ -21,8 +21,7 @@ package com.queryio.common.exporter.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class Point implements java.io.Serializable
-{
+public class Point implements java.io.Serializable {
 	private static final long serialVersionUID = 752600005701000034L;
 	/**
 	 * the x coordinate of the point
@@ -42,8 +41,7 @@ public class Point implements java.io.Serializable
 	 * @param y
 	 *            the y coordinate of the new point
 	 */
-	public Point(final int x, final int y)
-	{
+	public Point(final int x, final int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -59,14 +57,11 @@ public class Point implements java.io.Serializable
 	 * 
 	 * @see #hashCode
 	 */
-	public boolean equals(final Object object)
-	{
-		if (object == this)
-		{
+	public boolean equals(final Object object) {
+		if (object == this) {
 			return true;
 		}
-		if (!(object instanceof Point))
-		{
+		if (!(object instanceof Point)) {
 			return false;
 		}
 		final Point p = (Point) object;
@@ -79,8 +74,7 @@ public class Point implements java.io.Serializable
 	 * 
 	 * @return a string representation of the point
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return "Point {" + this.x + ", " + this.y + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 }

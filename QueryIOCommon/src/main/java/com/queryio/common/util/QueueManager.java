@@ -10,12 +10,10 @@ import java.util.Map;
  * 
  * @author Exceed Consultancy Services
  */
-public class QueueManager
-{
+public class QueueManager {
 	private static Map queueMap = null;
 
-	static
-	{
+	static {
 		queueMap = new HashMap();
 	}
 
@@ -25,8 +23,7 @@ public class QueueManager
 	 * @param name
 	 * @return Queue
 	 */
-	private static Queue get(final String name)
-	{
+	private static Queue get(final String name) {
 		return (Queue) queueMap.get(name);
 	}
 
@@ -36,11 +33,9 @@ public class QueueManager
 	 * @param name
 	 * @return Queue
 	 */
-	public static Queue getQueue(final String name)
-	{
+	public static Queue getQueue(final String name) {
 		Queue queue = get(name);
-		if (queue == null)
-		{
+		if (queue == null) {
 			queue = new Queue(name);
 			queueMap.put(name, queue);
 		}
@@ -53,11 +48,9 @@ public class QueueManager
 	 * @param name
 	 * @return Queue
 	 */
-	public static Queue startQueue(final String name)
-	{
+	public static Queue startQueue(final String name) {
 		final Queue queue = getQueue(name);
-		if (!queue.isRunning())
-		{
+		if (!queue.isRunning()) {
 			final Thread t = new Thread(queue, name);
 			t.setPriority(Thread.MAX_PRIORITY);
 			t.start();
@@ -70,11 +63,9 @@ public class QueueManager
 	 * 
 	 * @param name
 	 */
-	public static void stopQueue(final String name)
-	{
+	public static void stopQueue(final String name) {
 		final Queue queue = get(name);
-		if (queue != null)
-		{
+		if (queue != null) {
 			queue.stop();
 		}
 	}
@@ -84,11 +75,9 @@ public class QueueManager
 	 * 
 	 * @param name
 	 */
-	public static void removeQueue(final String name)
-	{
+	public static void removeQueue(final String name) {
 		final Queue queue = (Queue) queueMap.remove(name);
-		if ((queue != null) && queue.isRunning())
-		{
+		if ((queue != null) && queue.isRunning()) {
 			queue.stop();
 		}
 	}
@@ -96,15 +85,12 @@ public class QueueManager
 	/**
 	 * Method shutdown.
 	 */
-	public static void shutdown()
-	{
+	public static void shutdown() {
 		Queue queue = null;
 		final Object array[] = queueMap.values().toArray();
-		for (int i = 0; i < array.length; i++)
-		{
+		for (int i = 0; i < array.length; i++) {
 			queue = (Queue) array[i];
-			if ((queue != null) && queue.isRunning())
-			{
+			if ((queue != null) && queue.isRunning()) {
 				queue.stop();
 			}
 		}
@@ -113,16 +99,13 @@ public class QueueManager
 	/**
 	 * Method debug.
 	 */
-	public static void debug()
-	{
+	public static void debug() {
 		final Object array[] = queueMap.values().toArray();
 		final StringBuffer sbuff = new StringBuffer("Queues present with manager are "); //$NON-NLS-1$
 		sbuff.append(array.length);
 		sbuff.append(" & queues are: ["); //$NON-NLS-1$
-		for (int i = 0; i < array.length; i++)
-		{
-			if (i != 0)
-			{
+		for (int i = 0; i < array.length; i++) {
+			if (i != 0) {
 				sbuff.append(", "); //$NON-NLS-1$
 			}
 			sbuff.append(array[i].toString());

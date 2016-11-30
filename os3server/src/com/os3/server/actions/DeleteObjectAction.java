@@ -17,44 +17,40 @@ import com.os3.server.response.writer.ResponseWriter;
 import com.queryio.common.DFSMap;
 
 public class DeleteObjectAction extends BaseAction {
-	
+
 	protected final Logger logger = Logger.getLogger(getClass());
-	
+
 	@Override
-	public void execute(String operation, HttpServletRequest request, HttpServletResponse response, Map<String, Object> helperMap, int apiType) throws ServletException, IOException {
-		final String bucketName = (String)helperMap.get(OS3Constants.X_OS3_BUCKET_NAME);
-		final String objectName = (String)helperMap.get(OS3Constants.X_OS3_OBJECT_NAME);
-		final String requestId =  (String)helperMap.get(OS3Constants.X_OS3_REQUESTID);
-		final String token =  (String)request.getHeader(OS3Constants.AUTHORIZATION);
-		
+	public void execute(String operation, HttpServletRequest request, HttpServletResponse response,
+			Map<String, Object> helperMap, int apiType) throws ServletException, IOException {
+		final String bucketName = (String) helperMap.get(OS3Constants.X_OS3_BUCKET_NAME);
+		final String objectName = (String) helperMap.get(OS3Constants.X_OS3_OBJECT_NAME);
+		final String requestId = (String) helperMap.get(OS3Constants.X_OS3_REQUESTID);
+		final String token = (String) request.getHeader(OS3Constants.AUTHORIZATION);
+
 		FileSystem dfs = null;
-		
+
 		if (token == null) {
 			ErrorResponseWriter.missingAuthorizationHeader(helperMap, response, objectName, requestId, apiType);
 			return;
 		}
-		
+
 		final String username = DFSMap.getUserForToken(token);
-		if(username==null){
+		if (username == null) {
 			ErrorResponseWriter.invalidToken(helperMap, response, objectName, requestId, apiType);
 			return;
 		}
-		
+
 		dfs = DFSMap.getDFSForUser(username);
-		
-		if(!DataManager.doesBucketExists(dfs, bucketName))
-		{
+
+		if (!DataManager.doesBucketExists(dfs, bucketName)) {
 			ErrorResponseWriter.buketNotfound(helperMap, response, bucketName, requestId, apiType);
-		}
-		else if(!DataManager.doesObjectExist(dfs, bucketName, objectName))
-		{
+		} else if (!DataManager.doesObjectExist(dfs, bucketName, objectName)) {
 			ErrorResponseWriter.objectNotfound(helperMap, response, objectName, requestId, apiType);
-		}
-		else
-		{
-			if(DataManager.deleteObject(dfs, bucketName, objectName)){
+		} else {
+			if (DataManager.deleteObject(dfs, bucketName, objectName)) {
 				ResponseWriter.writeDeleteResponse(apiType, response, requestId);
-			}else{ // Could not delete bucket
+			} else { // Could not delete bucket
 				ErrorResponseWriter.internalServerError(helperMap, response, requestId, apiType);
 			}
 		}

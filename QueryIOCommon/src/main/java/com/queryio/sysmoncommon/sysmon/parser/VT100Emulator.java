@@ -6,8 +6,7 @@ import java.io.Reader;
 
 import com.jcraft.jsch.Channel;
 
-public class VT100Emulator 
-{
+public class VT100Emulator {
 	/** This is a character processing state: Initial state. */
 	private static final int ANSISTATE_INITIAL = 0;
 
@@ -28,8 +27,8 @@ public class VT100Emulator
 	private static final int ANSISTATE_EXPECTING_OS_COMMAND = 3;
 
 	/**
-	 * This field holds the current state of the Finite TerminalState Automaton (FSA)
-	 * that recognizes ANSI escape sequences.
+	 * This field holds the current state of the Finite TerminalState Automaton
+	 * (FSA) that recognizes ANSI escape sequences.
 	 *
 	 * @see #processNewText()
 	 */
@@ -56,80 +55,67 @@ public class VT100Emulator
 	private int nextAnsiParameter = 0;
 
 	Reader fReader;
-	
+
 	OutputStream ostream;
-	
-	public VT100Emulator(Reader reader, OutputStream os) 
-	{
-		for (int i = 0; i < ansiParameters.length; ++i) 
-		{
+
+	public VT100Emulator(Reader reader, OutputStream os) {
+		for (int i = 0; i < ansiParameters.length; ++i) {
 			ansiParameters[i] = new StringBuffer();
 		}
 		fReader = reader;
 		ostream = os;
 	}
-	
-	public void processText(Channel channel) throws Exception
-	{
-		while (true)
-		{
+
+	public void processText(Channel channel) throws Exception {
+		while (true) {
 			processNewText();
-			if (channel.isClosed() || channel.isEOF())
-			{
+			if (channel.isClosed() || channel.isEOF()) {
 				break;
-			}
-			else if (!fReader.ready())
-			{
+			} else if (!fReader.ready()) {
 				Thread.sleep(500);
 			}
 		}
 	}
 
-	private void processNewText() throws IOException 
-	{
+	private void processNewText() throws IOException {
 		// Scan the newly received text.
-		while (hasNextChar()) 
-		{
+		while (hasNextChar()) {
 			char character = getNextChar();
-			switch (ansiState) 
-			{
+			switch (ansiState) {
 			case ANSISTATE_INITIAL:
-				switch (character) 
-				{
+				switch (character) {
 				case '\u0000':
 					break; // NUL character. Ignore it.
 
 				case '\u0007':
-					//processBEL(); // BEL (Control-G)
+					// processBEL(); // BEL (Control-G)
 					break;
 
 				case '\b':
-					//processBackspace(); // Backspace
+					// processBackspace(); // Backspace
 					break;
 
 				case '\t':
-					//System.out.print(String.valueOf(character));
+					// System.out.print(String.valueOf(character));
 					appendText(String.valueOf(character));
-					//processTab(); // Tab.
+					// processTab(); // Tab.
 					break;
 
 				case '\n':
-					//System.out.print(String.valueOf(character));
+					// System.out.print(String.valueOf(character));
 					appendText(String.valueOf(character));
 					/*
-					processNewline(); // Newline (Control-J)
-					if (fCrAfterNewLine)
-					{
-						processCarriageReturn(); // Carriage Return  (Control-M)
-					}
-					*/
+					 * processNewline(); // Newline (Control-J) if
+					 * (fCrAfterNewLine) { processCarriageReturn(); // Carriage
+					 * Return (Control-M) }
+					 */
 					break;
 
 				case '\r':
 					appendText(String.valueOf(character));
-//					System.out.println(output.toString());
-//					output.setLength(0);
-					//processCarriageReturn(); // Carriage Return (Control-M)
+					// System.out.println(output.toString());
+					// output.setLength(0);
+					// processCarriageReturn(); // Carriage Return (Control-M)
 					break;
 
 				case '\u001b':
@@ -180,11 +166,12 @@ public class VT100Emulator
 				case 'c':
 					// Reset the terminal
 					ansiState = ANSISTATE_INITIAL;
-					//resetTerminal();
+					// resetTerminal();
 					break;
 
 				default:
-					//System.out.println("Unsupported escape sequence: escape '" + character + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+					// System.out.println("Unsupported escape sequence: escape
+					// '" + character + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 					ansiState = ANSISTATE_INITIAL;
 					break;
 				}
@@ -196,26 +183,20 @@ public class VT100Emulator
 				// are optional.
 
 				if (character == '@' || (character >= 'A' && character <= 'Z')
-						|| (character >= 'a' && character <= 'z')) 
-				{
+						|| (character >= 'a' && character <= 'z')) {
 					ansiState = ANSISTATE_INITIAL;
-					//processAnsiCommandCharacter(character);
-				}
-				else 
-				{
+					// processAnsiCommandCharacter(character);
+				} else {
 					processAnsiParameterCharacter(character);
 				}
 				break;
 
 			case ANSISTATE_EXPECTING_OS_COMMAND:
 				// A BEL (\u0007) character marks the end of the OSC sequence.
-				if (character == '\u0007') 
-				{
+				if (character == '\u0007') {
 					ansiState = ANSISTATE_INITIAL;
 					processAnsiOsCommand();
-				}
-				else 
-				{
+				} else {
 					ansiOsCommand.append(character);
 				}
 				break;
@@ -225,97 +206,89 @@ public class VT100Emulator
 				// is a
 				// bug in the FSA. For robustness, we return to the initial
 				// state.
-				//System.out.println("INVALID ANSI FSA STATE: " + ansiState); //$NON-NLS-1$
+				// System.out.println("INVALID ANSI FSA STATE: " + ansiState);
+				// //$NON-NLS-1$
 				ansiState = ANSISTATE_INITIAL;
 				break;
 			}
 		}
 	}
-	
-	private void processAnsiOsCommand() 
-	{
-		if (ansiOsCommand.charAt(0) != '0' || ansiOsCommand.charAt(1) != ';') 
-		{
+
+	private void processAnsiOsCommand() {
+		if (ansiOsCommand.charAt(0) != '0' || ansiOsCommand.charAt(1) != ';') {
 			return;
 		}
 	}
-	
-	
-	private void processAnsiParameterCharacter(char ch) 
-	{
-		if (ch == ';') 
-		{
+
+	private void processAnsiParameterCharacter(char ch) {
+		if (ch == ';') {
 			++nextAnsiParameter;
-		}
-		else 
-		{
+		} else {
 			if (nextAnsiParameter < ansiParameters.length)
 				ansiParameters[nextAnsiParameter].append(ch);
 		}
 	}
-	
-	
-	private int fNextChar=-1;
-	private char getNextChar() throws IOException 
-	{
-		int c=-1;
-		if(fNextChar!=-1) 
-		{
-			c= fNextChar;
-			fNextChar=-1;
-		}
-		else 
-		{
+
+	private int fNextChar = -1;
+
+	private char getNextChar() throws IOException {
+		int c = -1;
+		if (fNextChar != -1) {
+			c = fNextChar;
+			fNextChar = -1;
+		} else {
 			c = fReader.read();
 		}
 		// TO DO: better end of file handling
-		if(c==-1) c = 0;
-		return (char)c;
+		if (c == -1)
+			c = 0;
+		return (char) c;
 	}
 
-	private boolean hasNextChar() throws IOException  {
-		if(fNextChar>=0)
+	private boolean hasNextChar() throws IOException {
+		if (fNextChar >= 0)
 			return true;
 		return fReader.ready();
 	}
 
 	/**
-	 * Put back one character to the stream. This method can push
-	 * back exactly one character. The character is the next character
-	 * returned by {@link #getNextChar}
-	 * @param c the character to be pushed back.
+	 * Put back one character to the stream. This method can push back exactly
+	 * one character. The character is the next character returned by
+	 * {@link #getNextChar}
+	 * 
+	 * @param c
+	 *            the character to be pushed back.
 	 */
-	void pushBackChar(char c) 
-	{
-		//assert fNextChar!=-1: "Already a character waiting:"+fNextChar; //$NON-NLS-1$
+	void pushBackChar(char c) {
+		// assert fNextChar!=-1: "Already a character waiting:"+fNextChar;
+		// //$NON-NLS-1$
 		fNextChar = c;
 	}
-	
+
 	private void processNonControlCharacters(char character) throws IOException {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(character);
 		// Identify a contiguous sequence of non-control characters, starting at
 		// firstNonControlCharacterIndex in newText.
-		while(hasNextChar()) {
-			character=getNextChar();
-			if(character == '\u0000' || character == '\b' || character == '\t'
-				|| character == '\u0007' || character == '\n'
-				|| character == '\r' || character == '\u001b') {
+		while (hasNextChar()) {
+			character = getNextChar();
+			if (character == '\u0000' || character == '\b' || character == '\t' || character == '\u0007'
+					|| character == '\n' || character == '\r' || character == '\u001b') {
 				pushBackChar(character);
 				break;
 			}
 			buffer.append(character);
 		}
-		// Now insert the sequence of non-control characters in the StyledText widget
+		// Now insert the sequence of non-control characters in the StyledText
+		// widget
 		// at the location of the cursor.
 		appendText(buffer.toString());
 	}
 
-	private void appendText(String string) throws IOException 
-	{
-//		System.out.print(string);
+	private void appendText(String string) throws IOException {
+		// System.out.print(string);
 		ostream.write(string.getBytes());
 		ostream.flush();
 	}
-	
+
 }

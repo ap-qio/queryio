@@ -1,26 +1,21 @@
 package com.queryio.common.exporter.dstruct;
 
-public class Counter
-{
+public class Counter {
 	private int value;
 
-	public Counter(final int val)
-	{
+	public Counter(final int val) {
 		this.value = val;
 	}
 
-	public int getValue()
-	{
+	public int getValue() {
 		return this.value;
 	}
 
-	public void incrementCounter()
-	{
+	public void incrementCounter() {
 		this.value++;
 	}
-	
-	public void incrementBy(int increment)
-	{
+
+	public void incrementBy(int increment) {
 		this.value += increment;
 	}
 }

@@ -27,12 +27,11 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class Table extends ExportableItem
-{
+public class Table extends ExportableItem {
 	private TableModel model;
 	private final int[] columnWidths;
 	private final boolean bTotal;
-	
+
 	private boolean showAlternateColor = true;
 	private String tableHeader = null;
 
@@ -47,8 +46,7 @@ public class Table extends ExportableItem
 	 * @param colWidths
 	 */
 	public Table(final int left, final int top, final int width, final int height, final TableModel model,
-			final int[] colWidths)
-	{
+			final int[] colWidths) {
 		this(left, top, width, height, model, colWidths, false);
 	}
 
@@ -64,19 +62,17 @@ public class Table extends ExportableItem
 	 * @param bTotal
 	 */
 	public Table(final int left, final int top, final int width, final int height, final TableModel model,
-			final int[] colWidths, final boolean bTotal)
-	{
+			final int[] colWidths, final boolean bTotal) {
 		this(left, top, width, height, model, colWidths, bTotal, null);
 	}
-	
+
 	public Table(final int left, final int top, final int width, final int height, final TableModel model,
-			final int[] colWidths,  String tableHeader){
+			final int[] colWidths, String tableHeader) {
 		this(left, top, width, height, model, colWidths, false, tableHeader);
 	}
-	
+
 	public Table(final int left, final int top, final int width, final int height, final TableModel model,
-			final int[] colWidths, final boolean bTotal, String tableHeader)
-	{
+			final int[] colWidths, final boolean bTotal, String tableHeader) {
 		super(left, top, width, height);
 		this.model = model;
 		this.columnWidths = colWidths;
@@ -89,8 +85,7 @@ public class Table extends ExportableItem
 	 * 
 	 * @see com.queryio.sysmoncommon.exporter.dstruct.IExportableItem#getType()
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return ExportConstants.ITEM_TYPE_TABLE;
 	}
 
@@ -99,8 +94,7 @@ public class Table extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final int[] getColumnWidths()
-	{
+	public final int[] getColumnWidths() {
 		return this.columnWidths;
 	}
 
@@ -109,8 +103,7 @@ public class Table extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final TableModel getModel()
-	{
+	public final TableModel getModel() {
 		return this.model;
 	}
 
@@ -119,8 +112,7 @@ public class Table extends ExportableItem
 	 * 
 	 * @param model
 	 */
-	public void setModel(final TableModel model)
-	{
+	public void setModel(final TableModel model) {
 		this.model = model;
 	}
 
@@ -129,28 +121,23 @@ public class Table extends ExportableItem
 	 * 
 	 * @return boolean
 	 */
-	public final boolean isTotal()
-	{
+	public final boolean isTotal() {
 		return this.bTotal;
 	}
-	
-	public boolean isShowAlternateColor() 
-	{
+
+	public boolean isShowAlternateColor() {
 		return showAlternateColor;
 	}
 
-	public void setShowAlternateColor(boolean showAlternateColor) 
-	{
+	public void setShowAlternateColor(boolean showAlternateColor) {
 		this.showAlternateColor = showAlternateColor;
 	}
 
-	public String getTableHeader() 
-	{
+	public String getTableHeader() {
 		return tableHeader;
 	}
 
-	public void setTableHeader(String tableHeader) 
-	{
+	public void setTableHeader(String tableHeader) {
 		this.tableHeader = tableHeader;
 	}
 

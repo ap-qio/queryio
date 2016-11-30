@@ -27,35 +27,29 @@ import com.queryio.common.exporter.dstruct.Rectangle;
 /**
  * @author Exceed Consultancy Services
  */
-public abstract class AppVerticalSimpleChart extends AppSimpleChart
-{
+public abstract class AppVerticalSimpleChart extends AppSimpleChart {
 	protected long xEndValue;
 	private int height;
 
-	public AppVerticalSimpleChart(final UserInterface userInterface, final int nodeType, final int productID)
-	{
+	public AppVerticalSimpleChart(final UserInterface userInterface, final int nodeType, final int productID) {
 		super(userInterface, false, nodeType, productID);
 	}
 
-	protected void configureOrientationOfXandYAxisTitles()
-	{
+	protected void configureOrientationOfXandYAxisTitles() {
 		final Title axisTitle = this.chartProperties.getYAxisTitle();
-		if (axisTitle != null)
-		{
+		if (axisTitle != null) {
 			axisTitle.setOrientation(Title.ORIENTATION_VERTICAL);
 		}
 	}
 
-	public void drawArea(final UserInterface graphics)
-	{
+	public void drawArea(final UserInterface graphics) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		final Rectangle oldClip = graphics.getClipping();
 
 		this.calculateDimensions(graphics);
 
-		if (this.chartProperties.getShowXAxisTitle().booleanValue())
-		{
+		if (this.chartProperties.getShowXAxisTitle().booleanValue()) {
 			graphics.setClipping(this.xAxisTitleRect);
 			final Title axisTitle = this.chartProperties.getXAxisTitle();
 			axisTitle.setBackgroundColor(this.chartProperties.getXAxisTitleBackgroundColour());
@@ -64,8 +58,7 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 		}
 
 		final Title axisTitle = this.chartProperties.getYAxisTitle();
-		if (this.chartProperties.getShowYAxisTitle().booleanValue())
-		{
+		if (this.chartProperties.getShowYAxisTitle().booleanValue()) {
 			graphics.setClipping(this.yAxisTitleRect);
 			axisTitle.setBackgroundColor(this.chartProperties.getYAxisTitleBackgroundColour());
 			axisTitle.setTextColor(this.chartProperties.getYAxisTitleTextColour());
@@ -84,30 +77,24 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 		int endYval = minMax[1] + 1;
 		final int factor = (endYval - startYval > 5 ? 5 : 1);
 
-		if (startYval % factor != 0)
-		{
+		if (startYval % factor != 0) {
 			startYval -= (startYval % factor);
 		}
 
-		if (endYval % factor != 0)
-		{
+		if (endYval % factor != 0) {
 			endYval += (factor - endYval % factor);
 		}
 
 		int iMaxYValue = factor * ((endYval / factor) + 1);
-		if (this.isLogarithmic())
-		{
-			iMaxYValue = (int) Math.pow(10, (int)this.getLogValue(iMaxYValue) + 1);
+		if (this.isLogarithmic()) {
+			iMaxYValue = (int) Math.pow(10, (int) this.getLogValue(iMaxYValue) + 1);
 		}
 
-		this.shiftYaxisToRHS = Math.max(graphics.stringExtent(ChartConstants.format(startYval)).x, graphics
-				.stringExtent(ChartConstants.format(iMaxYValue)).x) + INSET_FOR_TICK_VALUE_FROM_TICK_MARK + 1;
-		if (this instanceof AppLineChart)
-		{
+		this.shiftYaxisToRHS = Math.max(graphics.stringExtent(ChartConstants.format(startYval)).x,
+				graphics.stringExtent(ChartConstants.format(iMaxYValue)).x) + INSET_FOR_TICK_VALUE_FROM_TICK_MARK + 1;
+		if (this instanceof AppLineChart) {
 			this.shiftXAxisAbove = this.getMaxHeight(graphics, defaultTickFont) + INSET_FOR_TICK_VALUE_FROM_TICK_MARK;
-		}
-		else if (this instanceof AppAbstractBarChart)
-		{
+		} else if (this instanceof AppAbstractBarChart) {
 			this.shiftXAxisAbove = this.getMaxHeight(graphics, defaultTickFont) + INSET_FOR_TICK_VALUE_FROM_AXIS;
 		}
 
@@ -125,9 +112,8 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 		this.clearAll();
 
 	}
-	
-	protected void drawXAxis(final UserInterface graphics)
-	{
+
+	protected void drawXAxis(final UserInterface graphics) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 		this.fillArea(graphics);
@@ -147,39 +133,34 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 		long startXval;
 		long endXval;
 		boolean minMaxSame;
-		if (series.getValuesType() == XAxisSeries.LONGVALUES ||
-			series.getValuesType() == XAxisSeries.TIMEVALUES)
-		{
-			XAxisLongSeries longSeries = (XAxisLongSeries)series;
-			startXval = (this.startValueSet ? this.xStartValue : (Long.MAX_VALUE == longSeries.getMinValue() ? 
-				0L : (longSeries.getMinValue() + (longSeries.getMinValue() == 0 ? 0 : -1))));
+		if (series.getValuesType() == XAxisSeries.LONGVALUES || series.getValuesType() == XAxisSeries.TIMEVALUES) {
+			XAxisLongSeries longSeries = (XAxisLongSeries) series;
+			startXval = (this.startValueSet ? this.xStartValue
+					: (Long.MAX_VALUE == longSeries.getMinValue() ? 0L
+							: (longSeries.getMinValue() + (longSeries.getMinValue() == 0 ? 0 : -1))));
 			endXval = longSeries.getMaxValue() + 1;
 			minMaxSame = longSeries.getMinValue() == longSeries.getMaxValue();
-		}
-		else
-		{
-			XAxisIntegerSeries integerSeries = (XAxisIntegerSeries)series;
-			startXval = (this.startValueSet ? this.xStartValue : (Integer.MAX_VALUE == integerSeries.getMinValue() ? 
-				0L : (integerSeries.getMinValue() + (integerSeries.getMinValue() == 0 ? 0 : -1))));
+		} else {
+			XAxisIntegerSeries integerSeries = (XAxisIntegerSeries) series;
+			startXval = (this.startValueSet ? this.xStartValue
+					: (Integer.MAX_VALUE == integerSeries.getMinValue() ? 0L
+							: (integerSeries.getMinValue() + (integerSeries.getMinValue() == 0 ? 0 : -1))));
 			endXval = integerSeries.getMaxValue() + 1;
 			minMaxSame = integerSeries.getMinValue() == integerSeries.getMaxValue();
 		}
 		if (minMaxSame) // If all values in X Axis are same.
 		{
-			if (series.getValuesType() == XAxisSeries.INTVALUES)
-			{
+			if (series.getValuesType() == XAxisSeries.INTVALUES) {
 				// do nothing. its already set
-			}
-			else
-			{
-				// It will be one minute less than the time value provided by user.
+			} else {
+				// It will be one minute less than the time value provided by
+				// user.
 				startXval = Math.max(0L, startXval - 60 * 1000);
-				// It will be one minute more than the time value provided by user.
+				// It will be one minute more than the time value provided by
+				// user.
 				endXval = startXval + 60 * 1000;
 			}
-		}
-		else if (endXval < startXval)
-		{
+		} else if (endXval < startXval) {
 			endXval = startXval + 60 * 1000;
 		}
 
@@ -190,20 +171,15 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 
 		this.iAvailablePxs = availablePxs;
 		int tickCount = availablePxs / tickWidth;
-		if (tickCount == 0)
-		{
+		if (tickCount == 0) {
 			tickCount = 1;
 		}
 
 		float tickInterval = (float) (endXval - startXval) / tickCount;
-		if (tickInterval == 0)
-		{
+		if (tickInterval == 0) {
 			tickInterval = 1.0f;
-		}
-		else if (series.getValuesType() == XAxisSeries.INTVALUES)
-		{
-			if ((float)Math.round(tickInterval) != tickInterval)
-			{
+		} else if (series.getValuesType() == XAxisSeries.INTVALUES) {
+			if ((float) Math.round(tickInterval) != tickInterval) {
 				tickInterval = Math.round(tickInterval) + 1;
 			}
 		}
@@ -222,55 +198,44 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 		float drawX;
 		float widthX;
 		long tmpStartVal = startXval;
-		if ((this instanceof AppLineChart) && !((AppLineChart) this).isFitToScale() && (this.benchmarkTime > -1))
-		{
+		if ((this instanceof AppLineChart) && !((AppLineChart) this).isFitToScale() && (this.benchmarkTime > -1)) {
 			tmpStartVal = this.benchmarkTime;
 		}
-		for (int i = 0; i < tickCount; i++)
-		{
-			if (this.isXAxisGrid())
-			{
+		for (int i = 0; i < tickCount; i++) {
+			if (this.isXAxisGrid()) {
 				graphics.setBackground(background);
 				graphics.setForeground(ChartConstants.GRID_COLOR);
 				final LineAttributes oldLine = graphics.getLineStyle();
-				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND, LineAttributes.LINE_STYLE_DOT));
+				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND,
+						LineAttributes.LINE_STYLE_DOT));
 				graphics.drawLine(currXPos, this.plotRect.y, currXPos, yCor);
 				graphics.setLineStyle(oldLine);
 				graphics.setLineStyle(oldLine);
 			}
-			
-			if (series.getValuesType() == XAxisSeries.TIMEVALUES)
-			{
-				value = ((XAxisTimeSeries) series).getFormattedValue(tmpStartVal, 
-					startXval + i * (long) tickInterval, endXval);
-			}
-			else if (series.getValuesType() == XAxisSeries.INTVALUES)
-			{
+
+			if (series.getValuesType() == XAxisSeries.TIMEVALUES) {
+				value = ((XAxisTimeSeries) series).getFormattedValue(tmpStartVal, startXval + i * (long) tickInterval,
+						endXval);
+			} else if (series.getValuesType() == XAxisSeries.INTVALUES) {
 				currXPos = resolveXCorordinate(startXval + i * Math.round(tickInterval));
 				value = XAxisSeries.getFormattedValueOf(startXval + i * Math.round(tickInterval));
-			}
-			else
-			{
+			} else {
 				value = XAxisSeries.getFormattedValueOf(startXval + i * (long) tickInterval);
 			}
-			if (i != 0)
-			{
+			if (i != 0) {
 				graphics.setBackground(this.chartProperties.getTickBackgroundColour());
 				graphics.setForeground(this.chartProperties.getTickTextColour());
 				graphics.drawLine(currXPos, yCor, currXPos, yCor + TICK_MARK_LENGTH);
 			}
 			widthX = graphics.stringExtent(value).x;
 			drawX = currXPos - widthX * 0.5f;
-			if (i == tickCount - 1)
-			{
+			if (i == tickCount - 1) {
 				drawX = endXpx - widthX;
 			}
-			if (drawX < this.plotRect.x)
-			{
+			if (drawX < this.plotRect.x) {
 				drawX = this.plotRect.x;
 			}
-			if ((i != 0) || !(series.getValuesType() == XAxisSeries.TIMEVALUES))
-			{
+			if ((i != 0) || !(series.getValuesType() == XAxisSeries.TIMEVALUES)) {
 				// TODO: could cause problem due to type-casting !!!
 				graphics.drawString(value, (int) drawX, yCor + INSET_FOR_TICK_VALUE_FROM_TICK_MARK, true);
 			}
@@ -285,8 +250,7 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 		graphics.setForeground(foreground);
 	}
 
-	protected final void drawYAxis(final UserInterface graphics)
-	{
+	protected final void drawYAxis(final UserInterface graphics) {
 		final Color background = graphics.getBackground();
 		final Color foreground = graphics.getForeground();
 
@@ -311,26 +275,20 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 		int endYval;
 		int factor = 1;
 		final boolean logarithmic = this.isLogarithmic();
-		if (!logarithmic)
-		{
+		if (!logarithmic) {
 			startYval = this.bMinMaxYValueSet ? minMax[0] : (minMax[0] + (minMax[0] == 0 ? 0 : -1));
 			endYval = this.bMinMaxYValueSet ? minMax[1] : (minMax[1] + 1);
 			factor = (endYval - startYval > 5 ? 5 : 1);
-			if (!this.bMinMaxYValueSet)
-			{
-				if (startYval % factor != 0)
-				{
+			if (!this.bMinMaxYValueSet) {
+				if (startYval % factor != 0) {
 					startYval -= (startYval % factor);
 				}
 
-				if (endYval % factor != 0)
-				{
+				if (endYval % factor != 0) {
 					endYval += (factor - endYval % factor);
 				}
 			}
-		}
-		else
-		{
+		} else {
 			startYval = 0;
 			endYval = (int) this.getLogValue(this.getEndYVal(minMax[1]));
 		}
@@ -341,20 +299,16 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 		 * area
 		 */
 		tickCount = availablePxs / this.shiftXAxisAbove;
-		if (tickCount <= 0)
-		{
+		if (tickCount <= 0) {
 			tickCount = 1;
 		}
-		if (this.bMinMaxYValueSet)
-		{
+		if (this.bMinMaxYValueSet) {
 			/*
 			 * find the tickCount which will divide (endYval - startYval)
 			 * exactly
 			 */
-			for (int i = tickCount; i >= 1; i--)
-			{
-				if ((endYval - startYval) % i == 0)
-				{
+			for (int i = tickCount; i >= 1; i--) {
+				if ((endYval - startYval) % i == 0) {
 					tickCount = i;
 					break;
 				}
@@ -366,23 +320,17 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 		 * min) on y axis)
 		 */
 		int tickInterval = Math.abs(endYval - startYval) / tickCount;
-		if (tickInterval == 0)
-		{
+		if (tickInterval == 0) {
 			tickInterval = 1;
 		}
-		if (!this.bMinMaxYValueSet && (tickInterval % factor != 0))
-		{
+		if (!this.bMinMaxYValueSet && (tickInterval % factor != 0)) {
 			// convert tick interval into multiple of factor
 			tickInterval += (factor - tickInterval % factor);
 		}
-		if (!this.bMinMaxYValueSet)
-		{
-			if (!logarithmic)
-			{
+		if (!this.bMinMaxYValueSet) {
+			if (!logarithmic) {
 				tickCount = Math.round(Math.abs(endYval - startYval) / tickInterval) + 1;
-			}
-			else
-			{
+			} else {
 				tickCount = String.valueOf(minMax[1]).length();
 			}
 		}
@@ -395,59 +343,54 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 
 		String value = null;
 		int drawY;
-		for (int i = 0; i < tickCount + 1; i++)
-		{
-			if (this.isYAxisGrid() && (i != 0))
-			{
+		for (int i = 0; i < tickCount + 1; i++) {
+			if (this.isYAxisGrid() && (i != 0)) {
 				graphics.setBackground(background);
 				graphics.setForeground(ChartConstants.GRID_COLOR);
 				final LineAttributes oldLineAttr = graphics.getLineStyle();
-				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND, LineAttributes.LINE_STYLE_DOT));
+				graphics.setLineStyle(new LineAttributes(0.75f, LineAttributes.CAP_FLAT, LineAttributes.JOIN_ROUND,
+						LineAttributes.LINE_STYLE_DOT));
 				graphics.drawLine(this.plotRect.x + this.shiftYaxisToRHS, y, this.plotRect.x + this.plotRect.width, y);
 				graphics.setLineStyle(oldLineAttr);
 			}
 
-			if (!logarithmic)
-			{
+			if (!logarithmic) {
 				value = ChartConstants.format(startYval + i * tickInterval);
-			}
-			else
-			{
+			} else {
 				value = ChartConstants.format((int) Math.pow(10, i));
 			}
 			graphics.setBackground(this.chartProperties.getTickBackgroundColour());
 			graphics.setForeground(this.chartProperties.getTickTextColour());
-			if (i != 0)
-			{
+			if (i != 0) {
 				graphics.drawLine(xCor - TICK_MARK_LENGTH, y, xCor, y);
 			}
 			drawY = y - this.shiftXAxisAbove / 4;
-			graphics.drawString(value, this.plotRect.x + this.shiftYaxisToRHS - graphics.stringExtent(value).x - TICK_MARK_LENGTH - 1, drawY, true);
+			graphics.drawString(value,
+					this.plotRect.x + this.shiftYaxisToRHS - graphics.stringExtent(value).x - TICK_MARK_LENGTH - 1,
+					drawY, true);
 			y -= this.height;
 		}
 
 		graphics.setBackground(background);
-//		graphics.setForeground(ChartConstants.COLOR_DARK_GRAY);
-//		// draw surrounding line
-//		graphics.drawLine(this.plotRect.x + this.plotRect.width - 1, startYpx, this.plotRect.x + this.plotRect.width
-//				- 1, endYpx);
+		// graphics.setForeground(ChartConstants.COLOR_DARK_GRAY);
+		// // draw surrounding line
+		// graphics.drawLine(this.plotRect.x + this.plotRect.width - 1,
+		// startYpx, this.plotRect.x + this.plotRect.width
+		// - 1, endYpx);
 		graphics.setForeground(foreground);
 	}
 
-	private int getEndYVal(final int i)
-	{
+	private int getEndYVal(final int i) {
 		return (int) Math.pow(10, String.valueOf(i).length());
 	}
 
-	protected int resolveXCorordinate(final long value)
-	{
+	protected int resolveXCorordinate(final long value) {
 		return (int) (this.xStart + (value - this.xStartValue) * this.xSlope);
 	}
 
-	protected int resolveYCorordinate(final long value)
-	{
-		return (int) (this.yStart - (this.isLogarithmic() ? this.getLogValue(value) : value - this.yStartValue)
-				* this.ySlope);
+	protected int resolveYCorordinate(final long value) {
+		return (int) (this.yStart
+				- (this.isLogarithmic() ? this.getLogValue(value) : value - this.yStartValue) * this.ySlope);
 	}
 
 	/**
@@ -456,8 +399,7 @@ public abstract class AppVerticalSimpleChart extends AppSimpleChart
 	 * 
 	 * @param benchmarkTime
 	 */
-	public void setInitialStartTime(final long benchmarkTime)
-	{
+	public void setInitialStartTime(final long benchmarkTime) {
 		this.benchmarkTime = benchmarkTime;
 	}
 

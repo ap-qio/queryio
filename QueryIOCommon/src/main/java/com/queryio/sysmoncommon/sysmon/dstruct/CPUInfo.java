@@ -21,21 +21,19 @@ package com.queryio.sysmoncommon.sysmon.dstruct;
  * 
  * @author Exceed Consultancy Services
  */
-public class CPUInfo
-{
+public class CPUInfo {
 	private String sName;
 	private float fCPUUsage;
 
 	/**
 	 * Constructs CPUInfo object
 	 * 
-	 * @param name -
-	 *            name of the CPU
-	 * @param usage -
-	 *            cpu usage
+	 * @param name
+	 *            - name of the CPU
+	 * @param usage
+	 *            - cpu usage
 	 */
-	public CPUInfo(final String name, final float usage)
-	{
+	public CPUInfo(final String name, final float usage) {
 		this.sName = name;
 		this.fCPUUsage = usage;
 	}
@@ -45,8 +43,7 @@ public class CPUInfo
 	 * 
 	 * @return CPU name
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return this.sName;
 	}
 
@@ -55,8 +52,7 @@ public class CPUInfo
 	 * 
 	 * @param CPUname
 	 */
-	public void setName(final String name)
-	{
+	public void setName(final String name) {
 		this.sName = name;
 	}
 
@@ -65,10 +61,8 @@ public class CPUInfo
 	 * 
 	 * @return cpu usage
 	 */
-	public float getCPUUsage() throws Exception
-	{
-		if ((this.fCPUUsage < 0) || (this.fCPUUsage > 100))
-		{
+	public float getCPUUsage() throws Exception {
+		if ((this.fCPUUsage < 0) || (this.fCPUUsage > 100)) {
 			throw new Exception("CPU usage incorrect");
 		}
 		return this.fCPUUsage;
@@ -79,8 +73,7 @@ public class CPUInfo
 	 * 
 	 * @param usage
 	 */
-	public void setCPUUsage(final float usage)
-	{
+	public void setCPUUsage(final float usage) {
 		this.fCPUUsage = usage;
 	}
 }

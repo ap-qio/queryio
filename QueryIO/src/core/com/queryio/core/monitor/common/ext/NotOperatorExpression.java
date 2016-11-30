@@ -24,15 +24,13 @@ import org.ks.cm.parser.OperatorExpression;
 /**
  * @author Exceed Consultancy Services
  */
-public class NotOperatorExpression extends OperatorExpression
-{
+public class NotOperatorExpression extends OperatorExpression {
 	private static final long serialVersionUID = 7526000057010002398L;
 
 	/**
 	 * @see java.lang.Object#Object()
 	 */
-	public NotOperatorExpression()
-	{
+	public NotOperatorExpression() {
 		super();
 	}
 
@@ -42,32 +40,28 @@ public class NotOperatorExpression extends OperatorExpression
 	 * @param left
 	 * @param right
 	 */
-	public NotOperatorExpression(final Expression left, final Expression right)
-	{
+	public NotOperatorExpression(final Expression left, final Expression right) {
 		super(left, right);
 	}
 
 	/**
 	 * @see org.ks.cm.parser.Expression#calculate()
 	 */
-	public double calculate() throws ExpressionException
-	{
+	public double calculate() throws ExpressionException {
 		return (this.right.calculate() == 0) ? 1.0 : 0.0;
 	}
 
 	/**
 	 * @see org.ks.cm.parser.OperatorExpression#getPriority()
 	 */
-	public byte getPriority()
-	{
+	public byte getPriority() {
 		return 50;
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("[!");
 		sbToString.append(this.right.toString());
 		sbToString.append(']');

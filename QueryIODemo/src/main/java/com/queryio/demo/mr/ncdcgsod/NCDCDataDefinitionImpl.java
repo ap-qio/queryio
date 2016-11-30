@@ -9,76 +9,76 @@ public class NCDCDataDefinitionImpl implements IDataDefinition {
 
 	@Override
 	public ArrayList<ColumnMetadata> getColumnMetadata() {
-//		String[] colNames = new String[]{
-//				"FILEPATH",
-//				"STATION_NUMBER", 
-//				"WBAN_NUMBER", 
-//				"YEAR", 
-//				"MONTH", 
-//				"DAY",
-//				"MEAN_TEMP",
-//				"NUM_MEAN_TEMP_SAMPLES",
-//				"MEAN_DEW_POINT",
-//				"NUM_MEAN_DEW_POINT_SAMPLES",
-//				"MEAN_SEALEVEL_PRESSURE",
-//				"NUM_MEAN_SEALEVEL_PRESSURE_SAMPLES",
-//				"MEAN_STATION_PRESSURE",
-//				"NUM_MEAN_STATION_PRESSURE_SAMPLES",
-//				"MEAN_VISIBILITY",
-//				"NUM_MEAN_VISIBILITY_SAMPLES",
-//				"MEAN_WIND_SPEED",
-//				"NUM_MEAN_WIND_SPEED_SAMPLES",
-//				"MAX_SUSTAINED_WIND_SPEED",
-//				"MAX_GUST_WIND_SPEED",
-//				"MAX_TEMPERATURE",
-//				"MAX_TEMPERATURE_EXPLICIT",
-//				"MIN_TEMPERATURE",
-//				"MIN_TEMPERATURE_EXPLICIT",
-//				"TOTAL_PRECIPITATION",
-//				"SNOW_DEPTH",
-//				"FOG",
-//				"RAIN",
-//				"SNOW",
-//				"HAIL",
-//				"THUNDER",
-//				"TORNADO",};
-//		
-//		String[] sqlTypes = new String[]{
-//				"varchar(128)",
-//				"integer", 
-//				"integer", 
-//				"integer", 
-//				"integer", 
-//				"integer",
-//				"float",
-//				"integer",
-//				"float",
-//				"integer",
-//				"float",
-//				"integer",
-//				"float",
-//				"integer",
-//				"float",
-//				"integer",
-//				"float",
-//				"integer",
-//				"float",
-//				"float",
-//				"float",
-//				"boolean",
-//				"float",
-//				"boolean",
-//				"float",
-//				"float",
-//				"boolean",
-//				"boolean",
-//				"boolean",
-//				"boolean",
-//				"boolean",
-//				"boolean",};
-		
+		// String[] colNames = new String[]{
+		// "FILEPATH",
+		// "STATION_NUMBER",
+		// "WBAN_NUMBER",
+		// "YEAR",
+		// "MONTH",
+		// "DAY",
+		// "MEAN_TEMP",
+		// "NUM_MEAN_TEMP_SAMPLES",
+		// "MEAN_DEW_POINT",
+		// "NUM_MEAN_DEW_POINT_SAMPLES",
+		// "MEAN_SEALEVEL_PRESSURE",
+		// "NUM_MEAN_SEALEVEL_PRESSURE_SAMPLES",
+		// "MEAN_STATION_PRESSURE",
+		// "NUM_MEAN_STATION_PRESSURE_SAMPLES",
+		// "MEAN_VISIBILITY",
+		// "NUM_MEAN_VISIBILITY_SAMPLES",
+		// "MEAN_WIND_SPEED",
+		// "NUM_MEAN_WIND_SPEED_SAMPLES",
+		// "MAX_SUSTAINED_WIND_SPEED",
+		// "MAX_GUST_WIND_SPEED",
+		// "MAX_TEMPERATURE",
+		// "MAX_TEMPERATURE_EXPLICIT",
+		// "MIN_TEMPERATURE",
+		// "MIN_TEMPERATURE_EXPLICIT",
+		// "TOTAL_PRECIPITATION",
+		// "SNOW_DEPTH",
+		// "FOG",
+		// "RAIN",
+		// "SNOW",
+		// "HAIL",
+		// "THUNDER",
+		// "TORNADO",};
+		//
+		// String[] sqlTypes = new String[]{
+		// "varchar(128)",
+		// "integer",
+		// "integer",
+		// "integer",
+		// "integer",
+		// "integer",
+		// "float",
+		// "integer",
+		// "float",
+		// "integer",
+		// "float",
+		// "integer",
+		// "float",
+		// "integer",
+		// "float",
+		// "integer",
+		// "float",
+		// "integer",
+		// "float",
+		// "float",
+		// "float",
+		// "boolean",
+		// "float",
+		// "boolean",
+		// "float",
+		// "float",
+		// "boolean",
+		// "boolean",
+		// "boolean",
+		// "boolean",
+		// "boolean",
+		// "boolean",};
+
 		ArrayList<ColumnMetadata> colMetaDataList = new ArrayList<ColumnMetadata>();
-		
+
 		colMetaDataList.add(new ColumnMetadata("FILEPATH", String.class, 128));
 		colMetaDataList.add(new ColumnMetadata("STATION_NUMBER", Integer.class));
 		colMetaDataList.add(new ColumnMetadata("WBAN_NUMBER", Integer.class));
@@ -111,7 +111,7 @@ public class NCDCDataDefinitionImpl implements IDataDefinition {
 		colMetaDataList.add(new ColumnMetadata("HAIL", Boolean.class));
 		colMetaDataList.add(new ColumnMetadata("THUNDER", Boolean.class));
 		colMetaDataList.add(new ColumnMetadata("TORNADO", Boolean.class));
-		
+
 		return colMetaDataList;
 	}
 
@@ -119,8 +119,8 @@ public class NCDCDataDefinitionImpl implements IDataDefinition {
 	public String getTableName() {
 		return "adhoc_ncdcparserjob";
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		System.out.println(new NCDCDataDefinitionImpl().getColumnMetadata());
 	}
 }

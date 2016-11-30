@@ -21,8 +21,7 @@ package com.queryio.common.charts.series;
  * 
  * @author Exceed Consultancy Services
  */
-public class SeriesCollection
-{
+public class SeriesCollection {
 	private int intialCapacity = 10;
 	private int increment = 5;
 
@@ -30,35 +29,29 @@ public class SeriesCollection
 
 	private ComplexSeries[] series = null;
 
-	public SeriesCollection()
-	{
+	public SeriesCollection() {
 		this.init();
 	}
 
-	public SeriesCollection(final int intialCapacity)
-	{
+	public SeriesCollection(final int intialCapacity) {
 		this.intialCapacity = intialCapacity;
 		this.init();
 	}
 
-	public SeriesCollection(final int intialCapacity, final int increment)
-	{
+	public SeriesCollection(final int intialCapacity, final int increment) {
 		this.intialCapacity = intialCapacity;
 		this.increment = increment;
 		this.init();
 	}
 
-	private void init()
-	{
+	private void init() {
 		this.series = new ComplexSeries[this.intialCapacity];
 		this.currentIndex = -1;
 	}
 
-	public int addSeries(final String name, final int capacity)
-	{
+	public int addSeries(final String name, final int capacity) {
 		final int index = this.currentIndex + 1;
-		if (index >= this.series.length)
-		{
+		if (index >= this.series.length) {
 			// increase the size of series object by increment
 			final ComplexSeries[] destSeries = new ComplexSeries[this.series.length + this.increment];
 			System.arraycopy(this.series, 0, destSeries, 0, this.series.length);
@@ -75,16 +68,13 @@ public class SeriesCollection
 	 * SeriesCollection # removeAllSeries
 	 * 
 	 */
-	public void removeAllSeries()
-	{
+	public void removeAllSeries() {
 		this.init();
 	}
 
-	public ComplexSeries removeComplexSeries(final int index)
-	{
+	public ComplexSeries removeComplexSeries(final int index) {
 		final ComplexSeries removedSeries = this.getComplexSeries(index);
-		if (removedSeries != null)
-		{
+		if (removedSeries != null) {
 			// shuffle the series
 			final ComplexSeries[] destSeries = new ComplexSeries[this.series.length - 1];
 			System.arraycopy(this.series, 0, destSeries, 0, index - 1);
@@ -95,35 +85,28 @@ public class SeriesCollection
 		return removedSeries;
 	}
 
-	public ComplexSeries removeComplexSeries(final String complexSeriesName)
-	{
+	public ComplexSeries removeComplexSeries(final String complexSeriesName) {
 		return this.removeComplexSeries(this.find(complexSeriesName));
 	}
 
-	public ComplexSeries getComplexSeries(final int index)
-	{
+	public ComplexSeries getComplexSeries(final int index) {
 		return (index == -1 ? null : this.series[index]);
 	}
 
-	public ComplexSeries getComplexSeries(final String complexSeriesName)
-	{
+	public ComplexSeries getComplexSeries(final String complexSeriesName) {
 		return this.getComplexSeries(this.find(complexSeriesName));
 	}
 
-	private int find(final String complexSeriesName)
-	{
-		for (int i = 0; i < this.getCurrentCount(); i++)
-		{
-			if (this.series[i].getName().equals(complexSeriesName))
-			{
+	private int find(final String complexSeriesName) {
+		for (int i = 0; i < this.getCurrentCount(); i++) {
+			if (this.series[i].getName().equals(complexSeriesName)) {
 				return i;
 			}
 		}
 		return -1;
 	}
 
-	public int getCurrentCount()
-	{
+	public int getCurrentCount() {
 		return this.currentIndex + 1;
 	}
 }

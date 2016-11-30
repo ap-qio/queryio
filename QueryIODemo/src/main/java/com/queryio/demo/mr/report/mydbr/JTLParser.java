@@ -33,9 +33,9 @@ public class JTLParser {
 	private static final String ORDER_STATUS_LABEL_NEW = "Order Processing";
 	private static final String ORDER_PLACEMENT_LABEL = "/CHECKOUTX - PAYMENTSERVICE";
 	private static final String ORDER_PLACEMENT_LABEL_NEW_SUFFIX = "Place Order";
-	
+
 	ArrayList<String> columns = null;
-	
+
 	private int sampleDuration = 60; // in seconds, from User
 	private int sampleCount = 0;
 	private Map<String, Long> orderPlacementCallsMap = null;
@@ -143,7 +143,7 @@ public class JTLParser {
 		SKIP_LABELS.add("IPAD NOT ENGRAVED SAMPLER");
 		SKIP_LABELS.add("IPHONE TYPE");
 	}
-	
+
 	private static ArrayList<String> dummyEntryLablesListEndsWith = new ArrayList<String>();
 	private static ArrayList<String> dummyEntryLablesListStartsWith = new ArrayList<String>();
 	private static ArrayList<String> dummyEntryLablesListContains = new ArrayList<String>();
@@ -167,25 +167,30 @@ public class JTLParser {
 		dummyEntryLablesListContains.add("/BROWSE");
 		dummyEntryLablesListContains.add("/PRODUCT");
 	}
-	
+
 	// timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,bytes,grpThreads,allThreads,Latency,Hostname
-	private int startTimestampIndex = 0;			// index of timestamp field, starting from 0, from User
-	private int labelIndex = 2;						// index of label field, starting from 0, from User
-	private int errorCountIndex = 7;					// index of success field, starting from 0, from User
-	private int bytesIndex = 8;					// index of bytes field, starting from 0, from User
-	private int latencyIndex = 11;					// index of latency field, starting from 0, from User
+	private int startTimestampIndex = 0; // index of timestamp field, starting
+											// from 0, from User
+	private int labelIndex = 2; // index of label field, starting from 0, from
+								// User
+	private int errorCountIndex = 7; // index of success field, starting from 0,
+										// from User
+	private int bytesIndex = 8; // index of bytes field, starting from 0, from
+								// User
+	private int latencyIndex = 11; // index of latency field, starting from 0,
+									// from User
 	private String startTime = null;
 	private String endTime = null;
-	private int waitTime = 500;					// think time in ms, for each Order Status call
+	private int waitTime = 500; // think time in ms, for each Order Status call
 
 	private long startTimestamp = -1;
 	private long testStartTimestamp = -1;
 	private long endTimestamp = 0;
 	private long currentTimestamp = 0;
 	private long startTimestampTotal = -1;
-	
+
 	private final boolean isHeaderRow = true;
-	
+
 	LinkedHashMap<String, ArrayList<Double>> labelPercentile = null;
 	LinkedHashMap<String, Double> labelLatencyAvg = null;
 	LinkedHashMap<String, Double> labelLatencyMin = null;
@@ -201,18 +206,20 @@ public class JTLParser {
 	LinkedHashMap<String, Long> labelBytesTotal = null;
 
 	Set<String> insertDummyRowSet = null;
-	
+
 	Connection connection = null;
 	PreparedStatement pst = null;
 	String tableName = null;
-	int maxBatchSize; 
+	int maxBatchSize;
 	FileStatus fileStatus = null;
 	String filePath = null;
-	
+
 	int currentBatchSize = 0;
-	
-	public JTLParser(final Connection connection, final String tableName, final FileStatus fileStatus, final int maxBatchSize, final int sampleDuration, final int startTimestampIndex,
-			final int labelIndex, final int errorCountIndex, final int bytesIndex, final int latencyIndex, final String startTime, final String endTime, final int waitTime, final ArrayList<String> columns) {
+
+	public JTLParser(final Connection connection, final String tableName, final FileStatus fileStatus,
+			final int maxBatchSize, final int sampleDuration, final int startTimestampIndex, final int labelIndex,
+			final int errorCountIndex, final int bytesIndex, final int latencyIndex, final String startTime,
+			final String endTime, final int waitTime, final ArrayList<String> columns) {
 		this.connection = connection;
 		this.fileStatus = fileStatus;
 		this.filePath = this.fileStatus.getPath().toUri().getPath();
@@ -229,7 +236,7 @@ public class JTLParser {
 		this.waitTime = waitTime;
 		this.columns = columns;
 	}
-	
+
 	public void parse(final InputStream is) throws IOException, InterruptedException, SQLException {
 
 		BufferedReader rd = null;
@@ -273,7 +280,7 @@ public class JTLParser {
 		long bytes = 0;
 
 		init();
-		
+
 		// Label
 		String labelUpperCase = null;
 		if (values.length > this.labelIndex) {
@@ -285,8 +292,8 @@ public class JTLParser {
 				}
 			}
 		}
-		
-		double latency = 0.0;		
+
+		double latency = 0.0;
 		// Latency
 		if (values.length > this.latencyIndex) {
 			try {
@@ -294,11 +301,11 @@ public class JTLParser {
 			} catch (final Exception e) {
 				LOG.warn("Error parsing latency value: " + e.getLocalizedMessage(), e);
 			}
-//No more in use.
-//			if (latency == 0.0) {
-//				// Skip rows with zero latency
-//				return;
-//			}
+			// No more in use.
+			// if (latency == 0.0) {
+			// // Skip rows with zero latency
+			// return;
+			// }
 		}
 
 		// Timestamp
@@ -315,8 +322,6 @@ public class JTLParser {
 				startTimestampTotal = currentTimestamp;
 			}
 		}
-
-		
 
 		// Bytes
 		if (values.length > this.bytesIndex) {
@@ -507,15 +512,16 @@ public class JTLParser {
 		pst = connection.prepareStatement(query.toString());
 	}
 
+	private void prepareBatch(final String label, final int sampleValue, final long startTime, final long endTime,
+			int taskCount, double minLatency, double maxLatency, double avgLatency, double percentileLatency999,
+			double percentileLatency99, double percentileLatency95, double percentileLatency90,
+			double percentileLatency80, final double totalBytes, int errorCount, double statusCallsPerOrder,
+			double waitTime) throws SQLException {
 
-	private void prepareBatch(final String label, final int sampleValue, final long startTime, final long endTime, int taskCount, double minLatency, double maxLatency, double avgLatency,
-			double percentileLatency999, double percentileLatency99, double percentileLatency95, double percentileLatency90, double percentileLatency80, final double totalBytes, int errorCount,
-			double statusCallsPerOrder, double waitTime) throws SQLException {
-
-		if((endTime-startTime)<1){
+		if ((endTime - startTime) < 1) {
 			return;
 		}
-		
+
 		errorCount = (int) ((statusCallsPerOrder == -1) ? errorCount : (errorCount / statusCallsPerOrder));
 
 		minLatency = (statusCallsPerOrder == -1) ? minLatency : (minLatency + waitTime);
@@ -529,7 +535,7 @@ public class JTLParser {
 		percentileLatency80 = (statusCallsPerOrder == -1) ? percentileLatency80 : (percentileLatency80 + waitTime);
 
 		double successPer = (taskCount == 0) ? 0 : (((taskCount - errorCount) * 100.0) / taskCount);
-		double avgTps = ((taskCount-errorCount) * 1.0) / ((float)(endTime - startTime) / 1000);
+		double avgTps = ((taskCount - errorCount) * 1.0) / ((float) (endTime - startTime) / 1000);
 
 		int index = 0;
 		pst.setString(++index, label);// sample_label
@@ -566,7 +572,7 @@ public class JTLParser {
 		}
 
 		if (this.labelPercentile != null) {
-			this.sampleCount ++;
+			this.sampleCount++;
 			insertSampleEntries();
 		}
 
@@ -609,13 +615,15 @@ public class JTLParser {
 				Long orderPlacementCalls = -1L;
 				if (isOrderStatus(labelUpperCase)) {
 					orderStatusCalls = orderStatusTotalCallsMap.get(labelUpperCase);
-					final String region = labelUpperCase.substring(labelUpperCase.indexOf('/') + 1, labelUpperCase.indexOf(ORDER_STATUS_LABEL));
+					final String region = labelUpperCase.substring(labelUpperCase.indexOf('/') + 1,
+							labelUpperCase.indexOf(ORDER_STATUS_LABEL));
 					final String orderLabel = "/" + region + ORDER_PLACEMENT_LABEL;
 					orderPlacementCalls = orderPlacementTotalCallsMap.get(orderLabel);
 
 					if (orderPlacementCalls == null || orderStatusCalls == null) {
-						LOG.warn("Either orderPlacement or orderStatus calls are null. Labels: " + label + ", " + label + ", orderPlacementCallsMap: " + orderPlacementTotalCallsMap
-								+ " orderStatusCallsMap: " + orderStatusTotalCallsMap);
+						LOG.warn("Either orderPlacement or orderStatus calls are null. Labels: " + label + ", " + label
+								+ ", orderPlacementCallsMap: " + orderPlacementTotalCallsMap + " orderStatusCallsMap: "
+								+ orderStatusTotalCallsMap);
 						orderPlacementCalls = 1L;
 						orderStatusCalls = 1L;
 					}
@@ -625,14 +633,18 @@ public class JTLParser {
 					orderStatusLabel = ORDER_STATUS_LABEL_NEW + "-" + region.toLowerCase();
 					latencyCount = orderPlacementCalls.intValue();
 					if (LOG.isDebugEnabled()) {
-						LOG.debug("Label: " + label + " statusLabel: " + label + " orderStatusCalls: " + orderStatusCalls + " orderPlacementCalls: " + orderPlacementCalls + " statusCallsPerOrder: "
-								+ statusCallsPerOrder + " waitTime: " + waitTime);
+						LOG.debug("Label: " + label + " statusLabel: " + label + " orderStatusCalls: "
+								+ orderStatusCalls + " orderPlacementCalls: " + orderPlacementCalls
+								+ " statusCallsPerOrder: " + statusCallsPerOrder + " waitTime: " + waitTime);
 					}
 				}
 
-				prepareBatch(((statusCallsPerOrder == -1) ? getLabel(label) : orderStatusLabel), 0, this.startTimestampTotal, this.currentTimestamp, latencyCount,
-						this.labelLatencyMinTotal.get(label), this.labelLatencyMaxTotal.get(label), latencyAvg, percentileLatency.get(index999), percentileLatency.get(index99),
-						percentileLatency.get(index95), percentileLatency.get(index90), percentileLatency.get(index80), (this.labelBytesTotal.get(label) * 1.0), this.labelErrorCountTotal.get(label),
+				prepareBatch(((statusCallsPerOrder == -1) ? getLabel(label) : orderStatusLabel), 0,
+						this.startTimestampTotal, this.currentTimestamp, latencyCount,
+						this.labelLatencyMinTotal.get(label), this.labelLatencyMaxTotal.get(label), latencyAvg,
+						percentileLatency.get(index999), percentileLatency.get(index99), percentileLatency.get(index95),
+						percentileLatency.get(index90), percentileLatency.get(index80),
+						(this.labelBytesTotal.get(label) * 1.0), this.labelErrorCountTotal.get(label),
 						statusCallsPerOrder, waitTime);
 			}
 		}
@@ -681,13 +693,15 @@ public class JTLParser {
 				Long orderPlacementCalls = -1L;
 				if (isOrderStatus(labelUpperCase)) {
 					orderStatusCalls = orderStatusCallsMap.get(labelUpperCase);
-					final String region = labelUpperCase.substring(labelUpperCase.indexOf('/') + 1, labelUpperCase.indexOf(ORDER_STATUS_LABEL));
+					final String region = labelUpperCase.substring(labelUpperCase.indexOf('/') + 1,
+							labelUpperCase.indexOf(ORDER_STATUS_LABEL));
 					final String orderLabel = "/" + region + ORDER_PLACEMENT_LABEL;
 					orderPlacementCalls = orderPlacementCallsMap.get(orderLabel);
 
 					if (orderPlacementCalls == null || orderStatusCalls == null) {
-						LOG.warn("Either orderPlacement or orderStatus calls are null. Labels: " + label + ", " + label + ", orderPlacementCallsMap: " + orderPlacementCallsMap
-								+ " orderStatusCallsMap: " + orderStatusCallsMap);
+						LOG.warn("Either orderPlacement or orderStatus calls are null. Labels: " + label + ", " + label
+								+ ", orderPlacementCallsMap: " + orderPlacementCallsMap + " orderStatusCallsMap: "
+								+ orderStatusCallsMap);
 						orderPlacementCalls = 1L;
 						orderStatusCalls = 1L;
 					}
@@ -697,26 +711,32 @@ public class JTLParser {
 					orderStatusLabel = ORDER_STATUS_LABEL_NEW + "-" + region.toLowerCase();
 					latencyCount = orderPlacementCalls.intValue();
 					if (LOG.isDebugEnabled()) {
-						LOG.debug("Label: " + label + " statusLabel: " + label + " orderStatusCalls: " + orderStatusCalls + " orderPlacementCalls: " + orderPlacementCalls + " statusCallsPerOrder: "
-								+ statusCallsPerOrder + " waitTime: " + waitTime);
+						LOG.debug("Label: " + label + " statusLabel: " + label + " orderStatusCalls: "
+								+ orderStatusCalls + " orderPlacementCalls: " + orderPlacementCalls
+								+ " statusCallsPerOrder: " + statusCallsPerOrder + " waitTime: " + waitTime);
 					}
 				}
 
 				// Insert Dummy Values First Time
 				if (insertDummyRow(label.toUpperCase())) {
-					prepareBatch(((statusCallsPerOrder == -1) ? getLabel(label) : orderStatusLabel), -1, ((this.testStartTimestamp - (sampleDuration * 1000))), this.testStartTimestamp, 0, 0, 0, 0, 0,
-							0, 0, 0, 0, 0, 0, statusCallsPerOrder, waitTime);
+					prepareBatch(((statusCallsPerOrder == -1) ? getLabel(label) : orderStatusLabel), -1,
+							((this.testStartTimestamp - (sampleDuration * 1000))), this.testStartTimestamp, 0, 0, 0, 0,
+							0, 0, 0, 0, 0, 0, 0, statusCallsPerOrder, waitTime);
 				}
 
-				prepareBatch(((statusCallsPerOrder == -1) ? getLabel(label) : orderStatusLabel), this.sampleCount, this.startTimestamp, this.endTimestamp, latencyCount,
-						this.labelLatencyMin.get(label), this.labelLatencyMax.get(label), latencyAvg, percentileLatency.get(index999), percentileLatency.get(index99), percentileLatency.get(index95),
-						percentileLatency.get(index90), percentileLatency.get(index80), (bytes * 1.0), errorCount, statusCallsPerOrder, waitTime);
+				prepareBatch(((statusCallsPerOrder == -1) ? getLabel(label) : orderStatusLabel), this.sampleCount,
+						this.startTimestamp, this.endTimestamp, latencyCount, this.labelLatencyMin.get(label),
+						this.labelLatencyMax.get(label), latencyAvg, percentileLatency.get(index999),
+						percentileLatency.get(index99), percentileLatency.get(index95), percentileLatency.get(index90),
+						percentileLatency.get(index80), (bytes * 1.0), errorCount, statusCallsPerOrder, waitTime);
 
 				Double latencyAvgTotal = this.labelLatencyAvgTotal.get(label);
-				this.labelLatencyAvgTotal.put(label, (latencyAvgTotal == null) ? latencyTotal : (latencyAvgTotal + latencyTotal));
+				this.labelLatencyAvgTotal.put(label,
+						(latencyAvgTotal == null) ? latencyTotal : (latencyAvgTotal + latencyTotal));
 
 				final Integer errorCountTotal = this.labelErrorCountTotal.get(label);
-				this.labelErrorCountTotal.put(label, (errorCountTotal == null) ? errorCount : (errorCountTotal + errorCount));
+				this.labelErrorCountTotal.put(label,
+						(errorCountTotal == null) ? errorCount : (errorCountTotal + errorCount));
 
 				final Long bytesTotal = this.labelBytesTotal.get(label);
 				this.labelBytesTotal.put(label, (bytesTotal == null) ? bytes : (bytesTotal + bytes));
@@ -751,7 +771,7 @@ public class JTLParser {
 		if (insertDummyRowSet.contains(label)) {
 			return false;
 		}
-		
+
 		for (final String dummyLabel : JTLParser.dummyEntryLablesListEndsWith) {
 			if (label.endsWith(dummyLabel)) {
 				insertDummyRowSet.add(label);
@@ -770,7 +790,7 @@ public class JTLParser {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 

@@ -19,56 +19,52 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import com.queryio.plugin.datatags.UserDefinedTag;
 
-
-public class NCDCOutputFormat extends OutputFormat<FileStatus, NCDCEntry>{
-private static final Log LOG = LogFactory.getLog(NCDCOutputFormat.class);	
-	
-	
-	@Override
-	public void checkOutputSpecs(JobContext arg0) throws IOException,
-			InterruptedException {}
+public class NCDCOutputFormat extends OutputFormat<FileStatus, NCDCEntry> {
+	private static final Log LOG = LogFactory.getLog(NCDCOutputFormat.class);
 
 	@Override
-	public OutputCommitter getOutputCommitter(TaskAttemptContext context)
-			throws IOException, InterruptedException {
-		 return new FileOutputCommitter(FileOutputFormat.getOutputPath(context),
-                 context);
+	public void checkOutputSpecs(JobContext arg0) throws IOException, InterruptedException {
+	}
+
+	@Override
+	public OutputCommitter getOutputCommitter(TaskAttemptContext context) throws IOException, InterruptedException {
+		return new FileOutputCommitter(FileOutputFormat.getOutputPath(context), context);
 	}
 
 	@Override
 	public RecordWriter<FileStatus, NCDCEntry> getRecordWriter(TaskAttemptContext context)
 			throws IOException, InterruptedException {
-		try {	        
-	      return new NCDCRecordWriter(context.getConfiguration());
-	    } catch (Exception ex) {
-	      throw new IOException(ex);
-	    }
+		try {
+			return new NCDCRecordWriter(context.getConfiguration());
+		} catch (Exception ex) {
+			throw new IOException(ex);
+		}
 	}
-	
-	class NCDCRecordWriter extends RecordWriter<FileStatus, NCDCEntry>{
+
+	class NCDCRecordWriter extends RecordWriter<FileStatus, NCDCEntry> {
 		Connection connection;
 		List<UserDefinedTag> tags;
 		FileStatus fileStatus;
 		Configuration conf;
-		
+
 		String cols[] = null;
 		String tableName = new NCDCDataDefinitionImpl().getTableName();
-		
-		public NCDCRecordWriter(Configuration conf) throws Exception {
-		
-		}
-		@Override
-		public void close(TaskAttemptContext context) throws IOException,
-				InterruptedException {
 
-		}	
-		
+		public NCDCRecordWriter(Configuration conf) throws Exception {
+
+		}
+
 		@Override
-		public void write(FileStatus fileStatus, NCDCEntry logEntry) throws IOException,
-				InterruptedException {
+		public void close(TaskAttemptContext context) throws IOException, InterruptedException {
+
+		}
+
+		@Override
+		public void write(FileStatus fileStatus, NCDCEntry logEntry) throws IOException, InterruptedException {
 
 		}
 	}
+
 	public static void setOutput(Job job) throws IOException {
 		job.setOutputFormatClass(NCDCOutputFormat.class);
 		job.setReduceSpeculativeExecution(false);

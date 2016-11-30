@@ -24,8 +24,7 @@ import java.util.ArrayList;
  * 
  * @author Exceed Consultancy Services
  */
-public class AlertEvent extends NodeEvent
-{
+public class AlertEvent extends NodeEvent {
 	public static final int RAISED = 0;
 	public static final int RESET = 1;
 
@@ -39,26 +38,22 @@ public class AlertEvent extends NodeEvent
 	private final ArrayList attributes;
 
 	public AlertEvent(final String nodeId, final int state, final ArrayList rules, final ArrayList attributes,
-			final long timeStamp, final EventDispatcher dispatcher)
-	{
+			final long timeStamp, final EventDispatcher dispatcher) {
 		super(nodeId, timeStamp, dispatcher);
 		this.state = state;
 		this.rules = rules;
 		this.attributes = attributes;
 	}
 
-	public ArrayList getAttributes()
-	{
+	public ArrayList getAttributes() {
 		return this.attributes;
 	}
 
-	public ArrayList getRules()
-	{
+	public ArrayList getRules() {
 		return this.rules;
 	}
 
-	public int getState()
-	{
+	public int getState() {
 		return this.state;
 	}
 }

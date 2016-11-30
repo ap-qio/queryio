@@ -144,12 +144,13 @@ public class CustomTagMetadataDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static JSONObject getAllCustomTagsMetadataDetail(Connection connection,String paramsDT) throws Exception {
-//		AppLogger.getLogger().debug("ID : " + tagID);
-		
-		String[] dbColumnLabels = { "CUSTOMTAG_METADATA.ID", "CUSTOMTAG_METADATA.JSON", "CUSTOMTAG_METADATA.DESCRIPTION",
-				"CUSTOMTAG_METADATA.ISACTIVE", "CUSTOMTAG_METADATA.DB_TYPE", "CUSTOMTAG_METADATA.FILE_TYPE", "CUSTOMTAG_METADATA.NAMENODEID",
-				"CUSTOMTAG_METADATA.TABLE_NAME", "CUSTOMTAG_METADATA.SCHEDULE_INFO", "CUSTOMTAG_METADATA.JOB_NAMES" };
+	public static JSONObject getAllCustomTagsMetadataDetail(Connection connection, String paramsDT) throws Exception {
+		// AppLogger.getLogger().debug("ID : " + tagID);
+
+		String[] dbColumnLabels = { "CUSTOMTAG_METADATA.ID", "CUSTOMTAG_METADATA.JSON",
+				"CUSTOMTAG_METADATA.DESCRIPTION", "CUSTOMTAG_METADATA.ISACTIVE", "CUSTOMTAG_METADATA.DB_TYPE",
+				"CUSTOMTAG_METADATA.FILE_TYPE", "CUSTOMTAG_METADATA.NAMENODEID", "CUSTOMTAG_METADATA.TABLE_NAME",
+				"CUSTOMTAG_METADATA.SCHEDULE_INFO", "CUSTOMTAG_METADATA.JOB_NAMES" };
 		DataTableParams params = null;
 		JSONObject customTagInfo = new JSONObject();
 		PreparedStatement ps = null;
@@ -160,17 +161,17 @@ public class CustomTagMetadataDAO {
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("Parsed DataTable params - " + params.toString());
 			String query = QueryConstants.PREPARED_QRY_ALL_CUSTOMTAG_METADATA_GET_DETAILS;
-            String originalQuery = query;
+			String originalQuery = query;
 			if (!params.getSearchVal().isEmpty()) {
 				query += " WHERE ( ";
 				if (params.getSearchColIndex() > -1) {
 					query += dbColumnLabels[params.getSearchColIndex()];
 					query += " LIKE '%" + params.getSearchVal() + "%' ";
 				} else {
-					for (int i = 0; i < dbColumnLabels.length; i++){
+					for (int i = 0; i < dbColumnLabels.length; i++) {
 						query += dbColumnLabels[i];
 						query += " LIKE '%" + params.getSearchVal() + "%' ";
-						if(i < dbColumnLabels.length - 1){
+						if (i < dbColumnLabels.length - 1) {
 							query += " OR ";
 						}
 					}
@@ -178,11 +179,13 @@ public class CustomTagMetadataDAO {
 				query += " )";
 				AppLogger.getLogger().fatal("query : " + query);
 			}
-			
+
 			// get filtered record count
-			 int filterCount = getCustomTagCount(connection, "SELECT COUNT(*) FROM (" + query + ") AS COUNTER"); //filtered query count
-			 if (AppLogger.getLogger().isDebugEnabled())
-			 AppLogger.getLogger().debug("ADHOC recordsFiltered: " + filterCount);
+			int filterCount = getCustomTagCount(connection, "SELECT COUNT(*) FROM (" + query + ") AS COUNTER"); // filtered
+																												// query
+																												// count
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug("ADHOC recordsFiltered: " + filterCount);
 
 			// apply sorting
 			query += " ORDER BY UPPER ("
@@ -219,7 +222,9 @@ public class CustomTagMetadataDAO {
 				tableAll.add(tableRow);
 			}
 
-			int totalCount = getCustomTagCount(connection, "SELECT COUNT(*) FROM (" + originalQuery + ") AS COUNTER"); // total query  count
+			int totalCount = getCustomTagCount(connection, "SELECT COUNT(*) FROM (" + originalQuery + ") AS COUNTER"); // total
+																														// query
+																														// count
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("recordsTotal: " + totalCount);
 			customTagInfo.put("data", tableAll);
@@ -248,9 +253,9 @@ public class CustomTagMetadataDAO {
 		ResultSet rs = null;
 		try {
 			stmt = connection.prepareStatement(query);
-//			stmt.setString(1, tagID);
+			// stmt.setString(1, tagID);
 			rs = stmt.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				count = rs.getInt(1);
 			}
 		} finally {
@@ -259,19 +264,19 @@ public class CustomTagMetadataDAO {
 		}
 		return count;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public static JSONObject getAllCustomTagsMetadataDetail(Connection connection)
-			throws Exception {
+	public static JSONObject getAllCustomTagsMetadataDetail(Connection connection) throws Exception {
 		JSONObject customDataObj = new JSONObject();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-//		ArrayList<Map<String, String>> data = new ArrayList<Map<String, String>>();
+		// ArrayList<Map<String, String>> data = new ArrayList<Map<String,
+		// String>>();
 
 		try {
 			ps = DatabaseFunctions.getPreparedStatement(connection,
 					QueryConstants.PREPARED_QRY_ALL_CUSTOMTAG_METADATA_GET_DETAILS);
-//			ps.setString(1, tagID);
+			// ps.setString(1, tagID);
 			rs = DatabaseFunctions.getQueryResultsForPreparedStatement(ps);
 			while (rs.next()) {
 				JSONObject obj = new JSONObject();
@@ -283,7 +288,7 @@ public class CustomTagMetadataDAO {
 				obj.put("tableName", String.valueOf(rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_TABLE_NAME)));
 				obj.put("dataTaggingTimeInfo",
 						String.valueOf(rs.getObject(ColumnConstants.COL_CUSTOMTAG_METADATA_TAGGING_SCHEDULE_INFO)));
-				customDataObj.put("TagDetails" ,obj);
+				customDataObj.put("TagDetails", obj);
 			}
 		} finally {
 			try {
@@ -300,45 +305,51 @@ public class CustomTagMetadataDAO {
 		return customDataObj;
 	}
 
-//	public static ArrayList<Map<String, String>> getAllCustomTagsMetadataDetail(Connection connection)
-//			throws Exception {
-//		PreparedStatement ps = null;
-//		ResultSet rs = null;
-//		ArrayList<Map<String, String>> data = new ArrayList<Map<String, String>>();
-//
-//		try {
-//			ps = DatabaseFunctions.getPreparedStatement(connection,
-//					QueryConstants.PREPARED_QRY_ALL_CUSTOMTAG_METADATA_GET_DETAILS);
-//			rs = DatabaseFunctions.getQueryResultsForPreparedStatement(ps);
-//			Map<String, String> map = null;
-//			while (rs.next()) {
-//				map = new HashMap<String, String>();
-//				map.put("id", rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_ID));
-//				map.put("json", rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_JSON));
-//				map.put("desc", rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_DESC));
-//				map.put("isActive", String.valueOf(rs.getBoolean(ColumnConstants.COL_CUSTOMTAG_METADATA_IS_ACTIVE)));
-//				map.put("db_type", String.valueOf(rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_DB_TYPE)));
-//				map.put("tableName", String.valueOf(rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_TABLE_NAME)));
-//				map.put("dataTaggingTimeInfo",
-//						String.valueOf(rs.getObject(ColumnConstants.COL_CUSTOMTAG_METADATA_TAGGING_SCHEDULE_INFO)));
-//				data.add(map);
-//			}
-//		} finally {
-//			try {
-//				DatabaseFunctions.closeResultSet(rs);
-//			} catch (Exception e) {
-//				AppLogger.getLogger().fatal(e.getMessage(), e);
-//			}
-//			try {
-//				DatabaseFunctions.closePreparedStatement(ps);
-//			} catch (Exception e) {
-//				AppLogger.getLogger().fatal(e.getMessage(), e);
-//			}
-//		}
-//		return data;
-//	}
-	
-	
+	// public static ArrayList<Map<String, String>>
+	// getAllCustomTagsMetadataDetail(Connection connection)
+	// throws Exception {
+	// PreparedStatement ps = null;
+	// ResultSet rs = null;
+	// ArrayList<Map<String, String>> data = new ArrayList<Map<String,
+	// String>>();
+	//
+	// try {
+	// ps = DatabaseFunctions.getPreparedStatement(connection,
+	// QueryConstants.PREPARED_QRY_ALL_CUSTOMTAG_METADATA_GET_DETAILS);
+	// rs = DatabaseFunctions.getQueryResultsForPreparedStatement(ps);
+	// Map<String, String> map = null;
+	// while (rs.next()) {
+	// map = new HashMap<String, String>();
+	// map.put("id", rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_ID));
+	// map.put("json",
+	// rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_JSON));
+	// map.put("desc",
+	// rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_DESC));
+	// map.put("isActive",
+	// String.valueOf(rs.getBoolean(ColumnConstants.COL_CUSTOMTAG_METADATA_IS_ACTIVE)));
+	// map.put("db_type",
+	// String.valueOf(rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_DB_TYPE)));
+	// map.put("tableName",
+	// String.valueOf(rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_TABLE_NAME)));
+	// map.put("dataTaggingTimeInfo",
+	// String.valueOf(rs.getObject(ColumnConstants.COL_CUSTOMTAG_METADATA_TAGGING_SCHEDULE_INFO)));
+	// data.add(map);
+	// }
+	// } finally {
+	// try {
+	// DatabaseFunctions.closeResultSet(rs);
+	// } catch (Exception e) {
+	// AppLogger.getLogger().fatal(e.getMessage(), e);
+	// }
+	// try {
+	// DatabaseFunctions.closePreparedStatement(ps);
+	// } catch (Exception e) {
+	// AppLogger.getLogger().fatal(e.getMessage(), e);
+	// }
+	// }
+	// return data;
+	// }
+
 	public static Map<String, Object> getCustomTagMetaataDetailById(Connection connection, String id) throws Exception {
 		AppLogger.getLogger().debug("ID : " + id);
 		PreparedStatement ps = null;
@@ -375,6 +386,7 @@ public class CustomTagMetadataDAO {
 		}
 		return data;
 	}
+
 	public static void insertCustomTagMetadatData(Connection connection, String id, String metadata, String desc,
 			boolean isActive, String dbType, String fileType, String nameNodeId, String tableName,
 			String dataTaggingTimeInfo, String jobNames) throws Exception {
@@ -498,7 +510,7 @@ public class CustomTagMetadataDAO {
 		try {
 
 			Map<String, Boolean> cols = UserDefinedTagDAO.getAllColumns(connection, tableName);
-			
+
 			JSONObject jsonObj = (JSONObject) new JSONParser().parse(columnNameJSON);
 			JSONArray tags = (JSONArray) jsonObj.get("Tags");
 			for (Object obj : tags) {
@@ -542,29 +554,30 @@ public class CustomTagMetadataDAO {
 		return metadataTables;
 	}
 
-//	// Added for fetching JobNames from CUSTOMTAG_METADATA table
-//	public static String selectJobNamesForDataTag(Connection connection, String tagID) throws Exception {
-//		ResultSet rs = null;
-//		PreparedStatement ps = null;
-//		String jobNames = null;
-//		try {
-//			ps = DatabaseFunctions.getPreparedStatement(connection,
-//					QueryConstants.PREPARED_QRY_CUSTOMTAG_METADATA_GET_JOBDETAILS);
-//			ps.setString(1, tagID);
-//			rs = DatabaseFunctions.getQueryResultsForPreparedStatement(ps);
-//			jobNames= rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_JOB_NAMES);
-//		} finally {
-//			try {
-//				DatabaseFunctions.closeResultSet(rs);
-//			} catch (Exception e) {
-//				AppLogger.getLogger().fatal(e.getMessage(), e);
-//			}
-//			try {
-//				DatabaseFunctions.closePreparedStatement(ps);
-//			} catch (Exception e) {
-//				AppLogger.getLogger().fatal(e.getMessage(), e);
-//			}
-//		}
-//		return jobNames;
-//	}
+	// // Added for fetching JobNames from CUSTOMTAG_METADATA table
+	// public static String selectJobNamesForDataTag(Connection connection,
+	// String tagID) throws Exception {
+	// ResultSet rs = null;
+	// PreparedStatement ps = null;
+	// String jobNames = null;
+	// try {
+	// ps = DatabaseFunctions.getPreparedStatement(connection,
+	// QueryConstants.PREPARED_QRY_CUSTOMTAG_METADATA_GET_JOBDETAILS);
+	// ps.setString(1, tagID);
+	// rs = DatabaseFunctions.getQueryResultsForPreparedStatement(ps);
+	// jobNames= rs.getString(ColumnConstants.COL_CUSTOMTAG_METADATA_JOB_NAMES);
+	// } finally {
+	// try {
+	// DatabaseFunctions.closeResultSet(rs);
+	// } catch (Exception e) {
+	// AppLogger.getLogger().fatal(e.getMessage(), e);
+	// }
+	// try {
+	// DatabaseFunctions.closePreparedStatement(ps);
+	// } catch (Exception e) {
+	// AppLogger.getLogger().fatal(e.getMessage(), e);
+	// }
+	// }
+	// return jobNames;
+	// }
 }

@@ -1,7 +1,6 @@
 package com.queryio.core.monitor.controllers;
 
-public interface JMXConstants
-{
+public interface JMXConstants {
 	String JMXCONNECTORPORT_PROPERTY = "JMX Connector Port";
 	String PASSWORD_PROPERTY = "Password";
 	String USERNAME_PROPERTY = "User Name";

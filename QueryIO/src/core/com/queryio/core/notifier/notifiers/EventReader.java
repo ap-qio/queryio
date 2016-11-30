@@ -35,8 +35,7 @@ import com.queryio.core.notifier.common.NotificationEvent;
  * 
  * @author Exceed Consultancy Services
  */
-class EventReader implements Runnable
-{
+class EventReader implements Runnable {
 	static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
 
 	private ServerSocket sockServer = null;
@@ -49,15 +48,11 @@ class EventReader implements Runnable
 	 * @param notifMgrIPAddress
 	 * @param notifMgrPort
 	 */
-	EventReader(final String notifMgrIPAddress, final int notifMgrPort)
-	{
-		try
-		{
+	EventReader(final String notifMgrIPAddress, final int notifMgrPort) {
+		try {
 			final InetAddress inetAddrRemote = InetAddress.getByName(notifMgrIPAddress);
 			this.sockServer = new ServerSocket(notifMgrPort, 50, inetAddrRemote);
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			throw new RuntimeException(RM.getString("VALUE_SOCKET_INPUT_STREAM_MSG") + ex.toString()); //$NON-NLS-1$
 		}
 	}
@@ -65,21 +60,17 @@ class EventReader implements Runnable
 	/**
 	 * @see java.lang.Runnable#run()
 	 */
-	public void run()
-	{
-		while (true)
-		{
-			try
-			{
+	public void run() {
+		while (true) {
+			try {
 				// blocking the server socket listening for
 				// posting of Events by the EventManager
 				this.sock = this.sockServer.accept();
 				this.is = new ObjectInputStream(new BufferedInputStream(this.sock.getInputStream()));
 				NotificationManager.getInstance().fireEventReceived((NotificationEvent) this.is.readObject());
-			}
-			catch (final Exception ex)
-			{
-				throw new RuntimeException(RM.getString("VALUE_OBJECT_INPUT_STREAM_MSG") + ex.toString()); //$NON-NLS-1$ //$IGN_Avoid_object_instantiation_in_loops$ //$IGN_String_concatenation_in_loop$
+			} catch (final Exception ex) {
+				throw new RuntimeException(RM.getString("VALUE_OBJECT_INPUT_STREAM_MSG") + ex.toString()); //$NON-NLS-1$ //$IGN_Avoid_object_instantiation_in_loops$
+																											// //$IGN_String_concatenation_in_loop$
 			}
 		}
 	}

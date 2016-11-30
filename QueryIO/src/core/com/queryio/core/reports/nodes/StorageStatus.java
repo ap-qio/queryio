@@ -7,17 +7,19 @@ import com.queryio.common.EnvironmentalConstants;
 import com.queryio.common.exporter.dstruct.AbstractExportableNode;
 import com.queryio.common.exporter.dstruct.IExportableItem;
 
-public class StorageStatus extends AbstractExportableNode{
+public class StorageStatus extends AbstractExportableNode {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1214881068732127641L;
-	private Timestamp currentTimestamp; 
+	private Timestamp currentTimestamp;
+
 	protected StorageStatus(String exportedFileName, Timestamp currentTimestamp) {
 		super("Storage Status Report", 0, "Storage Status Report", exportedFileName, "Storage Status Report");
 		this.currentTimestamp = currentTimestamp;
 		this.setFilePath(EnvironmentalConstants.getReportsDirectory());
 	}
+
 	@Override
 	public IExportableItem[] getItems() {
 		IExportableItem[] items = null;

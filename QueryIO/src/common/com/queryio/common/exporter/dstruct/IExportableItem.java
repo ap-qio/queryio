@@ -23,8 +23,7 @@ package com.queryio.common.exporter.dstruct;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public interface IExportableItem
-{
+public interface IExportableItem {
 	int getType();
 
 	int getHeight();
@@ -34,6 +33,6 @@ public interface IExportableItem
 	int getTop();
 
 	int getWidth();
-	
+
 	boolean isXmlExport();
 }

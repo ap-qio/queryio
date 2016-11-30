@@ -25,7 +25,7 @@ public class Test {
 	private static String dbConfigFilePath = null;
 	private static String dbSource = null;
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception {
 		Thread.currentThread().setName("admin");
 		if (args.length != 5) {
 			System.err.println("Invalid Input.");
@@ -40,8 +40,7 @@ public class Test {
 		hdfsUri = args[1];
 		dbConfigFilePath = args[2];
 		dbSource = args[3];
-		BZip2CompressorInputStream is = new BZip2CompressorInputStream(
-				new FileInputStream(args[0]));
+		BZip2CompressorInputStream is = new BZip2CompressorInputStream(new FileInputStream(args[0]));
 		WikiXMLParser wxsp = new WikiXMLSAXParser(is);
 		try {
 			wxsp.setPageCallback(new PageCallbackHandler() {
@@ -60,22 +59,18 @@ public class Test {
 			is.close();
 		}
 		long newSystime = System.currentTimeMillis();
-		System.err.println("Parser took "
-				+ (newSystime - systime) + " ms to parse " + count + " entries.");
+		System.err.println("Parser took " + (newSystime - systime) + " ms to parse " + count + " entries.");
 	}
 
-	private static void insertIntoHDFS(WikiPage page)
-			throws Exception {
+	private static void insertIntoHDFS(WikiPage page) throws Exception {
 		if (count == maxCount) {
 			long newSystime = System.currentTimeMillis();
-			System.err.println("Parser took "
-					+ (newSystime - systime) + " ms to parse " + count + " entries.");
+			System.err.println("Parser took " + (newSystime - systime) + " ms to parse " + count + " entries.");
 			System.exit(0);
 		}
 		FileSystem fs = getFileSystem();
 
-		String fileName = "/wiki/"
-				+ getCategory(page.getInfoBox()).replaceAll("[.:,]", " ") + "/"
+		String fileName = "/wiki/" + getCategory(page.getInfoBox()).replaceAll("[.:,]", " ") + "/"
 				+ page.getTitle().trim().replaceAll("[.:,]", " ") + ".wiki";
 		fileName = fileName.replaceAll("  ", " ");
 		System.err.println(++count + ". " + fileName);
@@ -88,12 +83,11 @@ public class Test {
 		if (fs == null) {
 			Configuration conf = new Configuration();
 			conf.set(DFSConfigKeys.FS_DEFAULT_NAME_KEY, hdfsUri);
-			conf.setInt(DFSConfigKeys.DFS_REPLICATION_KEY, 1);			
+			conf.setInt(DFSConfigKeys.DFS_REPLICATION_KEY, 1);
 			conf.set("queryio.bigquery.db.dbsourceid", dbSource);
 			conf.set("queryio.bigquery.db.dbconfig-path", dbConfigFilePath);
 			conf.set("queryio.bigquery.parser.filetypes", "wiki");
-			conf.set("queryio.bigquery.parser.classname.wiki",
-					"com.queryio.datatags.WikiTextParser");
+			conf.set("queryio.bigquery.parser.classname.wiki", "com.queryio.datatags.WikiTextParser");
 			fs = FileSystem.get(conf);
 		}
 		return fs;
@@ -114,8 +108,7 @@ public class Test {
 			if (str.length() > 0 && str.contains("Infobox")) {
 				String[] arr = str.split("Infobox");
 				if (arr.length > 1)
-					return arr[1].trim().replaceAll("  ", " ")
-							.replaceAll("[^a-zA-Z0-9 ]", "");
+					return arr[1].trim().replaceAll("  ", " ").replaceAll("[^a-zA-Z0-9 ]", "");
 			}
 		}
 		return "Unknown";

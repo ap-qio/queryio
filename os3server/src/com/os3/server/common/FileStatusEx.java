@@ -2,11 +2,10 @@ package com.os3.server.common;
 
 import org.apache.hadoop.fs.FileStatus;
 
-
-public class FileStatusEx{
+public class FileStatusEx {
 	FileStatus fileStatus;
 	StreamWriteStatus streamWriteStatus;
-		
+
 	public FileStatus getFileStatus() {
 		return fileStatus;
 	}
@@ -14,7 +13,7 @@ public class FileStatusEx{
 	public void setFileStatus(FileStatus fileStatus) {
 		this.fileStatus = fileStatus;
 	}
-	
+
 	public StreamWriteStatus getStreamWriteStatus() {
 		return streamWriteStatus;
 	}

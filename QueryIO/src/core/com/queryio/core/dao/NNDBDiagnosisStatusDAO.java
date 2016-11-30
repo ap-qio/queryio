@@ -15,38 +15,34 @@ import com.queryio.common.database.QueryConstants;
 import com.queryio.common.util.AppLogger;
 import com.queryio.core.bean.DiagnosisStatusBean;
 
-public class NNDBDiagnosisStatusDAO
-{
-	public static void addDiagnosisInfo(final Connection connection, String diagnosisId, String nameNodeId) throws Exception {
+public class NNDBDiagnosisStatusDAO {
+	public static void addDiagnosisInfo(final Connection connection, String diagnosisId, String nameNodeId)
+			throws Exception {
 		PreparedStatement ps = null;
-		try
-		{
+		try {
 			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.INSERT_NN_DB_DIAGNOSIS_STATUS);
-			
+
 			ps.setString(1, diagnosisId);
 			DatabaseFunctions.setDateTime(ps, 2, System.currentTimeMillis());
 			ps.setString(3, nameNodeId);
 			ps.setBoolean(4, false);
 			ps.setString(5, QueryIOConstants.PROCESS_STATUS_INPROGRESS);
-			
+
 			CoreDBManager.executeUpdateStatement(connection, ps);
-		}
-		finally
-		{
+		} finally {
 			DatabaseFunctions.closePreparedStatement(ps);
 		}
 	}
-	public static ArrayList getDiagnosisStatus(final Connection connection) throws Exception
-	{
-		ArrayList ar=new ArrayList();
+
+	public static ArrayList getDiagnosisStatus(final Connection connection) throws Exception {
+		ArrayList ar = new ArrayList();
 		Statement statement = null;
 		ResultSet rs = null;
-				
-		try{
+
+		try {
 			statement = DatabaseFunctions.getStatement(connection);
 			rs = CoreDBManager.getQueryResultsForStatement(statement, QueryConstants.GET_ALL_DIAGNOSIS_STATUS);
-			while(rs.next())
-			{
+			while (rs.next()) {
 				DiagnosisStatusBean bean = new DiagnosisStatusBean();
 				bean.setDiagnosisId(rs.getString(ColumnConstants.COL_NN_DB_DIAGNOSIS_STATUS_DIAGNOSISID));
 				bean.setNamenodeId(rs.getString(ColumnConstants.COL_NN_DB_DIAGNOSIS_STATUS_NAMENODEID));
@@ -57,32 +53,27 @@ public class NNDBDiagnosisStatusDAO
 				bean.setIsRepair(rs.getString(ColumnConstants.COL_NN_DB_DIAGNOSIS_STATUS_ISREPAIR));
 				ar.add(bean);
 			}
-		}
-		finally{
-			try
-			{
+		} finally {
+			try {
 				DatabaseFunctions.closeSQLObjects(statement, rs);
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Database Objects could not be closed, Exception: " + e.getMessage(), e);
 			}
 		}
 		return ar;
-		
+
 	}
-	
-	public static DiagnosisStatusBean getDiagnosisStatus(final Connection connection, String diagnosisId) throws Exception
-	{
+
+	public static DiagnosisStatusBean getDiagnosisStatus(final Connection connection, String diagnosisId)
+			throws Exception {
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-				
-		try{
+
+		try {
 			statement = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_DIAGNOSIS_STATUS_FOR_ID);
 			statement.setString(1, diagnosisId);
 			rs = DatabaseFunctions.getQueryResultsForPreparedStatement(statement);
-			if(rs.next())
-			{
+			if (rs.next()) {
 				DiagnosisStatusBean bean = new DiagnosisStatusBean();
 				bean.setDiagnosisId(rs.getString(ColumnConstants.COL_NN_DB_DIAGNOSIS_STATUS_DIAGNOSISID));
 				bean.setNamenodeId(rs.getString(ColumnConstants.COL_NN_DB_DIAGNOSIS_STATUS_NAMENODEID));
@@ -93,53 +84,44 @@ public class NNDBDiagnosisStatusDAO
 				bean.setIsRepair(rs.getString(ColumnConstants.COL_NN_DB_DIAGNOSIS_STATUS_ISREPAIR));
 				return bean;
 			}
-		}
-		finally{
-			try
-			{
+		} finally {
+			try {
 				DatabaseFunctions.closeSQLObjects(statement, rs);
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Database Objects could not be closed, Exception: " + e.getMessage(), e);
 			}
 		}
 		return null;
-		
+
 	}
-	
-	public static void updateDiagnosisInfo(final Connection connection, String diagnosisId, Timestamp endTime, String status, String error, boolean isRepair) throws Exception {
+
+	public static void updateDiagnosisInfo(final Connection connection, String diagnosisId, Timestamp endTime,
+			String status, String error, boolean isRepair) throws Exception {
 		PreparedStatement ps = null;
-		try
-		{
+		try {
 			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.UPDATE_NN_DB_DIAGNOSIS_STATUS);
-			
+
 			ps.setTimestamp(1, endTime);
 			ps.setString(2, status);
-			ps.setString(3, error);		
+			ps.setString(3, error);
 			ps.setBoolean(4, isRepair);
 			ps.setString(5, diagnosisId);
-			
+
 			CoreDBManager.executeUpdateStatement(connection, ps);
-		}
-		finally
-		{
+		} finally {
 			DatabaseFunctions.closePreparedStatement(ps);
 		}
 	}
-	
+
 	public static void deleteDiagnosisInfo(final Connection connection, String diagnosisId) throws Exception {
 		PreparedStatement ps = null;
-		try
-		{
+		try {
 			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.DELETE_NN_DB_DIAGNOSIS_STATUS);
-			
+
 			ps.setString(1, diagnosisId);
-			
+
 			CoreDBManager.executeUpdateStatement(connection, ps);
-		}
-		finally
-		{
+		} finally {
 			DatabaseFunctions.closePreparedStatement(ps);
 		}
 	}

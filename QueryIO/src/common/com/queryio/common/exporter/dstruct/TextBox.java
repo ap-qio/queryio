@@ -25,8 +25,7 @@ import com.queryio.common.exporter.ExportConstants;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class TextBox extends ExportableItem
-{
+public class TextBox extends ExportableItem {
 	private String sText;
 	private boolean bReadOnly;
 
@@ -39,8 +38,7 @@ public class TextBox extends ExportableItem
 	 * @param height
 	 * @param sText
 	 */
-	public TextBox(final int left, final int top, final int width, final int height, final String sText)
-	{
+	public TextBox(final int left, final int top, final int width, final int height, final String sText) {
 		this(left, top, width, height, sText, true);
 	}
 
@@ -55,8 +53,7 @@ public class TextBox extends ExportableItem
 	 * @param bReadOnly
 	 */
 	protected TextBox(final int left, final int top, final int width, final int height, final String sText,
-			final boolean bReadOnly)
-	{
+			final boolean bReadOnly) {
 		super(left, top, width, height);
 		this.sText = sText;
 		this.bReadOnly = bReadOnly;
@@ -67,8 +64,7 @@ public class TextBox extends ExportableItem
 	 * 
 	 * @see com.queryio.sysmoncommon.exporter.dstruct.IExportableItem#getType()
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return ExportConstants.ITEM_TYPE_TEXTBOX;
 	}
 
@@ -77,8 +73,7 @@ public class TextBox extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final boolean isReadOnly()
-	{
+	public final boolean isReadOnly() {
 		return this.bReadOnly;
 	}
 
@@ -87,8 +82,7 @@ public class TextBox extends ExportableItem
 	 * 
 	 * @return
 	 */
-	public final String getText()
-	{
+	public final String getText() {
 		return this.sText;
 	}
 
@@ -97,8 +91,7 @@ public class TextBox extends ExportableItem
 	 * 
 	 * @param b
 	 */
-	public void setReadOnly(final boolean b)
-	{
+	public void setReadOnly(final boolean b) {
 		this.bReadOnly = b;
 	}
 
@@ -107,8 +100,7 @@ public class TextBox extends ExportableItem
 	 * 
 	 * @param string
 	 */
-	public void setText(final String string)
-	{
+	public void setText(final String string) {
 		this.sText = string;
 	}
 }

@@ -5,7 +5,7 @@ import org.apache.hadoop.conf.Configuration;
 public class HadoopConstants {
 
 	private static Configuration hadoopConf;
-	
+
 	public static Configuration getHadoopConf() {
 		return hadoopConf;
 	}

@@ -13,7 +13,6 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.URLDecoder;
-import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -2700,7 +2699,7 @@ public class RemoteManager {
 
 						configKeys.add(QueryIOConstants.HIVE_QUERYIO_HDFS_URI);
 						configValues.add(conf.get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
-						
+
 						configKeys.add(QueryIOConstants.HIVE_QUERYIO_DEFAULT_FS);
 						configValues.add(conf.get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
 
@@ -2800,7 +2799,7 @@ public class RemoteManager {
 							NodeDAO.updateHiveServiceStatus(connection, node);
 							ControllerManager.startHiveServiceController(nodeId);
 						}
-						createHiveFolder(conf); 
+						createHiveFolder(conf);
 
 					}
 				}
@@ -2931,9 +2930,8 @@ public class RemoteManager {
 			}
 		}
 	}
-	
-	private static FsPermission parsePermissions(int permissions)
-	{
+
+	private static FsPermission parsePermissions(int permissions) {
 		FsAction u = getAction(permissions / 100);
 		int t = permissions % 100;
 		FsAction g = getAction(t / 10);
@@ -2941,20 +2939,27 @@ public class RemoteManager {
 
 		return new FsPermission(u, g, o, false);
 	}
-	
-	private static FsAction getAction(int i)
-	{
-		switch (i)
-		{
-			case 0: return FsAction.NONE;
-			case 1: return FsAction.EXECUTE;
-			case 2: return FsAction.WRITE;
-			case 3: return FsAction.WRITE_EXECUTE;
-			case 4: return FsAction.READ;
-			case 5: return FsAction.READ_EXECUTE;
-			case 6: return FsAction.READ_WRITE;
-			case 7: return FsAction.ALL;
-			default: return FsAction.READ;
+
+	private static FsAction getAction(int i) {
+		switch (i) {
+		case 0:
+			return FsAction.NONE;
+		case 1:
+			return FsAction.EXECUTE;
+		case 2:
+			return FsAction.WRITE;
+		case 3:
+			return FsAction.WRITE_EXECUTE;
+		case 4:
+			return FsAction.READ;
+		case 5:
+			return FsAction.READ_EXECUTE;
+		case 6:
+			return FsAction.READ_WRITE;
+		case 7:
+			return FsAction.ALL;
+		default:
+			return FsAction.READ;
 		}
 	}
 
@@ -3095,11 +3100,8 @@ public class RemoteManager {
 			String nnId = null;
 
 			if (monitor && node.getStatus().startsWith(QueryIOConstants.STATUS_STOPPED)) {
-				dwrResponse
-						.setDwrResponse(false,
-								"Specified node is not running. "
-										+ "To start node monitoring, first start the node and then start node monitor.",
-								401);
+				dwrResponse.setDwrResponse(false, "Specified node is not running. "
+						+ "To start node monitoring, first start the node and then start node monitor.", 401);
 				return dwrResponse;
 			}
 
@@ -3319,7 +3321,8 @@ public class RemoteManager {
 			String hostName = QueryIOAgentManager.getHostName(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode hostname: " + hostName);
-			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress() : QueryIOAgentManager.getHostAddress(namenodeHost);
+			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress()
+					: QueryIOAgentManager.getHostAddress(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode IP: " + hostAddress);
 			// String hostName = QueryIOAgentManager.getHostName(namenodeHost);
@@ -4211,9 +4214,8 @@ public class RemoteManager {
 				str = str.trim();
 				if (!fileTypeTemp.contains(str)) {
 					fileTypeTemp.add(str);
-					
-					TagParserDAO.insert(connection,
-							QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + str.toUpperCase(),
+
+					TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + str.toUpperCase(),
 							QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
 							QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase()
 									+ File.separator + QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
@@ -4263,18 +4265,17 @@ public class RemoteManager {
 					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_CSV, node.getId(),
 					QueryIOConstants.ADHOC_TYPE_CSV);
 			resp = dbUpdator.parse();
-			
+
 			TagParserDAO.insert(connection,
 					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + QueryIOConstants.ADHOC_TYPE_CSV.toUpperCase(),
 					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
 					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase() + File.separator
-					+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
-					QueryIOConstants.TYPE_JTL.toLowerCase(),
-					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_CSV, node.getId(), true, true);
-			
+							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
+					QueryIOConstants.TYPE_JTL.toLowerCase(), QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_CSV,
+					node.getId(), true, true);
+
 			dbUpdator = new TagParserDBSchemaUpdator(defaultJarFile,
-					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_CSV, node.getId(),
-					QueryIOConstants.TYPE_JTL);
+					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_CSV, node.getId(), QueryIOConstants.TYPE_JTL);
 			resp = dbUpdator.parse();
 
 			TagParserDAO.insert(connection,
@@ -5402,7 +5403,8 @@ public class RemoteManager {
 
 			String hostName = QueryIOAgentManager.getHostName(resourceManagerHost);
 			AppLogger.getLogger().debug("ResourceManager hostname: " + hostName);
-			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress() : QueryIOAgentManager.getHostAddress(resourceManagerHost);
+			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress()
+					: QueryIOAgentManager.getHostAddress(resourceManagerHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("ResourceManager IP: " + hostAddress);
 			if (!QueryIOAgentManager.hasMapping(nodeManagerHost, hostName, hostAddress)) {
@@ -5994,14 +5996,15 @@ public class RemoteManager {
 		try {
 			if ("hive".equalsIgnoreCase(dbName)) {
 				connection = CoreDBManager.getQueryIODBConnection();
-				
-				for(int j=0; j<tableNames.size(); j++){
-					
+
+				for (int j = 0; j < tableNames.size(); j++) {
+
 					String tableName = ((String) tableNames.get(j)).toLowerCase();
-					AdHocQueryBean adHocInfoFromTable = AdHocQueryDAO.getAdHocInfoFromTable(connection, namenode, tableName);
+					AdHocQueryBean adHocInfoFromTable = AdHocQueryDAO.getAdHocInfoFromTable(connection, namenode,
+							tableName);
 					JSONObject obj = new JSONObject();
 					obj.put(tableName, adHocInfoFromTable.getType());
-					fileType.add(obj);					
+					fileType.add(obj);
 				}
 				AppLogger.getLogger().fatal("fileType" + fileType);
 			}
@@ -6183,8 +6186,8 @@ public class RemoteManager {
 			return dwrResponse;
 		}
 		String primaryIPAddress = new GetIpAddress().getPrimaryIPAddress();
-		dwrResponse = insertHostInstaller(primaryIPAddress, null, null, "null", getLocalUserHomeDirectory(), "/default-rack",
-				"6680", getLocalJavaHome(), "22", true, false, "");
+		dwrResponse = insertHostInstaller(primaryIPAddress, null, null, "null", getLocalUserHomeDirectory(),
+				"/default-rack", "6680", getLocalJavaHome(), "22", true, false, "");
 		return dwrResponse;
 	}
 
@@ -6295,7 +6298,7 @@ public class RemoteManager {
 
 	public static void insertOnIngestTagParserConfig(String name, String description, String jarName,
 			String tagParserfileTypes, String tagParserClassName, String namenodeId, boolean isActive)
-					throws Exception {
+			throws Exception {
 		Connection connection = null;
 		connection = CoreDBManager.getQueryIODBConnection();
 		TagParserConfigManager.handleOnIngestParser(connection, name, description, jarName, tagParserfileTypes,
@@ -8195,7 +8198,7 @@ public class RemoteManager {
 
 						configKeys.add(QueryIOConstants.HIVE_QUERYIO_HDFS_URI);
 						configValues.add(conf.get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
-						
+
 						configKeys.add(QueryIOConstants.HIVE_QUERYIO_DEFAULT_FS);
 						configValues.add(conf.get(DFSConfigKeys.FS_DEFAULT_NAME_KEY));
 
@@ -8288,7 +8291,7 @@ public class RemoteManager {
 									dwrResponse.getResponseMessage() + " " + response.getResponseMessage(),
 									response.getResponseCode());
 						}
-						
+
 						createHiveFolder(conf);
 
 						NodeDAO.updateHiveServiceStatus(connection, node);
@@ -8376,7 +8379,8 @@ public class RemoteManager {
 			String hostName = QueryIOAgentManager.getHostName(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode hostname: " + hostName);
-			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress() : QueryIOAgentManager.getHostAddress(namenodeHost);
+			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress()
+					: QueryIOAgentManager.getHostAddress(namenodeHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("NameNode IP: " + hostAddress);
 			if (!QueryIOAgentManager.hasMapping(dataNodeHost, hostName, hostAddress)) {
@@ -8711,7 +8715,8 @@ public class RemoteManager {
 
 			String hostName = QueryIOAgentManager.getHostName(resourceManagerHost);
 			AppLogger.getLogger().debug("ResourceManager hostname: " + hostName);
-			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress() : QueryIOAgentManager.getHostAddress(resourceManagerHost);
+			String hostAddress = isLocal ? new GetIpAddress().getPrimaryIPAddress()
+					: QueryIOAgentManager.getHostAddress(resourceManagerHost);
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("ResourceManager IP: " + hostAddress);
 			if (!QueryIOAgentManager.hasMapping(nodeManagerHost, hostName, hostAddress)) {
@@ -8897,15 +8902,16 @@ public class RemoteManager {
 		return idsList;
 	}
 
-//	public static ArrayList<Map<String, String>> getAllCustomTagsMetadataDetail() {
-//
-//		try {
-//			return MetaDataTagManager.getAllCustomTagsMetadataDetail();
-//		} catch (Exception e) {
-//			AppLogger.getLogger().fatal("Error getting custom tag metadata IDs.", e);
-//		}
-//		return null;
-//	}
+	// public static ArrayList<Map<String, String>>
+	// getAllCustomTagsMetadataDetail() {
+	//
+	// try {
+	// return MetaDataTagManager.getAllCustomTagsMetadataDetail();
+	// } catch (Exception e) {
+	// AppLogger.getLogger().fatal("Error getting custom tag metadata IDs.", e);
+	// }
+	// return null;
+	// }
 
 	public static Map<String, Object> getCustomTagMetaataDetailById(String tagID) {
 
@@ -8916,6 +8922,7 @@ public class RemoteManager {
 		}
 		return null;
 	}
+
 	public static JSONObject getAllCustomTagsMetadataDetail(String aoData) {
 
 		try {
@@ -8991,7 +8998,8 @@ public class RemoteManager {
 
 			String defaultPath = "/";
 			if (isHive) {
-				defaultPath = AdHocQueryDAO.getAdHocInfoFromTable(connection, namenodeId, hiveTableName).getSourcePath();
+				defaultPath = AdHocQueryDAO.getAdHocInfoFromTable(connection, namenodeId, hiveTableName)
+						.getSourcePath();
 				JSONObject metaJSON = (JSONObject) jsonParser.parse(metadata);
 				metaJSON.put(QueryIOConstants.HIVETYPEPATH, defaultPath);
 				metadata = metaJSON.toString();
@@ -9027,9 +9035,10 @@ public class RemoteManager {
 						String jobName = QueryIOConstants.DATATAGGING_PREFIX + id + "_" + System.nanoTime();
 						jobNames.add(jobName);
 						String scheduleName = QueryIOConstants.DATATAGGING_PREFIX + id;
-						
-						String arguments = id + " " + "\"" + jobName + "\" " + defaultPath + " '" + tagsJSON.toJSONString()
-								+ "' " + startTime.getTime() + " " + endTime + " " + callTikaParser;
+
+						String arguments = id + " " + "\"" + jobName + "\" " + defaultPath + " '"
+								+ tagsJSON.toJSONString() + "' " + startTime.getTime() + " " + endTime + " "
+								+ callTikaParser;
 						// By default Recursive was true, and input path filter
 						// was false.
 						MapRedJobConfig jobConfig = new MapRedJobConfig(namenodeId, nodes.get(0).getId(), jobName,
@@ -9056,8 +9065,9 @@ public class RemoteManager {
 							List<Node> nodes = NodeDAO.getAllNodesForType(connection, QueryIOConstants.RESOURCEMANAGER);
 							String jobName = QueryIOConstants.DATATAGGING_PREFIX + id + "_" + System.nanoTime();
 							jobNames.add(jobName);
-							String arguments = id + " " + "\"" + jobName + "\" " + defaultPath + " '" + tagsJSON.toJSONString()
-									+ "' " + 0 + " " + System.currentTimeMillis() + " " + callTikaParser;
+							String arguments = id + " " + "\"" + jobName + "\" " + defaultPath + " '"
+									+ tagsJSON.toJSONString() + "' " + 0 + " " + System.currentTimeMillis() + " "
+									+ callTikaParser;
 							// By default Recursive was true, and input path
 							// filter was false.
 							MapRedJobConfig jobConfig = new MapRedJobConfig(namenodeId, nodes.get(0).getId(), jobName,
@@ -9079,8 +9089,9 @@ public class RemoteManager {
 									+ System.nanoTime();
 							jobNames.add(jobName);
 							String scheduleName = QueryIOConstants.DATATAGGING_PREFIX + "NOW_" + id;
-							String arguments = id + " " + "\"" + jobName + "\" " + defaultPath + " '" + tagsJSON.toJSONString()
-									+ "' " + 0 + " " + System.currentTimeMillis() + " " + callTikaParser;
+							String arguments = id + " " + "\"" + jobName + "\" " + defaultPath + " '"
+									+ tagsJSON.toJSONString() + "' " + 0 + " " + System.currentTimeMillis() + " "
+									+ callTikaParser;
 							// By default Recursive was true, and input path
 							// filter was false.
 							MapRedJobConfig jobConfig = new MapRedJobConfig(namenodeId, nodes.get(0).getId(), jobName,
@@ -9237,7 +9248,7 @@ public class RemoteManager {
 		DWRResponse response = new DWRResponse();
 
 		HashMap<String, String> mapRedJobConfig = null;
-		
+
 		try {
 			// if(dbType.equalsIgnoreCase("HIVE")) {
 			// Map<String, String> map =
@@ -9279,8 +9290,11 @@ public class RemoteManager {
 					if (fileType.equalsIgnoreCase("ALL_FILES")) {
 						MetaDataTagManager.deleteColumnFromAllTables(map.get("nameNodeId"), map.get("columnName"));
 					} else {
-//						if (fileType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_IISLOG) || fileType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_ACCESSLOG))
-//							fileType = QueryIOConstants.ADHOC_TYPE_LOG;
+						// if
+						// (fileType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_IISLOG)
+						// ||
+						// fileType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_ACCESSLOG))
+						// fileType = QueryIOConstants.ADHOC_TYPE_LOG;
 						MetaDataTagManager.deleteColumn(map.get("nameNodeId"), "DATATAGS_" + fileType,
 								map.get("columnName"));
 					}
@@ -9301,7 +9315,7 @@ public class RemoteManager {
 			if (allJobNames.size() > 0) {
 				ApplicationManager.deleteAllJobs(allJobNames);
 			}
-			//response.setDwrResponse(true, "Tag deleted successfully..", 200);
+			// response.setDwrResponse(true, "Tag deleted successfully..", 200);
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal("Error deleting custom tag metadata.", e);
 			response.setTaskSuccess(false);
@@ -9369,10 +9383,11 @@ public class RemoteManager {
 			fType = QueryIOConstants.ADHOC_TYPE_PAIRS_EXTENSION;
 		else if (QueryIOConstants.ADHOC_TYPE_MBOX.equalsIgnoreCase(fType))
 			fType = "EML";
-		
+
 		String hiveType = fType;
-//		if (fType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_IISLOG) || fType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_ACCESSLOG))
-//			hiveType = "LOG";		
+		// if (fType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_IISLOG) ||
+		// fType.equalsIgnoreCase(QueryIOConstants.ADHOC_TYPE_ACCESSLOG))
+		// hiveType = "LOG";
 		metadataObject.put(fileType, fType);
 		AppLogger.getLogger().debug("arguments after process : " + metadataObject.toJSONString());
 		map.put(json, metadataObject.toJSONString());
@@ -9400,8 +9415,7 @@ public class RemoteManager {
 			String dbPoolName = getDBNameForNameNodeMapping(namenodeId);
 			String hiveDbName = getAnalyticsDBNameForNameNodeMapping(namenodeId);
 
-			if (fileType.equalsIgnoreCase("ALL_FILES")
-					|| dbType.equalsIgnoreCase(dbPoolName)) {
+			if (fileType.equalsIgnoreCase("ALL_FILES") || dbType.equalsIgnoreCase(dbPoolName)) {
 				parserType = "TIKA";
 				if (jsonObject.get("Attributes") == null) {
 					AppLogger.getLogger().debug("Attributes key is null");
@@ -9419,18 +9433,14 @@ public class RemoteManager {
 	}
 
 	// Added For updating JOb Arguments in MapRedJobConfig Table
-	private static HashMap<String, String> updateMapRedConfiguration(String id,
-			String jobName, String jsonString, String dataTaggingTimeInfo)
-			throws Exception {
+	private static HashMap<String, String> updateMapRedConfiguration(String id, String jobName, String jsonString,
+			String dataTaggingTimeInfo) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		HashMap<String, String> configMap = new HashMap<String, String>();
 		String[] jobNameArray = jobName.split(",");
-		JSONObject scheduleJSON = (JSONObject) new JSONParser()
-				.parse(dataTaggingTimeInfo);
-		JSONObject postIngestTimeDetail = (JSONObject) scheduleJSON
-				.get("postIngestTimeDetail");
-		boolean isPostIngest = Boolean.parseBoolean(String.valueOf(scheduleJSON
-				.get("isPostIngest")));
+		JSONObject scheduleJSON = (JSONObject) new JSONParser().parse(dataTaggingTimeInfo);
+		JSONObject postIngestTimeDetail = (JSONObject) scheduleJSON.get("postIngestTimeDetail");
+		boolean isPostIngest = Boolean.parseBoolean(String.valueOf(scheduleJSON.get("isPostIngest")));
 		// checking for hiveTypePath
 		JSONObject tagInfo = (JSONObject) scheduleJSON.get("TagInfo");
 		String filePath;
@@ -9441,10 +9451,8 @@ public class RemoteManager {
 
 		if (isPostIngest) {
 			if (postIngestTimeDetail != null) {
-				String frequency = String.valueOf(postIngestTimeDetail
-						.get("Frequency"));
-				String timeUnit = String.valueOf(postIngestTimeDetail
-						.get("timeUnit"));
+				String frequency = String.valueOf(postIngestTimeDetail.get("Frequency"));
+				String timeUnit = String.valueOf(postIngestTimeDetail.get("timeUnit"));
 				long startTime = System.currentTimeMillis();
 				// sdf.parse(String.valueOf(postIngestTimeDetail.get("StartingTime")));
 				long endTime = 0L;
@@ -9464,8 +9472,8 @@ public class RemoteManager {
 					endTime = startTime + (freq * 60 * 1000); // milliseconds
 				}
 
-if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggingTimeInfo :"
-						+ dataTaggingTimeInfo);
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("datataggingTimeInfo :" + dataTaggingTimeInfo);
 
 				for (String job : jobNameArray) {
 					StringBuilder arguments = new StringBuilder();
@@ -9473,13 +9481,13 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 					// defaultPath + " '" + tagsJSON.toJSONString()
 					// + "' " + startTime.getTime() + " " + endTime + " " +
 					// callTikaParser;
-	            if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("JobName : " + job);
-					arguments.append(id).append(" ").append("\"").append(job)
-							.append("\" ").append(filePath).append(" '")
-							.append(jsonString).append("' ").append(startTime)
-							.append(" ").append(endTime).append(" ")
-							.append("true");
-					if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("Post Ingest Arguments :" + arguments);
+					if (AppLogger.getLogger().isDebugEnabled())
+						AppLogger.getLogger().debug("JobName : " + job);
+					arguments.append(id).append(" ").append("\"").append(job).append("\" ").append(filePath)
+							.append(" '").append(jsonString).append("' ").append(startTime).append(" ").append(endTime)
+							.append(" ").append("true");
+					if (AppLogger.getLogger().isDebugEnabled())
+						AppLogger.getLogger().debug("Post Ingest Arguments :" + arguments);
 					configMap.put(job, arguments.toString());
 				}
 
@@ -9487,20 +9495,19 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 		} else {
 			for (String job : jobNameArray) {
 				StringBuilder arguments = new StringBuilder();
-				if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("JobName : " + job);
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("JobName : " + job);
 
-				arguments.append(id).append(" ").append("\"").append(job)
-						.append("\" ").append(filePath).append(" '")
-						.append(jsonString).append("' ").append("0")
-						.append(" ").append(System.currentTimeMillis())
+				arguments.append(id).append(" ").append("\"").append(job).append("\" ").append(filePath).append(" '")
+						.append(jsonString).append("' ").append("0").append(" ").append(System.currentTimeMillis())
 						.append(" ").append("true");
-				if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("Ingest Arguments :" + arguments);
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("Ingest Arguments :" + arguments);
 				configMap.put(job, arguments.toString());
 			}
 		}
 		return configMap;
 	}
-	
 
 	private static Map<String, String> getTagNameForCustomTagMetadata(String id) throws Exception {
 		Map<String, String> values = new HashMap<String, String>();
@@ -10038,6 +10045,7 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 	public static JSONObject getAllJobsList() {
 		return ApplicationManager.getAllJobsList();
 	}
+
 	public static JSONObject getAllJobsList(String aoData) {
 		return ApplicationManager.getAllJobsList(aoData);
 	}
@@ -10129,12 +10137,12 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 	public static JSONObject getAdHocQueryInfoAll() {
 		return AdHocQueryManager.getAdHocQueryInfoAll();
 	}
-	
-	//Added for server side pagenation
+
+	// Added for server side pagenation
 	public static JSONObject getAdHocQueryInfoAll(String aoData) {
 		return AdHocQueryManager.getAdHocQueryInfoAll(aoData);
 	}
-	
+
 	// AlertManager
 	public static ArrayList getAlertList(long fromTime) {
 		return AlertManager.getAlertList(fromTime);
@@ -10344,18 +10352,18 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 			long startIndex, long endIndex, String scheduleName, boolean isNotitificationEnable,
 			String notificationType, String notificationMessage, ArrayList userList) {
 		return ScheduleManager.scheduleNamespaceDiagnosis(interval, scheduleTime, namenodeId, startIndex, endIndex,
-				scheduleName, isNotitificationEnable, notificationType, notificationMessage,userList);
+				scheduleName, isNotitificationEnable, notificationType, notificationMessage, userList);
 	}
 
 	public static boolean checkBigQueryScheduleId(String id) {
 		return ScheduleManager.checkBigQueryScheduleId(id);
 	}
-	
+
 	// Added by Ranjana
 	public static JSONArray getStatusofNodesforHost(int hostID, String status) {
 		Connection connection = null;
 		JSONArray jsonArray = new JSONArray();
-//		JSONObject nodeDetails = new JSONObject();
+		// JSONObject nodeDetails = new JSONObject();
 
 		// HashMap<String, String> map = new HashMap<String, String>();
 		try {
@@ -10372,9 +10380,10 @@ if(AppLogger.getLogger().isDebugEnabled())AppLogger.getLogger().debug("datataggi
 			nodeList = NodeDAO.getAllNodesForHost(connection, hostID);
 			AppLogger.getLogger().fatal("NodeList Size: " + nodeList.size());
 			AppLogger.getLogger().fatal("NodeList details: " + nodeList);
-			for (int i = 0 ; i < nodeList.size() ;i++) {
+			for (int i = 0; i < nodeList.size(); i++) {
 				JSONObject nodeDetails = new JSONObject();
-				nodeDetails.put("node" ,nodeList.get(i).getId().concat(QueryIOConstants.COLON).concat(nodeList.get(i).getStatus()));
+				nodeDetails.put("node",
+						nodeList.get(i).getId().concat(QueryIOConstants.COLON).concat(nodeList.get(i).getStatus()));
 				jsonArray.add(nodeDetails);
 			}
 

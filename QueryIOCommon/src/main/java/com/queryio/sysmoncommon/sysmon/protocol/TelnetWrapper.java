@@ -29,6 +29,7 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 
 import org.apache.commons.net.telnet.TelnetClient;
+
 import com.queryio.common.IOSProtocolConstants;
 
 /**
@@ -47,8 +48,7 @@ import com.queryio.common.IOSProtocolConstants;
  * 
  * @author Exceed Consultancy Services
  */
-public class TelnetWrapper extends AbstractProtocolWrapper
-{
+public class TelnetWrapper extends AbstractProtocolWrapper {
 	private final TelnetClient telnet;
 
 	PipedInputStream processInputStream;
@@ -57,8 +57,7 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 	/**
 	 * @param targetOsType
 	 */
-	public TelnetWrapper(final String hostName, final String userName, final String password, final int targetOsType)
-	{
+	public TelnetWrapper(final String hostName, final String userName, final String password, final int targetOsType) {
 		this(hostName, userName, password, IOSProtocolConstants.DEFAULT_TELNET_PORT, targetOsType);
 	}
 
@@ -66,8 +65,7 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 	 * @param targetOsType
 	 */
 	public TelnetWrapper(final String hostName, final String userName, final String password, final int portId,
-			final int targetOsType)
-	{
+			final int targetOsType) {
 		super(hostName, userName, password, (portId != -1 ? portId : IOSProtocolConstants.DEFAULT_TELNET_PORT),
 				targetOsType);
 		this.telnet = new TelnetClient();
@@ -81,33 +79,28 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 	 * @param port
 	 *            port number of telnet server
 	 */
-	public boolean connect() throws IOException
-	{
+	public boolean connect() throws IOException {
 		this.telnet.connect(this.hostName, this.portId);
 		this.in = this.telnet.getInputStream();
 		this.out = this.telnet.getOutputStream();
 		this.lineReader = new BufferedReader(new InputStreamReader(this.in));
 
-		if (this.iTargetOSType == IOSProtocolConstants.WINDOWS)
-		{
+		if (this.iTargetOSType == IOSProtocolConstants.WINDOWS) {
 			this.processInputStream = new PipedInputStream();
 			this.processOutputStream = new PipedOutputStream(this.processInputStream);
 		}
 		return true;
 	}
 
-	public boolean isConnected()
-	{
+	public boolean isConnected() {
 		return (this.telnet != null) && this.telnet.isConnected();
 	}
 
 	/**
 	 * Disconnect the telnet connection
 	 */
-	public void disconnect() throws IOException
-	{
-		if ((this.telnet != null) && this.telnet.isConnected())
-		{
+	public void disconnect() throws IOException {
+		if ((this.telnet != null) && this.telnet.isConnected()) {
 			this.in.close();
 			this.out.close();
 			this.lineReader.close(); // IMP- close lineReader after
@@ -125,11 +118,9 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 	 * @param pwd
 	 *            the password
 	 */
-	public boolean login() throws IOException
-	{
+	public boolean login() throws IOException {
 		// System.out.println("telnet wrapper : login()");
-		if (this.waitfor("login:", true) == null)
-		{
+		if (this.waitfor("login:", true) == null) {
 			// this can happen in case of windows target machine
 			// if "Server allows NTLM authentication only
 			// Server has closed connection"
@@ -139,8 +130,7 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 		this.send(this.userName);
 
 		// System.out.println("*******8telnet wrapper : waiting for password");
-		if (this.waitfor(this.iTargetOSType == IOSProtocolConstants.WINDOWS ? "password" : "Password:", true) == null)
-		{
+		if (this.waitfor(this.iTargetOSType == IOSProtocolConstants.WINDOWS ? "password" : "Password:", true) == null) {
 			// This can happen if "iTargetOSType" is not maching with the actual
 			// target OS
 			return false;
@@ -150,22 +140,15 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 
 		int av = this.in.available();
 		int count = 0;
-		while (av == 0)
-		{
-			if (count <= NLOOP)
-			{
+		while (av == 0) {
+			if (count <= NLOOP) {
 				count++;
-			}
-			else
-			{
+			} else {
 				return false;
 			}
-			try
-			{
+			try {
 				Thread.sleep(this.iWaitTime / NLOOP);
-			}
-			catch (final InterruptedException e)
-			{
+			} catch (final InterruptedException e) {
 				// SUPRESS EXCEPTION
 			}
 			av = this.in.available();
@@ -173,25 +156,19 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 
 		byte[] b = null;
 		String value = null;
-		if (av > 0)
-		{
+		if (av > 0) {
 			b = new byte[av];
 			av = this.in.available();
 			this.in.read(b, 0, av);
 			value = new String(b);
-			if (this.iTargetOSType == IOSProtocolConstants.WINDOWS)
-			{
-				if (value.indexOf("C:\\") != -1)
-				{
+			if (this.iTargetOSType == IOSProtocolConstants.WINDOWS) {
+				if (value.indexOf("C:\\") != -1) {
 					this.execute("prompt " + APPPERFECT_PROMPT_WINDOWS, true);
 					this.execute("set PATH=%PATH%", true);
 					return true;
 				}
-			}
-			else
-			{
-				if (value.toLowerCase().indexOf("last login") != -1)
-				{
+			} else {
+				if (value.toLowerCase().indexOf("last login") != -1) {
 					this.execute("PS1=\"" + APPPERFECT_PROMPT + "\"", true);
 					this.execute("PS1=\"" + APPPERFECT_PROMPT + "\"", true);
 					this.execute("PATH=$PATH:/usr/sbin:/usr/bin:/usr/local/bin:", true);
@@ -207,8 +184,7 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 	 * @return
 	 * @throws IOException
 	 */
-	public String getTopOutputforMac() throws IOException
-	{
+	public String getTopOutputforMac() throws IOException {
 		final NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
 
 		String sLine = null;
@@ -217,40 +193,31 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 		int numProcess = 0;
 		boolean bProcesses = false;
 
-		while (true)
-		{
-			if (bProcesses && (numProcess < 0))
-			{
+		while (true) {
+			if (bProcesses && (numProcess < 0)) {
 				break;
 			}
-			if (bProcesses)
-			{
+			if (bProcesses) {
 				--numProcess;
 			}
 			sLine = this.lineReader.readLine();
-			if (sLine == null)
-			{
+			if (sLine == null) {
 				break;
-			}		
+			}
 			ret.append(sLine);
 			ret.append("\n");
-			if (sLine.startsWith("Processes:"))
-			{
+			if (sLine.startsWith("Processes:")) {
 				final StringTokenizer line = new StringTokenizer(sLine, " ");
 				temp = line.nextToken(); // Ignore Being Processes:
 				temp = line.nextToken();
 				temp = temp.trim();
-				try
-				{
+				try {
 					numProcess = nf.parse(temp).intValue();
-				}
-				catch (final Exception e)
-				{
+				} catch (final Exception e) {
 					numProcess = -1;
 				}
 			}
-			if (sLine.indexOf("PID") != -1 && sLine.indexOf("COMMAND") != -1)
-			{
+			if (sLine.indexOf("PID") != -1 && sLine.indexOf("COMMAND") != -1) {
 				bProcesses = true;
 			}
 		} // while
@@ -261,8 +228,7 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 	 * @return
 	 * @throws IOException
 	 */
-	public String getTopOutputForLinux() throws IOException
-	{
+	public String getTopOutputForLinux() throws IOException {
 		final NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
 
 		String sLine = null;
@@ -271,53 +237,43 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 		int numProcess = 0;
 		boolean bProcesses = false;
 
-		while (true)
-		{
-			if (bProcesses && (numProcess <= 0))
-			{
+		while (true) {
+			if (bProcesses && (numProcess <= 0)) {
 				break;
 			}
-			if (bProcesses)
-			{
+			if (bProcesses) {
 				--numProcess;
 			}
 			sLine = this.lineReader.readLine();
-			if (sLine == null)
-			{
+			if (sLine == null) {
 				break;
 			}
 			ret.append(sLine);
 			ret.append("\n");
-			if (sLine.indexOf("processes:") > 0)
-			{
+			if (sLine.indexOf("processes:") > 0) {
 				final StringTokenizer line = new StringTokenizer(sLine, " ");
 				temp = line.nextToken(); // read total number of process
 				temp = temp.trim();
-				try
-				{
+				try {
 					numProcess = nf.parse(temp).intValue();
-				}
-				catch (final Exception e)
-				{
+				} catch (final Exception e) {
 					numProcess = -1;
 				}
 			}
-			if (sLine.indexOf("PID") != -1 && sLine.indexOf("USER") != -1)
-			{
+			if (sLine.indexOf("PID") != -1 && sLine.indexOf("USER") != -1) {
 				bProcesses = true;
 			}
 		} // while
 		return ret.toString();
 	}
+
 	/**
 	 * method getDummyProcess
 	 * 
 	 * @return
 	 */
-	public Process getDummyProcess()
-	{
-		if (this.iTargetOSType == IOSProtocolConstants.WINDOWS)
-		{
+	public Process getDummyProcess() {
+		if (this.iTargetOSType == IOSProtocolConstants.WINDOWS) {
 			// The output of the process(created through a telnet wrapper) has
 			// junk characters as the
 			// telnet to windows sends console escape characters in ASCII which
@@ -329,27 +285,20 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 			// The second problem with telnet is that data comes repeatedly by
 			// getting prepended with latest output.
 
-			new Thread()
-			{
-				public void run()
-				{
-					try
-					{
+			new Thread() {
+				public void run() {
+					try {
 						final StringBuffer buffer = new StringBuffer();
 						byte[] data = new byte[256];
 						boolean bContinue = true;
 						int bytesRead;
 						String dataString = "";
-						while (bContinue)
-						{
+						while (bContinue) {
 							bytesRead = TelnetWrapper.this.in.read(data);
-							if (bytesRead != -1)
-							{
+							if (bytesRead != -1) {
 								dataString += new String(data, 0, bytesRead);
-								if (dataString.length() > 64)
-								{
-									if (buffer.toString().indexOf(dataString) == -1)
-									{
+								if (dataString.length() > 64) {
+									if (buffer.toString().indexOf(dataString) == -1) {
 										buffer.append(dataString);
 										// System.out.println("Original=" +
 										// dataString);
@@ -363,57 +312,43 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 									}
 									dataString = "";
 								}
-							}
-							else
-							{
+							} else {
 								bContinue = false;
 							}
 						}
-					}
-					catch (final Exception e)
-					{
+					} catch (final Exception e) {
 						// TODO log
 					}
 				}
 			}.start();
 		}
-		return new Process()
-		{
-			public void destroy()
-			{
-				try
-				{
+		return new Process() {
+			public void destroy() {
+				try {
 					TelnetWrapper.this.disconnect();
-				}
-				catch (final Exception e)
-				{
+				} catch (final Exception e) {
 					// e.printStackTrace();
 				}
 			}
 
-			public int exitValue()
-			{
+			public int exitValue() {
 				return 0;
 			}
 
-			public InputStream getErrorStream()
-			{
+			public InputStream getErrorStream() {
 				return null;
 			}
 
-			public InputStream getInputStream()
-			{
-				return TelnetWrapper.this.iTargetOSType == IOSProtocolConstants.WINDOWS ? TelnetWrapper.this.processInputStream
-						: TelnetWrapper.this.in;
+			public InputStream getInputStream() {
+				return TelnetWrapper.this.iTargetOSType == IOSProtocolConstants.WINDOWS
+						? TelnetWrapper.this.processInputStream : TelnetWrapper.this.in;
 			}
 
-			public OutputStream getOutputStream()
-			{
+			public OutputStream getOutputStream() {
 				return TelnetWrapper.this.out;
 			}
 
-			public int waitFor()
-			{
+			public int waitFor() {
 				return 0;
 			}
 		};
@@ -422,8 +357,7 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 	/**
 	 * @return
 	 */
-	public String getIostatOutputForSolaris() throws IOException
-	{
+	public String getIostatOutputForSolaris() throws IOException {
 		String sLine = null;
 		final StringBuffer ret = new StringBuffer();
 		// boolean bFound = false;
@@ -432,11 +366,9 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 		 * 0.4 0.1 117.1 2 5 fd0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0 0 sd0 0.0 0.0 0.0
 		 * 0.0 0.0 0.0 0.0 0 0 nfs1 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0 0
 		 */
-		while (true)
-		{
+		while (true) {
 			sLine = this.lineReader.readLine();
-			if (sLine != null && sLine.indexOf("extended device statistics") != -1)
-			{
+			if (sLine != null && sLine.indexOf("extended device statistics") != -1) {
 				break;
 			}
 			ret.append(sLine);
@@ -448,66 +380,55 @@ public class TelnetWrapper extends AbstractProtocolWrapper
 	/**
 	 * @return
 	 */
-	public String getIostatOutputForLinux(boolean nfs) throws IOException
-	{
+	public String getIostatOutputForLinux(boolean nfs) throws IOException {
 		String sLine = null;
 		final StringBuffer ret = new StringBuffer();
 		int deviceCount = 0;
 		boolean bEmpty = false;
-		int expectedDeviceCount = nfs ? 2:1;
+		int expectedDeviceCount = nfs ? 2 : 1;
 
-		while (true)
-		{
-			if (deviceCount >= expectedDeviceCount && bEmpty)
-			{
+		while (true) {
+			if (deviceCount >= expectedDeviceCount && bEmpty) {
 				break;
 			}
 			sLine = this.lineReader.readLine();
-			if (sLine == null)
-			{
+			if (sLine == null) {
 				break;
 			}
-			if (sLine.indexOf("command not found") != -1)
-			{
+			if (sLine.indexOf("command not found") != -1) {
 				ret.append(sLine);
 				break;
 			}
-			if ((sLine.length() == 0) && deviceCount >= expectedDeviceCount)
-			{
+			if ((sLine.length() == 0) && deviceCount >= expectedDeviceCount) {
 				bEmpty = true;
 			}
-			if (sLine.indexOf("Device:") != -1)
-			{
-				if (deviceCount >= expectedDeviceCount)
-				{
+			if (sLine.indexOf("Device:") != -1) {
+				if (deviceCount >= expectedDeviceCount) {
 					bEmpty = true;
 					continue;
 				}
-				deviceCount ++;
+				deviceCount++;
 			}
-			if (deviceCount <= expectedDeviceCount)
-			{
+			if (deviceCount <= expectedDeviceCount) {
 				ret.append(sLine);
 				ret.append("\n");
 			}
 		} // while
 		return ret.toString();
 	}
-	public String getTopasOutputForAIX() throws IOException
-	{
+
+	public String getTopasOutputForAIX() throws IOException {
 		String sLine = null;
 		StringBuffer ret = new StringBuffer();
-		while (true)
-		{
+		while (true) {
 			sLine = lineReader.readLine();
 			ret.append(sLine);
 			ret.append("\n");
 
-			if (sLine != null && sLine.indexOf("quit") != -1)
-			{
+			if (sLine != null && sLine.indexOf("quit") != -1) {
 				break;
 			}
 		} // while
-		return ret.toString();		
-	}		
+		return ret.toString();
+	}
 }

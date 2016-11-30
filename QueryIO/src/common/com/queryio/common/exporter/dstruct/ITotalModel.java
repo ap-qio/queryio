@@ -24,8 +24,7 @@ package com.queryio.common.exporter.dstruct;
  * @author Exceed Consultancy Services
  * @version 1.0
  */
-public interface ITotalModel
-{
+public interface ITotalModel {
 	/**
 	 * ITotalModel # getColCount
 	 * 

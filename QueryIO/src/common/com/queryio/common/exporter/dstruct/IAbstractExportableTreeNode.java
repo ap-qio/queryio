@@ -8,7 +8,6 @@ package com.queryio.common.exporter.dstruct;
  * Do not write any code here.
  * 
  */
-public interface IAbstractExportableTreeNode
-{
+public interface IAbstractExportableTreeNode {
 	public String toExportString();
 }

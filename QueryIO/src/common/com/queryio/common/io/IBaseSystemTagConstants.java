@@ -24,8 +24,7 @@ package com.queryio.common.io;
  * @author Exceed Consultancy Services.
  * @version 1.0
  */
-public interface IBaseSystemTagConstants
-{
+public interface IBaseSystemTagConstants {
 	// System Related Constants
 	String SYSTEM = "System"; //$NON-NLS-1$
 	String GENERAL = "General"; //$NON-NLS-1$
@@ -256,7 +255,7 @@ public interface IBaseSystemTagConstants
 	String COMPONENT_CLASS = "ComponentClass"; //$NON-NLS-1$
 
 	// LOAD TESTER
-	String CHECK_LOCATION_HEADER="CheckLocationHeader"; //$NON-NLS-1$
+	String CHECK_LOCATION_HEADER = "CheckLocationHeader"; //$NON-NLS-1$
 	String SAVE_HEADERS_N_PARAMETERS = "SaveHdrsNParams"; //$NON-NLS-1$
 	String SAVE_SUB_TASKS = "SaveSubTasks"; //$NON-NLS-1$
 	String SAVE_FAILED_RESPONSES = "SaveFailedResponse"; //$NON-NLS-1$
@@ -316,7 +315,7 @@ public interface IBaseSystemTagConstants
 	String ELEMENT_OR_CLASSNAME = "ElementOrClassName"; //$NON-NLS-1$
 	String ELEMENT_INPUT_TYPE = "ElementInputType";
 
-//	String SYSMON_PORT = "SysmonPort";//$NON-NLS-1$
+	// String SYSMON_PORT = "SysmonPort";//$NON-NLS-1$
 	String SYSMON_SETTINGS = "SysmonSettings";//$NON-NLS-1$
 
 	String PROXY_AUTHENTICATION_ENABLED = "ProxyAuthenticationEnabled"; //$NON-NLS-1$
@@ -327,7 +326,7 @@ public interface IBaseSystemTagConstants
 	String LOGGER = "Logger"; //$NON-NLS-1$
 	String BUILD_CREATION_TIME = "BuildCreationTime";
 	String BUILD_NUMBER = "BuildNumber";
-	
+
 	String BUILD_CREATION_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	String SSL_CUSTOM_CERTIFICATE = "SSLCustomCertificate";// $NON_NLS$
@@ -371,9 +370,9 @@ public interface IBaseSystemTagConstants
 	String SERVICE = "Service";
 	String SERVER = "Server";
 	String PROTOCOL = "Protocol";
-	
+
 	String REPORT_IMAGE_PATH = "ReportImagePath";
-	
+
 	String MIME_TYPE_INFO = "MimeTypeInfo"; //$NON-NLS-1$
 	String MIME_TYPE = "MimeType"; //$NON-NLS-1$
 	String MIME_TYPE_FILE_EXTENSION = "FileExtension"; //$NON-NLS-1$

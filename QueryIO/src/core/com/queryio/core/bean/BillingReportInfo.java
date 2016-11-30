@@ -1,85 +1,69 @@
 package com.queryio.core.bean;
 
-public class BillingReportInfo
-{
+public class BillingReportInfo {
 	private long usedStorage;
 
 	private long bytesRead;
 	private long bytesWritten;
-	
+
 	private long putRequests;
 	private long getRequests;
 	private long listRequests;
 	private long deleteRequests;
-	
-	
-	public long getUsedStorage() 
-	{
+
+	public long getUsedStorage() {
 		return usedStorage;
 	}
-	
-	public void setUsedStorage(long usedStorage) 
-	{
+
+	public void setUsedStorage(long usedStorage) {
 		this.usedStorage = usedStorage;
 	}
-	
-	public long getBytesRead() 
-	{
+
+	public long getBytesRead() {
 		return bytesRead;
 	}
-	
-	public void setBytesRead(long bytesRead) 
-	{
+
+	public void setBytesRead(long bytesRead) {
 		this.bytesRead = bytesRead;
 	}
-	
-	public long getBytesWritten() 
-	{
+
+	public long getBytesWritten() {
 		return bytesWritten;
 	}
-	
-	public void setBytesWritten(long bytesWritten) 
-	{
+
+	public void setBytesWritten(long bytesWritten) {
 		this.bytesWritten = bytesWritten;
 	}
-	
-	public long getPutRequests() 
-	{
+
+	public long getPutRequests() {
 		return putRequests;
 	}
-	
-	public void setPutRequests(long putRequests) 
-	{
+
+	public void setPutRequests(long putRequests) {
 		this.putRequests = putRequests;
 	}
-	
-	public long getGetRequests() 
-	{
+
+	public long getGetRequests() {
 		return getRequests;
 	}
-	
-	public void setGetRequests(long getRequests) 
-	{
+
+	public void setGetRequests(long getRequests) {
 		this.getRequests = getRequests;
 	}
-	
-	public long getListRequests() 
-	{
+
+	public long getListRequests() {
 		return listRequests;
 	}
-	
-	public void setListRequests(long listRequests) 
-	{
+
+	public void setListRequests(long listRequests) {
 		this.listRequests = listRequests;
 	}
-	
-	public long getDeleteRequests()
-	{
+
+	public long getDeleteRequests() {
 		return deleteRequests;
 	}
-	
-	public void setDeleteRequests(long deleteRequests)
-	{
+
+	public void setDeleteRequests(long deleteRequests) {
 		this.deleteRequests = deleteRequests;
 	}
 }

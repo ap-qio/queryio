@@ -14,38 +14,33 @@ import com.queryio.core.dao.QueryIOServiceDAO;
 import com.queryio.core.monitor.beans.SummaryTable;
 
 public class QueryIOServicesManager {
-	public static SummaryTable getAllServices(boolean isHiveViewSelected){
+	public static SummaryTable getAllServices(boolean isHiveViewSelected) {
 		SummaryTable table = new SummaryTable();
 		Connection connection = null;
-		ArrayList colName = new ArrayList();	
+		ArrayList colName = new ArrayList();
 		colName.add("NameNode");
-		if (isHiveViewSelected)
-		{
+		if (isHiveViewSelected) {
 			colName.add("Hive Service");
-		}
-		else
-		{
+		} else {
 			colName.add("QueryIO Service");
 		}
 		colName.add("Host");
-		colName.add("Status");		
+		colName.add("Status");
 		table.setColNames(colName);
-		try
-		{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 			ArrayList namenodes = NodeDAO.getAllNameNodes(connection);
 			Node node = null;
-			Host host = null;			
+			Host host = null;
 			ArrayList row = null;
-			for(int i = 0; i < namenodes.size(); i++){
-				node = (Node)namenodes.get(i);
+			for (int i = 0; i < namenodes.size(); i++) {
+				node = (Node) namenodes.get(i);
 				host = HostDAO.getHostDetail(connection, node.getHostId());
-				
-				if (isHiveViewSelected)
-				{
+
+				if (isHiveViewSelected) {
 					String analyticsDB = NodeDAO.getAnalyticsDBNameForNameNodeMapping(connection, node.getId());
 					String metastoreDB = NodeDAO.getDBNameForNameNodeMapping(connection, node.getId());
-					if(analyticsDB == null || metastoreDB == null) {
+					if (analyticsDB == null || metastoreDB == null) {
 						continue;
 					}
 					row = new ArrayList();
@@ -54,37 +49,29 @@ public class QueryIOServicesManager {
 					row.add(host.getHostIP());
 					row.add(QueryIOServiceDAO.get(connection, node.getId(), QueryIOConstants.SERVICE_HIVE).getStatus());
 					table.addRow(row);
-				}
-				else
-				{
+				} else {
 					row = new ArrayList();
 					row.add(node.getId());
 					row.add(QueryIOConstants.SERVICE_OS3);
 					row.add(host.getHostIP());
 					row.add(QueryIOServiceDAO.get(connection, node.getId(), QueryIOConstants.SERVICE_OS3).getStatus());
 					table.addRow(row);
-					
+
 					row = new ArrayList();
 					row.add(node.getId());
 					row.add(QueryIOConstants.SERVICE_HDFS_OVER_FTP);
 					row.add(host.getHostIP());
-					row.add(QueryIOServiceDAO.get(connection, node.getId(), QueryIOConstants.SERVICE_HDFS_OVER_FTP).getStatus());
+					row.add(QueryIOServiceDAO.get(connection, node.getId(), QueryIOConstants.SERVICE_HDFS_OVER_FTP)
+							.getStatus());
 					table.addRow(row);
 				}
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
-		}
-		finally
-		{
-			try
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}

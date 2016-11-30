@@ -20,10 +20,10 @@ import com.queryio.plugin.datatags.UserDefinedTag;
 
 public class NCDCGSODParser implements IDataTagParser {
 	private static Map<String, List<ColumnMetadata>> map = new HashMap<String, List<ColumnMetadata>>();
-	static{
-		String tableName= "NCDC_GSOD";
+	static {
+		String tableName = "NCDC_GSOD";
 		List<ColumnMetadata> columnDataList = new ArrayList<ColumnMetadata>();
-		
+
 		columnDataList.add(new ColumnMetadata("station_number", Integer.class));
 		columnDataList.add(new ColumnMetadata("wban_number", Integer.class));
 		columnDataList.add(new ColumnMetadata("year", Integer.class));
@@ -58,6 +58,7 @@ public class NCDCGSODParser implements IDataTagParser {
 
 		map.put("gz", columnDataList);
 	}
+
 	@Override
 	public List<UserDefinedTag> getCustomTagList() {
 		// TODO Auto-generated method stub
@@ -65,7 +66,7 @@ public class NCDCGSODParser implements IDataTagParser {
 	}
 
 	@Override
-	public  TableMetadata getTableMetaData(String fileExtension){
+	public TableMetadata getTableMetaData(String fileExtension) {
 		return new TableMetadata("gz", map.get(fileExtension));
 	}
 
@@ -75,18 +76,18 @@ public class NCDCGSODParser implements IDataTagParser {
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		String str;
 		StringTokenizer st;
-		
+
 		str = br.readLine(); // Ignore First Line
 		while ((str = br.readLine()) != null) {
 			str = str.replace("  ", " ").replace("*", "");
 			st = new StringTokenizer(str);
-			
-			int index=0;
+
+			int index = 0;
 			while (st.hasMoreElements()) {
-				if(index==2){
+				if (index == 2) {
 					String value = (String) st.nextElement();
 				} else {
-					
+
 				}
 				index++;
 			}
@@ -99,20 +100,18 @@ public class NCDCGSODParser implements IDataTagParser {
 	}
 
 	@Override
-	public void parse(Reader reader, TableMetadata tableMetadata,
-			Metadata metadata) throws Exception {
+	public void parse(Reader reader, TableMetadata tableMetadata, Metadata metadata) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public boolean parseMapRecord(String value, long offset)
-			throws Exception {
+	public boolean parseMapRecord(String value, long offset) throws Exception {
 		return false;
 	}
 
 	@Override
 	public void parseTagData(String key, String value, boolean isReducer) throws Exception {
-		
+
 	}
 }

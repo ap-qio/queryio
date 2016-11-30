@@ -14,15 +14,16 @@ public class JSONDataDefinitionImpl implements IDataDefinition {
 		colMetaDataList.add(new ColumnMetadata("IP", String.class, 128));
 		colMetaDataList.add(new ColumnMetadata("CPU", Float.class));
 		colMetaDataList.add(new ColumnMetadata("RAM", Float.class));
-		
+
 		return colMetaDataList;
 	}
+
 	@Override
 	public String getTableName() {
 		return "adhoc_jsonparserjob";
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		System.out.println(new JSONDataDefinitionImpl().getColumnMetadata());
 	}
 }

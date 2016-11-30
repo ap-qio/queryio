@@ -25,43 +25,41 @@ import com.queryio.common.DFSMap;
 public class GetACLAction extends BaseAction {
 
 	@Override
-	public void execute(String operation, HttpServletRequest request,
-			HttpServletResponse response, Map<String, Object> helperMap,
-			int apiType) throws ServletException, IOException,
-			NoSuchAlgorithmException, GSSException, LoginException, Exception {
+	public void execute(String operation, HttpServletRequest request, HttpServletResponse response,
+			Map<String, Object> helperMap, int apiType)
+			throws ServletException, IOException, NoSuchAlgorithmException, GSSException, LoginException, Exception {
 		final String bucketName = (String) helperMap.get(OS3Constants.X_OS3_BUCKET_NAME);
-		final String objectName = (String)helperMap.get(OS3Constants.X_OS3_OBJECT_NAME);
+		final String objectName = (String) helperMap.get(OS3Constants.X_OS3_OBJECT_NAME);
 		final String requestId = (String) helperMap.get(OS3Constants.X_OS3_REQUESTID);
 		final String token = (String) request.getHeader(OS3Constants.AUTHORIZATION);
 
 		FileSystem dfs = null;
 
 		if (token == null) {
-			ErrorResponseWriter.missingAuthorizationHeader(helperMap, response,
-					bucketName, requestId, apiType);
+			ErrorResponseWriter.missingAuthorizationHeader(helperMap, response, bucketName, requestId, apiType);
 			return;
 		}
 
 		final String username = DFSMap.getUserForToken(token);
 		if (username == null) {
-			ErrorResponseWriter.invalidToken(helperMap, response, bucketName,
-					requestId, apiType);
+			ErrorResponseWriter.invalidToken(helperMap, response, bucketName, requestId, apiType);
 			return;
 		}
 
 		dfs = DFSMap.getDFSForUser(username);
 
-		Path path = objectName!=null ? new Path(DFSManager.ROOT_PATH + bucketName, objectName) : new Path(DFSManager.ROOT_PATH + bucketName);
-		
-		if( ! DataManager.doesPathExist(dfs, path)) {
-			ErrorResponseWriter.pathDoesNotExist(helperMap, response,
-					bucketName, requestId, apiType);
+		Path path = objectName != null ? new Path(DFSManager.ROOT_PATH + bucketName, objectName)
+				: new Path(DFSManager.ROOT_PATH + bucketName);
+
+		if (!DataManager.doesPathExist(dfs, path)) {
+			ErrorResponseWriter.pathDoesNotExist(helperMap, response, bucketName, requestId, apiType);
 		} else {
 			try {
 				FileStatus status = DataManager.getPathStatus(dfs, path);
 				ResponseWriter.writeGetACLResponse(request, response, apiType, requestId, status);
-			} catch(AccessControlException e) {
-				ErrorResponseWriter.permissionDenied(helperMap, response, objectName, e.getLocalizedMessage(), requestId, apiType);
+			} catch (AccessControlException e) {
+				ErrorResponseWriter.permissionDenied(helperMap, response, objectName, e.getLocalizedMessage(),
+						requestId, apiType);
 				return;
 			}
 		}

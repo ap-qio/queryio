@@ -22,8 +22,7 @@ import java.util.Calendar;
 /**
  * @author Exceed Consultancy Services
  */
-public class XAxisLongSeries extends XAxisSeries
-{
+public class XAxisLongSeries extends XAxisSeries {
 
 	private static final long TIME_24_HOURS = 1000 * 60 * 60 * 24;
 	protected long minValue = Long.MAX_VALUE;
@@ -31,28 +30,23 @@ public class XAxisLongSeries extends XAxisSeries
 	protected long maxValue = Long.MIN_VALUE;
 
 	protected long[] values = null;
-	
+
 	protected boolean crossesMidNight = false;
 
-	public XAxisLongSeries(byte valuesType) 
-	{
+	public XAxisLongSeries(byte valuesType) {
 		super(valuesType);
 	}
-	
-	public XAxisLongSeries(byte valuesType, String text) 
-	{
+
+	public XAxisLongSeries(byte valuesType, String text) {
 		super(valuesType, text);
 	}
 
-	public void initialize(int capacity)
-	{
-		if (capacity <= 0)
-		{
+	public void initialize(int capacity) {
+		if (capacity <= 0) {
 			capacity = 1;
 		}
 		this.values = new long[capacity];
-		for (int i = 0; i < capacity; i++)
-		{
+		for (int i = 0; i < capacity; i++) {
 			this.values[i] = Long.MIN_VALUE;
 		}
 		this.currentIndex = -1;
@@ -60,77 +54,60 @@ public class XAxisLongSeries extends XAxisSeries
 		this.maxValue = Long.MIN_VALUE;
 	}
 
-	public int getCapacity()
-	{
+	public int getCapacity() {
 		return (this.values != null ? this.values.length : 0);
 	}
 
-	public void setValue(final int index, final long value)
-	{
+	public void setValue(final int index, final long value) {
 		this.values[index] = value;
-		if (Long.MIN_VALUE != value)
-		{
+		if (Long.MIN_VALUE != value) {
 			this.minValue = Math.min(this.minValue, value);
 			this.maxValue = Math.max(this.maxValue, value);
 		}
 		this.currentIndex = Math.max(this.currentIndex, index);
 	}
 
-	public void setNextValue(final long value)
-	{
+	public void setNextValue(final long value) {
 		this.setValue(++this.currentIndex, value);
 	}
 
-	public long getValue(final int index)
-	{
+	public long getValue(final int index) {
 		return this.values[index];
 	}
 
-	public final long getMaxValue()
-	{
+	public final long getMaxValue() {
 		return this.maxValue;
 	}
 
-	public final long getMinValue()
-	{
+	public final long getMinValue() {
 		return this.minValue;
 	}
 
-	public String getFormattedMaxValue()
-	{
+	public String getFormattedMaxValue() {
 		return String.valueOf(this.maxValue);
 	}
 
-	public String getFormattedMinValue()
-	{
+	public String getFormattedMinValue() {
 		return String.valueOf(this.minValue);
 	}
 
-	public String getFormattedValue(final int index)
-	{
+	public String getFormattedValue(final int index) {
 		return getFormattedValueOf(this.values[index]);
 	}
 
-	public void setMaxValue(final long maxValue)
-	{
+	public void setMaxValue(final long maxValue) {
 		this.maxValue = maxValue;
 	}
 
-	public void setMinValue(final long minValue)
-	{
+	public void setMinValue(final long minValue) {
 		this.minValue = minValue;
 	}
-	
-	public void calculateCrossedMidNight(long minTime)
-	{
-		if (minTime != maxValue && maxValue != Long.MAX_VALUE)
-		{
-			if (maxValue - minTime > TIME_24_HOURS)
-			{
+
+	public void calculateCrossedMidNight(long minTime) {
+		if (minTime != maxValue && maxValue != Long.MAX_VALUE) {
+			if (maxValue - minTime > TIME_24_HOURS) {
 				crossesMidNight = true;
-			}
-			else
-			{
+			} else {
 				final Calendar maxCal = Calendar.getInstance();
 				maxCal.setTimeInMillis(maxValue);
 				final Calendar minCal = Calendar.getInstance();
@@ -140,13 +117,11 @@ public class XAxisLongSeries extends XAxisSeries
 		}
 	}
 
-	public boolean isCrossedMidNight() 
-	{
+	public boolean isCrossedMidNight() {
 		return crossesMidNight;
 	}
-	
-	public long[] returnAllValues()
-	{
+
+	public long[] returnAllValues() {
 		return this.values;
 	}
 }

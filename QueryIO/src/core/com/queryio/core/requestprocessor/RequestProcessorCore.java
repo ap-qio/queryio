@@ -27,8 +27,7 @@ public abstract class RequestProcessorCore {
 		return this.successful;
 	}
 
-	protected FsPermission getPermissions(FileSystem dfs, Path path)
-			throws IOException {
+	protected FsPermission getPermissions(FileSystem dfs, Path path) throws IOException {
 		return dfs.getFileStatus(path).getPermission();
 	}
 

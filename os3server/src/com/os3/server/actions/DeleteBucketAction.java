@@ -19,39 +19,37 @@ import com.queryio.common.DFSMap;
 public class DeleteBucketAction extends BaseAction {
 
 	protected final Logger logger = Logger.getLogger(getClass());
-	
+
 	@Override
-	public void execute(String operation, HttpServletRequest request, HttpServletResponse response, Map<String, Object> helperMap, int apiType) throws ServletException, IOException {
-		final String bucketName = (String)helperMap.get(OS3Constants.X_OS3_BUCKET_NAME);
-		final String requestId =  (String)helperMap.get(OS3Constants.X_OS3_REQUESTID);
-		final String token =  (String)request.getHeader(OS3Constants.AUTHORIZATION);
-		
+	public void execute(String operation, HttpServletRequest request, HttpServletResponse response,
+			Map<String, Object> helperMap, int apiType) throws ServletException, IOException {
+		final String bucketName = (String) helperMap.get(OS3Constants.X_OS3_BUCKET_NAME);
+		final String requestId = (String) helperMap.get(OS3Constants.X_OS3_REQUESTID);
+		final String token = (String) request.getHeader(OS3Constants.AUTHORIZATION);
+
 		FileSystem dfs = null;
-		
+
 		if (token == null) {
 			ErrorResponseWriter.missingAuthorizationHeader(helperMap, response, bucketName, requestId, apiType);
 			return;
 		}
-		
+
 		final String username = DFSMap.getUserForToken(token);
-		if(username==null){
+		if (username == null) {
 			ErrorResponseWriter.invalidToken(helperMap, response, bucketName, requestId, apiType);
 			return;
 		}
-		
+
 		dfs = DFSMap.getDFSForUser(username);
-		
-		if(!DataManager.doesBucketExists(dfs, bucketName)) {
+
+		if (!DataManager.doesBucketExists(dfs, bucketName)) {
 			ErrorResponseWriter.buketNotfound(helperMap, response, bucketName, requestId, apiType);
-		}
-		else if(!DataManager.isBucketEmpty(dfs, bucketName)) {
+		} else if (!DataManager.isBucketEmpty(dfs, bucketName)) {
 			ErrorResponseWriter.buketNotEmpty(helperMap, response, bucketName, requestId, apiType);
-		}
-		else {
-			if(DataManager.deleteBucket(dfs, bucketName)) {
+		} else {
+			if (DataManager.deleteBucket(dfs, bucketName)) {
 				ResponseWriter.writeDeleteResponse(apiType, response, requestId);
-			}
-			else { // Could not delete bucket
+			} else { // Could not delete bucket
 				ErrorResponseWriter.internalServerError(helperMap, response, requestId, apiType);
 			}
 		}

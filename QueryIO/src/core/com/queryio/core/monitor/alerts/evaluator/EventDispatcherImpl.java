@@ -23,43 +23,33 @@ import com.queryio.core.monitor.events.AlertListenerImpl;
 import com.queryio.core.monitor.events.BaseEvent;
 import com.queryio.core.monitor.events.EventDispatcher;
 
-public class EventDispatcherImpl implements EventDispatcher
-{
+public class EventDispatcherImpl implements EventDispatcher {
 	private AlertListener alertListener = null;
 
-	public EventDispatcherImpl()
-	{
+	public EventDispatcherImpl() {
 		alertListener = new AlertListenerImpl();
 	}
-	
-	public void dispatchEvent(final BaseEvent event)
-	{
-		if (event instanceof AlertEvent)
-		{
+
+	public void dispatchEvent(final BaseEvent event) {
+		if (event instanceof AlertEvent) {
 			this.dispatchAlertEvent((AlertEvent) event);
 		}
 	}
 
-	private void dispatchAlertEvent(final AlertEvent event)
-	{
-		if (this.alertListener != null)
-		{
-			switch (event.getState())
-			{
-				case AlertEvent.RAISED:
-				{
-					alertListener.alertRaised(event);
-					break;
-				}
-				case AlertEvent.RESET:
-				{
-					alertListener.alertReset(event);
-					break;
-				}
-				default:
-				{
-					// do nothing
-				}
+	private void dispatchAlertEvent(final AlertEvent event) {
+		if (this.alertListener != null) {
+			switch (event.getState()) {
+			case AlertEvent.RAISED: {
+				alertListener.alertRaised(event);
+				break;
+			}
+			case AlertEvent.RESET: {
+				alertListener.alertReset(event);
+				break;
+			}
+			default: {
+				// do nothing
+			}
 			}
 		}
 	}

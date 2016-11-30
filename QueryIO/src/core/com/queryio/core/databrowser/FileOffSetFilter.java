@@ -7,49 +7,41 @@ public class FileOffSetFilter implements PathFilter {
 
 	private int offSet;
 	private int length;
-	private int count ;
-	
+	private int count;
+
 	public int getCount() {
 		return this.count;
 	}
-
 
 	public void setCount(int count) {
 		this.count = count;
 	}
 
-
-	
-	public FileOffSetFilter(int offSet,int length) {
+	public FileOffSetFilter(int offSet, int length) {
 		super();
 		this.offSet = offSet;
-		this.length =length;
-	
-	
+		this.length = length;
+
 	}
 
-
-	
 	public boolean accept(Path path) {
-		
-		if(path.toUri().getPath().equals("/tmp")){
-			return false;
-		}	
-		
-		this.count++;	// To exclude '/tmp' directory to be included in File count in Data Browser. 
-		
-		if(this.count > length){
+
+		if (path.toUri().getPath().equals("/tmp")) {
 			return false;
 		}
-		if(this.count >= this.offSet && this.count <= this.length){
+
+		this.count++; // To exclude '/tmp' directory to be included in File
+						// count in Data Browser.
+
+		if (this.count > length) {
+			return false;
+		}
+		if (this.count >= this.offSet && this.count <= this.length) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
-		
+
 	}
-	
-	
 
 }

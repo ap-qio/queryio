@@ -20,31 +20,33 @@ import com.queryio.common.DFSMap;
 public class GetServiceAction extends BaseAction {
 
 	static Logger logger = Logger.getLogger(GetServiceAction.class);
+
 	@Override
-	public void execute(String operation, HttpServletRequest request, HttpServletResponse response, Map<String, Object> helperMap, int apiType) throws ServletException, IOException {
-		String requestId =  (String)helperMap.get(OS3Constants.X_OS3_REQUESTID);
-		String token =  (String)request.getHeader(OS3Constants.AUTHORIZATION);
-		
+	public void execute(String operation, HttpServletRequest request, HttpServletResponse response,
+			Map<String, Object> helperMap, int apiType) throws ServletException, IOException {
+		String requestId = (String) helperMap.get(OS3Constants.X_OS3_REQUESTID);
+		String token = (String) request.getHeader(OS3Constants.AUTHORIZATION);
+
 		FileSystem dfs = null;
-		
+
 		if (token == null) {
 			ErrorResponseWriter.missingAuthorizationHeader(helperMap, response, null, requestId, apiType);
 			return;
 		}
-		
+
 		String username = DFSMap.getUserForToken(token);
-		if(username==null){
+		if (username == null) {
 			ErrorResponseWriter.invalidToken(helperMap, response, null, requestId, apiType);
 			return;
 		}
-		
+
 		dfs = DFSMap.getDFSForUser(username);
-		
+
 		String ownerName = username;
 		String ownerID = username;
-		
+
 		ArrayList dirStats = DataManager.getAllDirStats(dfs);
-		
+
 		ResponseWriter.writeListAllMyBucketsResponse(apiType, response, ownerID, ownerName, dirStats, requestId);
 	}
 }

@@ -24,8 +24,7 @@ import com.queryio.core.monitor.alerts.evaluator.AlertEvaluationManager;
  * 
  * @author Exceed Consultancy Services
  */
-public class RuleExpression
-{
+public class RuleExpression {
 	private String ruleId;
 	private String attributeName;
 	private String columnName;
@@ -34,16 +33,14 @@ public class RuleExpression
 	private String aggregateFunction;
 	private int duration;
 
-	public RuleExpression()
-	{
+	public RuleExpression() {
 		this.condition = AlertEvaluationManager.CONDITION_OVER;
 		aggregateFunction = "";
 		value = 0;
 		duration = 0;
 	}
 
-	public RuleExpression(final RuleExpression ruleExpression)
-	{
+	public RuleExpression(final RuleExpression ruleExpression) {
 		this.condition = AlertEvaluationManager.CONDITION_OVER;
 		this.ruleId = ruleExpression.ruleId;
 		this.attributeName = ruleExpression.attributeName;
@@ -60,8 +57,7 @@ public class RuleExpression
 	 * 
 	 * @return
 	 */
-	public boolean isFunction()
-	{
+	public boolean isFunction() {
 		return (this.duration > 0);
 	}
 
@@ -70,8 +66,7 @@ public class RuleExpression
 	 * 
 	 * @return
 	 */
-	public String getRuleId()
-	{
+	public String getRuleId() {
 		return this.ruleId;
 	}
 
@@ -80,8 +75,7 @@ public class RuleExpression
 	 * 
 	 * @return
 	 */
-	public String getAttributeName()
-	{
+	public String getAttributeName() {
 		return this.attributeName;
 	}
 
@@ -90,8 +84,7 @@ public class RuleExpression
 	 * 
 	 * @return
 	 */
-	public String getColumnName()
-	{
+	public String getColumnName() {
 		return this.columnName;
 	}
 
@@ -100,8 +93,7 @@ public class RuleExpression
 	 * 
 	 * @return
 	 */
-	public String getCondition()
-	{
+	public String getCondition() {
 		return this.condition;
 	}
 
@@ -110,8 +102,7 @@ public class RuleExpression
 	 * 
 	 * @return
 	 */
-	public int getDuration()
-	{
+	public int getDuration() {
 		return this.duration;
 	}
 
@@ -120,8 +111,7 @@ public class RuleExpression
 	 * 
 	 * @return
 	 */
-	public String getAggregateFunction()
-	{
+	public String getAggregateFunction() {
 		return this.aggregateFunction;
 	}
 
@@ -130,8 +120,7 @@ public class RuleExpression
 	 * 
 	 * @return
 	 */
-	public int getValue()
-	{
+	public int getValue() {
 		return this.value;
 	}
 
@@ -140,8 +129,7 @@ public class RuleExpression
 	 * 
 	 * @param string
 	 */
-	public void setAttributeName(final String string)
-	{
+	public void setAttributeName(final String string) {
 		this.attributeName = string;
 	}
 
@@ -150,8 +138,7 @@ public class RuleExpression
 	 * 
 	 * @param string
 	 */
-	public void setCondition(final String string)
-	{
+	public void setCondition(final String string) {
 		this.condition = string;
 	}
 
@@ -160,8 +147,7 @@ public class RuleExpression
 	 * 
 	 * @param i
 	 */
-	public void setDuration(final int i)
-	{
+	public void setDuration(final int i) {
 		this.duration = i;
 	}
 
@@ -170,8 +156,7 @@ public class RuleExpression
 	 * 
 	 * @param string
 	 */
-	public void setAggregateFunction(final String string)
-	{
+	public void setAggregateFunction(final String string) {
 		this.aggregateFunction = string;
 	}
 
@@ -180,8 +165,7 @@ public class RuleExpression
 	 * 
 	 * @param i
 	 */
-	public void setValue(final int i)
-	{
+	public void setValue(final int i) {
 		this.value = i;
 	}
 
@@ -190,8 +174,7 @@ public class RuleExpression
 	 * 
 	 * @param string
 	 */
-	public void setRuleId(final String string)
-	{
+	public void setRuleId(final String string) {
 		this.ruleId = string;
 	}
 
@@ -200,8 +183,7 @@ public class RuleExpression
 	 * 
 	 * @param string
 	 */
-	public void setColumnName(final String string)
-	{
+	public void setColumnName(final String string) {
 		this.columnName = string;
 	}
 
@@ -210,8 +192,7 @@ public class RuleExpression
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("RuleExpression:");
 
 		sbToString.append(" RuleId=");

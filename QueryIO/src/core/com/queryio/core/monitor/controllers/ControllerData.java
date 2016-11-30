@@ -9,13 +9,12 @@ import java.util.ArrayList;
  * 
  * @author Exceed Consultancy Services
  */
-public class ControllerData
-{
+public class ControllerData {
 	private ArrayList columnNames;
 
 	/* time stamp when the data was fetched */
 	private long timeStamp;
-	
+
 	/*
 	 * values fetched from the device. They should match 1-to-1 with the column
 	 * names. If the values for a particular column is not retreived then that
@@ -26,17 +25,15 @@ public class ControllerData
 	private boolean sampleData;
 
 	private boolean saveAllValues = true;
+
 	/**
 	 * It will clear all the column names, values. It will set timeStamp to -1
 	 */
-	public void clear()
-	{
-		if (this.columnNames != null)
-		{
+	public void clear() {
+		if (this.columnNames != null) {
 			this.columnNames.clear();
 		}
-		if (this.values != null)
-		{
+		if (this.values != null) {
 			this.values.clear();
 		}
 	}
@@ -44,35 +41,28 @@ public class ControllerData
 	/**
 	 * default constructor
 	 */
-	public ControllerData()
-	{
+	public ControllerData() {
 		this.clear();
 	}
 
-	public ArrayList getColumnNames()
-	{
+	public ArrayList getColumnNames() {
 		return this.columnNames;
 	}
 
-	public ArrayList getValues()
-	{
+	public ArrayList getValues() {
 		return this.values;
 	}
 
-	public void setColumnNames(final ArrayList list)
-	{
+	public void setColumnNames(final ArrayList list) {
 		this.columnNames = list;
 	}
 
-	public void setValues(final ArrayList list)
-	{
+	public void setValues(final ArrayList list) {
 		this.values = list;
 	}
 
-	public void addColumnValue(final String columnName, final Object value)
-	{
-		if (!this.canAdd(columnName, value))
-		{
+	public void addColumnValue(final String columnName, final Object value) {
+		if (!this.canAdd(columnName, value)) {
 			return;
 		}
 
@@ -90,10 +80,8 @@ public class ControllerData
 	 * @param columnName
 	 * @param value
 	 */
-	public void setValue(final String columnName, Object value)
-	{
-		if (!this.canAdd(columnName, value))
-		{
+	public void setValue(final String columnName, Object value) {
+		if (!this.canAdd(columnName, value)) {
 			return;
 		}
 
@@ -104,44 +92,35 @@ public class ControllerData
 		// else add the new column name and the value in the respective
 		// ArraList's
 		final int index = this.columnNames.indexOf(columnName);
-		if (index == -1)
-		{
-			if ((value != null) && value.getClass().equals(String.class))
-			{
+		if (index == -1) {
+			if ((value != null) && value.getClass().equals(String.class)) {
 				value = searchAndReplace((String) value, "\\", "\\\\");
 			}
 			this.addColumnValue(columnName, value);
-		}
-		else
-		{
+		} else {
 			this.values.set(index, value);
 		}
 	}
 
-	public static String searchAndReplace(String originalStr, final String sWordToReplace, final String sReplaceWith)
-	{
-		if (originalStr == null)
-		{
+	public static String searchAndReplace(String originalStr, final String sWordToReplace, final String sReplaceWith) {
+		if (originalStr == null) {
 			return null;
 		}
 		String sLower = originalStr.toLowerCase();
 		final String sWR = sWordToReplace.toLowerCase();
 		int i = 0;
-		do
-		{
+		do {
 			i = sLower.indexOf(sWR, i);
-			if (i != -1)
-			{
+			if (i != -1) {
 				originalStr = originalStr.substring(0, i) + sReplaceWith
 						+ originalStr.substring(i + sWordToReplace.length());
 				i += sReplaceWith.length();
 				sLower = originalStr.toLowerCase();
 			}
-		}
-		while (i != -1);
+		} while (i != -1);
 		return originalStr;
 	}
-	
+
 	/**
 	 * returns the value of desired column. returns null if there are no columns
 	 * or the columName is not present in the controller data.
@@ -149,13 +128,10 @@ public class ControllerData
 	 * @param columnName
 	 * @return
 	 */
-	public Object getValue(final String columnName)
-	{
-		if (this.columnNames != null)
-		{
+	public Object getValue(final String columnName) {
+		if (this.columnNames != null) {
 			final int index = this.columnNames.indexOf(columnName);
-			if (index != -1)
-			{
+			if (index != -1) {
 				return this.values.get(index);
 			}
 		}
@@ -167,10 +143,8 @@ public class ControllerData
 	 * null
 	 * 
 	 */
-	private void init()
-	{
-		if (this.columnNames == null)
-		{
+	private void init() {
+		if (this.columnNames == null) {
 			this.columnNames = new ArrayList();
 			this.values = new ArrayList();
 		}
@@ -184,8 +158,7 @@ public class ControllerData
 	 * @param value
 	 * @return
 	 */
-	private boolean canAdd(final String columnName, final Object value)
-	{
+	private boolean canAdd(final String columnName, final Object value) {
 		return ((columnName != null) && (value != null));
 	}
 
@@ -195,10 +168,8 @@ public class ControllerData
 	 * 
 	 * @return
 	 */
-	public boolean isNull()
-	{
-		if (this.values == null)
-		{
+	public boolean isNull() {
+		if (this.values == null) {
 			return true;
 		}
 		return false;
@@ -209,14 +180,12 @@ public class ControllerData
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("ControllerData:");
 		sbToString.append(' ');
 
 		final int size = this.columnNames.size();
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			sbToString.append("{");
 			sbToString.append(this.columnNames.get(i));
 			sbToString.append(",");
@@ -227,18 +196,15 @@ public class ControllerData
 		return sbToString.toString();
 	}
 
-	public boolean isSampleData() 
-	{
+	public boolean isSampleData() {
 		return sampleData;
 	}
 
-	public void setSampleData(boolean sampleData) 
-	{
+	public void setSampleData(boolean sampleData) {
 		this.sampleData = sampleData;
 	}
 
-	public void setSaveAllValues(boolean saveAllValues)
-	{
+	public void setSaveAllValues(boolean saveAllValues) {
 		this.saveAllValues = saveAllValues;
 	}
 
@@ -250,4 +216,3 @@ public class ControllerData
 		this.timeStamp = timeStamp;
 	}
 }
-

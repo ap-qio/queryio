@@ -34,58 +34,48 @@ import com.queryio.common.util.ResourceManager;
  * 
  * @author Exceed Consultancy Services
  */
-class SmsSender
-{
+class SmsSender {
 	private static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
+
 	/**
 	 * sendMessage
 	 * 
 	 * @throws Exception
 	 */
-	void sendMessage(SmsNotifier smsNotifier) throws Exception
-	{
+	void sendMessage(SmsNotifier smsNotifier) throws Exception {
 		Service srv = null;
-		try
-		{
+		try {
 			srv = new Service();
-			SerialModemGateway gateway = new SerialModemGateway("modem.com1", smsNotifier.getComPort(), 
-				smsNotifier.getBaudRate(), smsNotifier.getMobileManufacturer(), smsNotifier.getMobileModel());
+			SerialModemGateway gateway = new SerialModemGateway("modem.com1", smsNotifier.getComPort(),
+					smsNotifier.getBaudRate(), smsNotifier.getMobileManufacturer(), smsNotifier.getMobileModel());
 			gateway.setFrom(this.getMobileNo(smsNotifier.getSendersMobileNo()));
 			gateway.setInbound(false);
 			gateway.setOutbound(true);
 			gateway.setSimPin("0000");
 			srv.addGateway(gateway);
 			srv.startService();
-			
+
 			final LinkedList llReceipentsMobileNo = smsNotifier.getRecepientsMobileNos();
 			final int iSize = llReceipentsMobileNo.size();
-			
+
 			final ArrayList list = new ArrayList(iSize);
-			for (int i = 0; i < iSize; i++)
-			{
+			for (int i = 0; i < iSize; i++) {
 				String recieverMobileNo = this.getMobileNo((String) llReceipentsMobileNo.get(i));
 				list.add(new OutboundMessage(recieverMobileNo, smsNotifier.getMessage()));
 				// Send a message synchronously.
 				srv.sendMessages(list);
 			}
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			throw new RuntimeException(RM.getString("VALUE_ERROR_SENDING_SMS_MSG") + ex.toString()); //$NON-NLS-1$
-		}
-		finally
-		{
-			if (srv != null)
-			{
+		} finally {
+			if (srv != null) {
 				srv.stopService();
 			}
 		}
 	}
 
-	private String getMobileNo(final String mobileNo)
-	{
-		if (!(mobileNo.charAt(0) == '+'))
-		{
+	private String getMobileNo(final String mobileNo) {
+		if (!(mobileNo.charAt(0) == '+')) {
 			return "+" + mobileNo; //$NON-NLS-1$
 		}
 		return mobileNo;

@@ -28,22 +28,19 @@ import com.queryio.common.exporter.dstruct.BaseSystemInfo;
  * @author Exceed Consultancy Services
  * @version 1.0
  */
-public class SystemDetailWriter extends BaseSystemInfoWriter
-{
+public class SystemDetailWriter extends BaseSystemInfoWriter {
 	/**
 	 * @param sysInfo
 	 * @throws Exception
 	 */
-	public SystemDetailWriter(final BaseSystemInfo sysInfo) throws Exception
-	{
+	public SystemDetailWriter(final BaseSystemInfo sysInfo) throws Exception {
 		super(sysInfo);
 	}
 
 	/**
 	 * @see com.queryio.sysmoncommon.io.BaseSystemInfoWriter#getProductHome()
 	 */
-	protected final String getProductHome()
-	{
+	protected final String getProductHome() {
 		return null;
 	}
 }

@@ -27,8 +27,7 @@ import com.queryio.common.exporter.dstruct.Rectangle;
  * 
  * @author Exceed Consultancy Services
  */
-public final class Legend
-{
+public final class Legend {
 	public static final int ISTRIKETHROUGHLENGTH = 10;
 
 	private final String text;
@@ -45,8 +44,7 @@ public final class Legend
 
 	private static int maxHeight = -1;
 
-	public Legend(final String text, final Color seriesColor, final Color legendColour)
-	{
+	public Legend(final String text, final Color seriesColor, final Color legendColour) {
 		this.text = text;
 		this.seriesColor = seriesColor;
 		this.legendColour = legendColour;
@@ -58,8 +56,7 @@ public final class Legend
 	 * @param graphics
 	 * @param r
 	 */
-	public MarkerObject draw(final UserInterface graphics, final Rectangle r, boolean selected, int ySeriesIndex)
-	{
+	public MarkerObject draw(final UserInterface graphics, final Rectangle r, boolean selected, int ySeriesIndex) {
 		MarkerObject mo = null;
 		graphics.setFont(this.legendFont);
 
@@ -69,9 +66,8 @@ public final class Legend
 		final int y = r.y + (r.height - height) / 2;
 
 		final int squareDim = 7;
-		
-		if (graphics.showSeriesSelector())
-		{
+
+		if (graphics.showSeriesSelector()) {
 			// Show/Hide rectangle
 			graphics.setForeground(ChartConstants.COLOR_BLACK);
 			graphics.setBackground(ChartConstants.COLOR_BLACK);
@@ -80,10 +76,9 @@ public final class Legend
 			mo.setSeriesIndex(ySeriesIndex);
 			mo.setLegendMarker(true);
 			mo.setSeriesVisible(selected);
-			
+
 			graphics.drawRectangle(x, y + squareDim - 5, 8, 8);
-			if (selected) 
-			{
+			if (selected) {
 				int x1 = x + 1;
 				int y1 = y + squareDim - 2;
 				int x2 = x + 3;
@@ -99,39 +94,31 @@ public final class Legend
 		}
 		graphics.setBackground(this.seriesColor);
 		graphics.setForeground(this.seriesColor);
-		if (graphics.showSeriesSelector())
-		{
+		if (graphics.showSeriesSelector()) {
 			graphics.fillRectangle(x, y + squareDim - 4, squareDim + 2, squareDim - 1);
-		}
-		else
-		{
+		} else {
 			graphics.fillRectangle(x + 4, y + squareDim - 4, squareDim, squareDim - 2);
 		}
 		// graphics.drawLine(x - iStrikeThroughLength, y + squareDim -1, x +
 		// squareDim + iStrikeThroughLength - 1, y + squareDim -1);
 
 		graphics.setForeground(ChartConstants.COLOR_BLACK);
-		//graphics.drawRectangle(x, y + squareDim - 4, squareDim + 2, squareDim - 1);
-		if (graphics.showSeriesSelector())
-		{
+		// graphics.drawRectangle(x, y + squareDim - 4, squareDim + 2, squareDim
+		// - 1);
+		if (graphics.showSeriesSelector()) {
 			graphics.drawRectangle(x, y + squareDim - 4, squareDim + 2, squareDim - 1);
-		}
-		else
-		{
+		} else {
 			graphics.drawRectangle(x + 4, y + squareDim - 4, squareDim, squareDim - 2);
 		}
 		final Color foreground = graphics.getForeground();
 		graphics.setForeground(this.legendColour);
-		
-		if (graphics.showSeriesSelector())
-		{
+
+		if (graphics.showSeriesSelector()) {
 			graphics.drawString(this.text, x + GAPBETWEENRECTANDTEXT, y, true);
-		}
-		else
-		{
+		} else {
 			graphics.drawString(this.text, x + GAPBETWEENRECTANDTEXT, y + 1, true);
 		}
-		
+
 		graphics.setForeground(foreground);
 
 		// The following lines are drawn for giving the shawdowed engrraved
@@ -149,10 +136,8 @@ public final class Legend
 	 * @param graphics
 	 * @return
 	 */
-	public int getMaxWidth(final UserInterface graphics)
-	{
-		if (this.width == -1)
-		{
+	public int getMaxWidth(final UserInterface graphics) {
+		if (this.width == -1) {
 			final Font oldFont = graphics.getFont();
 			graphics.setFont(this.legendFont);
 			this.width = graphics.stringExtent(this.text).x;
@@ -163,10 +148,8 @@ public final class Legend
 		return this.width;
 	}
 
-	public static int getMaxHeight(final UserInterface graphics, final Font font)
-	{
-		if (maxHeight == -1)
-		{
+	public static int getMaxHeight(final UserInterface graphics, final Font font) {
+		if (maxHeight == -1) {
 			final Font oldFont = graphics.getFont();
 			graphics.setFont(font);
 			maxHeight = graphics.getFontHeight() + 2;
@@ -180,13 +163,11 @@ public final class Legend
 	 * 
 	 * @return
 	 */
-	public final String getText()
-	{
+	public final String getText() {
 		return this.text;
 	}
 
-	public Color getSeriesColor()
-	{
+	public Color getSeriesColor() {
 		return this.seriesColor;
 	}
 }

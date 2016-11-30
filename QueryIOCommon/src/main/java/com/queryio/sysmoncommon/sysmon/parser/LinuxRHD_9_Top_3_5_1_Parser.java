@@ -17,10 +17,8 @@
  */
 package com.queryio.sysmoncommon.sysmon.parser;
 
-public class LinuxRHD_9_Top_3_5_1_Parser extends LinuxParserForTop_3_5_1
-{
-	public LinuxRHD_9_Top_3_5_1_Parser()
-	{
+public class LinuxRHD_9_Top_3_5_1_Parser extends LinuxParserForTop_3_5_1 {
+	public LinuxRHD_9_Top_3_5_1_Parser() {
 		super();
 	}
 }

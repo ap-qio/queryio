@@ -22,8 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class IntHashMapExt extends HashMap
-{
+public class IntHashMapExt extends HashMap {
 	/**
 	 * Determines if a de-serialized file is compatible with this class.
 	 * 
@@ -41,32 +40,28 @@ public class IntHashMapExt extends HashMap
 	 * @param initialCapacity
 	 * @param loadFactor
 	 */
-	public IntHashMapExt(final int initialCapacity, final float loadFactor)
-	{
+	public IntHashMapExt(final int initialCapacity, final float loadFactor) {
 		super(initialCapacity, loadFactor);
 	}
 
 	/**
 	 * @param initialCapacity
 	 */
-	public IntHashMapExt(final int initialCapacity)
-	{
+	public IntHashMapExt(final int initialCapacity) {
 		super(initialCapacity);
 	}
 
 	/**
 	 * 
 	 */
-	public IntHashMapExt()
-	{
+	public IntHashMapExt() {
 		super();
 	}
 
 	/**
 	 * @param m
 	 */
-	public IntHashMapExt(final Map m)
-	{
+	public IntHashMapExt(final Map m) {
 		super(m);
 	}
 
@@ -76,8 +71,7 @@ public class IntHashMapExt extends HashMap
 	 * @param key
 	 * @return
 	 */
-	public Object get(final int key)
-	{
+	public Object get(final int key) {
 		return super.get(new Integer(key));
 	}
 
@@ -88,8 +82,7 @@ public class IntHashMapExt extends HashMap
 	 * @param value
 	 * @return
 	 */
-	public Object put(final int key, final Object value)
-	{
+	public Object put(final int key, final Object value) {
 		return super.put(new Integer(key), value);
 	}
 
@@ -99,8 +92,7 @@ public class IntHashMapExt extends HashMap
 	 * @param key
 	 * @return
 	 */
-	public boolean containsKey(final int key)
-	{
+	public boolean containsKey(final int key) {
 		return super.containsKey(new Integer(key));
 	}
 
@@ -110,8 +102,7 @@ public class IntHashMapExt extends HashMap
 	 * @param key
 	 * @return
 	 */
-	public Object remove(final int key)
-	{
+	public Object remove(final int key) {
 		return super.remove(new Integer(key));
 	}
 
@@ -120,15 +111,13 @@ public class IntHashMapExt extends HashMap
 	 * 
 	 * @return
 	 */
-	public int[] keys()
-	{
+	public int[] keys() {
 		final Set set = this.keySet();
 		final int size = set.size();
 		final int[] retVal = new int[size];
 		int ctr = 0;
 		final Iterator itr = set.iterator();
-		while (itr.hasNext())
-		{
+		while (itr.hasNext()) {
 			retVal[ctr++] = ((Integer) itr.next()).intValue();
 		}
 		return retVal;

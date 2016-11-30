@@ -26,8 +26,7 @@ import java.io.PrintWriter;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public class ExporterException extends Exception
-{
+public class ExporterException extends Exception {
 	private static final long serialVersionUID = 752600005701000038L;
 	/**
 	 * The throwable that caused this Exception to get thrown, or null if this
@@ -41,8 +40,7 @@ public class ExporterException extends Exception
 	 * 
 	 * @param msg
 	 */
-	public ExporterException(final String msg)
-	{
+	public ExporterException(final String msg) {
 		super(msg);
 	}
 
@@ -51,8 +49,7 @@ public class ExporterException extends Exception
 	 * 
 	 * @param msg
 	 */
-	public ExporterException(final String msg, final Throwable cause)
-	{
+	public ExporterException(final String msg, final Throwable cause) {
 		super(msg);
 		this.cause = cause;
 	}
@@ -62,8 +59,7 @@ public class ExporterException extends Exception
 	 * 
 	 * @see java.lang.Throwable#printStackTrace()
 	 */
-	public void printStackTrace()
-	{
+	public void printStackTrace() {
 		this.printStackTrace(System.err);
 	}
 
@@ -72,12 +68,10 @@ public class ExporterException extends Exception
 	 * 
 	 * @see java.lang.Throwable#printStackTrace(java.io.PrintStream)
 	 */
-	public void printStackTrace(final PrintStream s)
-	{
+	public void printStackTrace(final PrintStream s) {
 		s.println(this);
 		super.printStackTrace(s);
-		if (this.cause != null)
-		{
+		if (this.cause != null) {
 			s.println("Caused by : " + this.cause); //$NON-NLS-1$
 			this.cause.printStackTrace(s);
 		}
@@ -88,12 +82,10 @@ public class ExporterException extends Exception
 	 * 
 	 * @see java.lang.Throwable#printStackTrace(java.io.PrintWriter)
 	 */
-	public void printStackTrace(final PrintWriter s)
-	{
+	public void printStackTrace(final PrintWriter s) {
 		s.println(this);
 		super.printStackTrace(s);
-		if (this.cause != null)
-		{
+		if (this.cause != null) {
 			s.println("Caused by : " + this.cause); //$NON-NLS-1$
 			this.cause.printStackTrace(s);
 		}

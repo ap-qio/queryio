@@ -27,73 +27,61 @@ import com.queryio.common.IProductConstants;
  * 
  * @author Exceed Consultancy Services
  */
-public final class TimeValueFormatter
-{
-	private static final DateFormat DAY_TIME = new SimpleDateFormat(System.getProperty("chart.datetime", "EEE, h:mm a")); // Wed, 12:03 AM
+public final class TimeValueFormatter {
+	private static final DateFormat DAY_TIME = new SimpleDateFormat(
+			System.getProperty("chart.datetime", "EEE, h:mm a")); // Wed, 12:03
+																	// AM
 	private static final int INDEX_HOUR = 0;
 	private static final int INDEX_MIN = 1;
 	private static final int INDEX_SEC = 2;
 
 	// MADE A PRIVATE CONSTRUCTOR, BECAUSE WE DONOT WANT NE ONE TO MAKE
 	// INSTANCES OF THIS CLASS.
-	private TimeValueFormatter()
-	{
+	private TimeValueFormatter() {
 		// DO NOTHING - PRIVATE CONSTRUCTOR
 	}
 
 	public static final String getFormattedValue(final long startTime, final long currTime, final long endTime,
-		final boolean bShowRelativeTime)
-	{
+			final boolean bShowRelativeTime) {
 		return getFormattedValue(startTime, currTime, endTime, bShowRelativeTime, false);
 	}
-	
+
 	public static final String getFormattedValue(final long startTime, final long currTime, final long endTime,
-		final boolean bShowRelativeTime, boolean crossedMidNight)
-	{
+			final boolean bShowRelativeTime, boolean crossedMidNight) {
 		final StringBuffer strDiffTime = new StringBuffer();
-		if (bShowRelativeTime)
-		{
-			if (currTime < 0)
-			{
+		if (bShowRelativeTime) {
+			if (currTime < 0) {
 				strDiffTime.append('-');
 			}
 			final long arrCurrDiffTime[] = getRelativeHHMMSSValues(startTime, currTime);
 			final long arrLastDiffTime[] = getRelativeHHMMSSValues(startTime, endTime);
 
-			if (arrLastDiffTime[INDEX_HOUR] != 0)
-			{
+			if (arrLastDiffTime[INDEX_HOUR] != 0) {
 				strDiffTime.append(getStringValue(arrCurrDiffTime[INDEX_HOUR]));
 				strDiffTime.append(':');
 			}
 			strDiffTime.append(getStringValue(arrCurrDiffTime[INDEX_MIN]));
 			strDiffTime.append(':');
 			strDiffTime.append(getStringValue(arrCurrDiffTime[INDEX_SEC]));
-		}
-		else
-		{
-			final DateFormat format = crossedMidNight ? DAY_TIME:DateFormat.getTimeInstance(DateFormat.SHORT);
+		} else {
+			final DateFormat format = crossedMidNight ? DAY_TIME : DateFormat.getTimeInstance(DateFormat.SHORT);
 			strDiffTime.append(format.format(new Date(currTime)));
 		}
 		return strDiffTime.toString();
 	}
 
-	private static final String getStringValue(final long timeUnit)
-	{
+	private static final String getStringValue(final long timeUnit) {
 		String strValue = IProductConstants.EMPTY_STRING;
-		if ((timeUnit >= 0) && (timeUnit < 10))
-		{
+		if ((timeUnit >= 0) && (timeUnit < 10)) {
 			strValue = "0" + timeUnit; //$NON-NLS-1$
-		}
-		else
-		{
+		} else {
 			strValue += timeUnit;
 		}
 
 		return strValue;
 	}
 
-	private static final long[] getRelativeHHMMSSValues(final long startTime, final long endTime)
-	{
+	private static final long[] getRelativeHHMMSSValues(final long startTime, final long endTime) {
 		final long arrHhMmSs[] = new long[3];
 		final long diff = endTime - startTime;
 		final long secs = diff / 1000;
@@ -107,13 +95,11 @@ public final class TimeValueFormatter
 		return arrHhMmSs;
 	}
 
-	public static String getDummyMaxTimeValue()
-	{
+	public static String getDummyMaxTimeValue() {
 		return "00:00:00"; //$NON-NLS-1$
 	}
 
-	public static void main(final String args[])
-	{
+	public static void main(final String args[]) {
 		final long tenMins = 600000;
 		final long oneSec = 1000;
 

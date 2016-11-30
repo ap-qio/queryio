@@ -37,8 +37,7 @@ import com.queryio.common.util.XMLWriter;
  * @author Exceed Consultancy Services
  * @version 1.0
  */
-public abstract class BaseSystemInfoWriter
-{
+public abstract class BaseSystemInfoWriter {
 	// VARIABLE DECLARATION - DO NOT DELETE
 	protected BaseSystemInfo systemInfo;
 	private static final transient String SYSTEMFILE = "System.xml"; //$NON-NLS-1$
@@ -50,18 +49,16 @@ public abstract class BaseSystemInfoWriter
 	/**
 	 * Constructor for BaseSystemInfoWriter.
 	 */
-	public BaseSystemInfoWriter(final BaseSystemInfo systemInfo) throws Exception
-	{
+	public BaseSystemInfoWriter(final BaseSystemInfo systemInfo) throws Exception {
 		this.systemInfo = systemInfo;
-		final BufferedWriter writerForSystemDetails = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
-				new File(PathFinder.getDevSuiteHome(), SYSTEMFILE)), "UTF-8")); //$NON-NLS-1$
+		final BufferedWriter writerForSystemDetails = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(new File(PathFinder.getDevSuiteHome(), SYSTEMFILE)), "UTF-8")); //$NON-NLS-1$
 		this.xmlWriterForSystem = new XMLWriter(writerForSystemDetails);
 		this.xmlWriterForSystem.startDocument(); // Write the <XML tag
 
-		if (this.getProductHome() != null)
-		{
-			final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(this
-					.getProductHome(), DEFAULTFILE)), "UTF-8")); //$NON-NLS-1$
+		if (this.getProductHome() != null) {
+			final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(new File(this.getProductHome(), DEFAULTFILE)), "UTF-8")); //$NON-NLS-1$
 			this.xmlWriterForDefault = new XMLWriter(writer);
 			this.xmlWriterForDefault.startDocument(); // Write the <XML tag
 			this.xmlWriterForDefault.startElement(IBaseSystemTagConstants.PRODUCT_INFO);
@@ -80,8 +77,7 @@ public abstract class BaseSystemInfoWriter
 	 * 
 	 * @throws Exception
 	 */
-	public final void saveSystem() throws Exception
-	{
+	public final void saveSystem() throws Exception {
 		this.saveDetailSettings();
 		this.closeWriting();
 	}
@@ -91,8 +87,7 @@ public abstract class BaseSystemInfoWriter
 	 * 
 	 * @throws Exception
 	 */
-	protected void saveDetailSettings() throws Exception
-	{
+	protected void saveDetailSettings() throws Exception {
 		final String[] sysAttributeKeys = { IBaseSystemTagConstants.HIGHLIGHTONMOUSEMOVE };
 		final String[] sysAttributeValues = { String.valueOf(this.systemInfo.isHighlightRowOnMouseOver()) };
 		// String[] sysAttributeKeys =
@@ -117,16 +112,12 @@ public abstract class BaseSystemInfoWriter
 
 		// write font settings
 		final boolean bSystemFont = this.systemInfo.isUsingSystemFont();
-		if (bSystemFont)
-		{
+		if (bSystemFont) {
 			this.xmlWriterForSystem.writeElement(IBaseSystemTagConstants.APPLICATION_FONT,
 					IBaseSystemTagConstants.USING_DEFAULT, String.valueOf(true));
-		}
-		else
-		{
+		} else {
 			final String fontname = this.systemInfo.getCustomFontName();
-			if (fontname != null)
-			{
+			if (fontname != null) {
 				final String[] fontSettingTags = { IBaseSystemTagConstants.USING_DEFAULT,
 						IBaseSystemTagConstants.FONT_NAME, IBaseSystemTagConstants.FONT_SIZE,
 						IBaseSystemTagConstants.FONT_STYLE, };
@@ -143,8 +134,7 @@ public abstract class BaseSystemInfoWriter
 				IBaseSystemTagConstants.VENDOR, IBaseSystemTagConstants.VERSION, IBaseSystemTagConstants.DEFAULT, };
 		final Set jdkList = this.systemInfo.getJVMList();
 		final Iterator iterator = jdkList.iterator();
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			final String sJdkName = (String) iterator.next();
 			final String[] sysJDKAttributeValues = { sJdkName, this.systemInfo.getJVMPath(sJdkName),
 					this.systemInfo.getJVMVendor(sJdkName), this.systemInfo.getJVMVersion(sJdkName),
@@ -159,12 +149,10 @@ public abstract class BaseSystemInfoWriter
 	 * 
 	 * @throws Exception
 	 */
-	private final void closeWriting() throws Exception
-	{
+	private final void closeWriting() throws Exception {
 		this.xmlWriterForSystem.endElement(IBaseSystemTagConstants.SYSTEM);
 		this.xmlWriterForSystem.endDocument();
-		if (this.xmlWriterForDefault != null)
-		{
+		if (this.xmlWriterForDefault != null) {
 			this.xmlWriterForDefault.endElement(IBaseSystemTagConstants.PRODUCT_INFO);
 			this.xmlWriterForDefault.endDocument();
 		}

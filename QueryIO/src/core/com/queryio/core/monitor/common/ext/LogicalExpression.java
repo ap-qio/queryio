@@ -24,8 +24,7 @@ import org.ks.cm.parser.OperatorExpression;
 /**
  * @author Exceed Consultancy Services
  */
-public abstract class LogicalExpression extends OperatorExpression
-{
+public abstract class LogicalExpression extends OperatorExpression {
 	/**
 	 * 
 	 */
@@ -34,8 +33,7 @@ public abstract class LogicalExpression extends OperatorExpression
 	/**
 	 * 
 	 */
-	public LogicalExpression()
-	{
+	public LogicalExpression() {
 		super();
 	}
 
@@ -43,8 +41,7 @@ public abstract class LogicalExpression extends OperatorExpression
 	 * @param left
 	 * @param right
 	 */
-	public LogicalExpression(final Expression left, final Expression right)
-	{
+	public LogicalExpression(final Expression left, final Expression right) {
 		super(left, right);
 	}
 

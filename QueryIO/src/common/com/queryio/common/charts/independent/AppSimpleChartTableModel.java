@@ -34,14 +34,12 @@ import com.queryio.common.charts.series.YAxisSeries;
  * 
  * @author Exceed Consultancy Services
  */
-public class AppSimpleChartTableModel extends DefaultTableModel
-{
+public class AppSimpleChartTableModel extends DefaultTableModel {
 	private static final long serialVersionUID = 752600005701000030L;
 	private final List xAxisValues = new ArrayList();
 	private final List plotValues = new ArrayList();
 
-	public AppSimpleChartTableModel(final AppSimpleChart chart)
-	{
+	public AppSimpleChartTableModel(final AppSimpleChart chart) {
 		this.resetValues();
 		this.addColumns(chart);
 		this.populateValues(chart);
@@ -53,13 +51,11 @@ public class AppSimpleChartTableModel extends DefaultTableModel
 	 * @param chart
 	 *            The chart whose data is being represented in table form.
 	 */
-	private void addColumns(final AppSimpleChart chart)
-	{
+	private void addColumns(final AppSimpleChart chart) {
 		this.addColumn(chart.getXAxisTitle());
 		final Legend[] legend = chart.getLegend();
 		final int legendLen = legend.length;
-		for (int i = 0; i < legendLen; i++)
-		{
+		for (int i = 0; i < legendLen; i++) {
 			this.addColumn(legend[i].getText());
 		}
 	}
@@ -70,21 +66,17 @@ public class AppSimpleChartTableModel extends DefaultTableModel
 	 * @param chart
 	 *            The chart whose data is being represented in table form.
 	 */
-	private void populateValues(final AppSimpleChart chart)
-	{
+	private void populateValues(final AppSimpleChart chart) {
 		final XAxisSeries xAxisSeries = chart.getXAxisSeries();
 		final Series[] yAxisSeries = chart.getYAxisSeries();
 		final int yAxisSeriesLen = yAxisSeries.length;
 		int[] yAxisSeriesValues;
 		int currentCount = xAxisSeries.getCurrentCount();
-		for (int i = 0; i < currentCount; i++)
-		{
-			if (!IProductConstants.EMPTY_STRING.equals(xAxisSeries.getFormattedValue(i)))
-			{
+		for (int i = 0; i < currentCount; i++) {
+			if (!IProductConstants.EMPTY_STRING.equals(xAxisSeries.getFormattedValue(i))) {
 				this.xAxisValues.add(xAxisSeries.getFormattedValue(i));
 				yAxisSeriesValues = new int[yAxisSeriesLen];
-				for (int j = 0; j < yAxisSeriesLen; j++)
-				{
+				for (int j = 0; j < yAxisSeriesLen; j++) {
 					yAxisSeriesValues[j] = ((YAxisSeries) yAxisSeries[j]).getValue(i);
 				}
 				this.plotValues.add(yAxisSeriesValues);
@@ -95,26 +87,21 @@ public class AppSimpleChartTableModel extends DefaultTableModel
 	/**
 	 * reset all the values
 	 */
-	private void resetValues()
-	{
+	private void resetValues() {
 		this.xAxisValues.clear();
 		this.plotValues.clear();
 	}
 
-	public int getRowCount()
-	{
+	public int getRowCount() {
 		return this.xAxisValues != null ? this.xAxisValues.size() : 0;
 	}
 
-	public Object getValueAt(final int row, final int column)
-	{
-		if (column == 0)
-		{
+	public Object getValueAt(final int row, final int column) {
+		if (column == 0) {
 			return this.xAxisValues.get(row);
 		}
 		final int i = ((int[]) this.plotValues.get(row))[column - 1];
-		if (i != Integer.MIN_VALUE)
-		{
+		if (i != Integer.MIN_VALUE) {
 			return new Integer(i);
 		}
 		return IProductConstants.EMPTY_STRING;

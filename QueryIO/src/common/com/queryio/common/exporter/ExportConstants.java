@@ -25,8 +25,7 @@ import java.util.StringTokenizer;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public abstract class ExportConstants
-{
+public abstract class ExportConstants {
 	// String representation for export types
 	public static final String[] EXPORT_TYPES = { "HTML", "PDF", "CSV", "XLS", "XML" }; //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -55,30 +54,23 @@ public abstract class ExportConstants
 	 * @param exportType
 	 * @return
 	 */
-	public static final String getFileExtension(final int exportType)
-	{
-		switch (exportType)
-		{
-			case EXPORT_TYPE_HTML:
-			{
-				return "html"; //$NON-NLS-1$
-			}
-			case EXPORT_TYPE_PDF:
-			{
-				return "pdf"; //$NON-NLS-1$
-			}
-			case EXPORT_TYPE_CSV:
-			{
-				return "csv"; //$NON-NLS-1$
-			}
-			case EXPORT_TYPE_XLS:
-			{
-				return "xls"; //$NON-NLS-1$
-			}
-			case EXPORT_TYPE_XML:
-			{
-				return "xml"; //$NON-NLS-1$
-			}
+	public static final String getFileExtension(final int exportType) {
+		switch (exportType) {
+		case EXPORT_TYPE_HTML: {
+			return "html"; //$NON-NLS-1$
+		}
+		case EXPORT_TYPE_PDF: {
+			return "pdf"; //$NON-NLS-1$
+		}
+		case EXPORT_TYPE_CSV: {
+			return "csv"; //$NON-NLS-1$
+		}
+		case EXPORT_TYPE_XLS: {
+			return "xls"; //$NON-NLS-1$
+		}
+		case EXPORT_TYPE_XML: {
+			return "xml"; //$NON-NLS-1$
+		}
 		}
 		return null;
 	}
@@ -89,8 +81,7 @@ public abstract class ExportConstants
 	 * @param exportType
 	 * @return
 	 */
-	public static final String getFileExtensionWithDot(final int exportType)
-	{
+	public static final String getFileExtensionWithDot(final int exportType) {
 		return '.' + getFileExtension(exportType);
 	}
 
@@ -100,36 +91,24 @@ public abstract class ExportConstants
 	 * @param sOutputFormats
 	 * @return
 	 */
-	public static final int[] getOutputFormats(final String sOutputFormats)
-	{
+	public static final int[] getOutputFormats(final String sOutputFormats) {
 		int[] aFormats = null;
 		int iNumFormats = 0;
-		if (sOutputFormats != null)
-		{
+		if (sOutputFormats != null) {
 			final StringTokenizer stFormats = new StringTokenizer(sOutputFormats, ","); //$NON-NLS-1$
 			aFormats = new int[stFormats.countTokens()];
 			String sOutputFormat = null;
-			while (stFormats.hasMoreTokens())
-			{
+			while (stFormats.hasMoreTokens()) {
 				sOutputFormat = stFormats.nextToken();
-				if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_HTML]))
-				{
+				if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_HTML])) {
 					aFormats[iNumFormats++] = EXPORT_TYPE_HTML;
-				}
-				else if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_PDF]))
-				{
+				} else if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_PDF])) {
 					aFormats[iNumFormats++] = EXPORT_TYPE_PDF;
-				}
-				else if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_XLS]))
-				{
+				} else if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_XLS])) {
 					aFormats[iNumFormats++] = EXPORT_TYPE_XLS;
-				}
-				else if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_XML]))
-				{
+				} else if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_XML])) {
 					aFormats[iNumFormats++] = EXPORT_TYPE_XML;
-				}
-				else if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_CSV]))
-				{
+				} else if (sOutputFormat.equalsIgnoreCase(EXPORT_TYPES[EXPORT_TYPE_CSV])) {
 					aFormats[iNumFormats++] = EXPORT_TYPE_CSV;
 				}
 			}

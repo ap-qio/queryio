@@ -23,8 +23,7 @@ package com.queryio.scheduler.service;
  * @author Exceed Consultancy Services
  * @version 5.5
  */
-public interface SchedulerConstants
-{
+public interface SchedulerConstants {
 	String USERNAME = "username";
 	String NOTIFICATION_TYPE = "NotificationType";
 	String NOTIFICATION_MESSAGE = "NotificationMessage";
@@ -36,12 +35,12 @@ public interface SchedulerConstants
 	int SCH_FREQUENCY_TWELVE_HOURS = 1;
 	int SCH_FREQUENCY_DAILY = 2;
 	int SCH_FREQUENCY_WEEKLY = 3;
-	String SCHEDULER_NAME = "QueryIOScheduler";	
+	String SCHEDULER_NAME = "QueryIOScheduler";
 	String HIPHEN = "-";
 	String TABLE_PREFIX = "QRTZ_";
 	String FORMAT_TYPE = "FormatType";
 	String FREQUENCY = "frequency";
-	String REPORT_TIME =  "reportTime";
+	String REPORT_TIME = "reportTime";
 	String NODE_ID = "nodeId";
 	String QUERY = "query";
 	String MAPRED_JOB_NAME = "MAPREDJOBNAME";
@@ -52,8 +51,8 @@ public interface SchedulerConstants
 	String ENDTIME = "ENDTIME";
 	String STATUS = "STATUS";
 	String REASON_FOR_FAILURE = "REASON_FOR_FAILURE";
-	String SUCCESS  = "Success";
-	String FAILURE  = "Failed";
+	String SUCCESS = "Success";
+	String FAILURE = "Failed";
 	String ID = "ID";
 	String JOB_NAME = "JOB_NAME";
 	String JOB_GROUP = "JOB_GROUP";

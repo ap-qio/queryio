@@ -1,7 +1,6 @@
 package com.queryio.common.database;
 
-public interface IOSProtocolConstants
-{
+public interface IOSProtocolConstants {
 	public final int WINDOWS = 0;
 	public final int LINUX = 1;
 	public final int SOLARIS = 2;
@@ -9,7 +8,7 @@ public interface IOSProtocolConstants
 	public final int AIX = 4;
 	public final int LINUX_OLD = 5;
 	public final int SOLARIS_OLD = 6;
-	
+
 	public final int UNDEFINED = -1;
 	public final int TELNET = 3;
 	public final int RSTAT = 4;
@@ -22,7 +21,7 @@ public interface IOSProtocolConstants
 
 	public final String LOOPBACKADDRESS = "127.0.0.1"; //$NON-NLS-1$
 	public final String LOCALHOST = "localhost"; //$NON-NLS-1$
-	
+
 	public final int AUTH_METHOD_PASSWORD = 0;
 	public final int AUTH_METHOD_PRIVATE_KEY = 1;
 }

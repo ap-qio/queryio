@@ -13,37 +13,36 @@ import com.queryio.common.util.AppLogger;
 public class ReportHandler {
 	private static IReportEngine reportEngine;
 	private static IDesignEngine designEngine;
-	
+
 	static {
 		DesignConfig designConfig = new DesignConfig();
 		EngineConfig engineConfig = new EngineConfig();
-		
-		try
-		{
-			Platform.startup( designConfig );
-			Platform.startup( engineConfig );
-			
-			IDesignEngineFactory designFactory = (IDesignEngineFactory) Platform.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY);
-			designEngine = designFactory.createDesignEngine( designConfig );
-			
-			IReportEngineFactory reportFactory = (IReportEngineFactory) Platform.createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
+
+		try {
+			Platform.startup(designConfig);
+			Platform.startup(engineConfig);
+
+			IDesignEngineFactory designFactory = (IDesignEngineFactory) Platform
+					.createFactoryObject(IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY);
+			designEngine = designFactory.createDesignEngine(designConfig);
+
+			IReportEngineFactory reportFactory = (IReportEngineFactory) Platform
+					.createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
 			reportEngine = reportFactory.createReportEngine(engineConfig);
-		}
-		catch (Exception ex)
-		{
+		} catch (Exception ex) {
 			AppLogger.getLogger().fatal(ex.getMessage(), ex);
 		}
 	}
-	
-	public static IReportEngine getReportEngine(){
+
+	public static IReportEngine getReportEngine() {
 		return reportEngine;
 	}
-	
-	public static IDesignEngine getDesignEngine(){
+
+	public static IDesignEngine getDesignEngine() {
 		return designEngine;
 	}
-	
-	public static void destroyEngines(){
+
+	public static void destroyEngines() {
 		reportEngine.destroy();
 	}
 }

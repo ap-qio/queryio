@@ -2,8 +2,7 @@ package com.queryio.core.monitor.controllers;
 
 import java.io.Serializable;
 
-public class ControllerAttribute implements Serializable
-{
+public class ControllerAttribute implements Serializable {
 	private static final long serialVersionUID = -6849794470754667710L;
 	/* id of the controller to which this attribute belongs */
 	private String controllerId;
@@ -31,7 +30,7 @@ public class ControllerAttribute implements Serializable
 
 	/* attribute's visibily type */
 	private int visibilty;
-	
+
 	/*
 	 * attribute's data unit used for displaying in the Y-Axis / Title of the
 	 * charts
@@ -43,9 +42,9 @@ public class ControllerAttribute implements Serializable
 
 	/* attribute's operator */
 	private int operator;
-	/* attribute's constant*/
+	/* attribute's constant */
 	private double constant;
-	
+
 	/* is this attribute being monitored */
 	private boolean toBeMonitored;
 
@@ -56,8 +55,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public boolean isChartable()
-	{
+	public boolean isChartable() {
 		return this.chartable;
 	}
 
@@ -66,8 +64,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getColumnName()
-	{
+	public String getColumnName() {
 		return this.columnName;
 	}
 
@@ -76,8 +73,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public int getDataType()
-	{
+	public int getDataType() {
 		return this.dataType;
 	}
 
@@ -86,8 +82,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public boolean isTransient()
-	{
+	public boolean isTransient() {
 		return false;
 	}
 
@@ -96,8 +91,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getDataUnit()
-	{
+	public String getDataUnit() {
 		return this.dataUnit;
 	}
 
@@ -106,8 +100,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public boolean isMonitorByDefault()
-	{
+	public boolean isMonitorByDefault() {
 		return this.monitorByDefault;
 	}
 
@@ -116,8 +109,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return this.name;
 	}
 
@@ -126,8 +118,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getDisplayName()
-	{
+	public String getDisplayName() {
 		return this.displayName;
 	}
 
@@ -136,8 +127,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getShortName()
-	{
+	public String getShortName() {
 		return this.shortName;
 	}
 
@@ -146,8 +136,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public int getMaxLength()
-	{
+	public int getMaxLength() {
 		return this.maxLength;
 	}
 
@@ -156,8 +145,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return boolean
 	 */
-	public boolean isToBeMonitored()
-	{
+	public boolean isToBeMonitored() {
 		return this.toBeMonitored;
 	}
 
@@ -166,8 +154,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @param b
 	 */
-	public void setChartable(final boolean b)
-	{
+	public void setChartable(final boolean b) {
 		this.chartable = b;
 	}
 
@@ -176,8 +163,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @param string
 	 */
-	public void setColumnName(final String string)
-	{
+	public void setColumnName(final String string) {
 		this.columnName = string;
 	}
 
@@ -186,8 +172,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @param i
 	 */
-	public void setDataType(final int i)
-	{
+	public void setDataType(final int i) {
 		this.dataType = i;
 	}
 
@@ -196,8 +181,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @param string
 	 */
-	public void setDataUnit(final String string)
-	{
+	public void setDataUnit(final String string) {
 		this.dataUnit = string;
 	}
 
@@ -206,8 +190,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @param b
 	 */
-	public void setMonitorByDefault(final boolean b)
-	{
+	public void setMonitorByDefault(final boolean b) {
 		this.monitorByDefault = b;
 	}
 
@@ -216,8 +199,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @param string
 	 */
-	public void setName(final String string)
-	{
+	public void setName(final String string) {
 		this.name = string;
 	}
 
@@ -226,8 +208,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @param string
 	 */
-	public void setShortName(final String string)
-	{
+	public void setShortName(final String string) {
 		this.shortName = string;
 	}
 
@@ -236,8 +217,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @param i
 	 */
-	public void setMaxLength(final int i)
-	{
+	public void setMaxLength(final int i) {
 		this.maxLength = i;
 	}
 
@@ -247,8 +227,7 @@ public class ControllerAttribute implements Serializable
 	 * @param toBeMonitored
 	 *            The toBeMonitored to set
 	 */
-	public void setToBeMonitored(final boolean toBeMonitored)
-	{
+	public void setToBeMonitored(final boolean toBeMonitored) {
 		this.toBeMonitored = toBeMonitored;
 	}
 
@@ -257,8 +236,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @param string
 	 */
-	public void setDisplayName(final String string)
-	{
+	public void setDisplayName(final String string) {
 		this.displayName = string;
 	}
 
@@ -267,12 +245,10 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(final Object obj)
-	{
+	public boolean equals(final Object obj) {
 		// We have over-ridden this method as the ControllerAttribute is
 		// identified with its name uniquely.
-		if (obj instanceof ControllerAttribute)
-		{
+		if (obj instanceof ControllerAttribute) {
 			final ControllerAttribute ca = (ControllerAttribute) obj;
 			return this.getName().equals(ca.getName());
 		}
@@ -284,8 +260,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode()
-	{
+	public int hashCode() {
 		return this.getName().hashCode();
 	}
 
@@ -294,8 +269,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return getName();
 	}
 
@@ -304,8 +278,7 @@ public class ControllerAttribute implements Serializable
 	 * 
 	 * @return String
 	 */
-	public String getControllerId()
-	{
+	public String getControllerId() {
 		return this.controllerId;
 	}
 
@@ -315,35 +288,30 @@ public class ControllerAttribute implements Serializable
 	 * @param controllerId
 	 *            The controllerId to set
 	 */
-	public void setControllerId(final String controllerId)
-	{
+	public void setControllerId(final String controllerId) {
 		this.controllerId = controllerId;
 	}
 
-	public int getOperator() 
-	{
+	public int getOperator() {
 		return operator;
 	}
 
-	public void setOperator(int operator) 
-	{
+	public void setOperator(int operator) {
 		this.operator = operator;
 	}
 
-	public double getConstant() 
-	{
+	public double getConstant() {
 		return constant;
 	}
 
-	public void setConstant(double constant) 
-	{
+	public void setConstant(double constant) {
 		this.constant = constant;
 	}
 
 	public int getVisibilty() {
 		return visibilty;
 	}
-	
+
 	public void setVisibilty(int visibilty) {
 		this.visibilty = visibilty;
 	}

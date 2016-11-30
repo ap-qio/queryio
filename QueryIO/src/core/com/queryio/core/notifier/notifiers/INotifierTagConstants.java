@@ -21,8 +21,7 @@ package com.queryio.core.notifier.notifiers;
  * 
  * @author Exceed Consultancy Services
  */
-public interface INotifierTagConstants
-{
+public interface INotifierTagConstants {
 	String ENABLE_SOCKET_COMM = "EnableSocketComm"; //$NON-NLS-1$
 	String IP = "IP"; //$NON-NLS-1$
 	String SOCKET_PORT = "SocketPort"; //$NON-NLS-1$

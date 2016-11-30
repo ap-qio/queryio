@@ -13,8 +13,7 @@ import org.ks.cm.parser.NullExpression;
 import org.ks.cm.parser.NumberExpression;
 import org.ks.cm.parser.ParameterExpression;
 
-public class TimeDurationFunctionExpression extends FunctionExpression
-{
+public class TimeDurationFunctionExpression extends FunctionExpression {
 	private static final long serialVersionUID = 7526000057010002401L;
 	/* constant representing default date format used */
 	private static final String DATE_FORMAT = "dd_MM_yyyyHH_mm_ss";
@@ -25,8 +24,7 @@ public class TimeDurationFunctionExpression extends FunctionExpression
 	/**
 	 * Constructor for TimeFunctionExpression.
 	 */
-	public TimeDurationFunctionExpression()
-	{
+	public TimeDurationFunctionExpression() {
 		super();
 	}
 
@@ -35,51 +33,52 @@ public class TimeDurationFunctionExpression extends FunctionExpression
 	 * 
 	 * @param args
 	 */
-	public TimeDurationFunctionExpression(final Expression[] args)
-	{
+	public TimeDurationFunctionExpression(final Expression[] args) {
 		super(args);
 	}
 
 	/**
 	 * @see org.ks.cm.parser.Expression#calculate()
 	 */
-	public double calculate() throws ExpressionException
-	{
+	public double calculate() throws ExpressionException {
 		final int argLength = this.args.length;
 		boolean invalid = true;
 
 		// UtilityFunctions.getLogger().info("expression: " + toString());
 
-		switch (this.args.length)
-		{
-			case 5:
+		switch (this.args.length) {
+		case 5: {
+			if ((this.args[0] instanceof NumberExpression /* timeStamp */)
+					&& ((this.args[1] instanceof NullExpression)
+							|| (this.args[1] instanceof ParameterExpression)) /* startTime */
+					&& ((this.args[2] instanceof NullExpression)
+							|| (this.args[2] instanceof ParameterExpression)) /* endTime */
+					&& (this.args[3] instanceof NumberExpression)) /* duration */
 			{
-				if ((this.args[0] instanceof NumberExpression /* timeStamp */)
-						&& ((this.args[1] instanceof NullExpression) || (this.args[1] instanceof ParameterExpression)) /* startTime */
-						&& ((this.args[2] instanceof NullExpression) || (this.args[2] instanceof ParameterExpression)) /* endTime */
-						&& (this.args[3] instanceof NumberExpression)) /* duration */
-				{
-					invalid = false;
-				}
-				break;
+				invalid = false;
 			}
-			case 6:
+			break;
+		}
+		case 6: {
+			if ((this.args[0] instanceof NumberExpression /* timeStamp */)
+					&& (this.args[1] instanceof ParameterExpression /*
+																	 * date
+																	 * format
+																	 */)
+					&& ((this.args[2] instanceof NullExpression)
+							|| (this.args[2] instanceof ParameterExpression)) /* startTime */
+					&& ((this.args[3] instanceof NullExpression)
+							|| (this.args[3] instanceof ParameterExpression)) /* endTime */
+					&& (this.args[4] instanceof NumberExpression)) /* duration */
 			{
-				if ((this.args[0] instanceof NumberExpression /* timeStamp */)
-						&& (this.args[1] instanceof ParameterExpression /* date format */)
-						&& ((this.args[2] instanceof NullExpression) || (this.args[2] instanceof ParameterExpression)) /* startTime */
-						&& ((this.args[3] instanceof NullExpression) || (this.args[3] instanceof ParameterExpression)) /* endTime */
-						&& (this.args[4] instanceof NumberExpression)) /* duration */
-				{
-					invalid = false;
-				}
-				break;
+				invalid = false;
 			}
-			default:
+			break;
+		}
+		default:
 		}
 
-		if (invalid)
-		{
+		if (invalid) {
 			// UtilityFunctions.getLogger().info("expression is invalid");
 			throw new InvalidArgumentsException();
 		}
@@ -97,8 +96,7 @@ public class TimeDurationFunctionExpression extends FunctionExpression
 		 */
 		final String format = (argLength == 5) ? DATE_FORMAT : ((ParameterExpression) this.args[1]).getName();
 
-		if (argLength == 5)
-		{
+		if (argLength == 5) {
 			/* default format is used, so start time is second parameter */
 			startTime = (this.args[1] instanceof ParameterExpression ? ((ParameterExpression) this.args[1]).getName()
 					: null);
@@ -109,9 +107,7 @@ public class TimeDurationFunctionExpression extends FunctionExpression
 
 			/* default format is used, so duration is fourth parameter */
 			durationInMilliSecs = (long) this.args[3].calculate();
-		}
-		else if (argLength == 6)
-		{
+		} else if (argLength == 6) {
 			/* format is specified, so start time is third parameter */
 			startTime = (this.args[2] instanceof ParameterExpression ? ((ParameterExpression) this.args[2]).getName()
 					: null);
@@ -129,34 +125,29 @@ public class TimeDurationFunctionExpression extends FunctionExpression
 		Date endDt = null;
 		Date currDt = null;
 
-		try
-		{
-			if ((startTime != null) && (startTime.trim().length() > 0))
-			{
+		try {
+			if ((startTime != null) && (startTime.trim().length() > 0)) {
 				startDt = ("_0_".equals(startTime) ? new Date(0) : sdf.parse(startTime));
 			}
 
-			if ((endTime != null) && (endTime.trim().length() > 0))
-			{
+			if ((endTime != null) && (endTime.trim().length() > 0)) {
 				endDt = ("_0_".equals(endTime) ? new Date(0) : sdf.parse(endTime));
 			}
 
 			currDt = sdf.parse(sdf.format(new Date(currTime)));
-		}
-		catch (final ParseException e)
-		{
+		} catch (final ParseException e) {
 			throw new InvalidArgumentsException();
 		}
 
-		if ((startDt != null) && (endDt != null))
-		{
+		if ((startDt != null) && (endDt != null)) {
 			// UtilityFunctions.getLogger().info("Start: " + startDt.getTime() +
 			// " Current: " + currDt.getTime() + " End: " + endDt.getTime());
 
 			// time has been specified hence we check if the current time is not
 			// in between specified time return 0.0
-			if ((startDt.getTime() > currDt.getTime() /* no need to check if startDt is > 0 */) || ((endDt.getTime() > 0) && (endDt.getTime() < currDt.getTime())))
-			{
+			if ((startDt.getTime() > currDt
+					.getTime() /* no need to check if startDt is > 0 */)
+					|| ((endDt.getTime() > 0) && (endDt.getTime() < currDt.getTime()))) {
 				return 0.0;
 			}
 		}
@@ -171,39 +162,31 @@ public class TimeDurationFunctionExpression extends FunctionExpression
 		// UtilityFunctions.getLogger().info("durationInMilliSecs: " +
 		// durationInMilliSecs + " value: " + value);
 		// check if duration is specified
-		if (durationInMilliSecs <= 0)
-		{
+		if (durationInMilliSecs <= 0) {
 			return value;
 		}
 
 		// if the expression evaluates to false then remove from the static
 		// Hashtable
-		if (value == 0.0)
-		{
-			if (htDurations != null)
-			{
+		if (value == 0.0) {
+			if (htDurations != null) {
 				htDurations.remove(getKey((argLength == 5) ? this.args[4] : this.args[5]));
 				// UtilityFunctions.getLogger().info("removing from hashtable: "
 				// + htDurations);
 			}
-		}
-		else
-		{
+		} else {
 			final String key = getKey((argLength == 5) ? this.args[4] : this.args[5]);
 			// try to fetch whether this is an active failed rule last time this
 			// fuction was evaluated
 			Long ll = (Long) htDurations.get(key);
-			if (ll == null)
-			{
+			if (ll == null) {
 				// if this is the first time the expression has been evaluated
 				// to true then put in the Hashtable
 				ll = new Long(currTime);
 				htDurations.put(key, ll);
 				// UtilityFunctions.getLogger().info("adding to hashtable: " +
 				// htDurations);
-			}
-			else
-			{
+			} else {
 				// if this is not the first time then get the long value when
 				// this expression had evaluated to be true
 				// for the first time.
@@ -212,8 +195,7 @@ public class TimeDurationFunctionExpression extends FunctionExpression
 				// check whether the expression has evaluated to true for the
 				// specified duration is yes then
 				// set the evaluation of this function to true
-				if ((currTime - lastEvalToTrue) > durationInMilliSecs)
-				{
+				if ((currTime - lastEvalToTrue) > durationInMilliSecs) {
 					return 1.0;
 				}
 			}
@@ -228,30 +210,21 @@ public class TimeDurationFunctionExpression extends FunctionExpression
 	 * @param expr
 	 * @return
 	 */
-	public static String getKey(final Expression expr)
-	{
+	public static String getKey(final Expression expr) {
 		final StringBuffer sBuff = new StringBuffer();
 		final boolean isParamExp = expr instanceof ParameterExpression;
 
-		if (isParamExp)
-		{
+		if (isParamExp) {
 			sBuff.append(((ParameterExpression) expr).getName());
-		}
-		else if (expr instanceof NumberExpression)
-		{
+		} else if (expr instanceof NumberExpression) {
 			sBuff.append(expr.toString());
-		}
-		else
-		{
+		} else {
 			sBuff.append(expr.getClass().getName());
 		}
-		if (!isParamExp)
-		{
+		if (!isParamExp) {
 			final Expression[] expressions = expr.getSubexpressions();
-			if ((expressions != null) && (expressions.length > 0))
-			{
-				for (int i = 0; i < expressions.length; i++)
-				{
+			if ((expressions != null) && (expressions.length > 0)) {
+				for (int i = 0; i < expressions.length; i++) {
 					sBuff.append(getKey(expressions[i]));
 				}
 			}
@@ -264,8 +237,7 @@ public class TimeDurationFunctionExpression extends FunctionExpression
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("timeduration(");
 		sbToString.append(this.printArgs());
 		sbToString.append(')');

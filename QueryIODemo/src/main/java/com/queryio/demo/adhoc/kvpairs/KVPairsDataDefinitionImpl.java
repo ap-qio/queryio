@@ -9,11 +9,13 @@ public class KVPairsDataDefinitionImpl implements IDataDefinition {
 
 	@Override
 	public ArrayList<ColumnMetadata> getColumnMetadata() {
-//		String[] colNames = new String[]{"FILEPATH", "IP", "CPU", "RAM", "DISKREAD", "DISKWRITE", "NETREAD", "NETWRITE"};
-//		String[] sqlTypes = new String[]{"VARCHAR(128)", "VARCHAR(128)", "DECIMAL", "DECIMAL", "DECIMAL", "DECIMAL", "DECIMAL", "DECIMAL"};
-		
+		// String[] colNames = new String[]{"FILEPATH", "IP", "CPU", "RAM",
+		// "DISKREAD", "DISKWRITE", "NETREAD", "NETWRITE"};
+		// String[] sqlTypes = new String[]{"VARCHAR(128)", "VARCHAR(128)",
+		// "DECIMAL", "DECIMAL", "DECIMAL", "DECIMAL", "DECIMAL", "DECIMAL"};
+
 		ArrayList<ColumnMetadata> colMetaDataList = new ArrayList<ColumnMetadata>();
-		
+
 		colMetaDataList.add(new ColumnMetadata("FILEPATH", String.class, 128));
 		colMetaDataList.add(new ColumnMetadata("IP", String.class, 128));
 		colMetaDataList.add(new ColumnMetadata("CPU", Float.class));
@@ -22,15 +24,16 @@ public class KVPairsDataDefinitionImpl implements IDataDefinition {
 		colMetaDataList.add(new ColumnMetadata("DISKWRITE", Float.class));
 		colMetaDataList.add(new ColumnMetadata("NETREAD", Float.class));
 		colMetaDataList.add(new ColumnMetadata("NETWRITE", Float.class));
-		
+
 		return colMetaDataList;
 	}
+
 	@Override
 	public String getTableName() {
 		return "adhoc_kvpairsparserjob";
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		System.out.println(new KVPairsDataDefinitionImpl().getColumnMetadata());
 	}
 }

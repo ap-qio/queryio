@@ -29,8 +29,9 @@ public class QueryIOServicesController extends Thread {
 	}
 
 	public void run() {
-		
-		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Starting QueryIOServicesController for node: " + nodeId);
+
+		if (AppLogger.getLogger().isDebugEnabled())
+			AppLogger.getLogger().debug("Starting QueryIOServicesController for node: " + nodeId);
 		flag = true;
 
 		int port1, port2;
@@ -43,21 +44,19 @@ public class QueryIOServicesController extends Thread {
 			node = NodeDAO.getNode(connection, nodeId);
 			host = HostDAO.getHostDetail(connection, node.getHostId());
 			port1 = QueryIOAgentManager.getOS3ServerPort(host, node);
-			url1 = "http://" + host.getHostIP() + ":" + (port1)
-					+ "/queryio/GetStatus";
+			url1 = "http://" + host.getHostIP() + ":" + (port1) + "/queryio/GetStatus";
 			port2 = QueryIOAgentManager.getHDFSOverFTPServerPort(host, node);
-			url2 = "http://" + host.getHostIP() + ":" + (port2)
-					+ "/hdfs-over-ftp/GetStatus";
+			url2 = "http://" + host.getHostIP() + ":" + (port2) + "/hdfs-over-ftp/GetStatus";
 		} catch (Exception e) {
-			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-					"Failed to start QueryIOServicesController for nodeId: "
-							+ nodeId, e);
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug("Failed to start QueryIOServicesController for nodeId: " + nodeId, e);
 			flag = false;
 		} finally {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Error closing connection.", e);
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("Error closing connection.", e);
 			}
 		}
 		while (flag) {
@@ -77,57 +76,52 @@ public class QueryIOServicesController extends Thread {
 				} catch (Exception e) {
 					status2 = QueryIOConstants.STATUS_NOT_RESPONDING;
 				}
-				
-				QueryIOServiceDAO.updateStatus(connection, nodeId,
-						QueryIOConstants.SERVICE_OS3, status1);
-				QueryIOServiceDAO.updateStatus(connection, nodeId,
-						QueryIOConstants.SERVICE_HDFS_OVER_FTP, status2);
+
+				QueryIOServiceDAO.updateStatus(connection, nodeId, QueryIOConstants.SERVICE_OS3, status1);
+				QueryIOServiceDAO.updateStatus(connection, nodeId, QueryIOConstants.SERVICE_HDFS_OVER_FTP, status2);
 
 			} catch (Exception e) {
-				if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-						"Error occured during QueryIOServices monitoring for nodeId: "
-								+ nodeId, e);
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("Error occured during QueryIOServices monitoring for nodeId: " + nodeId,
+							e);
 				flag = false;
 			} finally {
 				try {
 					CoreDBManager.closeConnection(connection);
 				} catch (Exception e) {
-					if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Error closing connection.", e);
+					if (AppLogger.getLogger().isDebugEnabled())
+						AppLogger.getLogger().debug("Error closing connection.", e);
 				}
 			}
-			if(this.flag)
-			{
-				try 
-				{
+			if (this.flag) {
+				try {
 					Thread.sleep(StartupParameters.getDataFetchIntervalInSeconds() * 1000);
-				}
-				catch (InterruptedException e1) 
-				{
-//					AppLogger.getLogger().fatal(e1.getMessage(), e1);
+				} catch (InterruptedException e1) {
+					// AppLogger.getLogger().fatal(e1.getMessage(), e1);
 				}
 			}
 		}
 	}
 
-	public void stopCollectingData(){
-		if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Stopping QueryIOServicesController for node: " + nodeId);
+	public void stopCollectingData() {
+		if (AppLogger.getLogger().isDebugEnabled())
+			AppLogger.getLogger().debug("Stopping QueryIOServicesController for node: " + nodeId);
 		this.flag = false;
 		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-			QueryIOServiceDAO.updateStatus(connection, nodeId,
-					QueryIOConstants.SERVICE_OS3, QueryIOConstants.STATUS_STOPPED);
-			QueryIOServiceDAO.updateStatus(connection, nodeId,
-					QueryIOConstants.SERVICE_HDFS_OVER_FTP,
+			QueryIOServiceDAO.updateStatus(connection, nodeId, QueryIOConstants.SERVICE_OS3,
+					QueryIOConstants.STATUS_STOPPED);
+			QueryIOServiceDAO.updateStatus(connection, nodeId, QueryIOConstants.SERVICE_HDFS_OVER_FTP,
 					QueryIOConstants.STATUS_STOPPED);
 		} catch (Exception e) {
-			if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug(
-					"Failed to stop QueryIOServicesController for nodeId: "
-							+ nodeId, e);
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug("Failed to stop QueryIOServicesController for nodeId: " + nodeId, e);
 		} finally {
 			try {
 				CoreDBManager.closeConnection(connection);
 			} catch (Exception e) {
-				if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Error closing connection.", e);
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("Error closing connection.", e);
 			}
 		}
 		super.interrupt();

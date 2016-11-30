@@ -794,12 +794,12 @@ public class ApplicationManager {
 		return response;
 	}
 
-	public static QueryIOResponse runJobQuery(final Connection connection ,String jobName, String arguments, boolean isAdHocId, boolean isRecursive,
-			boolean isFilterApply, String filterQuery) {
-//		Connection connection = null;
+	public static QueryIOResponse runJobQuery(final Connection connection, String jobName, String arguments,
+			boolean isAdHocId, boolean isRecursive, boolean isFilterApply, String filterQuery) {
+		// Connection connection = null;
 
 		try {
-//			connection = CoreDBManager.getQueryIODBConnection();
+			// connection = CoreDBManager.getQueryIODBConnection();
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("jobName: " + jobName);
 
@@ -871,14 +871,14 @@ public class ApplicationManager {
 			return QueryIOAgentManager.runJob(host, node, jobConfig, !isAdHocId);
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal("runJob() failed with exception: " + e.getMessage(), e);
-		} 
-//		finally {
-//			try {
-//				CoreDBManager.closeConnection(connection);
-//			} catch (Exception e) {
-//				AppLogger.getLogger().fatal("Error closing database connection.", e);
-//			}
-//		}
+		}
+		// finally {
+		// try {
+		// CoreDBManager.closeConnection(connection);
+		// } catch (Exception e) {
+		// AppLogger.getLogger().fatal("Error closing database connection.", e);
+		// }
+		// }
 
 		return null;
 	}

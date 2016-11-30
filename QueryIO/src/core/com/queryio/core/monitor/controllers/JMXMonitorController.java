@@ -23,18 +23,14 @@ import javax.management.remote.JMXServiceURL;
  * @author Exceed Consultancy Services
  * 
  */
-public class JMXMonitorController extends AbstractJMXController
-{
+public class JMXMonitorController extends AbstractJMXController {
 	@Override
-	public void setInitProperty(String property, String value) throws Exception 
-	{
+	public void setInitProperty(String property, String value) throws Exception {
 		super.setInitProperty(property, value);
 	}
-	
 
 	@Override
-	protected JMXServiceURL getJMXServiceURL() throws Exception
-	{
+	protected JMXServiceURL getJMXServiceURL() throws Exception {
 		final String url = JMXMonitorConstants.DEFAULT_PROTOCOL_START + this.sHostNameOrIPAddress + ":"
 				+ this.iConnectorPort + JMXMonitorConstants.DEFAULT_PROTOCOL_END;
 		return new JMXServiceURL(url);

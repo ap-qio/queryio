@@ -26,90 +26,106 @@ public class TagParserDBSchemaUpdator {
 	String className;
 	String namenodeId;
 	String fileTypes;
-	public TagParserDBSchemaUpdator(String path, String className, String namenodeId, String fileTypes){
+
+	public TagParserDBSchemaUpdator(String path, String className, String namenodeId, String fileTypes) {
 		this.jarFilePath = path;
 		this.className = className;
 		this.namenodeId = namenodeId;
 		this.fileTypes = fileTypes;
 	}
-	public QueryIOResponse parse(){
+
+	public QueryIOResponse parse() {
 		File jarFile = new File(jarFilePath);
 		List<TableMetadata> tableMetadataList = new ArrayList<TableMetadata>();
 		Connection connection = null;
-		try{
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-		    URL fileURL = jarFile.toURI().toURL();  
-		    String jarURL = "jar:" + fileURL + "!/";  
-		    URL urls [] = { new URL(jarURL) };  
-		    URLClassLoader ucl = new URLClassLoader(urls, this.getClass().getClassLoader());
-	
-	    	if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Loading class: " + className);
-    		Class<IDataTagParser> clazz = (Class<IDataTagParser>) ucl.loadClass(className);
-    		
-    		IDataTagParser parser = null;
-    		
-//			IDataTagParser parser = clazz.newInstance();
-			if (clazz!=null) {
+			URL fileURL = jarFile.toURI().toURL();
+			String jarURL = "jar:" + fileURL + "!/";
+			URL urls[] = { new URL(jarURL) };
+			URLClassLoader ucl = new URLClassLoader(urls, this.getClass().getClassLoader());
+
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug("Loading class: " + className);
+			Class<IDataTagParser> clazz = (Class<IDataTagParser>) ucl.loadClass(className);
+
+			IDataTagParser parser = null;
+
+			// IDataTagParser parser = clazz.newInstance();
+			if (clazz != null) {
 				try {
-					parser = (AbstractDataTagParser) clazz.getConstructor(JSONObject.class, Map.class).newInstance(null, null);
-				} catch(Exception e) {
+					parser = (AbstractDataTagParser) clazz.getConstructor(JSONObject.class, Map.class).newInstance(null,
+							null);
+				} catch (Exception e) {
 					e.printStackTrace();
-//					AppLogger.getLogger().fatal("Parser class could not be initialized.", e);
-//					throw new IOException("Parser class could not be initialized,", e);
+					// AppLogger.getLogger().fatal("Parser class could not be
+					// initialized.", e);
+					// throw new IOException("Parser class could not be
+					// initialized,", e);
 				}
 			}
-			if (parser != null)
-			{
-				if (AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Class "+parser.getClass()+" is loaded");
-				
-				for(String fileType : fileTypes.split(",")){
+			if (parser != null) {
+				if (AppLogger.getLogger().isDebugEnabled())
+					AppLogger.getLogger().debug("Class " + parser.getClass() + " is loaded");
+
+				for (String fileType : fileTypes.split(",")) {
 					fileType = fileType.toLowerCase().trim();
-					if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Fetching TableMetadata tor filetype: " + fileType);
+					if (AppLogger.getLogger().isDebugEnabled())
+						AppLogger.getLogger().debug("Fetching TableMetadata tor filetype: " + fileType);
 					TableMetadata tableMetadata = parser.getTableMetaData(fileType);
-					if(tableMetadata == null){
+					if (tableMetadata == null) {
 						return new QueryIOResponse(false, "Given TagParser is not supported for fileType: " + fileType);
 					}
-					if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Found table: "+tableMetadata.getTableName()+" tor filetype: " + fileType);
+					if (AppLogger.getLogger().isDebugEnabled())
+						AppLogger.getLogger()
+								.debug("Found table: " + tableMetadata.getTableName() + " tor filetype: " + fileType);
 					tableMetadataList.add(tableMetadata);
 				}
 				Connection connection1 = null;
 				String exceptions = null;
-				try{
-					connection1 = CoreDBManager.getCustomTagDBConnection(NodeDAO.getDBNameForNameNodeMapping(connection, namenodeId));
-					DBTypeProperties props = CustomTagDBConfigManager.getDatabaseDataTypeMap(NodeDAO.getDBNameForNameNodeMapping(connection, namenodeId), null);
-					
-					for(TableMetadata tableMetadata : tableMetadataList){
-						try{
-							if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Verifying table: DATATAGS_" + tableMetadata.getTableName());
-							if(!UserDefinedTagDAO.verifyDBSchema(connection1, props, tableMetadata)){
-								if(AppLogger.getLogger().isDebugEnabled()) AppLogger.getLogger().debug("Creating table: " + "DATATAGS_" + tableMetadata.getTableName());
-								UserDefinedTagDAO.createDatabaseTable(connection1, props, "DATATAGS_" + tableMetadata.getTableName(), tableMetadata.getColumnData());
+				try {
+					connection1 = CoreDBManager
+							.getCustomTagDBConnection(NodeDAO.getDBNameForNameNodeMapping(connection, namenodeId));
+					DBTypeProperties props = CustomTagDBConfigManager
+							.getDatabaseDataTypeMap(NodeDAO.getDBNameForNameNodeMapping(connection, namenodeId), null);
+
+					for (TableMetadata tableMetadata : tableMetadataList) {
+						try {
+							if (AppLogger.getLogger().isDebugEnabled())
+								AppLogger.getLogger()
+										.debug("Verifying table: DATATAGS_" + tableMetadata.getTableName());
+							if (!UserDefinedTagDAO.verifyDBSchema(connection1, props, tableMetadata)) {
+								if (AppLogger.getLogger().isDebugEnabled())
+									AppLogger.getLogger()
+											.debug("Creating table: " + "DATATAGS_" + tableMetadata.getTableName());
+								UserDefinedTagDAO.createDatabaseTable(connection1, props,
+										"DATATAGS_" + tableMetadata.getTableName(), tableMetadata.getColumnData());
 							}
-						}catch(Exception e){
+						} catch (Exception e) {
 							AppLogger.getLogger().fatal(e.getLocalizedMessage(), e);
 							exceptions += e.getLocalizedMessage() + "\n";
 						}
-					}	
-					if(exceptions != null){
+					}
+					if (exceptions != null) {
 						throw new Exception(exceptions);
 					}
-				}catch(Exception e){
+				} catch (Exception e) {
 					return new QueryIOResponse(false, e.getMessage());
-				}finally{
+				} finally {
 					CoreDBManager.closeConnection(connection1);
 				}
 			}
-	    	 
-    	}catch(Exception e){
-    		return new QueryIOResponse(false, e.getMessage());
-    	}finally{
-    		try{
-    			CoreDBManager.closeConnection(connection);
-    		}catch(Exception e){
-    			
-    		}
-    		
-    	}
-    	return new QueryIOResponse(true, "");
-	}		
+
+		} catch (Exception e) {
+			return new QueryIOResponse(false, e.getMessage());
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+
+			}
+
+		}
+		return new QueryIOResponse(true, "");
+	}
 }

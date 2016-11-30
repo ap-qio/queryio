@@ -24,21 +24,20 @@ import java.util.List;
  * 
  * @author Exceed Consultancy Services
  */
-public class NotifyBean
-{
-		
+public class NotifyBean {
+
 	private transient List attachments = null;
-	
+
 	// Email Notification
 	private boolean emailEnabled = false;
 	private String emailSenderName;
-	private String emailSenderAddress ;
+	private String emailSenderAddress;
 	private boolean securedProtocol = false;
 	private String emailSMTPServer;
-	private String emailSMTPPort ;
+	private String emailSMTPPort;
 	private boolean authRequired = false;
-	private String emailUsername ;
-	private String emailPassword ;
+	private String emailUsername;
+	private String emailPassword;
 	// SMS Notification
 	private boolean smsEnabled = false;
 	private String smsNumber;
@@ -47,53 +46,53 @@ public class NotifyBean
 	private String smsModel;
 	private String smsSelectedModel;
 	private String smsBaudRate;
-//	// Yahoo Notification
-//	private boolean ymEnabled = false;
-//	private String ymID;
-//	private String ymPassword;
-//	// MSN Notification
-//	private boolean msnEnabled = false;
-//	private String msnID;
-//	private String msnPassword;
-//	// AOL Notification
-//	private boolean aolEnabled = false;
-//	private String aolID;
-//	private String aolPassword;
-//	// Custom Notification
-//	private boolean customEnabled = false;
-//	private String customProgram;
+	// // Yahoo Notification
+	// private boolean ymEnabled = false;
+	// private String ymID;
+	// private String ymPassword;
+	// // MSN Notification
+	// private boolean msnEnabled = false;
+	// private String msnID;
+	// private String msnPassword;
+	// // AOL Notification
+	// private boolean aolEnabled = false;
+	// private String aolID;
+	// private String aolPassword;
+	// // Custom Notification
+	// private boolean customEnabled = false;
+	// private String customProgram;
 	// Log Notification
 	private boolean logEnabled = false;
 	private String logFilePath;
-//	// Database notification
-//	private boolean databaseEnabled = false;
-//	private String databaseDriver = null;
-//	private String databaseUser = null;
-//	private String databasePassword = null;
-//	private String databaseJar = null;
-//	private String databaseURL = null;
-//	private String databaseTable = null;
-//	private String databaseColumn = null;
-//	
-//	// SNMP Trap notification
-//	private boolean trapEnabled = false;
-//	private String trapHostName = null;
-//	private String trapPort = null;
-//	private String trapVersion = null;
-//	private String trapCommunity = null;
-//	private String trapAuthType = null;
-//	private String trapUserName = null;
-//	private String trapPassword = null;
-//	private String trapPrivacyType = null;
-//	private String trapPrivacyPassword = null;
-//	
-//	private boolean espEnabled = false;
-//	private String espEndPoint = null;
-//	private String espAppID = null;
-//	private String espProcessName = null;
-//	private String espEnvironment = null;
-//	//private boolean espEnabledOnFailure = false;
-	
+	// // Database notification
+	// private boolean databaseEnabled = false;
+	// private String databaseDriver = null;
+	// private String databaseUser = null;
+	// private String databasePassword = null;
+	// private String databaseJar = null;
+	// private String databaseURL = null;
+	// private String databaseTable = null;
+	// private String databaseColumn = null;
+	//
+	// // SNMP Trap notification
+	// private boolean trapEnabled = false;
+	// private String trapHostName = null;
+	// private String trapPort = null;
+	// private String trapVersion = null;
+	// private String trapCommunity = null;
+	// private String trapAuthType = null;
+	// private String trapUserName = null;
+	// private String trapPassword = null;
+	// private String trapPrivacyType = null;
+	// private String trapPrivacyPassword = null;
+	//
+	// private boolean espEnabled = false;
+	// private String espEndPoint = null;
+	// private String espAppID = null;
+	// private String espProcessName = null;
+	// private String espEnvironment = null;
+	// //private boolean espEnabledOnFailure = false;
+
 	private int validateClicked = -1;
 
 	/**
@@ -101,8 +100,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public boolean isEmailEnabled()
-	{
+	public boolean isEmailEnabled() {
 		return this.emailEnabled;
 	}
 
@@ -111,8 +109,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public String getEmailSenderName()
-	{
+	public String getEmailSenderName() {
 		return this.emailSenderName;
 	}
 
@@ -121,8 +118,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public String getEmailSenderAddress()
-	{
+	public String getEmailSenderAddress() {
 		return this.emailSenderAddress;
 	}
 
@@ -131,8 +127,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public String getEmailSMTPServer()
-	{
+	public String getEmailSMTPServer() {
 		return this.emailSMTPServer;
 	}
 
@@ -141,8 +136,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public String getEmailSMTPPort()
-	{
+	public String getEmailSMTPPort() {
 		return this.emailSMTPPort;
 	}
 
@@ -151,8 +145,7 @@ public class NotifyBean
 	 * 
 	 * @return boolean
 	 */
-	public boolean isAuthRequired()
-	{
+	public boolean isAuthRequired() {
 		return this.authRequired;
 	}
 
@@ -161,8 +154,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public String getEmailUsername()
-	{
+	public String getEmailUsername() {
 		return this.emailUsername;
 	}
 
@@ -171,8 +163,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public String getEmailPassword()
-	{
+	public String getEmailPassword() {
 		return this.emailPassword;
 	}
 
@@ -181,8 +172,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public boolean isSmsEnabled()
-	{
+	public boolean isSmsEnabled() {
 		return this.smsEnabled;
 	}
 
@@ -191,8 +181,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public String getSmsNumber()
-	{
+	public String getSmsNumber() {
 		return this.smsNumber;
 	}
 
@@ -201,8 +190,7 @@ public class NotifyBean
 	 * 
 	 * @return
 	 */
-	public String getSmsSerialPort()
-	{
+	public String getSmsSerialPort() {
 		return this.smsSerialPort;
 	}
 
@@ -211,8 +199,7 @@ public class NotifyBean
 	 * 
 	 * @param b
 	 */
-	public void setEmailEnabled(final boolean b)
-	{
+	public void setEmailEnabled(final boolean b) {
 		this.emailEnabled = b;
 	}
 
@@ -221,8 +208,7 @@ public class NotifyBean
 	 * 
 	 * @param string
 	 */
-	public void setEmailSenderName(final String string)
-	{
+	public void setEmailSenderName(final String string) {
 		this.emailSenderName = string;
 	}
 
@@ -231,8 +217,7 @@ public class NotifyBean
 	 * 
 	 * @param string
 	 */
-	public void setEmailSenderAddress(final String string)
-	{
+	public void setEmailSenderAddress(final String string) {
 		this.emailSenderAddress = string;
 	}
 
@@ -241,8 +226,7 @@ public class NotifyBean
 	 * 
 	 * @param string
 	 */
-	public void setEmailSMTPServer(final String string)
-	{
+	public void setEmailSMTPServer(final String string) {
 		this.emailSMTPServer = string;
 	}
 
@@ -251,8 +235,7 @@ public class NotifyBean
 	 * 
 	 * @param string
 	 */
-	public void setEmailSMTPPort(final String string)
-	{
+	public void setEmailSMTPPort(final String string) {
 		this.emailSMTPPort = string;
 	}
 
@@ -262,8 +245,7 @@ public class NotifyBean
 	 * @param b
 	 *            void
 	 */
-	public void setAuthRequired(final boolean b)
-	{
+	public void setAuthRequired(final boolean b) {
 		this.authRequired = b;
 	}
 
@@ -272,8 +254,7 @@ public class NotifyBean
 	 * 
 	 * @param string
 	 */
-	public void setEmailUsername(final String string)
-	{
+	public void setEmailUsername(final String string) {
 		this.emailUsername = string;
 	}
 
@@ -282,8 +263,7 @@ public class NotifyBean
 	 * 
 	 * @param string
 	 */
-	public void setEmailPassword(final String string)
-	{
+	public void setEmailPassword(final String string) {
 		this.emailPassword = string;
 	}
 
@@ -292,8 +272,7 @@ public class NotifyBean
 	 * 
 	 * @param b
 	 */
-	public void setSmsEnabled(final boolean b)
-	{
+	public void setSmsEnabled(final boolean b) {
 		this.smsEnabled = b;
 	}
 
@@ -302,8 +281,7 @@ public class NotifyBean
 	 * 
 	 * @param string
 	 */
-	public void setSmsNumber(final String string)
-	{
+	public void setSmsNumber(final String string) {
 		this.smsNumber = string;
 	}
 
@@ -312,28 +290,23 @@ public class NotifyBean
 	 * 
 	 * @param string
 	 */
-	public void setSmsSerialPort(final String string)
-	{
+	public void setSmsSerialPort(final String string) {
 		this.smsSerialPort = string;
 	}
 
-	public int getValidateClicked() 
-	{
+	public int getValidateClicked() {
 		return validateClicked;
 	}
 
-	public void setValidateClicked(int validateClicked) 
-	{
+	public void setValidateClicked(int validateClicked) {
 		this.validateClicked = validateClicked;
 	}
-	
-	public boolean isSecuredProtocol() 
-	{
+
+	public boolean isSecuredProtocol() {
 		return securedProtocol;
 	}
 
-	public void setSecuredProtocol(boolean securedProtocol) 
-	{
+	public void setSecuredProtocol(boolean securedProtocol) {
 		this.securedProtocol = securedProtocol;
 	}
 
@@ -342,8 +315,7 @@ public class NotifyBean
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("NotifyBean: ");
 		sbToString.append(" EmailEnabled=");
 		sbToString.append(this.emailEnabled);
@@ -373,53 +345,43 @@ public class NotifyBean
 		return sbToString.toString();
 	}
 
-	public boolean isLogEnabled() 
-	{
+	public boolean isLogEnabled() {
 		return logEnabled;
 	}
 
-	public void setLogEnabled(boolean logEnabled) 
-	{
+	public void setLogEnabled(boolean logEnabled) {
 		this.logEnabled = logEnabled;
 	}
 
-	public String getLogFilePath() 
-	{
+	public String getLogFilePath() {
 		return logFilePath;
 	}
 
-	public void setLogFilePath(String logFilePath) 
-	{
+	public void setLogFilePath(String logFilePath) {
 		this.logFilePath = logFilePath;
 	}
 
-	public String getSmsManufacturer() 
-	{
+	public String getSmsManufacturer() {
 		return smsManufacturer;
 	}
 
-	public void setSmsManufacturer(String smsManufacturer) 
-	{
+	public void setSmsManufacturer(String smsManufacturer) {
 		this.smsManufacturer = smsManufacturer;
 	}
 
-	public String getSmsModel() 
-	{
+	public String getSmsModel() {
 		return smsModel;
 	}
 
-	public void setSmsModel(String smsModel) 
-	{
+	public void setSmsModel(String smsModel) {
 		this.smsModel = smsModel;
 	}
 
-	public String getSmsBaudRate() 
-	{
+	public String getSmsBaudRate() {
 		return smsBaudRate;
 	}
 
-	public void setSmsBaudRate(String smsBaudRate) 
-	{
+	public void setSmsBaudRate(String smsBaudRate) {
 		this.smsBaudRate = smsBaudRate;
 	}
 
@@ -431,13 +393,11 @@ public class NotifyBean
 		this.smsSelectedModel = smsSelectedModel;
 	}
 
-	public List getAttachments()
-	{
+	public List getAttachments() {
 		return attachments;
 	}
 
-	public void setAttachments(List attachments)
-	{
+	public void setAttachments(List attachments) {
 		this.attachments = attachments;
 	}
 }

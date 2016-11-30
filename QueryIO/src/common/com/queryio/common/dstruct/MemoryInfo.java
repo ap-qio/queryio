@@ -21,8 +21,7 @@ package com.queryio.common.dstruct;
  * @author Exceed Consultancy Services
  * 
  */
-public class MemoryInfo
-{
+public class MemoryInfo {
 	private int iTotal;
 	private int iUsed;
 	private int iAvailable;
@@ -31,15 +30,14 @@ public class MemoryInfo
 	/**
 	 * Constructs MemoryInfo object
 	 * 
-	 * @param total -
-	 *            total memory
-	 * @param used -
-	 *            used memory
-	 * @param available -
-	 *            available memory
+	 * @param total
+	 *            - total memory
+	 * @param used
+	 *            - used memory
+	 * @param available
+	 *            - available memory
 	 */
-	public MemoryInfo(final int total, final int used, final int available)
-	{
+	public MemoryInfo(final int total, final int used, final int available) {
 		this.iTotal = total;
 		this.iUsed = used;
 		this.iAvailable = available;
@@ -49,17 +47,16 @@ public class MemoryInfo
 	/**
 	 * Constructs MemoryInfo object
 	 * 
-	 * @param total -
-	 *            total memory
-	 * @param used -
-	 *            used memory
-	 * @param available -
-	 *            available memory
-	 * @param pageFault -
-	 *            page faults per sec
+	 * @param total
+	 *            - total memory
+	 * @param used
+	 *            - used memory
+	 * @param available
+	 *            - available memory
+	 * @param pageFault
+	 *            - page faults per sec
 	 */
-	public MemoryInfo(final int total, final int used, final int available, final float pageFaultRate)
-	{
+	public MemoryInfo(final int total, final int used, final int available, final float pageFaultRate) {
 		this.iTotal = total;
 		this.iUsed = used;
 		this.iAvailable = available;
@@ -71,10 +68,8 @@ public class MemoryInfo
 	 * 
 	 * @return total
 	 */
-	public int getTotal() throws Exception
-	{
-		if ((this.iTotal < 0) || (this.iTotal > Float.POSITIVE_INFINITY))
-		{
+	public int getTotal() throws Exception {
+		if ((this.iTotal < 0) || (this.iTotal > Float.POSITIVE_INFINITY)) {
 			throw new Exception("Total memory incorrect");
 		}
 		return this.iTotal;
@@ -85,8 +80,7 @@ public class MemoryInfo
 	 * 
 	 * @param total
 	 */
-	public void setTotal(final int total)
-	{
+	public void setTotal(final int total) {
 		this.iTotal = total;
 	}
 
@@ -95,10 +89,8 @@ public class MemoryInfo
 	 * 
 	 * @return used
 	 */
-	public int getUsed() throws Exception
-	{
-		if ((this.iUsed < 0) || (this.iUsed > Float.POSITIVE_INFINITY))
-		{
+	public int getUsed() throws Exception {
+		if ((this.iUsed < 0) || (this.iUsed > Float.POSITIVE_INFINITY)) {
 			throw new Exception("Used memory is incorrect");
 		}
 		return this.iUsed;
@@ -109,8 +101,7 @@ public class MemoryInfo
 	 * 
 	 * @param mem
 	 */
-	public void setUsed(final int mem)
-	{
+	public void setUsed(final int mem) {
 		this.iUsed = mem;
 	}
 
@@ -119,8 +110,7 @@ public class MemoryInfo
 	 * 
 	 * @return available
 	 */
-	public int getAvailable()
-	{
+	public int getAvailable() {
 		return this.iAvailable;
 	}
 
@@ -129,8 +119,7 @@ public class MemoryInfo
 	 * 
 	 * @param available
 	 */
-	public void setAvailable(final int available)
-	{
+	public void setAvailable(final int available) {
 		this.iAvailable = available;
 	}
 
@@ -139,8 +128,7 @@ public class MemoryInfo
 	 * 
 	 * @return no. of page faults per sec
 	 */
-	public float getPageFaultRate()
-	{
+	public float getPageFaultRate() {
 		return this.fPageFaultRate;
 	}
 
@@ -149,8 +137,7 @@ public class MemoryInfo
 	 * 
 	 * @param faultRate
 	 */
-	public void setPageFaultRate(final float faultRate)
-	{
+	public void setPageFaultRate(final float faultRate) {
 		this.fPageFaultRate = faultRate;
 	}
 }

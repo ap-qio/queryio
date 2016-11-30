@@ -17,10 +17,8 @@
  */
 package com.queryio.sysmoncommon.sysmon.parser;
 
-public class LinuxRHD_7_2_Top_Unknown_v2_Parser extends LinuxParserForTop_Unknown_v2
-{
-	public LinuxRHD_7_2_Top_Unknown_v2_Parser()
-	{
+public class LinuxRHD_7_2_Top_Unknown_v2_Parser extends LinuxParserForTop_Unknown_v2 {
+	public LinuxRHD_7_2_Top_Unknown_v2_Parser() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

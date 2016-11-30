@@ -27,8 +27,7 @@ import com.queryio.common.util.ResourceManager;
  * 
  * @author Exceed Consultancy Services
  */
-class CustomCarrierSender
-{
+class CustomCarrierSender {
 	static final transient ResourceManager RM = CommonResourceManager.loadResources("Apcommon_AppException"); //$NON-NLS-1$
 
 	private CustomCarrierNotifier customCarrierNotifier = null;
@@ -36,8 +35,7 @@ class CustomCarrierSender
 	/**
 	 * @param ymNotif
 	 */
-	CustomCarrierSender(final CustomCarrierNotifier customCarrierNotifier)
-	{
+	CustomCarrierSender(final CustomCarrierNotifier customCarrierNotifier) {
 		this.customCarrierNotifier = customCarrierNotifier;
 	}
 
@@ -46,20 +44,15 @@ class CustomCarrierSender
 	 * 
 	 * @throws Exception
 	 */
-	void sendMessage() throws Exception
-	{
-		try
-		{
+	void sendMessage() throws Exception {
+		try {
 			final LinkedList llCustomCarriers = this.customCarrierNotifier.getRecepientsUserIds();
 			final int iSize = llCustomCarriers.size();
 			final String strMsg = this.customCarrierNotifier.getMessage();
-			for (int i = 0; i < iSize; i++)
-			{
+			for (int i = 0; i < iSize; i++) {
 				Runtime.getRuntime().exec(((String) llCustomCarriers.get(i)) + " " + strMsg); //$NON-NLS-1$ //$IGN_String_concatenation_in_loop$
 			}
-		}
-		catch (final Exception ex)
-		{
+		} catch (final Exception ex) {
 			throw new RuntimeException(RM.getString("VALUE_ERR_NOTIFICATION") + ex.toString()); //$NON-NLS-1$
 		}
 	}

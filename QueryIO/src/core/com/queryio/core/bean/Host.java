@@ -2,8 +2,7 @@ package com.queryio.core.bean;
 
 import java.io.Serializable;
 
-public class Host implements Serializable
-{
+public class Host implements Serializable {
 	/**
 	 * 
 	 */
@@ -17,7 +16,7 @@ public class Host implements Serializable
 	private String agentPort;
 	private boolean monitor;
 	private boolean isWindows;
-	
+
 	public String getRackName() {
 		return rackName;
 	}
@@ -26,47 +25,44 @@ public class Host implements Serializable
 		this.rackName = rackName;
 	}
 
-	public String getHostIP()
-	{
+	public String getHostIP() {
 		return hostIP;
 	}
-	
-	public void setHostIP(String hostIP)
-	{
+
+	public void setHostIP(String hostIP) {
 		this.hostIP = hostIP;
 	}
-	
-	public String getInstallDirPath()
-	{
+
+	public String getInstallDirPath() {
 		return installDirPath;
 	}
 
-	public void setInstallDirPath(String dirPath)
-	{
+	public void setInstallDirPath(String dirPath) {
 		this.installDirPath = dirPath;
 	}
 
-	public int getId(){
+	public int getId() {
 		return this.id;
 	}
-	
-	public void setId(int id){
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public String toString()
-	{	
-		return ("HostIP: " + this.hostIP+" ID :"+this.id);
+
+	public String toString() {
+		return ("HostIP: " + this.hostIP + " ID :" + this.id);
 	}
-	public boolean equals(Object o){
-		if(o instanceof Host){
+
+	public boolean equals(Object o) {
+		if (o instanceof Host) {
 			Host h = (Host) o;
-			if(this.id == h.id)
+			if (this.id == h.id)
 				return true;
 		}
 		return false;
 	}
-	public int hashCode(){
+
+	public int hashCode() {
 		int result = 1;
 		result += 31 * this.id;
 		result += 31 * (this.hostIP != null ? this.hostIP.hashCode() : 0);
@@ -76,6 +72,7 @@ public class Host implements Serializable
 		result += 31 * (this.agentPort != null ? this.agentPort.hashCode() : 0);
 		return result;
 	}
+
 	public String getStatus() {
 		return status;
 	}

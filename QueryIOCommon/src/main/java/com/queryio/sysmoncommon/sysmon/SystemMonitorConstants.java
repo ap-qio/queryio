@@ -1,10 +1,10 @@
 package com.queryio.sysmoncommon.sysmon;
+
 import java.sql.Types;
 
-public interface SystemMonitorConstants
-{
+public interface SystemMonitorConstants {
 	String ROOT_NODE = "System Attributes";
-	
+
 	String CPU = "cpu";
 	String CPU_TOTAL_USAGE = "Total CPU Usage";
 	String CPU_USAGE = "CPU Usage";
@@ -43,7 +43,7 @@ public interface SystemMonitorConstants
 	String NETWORK_TOTAL_DATA_SENT_SUFFIX = "total_network_data_sent";
 	String NETWORK_UTILIZATION_SUFFIX = "network_utilization";
 	String NETWORK_KB_RECEIVED_SUFFIX = "kb_recd";
-	String NETWORK_KB_SENT_SUFFIX = "kb_sent";	
+	String NETWORK_KB_SENT_SUFFIX = "kb_sent";
 	// Column name prefix and suffix and
 	String NAME_ID_SEPERATOR = "#";
 	String NETWORK_COL_PREFIX = "NetworkInterface_interface";
@@ -110,25 +110,25 @@ public interface SystemMonitorConstants
 	String PROCESSOR_TIME_SUFFIX = "processor_time";
 	String PROCESSOR_THT_SUFFIX = "thread_count";
 	String PROCESSOR_OWNER_SUFFIX = "owner";
-	String [] PROCESS_COLUMNS = {PROCESS_ID, PROCESS_NAME, MEMORY_USAGE, PROCESSOR_TIME};
-	int [] PROCESS_COL_TYPES = {Types.INTEGER, Types.VARCHAR, Types.INTEGER, Types.DOUBLE};
-	
-	String [] PROCESS_COLUMNS_WITH_OWNER = {PROCESS_ID, PROCESS_NAME, MEMORY_USAGE, PROCESSOR_TIME, PROCESSOR_OWNER};
-	int [] PROCESS_COL_TYPES_WITH_OWNER = {Types.INTEGER, Types.VARCHAR, Types.INTEGER, Types.DOUBLE, Types.VARCHAR};
+	String[] PROCESS_COLUMNS = { PROCESS_ID, PROCESS_NAME, MEMORY_USAGE, PROCESSOR_TIME };
+	int[] PROCESS_COL_TYPES = { Types.INTEGER, Types.VARCHAR, Types.INTEGER, Types.DOUBLE };
+
+	String[] PROCESS_COLUMNS_WITH_OWNER = { PROCESS_ID, PROCESS_NAME, MEMORY_USAGE, PROCESSOR_TIME, PROCESSOR_OWNER };
+	int[] PROCESS_COL_TYPES_WITH_OWNER = { Types.INTEGER, Types.VARCHAR, Types.INTEGER, Types.DOUBLE, Types.VARCHAR };
 
 	// Data Units
-//	String NETWORK_RATE = "packet per sec";
+	// String NETWORK_RATE = "packet per sec";
 	String NETWORK_RATE_KB = "KB per sec";
 	String DISK_RATE = "KB per sec";
 	String DISK_SPACE_UNIT = "MB";
-	
+
 	String SEPARATOR = "+";
 	String SEPARATOR_REGEX = "\\+";
 	String SEPARATOR_DISPLAY = ".";
 	String START_SEPARATOR_DISPLAY = " (";
 	String END_SEPARATOR_DISPLAY = ")";
 	String UNDERSCORE = "_";
-	
+
 	/*
 	 * Attributes specific to MAC
 	 */

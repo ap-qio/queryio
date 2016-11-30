@@ -24,15 +24,13 @@ import org.ks.cm.parser.OperatorExpression;
 /**
  * @author Exceed Consultancy Services
  */
-public class ModOperatorExpression extends OperatorExpression
-{
+public class ModOperatorExpression extends OperatorExpression {
 	private static final long serialVersionUID = 7526000057010002395L;
 
 	/**
 	 * @see java.lang.Object#Object()
 	 */
-	public ModOperatorExpression()
-	{
+	public ModOperatorExpression() {
 		super();
 	}
 
@@ -42,32 +40,28 @@ public class ModOperatorExpression extends OperatorExpression
 	 * @param left
 	 * @param right
 	 */
-	public ModOperatorExpression(final Expression left, final Expression right)
-	{
+	public ModOperatorExpression(final Expression left, final Expression right) {
 		super(left, right);
 	}
 
 	/**
 	 * @see org.ks.cm.parser.Expression#calculate()
 	 */
-	public double calculate() throws ExpressionException
-	{
+	public double calculate() throws ExpressionException {
 		return this.left.calculate() % this.right.calculate();
 	}
 
 	/**
 	 * @see org.ks.cm.parser.OperatorExpression#getPriority()
 	 */
-	public byte getPriority()
-	{
+	public byte getPriority() {
 		return 100;
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer('[');
 		sbToString.append(this.left.toString());
 		sbToString.append('&');

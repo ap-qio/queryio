@@ -7,7 +7,7 @@ import java.io.IOException;
 import org.apache.hadoop.io.Writable;
 
 public class Record implements Writable {
-	
+
 	protected String label;
 	protected Long tickStartTime;
 	protected Long tickEndTime;
@@ -17,15 +17,14 @@ public class Record implements Writable {
 	protected Boolean success;
 	protected int sampleValue;
 	protected Long taskCount;
-	
-	
+
 	public Record() {
-		
+
 	}
-	
-	public Record(String label, Long tickStartTime, Long tickEndTime , Double latency, Long bytes,
-			Long errorCount, Boolean success, int sampleValue, Long taskCount) {
-		
+
+	public Record(String label, Long tickStartTime, Long tickEndTime, Double latency, Long bytes, Long errorCount,
+			Boolean success, int sampleValue, Long taskCount) {
+
 		this.label = label;
 		this.tickStartTime = tickStartTime;
 		this.tickEndTime = tickEndTime;
@@ -36,9 +35,9 @@ public class Record implements Writable {
 		this.sampleValue = sampleValue;
 		this.taskCount = taskCount;
 	}
-	
+
 	public Record(Record record) {
-		
+
 		this.label = record.label;
 		this.tickStartTime = record.tickStartTime;
 		this.tickEndTime = record.tickEndTime;
@@ -49,39 +48,49 @@ public class Record implements Writable {
 		this.sampleValue = record.sampleValue;
 		this.taskCount = record.taskCount;
 	}
-	
+
 	@Override
 	public String toString() {
-		return label + "," + tickStartTime + "," + tickEndTime + "," + sampleValue + "," + latency + "," + bytes + "," + errorCount + "," + success + "," + taskCount;
+		return label + "," + tickStartTime + "," + tickEndTime + "," + sampleValue + "," + latency + "," + bytes + ","
+				+ errorCount + "," + success + "," + taskCount;
 	}
 
 	public String getLabel() {
 		return label;
 	}
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
+
 	public Boolean getSuccess() {
 		return success;
 	}
+
 	public void setSuccess(Boolean success) {
 		this.success = success;
 	}
+
 	public Long getBytes() {
 		return bytes;
 	}
+
 	public void setBytes(Long bytes) {
 		this.bytes = bytes;
 	}
+
 	public Long getErrorCount() {
 		return errorCount;
 	}
+
 	public void setErrorCount(Long errorCount) {
 		this.errorCount = errorCount;
 	}
+
 	public Double getLatency() {
 		return latency;
 	}
+
 	public void setLatency(Double latency) {
 		this.latency = latency;
 	}
@@ -102,7 +111,7 @@ public class Record implements Writable {
 
 	@Override
 	public void readFields(DataInput in) throws IOException {
-		
+
 		label = in.readUTF();
 		tickStartTime = in.readLong();
 		tickEndTime = in.readLong();

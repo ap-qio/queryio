@@ -23,10 +23,8 @@ package com.queryio.core.notifier.notifiers;
  * 
  * @author Exceed Consultancy Services
  */
-final class NotifierConstants
-{
-	private NotifierConstants()
-	{
+final class NotifierConstants {
+	private NotifierConstants() {
 		// Private Contructor provided
 	}
 

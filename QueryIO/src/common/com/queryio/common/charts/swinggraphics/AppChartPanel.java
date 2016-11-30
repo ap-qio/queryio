@@ -29,8 +29,7 @@ import com.queryio.common.charts.independent.AppChart;
  * 
  * @author Exceed Consultancy Services
  */
-public class AppChartPanel extends JPanel
-{
+public class AppChartPanel extends JPanel {
 	private static final long serialVersionUID = 752600005701000031L;
 	AppChart chartObject;
 	private BufferedImage chartImage;
@@ -40,8 +39,7 @@ public class AppChartPanel extends JPanel
 	 * 
 	 * @see java.awt.Component#paint(java.awt.Graphics)
 	 */
-	public void paint(final Graphics g)
-	{
+	public void paint(final Graphics g) {
 		final int width = this.getWidth();
 		final int height = this.getHeight();
 
@@ -55,8 +53,7 @@ public class AppChartPanel extends JPanel
 	 * 
 	 * @return
 	 */
-	public final AppChart getChartObject()
-	{
+	public final AppChart getChartObject() {
 		return this.chartObject;
 	}
 
@@ -65,8 +62,7 @@ public class AppChartPanel extends JPanel
 	 * 
 	 * @param object
 	 */
-	public void setChartObject(final AppChart object)
-	{
+	public void setChartObject(final AppChart object) {
 		this.chartObject = object;
 	}
 }

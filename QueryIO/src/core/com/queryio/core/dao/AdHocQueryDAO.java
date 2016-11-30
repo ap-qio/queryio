@@ -73,43 +73,45 @@ public class AdHocQueryDAO {
 		return tableMap;
 	}
 
-//	public static ArrayList getAdHocQueryInfoAllOld(final Connection connection) throws Exception {
-//		ArrayList list = new ArrayList();
-//		Statement statement = null;
-//		ResultSet rs = null;
-//
-//		try {
-//			statement = DatabaseFunctions.getStatement(connection);
-//			rs = CoreDBManager.getQueryResultsForStatement(statement,
-//					"SELECT * FROM  " + TableConstants.TABLE_ADHOC_QUERY);
-//
-//			while (rs.next()) {
-//				AdHocQueryBean bean = new AdHocQueryBean();
-//
-//				bean.setAdHocId(rs.getString(ColumnConstants.COL_ADHOC_QUERY_ADHOCID));
-//				bean.setNamenodeId(rs.getString(ColumnConstants.COL_ADHOC_QUERY_NAMENODEID));
-//				bean.setRmId(rs.getString(ColumnConstants.COL_ADHOC_QUERY_RMID));
-//				bean.setSourcePath(rs.getString(ColumnConstants.COL_ADHOC_QUERY_SOURCEPATH));
-//				bean.setParseRecursive(rs.getBoolean(ColumnConstants.COL_ADHOC_QUERY_PARSE_RECURSIVE));
-//				bean.setType(rs.getString(ColumnConstants.COL_ADHOC_QUERY_TYPE));
-//				bean.setAdHocTableName(rs.getString(ColumnConstants.COL_ADHOC_QUERY_ADHOC_TABLE_NAME));
-//				bean.setFilePathPattern(rs.getString(ColumnConstants.COL_ADHOC_QUERY_FILE_PATH_PATTERN));
-//				bean.setFields(rs.getString(ColumnConstants.COL_ADHOC_QUERY_FIELDS));
-//				bean.setEncoding(rs.getString(ColumnConstants.COL_ADHOC_QUERY_ENCODING));
-//				bean.setArguments(rs.getString(ColumnConstants.COL_ADHOC_QUERY_ARGUMENTS));
-//
-//				list.add(bean);
-//			}
-//		} finally {
-//			try {
-//				DatabaseFunctions.closeSQLObjects(statement, rs);
-//			} catch (Exception e) {
-//				AppLogger.getLogger().fatal("Database Objects could not be closed,Exception: " + e.getMessage(), e);
-//			}
-//		}
-//
-//		return list;
-//	}
+	// public static ArrayList getAdHocQueryInfoAllOld(final Connection
+	// connection) throws Exception {
+	// ArrayList list = new ArrayList();
+	// Statement statement = null;
+	// ResultSet rs = null;
+	//
+	// try {
+	// statement = DatabaseFunctions.getStatement(connection);
+	// rs = CoreDBManager.getQueryResultsForStatement(statement,
+	// "SELECT * FROM " + TableConstants.TABLE_ADHOC_QUERY);
+	//
+	// while (rs.next()) {
+	// AdHocQueryBean bean = new AdHocQueryBean();
+	//
+	// bean.setAdHocId(rs.getString(ColumnConstants.COL_ADHOC_QUERY_ADHOCID));
+	// bean.setNamenodeId(rs.getString(ColumnConstants.COL_ADHOC_QUERY_NAMENODEID));
+	// bean.setRmId(rs.getString(ColumnConstants.COL_ADHOC_QUERY_RMID));
+	// bean.setSourcePath(rs.getString(ColumnConstants.COL_ADHOC_QUERY_SOURCEPATH));
+	// bean.setParseRecursive(rs.getBoolean(ColumnConstants.COL_ADHOC_QUERY_PARSE_RECURSIVE));
+	// bean.setType(rs.getString(ColumnConstants.COL_ADHOC_QUERY_TYPE));
+	// bean.setAdHocTableName(rs.getString(ColumnConstants.COL_ADHOC_QUERY_ADHOC_TABLE_NAME));
+	// bean.setFilePathPattern(rs.getString(ColumnConstants.COL_ADHOC_QUERY_FILE_PATH_PATTERN));
+	// bean.setFields(rs.getString(ColumnConstants.COL_ADHOC_QUERY_FIELDS));
+	// bean.setEncoding(rs.getString(ColumnConstants.COL_ADHOC_QUERY_ENCODING));
+	// bean.setArguments(rs.getString(ColumnConstants.COL_ADHOC_QUERY_ARGUMENTS));
+	//
+	// list.add(bean);
+	// }
+	// } finally {
+	// try {
+	// DatabaseFunctions.closeSQLObjects(statement, rs);
+	// } catch (Exception e) {
+	// AppLogger.getLogger().fatal("Database Objects could not be
+	// closed,Exception: " + e.getMessage(), e);
+	// }
+	// }
+	//
+	// return list;
+	// }
 
 	@SuppressWarnings("unchecked")
 	public static JSONObject getAdHocQueryInfoAll(final Connection connection) throws Exception {
@@ -175,17 +177,17 @@ public class AdHocQueryDAO {
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("Parsed DataTable params - " + params.toString());
 			String query = "SELECT * FROM " + TableConstants.TABLE_ADHOC_QUERY;
-            String originalQuery = query;
+			String originalQuery = query;
 			if (!params.getSearchVal().isEmpty()) {
 				query += " WHERE ( ";
 				if (params.getSearchColIndex() > -1) {
 					query += dbColumnLabels[params.getSearchColIndex()];
 					query += " LIKE '%" + params.getSearchVal() + "%' ";
 				} else {
-					for (int i = 0; i < dbColumnLabels.length; i++){
+					for (int i = 0; i < dbColumnLabels.length; i++) {
 						query += dbColumnLabels[i];
 						query += " LIKE '%" + params.getSearchVal() + "%' ";
-						if(i < dbColumnLabels.length - 1){
+						if (i < dbColumnLabels.length - 1) {
 							query += " OR ";
 						}
 					}
@@ -193,12 +195,13 @@ public class AdHocQueryDAO {
 				query += " )";
 				AppLogger.getLogger().fatal("query : " + query);
 			}
-			
+
 			// get filtered record count
-			 int filterCount = getAdhocQueryCount(connection, "SELECT COUNT(*) FROM (" + query + ") AS COUNTER"); //filtered query count
-			 if (AppLogger.getLogger().isDebugEnabled())
-			 AppLogger.getLogger().debug("ADHOC recordsFiltered: " +
-			 filterCount);
+			int filterCount = getAdhocQueryCount(connection, "SELECT COUNT(*) FROM (" + query + ") AS COUNTER"); // filtered
+																													// query
+																													// count
+			if (AppLogger.getLogger().isDebugEnabled())
+				AppLogger.getLogger().debug("ADHOC recordsFiltered: " + filterCount);
 
 			// apply sorting
 			query += " ORDER BY UPPER ("
@@ -237,14 +240,14 @@ public class AdHocQueryDAO {
 			}
 
 			int totalCount = getAdhocQueryCount(connection, "SELECT COUNT(*) FROM (" + originalQuery + ") AS COUNTER"); // total
-																												// query
-																												// count
+			// query
+			// count
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("recordsTotal: " + totalCount);
 			adhocQueryInfo.put("data", tableAll);
 			adhocQueryInfo.put("draw", params.getDraw());
 			adhocQueryInfo.put("recordsTotal", totalCount);
-			 adhocQueryInfo.put("recordsFiltered", filterCount);
+			adhocQueryInfo.put("recordsFiltered", filterCount);
 		} finally {
 			try {
 				DatabaseFunctions.closeResultSet(rs);
@@ -452,7 +455,7 @@ public class AdHocQueryDAO {
 	@SuppressWarnings("unchecked")
 	public static String getUpdatedArguments(Connection connection, String adHocId, String whereArgs,
 			String resultTableName) // TODO add encoding
-					throws Exception {
+			throws Exception {
 		StringBuilder args = new StringBuilder();
 		AdHocQueryBean adHoc = getAdHocQueryInfo(connection, adHocId);
 

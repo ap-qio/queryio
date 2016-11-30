@@ -17,23 +17,19 @@
  */
 package com.queryio.common.service.wrapper;
 
-public class UniqueIdGenerator
-{
+public class UniqueIdGenerator {
 	private static final Object UNIQUE = new Object();
 	private static long ctr = 0;
 
-	private UniqueIdGenerator()
-	{
+	private UniqueIdGenerator() {
 		// private constructor
 	}
 
 	/**
 	 * @return
 	 */
-	public static String generateUniqueId(final String prefix)
-	{
-		synchronized (UNIQUE)
-		{
+	public static String generateUniqueId(final String prefix) {
+		synchronized (UNIQUE) {
 			return prefix + (++ctr);
 		}
 	}

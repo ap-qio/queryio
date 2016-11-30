@@ -25,8 +25,7 @@ package com.queryio.sysmoncommon.sysmon.protocol;
  * A script handler, that tries to match strings and returns true when it found
  * the string it searched for.
  */
-public class ScriptHandler
-{
+public class ScriptHandler {
 
 	private int matchPos; // current position in the match
 	private byte[] match; // the current bytes to look for
@@ -38,10 +37,8 @@ public class ScriptHandler
 	 * @param match
 	 *            the string to look for
 	 */
-	public void setup(final String strMatch)
-	{
-		if (strMatch == null)
-		{
+	public void setup(final String strMatch) {
+		if (strMatch == null) {
 			return;
 		}
 		this.match = strMatch.getBytes();
@@ -58,26 +55,19 @@ public class ScriptHandler
 	 *            the amount of bytes in the array
 	 * @return true if the string was found, else false
 	 */
-	public boolean match(final byte[] s, final int length)
-	{
-		if (this.done)
-		{
+	public boolean match(final byte[] s, final int length) {
+		if (this.done) {
 			return true;
 		}
-		for (int i = 0; !this.done && (i < length); i++)
-		{
-			if (s[i] == this.match[this.matchPos])
-			{
+		for (int i = 0; !this.done && (i < length); i++) {
+			if (s[i] == this.match[this.matchPos]) {
 				// the whole thing matched so, return the match answer
 				// and reset to use the next match
-				if (++this.matchPos >= this.match.length)
-				{
+				if (++this.matchPos >= this.match.length) {
 					this.done = true;
 					return true;
 				}
-			}
-			else
-			{
+			} else {
 				this.matchPos = 0; // get back to the beginning
 			}
 		}

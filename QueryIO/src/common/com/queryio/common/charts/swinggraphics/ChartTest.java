@@ -37,12 +37,10 @@ import com.queryio.common.exporter.dstruct.Color;
  * 
  * @author Exceed Consultancy Services
  */
-public class ChartTest
-{
+public class ChartTest {
 	private static final Random RNDGENERATOR = new Random();
 
-	public static void main(final String[] args)
-	{
+	public static void main(final String[] args) {
 		final ChartTest chartTest = new ChartTest();
 		final AppChartPanel chartPanel = new AppChartPanel();
 
@@ -56,15 +54,14 @@ public class ChartTest
 		frame.setVisible(true);
 	}
 
-	public AppChart getChartObject()
-	{
+	public AppChart getChartObject() {
 		UIGraphicsFactory.setUserInterfaceClassLoader(this.getClass().getClassLoader());
 		// AppLineChart lineChart = new
 		// AppLineChart(UIGraphicsFactory.getUserInterface(UIGraphicsFactory.USER_INTERFACE_SWING));
 
-		final AppVerticalBarChart lineChart = new AppVerticalBarChart(UIGraphicsFactory
-				.getUserInterface(IProductConstants.USER_INTERFACE_SWING), ChartPropertiesManager.TYPE_RUNTIME_CHARTS,
-				ChartPropertiesManager.TYPE_RUNTIME_CHARTS);
+		final AppVerticalBarChart lineChart = new AppVerticalBarChart(
+				UIGraphicsFactory.getUserInterface(IProductConstants.USER_INTERFACE_SWING),
+				ChartPropertiesManager.TYPE_RUNTIME_CHARTS, ChartPropertiesManager.TYPE_RUNTIME_CHARTS);
 
 		// configure chart object
 		lineChart.setChartTitle("Line Chart"); //$NON-NLS-1$
@@ -88,24 +85,19 @@ public class ChartTest
 	}
 
 	private static void configureSeries(final Series series, final YAxisSeries[] yAxesSeries,
-			final AppVerticalBarChart lineChart)
-	{
+			final AppVerticalBarChart lineChart) {
 		final long ts = 1074742401640L;
 
 		XAxisLongSeries longSeries = null;
 		XAxisStringSeries stringSeries = null;
 
-		if (series instanceof XAxisLongSeries)
-		{
+		if (series instanceof XAxisLongSeries) {
 			longSeries = (XAxisLongSeries) series;
-		}
-		else
-		{
+		} else {
 			stringSeries = (XAxisStringSeries) series;
 		}
 
-		for (int i = 0; i < yAxesSeries.length; i++)
-		{
+		for (int i = 0; i < yAxesSeries.length; i++) {
 			// yAxesSeries[i].setText("Series " + i); //$NON-NLS-1$
 			// //$IGN_String_concatenation_in_loop$
 			lineChart.setYAxisSeriesText(i, "Series " + i); //$NON-NLS-1$
@@ -117,27 +109,21 @@ public class ChartTest
 
 		// configure series's data
 		int value = 0;
-		for (int i = 0; i < series.getCapacity(); i++)
-		{
-			if (longSeries != null)
-			{
+		for (int i = 0; i < series.getCapacity(); i++) {
+			if (longSeries != null) {
 				longSeries.setValue(i, ts + i * 3600 + i * 7 * 100000);
-			}
-			else
-			{
+			} else {
 				stringSeries.setValue(i, "Abcd" + String.valueOf(200 * i)); //$NON-NLS-1$ //$IGN_String_concatenation_in_loop$
 			}
 
-			for (int j = 0; j < yAxesSeries.length; j++)
-			{
+			for (int j = 0; j < yAxesSeries.length; j++) {
 				value = ((i + 1) * (j + 1)) % 9;
 				yAxesSeries[j].setValue(i, value);
 			}
 		}
 	}
 
-	private static int getNextInt()
-	{
+	private static int getNextInt() {
 		return RNDGENERATOR.nextInt(256);
 	}
 

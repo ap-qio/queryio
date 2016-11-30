@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.queryio.core.monitor.alerts.evaluator.AlertEvaluationManager;
+
 /**
  * This is the dataStructure responsible for holding one Rule. This dstruct has
  * got all the info related to the Rule, the ruleId, ruleName, ControllerId,
@@ -30,8 +31,7 @@ import com.queryio.core.monitor.alerts.evaluator.AlertEvaluationManager;
  * @author Exceed Consultancy Services
  */
 
-public class Rule implements Serializable
-{
+public class Rule implements Serializable {
 	private static final long serialVersionUID = 7526000057010002409L;
 	private String ruleId;
 	private String nodeId;
@@ -44,7 +44,7 @@ public class Rule implements Serializable
 	private ArrayList expressions;
 	private boolean ruleIgnored;
 	private String hostName;
-	
+
 	private String attributes;
 	private String description;
 
@@ -59,27 +59,23 @@ public class Rule implements Serializable
 	/* stored for generating attributeId for rule evaluation */
 	private transient ArrayList alAttrs = null;
 
-	public Rule()
-	{
+	public Rule() {
 		this.expressions = new ArrayList();
 	}
 
 	/**
 	 * @param ruleBean
 	 */
-	public Rule(final Rule rule)
-	{
+	public Rule(final Rule rule) {
 		this.ruleId = rule.ruleId;
 		this.ruleIgnored = rule.ruleIgnored;
 		this.nodeId = rule.nodeId;
 		this.severity = rule.severity;
 		this.alertRaisedNotificationSubject = rule.alertRaisedNotificationSubject;
 		this.alertRaisedNotificationMessage = rule.alertRaisedNotificationMessage;
-		if (rule.expressions != null)
-		{
+		if (rule.expressions != null) {
 			this.expressions = new ArrayList(rule.expressions.size());
-			for (final Iterator expressionsIterator = rule.expressions.iterator(); expressionsIterator.hasNext();)
-			{
+			for (final Iterator expressionsIterator = rule.expressions.iterator(); expressionsIterator.hasNext();) {
 				final RuleExpression ruleExpression = (RuleExpression) expressionsIterator.next();
 				this.expressions.add(new RuleExpression(ruleExpression));
 			}
@@ -91,8 +87,7 @@ public class Rule implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getNodeId()
-	{
+	public String getNodeId() {
 		return this.nodeId;
 	}
 
@@ -101,13 +96,11 @@ public class Rule implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getAlertRaisedNotificationMessage()
-	{
+	public String getAlertRaisedNotificationMessage() {
 		return this.alertRaisedNotificationMessage;
 	}
-	
-	public String getAlertRaisedNotificationSubject() 
-	{
+
+	public String getAlertRaisedNotificationSubject() {
 		return alertRaisedNotificationSubject;
 	}
 
@@ -116,8 +109,7 @@ public class Rule implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getRuleId()
-	{
+	public String getRuleId() {
 		return this.ruleId;
 	}
 
@@ -126,8 +118,7 @@ public class Rule implements Serializable
 	 * 
 	 * @return
 	 */
-	public String getSeverity()
-	{
+	public String getSeverity() {
 		return this.severity;
 	}
 
@@ -136,8 +127,7 @@ public class Rule implements Serializable
 	 * 
 	 * @return
 	 */
-	public ArrayList getExpressions()
-	{
+	public ArrayList getExpressions() {
 		return this.expressions;
 	}
 
@@ -146,8 +136,7 @@ public class Rule implements Serializable
 	 * 
 	 * @param string
 	 */
-	public void setNodeId(final String id)
-	{
+	public void setNodeId(final String id) {
 		this.nodeId = id;
 	}
 
@@ -156,23 +145,20 @@ public class Rule implements Serializable
 	 * 
 	 * @param string
 	 */
-	public void setAlertRaisedNotificationMessage(final String string)
-	{
+	public void setAlertRaisedNotificationMessage(final String string) {
 		this.alertRaisedNotificationMessage = string;
 	}
 
-	public void setAlertRaisedNotificationSubject(String notificationSubject) 
-	{
+	public void setAlertRaisedNotificationSubject(String notificationSubject) {
 		this.alertRaisedNotificationSubject = notificationSubject;
 	}
-	
+
 	/**
 	 * setRuleId
 	 * 
 	 * @param string
 	 */
-	public void setRuleId(final String string)
-	{
+	public void setRuleId(final String string) {
 		this.ruleId = string;
 	}
 
@@ -181,8 +167,7 @@ public class Rule implements Serializable
 	 * 
 	 * @param string
 	 */
-	public void setSeverity(final String string)
-	{
+	public void setSeverity(final String string) {
 		this.severity = string;
 	}
 
@@ -191,21 +176,18 @@ public class Rule implements Serializable
 	 * 
 	 * @param list
 	 */
-	public void setExpressions(final ArrayList list)
-	{
+	public void setExpressions(final ArrayList list) {
 		this.expressions = list;
 	}
 
 	/**
 	 * This method is for adding a new sub-expression to a rule.
 	 * 
-	 * @param expr -
-	 *            The sub-expression to be added.
+	 * @param expr
+	 *            - The sub-expression to be added.
 	 */
-	public void addSubExpression(final RuleExpression expr)
-	{
-		if (this.expressions == null)
-		{
+	public void addSubExpression(final RuleExpression expr) {
+		if (this.expressions == null) {
 			this.expressions = new ArrayList();
 		}
 		this.expressions.add(expr);
@@ -216,43 +198,35 @@ public class Rule implements Serializable
 	 * 
 	 * @return int - The number of sub-expressions in the rule.
 	 */
-	public int getNumExpressions()
-	{
+	public int getNumExpressions() {
 		return this.expressions.size();
 	}
 
-	public int getIndex(final String attributeName) throws Exception
-	{
+	public int getIndex(final String attributeName) throws Exception {
 		return this.alAttrs.indexOf(attributeName);
 	}
 
-	public boolean isRuleIgnored() 
-	{
+	public boolean isRuleIgnored() {
 		return ruleIgnored;
 	}
 
-	public void setRuleIgnored(boolean ignored) 
-	{
+	public void setRuleIgnored(boolean ignored) {
 		this.ruleIgnored = ignored;
 	}
-	
-	public String getAlertResetNotificationMessage() 
-	{
+
+	public String getAlertResetNotificationMessage() {
 		return alertResetNotificationMessage;
 	}
 
-	public void setAlertResetNotificationMessage(String alertResetNotificationMessage) 
-	{
+	public void setAlertResetNotificationMessage(String alertResetNotificationMessage) {
 		this.alertResetNotificationMessage = alertResetNotificationMessage;
 	}
 
-	public String getAlertResetNotificationSubject() 
-	{
+	public String getAlertResetNotificationSubject() {
 		return alertResetNotificationSubject;
 	}
 
-	public void setAlertResetNotificationSubject(String alertResetNotificationSubject) 
-	{
+	public void setAlertResetNotificationSubject(String alertResetNotificationSubject) {
 		this.alertResetNotificationSubject = alertResetNotificationSubject;
 	}
 
@@ -261,26 +235,20 @@ public class Rule implements Serializable
 	 * 
 	 * @return String - The complete expression.
 	 */
-	public String getExpression()
-	{
+	public String getExpression() {
 		final StringBuffer sBuff = new StringBuffer();
-		if (this.alAttrs == null)
-		{
+		if (this.alAttrs == null) {
 			this.alAttrs = new ArrayList(this.expressions.size());
-		}
-		else
-		{
+		} else {
 			this.alAttrs.clear();
 		}
 
 		int index = -1;
 		String agFunction = null;
-		for (int i = 0; i < this.expressions.size(); i++)
-		{
+		for (int i = 0; i < this.expressions.size(); i++) {
 			final RuleExpression subExpr = (RuleExpression) this.expressions.get(i);
 
-			if (subExpr.isFunction())
-			{
+			if (subExpr.isFunction()) {
 				agFunction = subExpr.getAggregateFunction();
 				sBuff.append("duration(");
 				sBuff.append(getRuleId() + "_" + i);
@@ -294,44 +262,35 @@ public class Rule implements Serializable
 			}
 
 			index = this.alAttrs.indexOf(subExpr.getAttributeName());
-			if (index == -1)
-			{
+			if (index == -1) {
 				index = this.alAttrs.size();
 				this.alAttrs.add(subExpr.getAttributeName());
 			}
 			sBuff.append(AlertEvaluationManager.EXPR_ATTRIBUTE_ID_ENCAPSULATOR);
 			sBuff.append(index);
 			sBuff.append(AlertEvaluationManager.EXPR_ATTRIBUTE_ID_ENCAPSULATOR);
-			if (subExpr.getCondition().equals(AlertEvaluationManager.CONDITION_OVER))
-			{
+			if (subExpr.getCondition().equals(AlertEvaluationManager.CONDITION_OVER)) {
 				sBuff.append('>');
-			}
-			else if (subExpr.getCondition().equals(AlertEvaluationManager.CONDITION_UNDER))
-			{
+			} else if (subExpr.getCondition().equals(AlertEvaluationManager.CONDITION_UNDER)) {
 				sBuff.append('<');
-			}
-			else if (subExpr.getCondition().equals(AlertEvaluationManager.CONDITION_EQUALS))
-			{
+			} else if (subExpr.getCondition().equals(AlertEvaluationManager.CONDITION_EQUALS)) {
 				sBuff.append("==");
-			}
-			else if (subExpr.getCondition().equals(AlertEvaluationManager.CONDITION_NOTEQUALS))
-			{
+			} else if (subExpr.getCondition().equals(AlertEvaluationManager.CONDITION_NOTEQUALS)) {
 				sBuff.append("!=");
 			}
 			sBuff.append(subExpr.getValue());
 
-			if (subExpr.isFunction())
-			{
+			if (subExpr.isFunction()) {
 				sBuff.append(')');
 			}
 
 			// sBuff.append(')');
-			if (i != this.expressions.size() - 1)
-			{
+			if (i != this.expressions.size() - 1) {
 				sBuff.append("||");
 			}
 		}
-		// UtilityFunctions.getLogger().info("Rule,expression: " + sBuff.toString());
+		// UtilityFunctions.getLogger().info("Rule,expression: " +
+		// sBuff.toString());
 		return sBuff.toString();
 	}
 
@@ -340,8 +299,7 @@ public class Rule implements Serializable
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer sbToString = new StringBuffer("Rule:");
 		sbToString.append(" RuleId=");
 		sbToString.append(this.getRuleId());

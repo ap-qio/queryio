@@ -23,15 +23,15 @@ import java.io.Serializable;
  * @author Exceed Consultancy Services
  * 
  */
-public class NetworkInfo implements Serializable
-{
+public class NetworkInfo implements Serializable {
 	private static final long serialVersionUID = 752600005701000045L;
 	private final String sName;
 
 	private int iInterfaceId = 0;
 
 	protected float fReadMBPerSec = 0;
-	protected float fSentMBPerSec = 0;	
+	protected float fSentMBPerSec = 0;
+
 	/**
 	 * Method NetworkInfo.
 	 * 
@@ -40,45 +40,41 @@ public class NetworkInfo implements Serializable
 	 * @param recdPacketsPerSec
 	 * @param sentPacketsPerSec
 	 */
-	public NetworkInfo(final String name, final int interfaceId, final float recdMBPerSec, final float sentMBPerSec)
-	{
+	public NetworkInfo(final String name, final int interfaceId, final float recdMBPerSec, final float sentMBPerSec) {
 		this.sName = name.trim();
 		this.iInterfaceId = interfaceId;
 		this.fReadMBPerSec = recdMBPerSec;
 		this.fSentMBPerSec = sentMBPerSec;
 	}
+
 	/**
 	 * @return
 	 * @throws Exception
 	 */
-	public final float getRecdPacketsPerSec() throws Exception
-	{
-		if ((this.fReadMBPerSec < 0) || (this.fReadMBPerSec > Float.MAX_VALUE))
-		{
+	public final float getRecdPacketsPerSec() throws Exception {
+		if ((this.fReadMBPerSec < 0) || (this.fReadMBPerSec > Float.MAX_VALUE)) {
 			throw new Exception("MB Read Per second is incorrect : fReadMBPerSec : " + this.fReadMBPerSec);
 		}
 		return this.fReadMBPerSec;
 	}
+
 	/**
 	 * @return
 	 * @throws Exception
 	 */
-	public final float getSentPacketsPerSec() throws Exception
-	{
-		if ((this.fSentMBPerSec < 0) || (this.fSentMBPerSec > Float.MAX_VALUE))
-		{
+	public final float getSentPacketsPerSec() throws Exception {
+		if ((this.fSentMBPerSec < 0) || (this.fSentMBPerSec > Float.MAX_VALUE)) {
 			throw new Exception("MB Sent Per second is incorrect");
 		}
 		return this.fSentMBPerSec;
-	}	
+	}
 
 	/**
 	 * Returns the sName.
 	 * 
 	 * @return String
 	 */
-	public final String getName()
-	{
+	public final String getName() {
 		return this.sName;
 	}
 
@@ -87,22 +83,18 @@ public class NetworkInfo implements Serializable
 	 * 
 	 * @return int
 	 */
-	public final int getInterfaceId() throws Exception
-	{
-		if ((this.iInterfaceId < 0) || (this.iInterfaceId > Integer.MAX_VALUE))
-		{
+	public final int getInterfaceId() throws Exception {
+		if ((this.iInterfaceId < 0) || (this.iInterfaceId > Integer.MAX_VALUE)) {
 			throw new Exception("Interface id value is incorrect");
 		}
 		return this.iInterfaceId;
 	}
-	
-	public void setRecdPacketsPerSec(float recdPacketsPerSec) 
-	{
+
+	public void setRecdPacketsPerSec(float recdPacketsPerSec) {
 		this.fReadMBPerSec = recdPacketsPerSec;
 	}
 
-	public void setSentPacketsPerSec(float writePacketsPerSec) 
-	{
+	public void setSentPacketsPerSec(float writePacketsPerSec) {
 		this.fSentMBPerSec = writePacketsPerSec;
 	}
 
