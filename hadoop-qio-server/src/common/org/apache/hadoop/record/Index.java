@@ -22,9 +22,9 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
 /**
- * Interface that acts as an iterator for deserializing maps.
- * The deserializer returns an instance that the record uses to
- * read vectors and maps. An example of usage is as follows:
+ * Interface that acts as an iterator for deserializing maps. The deserializer
+ * returns an instance that the record uses to read vectors and maps. An example
+ * of usage is as follows:
  *
  * <code>
  * Index idx = startVector(...);
@@ -40,6 +40,7 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public interface Index {
-  boolean done();
-  void incr();
+	boolean done();
+
+	void incr();
 }

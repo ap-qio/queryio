@@ -28,100 +28,97 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class RollingUpgradeInfo extends RollingUpgradeStatus {
-  private final long startTime;
-  private final long finalizeTime;
-  private boolean createdRollbackImages;
-  
-  public RollingUpgradeInfo(String blockPoolId, boolean createdRollbackImages,
-      long startTime, long finalizeTime) {
-    super(blockPoolId);
-    this.createdRollbackImages = createdRollbackImages;
-    this.startTime = startTime;
-    this.finalizeTime = finalizeTime;
-  }
-  
-  public boolean createdRollbackImages() {
-    return createdRollbackImages;
-  }
+	private final long startTime;
+	private final long finalizeTime;
+	private boolean createdRollbackImages;
 
-  public void setCreatedRollbackImages(boolean created) {
-    this.createdRollbackImages = created;
-  }
+	public RollingUpgradeInfo(String blockPoolId, boolean createdRollbackImages, long startTime, long finalizeTime) {
+		super(blockPoolId);
+		this.createdRollbackImages = createdRollbackImages;
+		this.startTime = startTime;
+		this.finalizeTime = finalizeTime;
+	}
 
-  public boolean isStarted() {
-    return startTime != 0;
-  }
-  
-  /** @return The rolling upgrade starting time. */
-  public long getStartTime() {
-    return startTime;
-  }
-  
-  public boolean isFinalized() {
-    return finalizeTime != 0;
-  }
+	public boolean createdRollbackImages() {
+		return createdRollbackImages;
+	}
 
-  public long getFinalizeTime() {
-    return finalizeTime;
-  }
+	public void setCreatedRollbackImages(boolean created) {
+		this.createdRollbackImages = created;
+	}
 
-  @Override
-  public int hashCode() {
-    //only use lower 32 bits
-    return super.hashCode() ^ (int)startTime ^ (int)finalizeTime;
-  }
+	public boolean isStarted() {
+		return startTime != 0;
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) {
-      return true;
-    } else if (obj == null || !(obj instanceof RollingUpgradeInfo)) {
-      return false;
-    }
-    final RollingUpgradeInfo that = (RollingUpgradeInfo)obj;
-    return super.equals(that)
-        && this.startTime == that.startTime
-        && this.finalizeTime == that.finalizeTime;
-  }
+	/** @return The rolling upgrade starting time. */
+	public long getStartTime() {
+		return startTime;
+	}
 
-  @Override
-  public String toString() {
-    return super.toString()
-      +  "\n     Start Time: " + (startTime == 0? "<NOT STARTED>": timestamp2String(startTime))
-      +  "\n  Finalize Time: " + (finalizeTime == 0? "<NOT FINALIZED>": timestamp2String(finalizeTime));
-  }
-  
-  private static String timestamp2String(long timestamp) {
-    return new Date(timestamp) + " (=" + timestamp + ")";
-  }
+	public boolean isFinalized() {
+		return finalizeTime != 0;
+	}
 
-  public static class Bean {
-    private final String blockPoolId;
-    private final long startTime;
-    private final long finalizeTime;
-    private final boolean createdRollbackImages;
+	public long getFinalizeTime() {
+		return finalizeTime;
+	}
 
-    public Bean(RollingUpgradeInfo f) {
-      this.blockPoolId = f.getBlockPoolId();
-      this.startTime = f.startTime;
-      this.finalizeTime = f.finalizeTime;
-      this.createdRollbackImages = f.createdRollbackImages();
-    }
+	@Override
+	public int hashCode() {
+		// only use lower 32 bits
+		return super.hashCode() ^ (int) startTime ^ (int) finalizeTime;
+	}
 
-    public String getBlockPoolId() {
-      return blockPoolId;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		} else if (obj == null || !(obj instanceof RollingUpgradeInfo)) {
+			return false;
+		}
+		final RollingUpgradeInfo that = (RollingUpgradeInfo) obj;
+		return super.equals(that) && this.startTime == that.startTime && this.finalizeTime == that.finalizeTime;
+	}
 
-    public long getStartTime() {
-      return startTime;
-    }
+	@Override
+	public String toString() {
+		return super.toString() + "\n     Start Time: "
+				+ (startTime == 0 ? "<NOT STARTED>" : timestamp2String(startTime)) + "\n  Finalize Time: "
+				+ (finalizeTime == 0 ? "<NOT FINALIZED>" : timestamp2String(finalizeTime));
+	}
 
-    public long getFinalizeTime() {
-      return finalizeTime;
-    }
+	private static String timestamp2String(long timestamp) {
+		return new Date(timestamp) + " (=" + timestamp + ")";
+	}
 
-    public boolean isCreatedRollbackImages() {
-      return createdRollbackImages;
-    }
-  }
+	public static class Bean {
+		private final String blockPoolId;
+		private final long startTime;
+		private final long finalizeTime;
+		private final boolean createdRollbackImages;
+
+		public Bean(RollingUpgradeInfo f) {
+			this.blockPoolId = f.getBlockPoolId();
+			this.startTime = f.startTime;
+			this.finalizeTime = f.finalizeTime;
+			this.createdRollbackImages = f.createdRollbackImages();
+		}
+
+		public String getBlockPoolId() {
+			return blockPoolId;
+		}
+
+		public long getStartTime() {
+			return startTime;
+		}
+
+		public long getFinalizeTime() {
+			return finalizeTime;
+		}
+
+		public boolean isCreatedRollbackImages() {
+			return createdRollbackImages;
+		}
+	}
 }

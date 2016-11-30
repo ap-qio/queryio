@@ -21,9 +21,13 @@ package org.apache.hadoop.fs;
  * Exception corresponding to Permission denied - ENOENT
  */
 public class PathNotFoundException extends PathIOException {
-  static final long serialVersionUID = 0L;
-  /** @param path for the exception */
-  public PathNotFoundException(String path) {
-    super(path, "No such file or directory");
-  }    
+	static final long serialVersionUID = 0L;
+
+	/**
+	 * @param path
+	 *            for the exception
+	 */
+	public PathNotFoundException(String path) {
+		super(path, "No such file or directory");
+	}
 }

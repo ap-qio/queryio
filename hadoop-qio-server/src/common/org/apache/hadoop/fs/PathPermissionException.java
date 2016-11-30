@@ -21,9 +21,13 @@ package org.apache.hadoop.fs;
  * Exception corresponding to Operation Not Permitted - EPERM
  */
 public class PathPermissionException extends PathIOException {
-  static final long serialVersionUID = 0L;
-  /** @param path for the exception */
-  public PathPermissionException(String path) {
-    super(path, "Operation not permitted");
-  }
+	static final long serialVersionUID = 0L;
+
+	/**
+	 * @param path
+	 *            for the exception
+	 */
+	public PathPermissionException(String path) {
+		super(path, "Operation not permitted");
+	}
 }

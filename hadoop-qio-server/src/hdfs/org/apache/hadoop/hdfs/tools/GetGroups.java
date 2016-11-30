@@ -42,58 +42,54 @@ import org.apache.hadoop.util.ToolRunner;
  */
 @InterfaceAudience.Private
 public class GetGroups extends GetGroupsBase {
-  
-  private static final Log LOG = LogFactory.getLog(GetGroups.class);
-  
-  static final String USAGE = "Usage: hdfs groups [username ...]";
 
-  static{
-    HdfsConfiguration.init();
-  }
+	private static final Log LOG = LogFactory.getLog(GetGroups.class);
 
-  
-  public GetGroups(Configuration conf) {
-    super(conf);
-  }
+	static final String USAGE = "Usage: hdfs groups [username ...]";
 
-  public GetGroups(Configuration conf, PrintStream out) {
-    super(conf, out);
-  }
-  
-  @Override
-  protected InetSocketAddress getProtocolAddress(Configuration conf)
-      throws IOException {
-    return NameNode.getAddress(conf);
-  }
-  
-  @Override
-  public void setConf(Configuration conf) {
-    conf = new HdfsConfiguration(conf);
-    String nameNodePrincipal = conf.get(
-        DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY, "");
-    
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Using NN principal: " + nameNodePrincipal);
-    }
+	static {
+		HdfsConfiguration.init();
+	}
 
-    conf.set(CommonConfigurationKeys.HADOOP_SECURITY_SERVICE_USER_NAME_KEY,
-        nameNodePrincipal);
-    
-    super.setConf(conf);
-  }
-  
-  @Override
-  protected GetUserMappingsProtocol getUgmProtocol() throws IOException {
-    return NameNodeProxies.createProxy(getConf(), FileSystem.getDefaultUri(getConf()),
-        GetUserMappingsProtocol.class).getProxy();
-  }
+	public GetGroups(Configuration conf) {
+		super(conf);
+	}
 
-  public static void main(String[] argv) throws Exception {
-    if (DFSUtil.parseHelpArgument(argv, USAGE, System.out, true)) {
-      System.exit(0);
-    }
-    
-    int res = ToolRunner.run(new GetGroups(new HdfsConfiguration()), argv);
-    System.exit(res);
-  }
+	public GetGroups(Configuration conf, PrintStream out) {
+		super(conf, out);
+	}
+
+	@Override
+	protected InetSocketAddress getProtocolAddress(Configuration conf) throws IOException {
+		return NameNode.getAddress(conf);
+	}
+
+	@Override
+	public void setConf(Configuration conf) {
+		conf = new HdfsConfiguration(conf);
+		String nameNodePrincipal = conf.get(DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY, "");
+
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Using NN principal: " + nameNodePrincipal);
+		}
+
+		conf.set(CommonConfigurationKeys.HADOOP_SECURITY_SERVICE_USER_NAME_KEY, nameNodePrincipal);
+
+		super.setConf(conf);
+	}
+
+	@Override
+	protected GetUserMappingsProtocol getUgmProtocol() throws IOException {
+		return NameNodeProxies
+				.createProxy(getConf(), FileSystem.getDefaultUri(getConf()), GetUserMappingsProtocol.class).getProxy();
+	}
+
+	public static void main(String[] argv) throws Exception {
+		if (DFSUtil.parseHelpArgument(argv, USAGE, System.out, true)) {
+			System.exit(0);
+		}
+
+		int res = ToolRunner.run(new GetGroups(new HdfsConfiguration()), argv);
+		System.exit(res);
+	}
 }

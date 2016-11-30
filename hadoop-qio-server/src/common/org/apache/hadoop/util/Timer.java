@@ -30,22 +30,26 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Unstable
 public class Timer {
-  /**
-   * Current system time.  Do not use this to calculate a duration or interval
-   * to sleep, because it will be broken by settimeofday.  Instead, use
-   * monotonicNow.
-   * @return current time in msec.
-   */
-  public long now() {
-    return Time.now();
-  }
+	/**
+	 * Current system time. Do not use this to calculate a duration or interval
+	 * to sleep, because it will be broken by settimeofday. Instead, use
+	 * monotonicNow.
+	 * 
+	 * @return current time in msec.
+	 */
+	public long now() {
+		return Time.now();
+	}
 
-  /**
-   * Current time from some arbitrary time base in the past, counting in
-   * milliseconds, and not affected by settimeofday or similar system clock
-   * changes.  This is appropriate to use when computing how much longer to
-   * wait for an interval to expire.
-   * @return a monotonic clock that counts in milliseconds.
-   */
-  public long monotonicNow() { return Time.monotonicNow(); }
+	/**
+	 * Current time from some arbitrary time base in the past, counting in
+	 * milliseconds, and not affected by settimeofday or similar system clock
+	 * changes. This is appropriate to use when computing how much longer to
+	 * wait for an interval to expire.
+	 * 
+	 * @return a monotonic clock that counts in milliseconds.
+	 */
+	public long monotonicNow() {
+		return Time.monotonicNow();
+	}
 }

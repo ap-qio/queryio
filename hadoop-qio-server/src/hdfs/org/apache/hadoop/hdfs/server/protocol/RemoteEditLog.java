@@ -23,76 +23,73 @@ import com.google.common.base.Function;
 import com.google.common.collect.ComparisonChain;
 
 public class RemoteEditLog implements Comparable<RemoteEditLog> {
-  private long startTxId = HdfsConstants.INVALID_TXID;
-  private long endTxId = HdfsConstants.INVALID_TXID;
-  private boolean isInProgress = false;
-  
-  public RemoteEditLog() {
-  }
+	private long startTxId = HdfsConstants.INVALID_TXID;
+	private long endTxId = HdfsConstants.INVALID_TXID;
+	private boolean isInProgress = false;
 
-  public RemoteEditLog(long startTxId, long endTxId) {
-    this.startTxId = startTxId;
-    this.endTxId = endTxId;
-    this.isInProgress = (endTxId == HdfsConstants.INVALID_TXID);
-  }
-  
-  public RemoteEditLog(long startTxId, long endTxId, boolean inProgress) {
-    this.startTxId = startTxId;
-    this.endTxId = endTxId;
-    this.isInProgress = inProgress;
-  }
+	public RemoteEditLog() {
+	}
 
-  public long getStartTxId() {
-    return startTxId;
-  }
+	public RemoteEditLog(long startTxId, long endTxId) {
+		this.startTxId = startTxId;
+		this.endTxId = endTxId;
+		this.isInProgress = (endTxId == HdfsConstants.INVALID_TXID);
+	}
 
-  public long getEndTxId() {
-    return endTxId;
-  }
+	public RemoteEditLog(long startTxId, long endTxId, boolean inProgress) {
+		this.startTxId = startTxId;
+		this.endTxId = endTxId;
+		this.isInProgress = inProgress;
+	}
 
-  public boolean isInProgress() {
-    return isInProgress;
-  }
+	public long getStartTxId() {
+		return startTxId;
+	}
 
-  @Override
-  public String toString() {
-    if (!isInProgress) {
-      return "[" + startTxId + "," + endTxId + "]";
-    } else {
-      return "[" + startTxId + "-? (in-progress)]";
-    }
-  }
-  
-  @Override
-  public int compareTo(RemoteEditLog log) {
-    return ComparisonChain.start()
-      .compare(startTxId, log.startTxId)
-      .compare(endTxId, log.endTxId)
-      .result();
-  }
+	public long getEndTxId() {
+		return endTxId;
+	}
 
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof RemoteEditLog)) return false;
-    return this.compareTo((RemoteEditLog)o) == 0;
-  }
-  
-  @Override
-  public int hashCode() {
-    return (int) (startTxId * endTxId);
-  }
-  
-  /**
-   * Guava <code>Function</code> which applies {@link #getStartTxId()} 
-   */
-  public static final Function<RemoteEditLog, Long> GET_START_TXID =
-    new Function<RemoteEditLog, Long>() {
-      @Override
-      public Long apply(RemoteEditLog log) {
-        if (null == log) {
-          return HdfsConstants.INVALID_TXID;
-        }
-        return log.getStartTxId();
-      }
-    };
+	public boolean isInProgress() {
+		return isInProgress;
+	}
+
+	@Override
+	public String toString() {
+		if (!isInProgress) {
+			return "[" + startTxId + "," + endTxId + "]";
+		} else {
+			return "[" + startTxId + "-? (in-progress)]";
+		}
+	}
+
+	@Override
+	public int compareTo(RemoteEditLog log) {
+		return ComparisonChain.start().compare(startTxId, log.startTxId).compare(endTxId, log.endTxId).result();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof RemoteEditLog))
+			return false;
+		return this.compareTo((RemoteEditLog) o) == 0;
+	}
+
+	@Override
+	public int hashCode() {
+		return (int) (startTxId * endTxId);
+	}
+
+	/**
+	 * Guava <code>Function</code> which applies {@link #getStartTxId()}
+	 */
+	public static final Function<RemoteEditLog, Long> GET_START_TXID = new Function<RemoteEditLog, Long>() {
+		@Override
+		public Long apply(RemoteEditLog log) {
+			if (null == log) {
+				return HdfsConstants.INVALID_TXID;
+			}
+			return log.getStartTxId();
+		}
+	};
 }

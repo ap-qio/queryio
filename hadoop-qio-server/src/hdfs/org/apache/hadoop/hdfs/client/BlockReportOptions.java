@@ -26,34 +26,34 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public final class BlockReportOptions {
-  private final boolean incremental;
+	private final boolean incremental;
 
-  private BlockReportOptions(boolean incremental) {
-    this.incremental = incremental;
-  }
+	private BlockReportOptions(boolean incremental) {
+		this.incremental = incremental;
+	}
 
-  public boolean isIncremental() {
-    return incremental;
-  }
+	public boolean isIncremental() {
+		return incremental;
+	}
 
-  public static class Factory {
-    private boolean incremental = false;
+	public static class Factory {
+		private boolean incremental = false;
 
-    public Factory() {
-    }
+		public Factory() {
+		}
 
-    public Factory setIncremental(boolean incremental) {
-      this.incremental = incremental;
-      return this;
-    }
+		public Factory setIncremental(boolean incremental) {
+			this.incremental = incremental;
+			return this;
+		}
 
-    public BlockReportOptions build() {
-      return new BlockReportOptions(incremental);
-    }
-  }
+		public BlockReportOptions build() {
+			return new BlockReportOptions(incremental);
+		}
+	}
 
-  @Override
-  public String toString() {
-    return "BlockReportOptions{incremental=" + incremental + "}";
-  }
+	@Override
+	public String toString() {
+		return "BlockReportOptions{incremental=" + incremental + "}";
+	}
 }

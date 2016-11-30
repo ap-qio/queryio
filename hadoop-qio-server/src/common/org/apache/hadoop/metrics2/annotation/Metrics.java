@@ -18,7 +18,11 @@
 
 package org.apache.hadoop.metrics2.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
@@ -29,22 +33,22 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 @Documented
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Metrics {
 
-  /**
-   * @return the (record) name of the metrics
-   */
-  String name() default "";
+	/**
+	 * @return the (record) name of the metrics
+	 */
+	String name() default "";
 
-  /**
-   * @return the optional description of metrics
-   */
-  String about() default "";
+	/**
+	 * @return the optional description of metrics
+	 */
+	String about() default "";
 
-  /**
-   * @return the context name for a group of metrics
-   */
-  String context();
+	/**
+	 * @return the context name for a group of metrics
+	 */
+	String context();
 }

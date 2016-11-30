@@ -18,17 +18,14 @@
 
 package org.apache.hadoop.ipc;
 
-import java.nio.ByteBuffer;
-
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.security.UserGroupInformation;
-import org.apache.hadoop.io.Writable;
 
 /**
- * Interface which allows extracting information necessary to
- * create schedulable identity strings.
+ * Interface which allows extracting information necessary to create schedulable
+ * identity strings.
  */
 @InterfaceAudience.Private
 public interface Schedulable {
-  public UserGroupInformation getUserGroupInformation();
+	public UserGroupInformation getUserGroupInformation();
 }

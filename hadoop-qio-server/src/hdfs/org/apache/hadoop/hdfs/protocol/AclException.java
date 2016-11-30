@@ -26,14 +26,15 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 public class AclException extends IOException {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  /**
-   * Creates a new AclException.
-   *
-   * @param message String message
-   */
-  public AclException(String message) {
-    super(message);
-  }
+	/**
+	 * Creates a new AclException.
+	 *
+	 * @param message
+	 *            String message
+	 */
+	public AclException(String message) {
+		super(message);
+	}
 }

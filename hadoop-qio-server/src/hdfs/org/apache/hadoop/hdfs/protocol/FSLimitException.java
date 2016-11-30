@@ -28,73 +28,71 @@ import org.apache.hadoop.classification.InterfaceStability;
  * Abstract class for deriving exceptions related to filesystem constraints
  */
 public abstract class FSLimitException extends QuotaExceededException {
-  protected static final long serialVersionUID = 1L;
+	protected static final long serialVersionUID = 1L;
 
-  protected FSLimitException() {}
+	protected FSLimitException() {
+	}
 
-  protected FSLimitException(String msg) {
-    super(msg);
-  }
-  
-  protected FSLimitException(long quota, long count) {
-    super(quota, count);
-  }
+	protected FSLimitException(String msg) {
+		super(msg);
+	}
 
-  /**
-   * Path component length is too long
-   */
-  public static final
-  class PathComponentTooLongException extends FSLimitException {
-    protected static final long serialVersionUID = 1L;
+	protected FSLimitException(long quota, long count) {
+		super(quota, count);
+	}
 
-    private String childName;
+	/**
+	 * Path component length is too long
+	 */
+	public static final class PathComponentTooLongException extends FSLimitException {
+		protected static final long serialVersionUID = 1L;
 
-    protected PathComponentTooLongException() {}
+		private String childName;
 
-    protected PathComponentTooLongException(String msg) {
-      super(msg);
-    }
-    
-    public PathComponentTooLongException(long quota, long count,
-        String parentPath, String childName) {
-      super(quota, count);
-      setPathName(parentPath);
-      this.childName = childName;
-    }
+		protected PathComponentTooLongException() {
+		}
 
-    String getParentPath() {
-      return pathName;
-    }
+		protected PathComponentTooLongException(String msg) {
+			super(msg);
+		}
 
-    @Override
-    public String getMessage() {
-      return "The maximum path component name limit of " + childName +
-      " in directory " + getParentPath() +
-      " is exceeded: limit=" + quota + " length=" + count; 
-    }
-  }
+		public PathComponentTooLongException(long quota, long count, String parentPath, String childName) {
+			super(quota, count);
+			setPathName(parentPath);
+			this.childName = childName;
+		}
 
-  /**
-   * Directory has too many items
-   */
-  public static final
-  class MaxDirectoryItemsExceededException extends FSLimitException {
-    protected static final long serialVersionUID = 1L;
+		String getParentPath() {
+			return pathName;
+		}
 
-    protected MaxDirectoryItemsExceededException() {}
+		@Override
+		public String getMessage() {
+			return "The maximum path component name limit of " + childName + " in directory " + getParentPath()
+					+ " is exceeded: limit=" + quota + " length=" + count;
+		}
+	}
 
-    protected MaxDirectoryItemsExceededException(String msg) {
-      super(msg);
-    }
-    
-    public MaxDirectoryItemsExceededException(long quota, long count) {
-      super(quota, count);
-    }
+	/**
+	 * Directory has too many items
+	 */
+	public static final class MaxDirectoryItemsExceededException extends FSLimitException {
+		protected static final long serialVersionUID = 1L;
 
-    @Override
-    public String getMessage() {
-      return "The directory item limit of " + pathName +
-      " is exceeded: limit=" + quota + " items=" + count; 
-    }
-  }
+		protected MaxDirectoryItemsExceededException() {
+		}
+
+		protected MaxDirectoryItemsExceededException(String msg) {
+			super(msg);
+		}
+
+		public MaxDirectoryItemsExceededException(long quota, long count) {
+			super(quota, count);
+		}
+
+		@Override
+		public String getMessage() {
+			return "The directory item limit of " + pathName + " is exceeded: limit=" + quota + " items=" + count;
+		}
+	}
 }

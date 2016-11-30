@@ -28,36 +28,34 @@ import org.apache.htrace.Trace;
 import org.apache.htrace.TraceScope;
 
 /**
- * CachePoolIterator is a remote iterator that iterates cache pools.
- * It supports retrying in case of namenode failover.
+ * CachePoolIterator is a remote iterator that iterates cache pools. It supports
+ * retrying in case of namenode failover.
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
-public class CachePoolIterator
-    extends BatchedRemoteIterator<String, CachePoolEntry> {
+public class CachePoolIterator extends BatchedRemoteIterator<String, CachePoolEntry> {
 
-  private final ClientProtocol namenode;
-  private final Sampler traceSampler;
+	private final ClientProtocol namenode;
+	private final Sampler traceSampler;
 
-  public CachePoolIterator(ClientProtocol namenode, Sampler traceSampler) {
-    super("");
-    this.namenode = namenode;
-    this.traceSampler = traceSampler;
-  }
+	public CachePoolIterator(ClientProtocol namenode, Sampler traceSampler) {
+		super("");
+		this.namenode = namenode;
+		this.traceSampler = traceSampler;
+	}
 
-  @Override
-  public BatchedEntries<CachePoolEntry> makeRequest(String prevKey)
-      throws IOException {
-    TraceScope scope = Trace.startSpan("listCachePools", traceSampler);
-    try {
-      return namenode.listCachePools(prevKey);
-    } finally {
-      scope.close();
-    }
-  }
+	@Override
+	public BatchedEntries<CachePoolEntry> makeRequest(String prevKey) throws IOException {
+		TraceScope scope = Trace.startSpan("listCachePools", traceSampler);
+		try {
+			return namenode.listCachePools(prevKey);
+		} finally {
+			scope.close();
+		}
+	}
 
-  @Override
-  public String elementToPrevKey(CachePoolEntry entry) {
-    return entry.getInfo().getPoolName();
-  }
+	@Override
+	public String elementToPrevKey(CachePoolEntry entry) {
+		return entry.getInfo().getPoolName();
+	}
 }

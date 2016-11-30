@@ -41,161 +41,145 @@ import org.apache.hadoop.net.NetUtils;
  */
 @InterfaceAudience.Private
 public class OfflineImageViewerPB {
-  public static final Log LOG = LogFactory.getLog(OfflineImageViewerPB.class);
+	public static final Log LOG = LogFactory.getLog(OfflineImageViewerPB.class);
 
-  private final static String usage = "Usage: bin/hdfs oiv [OPTIONS] -i INPUTFILE -o OUTPUTFILE\n"
-      + "Offline Image Viewer\n"
-      + "View a Hadoop fsimage INPUTFILE using the specified PROCESSOR,\n"
-      + "saving the results in OUTPUTFILE.\n"
-      + "\n"
-      + "The oiv utility will attempt to parse correctly formed image files\n"
-      + "and will abort fail with mal-formed image files.\n"
-      + "\n"
-      + "The tool works offline and does not require a running cluster in\n"
-      + "order to process an image file.\n"
-      + "\n"
-      + "The following image processors are available:\n"
-      + "  * XML: This processor creates an XML document with all elements of\n"
-      + "    the fsimage enumerated, suitable for further analysis by XML\n"
-      + "    tools.\n"
-      + "  * FileDistribution: This processor analyzes the file size\n"
-      + "    distribution in the image.\n"
-      + "    -maxSize specifies the range [0, maxSize] of file sizes to be\n"
-      + "     analyzed (128GB by default).\n"
-      + "    -step defines the granularity of the distribution. (2MB by default)\n"
-      + "  * Web: Run a viewer to expose read-only WebHDFS API.\n"
-      + "    -addr specifies the address to listen. (localhost:5978 by default)\n"
-      + "  * Delimited (experimental): Generate a text file with all of the elements common\n"
-      + "    to both inodes and inodes-under-construction, separated by a\n"
-      + "    delimiter. The default delimiter is \\t, though this may be\n"
-      + "    changed via the -delimiter argument.\n"
-      + "\n"
-      + "Required command line arguments:\n"
-      + "-i,--inputFile <arg>   FSImage file to process.\n"
-      + "\n"
-      + "Optional command line arguments:\n"
-      + "-o,--outputFile <arg>  Name of output file. If the specified\n"
-      + "                       file exists, it will be overwritten.\n"
-      + "                       (output to stdout by default)\n"
-      + "-p,--processor <arg>   Select which type of processor to apply\n"
-      + "                       against image file. (XML|FileDistribution|Web|Delimited)\n"
-      + "                       (Web by default)\n"
-      + "-delimiter <arg>       Delimiting string to use with Delimited processor.  \n"
-      + "-t,--temp <arg>        Use temporary dir to cache intermediate result to generate\n"
-      + "                       Delimited outputs. If not set, Delimited processor constructs\n"
-      + "                       the namespace in memory before outputting text.\n"
-      + "-h,--help              Display usage information and exit\n";
+	private final static String usage = "Usage: bin/hdfs oiv [OPTIONS] -i INPUTFILE -o OUTPUTFILE\n"
+			+ "Offline Image Viewer\n" + "View a Hadoop fsimage INPUTFILE using the specified PROCESSOR,\n"
+			+ "saving the results in OUTPUTFILE.\n" + "\n"
+			+ "The oiv utility will attempt to parse correctly formed image files\n"
+			+ "and will abort fail with mal-formed image files.\n" + "\n"
+			+ "The tool works offline and does not require a running cluster in\n" + "order to process an image file.\n"
+			+ "\n" + "The following image processors are available:\n"
+			+ "  * XML: This processor creates an XML document with all elements of\n"
+			+ "    the fsimage enumerated, suitable for further analysis by XML\n" + "    tools.\n"
+			+ "  * FileDistribution: This processor analyzes the file size\n" + "    distribution in the image.\n"
+			+ "    -maxSize specifies the range [0, maxSize] of file sizes to be\n"
+			+ "     analyzed (128GB by default).\n"
+			+ "    -step defines the granularity of the distribution. (2MB by default)\n"
+			+ "  * Web: Run a viewer to expose read-only WebHDFS API.\n"
+			+ "    -addr specifies the address to listen. (localhost:5978 by default)\n"
+			+ "  * Delimited (experimental): Generate a text file with all of the elements common\n"
+			+ "    to both inodes and inodes-under-construction, separated by a\n"
+			+ "    delimiter. The default delimiter is \\t, though this may be\n"
+			+ "    changed via the -delimiter argument.\n" + "\n" + "Required command line arguments:\n"
+			+ "-i,--inputFile <arg>   FSImage file to process.\n" + "\n" + "Optional command line arguments:\n"
+			+ "-o,--outputFile <arg>  Name of output file. If the specified\n"
+			+ "                       file exists, it will be overwritten.\n"
+			+ "                       (output to stdout by default)\n"
+			+ "-p,--processor <arg>   Select which type of processor to apply\n"
+			+ "                       against image file. (XML|FileDistribution|Web|Delimited)\n"
+			+ "                       (Web by default)\n"
+			+ "-delimiter <arg>       Delimiting string to use with Delimited processor.  \n"
+			+ "-t,--temp <arg>        Use temporary dir to cache intermediate result to generate\n"
+			+ "                       Delimited outputs. If not set, Delimited processor constructs\n"
+			+ "                       the namespace in memory before outputting text.\n"
+			+ "-h,--help              Display usage information and exit\n";
 
-  /**
-   * Build command-line options and descriptions
-   */
-  private static Options buildOptions() {
-    Options options = new Options();
+	/**
+	 * Build command-line options and descriptions
+	 */
+	private static Options buildOptions() {
+		Options options = new Options();
 
-    // Build in/output file arguments, which are required, but there is no
-    // addOption method that can specify this
-    OptionBuilder.isRequired();
-    OptionBuilder.hasArgs();
-    OptionBuilder.withLongOpt("inputFile");
-    options.addOption(OptionBuilder.create("i"));
+		// Build in/output file arguments, which are required, but there is no
+		// addOption method that can specify this
+		OptionBuilder.isRequired();
+		OptionBuilder.hasArgs();
+		OptionBuilder.withLongOpt("inputFile");
+		options.addOption(OptionBuilder.create("i"));
 
-    options.addOption("o", "outputFile", true, "");
-    options.addOption("p", "processor", true, "");
-    options.addOption("h", "help", false, "");
-    options.addOption("maxSize", true, "");
-    options.addOption("step", true, "");
-    options.addOption("addr", true, "");
-    options.addOption("delimiter", true, "");
-    options.addOption("t", "temp", true, "");
+		options.addOption("o", "outputFile", true, "");
+		options.addOption("p", "processor", true, "");
+		options.addOption("h", "help", false, "");
+		options.addOption("maxSize", true, "");
+		options.addOption("step", true, "");
+		options.addOption("addr", true, "");
+		options.addOption("delimiter", true, "");
+		options.addOption("t", "temp", true, "");
 
-    return options;
-  }
+		return options;
+	}
 
-  /**
-   * Entry point to command-line-driven operation. User may specify options and
-   * start fsimage viewer from the command line. Program will process image file
-   * and exit cleanly or, if an error is encountered, inform user and exit.
-   *
-   * @param args
-   *          Command line options
-   * @throws IOException
-   */
-  public static void main(String[] args) throws Exception {
-    int status = run(args);
-    System.exit(status);
-  }
+	/**
+	 * Entry point to command-line-driven operation. User may specify options
+	 * and start fsimage viewer from the command line. Program will process
+	 * image file and exit cleanly or, if an error is encountered, inform user
+	 * and exit.
+	 *
+	 * @param args
+	 *            Command line options
+	 * @throws IOException
+	 */
+	public static void main(String[] args) throws Exception {
+		int status = run(args);
+		System.exit(status);
+	}
 
-  public static int run(String[] args) throws Exception {
-    Options options = buildOptions();
-    if (args.length == 0) {
-      printUsage();
-      return 0;
-    }
+	public static int run(String[] args) throws Exception {
+		Options options = buildOptions();
+		if (args.length == 0) {
+			printUsage();
+			return 0;
+		}
 
-    CommandLineParser parser = new PosixParser();
-    CommandLine cmd;
+		CommandLineParser parser = new PosixParser();
+		CommandLine cmd;
 
-    try {
-      cmd = parser.parse(options, args);
-    } catch (ParseException e) {
-      System.out.println("Error parsing command-line options: ");
-      printUsage();
-      return -1;
-    }
+		try {
+			cmd = parser.parse(options, args);
+		} catch (ParseException e) {
+			System.out.println("Error parsing command-line options: ");
+			printUsage();
+			return -1;
+		}
 
-    if (cmd.hasOption("h")) { // print help and exit
-      printUsage();
-      return 0;
-    }
+		if (cmd.hasOption("h")) { // print help and exit
+			printUsage();
+			return 0;
+		}
 
-    String inputFile = cmd.getOptionValue("i");
-    String processor = cmd.getOptionValue("p", "Web");
-    String outputFile = cmd.getOptionValue("o", "-");
-    String delimiter = cmd.getOptionValue("delimiter",
-        PBImageDelimitedTextWriter.DEFAULT_DELIMITER);
-    String tempPath = cmd.getOptionValue("t", "");
+		String inputFile = cmd.getOptionValue("i");
+		String processor = cmd.getOptionValue("p", "Web");
+		String outputFile = cmd.getOptionValue("o", "-");
+		String delimiter = cmd.getOptionValue("delimiter", PBImageDelimitedTextWriter.DEFAULT_DELIMITER);
+		String tempPath = cmd.getOptionValue("t", "");
 
-    Configuration conf = new Configuration();
-    try (PrintStream out = outputFile.equals("-") ?
-        System.out : new PrintStream(outputFile, "UTF-8")) {
-      switch (processor) {
-        case "FileDistribution":
-          long maxSize = Long.parseLong(cmd.getOptionValue("maxSize", "0"));
-          int step = Integer.parseInt(cmd.getOptionValue("step", "0"));
-          new FileDistributionCalculator(conf, maxSize, step, out).visit(
-              new RandomAccessFile(inputFile, "r"));
-          break;
-        case "XML":
-          new PBImageXmlWriter(conf, out).visit(
-              new RandomAccessFile(inputFile, "r"));
-          break;
-        case "Web":
-          String addr = cmd.getOptionValue("addr", "localhost:5978");
-          try (WebImageViewer viewer = new WebImageViewer(
-              NetUtils.createSocketAddr(addr))) {
-            viewer.start(inputFile);
-          }
-          break;
-        case "Delimited":
-          try (PBImageDelimitedTextWriter writer =
-              new PBImageDelimitedTextWriter(out, delimiter, tempPath)) {
-            writer.visit(new RandomAccessFile(inputFile, "r"));
-          }
-          break;
-      }
-      return 0;
-    } catch (EOFException e) {
-      System.err.println("Input file ended unexpectedly. Exiting");
-    } catch (IOException e) {
-      System.err.println("Encountered exception.  Exiting: " + e.getMessage());
-    }
-    return -1;
-  }
+		Configuration conf = new Configuration();
+		try (PrintStream out = outputFile.equals("-") ? System.out : new PrintStream(outputFile, "UTF-8")) {
+			switch (processor) {
+			case "FileDistribution":
+				long maxSize = Long.parseLong(cmd.getOptionValue("maxSize", "0"));
+				int step = Integer.parseInt(cmd.getOptionValue("step", "0"));
+				new FileDistributionCalculator(conf, maxSize, step, out).visit(new RandomAccessFile(inputFile, "r"));
+				break;
+			case "XML":
+				new PBImageXmlWriter(conf, out).visit(new RandomAccessFile(inputFile, "r"));
+				break;
+			case "Web":
+				String addr = cmd.getOptionValue("addr", "localhost:5978");
+				try (WebImageViewer viewer = new WebImageViewer(NetUtils.createSocketAddr(addr))) {
+					viewer.start(inputFile);
+				}
+				break;
+			case "Delimited":
+				try (PBImageDelimitedTextWriter writer = new PBImageDelimitedTextWriter(out, delimiter, tempPath)) {
+					writer.visit(new RandomAccessFile(inputFile, "r"));
+				}
+				break;
+			}
+			return 0;
+		} catch (EOFException e) {
+			System.err.println("Input file ended unexpectedly. Exiting");
+		} catch (IOException e) {
+			System.err.println("Encountered exception.  Exiting: " + e.getMessage());
+		}
+		return -1;
+	}
 
-  /**
-   * Print application usage instructions.
-   */
-  private static void printUsage() {
-    System.out.println(usage);
-  }
+	/**
+	 * Print application usage instructions.
+	 */
+	private static void printUsage() {
+		System.out.println(usage);
+	}
 }

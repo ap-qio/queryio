@@ -27,17 +27,17 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceStability.Stable
 public class FTPException extends RuntimeException {
 
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  public FTPException(String message) {
-    super(message);
-  }
+	public FTPException(String message) {
+		super(message);
+	}
 
-  public FTPException(Throwable t) {
-    super(t);
-  }
+	public FTPException(Throwable t) {
+		super(t);
+	}
 
-  public FTPException(String message, Throwable t) {
-    super(message, t);
-  }
+	public FTPException(String message, Throwable t) {
+		super(message, t);
+	}
 }

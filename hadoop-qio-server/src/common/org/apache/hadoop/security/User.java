@@ -30,106 +30,111 @@ import org.apache.hadoop.security.UserGroupInformation.AuthenticationMethod;
  * Save the full and short name of the user as a principal. This allows us to
  * have a single type that we always look for when picking up user names.
  */
-@InterfaceAudience.LimitedPrivate({"HDFS", "MapReduce"})
+@InterfaceAudience.LimitedPrivate({ "HDFS", "MapReduce" })
 @InterfaceStability.Evolving
 class User implements Principal {
-  private final String fullName;
-  private final String shortName;
-  private volatile AuthenticationMethod authMethod = null;
-  private volatile LoginContext login = null;
-  private volatile long lastLogin = 0;
+	private final String fullName;
+	private final String shortName;
+	private volatile AuthenticationMethod authMethod = null;
+	private volatile LoginContext login = null;
+	private volatile long lastLogin = 0;
 
-  public User(String name) {
-    this(name, null, null);
-  }
-  
-  public User(String name, AuthenticationMethod authMethod, LoginContext login) {
-    try {
-      shortName = new HadoopKerberosName(name).getShortName();
-    } catch (IOException ioe) {
-      throw new IllegalArgumentException("Illegal principal name " + name
-                                         +": " + ioe.toString(), ioe);
-    }
-    fullName = name;
+	public User(String name) {
+		this(name, null, null);
+	}
 
-    this.authMethod = authMethod;
-    this.login = login;
-  }
+	public User(String name, AuthenticationMethod authMethod, LoginContext login) {
+		try {
+			shortName = new HadoopKerberosName(name).getShortName();
+		} catch (IOException ioe) {
+			throw new IllegalArgumentException("Illegal principal name " + name + ": " + ioe.toString(), ioe);
+		}
+		fullName = name;
 
-  /**
-   * Get the full name of the user.
-   */
-  @Override
-  public String getName() {
-    return fullName;
-  }
-  
-  /**
-   * Get the user name up to the first '/' or '@'
-   * @return the leading part of the user name
-   */
-  public String getShortName() {
-    return shortName;
-  }
-  
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    } else if (o == null || getClass() != o.getClass()) {
-      return false;
-    } else {
-      return ((fullName.equals(((User) o).fullName)) && (authMethod == ((User) o).authMethod));
-    }
-  }
-  
-  @Override
-  public int hashCode() {
-    return fullName.hashCode();
-  }
-  
-  @Override
-  public String toString() {
-    return fullName;
-  }
+		this.authMethod = authMethod;
+		this.login = login;
+	}
 
-  public void setAuthenticationMethod(AuthenticationMethod authMethod) {
-    this.authMethod = authMethod;
-  }
+	/**
+	 * Get the full name of the user.
+	 */
+	@Override
+	public String getName() {
+		return fullName;
+	}
 
-  public AuthenticationMethod getAuthenticationMethod() {
-    return authMethod;
-  }
-  
-  /**
-   * Returns login object
-   * @return login
-   */
-  public LoginContext getLogin() {
-    return login;
-  }
-  
-  /**
-   * Set the login object
-   * @param login
-   */
-  public void setLogin(LoginContext login) {
-    this.login = login;
-  }
-  
-  /**
-   * Set the last login time.
-   * @param time the number of milliseconds since the beginning of time
-   */
-  public void setLastLogin(long time) {
-    lastLogin = time;
-  }
-  
-  /**
-   * Get the time of the last login.
-   * @return the number of milliseconds since the beginning of time.
-   */
-  public long getLastLogin() {
-    return lastLogin;
-  }
+	/**
+	 * Get the user name up to the first '/' or '@'
+	 * 
+	 * @return the leading part of the user name
+	 */
+	public String getShortName() {
+		return shortName;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (o == null || getClass() != o.getClass()) {
+			return false;
+		} else {
+			return ((fullName.equals(((User) o).fullName)) && (authMethod == ((User) o).authMethod));
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return fullName.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return fullName;
+	}
+
+	public void setAuthenticationMethod(AuthenticationMethod authMethod) {
+		this.authMethod = authMethod;
+	}
+
+	public AuthenticationMethod getAuthenticationMethod() {
+		return authMethod;
+	}
+
+	/**
+	 * Returns login object
+	 * 
+	 * @return login
+	 */
+	public LoginContext getLogin() {
+		return login;
+	}
+
+	/**
+	 * Set the login object
+	 * 
+	 * @param login
+	 */
+	public void setLogin(LoginContext login) {
+		this.login = login;
+	}
+
+	/**
+	 * Set the last login time.
+	 * 
+	 * @param time
+	 *            the number of milliseconds since the beginning of time
+	 */
+	public void setLastLogin(long time) {
+		lastLogin = time;
+	}
+
+	/**
+	 * Get the time of the last login.
+	 * 
+	 * @return the number of milliseconds since the beginning of time.
+	 */
+	public long getLastLogin() {
+		return lastLogin;
+	}
 }

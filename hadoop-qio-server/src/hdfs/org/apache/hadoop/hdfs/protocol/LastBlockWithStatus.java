@@ -27,20 +27,20 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceStability.Evolving
 public class LastBlockWithStatus {
 
-  private final LocatedBlock lastBlock;
+	private final LocatedBlock lastBlock;
 
-  private final HdfsFileStatus fileStatus;
+	private final HdfsFileStatus fileStatus;
 
-  public LastBlockWithStatus(LocatedBlock lastBlock, HdfsFileStatus fileStatus) {
-    this.lastBlock = lastBlock;
-    this.fileStatus = fileStatus;
-  }
+	public LastBlockWithStatus(LocatedBlock lastBlock, HdfsFileStatus fileStatus) {
+		this.lastBlock = lastBlock;
+		this.fileStatus = fileStatus;
+	}
 
-  public LocatedBlock getLastBlock() {
-    return lastBlock;
-  }
+	public LocatedBlock getLastBlock() {
+		return lastBlock;
+	}
 
-  public HdfsFileStatus getFileStatus() {
-    return fileStatus;
-  }
+	public HdfsFileStatus getFileStatus() {
+		return fileStatus;
+	}
 }

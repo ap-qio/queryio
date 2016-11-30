@@ -17,81 +17,77 @@
  */
 package org.apache.hadoop.security;
 
-import org.apache.hadoop.http.HttpServer2;
-import org.apache.hadoop.security.authentication.server.AuthenticationFilter;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.http.FilterContainer;
-import org.apache.hadoop.http.FilterInitializer;
-import org.apache.hadoop.security.authentication.server.KerberosAuthenticationHandler;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.http.FilterContainer;
+import org.apache.hadoop.http.FilterInitializer;
+import org.apache.hadoop.http.HttpServer2;
+import org.apache.hadoop.security.authentication.server.AuthenticationFilter;
+import org.apache.hadoop.security.authentication.server.KerberosAuthenticationHandler;
 
 /**
  * Initializes hadoop-auth AuthenticationFilter which provides support for
  * Kerberos HTTP SPNEGO authentication.
  * <p/>
  * It enables anonymous access, simple/speudo and Kerberos HTTP SPNEGO
- * authentication  for Hadoop JobTracker, NameNode, DataNodes and
- * TaskTrackers.
+ * authentication for Hadoop JobTracker, NameNode, DataNodes and TaskTrackers.
  * <p/>
- * Refer to the <code>core-default.xml</code> file, after the comment
- * 'HTTP Authentication' for details on the configuration options.
- * All related configuration properties have 'hadoop.http.authentication.'
- * as prefix.
+ * Refer to the <code>core-default.xml</code> file, after the comment 'HTTP
+ * Authentication' for details on the configuration options. All related
+ * configuration properties have 'hadoop.http.authentication.' as prefix.
  */
 public class AuthenticationFilterInitializer extends FilterInitializer {
 
-  static final String PREFIX = "hadoop.http.authentication.";
+	static final String PREFIX = "hadoop.http.authentication.";
 
-  /**
-   * Initializes hadoop-auth AuthenticationFilter.
-   * <p/>
-   * Propagates to hadoop-auth AuthenticationFilter configuration all Hadoop
-   * configuration properties prefixed with "hadoop.http.authentication."
-   *
-   * @param container The filter container
-   * @param conf Configuration for run-time parameters
-   */
-  @Override
-  public void initFilter(FilterContainer container, Configuration conf) {
-    Map<String, String> filterConfig = getFilterConfigMap(conf, PREFIX);
+	/**
+	 * Initializes hadoop-auth AuthenticationFilter.
+	 * <p/>
+	 * Propagates to hadoop-auth AuthenticationFilter configuration all Hadoop
+	 * configuration properties prefixed with "hadoop.http.authentication."
+	 *
+	 * @param container
+	 *            The filter container
+	 * @param conf
+	 *            Configuration for run-time parameters
+	 */
+	@Override
+	public void initFilter(FilterContainer container, Configuration conf) {
+		Map<String, String> filterConfig = getFilterConfigMap(conf, PREFIX);
 
-    container.addFilter("authentication",
-                        AuthenticationFilter.class.getName(),
-                        filterConfig);
-  }
+		container.addFilter("authentication", AuthenticationFilter.class.getName(), filterConfig);
+	}
 
-  public static Map<String, String> getFilterConfigMap(Configuration conf,
-      String prefix) {
-    Map<String, String> filterConfig = new HashMap<String, String>();
+	public static Map<String, String> getFilterConfigMap(Configuration conf, String prefix) {
+		Map<String, String> filterConfig = new HashMap<String, String>();
 
-    //setting the cookie path to root '/' so it is used for all resources.
-    filterConfig.put(AuthenticationFilter.COOKIE_PATH, "/");
+		// setting the cookie path to root '/' so it is used for all resources.
+		filterConfig.put(AuthenticationFilter.COOKIE_PATH, "/");
 
-    for (Map.Entry<String, String> entry : conf) {
-      String name = entry.getKey();
-      if (name.startsWith(prefix)) {
-        String value = conf.get(name);
-        name = name.substring(prefix.length());
-        filterConfig.put(name, value);
-      }
-    }
+		for (Map.Entry<String, String> entry : conf) {
+			String name = entry.getKey();
+			if (name.startsWith(prefix)) {
+				String value = conf.get(name);
+				name = name.substring(prefix.length());
+				filterConfig.put(name, value);
+			}
+		}
 
-    //Resolve _HOST into bind address
-    String bindAddress = conf.get(HttpServer2.BIND_ADDRESS);
-    String principal = filterConfig.get(KerberosAuthenticationHandler.PRINCIPAL);
-    if (principal != null) {
-      try {
-        principal = SecurityUtil.getServerPrincipal(principal, bindAddress);
-      }
-      catch (IOException ex) {
-        throw new RuntimeException("Could not resolve Kerberos principal name: " + ex.toString(), ex);
-      }
-      filterConfig.put(KerberosAuthenticationHandler.PRINCIPAL, principal);
-    }
-    return filterConfig;
-  }
+		// Resolve _HOST into bind address
+		String bindAddress = conf.get(HttpServer2.BIND_ADDRESS);
+		String principal = filterConfig.get(KerberosAuthenticationHandler.PRINCIPAL);
+		if (principal != null) {
+			try {
+				principal = SecurityUtil.getServerPrincipal(principal, bindAddress);
+			} catch (IOException ex) {
+				throw new RuntimeException("Could not resolve Kerberos principal name: " + ex.toString(), ex);
+			}
+			filterConfig.put(KerberosAuthenticationHandler.PRINCIPAL, principal);
+		}
+		return filterConfig;
+	}
 
 }

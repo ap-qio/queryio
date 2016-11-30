@@ -24,9 +24,9 @@ import java.io.OutputStream;
 
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.CommonConfigurationKeys;
 import org.apache.hadoop.io.compress.lz4.Lz4Compressor;
 import org.apache.hadoop.io.compress.lz4.Lz4Decompressor;
-import org.apache.hadoop.fs.CommonConfigurationKeys;
 import org.apache.hadoop.util.NativeCodeLoader;
 
 /**
@@ -34,193 +34,192 @@ import org.apache.hadoop.util.NativeCodeLoader;
  */
 public class Lz4Codec implements Configurable, CompressionCodec {
 
-  static {
-    NativeCodeLoader.isNativeCodeLoaded();
-  }
+	static {
+		NativeCodeLoader.isNativeCodeLoaded();
+	}
 
-  Configuration conf;
+	Configuration conf;
 
-  /**
-   * Set the configuration to be used by this object.
-   *
-   * @param conf the configuration object.
-   */
-  @Override
-  public void setConf(Configuration conf) {
-    this.conf = conf;
-  }
+	/**
+	 * Set the configuration to be used by this object.
+	 *
+	 * @param conf
+	 *            the configuration object.
+	 */
+	@Override
+	public void setConf(Configuration conf) {
+		this.conf = conf;
+	}
 
-  /**
-   * Return the configuration used by this object.
-   *
-   * @return the configuration object used by this objec.
-   */
-  @Override
-  public Configuration getConf() {
-    return conf;
-  }
+	/**
+	 * Return the configuration used by this object.
+	 *
+	 * @return the configuration object used by this objec.
+	 */
+	@Override
+	public Configuration getConf() {
+		return conf;
+	}
 
-  /**
-   * Are the native lz4 libraries loaded & initialized?
-   *
-   * @return true if loaded & initialized, otherwise false
-   */
-  public static boolean isNativeCodeLoaded() {
-    return NativeCodeLoader.isNativeCodeLoaded();
-  }
+	/**
+	 * Are the native lz4 libraries loaded & initialized?
+	 *
+	 * @return true if loaded & initialized, otherwise false
+	 */
+	public static boolean isNativeCodeLoaded() {
+		return NativeCodeLoader.isNativeCodeLoaded();
+	}
 
-  public static String getLibraryName() {
-    return Lz4Compressor.getLibraryName();
-  }
+	public static String getLibraryName() {
+		return Lz4Compressor.getLibraryName();
+	}
 
-  /**
-   * Create a {@link CompressionOutputStream} that will write to the given
-   * {@link OutputStream}.
-   *
-   * @param out the location for the final output stream
-   * @return a stream the user can write uncompressed data to have it compressed
-   * @throws IOException
-   */
-  @Override
-  public CompressionOutputStream createOutputStream(OutputStream out)
-      throws IOException {
-    return CompressionCodec.Util.
-        createOutputStreamWithCodecPool(this, conf, out);
-  }
+	/**
+	 * Create a {@link CompressionOutputStream} that will write to the given
+	 * {@link OutputStream}.
+	 *
+	 * @param out
+	 *            the location for the final output stream
+	 * @return a stream the user can write uncompressed data to have it
+	 *         compressed
+	 * @throws IOException
+	 */
+	@Override
+	public CompressionOutputStream createOutputStream(OutputStream out) throws IOException {
+		return CompressionCodec.Util.createOutputStreamWithCodecPool(this, conf, out);
+	}
 
-  /**
-   * Create a {@link CompressionOutputStream} that will write to the given
-   * {@link OutputStream} with the given {@link Compressor}.
-   *
-   * @param out        the location for the final output stream
-   * @param compressor compressor to use
-   * @return a stream the user can write uncompressed data to have it compressed
-   * @throws IOException
-   */
-  @Override
-  public CompressionOutputStream createOutputStream(OutputStream out,
-                                                    Compressor compressor)
-      throws IOException {
-    if (!isNativeCodeLoaded()) {
-      throw new RuntimeException("native lz4 library not available");
-    }
-    int bufferSize = conf.getInt(
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_KEY,
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_DEFAULT);
+	/**
+	 * Create a {@link CompressionOutputStream} that will write to the given
+	 * {@link OutputStream} with the given {@link Compressor}.
+	 *
+	 * @param out
+	 *            the location for the final output stream
+	 * @param compressor
+	 *            compressor to use
+	 * @return a stream the user can write uncompressed data to have it
+	 *         compressed
+	 * @throws IOException
+	 */
+	@Override
+	public CompressionOutputStream createOutputStream(OutputStream out, Compressor compressor) throws IOException {
+		if (!isNativeCodeLoaded()) {
+			throw new RuntimeException("native lz4 library not available");
+		}
+		int bufferSize = conf.getInt(CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_KEY,
+				CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_DEFAULT);
 
-    int compressionOverhead = bufferSize/255 + 16;
+		int compressionOverhead = bufferSize / 255 + 16;
 
-    return new BlockCompressorStream(out, compressor, bufferSize,
-        compressionOverhead);
-  }
+		return new BlockCompressorStream(out, compressor, bufferSize, compressionOverhead);
+	}
 
-  /**
-   * Get the type of {@link Compressor} needed by this {@link CompressionCodec}.
-   *
-   * @return the type of compressor needed by this codec.
-   */
-  @Override
-  public Class<? extends Compressor> getCompressorType() {
-    if (!isNativeCodeLoaded()) {
-      throw new RuntimeException("native lz4 library not available");
-    }
+	/**
+	 * Get the type of {@link Compressor} needed by this
+	 * {@link CompressionCodec}.
+	 *
+	 * @return the type of compressor needed by this codec.
+	 */
+	@Override
+	public Class<? extends Compressor> getCompressorType() {
+		if (!isNativeCodeLoaded()) {
+			throw new RuntimeException("native lz4 library not available");
+		}
 
-    return Lz4Compressor.class;
-  }
+		return Lz4Compressor.class;
+	}
 
-  /**
-   * Create a new {@link Compressor} for use by this {@link CompressionCodec}.
-   *
-   * @return a new compressor for use by this codec
-   */
-  @Override
-  public Compressor createCompressor() {
-    if (!isNativeCodeLoaded()) {
-      throw new RuntimeException("native lz4 library not available");
-    }
-    int bufferSize = conf.getInt(
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_KEY,
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_DEFAULT);
-    boolean useLz4HC = conf.getBoolean(
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_USELZ4HC_KEY,
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_USELZ4HC_DEFAULT);
-    return new Lz4Compressor(bufferSize, useLz4HC);
-  }
+	/**
+	 * Create a new {@link Compressor} for use by this {@link CompressionCodec}.
+	 *
+	 * @return a new compressor for use by this codec
+	 */
+	@Override
+	public Compressor createCompressor() {
+		if (!isNativeCodeLoaded()) {
+			throw new RuntimeException("native lz4 library not available");
+		}
+		int bufferSize = conf.getInt(CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_KEY,
+				CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_DEFAULT);
+		boolean useLz4HC = conf.getBoolean(CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_USELZ4HC_KEY,
+				CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_USELZ4HC_DEFAULT);
+		return new Lz4Compressor(bufferSize, useLz4HC);
+	}
 
-  /**
-   * Create a {@link CompressionInputStream} that will read from the given
-   * input stream.
-   *
-   * @param in the stream to read compressed bytes from
-   * @return a stream to read uncompressed bytes from
-   * @throws IOException
-   */
-  @Override
-  public CompressionInputStream createInputStream(InputStream in)
-      throws IOException {
-    return CompressionCodec.Util.
-        createInputStreamWithCodecPool(this, conf, in);
-  }
+	/**
+	 * Create a {@link CompressionInputStream} that will read from the given
+	 * input stream.
+	 *
+	 * @param in
+	 *            the stream to read compressed bytes from
+	 * @return a stream to read uncompressed bytes from
+	 * @throws IOException
+	 */
+	@Override
+	public CompressionInputStream createInputStream(InputStream in) throws IOException {
+		return CompressionCodec.Util.createInputStreamWithCodecPool(this, conf, in);
+	}
 
-  /**
-   * Create a {@link CompressionInputStream} that will read from the given
-   * {@link InputStream} with the given {@link Decompressor}.
-   *
-   * @param in           the stream to read compressed bytes from
-   * @param decompressor decompressor to use
-   * @return a stream to read uncompressed bytes from
-   * @throws IOException
-   */
-  @Override
-  public CompressionInputStream createInputStream(InputStream in,
-                                                  Decompressor decompressor)
-      throws IOException {
-    if (!isNativeCodeLoaded()) {
-      throw new RuntimeException("native lz4 library not available");
-    }
+	/**
+	 * Create a {@link CompressionInputStream} that will read from the given
+	 * {@link InputStream} with the given {@link Decompressor}.
+	 *
+	 * @param in
+	 *            the stream to read compressed bytes from
+	 * @param decompressor
+	 *            decompressor to use
+	 * @return a stream to read uncompressed bytes from
+	 * @throws IOException
+	 */
+	@Override
+	public CompressionInputStream createInputStream(InputStream in, Decompressor decompressor) throws IOException {
+		if (!isNativeCodeLoaded()) {
+			throw new RuntimeException("native lz4 library not available");
+		}
 
-    return new BlockDecompressorStream(in, decompressor, conf.getInt(
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_KEY,
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_DEFAULT));
-  }
+		return new BlockDecompressorStream(in, decompressor,
+				conf.getInt(CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_KEY,
+						CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_DEFAULT));
+	}
 
-  /**
-   * Get the type of {@link Decompressor} needed by this {@link CompressionCodec}.
-   *
-   * @return the type of decompressor needed by this codec.
-   */
-  @Override
-  public Class<? extends Decompressor> getDecompressorType() {
-    if (!isNativeCodeLoaded()) {
-      throw new RuntimeException("native lz4 library not available");
-    }
+	/**
+	 * Get the type of {@link Decompressor} needed by this
+	 * {@link CompressionCodec}.
+	 *
+	 * @return the type of decompressor needed by this codec.
+	 */
+	@Override
+	public Class<? extends Decompressor> getDecompressorType() {
+		if (!isNativeCodeLoaded()) {
+			throw new RuntimeException("native lz4 library not available");
+		}
 
-    return Lz4Decompressor.class;
-  }
+		return Lz4Decompressor.class;
+	}
 
-  /**
-   * Create a new {@link Decompressor} for use by this {@link CompressionCodec}.
-   *
-   * @return a new decompressor for use by this codec
-   */
-  @Override
-  public Decompressor createDecompressor() {
-    if (!isNativeCodeLoaded()) {
-      throw new RuntimeException("native lz4 library not available");
-    }
-    int bufferSize = conf.getInt(
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_KEY,
-        CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_DEFAULT);
-    return new Lz4Decompressor(bufferSize);
-  }
+	/**
+	 * Create a new {@link Decompressor} for use by this
+	 * {@link CompressionCodec}.
+	 *
+	 * @return a new decompressor for use by this codec
+	 */
+	@Override
+	public Decompressor createDecompressor() {
+		if (!isNativeCodeLoaded()) {
+			throw new RuntimeException("native lz4 library not available");
+		}
+		int bufferSize = conf.getInt(CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_KEY,
+				CommonConfigurationKeys.IO_COMPRESSION_CODEC_LZ4_BUFFERSIZE_DEFAULT);
+		return new Lz4Decompressor(bufferSize);
+	}
 
-  /**
-   * Get the default filename extension for this kind of compression.
-   *
-   * @return <code>.lz4</code>.
-   */
-  @Override
-  public String getDefaultExtension() {
-    return ".lz4";
-  }
+	/**
+	 * Get the default filename extension for this kind of compression.
+	 *
+	 * @return <code>.lz4</code>.
+	 */
+	@Override
+	public String getDefaultExtension() {
+		return ".lz4";
+	}
 }

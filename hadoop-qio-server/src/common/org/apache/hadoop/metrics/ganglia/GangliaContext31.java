@@ -38,102 +38,97 @@ import org.apache.hadoop.net.DNS;
  */
 public class GangliaContext31 extends GangliaContext {
 
-  String hostName = "UNKNOWN.example.com";
+	String hostName = "UNKNOWN.example.com";
 
-  private static final Log LOG = 
-    LogFactory.getLog("org.apache.hadoop.util.GangliaContext31");
+	private static final Log LOG = LogFactory.getLog("org.apache.hadoop.util.GangliaContext31");
 
-  public void init(String contextName, ContextFactory factory) {
-    super.init(contextName, factory);
+	public void init(String contextName, ContextFactory factory) {
+		super.init(contextName, factory);
 
-    LOG.debug("Initializing the GangliaContext31 for Ganglia 3.1 metrics.");
+		LOG.debug("Initializing the GangliaContext31 for Ganglia 3.1 metrics.");
 
-    // Take the hostname from the DNS class.
+		// Take the hostname from the DNS class.
 
-    Configuration conf = new Configuration();
+		Configuration conf = new Configuration();
 
-    if (conf.get("slave.host.name") != null) {
-      hostName = conf.get("slave.host.name");
-    } else {
-      try {
-        hostName = DNS.getDefaultHost(
-          conf.get("dfs.datanode.dns.interface","default"),
-          conf.get("dfs.datanode.dns.nameserver","default"));
-      } catch (UnknownHostException uhe) {
-        LOG.error(uhe);
-    	hostName = "UNKNOWN.example.com";
-      }
-    }
-  }
+		if (conf.get("slave.host.name") != null) {
+			hostName = conf.get("slave.host.name");
+		} else {
+			try {
+				hostName = DNS.getDefaultHost(conf.get("dfs.datanode.dns.interface", "default"),
+						conf.get("dfs.datanode.dns.nameserver", "default"));
+			} catch (UnknownHostException uhe) {
+				LOG.error(uhe);
+				hostName = "UNKNOWN.example.com";
+			}
+		}
+	}
 
-  protected void emitMetric(String name, String type,  String value) 
-    throws IOException
-  {
-    if (name == null) {
-      LOG.warn("Metric was emitted with no name.");
-      return;
-    } else if (value == null) {
-      LOG.warn("Metric name " + name +" was emitted with a null value.");
-      return;
-    } else if (type == null) {
-      LOG.warn("Metric name " + name + ", value " + value + " has no type.");
-      return;
-    }
+	protected void emitMetric(String name, String type, String value) throws IOException {
+		if (name == null) {
+			LOG.warn("Metric was emitted with no name.");
+			return;
+		} else if (value == null) {
+			LOG.warn("Metric name " + name + " was emitted with a null value.");
+			return;
+		} else if (type == null) {
+			LOG.warn("Metric name " + name + ", value " + value + " has no type.");
+			return;
+		}
 
-    LOG.debug("Emitting metric " + name + ", type " + type + ", value " + 
-      value + " from hostname" + hostName);
+		LOG.debug("Emitting metric " + name + ", type " + type + ", value " + value + " from hostname" + hostName);
 
-    String units = getUnits(name);
-    int slope = getSlope(name);
-    int tmax = getTmax(name);
-    int dmax = getDmax(name);
-    offset = 0;
-    String groupName = name.substring(0,name.lastIndexOf("."));
+		String units = getUnits(name);
+		int slope = getSlope(name);
+		int tmax = getTmax(name);
+		int dmax = getDmax(name);
+		offset = 0;
+		String groupName = name.substring(0, name.lastIndexOf("."));
 
-    // The following XDR recipe was done through a careful reading of
-    // gm_protocol.x in Ganglia 3.1 and carefully examining the output of
-    // the gmetric utility with strace.
+		// The following XDR recipe was done through a careful reading of
+		// gm_protocol.x in Ganglia 3.1 and carefully examining the output of
+		// the gmetric utility with strace.
 
-    // First we send out a metadata message
-    xdr_int(128);         // metric_id = metadata_msg
-    xdr_string(hostName); // hostname
-    xdr_string(name);     // metric name
-    xdr_int(0);           // spoof = False
-    xdr_string(type);     // metric type
-    xdr_string(name);     // metric name
-    xdr_string(units);    // units
-    xdr_int(slope);       // slope
-    xdr_int(tmax);        // tmax, the maximum time between metrics
-    xdr_int(dmax);        // dmax, the maximum data value
+		// First we send out a metadata message
+		xdr_int(128); // metric_id = metadata_msg
+		xdr_string(hostName); // hostname
+		xdr_string(name); // metric name
+		xdr_int(0); // spoof = False
+		xdr_string(type); // metric type
+		xdr_string(name); // metric name
+		xdr_string(units); // units
+		xdr_int(slope); // slope
+		xdr_int(tmax); // tmax, the maximum time between metrics
+		xdr_int(dmax); // dmax, the maximum data value
 
-    xdr_int(1);             /*Num of the entries in extra_value field for 
-                              Ganglia 3.1.x*/
-    xdr_string("GROUP");    /*Group attribute*/
-    xdr_string(groupName);  /*Group value*/
+		xdr_int(1); /*
+					 * Num of the entries in extra_value field for Ganglia 3.1.x
+					 */
+		xdr_string("GROUP"); /* Group attribute */
+		xdr_string(groupName); /* Group value */
 
-    for (SocketAddress socketAddress : metricsServers) {
-      DatagramPacket packet =
-        new DatagramPacket(buffer, offset, socketAddress);
-      datagramSocket.send(packet);
-    }
+		for (SocketAddress socketAddress : metricsServers) {
+			DatagramPacket packet = new DatagramPacket(buffer, offset, socketAddress);
+			datagramSocket.send(packet);
+		}
 
-    // Now we send out a message with the actual value.
-    // Technically, we only need to send out the metadata message once for
-    // each metric, but I don't want to have to record which metrics we did and
-    // did not send.
-    offset = 0;
-    xdr_int(133);         // we are sending a string value
-    xdr_string(hostName); // hostName
-    xdr_string(name);     // metric name
-    xdr_int(0);           // spoof = False
-    xdr_string("%s");     // format field
-    xdr_string(value);    // metric value
-        
-    for (SocketAddress socketAddress : metricsServers) {
-      DatagramPacket packet = 
-        new DatagramPacket(buffer, offset, socketAddress);
-      datagramSocket.send(packet);
-    }
-  }
+		// Now we send out a message with the actual value.
+		// Technically, we only need to send out the metadata message once for
+		// each metric, but I don't want to have to record which metrics we did
+		// and
+		// did not send.
+		offset = 0;
+		xdr_int(133); // we are sending a string value
+		xdr_string(hostName); // hostName
+		xdr_string(name); // metric name
+		xdr_int(0); // spoof = False
+		xdr_string("%s"); // format field
+		xdr_string(value); // metric value
+
+		for (SocketAddress socketAddress : metricsServers) {
+			DatagramPacket packet = new DatagramPacket(buffer, offset, socketAddress);
+			datagramSocket.send(packet);
+		}
+	}
 
 }

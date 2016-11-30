@@ -21,94 +21,88 @@ import java.net.HttpURLConnection;
 
 /** Http POST operation parameter. */
 public class PutOpParam extends HttpOpParam<PutOpParam.Op> {
-  /** Put operations. */
-  public static enum Op implements HttpOpParam.Op {
-    CREATE(true, HttpURLConnection.HTTP_CREATED),
+	/** Put operations. */
+	public static enum Op implements HttpOpParam.Op {
+		CREATE(true, HttpURLConnection.HTTP_CREATED),
 
-    MKDIRS(false, HttpURLConnection.HTTP_OK),
-    CREATESYMLINK(false, HttpURLConnection.HTTP_OK),
-    RENAME(false, HttpURLConnection.HTTP_OK),
-    SETREPLICATION(false, HttpURLConnection.HTTP_OK),
+		MKDIRS(false, HttpURLConnection.HTTP_OK), CREATESYMLINK(false, HttpURLConnection.HTTP_OK), RENAME(false,
+				HttpURLConnection.HTTP_OK), SETREPLICATION(false, HttpURLConnection.HTTP_OK),
 
-    SETOWNER(false, HttpURLConnection.HTTP_OK),
-    SETPERMISSION(false, HttpURLConnection.HTTP_OK),
-    SETTIMES(false, HttpURLConnection.HTTP_OK),
-    
-    RENEWDELEGATIONTOKEN(false, HttpURLConnection.HTTP_OK, true),
-    CANCELDELEGATIONTOKEN(false, HttpURLConnection.HTTP_OK, true),
-    
-    MODIFYACLENTRIES(false, HttpURLConnection.HTTP_OK),
-    REMOVEACLENTRIES(false, HttpURLConnection.HTTP_OK),
-    REMOVEDEFAULTACL(false, HttpURLConnection.HTTP_OK),
-    REMOVEACL(false, HttpURLConnection.HTTP_OK),
-    SETACL(false, HttpURLConnection.HTTP_OK),
-    
-    SETXATTR(false, HttpURLConnection.HTTP_OK), 
-    REMOVEXATTR(false, HttpURLConnection.HTTP_OK),
+		SETOWNER(false, HttpURLConnection.HTTP_OK), SETPERMISSION(false, HttpURLConnection.HTTP_OK), SETTIMES(false,
+				HttpURLConnection.HTTP_OK),
 
-    CREATESNAPSHOT(false, HttpURLConnection.HTTP_OK),
-    RENAMESNAPSHOT(false, HttpURLConnection.HTTP_OK),
-    
-    NULL(false, HttpURLConnection.HTTP_NOT_IMPLEMENTED);
+		RENEWDELEGATIONTOKEN(false, HttpURLConnection.HTTP_OK, true), CANCELDELEGATIONTOKEN(false,
+				HttpURLConnection.HTTP_OK, true),
 
-    final boolean doOutputAndRedirect;
-    final int expectedHttpResponseCode;
-    final boolean requireAuth;
+		MODIFYACLENTRIES(false, HttpURLConnection.HTTP_OK), REMOVEACLENTRIES(false,
+				HttpURLConnection.HTTP_OK), REMOVEDEFAULTACL(false, HttpURLConnection.HTTP_OK), REMOVEACL(false,
+						HttpURLConnection.HTTP_OK), SETACL(false, HttpURLConnection.HTTP_OK),
 
-    Op(final boolean doOutputAndRedirect, final int expectedHttpResponseCode) {
-      this(doOutputAndRedirect, expectedHttpResponseCode, false);
-    }
-    
-    Op(final boolean doOutputAndRedirect, final int expectedHttpResponseCode,
-       final boolean requireAuth) {
-      this.doOutputAndRedirect = doOutputAndRedirect;
-      this.expectedHttpResponseCode = expectedHttpResponseCode;
-      this.requireAuth = requireAuth;
-    }
+		SETXATTR(false, HttpURLConnection.HTTP_OK), REMOVEXATTR(false, HttpURLConnection.HTTP_OK),
 
-    @Override
-    public HttpOpParam.Type getType() {
-      return HttpOpParam.Type.PUT;
-    }
-    
-    @Override
-    public boolean getRequireAuth() {
-      return requireAuth;
-    }
+		CREATESNAPSHOT(false, HttpURLConnection.HTTP_OK), RENAMESNAPSHOT(false, HttpURLConnection.HTTP_OK),
 
-    @Override
-    public boolean getDoOutput() {
-      return doOutputAndRedirect;
-    }
+		NULL(false, HttpURLConnection.HTTP_NOT_IMPLEMENTED);
 
-    @Override
-    public boolean getRedirect() {
-      return doOutputAndRedirect;
-    }
+		final boolean doOutputAndRedirect;
+		final int expectedHttpResponseCode;
+		final boolean requireAuth;
 
-    @Override
-    public int getExpectedHttpResponseCode() {
-      return expectedHttpResponseCode;
-    }
+		Op(final boolean doOutputAndRedirect, final int expectedHttpResponseCode) {
+			this(doOutputAndRedirect, expectedHttpResponseCode, false);
+		}
 
-    @Override
-    public String toQueryString() {
-      return NAME + "=" + this;
-    }
-  }
+		Op(final boolean doOutputAndRedirect, final int expectedHttpResponseCode, final boolean requireAuth) {
+			this.doOutputAndRedirect = doOutputAndRedirect;
+			this.expectedHttpResponseCode = expectedHttpResponseCode;
+			this.requireAuth = requireAuth;
+		}
 
-  private static final Domain<Op> DOMAIN = new Domain<Op>(NAME, Op.class);
+		@Override
+		public HttpOpParam.Type getType() {
+			return HttpOpParam.Type.PUT;
+		}
 
-  /**
-   * Constructor.
-   * @param str a string representation of the parameter value.
-   */
-  public PutOpParam(final String str) {
-    super(DOMAIN, DOMAIN.parse(str));
-  }
+		@Override
+		public boolean getRequireAuth() {
+			return requireAuth;
+		}
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+		@Override
+		public boolean getDoOutput() {
+			return doOutputAndRedirect;
+		}
+
+		@Override
+		public boolean getRedirect() {
+			return doOutputAndRedirect;
+		}
+
+		@Override
+		public int getExpectedHttpResponseCode() {
+			return expectedHttpResponseCode;
+		}
+
+		@Override
+		public String toQueryString() {
+			return NAME + "=" + this;
+		}
+	}
+
+	private static final Domain<Op> DOMAIN = new Domain<Op>(NAME, Op.class);
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param str
+	 *            a string representation of the parameter value.
+	 */
+	public PutOpParam(final String str) {
+		super(DOMAIN, DOMAIN.parse(str));
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
+	}
 }

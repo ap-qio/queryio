@@ -37,99 +37,100 @@ import org.apache.hadoop.util.ToolRunner;
  */
 public class DFSHAAdmin extends HAAdmin {
 
-  private static final Log LOG = LogFactory.getLog(DFSHAAdmin.class);
+	private static final Log LOG = LogFactory.getLog(DFSHAAdmin.class);
 
-  private String nameserviceId;
+	private String nameserviceId;
 
-  protected void setErrOut(PrintStream errOut) {
-    this.errOut = errOut;
-  }
-  
-  protected void setOut(PrintStream out) {
-    this.out = out;
-  }
+	protected void setErrOut(PrintStream errOut) {
+		this.errOut = errOut;
+	}
 
-  @Override
-  public void setConf(Configuration conf) {
-    if (conf != null) {
-      conf = addSecurityConfiguration(conf);
-    }
-    super.setConf(conf);
-  }
+	protected void setOut(PrintStream out) {
+		this.out = out;
+	}
 
-  /**
-   * Add the requisite security principal settings to the given Configuration,
-   * returning a copy.
-   * @param conf the original config
-   * @return a copy with the security settings added
-   */
-  public static Configuration addSecurityConfiguration(Configuration conf) {
-    // Make a copy so we don't mutate it. Also use an HdfsConfiguration to
-    // force loading of hdfs-site.xml.
-    conf = new HdfsConfiguration(conf);
-    String nameNodePrincipal = conf.get(
-        DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY, "");
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Using NN principal: " + nameNodePrincipal);
-    }
+	@Override
+	public void setConf(Configuration conf) {
+		if (conf != null) {
+			conf = addSecurityConfiguration(conf);
+		}
+		super.setConf(conf);
+	}
 
-    conf.set(CommonConfigurationKeys.HADOOP_SECURITY_SERVICE_USER_NAME_KEY,
-        nameNodePrincipal);
-    return conf;
-  }
+	/**
+	 * Add the requisite security principal settings to the given Configuration,
+	 * returning a copy.
+	 * 
+	 * @param conf
+	 *            the original config
+	 * @return a copy with the security settings added
+	 */
+	public static Configuration addSecurityConfiguration(Configuration conf) {
+		// Make a copy so we don't mutate it. Also use an HdfsConfiguration to
+		// force loading of hdfs-site.xml.
+		conf = new HdfsConfiguration(conf);
+		String nameNodePrincipal = conf.get(DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY, "");
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Using NN principal: " + nameNodePrincipal);
+		}
 
-  /**
-   * Try to map the given namenode ID to its service address.
-   */
-  @Override
-  protected HAServiceTarget resolveTarget(String nnId) {
-    HdfsConfiguration conf = (HdfsConfiguration)getConf();
-    return new NNHAServiceTarget(conf, nameserviceId, nnId);
-  }
+		conf.set(CommonConfigurationKeys.HADOOP_SECURITY_SERVICE_USER_NAME_KEY, nameNodePrincipal);
+		return conf;
+	}
 
-  @Override
-  protected String getUsageString() {
-    return "Usage: haadmin";
-  }
+	/**
+	 * Try to map the given namenode ID to its service address.
+	 */
+	@Override
+	protected HAServiceTarget resolveTarget(String nnId) {
+		HdfsConfiguration conf = (HdfsConfiguration) getConf();
+		return new NNHAServiceTarget(conf, nameserviceId, nnId);
+	}
 
-  @Override
-  protected int runCmd(String[] argv) throws Exception {
-    if (argv.length < 1) {
-      printUsage(errOut);
-      return -1;
-    }
+	@Override
+	protected String getUsageString() {
+		return "Usage: haadmin";
+	}
 
-    int i = 0;
-    String cmd = argv[i++];
+	@Override
+	protected int runCmd(String[] argv) throws Exception {
+		if (argv.length < 1) {
+			printUsage(errOut);
+			return -1;
+		}
 
-    if ("-ns".equals(cmd)) {
-      if (i == argv.length) {
-        errOut.println("Missing nameservice ID");
-        printUsage(errOut);
-        return -1;
-      }
-      nameserviceId = argv[i++];
-      if (i >= argv.length) {
-        errOut.println("Missing command");
-        printUsage(errOut);
-        return -1;
-      }
-      argv = Arrays.copyOfRange(argv, i, argv.length);
-    }
+		int i = 0;
+		String cmd = argv[i++];
 
-    return super.runCmd(argv);
-  }
-  
-  /**
-   * returns the list of all namenode ids for the given configuration 
-   */
-  @Override
-  protected Collection<String> getTargetIds(String namenodeToActivate) {
-    return DFSUtil.getNameNodeIds(getConf(), (nameserviceId != null)? nameserviceId : DFSUtil.getNamenodeNameServiceId(getConf()));
-  }
-  
-  public static void main(String[] argv) throws Exception {
-    int res = ToolRunner.run(new DFSHAAdmin(), argv);
-    System.exit(res);
-  }
+		if ("-ns".equals(cmd)) {
+			if (i == argv.length) {
+				errOut.println("Missing nameservice ID");
+				printUsage(errOut);
+				return -1;
+			}
+			nameserviceId = argv[i++];
+			if (i >= argv.length) {
+				errOut.println("Missing command");
+				printUsage(errOut);
+				return -1;
+			}
+			argv = Arrays.copyOfRange(argv, i, argv.length);
+		}
+
+		return super.runCmd(argv);
+	}
+
+	/**
+	 * returns the list of all namenode ids for the given configuration
+	 */
+	@Override
+	protected Collection<String> getTargetIds(String namenodeToActivate) {
+		return DFSUtil.getNameNodeIds(getConf(),
+				(nameserviceId != null) ? nameserviceId : DFSUtil.getNamenodeNameServiceId(getConf()));
+	}
+
+	public static void main(String[] argv) throws Exception {
+		int res = ToolRunner.run(new DFSHAAdmin(), argv);
+		System.exit(res);
+	}
 }

@@ -39,59 +39,51 @@ import com.google.protobuf.BlockingService;
 @InterfaceStability.Evolving
 public class ZKFCRpcServer implements ZKFCProtocol {
 
-  private static final int HANDLER_COUNT = 3;
-  private final ZKFailoverController zkfc;
-  private Server server;
+	private static final int HANDLER_COUNT = 3;
+	private final ZKFailoverController zkfc;
+	private Server server;
 
-  ZKFCRpcServer(Configuration conf,
-      InetSocketAddress bindAddr,
-      ZKFailoverController zkfc,
-      PolicyProvider policy) throws IOException {
-    this.zkfc = zkfc;
-    
-    RPC.setProtocolEngine(conf, ZKFCProtocolPB.class,
-        ProtobufRpcEngine.class);
-    ZKFCProtocolServerSideTranslatorPB translator =
-        new ZKFCProtocolServerSideTranslatorPB(this);
-    BlockingService service = ZKFCProtocolService
-        .newReflectiveBlockingService(translator);
-    this.server = new RPC.Builder(conf).setProtocol(ZKFCProtocolPB.class)
-        .setInstance(service).setBindAddress(bindAddr.getHostName())
-        .setPort(bindAddr.getPort()).setNumHandlers(HANDLER_COUNT)
-        .setVerbose(false).build();
-    
-    // set service-level authorization security policy
-    if (conf.getBoolean(
-        CommonConfigurationKeys.HADOOP_SECURITY_AUTHORIZATION, false)) {
-      server.refreshServiceAcl(conf, policy);
-    }
+	ZKFCRpcServer(Configuration conf, InetSocketAddress bindAddr, ZKFailoverController zkfc, PolicyProvider policy)
+			throws IOException {
+		this.zkfc = zkfc;
 
-  }
-  
-  void start() {
-    this.server.start();
-  }
+		RPC.setProtocolEngine(conf, ZKFCProtocolPB.class, ProtobufRpcEngine.class);
+		ZKFCProtocolServerSideTranslatorPB translator = new ZKFCProtocolServerSideTranslatorPB(this);
+		BlockingService service = ZKFCProtocolService.newReflectiveBlockingService(translator);
+		this.server = new RPC.Builder(conf).setProtocol(ZKFCProtocolPB.class).setInstance(service)
+				.setBindAddress(bindAddr.getHostName()).setPort(bindAddr.getPort()).setNumHandlers(HANDLER_COUNT)
+				.setVerbose(false).build();
 
-  public InetSocketAddress getAddress() {
-    return server.getListenerAddress();
-  }
+		// set service-level authorization security policy
+		if (conf.getBoolean(CommonConfigurationKeys.HADOOP_SECURITY_AUTHORIZATION, false)) {
+			server.refreshServiceAcl(conf, policy);
+		}
 
-  void stopAndJoin() throws InterruptedException {
-    this.server.stop();
-    this.server.join();
-  }
-  
-  @Override
-  public void cedeActive(int millisToCede) throws IOException,
-      AccessControlException {
-    zkfc.checkRpcAdminAccess();
-    zkfc.cedeActive(millisToCede);
-  }
+	}
 
-  @Override
-  public void gracefulFailover() throws IOException, AccessControlException {
-    zkfc.checkRpcAdminAccess();
-    zkfc.gracefulFailoverToYou();
-  }
+	void start() {
+		this.server.start();
+	}
+
+	public InetSocketAddress getAddress() {
+		return server.getListenerAddress();
+	}
+
+	void stopAndJoin() throws InterruptedException {
+		this.server.stop();
+		this.server.join();
+	}
+
+	@Override
+	public void cedeActive(int millisToCede) throws IOException, AccessControlException {
+		zkfc.checkRpcAdminAccess();
+		zkfc.cedeActive(millisToCede);
+	}
+
+	@Override
+	public void gracefulFailover() throws IOException, AccessControlException {
+		zkfc.checkRpcAdminAccess();
+		zkfc.gracefulFailoverToYou();
+	}
 
 }

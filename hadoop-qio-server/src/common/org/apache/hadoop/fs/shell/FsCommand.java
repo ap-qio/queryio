@@ -35,59 +35,62 @@ import org.apache.hadoop.fs.shell.find.Find;
 @InterfaceStability.Evolving
 
 // this class may not look useful now, but it's a placeholder for future
-// functionality to act as a registry for fs commands.  currently it's being
+// functionality to act as a registry for fs commands. currently it's being
 // used to implement unnecessary abstract methods in the base class
 
 abstract public class FsCommand extends Command {
-  /**
-   * Register the command classes used by the fs subcommand
-   * @param factory where to register the class
-   */
-  public static void registerCommands(CommandFactory factory) {
-    factory.registerCommands(AclCommands.class);
-    factory.registerCommands(CopyCommands.class);
-    factory.registerCommands(Count.class);
-    factory.registerCommands(Delete.class);
-    factory.registerCommands(Display.class);
-    factory.registerCommands(Find.class);
-    factory.registerCommands(FsShellPermissions.class);
-    factory.registerCommands(FsUsage.class);
-    factory.registerCommands(Ls.class);
-    factory.registerCommands(Mkdir.class);
-    factory.registerCommands(MoveCommands.class);
-    factory.registerCommands(SetReplication.class);
-    factory.registerCommands(Stat.class);
-    factory.registerCommands(Tail.class);
-    factory.registerCommands(Test.class);
-    factory.registerCommands(Touch.class);
-    factory.registerCommands(Truncate.class);
-    factory.registerCommands(SnapshotCommands.class);
-    factory.registerCommands(XAttrCommands.class);
-  }
+	/**
+	 * Register the command classes used by the fs subcommand
+	 * 
+	 * @param factory
+	 *            where to register the class
+	 */
+	public static void registerCommands(CommandFactory factory) {
+		factory.registerCommands(AclCommands.class);
+		factory.registerCommands(CopyCommands.class);
+		factory.registerCommands(Count.class);
+		factory.registerCommands(Delete.class);
+		factory.registerCommands(Display.class);
+		factory.registerCommands(Find.class);
+		factory.registerCommands(FsShellPermissions.class);
+		factory.registerCommands(FsUsage.class);
+		factory.registerCommands(Ls.class);
+		factory.registerCommands(Mkdir.class);
+		factory.registerCommands(MoveCommands.class);
+		factory.registerCommands(SetReplication.class);
+		factory.registerCommands(Stat.class);
+		factory.registerCommands(Tail.class);
+		factory.registerCommands(Test.class);
+		factory.registerCommands(Touch.class);
+		factory.registerCommands(Truncate.class);
+		factory.registerCommands(SnapshotCommands.class);
+		factory.registerCommands(XAttrCommands.class);
+	}
 
-  protected FsCommand() {}
-  
-  protected FsCommand(Configuration conf) {
-    super(conf);
-  }
+	protected FsCommand() {
+	}
 
-  // historical abstract method in Command
-  @Override
-  public String getCommandName() { 
-    return getName(); 
-  }
-  
-  // abstract method that normally is invoked by runall() which is
-  // overridden below
-  @Override
-  protected void run(Path path) throws IOException {
-    throw new RuntimeException("not supposed to get here");
-  }
-  
-  /** @deprecated use {@link Command#run(String...argv)} */
-  @Deprecated
-  @Override
-  public int runAll() {
-    return run(args);
-  }
+	protected FsCommand(Configuration conf) {
+		super(conf);
+	}
+
+	// historical abstract method in Command
+	@Override
+	public String getCommandName() {
+		return getName();
+	}
+
+	// abstract method that normally is invoked by runall() which is
+	// overridden below
+	@Override
+	protected void run(Path path) throws IOException {
+		throw new RuntimeException("not supposed to get here");
+	}
+
+	/** @deprecated use {@link Command#run(String...argv)} */
+	@Deprecated
+	@Override
+	public int runAll() {
+		return run(args);
+	}
 }

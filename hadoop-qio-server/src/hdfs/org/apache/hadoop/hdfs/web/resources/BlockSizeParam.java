@@ -24,37 +24,40 @@ import org.apache.hadoop.conf.Configuration;
 
 /** Block size parameter. */
 public class BlockSizeParam extends LongParam {
-  /** Parameter name. */
-  public static final String NAME = "blocksize";
-  /** Default parameter value. */
-  public static final String DEFAULT = NULL;
+	/** Parameter name. */
+	public static final String NAME = "blocksize";
+	/** Default parameter value. */
+	public static final String DEFAULT = NULL;
 
-  private static final Domain DOMAIN = new Domain(NAME);
+	private static final Domain DOMAIN = new Domain(NAME);
 
-  /**
-   * Constructor.
-   * @param value the parameter value.
-   */
-  public BlockSizeParam(final Long value) {
-    super(DOMAIN, value, 1L, null);
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param value
+	 *            the parameter value.
+	 */
+	public BlockSizeParam(final Long value) {
+		super(DOMAIN, value, 1L, null);
+	}
 
-  /**
-   * Constructor.
-   * @param str a string representation of the parameter value.
-   */
-  public BlockSizeParam(final String str) {
-    this(DOMAIN.parse(str));
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param str
+	 *            a string representation of the parameter value.
+	 */
+	public BlockSizeParam(final String str) {
+		this(DOMAIN.parse(str));
+	}
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+	@Override
+	public String getName() {
+		return NAME;
+	}
 
-  /** @return the value or, if it is null, return the default from conf. */
-  public long getValue(final Configuration conf) {
-    return getValue() != null? getValue()
-        : conf.getLongBytes(DFS_BLOCK_SIZE_KEY, DFS_BLOCK_SIZE_DEFAULT);
-  }
+	/** @return the value or, if it is null, return the default from conf. */
+	public long getValue(final Configuration conf) {
+		return getValue() != null ? getValue() : conf.getLongBytes(DFS_BLOCK_SIZE_KEY, DFS_BLOCK_SIZE_DEFAULT);
+	}
 }

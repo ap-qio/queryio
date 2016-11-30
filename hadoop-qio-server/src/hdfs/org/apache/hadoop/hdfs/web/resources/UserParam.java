@@ -18,65 +18,68 @@
 package org.apache.hadoop.hdfs.web.resources;
 
 import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_WEBHDFS_USER_PATTERN_DEFAULT;
-import org.apache.hadoop.security.UserGroupInformation;
-import com.google.common.annotations.VisibleForTesting;
- 
+
 import java.text.MessageFormat;
 import java.util.regex.Pattern;
 
+import org.apache.hadoop.security.UserGroupInformation;
+
+import com.google.common.annotations.VisibleForTesting;
+
 /** User parameter. */
 public class UserParam extends StringParam {
-  /** Parameter name. */
-  public static final String NAME = "user.name";
-  /** Default parameter value. */
-  public static final String DEFAULT = "";
+	/** Parameter name. */
+	public static final String NAME = "user.name";
+	/** Default parameter value. */
+	public static final String DEFAULT = "";
 
-  private static Domain domain = new Domain(NAME, Pattern.compile(DFS_WEBHDFS_USER_PATTERN_DEFAULT));
+	private static Domain domain = new Domain(NAME, Pattern.compile(DFS_WEBHDFS_USER_PATTERN_DEFAULT));
 
-  @VisibleForTesting
-  public static Domain getUserPatternDomain() {
-    return domain;
-  }
+	@VisibleForTesting
+	public static Domain getUserPatternDomain() {
+		return domain;
+	}
 
-  @VisibleForTesting
-  public static void setUserPatternDomain(Domain dm) {
-    domain = dm;
-  }
+	@VisibleForTesting
+	public static void setUserPatternDomain(Domain dm) {
+		domain = dm;
+	}
 
-  public static void setUserPattern(String pattern) {
-    domain = new Domain(NAME, Pattern.compile(pattern));
-  }
+	public static void setUserPattern(String pattern) {
+		domain = new Domain(NAME, Pattern.compile(pattern));
+	}
 
-  private static String validateLength(String str) {
-    if (str == null) {
-      throw new IllegalArgumentException(
-        MessageFormat.format("Parameter [{0}], cannot be NULL", NAME));
-    }
-    int len = str.length();
-    if (len < 1) {
-      throw new IllegalArgumentException(MessageFormat.format(
-        "Parameter [{0}], it's length must be at least 1", NAME));
-    }
-    return str;
-  }
+	private static String validateLength(String str) {
+		if (str == null) {
+			throw new IllegalArgumentException(MessageFormat.format("Parameter [{0}], cannot be NULL", NAME));
+		}
+		int len = str.length();
+		if (len < 1) {
+			throw new IllegalArgumentException(
+					MessageFormat.format("Parameter [{0}], it's length must be at least 1", NAME));
+		}
+		return str;
+	}
 
-  /**
-   * Constructor.
-   * @param str a string representation of the parameter value.
-   */
-  public UserParam(final String str) {
-    super(domain, str == null || str.equals(DEFAULT)? null : validateLength(str));
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param str
+	 *            a string representation of the parameter value.
+	 */
+	public UserParam(final String str) {
+		super(domain, str == null || str.equals(DEFAULT) ? null : validateLength(str));
+	}
 
-  /**
-   * Construct an object from a UGI.
-   */
-  public UserParam(final UserGroupInformation ugi) {
-    this(ugi.getShortUserName());
-  }
+	/**
+	 * Construct an object from a UGI.
+	 */
+	public UserParam(final UserGroupInformation ugi) {
+		this(ugi.getShortUserName());
+	}
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+	@Override
+	public String getName() {
+		return NAME;
+	}
 }

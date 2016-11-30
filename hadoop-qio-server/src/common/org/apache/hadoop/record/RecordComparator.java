@@ -32,24 +32,27 @@ import org.apache.hadoop.io.WritableComparator;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public abstract class RecordComparator extends WritableComparator {
-  
-  /**
-   * Construct a raw {@link Record} comparison implementation. */
-  protected RecordComparator(Class<? extends WritableComparable> recordClass) {
-    super(recordClass);
-  }
-  
-  // inheric JavaDoc
-  @Override
-  public abstract int compare(byte[] b1, int s1, int l1, byte[] b2, int s2, int l2);
-  
-  /**
-   * Register an optimized comparator for a {@link Record} implementation.
-   *
-   * @param c record classs for which a raw comparator is provided
-   * @param comparator Raw comparator instance for class c 
-   */
-  public static synchronized void define(Class c, RecordComparator comparator) {
-    WritableComparator.define(c, comparator);
-  }
+
+	/**
+	 * Construct a raw {@link Record} comparison implementation.
+	 */
+	protected RecordComparator(Class<? extends WritableComparable> recordClass) {
+		super(recordClass);
+	}
+
+	// inheric JavaDoc
+	@Override
+	public abstract int compare(byte[] b1, int s1, int l1, byte[] b2, int s2, int l2);
+
+	/**
+	 * Register an optimized comparator for a {@link Record} implementation.
+	 *
+	 * @param c
+	 *            record classs for which a raw comparator is provided
+	 * @param comparator
+	 *            Raw comparator instance for class c
+	 */
+	public static synchronized void define(Class c, RecordComparator comparator) {
+		WritableComparator.define(c, comparator);
+	}
 }

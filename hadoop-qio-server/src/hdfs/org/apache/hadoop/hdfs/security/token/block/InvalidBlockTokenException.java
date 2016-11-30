@@ -29,13 +29,13 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class InvalidBlockTokenException extends IOException {
-  private static final long serialVersionUID = 168L;
+	private static final long serialVersionUID = 168L;
 
-  public InvalidBlockTokenException() {
-    super();
-  }
+	public InvalidBlockTokenException() {
+		super();
+	}
 
-  public InvalidBlockTokenException(String msg) {
-    super(msg);
-  }
+	public InvalidBlockTokenException(String msg) {
+		super(msg);
+	}
 }

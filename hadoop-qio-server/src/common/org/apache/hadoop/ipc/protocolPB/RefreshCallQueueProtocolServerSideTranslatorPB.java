@@ -27,29 +27,25 @@ import org.apache.hadoop.ipc.proto.RefreshCallQueueProtocolProtos.RefreshCallQue
 import com.google.protobuf.RpcController;
 import com.google.protobuf.ServiceException;
 
-public class RefreshCallQueueProtocolServerSideTranslatorPB implements
-    RefreshCallQueueProtocolPB {
+public class RefreshCallQueueProtocolServerSideTranslatorPB implements RefreshCallQueueProtocolPB {
 
-  private final RefreshCallQueueProtocol impl;
+	private final RefreshCallQueueProtocol impl;
 
-  private final static RefreshCallQueueResponseProto
-  VOID_REFRESH_CALL_QUEUE_RESPONSE = RefreshCallQueueResponseProto
-      .newBuilder().build();
+	private final static RefreshCallQueueResponseProto VOID_REFRESH_CALL_QUEUE_RESPONSE = RefreshCallQueueResponseProto
+			.newBuilder().build();
 
-  public RefreshCallQueueProtocolServerSideTranslatorPB(
-      RefreshCallQueueProtocol impl) {
-    this.impl = impl;
-  }
+	public RefreshCallQueueProtocolServerSideTranslatorPB(RefreshCallQueueProtocol impl) {
+		this.impl = impl;
+	}
 
-  @Override
-  public RefreshCallQueueResponseProto refreshCallQueue(
-      RpcController controller, RefreshCallQueueRequestProto request)
-      throws ServiceException {
-    try {
-      impl.refreshCallQueue();
-    } catch (IOException e) {
-      throw new ServiceException(e);
-    }
-    return VOID_REFRESH_CALL_QUEUE_RESPONSE;
-  }
+	@Override
+	public RefreshCallQueueResponseProto refreshCallQueue(RpcController controller,
+			RefreshCallQueueRequestProto request) throws ServiceException {
+		try {
+			impl.refreshCallQueue();
+		} catch (IOException e) {
+			throw new ServiceException(e);
+		}
+		return VOID_REFRESH_CALL_QUEUE_RESPONSE;
+	}
 }

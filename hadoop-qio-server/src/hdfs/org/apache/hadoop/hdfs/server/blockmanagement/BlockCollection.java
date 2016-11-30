@@ -22,68 +22,70 @@ import java.io.IOException;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.fs.ContentSummary;
 
-/** 
- * This interface is used by the block manager to expose a
- * few characteristics of a collection of Block/BlockUnderConstruction.
+/**
+ * This interface is used by the block manager to expose a few characteristics
+ * of a collection of Block/BlockUnderConstruction.
  */
 @InterfaceAudience.Private
 public interface BlockCollection {
-  /**
-   * Get the last block of the collection.
-   */
-  public BlockInfoContiguous getLastBlock();
+	/**
+	 * Get the last block of the collection.
+	 */
+	public BlockInfoContiguous getLastBlock();
 
-  /** 
-   * Get content summary.
-   */
-  public ContentSummary computeContentSummary(BlockStoragePolicySuite bsps);
+	/**
+	 * Get content summary.
+	 */
+	public ContentSummary computeContentSummary(BlockStoragePolicySuite bsps);
 
-  /**
-   * @return the number of blocks
-   */ 
-  public int numBlocks();
+	/**
+	 * @return the number of blocks
+	 */
+	public int numBlocks();
 
-  /**
-   * Get the blocks.
-   */
-  public BlockInfoContiguous[] getBlocks();
+	/**
+	 * Get the blocks.
+	 */
+	public BlockInfoContiguous[] getBlocks();
 
-  /**
-   * Get preferred block size for the collection 
-   * @return preferred block size in bytes
-   */
-  public long getPreferredBlockSize();
+	/**
+	 * Get preferred block size for the collection
+	 * 
+	 * @return preferred block size in bytes
+	 */
+	public long getPreferredBlockSize();
 
-  /**
-   * Get block replication for the collection 
-   * @return block replication value
-   */
-  public short getBlockReplication();
+	/**
+	 * Get block replication for the collection
+	 * 
+	 * @return block replication value
+	 */
+	public short getBlockReplication();
 
-  /** 
-   * @return the storage policy ID.
-   */
-  public byte getStoragePolicyID();
+	/**
+	 * @return the storage policy ID.
+	 */
+	public byte getStoragePolicyID();
 
-  /**
-   * Get the name of the collection.
-   */
-  public String getName();
+	/**
+	 * Get the name of the collection.
+	 */
+	public String getName();
 
-  /**
-   * Set the block at the given index.
-   */
-  public void setBlock(int index, BlockInfoContiguous blk);
+	/**
+	 * Set the block at the given index.
+	 */
+	public void setBlock(int index, BlockInfoContiguous blk);
 
-  /**
-   * Convert the last block of the collection to an under-construction block
-   * and set the locations.
-   */
-  public BlockInfoContiguousUnderConstruction setLastBlock(BlockInfoContiguous lastBlock,
-      DatanodeStorageInfo[] targets) throws IOException;
+	/**
+	 * Convert the last block of the collection to an under-construction block
+	 * and set the locations.
+	 */
+	public BlockInfoContiguousUnderConstruction setLastBlock(BlockInfoContiguous lastBlock,
+			DatanodeStorageInfo[] targets) throws IOException;
 
-  /**
-   * @return whether the block collection is under construction.
-   */
-  public boolean isUnderConstruction();
+	/**
+	 * @return whether the block collection is under construction.
+	 */
+	public boolean isUnderConstruction();
 }

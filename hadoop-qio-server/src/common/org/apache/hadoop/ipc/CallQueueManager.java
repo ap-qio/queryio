@@ -31,133 +31,126 @@ import org.apache.hadoop.conf.Configuration;
  * Abstracts queue operations for different blocking queues.
  */
 public class CallQueueManager<E> {
-  public static final Log LOG = LogFactory.getLog(CallQueueManager.class);
+	public static final Log LOG = LogFactory.getLog(CallQueueManager.class);
 
-  @SuppressWarnings("unchecked")
-  static <E> Class<? extends BlockingQueue<E>> convertQueueClass(
-      Class<?> queneClass, Class<E> elementClass) {
-    return (Class<? extends BlockingQueue<E>>)queneClass;
-  }
-  
-  // Atomic refs point to active callQueue
-  // We have two so we can better control swapping
-  private final AtomicReference<BlockingQueue<E>> putRef;
-  private final AtomicReference<BlockingQueue<E>> takeRef;
+	@SuppressWarnings("unchecked")
+	static <E> Class<? extends BlockingQueue<E>> convertQueueClass(Class<?> queneClass, Class<E> elementClass) {
+		return (Class<? extends BlockingQueue<E>>) queneClass;
+	}
 
-  public CallQueueManager(Class<? extends BlockingQueue<E>> backingClass,
-      int maxQueueSize, String namespace, Configuration conf) {
-    BlockingQueue<E> bq = createCallQueueInstance(backingClass,
-      maxQueueSize, namespace, conf);
-    this.putRef = new AtomicReference<BlockingQueue<E>>(bq);
-    this.takeRef = new AtomicReference<BlockingQueue<E>>(bq);
-    LOG.info("Using callQueue " + backingClass);
-  }
+	// Atomic refs point to active callQueue
+	// We have two so we can better control swapping
+	private final AtomicReference<BlockingQueue<E>> putRef;
+	private final AtomicReference<BlockingQueue<E>> takeRef;
 
-  private <T extends BlockingQueue<E>> T createCallQueueInstance(
-      Class<T> theClass, int maxLen, String ns, Configuration conf) {
+	public CallQueueManager(Class<? extends BlockingQueue<E>> backingClass, int maxQueueSize, String namespace,
+			Configuration conf) {
+		BlockingQueue<E> bq = createCallQueueInstance(backingClass, maxQueueSize, namespace, conf);
+		this.putRef = new AtomicReference<BlockingQueue<E>>(bq);
+		this.takeRef = new AtomicReference<BlockingQueue<E>>(bq);
+		LOG.info("Using callQueue " + backingClass);
+	}
 
-    // Used for custom, configurable callqueues
-    try {
-      Constructor<T> ctor = theClass.getDeclaredConstructor(int.class, String.class,
-        Configuration.class);
-      return ctor.newInstance(maxLen, ns, conf);
-    } catch (RuntimeException e) {
-      throw e;
-    } catch (Exception e) {
-    }
+	private <T extends BlockingQueue<E>> T createCallQueueInstance(Class<T> theClass, int maxLen, String ns,
+			Configuration conf) {
 
-    // Used for LinkedBlockingQueue, ArrayBlockingQueue, etc
-    try {
-      Constructor<T> ctor = theClass.getDeclaredConstructor(int.class);
-      return ctor.newInstance(maxLen);
-    } catch (RuntimeException e) {
-      throw e;
-    } catch (Exception e) {
-    }
+		// Used for custom, configurable callqueues
+		try {
+			Constructor<T> ctor = theClass.getDeclaredConstructor(int.class, String.class, Configuration.class);
+			return ctor.newInstance(maxLen, ns, conf);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+		}
 
-    // Last attempt
-    try {
-      Constructor<T> ctor = theClass.getDeclaredConstructor();
-      return ctor.newInstance();
-    } catch (RuntimeException e) {
-      throw e;
-    } catch (Exception e) {
-    }
+		// Used for LinkedBlockingQueue, ArrayBlockingQueue, etc
+		try {
+			Constructor<T> ctor = theClass.getDeclaredConstructor(int.class);
+			return ctor.newInstance(maxLen);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+		}
 
-    // Nothing worked
-    throw new RuntimeException(theClass.getName() +
-      " could not be constructed.");
-  }
+		// Last attempt
+		try {
+			Constructor<T> ctor = theClass.getDeclaredConstructor();
+			return ctor.newInstance();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+		}
 
-  /**
-   * Insert e into the backing queue or block until we can.
-   * If we block and the queue changes on us, we will insert while the
-   * queue is drained.
-   */
-  public void put(E e) throws InterruptedException {
-    putRef.get().put(e);
-  }
+		// Nothing worked
+		throw new RuntimeException(theClass.getName() + " could not be constructed.");
+	}
 
-  /**
-   * Retrieve an E from the backing queue or block until we can.
-   * Guaranteed to return an element from the current queue.
-   */
-  public E take() throws InterruptedException {
-    E e = null;
+	/**
+	 * Insert e into the backing queue or block until we can. If we block and
+	 * the queue changes on us, we will insert while the queue is drained.
+	 */
+	public void put(E e) throws InterruptedException {
+		putRef.get().put(e);
+	}
 
-    while (e == null) {
-      e = takeRef.get().poll(1000L, TimeUnit.MILLISECONDS);
-    }
+	/**
+	 * Retrieve an E from the backing queue or block until we can. Guaranteed to
+	 * return an element from the current queue.
+	 */
+	public E take() throws InterruptedException {
+		E e = null;
 
-    return e;
-  }
+		while (e == null) {
+			e = takeRef.get().poll(1000L, TimeUnit.MILLISECONDS);
+		}
 
-  public int size() {
-    return takeRef.get().size();
-  }
+		return e;
+	}
 
-  /**
-   * Replaces active queue with the newly requested one and transfers
-   * all calls to the newQ before returning.
-   */
-  public synchronized void swapQueue(
-      Class<? extends BlockingQueue<E>> queueClassToUse, int maxSize,
-      String ns, Configuration conf) {
-    BlockingQueue<E> newQ = createCallQueueInstance(queueClassToUse, maxSize,
-      ns, conf);
+	public int size() {
+		return takeRef.get().size();
+	}
 
-    // Our current queue becomes the old queue
-    BlockingQueue<E> oldQ = putRef.get();
+	/**
+	 * Replaces active queue with the newly requested one and transfers all
+	 * calls to the newQ before returning.
+	 */
+	public synchronized void swapQueue(Class<? extends BlockingQueue<E>> queueClassToUse, int maxSize, String ns,
+			Configuration conf) {
+		BlockingQueue<E> newQ = createCallQueueInstance(queueClassToUse, maxSize, ns, conf);
 
-    // Swap putRef first: allow blocked puts() to be unblocked
-    putRef.set(newQ);
+		// Our current queue becomes the old queue
+		BlockingQueue<E> oldQ = putRef.get();
 
-    // Wait for handlers to drain the oldQ
-    while (!queueIsReallyEmpty(oldQ)) {}
+		// Swap putRef first: allow blocked puts() to be unblocked
+		putRef.set(newQ);
 
-    // Swap takeRef to handle new calls
-    takeRef.set(newQ);
+		// Wait for handlers to drain the oldQ
+		while (!queueIsReallyEmpty(oldQ)) {
+		}
 
-    LOG.info("Old Queue: " + stringRepr(oldQ) + ", " +
-      "Replacement: " + stringRepr(newQ));
-  }
+		// Swap takeRef to handle new calls
+		takeRef.set(newQ);
 
-  /**
-   * Checks if queue is empty by checking at two points in time.
-   * This doesn't mean the queue might not fill up at some point later, but
-   * it should decrease the probability that we lose a call this way.
-   */
-  private boolean queueIsReallyEmpty(BlockingQueue<?> q) {
-    boolean wasEmpty = q.isEmpty();
-    try {
-      Thread.sleep(10);
-    } catch (InterruptedException ie) {
-      return false;
-    }
-    return q.isEmpty() && wasEmpty;
-  }
+		LOG.info("Old Queue: " + stringRepr(oldQ) + ", " + "Replacement: " + stringRepr(newQ));
+	}
 
-  private String stringRepr(Object o) {
-    return o.getClass().getName() + '@' + Integer.toHexString(o.hashCode());
-  }
+	/**
+	 * Checks if queue is empty by checking at two points in time. This doesn't
+	 * mean the queue might not fill up at some point later, but it should
+	 * decrease the probability that we lose a call this way.
+	 */
+	private boolean queueIsReallyEmpty(BlockingQueue<?> q) {
+		boolean wasEmpty = q.isEmpty();
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException ie) {
+			return false;
+		}
+		return q.isEmpty() && wasEmpty;
+	}
+
+	private String stringRepr(Object o) {
+		return o.getClass().getName() + '@' + Integer.toHexString(o.hashCode());
+	}
 }

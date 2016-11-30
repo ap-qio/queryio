@@ -26,15 +26,14 @@ import org.apache.hadoop.security.token.TokenInfo;
  */
 public class AnnotatedSecurityInfo extends SecurityInfo {
 
-  @Override
-  public KerberosInfo getKerberosInfo(Class<?> protocol, Configuration conf) {
-    return protocol.getAnnotation(KerberosInfo.class);
-  }
+	@Override
+	public KerberosInfo getKerberosInfo(Class<?> protocol, Configuration conf) {
+		return protocol.getAnnotation(KerberosInfo.class);
+	}
 
-  @Override
-  public TokenInfo getTokenInfo(Class<?> protocol, Configuration conf) {
-    return protocol.getAnnotation(TokenInfo.class);
-  }
+	@Override
+	public TokenInfo getTokenInfo(Class<?> protocol, Configuration conf) {
+		return protocol.getAnnotation(TokenInfo.class);
+	}
 
-  
 }

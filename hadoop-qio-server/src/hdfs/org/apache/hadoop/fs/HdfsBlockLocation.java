@@ -32,16 +32,15 @@ import org.apache.hadoop.hdfs.protocol.LocatedBlock;
 @InterfaceStability.Unstable
 public class HdfsBlockLocation extends BlockLocation {
 
-  private final LocatedBlock block;
-  
-  public HdfsBlockLocation(BlockLocation loc, LocatedBlock block) 
-      throws IOException {
-    // Initialize with data from passed in BlockLocation
-    super(loc);
-    this.block = block;
-  }
-  
-  public LocatedBlock getLocatedBlock() {
-    return block;
-  }
+	private final LocatedBlock block;
+
+	public HdfsBlockLocation(BlockLocation loc, LocatedBlock block) throws IOException {
+		// Initialize with data from passed in BlockLocation
+		super(loc);
+		this.block = block;
+	}
+
+	public LocatedBlock getLocatedBlock() {
+		return block;
+	}
 }

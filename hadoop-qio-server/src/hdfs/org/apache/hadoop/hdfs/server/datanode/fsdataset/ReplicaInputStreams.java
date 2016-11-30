@@ -26,32 +26,33 @@ import org.apache.hadoop.io.IOUtils;
  * Contains the input streams for the data and checksum of a replica.
  */
 public class ReplicaInputStreams implements Closeable {
-  private final InputStream dataIn;
-  private final InputStream checksumIn;
-  private final FsVolumeReference volumeRef;
+	private final InputStream dataIn;
+	private final InputStream checksumIn;
+	private final FsVolumeReference volumeRef;
 
-  /** Create an object with a data input stream and a checksum input stream. */
-  public ReplicaInputStreams(InputStream dataStream, InputStream checksumStream,
-      FsVolumeReference volumeRef) {
-    this.volumeRef = volumeRef;
-    this.dataIn = dataStream;
-    this.checksumIn = checksumStream;
-  }
+	/**
+	 * Create an object with a data input stream and a checksum input stream.
+	 */
+	public ReplicaInputStreams(InputStream dataStream, InputStream checksumStream, FsVolumeReference volumeRef) {
+		this.volumeRef = volumeRef;
+		this.dataIn = dataStream;
+		this.checksumIn = checksumStream;
+	}
 
-  /** @return the data input stream. */
-  public InputStream getDataIn() {
-    return dataIn;
-  }
+	/** @return the data input stream. */
+	public InputStream getDataIn() {
+		return dataIn;
+	}
 
-  /** @return the checksum input stream. */
-  public InputStream getChecksumIn() {
-    return checksumIn;
-  }
+	/** @return the checksum input stream. */
+	public InputStream getChecksumIn() {
+		return checksumIn;
+	}
 
-  @Override
-  public void close() {
-    IOUtils.closeStream(dataIn);
-    IOUtils.closeStream(checksumIn);
-    IOUtils.cleanup(null, volumeRef);
-  }
+	@Override
+	public void close() {
+		IOUtils.closeStream(dataIn);
+		IOUtils.closeStream(checksumIn);
+		IOUtils.cleanup(null, volumeRef);
+	}
 }

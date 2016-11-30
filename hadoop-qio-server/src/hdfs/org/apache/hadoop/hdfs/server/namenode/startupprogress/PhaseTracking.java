@@ -27,20 +27,19 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 final class PhaseTracking extends AbstractTracking {
-  String file;
-  long size = Long.MIN_VALUE;
-  final ConcurrentMap<Step, StepTracking> steps =
-    new ConcurrentHashMap<Step, StepTracking>();
+	String file;
+	long size = Long.MIN_VALUE;
+	final ConcurrentMap<Step, StepTracking> steps = new ConcurrentHashMap<Step, StepTracking>();
 
-  @Override
-  public PhaseTracking clone() {
-    PhaseTracking clone = new PhaseTracking();
-    super.copy(clone);
-    clone.file = file;
-    clone.size = size;
-    for (Map.Entry<Step, StepTracking> entry: steps.entrySet()) {
-      clone.steps.put(entry.getKey(), entry.getValue().clone());
-    }
-    return clone;
-  }
+	@Override
+	public PhaseTracking clone() {
+		PhaseTracking clone = new PhaseTracking();
+		super.copy(clone);
+		clone.file = file;
+		clone.size = size;
+		for (Map.Entry<Step, StepTracking> entry : steps.entrySet()) {
+			clone.steps.put(entry.getKey(), entry.getValue().clone());
+		}
+		return clone;
+	}
 }

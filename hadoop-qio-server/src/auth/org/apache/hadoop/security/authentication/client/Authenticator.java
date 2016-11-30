@@ -13,7 +13,6 @@
  */
 package org.apache.hadoop.security.authentication.client;
 
-
 import java.io.IOException;
 import java.net.URL;
 
@@ -24,24 +23,29 @@ import java.net.URL;
  */
 public interface Authenticator {
 
-  /**
-   * Sets a {@link ConnectionConfigurator} instance to use for
-   * configuring connections.
-   *
-   * @param configurator the {@link ConnectionConfigurator} instance.
-   */
-  public void setConnectionConfigurator(ConnectionConfigurator configurator);
+	/**
+	 * Sets a {@link ConnectionConfigurator} instance to use for configuring
+	 * connections.
+	 *
+	 * @param configurator
+	 *            the {@link ConnectionConfigurator} instance.
+	 */
+	public void setConnectionConfigurator(ConnectionConfigurator configurator);
 
-  /**
-   * Authenticates against a URL and returns a {@link AuthenticatedURL.Token} to be
-   * used by subsequent requests.
-   *
-   * @param url the URl to authenticate against.
-   * @param token the authentication token being used for the user.
-   *
-   * @throws IOException if an IO error occurred.
-   * @throws AuthenticationException if an authentication error occurred.
-   */
-  public void authenticate(URL url, AuthenticatedURL.Token token) throws IOException, AuthenticationException;
+	/**
+	 * Authenticates against a URL and returns a {@link AuthenticatedURL.Token}
+	 * to be used by subsequent requests.
+	 *
+	 * @param url
+	 *            the URl to authenticate against.
+	 * @param token
+	 *            the authentication token being used for the user.
+	 *
+	 * @throws IOException
+	 *             if an IO error occurred.
+	 * @throws AuthenticationException
+	 *             if an authentication error occurred.
+	 */
+	public void authenticate(URL url, AuthenticatedURL.Token token) throws IOException, AuthenticationException;
 
 }

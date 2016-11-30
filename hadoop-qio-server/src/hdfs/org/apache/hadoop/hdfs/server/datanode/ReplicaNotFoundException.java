@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 
-
 package org.apache.hadoop.hdfs.server.datanode;
 
 import java.io.IOException;
@@ -24,30 +23,26 @@ import java.io.IOException;
 import org.apache.hadoop.hdfs.protocol.ExtendedBlock;
 
 /**
- * Exception indicating that DataNode does not have a replica
- * that matches the target block.  
+ * Exception indicating that DataNode does not have a replica that matches the
+ * target block.
  */
 public class ReplicaNotFoundException extends IOException {
-  private static final long serialVersionUID = 1L;
-  public final static String NON_RBW_REPLICA = "Cannot recover a non-RBW replica ";
-  public final static String UNFINALIZED_REPLICA = 
-    "Cannot append to an unfinalized replica ";
-  public final static String UNFINALIZED_AND_NONRBW_REPLICA = 
-    "Cannot recover append/close to a replica that's not FINALIZED and not RBW ";
-  public final static String NON_EXISTENT_REPLICA =
-    "Cannot append to a non-existent replica ";
-  public final static String UNEXPECTED_GS_REPLICA =
-    "Cannot append to a replica with unexpected generation stamp ";
+	private static final long serialVersionUID = 1L;
+	public final static String NON_RBW_REPLICA = "Cannot recover a non-RBW replica ";
+	public final static String UNFINALIZED_REPLICA = "Cannot append to an unfinalized replica ";
+	public final static String UNFINALIZED_AND_NONRBW_REPLICA = "Cannot recover append/close to a replica that's not FINALIZED and not RBW ";
+	public final static String NON_EXISTENT_REPLICA = "Cannot append to a non-existent replica ";
+	public final static String UNEXPECTED_GS_REPLICA = "Cannot append to a replica with unexpected generation stamp ";
 
-  public ReplicaNotFoundException() {
-    super();
-  }
+	public ReplicaNotFoundException() {
+		super();
+	}
 
-  public ReplicaNotFoundException(ExtendedBlock b) {
-    super("Replica not found for " + b);
-  }
-  
-  public ReplicaNotFoundException(String msg) {
-    super(msg);
-  }
+	public ReplicaNotFoundException(ExtendedBlock b) {
+		super("Replica not found for " + b);
+	}
+
+	public ReplicaNotFoundException(String msg) {
+		super(msg);
+	}
 }

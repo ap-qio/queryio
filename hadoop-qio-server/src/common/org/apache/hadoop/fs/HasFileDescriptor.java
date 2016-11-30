@@ -31,10 +31,10 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceStability.Evolving
 public interface HasFileDescriptor {
 
-  /**
-   * @return the FileDescriptor
-   * @throws IOException
-   */
-  public FileDescriptor getFileDescriptor() throws IOException;
+	/**
+	 * @return the FileDescriptor
+	 * @throws IOException
+	 */
+	public FileDescriptor getFileDescriptor() throws IOException;
 
 }

@@ -24,25 +24,25 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 public class FenceResponse {
-  private final long previousEpoch;
-  private final long lastTransactionId;
-  private final boolean isInSync;
-  
-  public FenceResponse(long previousEpoch, long lastTransId, boolean inSync) {
-    this.previousEpoch = previousEpoch;
-    this.lastTransactionId = lastTransId;
-    this.isInSync = inSync;
-  }
+	private final long previousEpoch;
+	private final long lastTransactionId;
+	private final boolean isInSync;
 
-  public boolean isInSync() {
-    return isInSync;
-  }
+	public FenceResponse(long previousEpoch, long lastTransId, boolean inSync) {
+		this.previousEpoch = previousEpoch;
+		this.lastTransactionId = lastTransId;
+		this.isInSync = inSync;
+	}
 
-  public long getLastTransactionId() {
-    return lastTransactionId;
-  }
+	public boolean isInSync() {
+		return isInSync;
+	}
 
-  public long getPreviousEpoch() {
-    return previousEpoch;
-  }
+	public long getLastTransactionId() {
+		return lastTransactionId;
+	}
+
+	public long getPreviousEpoch() {
+		return previousEpoch;
+	}
 }

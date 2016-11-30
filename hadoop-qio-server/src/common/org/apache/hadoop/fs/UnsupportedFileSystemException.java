@@ -28,13 +28,15 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class UnsupportedFileSystemException extends IOException {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  /**
-   * Constructs exception with the specified detail message. 
-   * @param message exception message.
-   */
-  public UnsupportedFileSystemException(final String message) {
-    super(message);
-  }
+	/**
+	 * Constructs exception with the specified detail message.
+	 * 
+	 * @param message
+	 *            exception message.
+	 */
+	public UnsupportedFileSystemException(final String message) {
+		super(message);
+	}
 }

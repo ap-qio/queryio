@@ -22,6 +22,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
 import org.apache.hadoop.classification.InterfaceStability;
 
 /**
@@ -32,4 +33,5 @@ import org.apache.hadoop.classification.InterfaceStability;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @InterfaceStability.Evolving
-public @interface Idempotent {}
+public @interface Idempotent {
+}

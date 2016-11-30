@@ -28,9 +28,9 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public interface CanUnbuffer {
-  /**
-   * Reduce the buffering.  This will also free sockets and file descriptors
-   * held by the stream, if possible.
-   */
-  public void unbuffer();
+	/**
+	 * Reduce the buffering. This will also free sockets and file descriptors
+	 * held by the stream, if possible.
+	 */
+	public void unbuffer();
 }

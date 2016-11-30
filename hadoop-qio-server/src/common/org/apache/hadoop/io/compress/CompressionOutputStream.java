@@ -30,62 +30,63 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public abstract class CompressionOutputStream extends OutputStream {
-  /**
-   * The output stream to be compressed. 
-   */
-  protected final OutputStream out;
+	/**
+	 * The output stream to be compressed.
+	 */
+	protected final OutputStream out;
 
-  /**
-   * If non-null, this is the Compressor object that we should call
-   * CodecPool#returnCompressor on when this stream is closed.
-   */
-  private Compressor trackedCompressor;
+	/**
+	 * If non-null, this is the Compressor object that we should call
+	 * CodecPool#returnCompressor on when this stream is closed.
+	 */
+	private Compressor trackedCompressor;
 
-  /**
-   * Create a compression output stream that writes
-   * the compressed bytes to the given stream.
-   * @param out
-   */
-  protected CompressionOutputStream(OutputStream out) {
-    this.out = out;
-  }
+	/**
+	 * Create a compression output stream that writes the compressed bytes to
+	 * the given stream.
+	 * 
+	 * @param out
+	 */
+	protected CompressionOutputStream(OutputStream out) {
+		this.out = out;
+	}
 
-  void setTrackedCompressor(Compressor compressor) {
-    trackedCompressor = compressor;
-  }
+	void setTrackedCompressor(Compressor compressor) {
+		trackedCompressor = compressor;
+	}
 
-  @Override
-  public void close() throws IOException {
-    finish();
-    out.close();
-    if (trackedCompressor != null) {
-      CodecPool.returnCompressor(trackedCompressor);
-      trackedCompressor = null;
-    }
-  }
-  
-  @Override
-  public void flush() throws IOException {
-    out.flush();
-  }
-  
-  /**
-   * Write compressed bytes to the stream.
-   * Made abstract to prevent leakage to underlying stream.
-   */
-  @Override
-  public abstract void write(byte[] b, int off, int len) throws IOException;
+	@Override
+	public void close() throws IOException {
+		finish();
+		out.close();
+		if (trackedCompressor != null) {
+			CodecPool.returnCompressor(trackedCompressor);
+			trackedCompressor = null;
+		}
+	}
 
-  /**
-   * Finishes writing compressed data to the output stream 
-   * without closing the underlying stream.
-   */
-  public abstract void finish() throws IOException;
-  
-  /**
-   * Reset the compression to the initial state. 
-   * Does not reset the underlying stream.
-   */
-  public abstract void resetState() throws IOException;
+	@Override
+	public void flush() throws IOException {
+		out.flush();
+	}
+
+	/**
+	 * Write compressed bytes to the stream. Made abstract to prevent leakage to
+	 * underlying stream.
+	 */
+	@Override
+	public abstract void write(byte[] b, int off, int len) throws IOException;
+
+	/**
+	 * Finishes writing compressed data to the output stream without closing the
+	 * underlying stream.
+	 */
+	public abstract void finish() throws IOException;
+
+	/**
+	 * Reset the compression to the initial state. Does not reset the underlying
+	 * stream.
+	 */
+	public abstract void resetState() throws IOException;
 
 }

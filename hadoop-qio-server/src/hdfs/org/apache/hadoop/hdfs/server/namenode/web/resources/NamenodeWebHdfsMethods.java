@@ -75,7 +75,47 @@ import org.apache.hadoop.hdfs.web.JsonUtil;
 import org.apache.hadoop.hdfs.web.ParamFilter;
 import org.apache.hadoop.hdfs.web.SWebHdfsFileSystem;
 import org.apache.hadoop.hdfs.web.WebHdfsFileSystem;
-import org.apache.hadoop.hdfs.web.resources.*;
+import org.apache.hadoop.hdfs.web.resources.AccessTimeParam;
+import org.apache.hadoop.hdfs.web.resources.AclPermissionParam;
+import org.apache.hadoop.hdfs.web.resources.BlockSizeParam;
+import org.apache.hadoop.hdfs.web.resources.BufferSizeParam;
+import org.apache.hadoop.hdfs.web.resources.ConcatSourcesParam;
+import org.apache.hadoop.hdfs.web.resources.CreateParentParam;
+import org.apache.hadoop.hdfs.web.resources.DelegationParam;
+import org.apache.hadoop.hdfs.web.resources.DeleteOpParam;
+import org.apache.hadoop.hdfs.web.resources.DestinationParam;
+import org.apache.hadoop.hdfs.web.resources.DoAsParam;
+import org.apache.hadoop.hdfs.web.resources.ExcludeDatanodesParam;
+import org.apache.hadoop.hdfs.web.resources.FsActionParam;
+import org.apache.hadoop.hdfs.web.resources.GetOpParam;
+import org.apache.hadoop.hdfs.web.resources.GroupParam;
+import org.apache.hadoop.hdfs.web.resources.HttpOpParam;
+import org.apache.hadoop.hdfs.web.resources.LengthParam;
+import org.apache.hadoop.hdfs.web.resources.ModificationTimeParam;
+import org.apache.hadoop.hdfs.web.resources.NamenodeAddressParam;
+import org.apache.hadoop.hdfs.web.resources.NewLengthParam;
+import org.apache.hadoop.hdfs.web.resources.OffsetParam;
+import org.apache.hadoop.hdfs.web.resources.OldSnapshotNameParam;
+import org.apache.hadoop.hdfs.web.resources.OverwriteParam;
+import org.apache.hadoop.hdfs.web.resources.OwnerParam;
+import org.apache.hadoop.hdfs.web.resources.Param;
+import org.apache.hadoop.hdfs.web.resources.PermissionParam;
+import org.apache.hadoop.hdfs.web.resources.PostOpParam;
+import org.apache.hadoop.hdfs.web.resources.PutOpParam;
+import org.apache.hadoop.hdfs.web.resources.RecursiveParam;
+import org.apache.hadoop.hdfs.web.resources.RenameOptionSetParam;
+import org.apache.hadoop.hdfs.web.resources.RenewerParam;
+import org.apache.hadoop.hdfs.web.resources.ReplicationParam;
+import org.apache.hadoop.hdfs.web.resources.SnapshotNameParam;
+import org.apache.hadoop.hdfs.web.resources.TokenArgumentParam;
+import org.apache.hadoop.hdfs.web.resources.TokenKindParam;
+import org.apache.hadoop.hdfs.web.resources.TokenServiceParam;
+import org.apache.hadoop.hdfs.web.resources.UriFsPathParam;
+import org.apache.hadoop.hdfs.web.resources.UserParam;
+import org.apache.hadoop.hdfs.web.resources.XAttrEncodingParam;
+import org.apache.hadoop.hdfs.web.resources.XAttrNameParam;
+import org.apache.hadoop.hdfs.web.resources.XAttrSetFlagParam;
+import org.apache.hadoop.hdfs.web.resources.XAttrValueParam;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.ipc.RetriableException;
 import org.apache.hadoop.ipc.Server;
@@ -97,989 +137,764 @@ import com.sun.jersey.spi.container.ResourceFilters;
 @Path("")
 @ResourceFilters(ParamFilter.class)
 public class NamenodeWebHdfsMethods {
-  public static final Log LOG = LogFactory.getLog(NamenodeWebHdfsMethods.class);
+	public static final Log LOG = LogFactory.getLog(NamenodeWebHdfsMethods.class);
 
-  private static final UriFsPathParam ROOT = new UriFsPathParam("");
-  
-  private static final ThreadLocal<String> REMOTE_ADDRESS = new ThreadLocal<String>(); 
+	private static final UriFsPathParam ROOT = new UriFsPathParam("");
 
-  /** @return the remote client address. */
-  public static String getRemoteAddress() {
-    return REMOTE_ADDRESS.get();
-  }
+	private static final ThreadLocal<String> REMOTE_ADDRESS = new ThreadLocal<String>();
 
-  public static InetAddress getRemoteIp() {
-    try {
-      return InetAddress.getByName(getRemoteAddress());
-    } catch (Exception e) {
-      return null;
-    }
-  }
+	/** @return the remote client address. */
+	public static String getRemoteAddress() {
+		return REMOTE_ADDRESS.get();
+	}
 
-  /**
-   * Returns true if a WebHdfs request is in progress.  Akin to
-   * {@link Server#isRpcInvocation()}.
-   */
-  public static boolean isWebHdfsInvocation() {
-    return getRemoteAddress() != null;
-  }
+	public static InetAddress getRemoteIp() {
+		try {
+			return InetAddress.getByName(getRemoteAddress());
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
-  private @Context ServletContext context;
-  private @Context HttpServletRequest request;
-  private @Context HttpServletResponse response;
+	/**
+	 * Returns true if a WebHdfs request is in progress. Akin to
+	 * {@link Server#isRpcInvocation()}.
+	 */
+	public static boolean isWebHdfsInvocation() {
+		return getRemoteAddress() != null;
+	}
 
-  private void init(final UserGroupInformation ugi,
-      final DelegationParam delegation,
-      final UserParam username, final DoAsParam doAsUser,
-      final UriFsPathParam path, final HttpOpParam<?> op,
-      final Param<?, ?>... parameters) {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("HTTP " + op.getValue().getType() + ": " + op + ", " + path
-          + ", ugi=" + ugi + ", " + username + ", " + doAsUser
-          + Param.toSortedString(", ", parameters));
-    }
+	private @Context ServletContext context;
+	private @Context HttpServletRequest request;
+	private @Context HttpServletResponse response;
 
-    //clear content type
-    response.setContentType(null);
-    
-    // set the remote address, if coming in via a trust proxy server then
-    // the address with be that of the proxied client
-    REMOTE_ADDRESS.set(JspHelper.getRemoteAddr(request));
-  }
+	private void init(final UserGroupInformation ugi, final DelegationParam delegation, final UserParam username,
+			final DoAsParam doAsUser, final UriFsPathParam path, final HttpOpParam<?> op,
+			final Param<?, ?>... parameters) {
+		if (LOG.isTraceEnabled()) {
+			LOG.trace("HTTP " + op.getValue().getType() + ": " + op + ", " + path + ", ugi=" + ugi + ", " + username
+					+ ", " + doAsUser + Param.toSortedString(", ", parameters));
+		}
 
-  private void reset() {
-    REMOTE_ADDRESS.set(null);
-  }
-  
-  private static NamenodeProtocols getRPCServer(NameNode namenode)
-      throws IOException {
-     final NamenodeProtocols np = namenode.getRpcServer();
-     if (np == null) {
-       throw new RetriableException("Namenode is in startup mode");
-     }
-     return np;
-  }
-  
-  @VisibleForTesting
-  static DatanodeInfo chooseDatanode(final NameNode namenode,
-      final String path, final HttpOpParam.Op op, final long openOffset,
-      final long blocksize, final String excludeDatanodes) throws IOException {
-    final BlockManager bm = namenode.getNamesystem().getBlockManager();
-    
-    HashSet<Node> excludes = new HashSet<Node>();
-    if (excludeDatanodes != null) {
-      for (String host : StringUtils
-          .getTrimmedStringCollection(excludeDatanodes)) {
-        int idx = host.indexOf(":");
-        if (idx != -1) {          
-          excludes.add(bm.getDatanodeManager().getDatanodeByXferAddr(
-              host.substring(0, idx), Integer.parseInt(host.substring(idx + 1))));
-        } else {
-          excludes.add(bm.getDatanodeManager().getDatanodeByHost(host));
-        }
-      }
-    }
+		// clear content type
+		response.setContentType(null);
 
-    if (op == PutOpParam.Op.CREATE) {
-      //choose a datanode near to client 
-      final DatanodeDescriptor clientNode = bm.getDatanodeManager(
-          ).getDatanodeByHost(getRemoteAddress());
-      if (clientNode != null) {
-        final DatanodeStorageInfo[] storages = bm.chooseTarget4WebHDFS(
-            path, clientNode, excludes, blocksize);
-        if (storages.length > 0) {
-          return storages[0].getDatanodeDescriptor();
-        }
-      }
-    } else if (op == GetOpParam.Op.OPEN
-        || op == GetOpParam.Op.GETFILECHECKSUM
-        || op == PostOpParam.Op.APPEND) {
-      //choose a datanode containing a replica 
-      final NamenodeProtocols np = getRPCServer(namenode);
-      final HdfsFileStatus status = np.getFileInfo(path);
-      if (status == null) {
-        throw new FileNotFoundException("File " + path + " not found.");
-      }
-      final long len = status.getLen();
-      if (op == GetOpParam.Op.OPEN) {
-        if (openOffset < 0L || (openOffset >= len && len > 0)) {
-          throw new IOException("Offset=" + openOffset
-              + " out of the range [0, " + len + "); " + op + ", path=" + path);
-        }
-      }
+		// set the remote address, if coming in via a trust proxy server then
+		// the address with be that of the proxied client
+		REMOTE_ADDRESS.set(JspHelper.getRemoteAddr(request));
+	}
 
-      if (len > 0) {
-        final long offset = op == GetOpParam.Op.OPEN? openOffset: len - 1;
-        final LocatedBlocks locations = np.getBlockLocations(path, offset, 1);
-        final int count = locations.locatedBlockCount();
-        if (count > 0) {
-          return bestNode(locations.get(0).getLocations(), excludes);
-        }
-      }
-    } 
+	private void reset() {
+		REMOTE_ADDRESS.set(null);
+	}
 
-    return (DatanodeDescriptor)bm.getDatanodeManager().getNetworkTopology(
-        ).chooseRandom(NodeBase.ROOT);
-  }
+	private static NamenodeProtocols getRPCServer(NameNode namenode) throws IOException {
+		final NamenodeProtocols np = namenode.getRpcServer();
+		if (np == null) {
+			throw new RetriableException("Namenode is in startup mode");
+		}
+		return np;
+	}
 
-  /**
-   * Choose the datanode to redirect the request. Note that the nodes have been
-   * sorted based on availability and network distances, thus it is sufficient
-   * to return the first element of the node here.
-   */
-  private static DatanodeInfo bestNode(DatanodeInfo[] nodes,
-      HashSet<Node> excludes) throws IOException {
-    for (DatanodeInfo dn: nodes) {
-      if (false == dn.isDecommissioned() && false == excludes.contains(dn)) {
-        return dn;
-      }
-    }
-    throw new IOException("No active nodes contain this block");
-  }
+	@VisibleForTesting
+	static DatanodeInfo chooseDatanode(final NameNode namenode, final String path, final HttpOpParam.Op op,
+			final long openOffset, final long blocksize, final String excludeDatanodes) throws IOException {
+		final BlockManager bm = namenode.getNamesystem().getBlockManager();
 
-  private Token<? extends TokenIdentifier> generateDelegationToken(
-      final NameNode namenode, final UserGroupInformation ugi,
-      final String renewer) throws IOException {
-    final Credentials c = DelegationTokenSecretManager.createCredentials(
-        namenode, ugi, renewer != null? renewer: ugi.getShortUserName());
-    if (c == null) {
-      return null;
-    }
-    final Token<? extends TokenIdentifier> t = c.getAllTokens().iterator().next();
-    Text kind = request.getScheme().equals("http") ? WebHdfsFileSystem.TOKEN_KIND
-        : SWebHdfsFileSystem.TOKEN_KIND;
-    t.setKind(kind);
-    return t;
-  }
+		HashSet<Node> excludes = new HashSet<Node>();
+		if (excludeDatanodes != null) {
+			for (String host : StringUtils.getTrimmedStringCollection(excludeDatanodes)) {
+				int idx = host.indexOf(":");
+				if (idx != -1) {
+					excludes.add(bm.getDatanodeManager().getDatanodeByXferAddr(host.substring(0, idx),
+							Integer.parseInt(host.substring(idx + 1))));
+				} else {
+					excludes.add(bm.getDatanodeManager().getDatanodeByHost(host));
+				}
+			}
+		}
 
-  private URI redirectURI(final NameNode namenode,
-      final UserGroupInformation ugi, final DelegationParam delegation,
-      final UserParam username, final DoAsParam doAsUser,
-      final String path, final HttpOpParam.Op op, final long openOffset,
-      final long blocksize, final String excludeDatanodes,
-      final Param<?, ?>... parameters) throws URISyntaxException, IOException {
-    final DatanodeInfo dn;
-    try {
-      dn = chooseDatanode(namenode, path, op, openOffset, blocksize,
-          excludeDatanodes);
-    } catch (InvalidTopologyException ite) {
-      throw new IOException("Failed to find datanode, suggest to check cluster health.", ite);
-    }
+		if (op == PutOpParam.Op.CREATE) {
+			// choose a datanode near to client
+			final DatanodeDescriptor clientNode = bm.getDatanodeManager().getDatanodeByHost(getRemoteAddress());
+			if (clientNode != null) {
+				final DatanodeStorageInfo[] storages = bm.chooseTarget4WebHDFS(path, clientNode, excludes, blocksize);
+				if (storages.length > 0) {
+					return storages[0].getDatanodeDescriptor();
+				}
+			}
+		} else if (op == GetOpParam.Op.OPEN || op == GetOpParam.Op.GETFILECHECKSUM || op == PostOpParam.Op.APPEND) {
+			// choose a datanode containing a replica
+			final NamenodeProtocols np = getRPCServer(namenode);
+			final HdfsFileStatus status = np.getFileInfo(path);
+			if (status == null) {
+				throw new FileNotFoundException("File " + path + " not found.");
+			}
+			final long len = status.getLen();
+			if (op == GetOpParam.Op.OPEN) {
+				if (openOffset < 0L || (openOffset >= len && len > 0)) {
+					throw new IOException(
+							"Offset=" + openOffset + " out of the range [0, " + len + "); " + op + ", path=" + path);
+				}
+			}
 
-    final String delegationQuery;
-    if (!UserGroupInformation.isSecurityEnabled()) {
-      //security disabled
-      delegationQuery = Param.toSortedString("&", doAsUser, username);
-    } else if (delegation.getValue() != null) {
-      //client has provided a token
-      delegationQuery = "&" + delegation;
-    } else {
-      //generate a token
-      final Token<? extends TokenIdentifier> t = generateDelegationToken(
-          namenode, ugi, request.getUserPrincipal().getName());
-      delegationQuery = "&" + new DelegationParam(t.encodeToUrlString());
-    }
-    final String query = op.toQueryString() + delegationQuery
-        + "&" + new NamenodeAddressParam(namenode)
-        + Param.toSortedString("&", parameters);
-    final String uripath = WebHdfsFileSystem.PATH_PREFIX + path;
+			if (len > 0) {
+				final long offset = op == GetOpParam.Op.OPEN ? openOffset : len - 1;
+				final LocatedBlocks locations = np.getBlockLocations(path, offset, 1);
+				final int count = locations.locatedBlockCount();
+				if (count > 0) {
+					return bestNode(locations.get(0).getLocations(), excludes);
+				}
+			}
+		}
 
-    final String scheme = request.getScheme();
-    int port = "http".equals(scheme) ? dn.getInfoPort() : dn
-        .getInfoSecurePort();
-    final URI uri = new URI(scheme, null, dn.getHostName(), port, uripath,
-        query, null);
+		return (DatanodeDescriptor) bm.getDatanodeManager().getNetworkTopology().chooseRandom(NodeBase.ROOT);
+	}
 
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("redirectURI=" + uri);
-    }
-    return uri;
-  }
+	/**
+	 * Choose the datanode to redirect the request. Note that the nodes have
+	 * been sorted based on availability and network distances, thus it is
+	 * sufficient to return the first element of the node here.
+	 */
+	private static DatanodeInfo bestNode(DatanodeInfo[] nodes, HashSet<Node> excludes) throws IOException {
+		for (DatanodeInfo dn : nodes) {
+			if (false == dn.isDecommissioned() && false == excludes.contains(dn)) {
+				return dn;
+			}
+		}
+		throw new IOException("No active nodes contain this block");
+	}
 
-  /** Handle HTTP PUT request for the root. */
-  @PUT
-  @Path("/")
-  @Consumes({"*/*"})
-  @Produces({MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON})
-  public Response putRoot(
-      @Context final UserGroupInformation ugi,
-      @QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT)
-          final DelegationParam delegation,
-      @QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT)
-          final UserParam username,
-      @QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT)
-          final DoAsParam doAsUser,
-      @QueryParam(PutOpParam.NAME) @DefaultValue(PutOpParam.DEFAULT)
-          final PutOpParam op,
-      @QueryParam(DestinationParam.NAME) @DefaultValue(DestinationParam.DEFAULT)
-          final DestinationParam destination,
-      @QueryParam(OwnerParam.NAME) @DefaultValue(OwnerParam.DEFAULT)
-          final OwnerParam owner,
-      @QueryParam(GroupParam.NAME) @DefaultValue(GroupParam.DEFAULT)
-          final GroupParam group,
-      @QueryParam(PermissionParam.NAME) @DefaultValue(PermissionParam.DEFAULT)
-          final PermissionParam permission,
-      @QueryParam(OverwriteParam.NAME) @DefaultValue(OverwriteParam.DEFAULT)
-          final OverwriteParam overwrite,
-      @QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT)
-          final BufferSizeParam bufferSize,
-      @QueryParam(ReplicationParam.NAME) @DefaultValue(ReplicationParam.DEFAULT)
-          final ReplicationParam replication,
-      @QueryParam(BlockSizeParam.NAME) @DefaultValue(BlockSizeParam.DEFAULT)
-          final BlockSizeParam blockSize,
-      @QueryParam(ModificationTimeParam.NAME) @DefaultValue(ModificationTimeParam.DEFAULT)
-          final ModificationTimeParam modificationTime,
-      @QueryParam(AccessTimeParam.NAME) @DefaultValue(AccessTimeParam.DEFAULT)
-          final AccessTimeParam accessTime,
-      @QueryParam(RenameOptionSetParam.NAME) @DefaultValue(RenameOptionSetParam.DEFAULT)
-          final RenameOptionSetParam renameOptions,
-      @QueryParam(CreateParentParam.NAME) @DefaultValue(CreateParentParam.DEFAULT)
-          final CreateParentParam createParent,
-      @QueryParam(TokenArgumentParam.NAME) @DefaultValue(TokenArgumentParam.DEFAULT)
-          final TokenArgumentParam delegationTokenArgument,
-      @QueryParam(AclPermissionParam.NAME) @DefaultValue(AclPermissionParam.DEFAULT) 
-          final AclPermissionParam aclPermission,
-      @QueryParam(XAttrNameParam.NAME) @DefaultValue(XAttrNameParam.DEFAULT) 
-          final XAttrNameParam xattrName,
-      @QueryParam(XAttrValueParam.NAME) @DefaultValue(XAttrValueParam.DEFAULT) 
-          final XAttrValueParam xattrValue,
-      @QueryParam(XAttrSetFlagParam.NAME) @DefaultValue(XAttrSetFlagParam.DEFAULT) 
-          final XAttrSetFlagParam xattrSetFlag,
-      @QueryParam(SnapshotNameParam.NAME) @DefaultValue(SnapshotNameParam.DEFAULT)
-          final SnapshotNameParam snapshotName,
-      @QueryParam(OldSnapshotNameParam.NAME) @DefaultValue(OldSnapshotNameParam.DEFAULT)
-          final OldSnapshotNameParam oldSnapshotName,
-      @QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT)
-          final ExcludeDatanodesParam excludeDatanodes
-      ) throws IOException, InterruptedException {
-    return put(ugi, delegation, username, doAsUser, ROOT, op, destination,
-        owner, group, permission, overwrite, bufferSize, replication,
-        blockSize, modificationTime, accessTime, renameOptions, createParent,
-        delegationTokenArgument, aclPermission, xattrName, xattrValue,
-        xattrSetFlag, snapshotName, oldSnapshotName, excludeDatanodes);
-  }
+	private Token<? extends TokenIdentifier> generateDelegationToken(final NameNode namenode,
+			final UserGroupInformation ugi, final String renewer) throws IOException {
+		final Credentials c = DelegationTokenSecretManager.createCredentials(namenode, ugi,
+				renewer != null ? renewer : ugi.getShortUserName());
+		if (c == null) {
+			return null;
+		}
+		final Token<? extends TokenIdentifier> t = c.getAllTokens().iterator().next();
+		Text kind = request.getScheme().equals("http") ? WebHdfsFileSystem.TOKEN_KIND : SWebHdfsFileSystem.TOKEN_KIND;
+		t.setKind(kind);
+		return t;
+	}
 
-  /** Handle HTTP PUT request. */
-  @PUT
-  @Path("{" + UriFsPathParam.NAME + ":.*}")
-  @Consumes({"*/*"})
-  @Produces({MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON})
-  public Response put(
-      @Context final UserGroupInformation ugi,
-      @QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT)
-          final DelegationParam delegation,
-      @QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT)
-          final UserParam username,
-      @QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT)
-          final DoAsParam doAsUser,
-      @PathParam(UriFsPathParam.NAME) final UriFsPathParam path,
-      @QueryParam(PutOpParam.NAME) @DefaultValue(PutOpParam.DEFAULT)
-          final PutOpParam op,
-      @QueryParam(DestinationParam.NAME) @DefaultValue(DestinationParam.DEFAULT)
-          final DestinationParam destination,
-      @QueryParam(OwnerParam.NAME) @DefaultValue(OwnerParam.DEFAULT)
-          final OwnerParam owner,
-      @QueryParam(GroupParam.NAME) @DefaultValue(GroupParam.DEFAULT)
-          final GroupParam group,
-      @QueryParam(PermissionParam.NAME) @DefaultValue(PermissionParam.DEFAULT)
-          final PermissionParam permission,
-      @QueryParam(OverwriteParam.NAME) @DefaultValue(OverwriteParam.DEFAULT)
-          final OverwriteParam overwrite,
-      @QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT)
-          final BufferSizeParam bufferSize,
-      @QueryParam(ReplicationParam.NAME) @DefaultValue(ReplicationParam.DEFAULT)
-          final ReplicationParam replication,
-      @QueryParam(BlockSizeParam.NAME) @DefaultValue(BlockSizeParam.DEFAULT)
-          final BlockSizeParam blockSize,
-      @QueryParam(ModificationTimeParam.NAME) @DefaultValue(ModificationTimeParam.DEFAULT)
-          final ModificationTimeParam modificationTime,
-      @QueryParam(AccessTimeParam.NAME) @DefaultValue(AccessTimeParam.DEFAULT)
-          final AccessTimeParam accessTime,
-      @QueryParam(RenameOptionSetParam.NAME) @DefaultValue(RenameOptionSetParam.DEFAULT)
-          final RenameOptionSetParam renameOptions,
-      @QueryParam(CreateParentParam.NAME) @DefaultValue(CreateParentParam.DEFAULT)
-          final CreateParentParam createParent,
-      @QueryParam(TokenArgumentParam.NAME) @DefaultValue(TokenArgumentParam.DEFAULT)
-          final TokenArgumentParam delegationTokenArgument,
-      @QueryParam(AclPermissionParam.NAME) @DefaultValue(AclPermissionParam.DEFAULT) 
-          final AclPermissionParam aclPermission,
-      @QueryParam(XAttrNameParam.NAME) @DefaultValue(XAttrNameParam.DEFAULT) 
-          final XAttrNameParam xattrName,
-      @QueryParam(XAttrValueParam.NAME) @DefaultValue(XAttrValueParam.DEFAULT) 
-          final XAttrValueParam xattrValue,
-      @QueryParam(XAttrSetFlagParam.NAME) @DefaultValue(XAttrSetFlagParam.DEFAULT) 
-          final XAttrSetFlagParam xattrSetFlag,
-      @QueryParam(SnapshotNameParam.NAME) @DefaultValue(SnapshotNameParam.DEFAULT)
-          final SnapshotNameParam snapshotName,
-      @QueryParam(OldSnapshotNameParam.NAME) @DefaultValue(OldSnapshotNameParam.DEFAULT)
-          final OldSnapshotNameParam oldSnapshotName,
-      @QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT)
-          final ExcludeDatanodesParam excludeDatanodes
-      ) throws IOException, InterruptedException {
+	private URI redirectURI(final NameNode namenode, final UserGroupInformation ugi, final DelegationParam delegation,
+			final UserParam username, final DoAsParam doAsUser, final String path, final HttpOpParam.Op op,
+			final long openOffset, final long blocksize, final String excludeDatanodes, final Param<?, ?>... parameters)
+			throws URISyntaxException, IOException {
+		final DatanodeInfo dn;
+		try {
+			dn = chooseDatanode(namenode, path, op, openOffset, blocksize, excludeDatanodes);
+		} catch (InvalidTopologyException ite) {
+			throw new IOException("Failed to find datanode, suggest to check cluster health.", ite);
+		}
 
-    init(ugi, delegation, username, doAsUser, path, op, destination, owner,
-        group, permission, overwrite, bufferSize, replication, blockSize,
-        modificationTime, accessTime, renameOptions, delegationTokenArgument,
-        aclPermission, xattrName, xattrValue, xattrSetFlag, snapshotName,
-        oldSnapshotName, excludeDatanodes);
+		final String delegationQuery;
+		if (!UserGroupInformation.isSecurityEnabled()) {
+			// security disabled
+			delegationQuery = Param.toSortedString("&", doAsUser, username);
+		} else if (delegation.getValue() != null) {
+			// client has provided a token
+			delegationQuery = "&" + delegation;
+		} else {
+			// generate a token
+			final Token<? extends TokenIdentifier> t = generateDelegationToken(namenode, ugi,
+					request.getUserPrincipal().getName());
+			delegationQuery = "&" + new DelegationParam(t.encodeToUrlString());
+		}
+		final String query = op.toQueryString() + delegationQuery + "&" + new NamenodeAddressParam(namenode)
+				+ Param.toSortedString("&", parameters);
+		final String uripath = WebHdfsFileSystem.PATH_PREFIX + path;
 
-    return ugi.doAs(new PrivilegedExceptionAction<Response>() {
-      @Override
-      public Response run() throws IOException, URISyntaxException {
-        try {
-          return put(ugi, delegation, username, doAsUser,
-              path.getAbsolutePath(), op, destination, owner, group,
-              permission, overwrite, bufferSize, replication, blockSize,
-              modificationTime, accessTime, renameOptions, createParent,
-              delegationTokenArgument, aclPermission, xattrName, xattrValue,
-              xattrSetFlag, snapshotName, oldSnapshotName, excludeDatanodes);
-        } finally {
-          reset();
-        }
-      }
-    });
-  }
+		final String scheme = request.getScheme();
+		int port = "http".equals(scheme) ? dn.getInfoPort() : dn.getInfoSecurePort();
+		final URI uri = new URI(scheme, null, dn.getHostName(), port, uripath, query, null);
 
-  private Response put(
-      final UserGroupInformation ugi,
-      final DelegationParam delegation,
-      final UserParam username,
-      final DoAsParam doAsUser,
-      final String fullpath,
-      final PutOpParam op,
-      final DestinationParam destination,
-      final OwnerParam owner,
-      final GroupParam group,
-      final PermissionParam permission,
-      final OverwriteParam overwrite,
-      final BufferSizeParam bufferSize,
-      final ReplicationParam replication,
-      final BlockSizeParam blockSize,
-      final ModificationTimeParam modificationTime,
-      final AccessTimeParam accessTime,
-      final RenameOptionSetParam renameOptions,
-      final CreateParentParam createParent,
-      final TokenArgumentParam delegationTokenArgument,
-      final AclPermissionParam aclPermission,
-      final XAttrNameParam xattrName,
-      final XAttrValueParam xattrValue, 
-      final XAttrSetFlagParam xattrSetFlag,
-      final SnapshotNameParam snapshotName,
-      final OldSnapshotNameParam oldSnapshotName,
-      final ExcludeDatanodesParam exclDatanodes
-      ) throws IOException, URISyntaxException {
+		if (LOG.isTraceEnabled()) {
+			LOG.trace("redirectURI=" + uri);
+		}
+		return uri;
+	}
 
-    final Configuration conf = (Configuration)context.getAttribute(JspHelper.CURRENT_CONF);
-    final NameNode namenode = (NameNode)context.getAttribute("name.node");
-    final NamenodeProtocols np = getRPCServer(namenode);
+	/** Handle HTTP PUT request for the root. */
+	@PUT
+	@Path("/")
+	@Consumes({ "*/*" })
+	@Produces({ MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON })
+	public Response putRoot(@Context final UserGroupInformation ugi,
+			@QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT) final DelegationParam delegation,
+			@QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT) final UserParam username,
+			@QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT) final DoAsParam doAsUser,
+			@QueryParam(PutOpParam.NAME) @DefaultValue(PutOpParam.DEFAULT) final PutOpParam op,
+			@QueryParam(DestinationParam.NAME) @DefaultValue(DestinationParam.DEFAULT) final DestinationParam destination,
+			@QueryParam(OwnerParam.NAME) @DefaultValue(OwnerParam.DEFAULT) final OwnerParam owner,
+			@QueryParam(GroupParam.NAME) @DefaultValue(GroupParam.DEFAULT) final GroupParam group,
+			@QueryParam(PermissionParam.NAME) @DefaultValue(PermissionParam.DEFAULT) final PermissionParam permission,
+			@QueryParam(OverwriteParam.NAME) @DefaultValue(OverwriteParam.DEFAULT) final OverwriteParam overwrite,
+			@QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT) final BufferSizeParam bufferSize,
+			@QueryParam(ReplicationParam.NAME) @DefaultValue(ReplicationParam.DEFAULT) final ReplicationParam replication,
+			@QueryParam(BlockSizeParam.NAME) @DefaultValue(BlockSizeParam.DEFAULT) final BlockSizeParam blockSize,
+			@QueryParam(ModificationTimeParam.NAME) @DefaultValue(ModificationTimeParam.DEFAULT) final ModificationTimeParam modificationTime,
+			@QueryParam(AccessTimeParam.NAME) @DefaultValue(AccessTimeParam.DEFAULT) final AccessTimeParam accessTime,
+			@QueryParam(RenameOptionSetParam.NAME) @DefaultValue(RenameOptionSetParam.DEFAULT) final RenameOptionSetParam renameOptions,
+			@QueryParam(CreateParentParam.NAME) @DefaultValue(CreateParentParam.DEFAULT) final CreateParentParam createParent,
+			@QueryParam(TokenArgumentParam.NAME) @DefaultValue(TokenArgumentParam.DEFAULT) final TokenArgumentParam delegationTokenArgument,
+			@QueryParam(AclPermissionParam.NAME) @DefaultValue(AclPermissionParam.DEFAULT) final AclPermissionParam aclPermission,
+			@QueryParam(XAttrNameParam.NAME) @DefaultValue(XAttrNameParam.DEFAULT) final XAttrNameParam xattrName,
+			@QueryParam(XAttrValueParam.NAME) @DefaultValue(XAttrValueParam.DEFAULT) final XAttrValueParam xattrValue,
+			@QueryParam(XAttrSetFlagParam.NAME) @DefaultValue(XAttrSetFlagParam.DEFAULT) final XAttrSetFlagParam xattrSetFlag,
+			@QueryParam(SnapshotNameParam.NAME) @DefaultValue(SnapshotNameParam.DEFAULT) final SnapshotNameParam snapshotName,
+			@QueryParam(OldSnapshotNameParam.NAME) @DefaultValue(OldSnapshotNameParam.DEFAULT) final OldSnapshotNameParam oldSnapshotName,
+			@QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT) final ExcludeDatanodesParam excludeDatanodes)
+			throws IOException, InterruptedException {
+		return put(ugi, delegation, username, doAsUser, ROOT, op, destination, owner, group, permission, overwrite,
+				bufferSize, replication, blockSize, modificationTime, accessTime, renameOptions, createParent,
+				delegationTokenArgument, aclPermission, xattrName, xattrValue, xattrSetFlag, snapshotName,
+				oldSnapshotName, excludeDatanodes);
+	}
 
-    switch(op.getValue()) {
-    case CREATE:
-    {
-      final URI uri = redirectURI(namenode, ugi, delegation, username,
-          doAsUser, fullpath, op.getValue(), -1L, blockSize.getValue(conf),
-          exclDatanodes.getValue(), permission, overwrite, bufferSize,
-          replication, blockSize);
-      return Response.temporaryRedirect(uri).type(MediaType.APPLICATION_OCTET_STREAM).build();
-    } 
-    case MKDIRS:
-    {
-      final boolean b = np.mkdirs(fullpath, permission.getFsPermission(), true);
-      final String js = JsonUtil.toJsonString("boolean", b);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case CREATESYMLINK:
-    {
-      np.createSymlink(destination.getValue(), fullpath,
-          PermissionParam.getDefaultFsPermission(), createParent.getValue());
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case RENAME:
-    {
-      final EnumSet<Options.Rename> s = renameOptions.getValue();
-      if (s.isEmpty()) {
-        final boolean b = np.rename(fullpath, destination.getValue());
-        final String js = JsonUtil.toJsonString("boolean", b);
-        return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-      } else {
-        np.rename2(fullpath, destination.getValue(),
-            s.toArray(new Options.Rename[s.size()]));
-        return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-      }
-    }
-    case SETREPLICATION:
-    {
-      final boolean b = np.setReplication(fullpath, replication.getValue(conf));
-      final String js = JsonUtil.toJsonString("boolean", b);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case SETOWNER:
-    {
-      if (owner.getValue() == null && group.getValue() == null) {
-        throw new IllegalArgumentException("Both owner and group are empty.");
-      }
+	/** Handle HTTP PUT request. */
+	@PUT
+	@Path("{" + UriFsPathParam.NAME + ":.*}")
+	@Consumes({ "*/*" })
+	@Produces({ MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON })
+	public Response put(@Context final UserGroupInformation ugi,
+			@QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT) final DelegationParam delegation,
+			@QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT) final UserParam username,
+			@QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT) final DoAsParam doAsUser,
+			@PathParam(UriFsPathParam.NAME) final UriFsPathParam path,
+			@QueryParam(PutOpParam.NAME) @DefaultValue(PutOpParam.DEFAULT) final PutOpParam op,
+			@QueryParam(DestinationParam.NAME) @DefaultValue(DestinationParam.DEFAULT) final DestinationParam destination,
+			@QueryParam(OwnerParam.NAME) @DefaultValue(OwnerParam.DEFAULT) final OwnerParam owner,
+			@QueryParam(GroupParam.NAME) @DefaultValue(GroupParam.DEFAULT) final GroupParam group,
+			@QueryParam(PermissionParam.NAME) @DefaultValue(PermissionParam.DEFAULT) final PermissionParam permission,
+			@QueryParam(OverwriteParam.NAME) @DefaultValue(OverwriteParam.DEFAULT) final OverwriteParam overwrite,
+			@QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT) final BufferSizeParam bufferSize,
+			@QueryParam(ReplicationParam.NAME) @DefaultValue(ReplicationParam.DEFAULT) final ReplicationParam replication,
+			@QueryParam(BlockSizeParam.NAME) @DefaultValue(BlockSizeParam.DEFAULT) final BlockSizeParam blockSize,
+			@QueryParam(ModificationTimeParam.NAME) @DefaultValue(ModificationTimeParam.DEFAULT) final ModificationTimeParam modificationTime,
+			@QueryParam(AccessTimeParam.NAME) @DefaultValue(AccessTimeParam.DEFAULT) final AccessTimeParam accessTime,
+			@QueryParam(RenameOptionSetParam.NAME) @DefaultValue(RenameOptionSetParam.DEFAULT) final RenameOptionSetParam renameOptions,
+			@QueryParam(CreateParentParam.NAME) @DefaultValue(CreateParentParam.DEFAULT) final CreateParentParam createParent,
+			@QueryParam(TokenArgumentParam.NAME) @DefaultValue(TokenArgumentParam.DEFAULT) final TokenArgumentParam delegationTokenArgument,
+			@QueryParam(AclPermissionParam.NAME) @DefaultValue(AclPermissionParam.DEFAULT) final AclPermissionParam aclPermission,
+			@QueryParam(XAttrNameParam.NAME) @DefaultValue(XAttrNameParam.DEFAULT) final XAttrNameParam xattrName,
+			@QueryParam(XAttrValueParam.NAME) @DefaultValue(XAttrValueParam.DEFAULT) final XAttrValueParam xattrValue,
+			@QueryParam(XAttrSetFlagParam.NAME) @DefaultValue(XAttrSetFlagParam.DEFAULT) final XAttrSetFlagParam xattrSetFlag,
+			@QueryParam(SnapshotNameParam.NAME) @DefaultValue(SnapshotNameParam.DEFAULT) final SnapshotNameParam snapshotName,
+			@QueryParam(OldSnapshotNameParam.NAME) @DefaultValue(OldSnapshotNameParam.DEFAULT) final OldSnapshotNameParam oldSnapshotName,
+			@QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT) final ExcludeDatanodesParam excludeDatanodes)
+			throws IOException, InterruptedException {
 
-      np.setOwner(fullpath, owner.getValue(), group.getValue());
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case SETPERMISSION:
-    {
-      np.setPermission(fullpath, permission.getFsPermission());
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case SETTIMES:
-    {
-      np.setTimes(fullpath, modificationTime.getValue(), accessTime.getValue());
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case RENEWDELEGATIONTOKEN:
-    {
-      final Token<DelegationTokenIdentifier> token = new Token<DelegationTokenIdentifier>();
-      token.decodeFromUrlString(delegationTokenArgument.getValue());
-      final long expiryTime = np.renewDelegationToken(token);
-      final String js = JsonUtil.toJsonString("long", expiryTime);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case CANCELDELEGATIONTOKEN:
-    {
-      final Token<DelegationTokenIdentifier> token = new Token<DelegationTokenIdentifier>();
-      token.decodeFromUrlString(delegationTokenArgument.getValue());
-      np.cancelDelegationToken(token);
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case MODIFYACLENTRIES: {
-      np.modifyAclEntries(fullpath, aclPermission.getAclPermission(true));
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case REMOVEACLENTRIES: {
-      np.removeAclEntries(fullpath, aclPermission.getAclPermission(false));
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case REMOVEDEFAULTACL: {
-      np.removeDefaultAcl(fullpath);
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case REMOVEACL: {
-      np.removeAcl(fullpath);
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case SETACL: {
-      np.setAcl(fullpath, aclPermission.getAclPermission(true));
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case SETXATTR: {
-      np.setXAttr(
-          fullpath,
-          XAttrHelper.buildXAttr(xattrName.getXAttrName(),
-              xattrValue.getXAttrValue()), xattrSetFlag.getFlag());
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case REMOVEXATTR: {
-      np.removeXAttr(fullpath, XAttrHelper.buildXAttr(xattrName.getXAttrName()));
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case CREATESNAPSHOT: {
-      String snapshotPath = np.createSnapshot(fullpath, snapshotName.getValue());
-      final String js = JsonUtil.toJsonString(
-          org.apache.hadoop.fs.Path.class.getSimpleName(), snapshotPath);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case RENAMESNAPSHOT: {
-      np.renameSnapshot(fullpath, oldSnapshotName.getValue(),
-          snapshotName.getValue());
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    default:
-      throw new UnsupportedOperationException(op + " is not supported");
-    }
-  }
+		init(ugi, delegation, username, doAsUser, path, op, destination, owner, group, permission, overwrite,
+				bufferSize, replication, blockSize, modificationTime, accessTime, renameOptions,
+				delegationTokenArgument, aclPermission, xattrName, xattrValue, xattrSetFlag, snapshotName,
+				oldSnapshotName, excludeDatanodes);
 
-  /** Handle HTTP POST request for the root. */
-  @POST
-  @Path("/")
-  @Consumes({"*/*"})
-  @Produces({MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON})
-  public Response postRoot(
-      @Context final UserGroupInformation ugi,
-      @QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT)
-          final DelegationParam delegation,
-      @QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT)
-          final UserParam username,
-      @QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT)
-          final DoAsParam doAsUser,
-      @QueryParam(PostOpParam.NAME) @DefaultValue(PostOpParam.DEFAULT)
-          final PostOpParam op,
-      @QueryParam(ConcatSourcesParam.NAME) @DefaultValue(ConcatSourcesParam.DEFAULT)
-          final ConcatSourcesParam concatSrcs,
-      @QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT)
-          final BufferSizeParam bufferSize,
-      @QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT)
-          final ExcludeDatanodesParam excludeDatanodes,
-      @QueryParam(NewLengthParam.NAME) @DefaultValue(NewLengthParam.DEFAULT)
-          final NewLengthParam newLength
-      ) throws IOException, InterruptedException {
-    return post(ugi, delegation, username, doAsUser, ROOT, op, concatSrcs,
-        bufferSize, excludeDatanodes, newLength);
-  }
+		return ugi.doAs(new PrivilegedExceptionAction<Response>() {
+			@Override
+			public Response run() throws IOException, URISyntaxException {
+				try {
+					return put(ugi, delegation, username, doAsUser, path.getAbsolutePath(), op, destination, owner,
+							group, permission, overwrite, bufferSize, replication, blockSize, modificationTime,
+							accessTime, renameOptions, createParent, delegationTokenArgument, aclPermission, xattrName,
+							xattrValue, xattrSetFlag, snapshotName, oldSnapshotName, excludeDatanodes);
+				} finally {
+					reset();
+				}
+			}
+		});
+	}
 
-  /** Handle HTTP POST request. */
-  @POST
-  @Path("{" + UriFsPathParam.NAME + ":.*}")
-  @Consumes({"*/*"})
-  @Produces({MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON})
-  public Response post(
-      @Context final UserGroupInformation ugi,
-      @QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT)
-          final DelegationParam delegation,
-      @QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT)
-          final UserParam username,
-      @QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT)
-          final DoAsParam doAsUser,
-      @PathParam(UriFsPathParam.NAME) final UriFsPathParam path,
-      @QueryParam(PostOpParam.NAME) @DefaultValue(PostOpParam.DEFAULT)
-          final PostOpParam op,
-      @QueryParam(ConcatSourcesParam.NAME) @DefaultValue(ConcatSourcesParam.DEFAULT)
-          final ConcatSourcesParam concatSrcs,
-      @QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT)
-          final BufferSizeParam bufferSize,
-      @QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT)
-          final ExcludeDatanodesParam excludeDatanodes,
-      @QueryParam(NewLengthParam.NAME) @DefaultValue(NewLengthParam.DEFAULT)
-          final NewLengthParam newLength
-      ) throws IOException, InterruptedException {
+	private Response put(final UserGroupInformation ugi, final DelegationParam delegation, final UserParam username,
+			final DoAsParam doAsUser, final String fullpath, final PutOpParam op, final DestinationParam destination,
+			final OwnerParam owner, final GroupParam group, final PermissionParam permission,
+			final OverwriteParam overwrite, final BufferSizeParam bufferSize, final ReplicationParam replication,
+			final BlockSizeParam blockSize, final ModificationTimeParam modificationTime,
+			final AccessTimeParam accessTime, final RenameOptionSetParam renameOptions,
+			final CreateParentParam createParent, final TokenArgumentParam delegationTokenArgument,
+			final AclPermissionParam aclPermission, final XAttrNameParam xattrName, final XAttrValueParam xattrValue,
+			final XAttrSetFlagParam xattrSetFlag, final SnapshotNameParam snapshotName,
+			final OldSnapshotNameParam oldSnapshotName, final ExcludeDatanodesParam exclDatanodes)
+			throws IOException, URISyntaxException {
 
-    init(ugi, delegation, username, doAsUser, path, op, concatSrcs, bufferSize,
-        excludeDatanodes, newLength);
+		final Configuration conf = (Configuration) context.getAttribute(JspHelper.CURRENT_CONF);
+		final NameNode namenode = (NameNode) context.getAttribute("name.node");
+		final NamenodeProtocols np = getRPCServer(namenode);
 
-    return ugi.doAs(new PrivilegedExceptionAction<Response>() {
-      @Override
-      public Response run() throws IOException, URISyntaxException {
-        try {
-          return post(ugi, delegation, username, doAsUser,
-              path.getAbsolutePath(), op, concatSrcs, bufferSize,
-              excludeDatanodes, newLength);
-        } finally {
-          reset();
-        }
-      }
-    });
-  }
+		switch (op.getValue()) {
+		case CREATE: {
+			final URI uri = redirectURI(namenode, ugi, delegation, username, doAsUser, fullpath, op.getValue(), -1L,
+					blockSize.getValue(conf), exclDatanodes.getValue(), permission, overwrite, bufferSize, replication,
+					blockSize);
+			return Response.temporaryRedirect(uri).type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case MKDIRS: {
+			final boolean b = np.mkdirs(fullpath, permission.getFsPermission(), true);
+			final String js = JsonUtil.toJsonString("boolean", b);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case CREATESYMLINK: {
+			np.createSymlink(destination.getValue(), fullpath, PermissionParam.getDefaultFsPermission(),
+					createParent.getValue());
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case RENAME: {
+			final EnumSet<Options.Rename> s = renameOptions.getValue();
+			if (s.isEmpty()) {
+				final boolean b = np.rename(fullpath, destination.getValue());
+				final String js = JsonUtil.toJsonString("boolean", b);
+				return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+			} else {
+				np.rename2(fullpath, destination.getValue(), s.toArray(new Options.Rename[s.size()]));
+				return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+			}
+		}
+		case SETREPLICATION: {
+			final boolean b = np.setReplication(fullpath, replication.getValue(conf));
+			final String js = JsonUtil.toJsonString("boolean", b);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case SETOWNER: {
+			if (owner.getValue() == null && group.getValue() == null) {
+				throw new IllegalArgumentException("Both owner and group are empty.");
+			}
 
-  private Response post(
-      final UserGroupInformation ugi,
-      final DelegationParam delegation,
-      final UserParam username,
-      final DoAsParam doAsUser,
-      final String fullpath,
-      final PostOpParam op,
-      final ConcatSourcesParam concatSrcs,
-      final BufferSizeParam bufferSize,
-      final ExcludeDatanodesParam excludeDatanodes,
-      final NewLengthParam newLength
-      ) throws IOException, URISyntaxException {
-    final NameNode namenode = (NameNode)context.getAttribute("name.node");
-    final NamenodeProtocols np = getRPCServer(namenode);
+			np.setOwner(fullpath, owner.getValue(), group.getValue());
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case SETPERMISSION: {
+			np.setPermission(fullpath, permission.getFsPermission());
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case SETTIMES: {
+			np.setTimes(fullpath, modificationTime.getValue(), accessTime.getValue());
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case RENEWDELEGATIONTOKEN: {
+			final Token<DelegationTokenIdentifier> token = new Token<DelegationTokenIdentifier>();
+			token.decodeFromUrlString(delegationTokenArgument.getValue());
+			final long expiryTime = np.renewDelegationToken(token);
+			final String js = JsonUtil.toJsonString("long", expiryTime);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case CANCELDELEGATIONTOKEN: {
+			final Token<DelegationTokenIdentifier> token = new Token<DelegationTokenIdentifier>();
+			token.decodeFromUrlString(delegationTokenArgument.getValue());
+			np.cancelDelegationToken(token);
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case MODIFYACLENTRIES: {
+			np.modifyAclEntries(fullpath, aclPermission.getAclPermission(true));
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case REMOVEACLENTRIES: {
+			np.removeAclEntries(fullpath, aclPermission.getAclPermission(false));
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case REMOVEDEFAULTACL: {
+			np.removeDefaultAcl(fullpath);
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case REMOVEACL: {
+			np.removeAcl(fullpath);
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case SETACL: {
+			np.setAcl(fullpath, aclPermission.getAclPermission(true));
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case SETXATTR: {
+			np.setXAttr(fullpath, XAttrHelper.buildXAttr(xattrName.getXAttrName(), xattrValue.getXAttrValue()),
+					xattrSetFlag.getFlag());
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case REMOVEXATTR: {
+			np.removeXAttr(fullpath, XAttrHelper.buildXAttr(xattrName.getXAttrName()));
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case CREATESNAPSHOT: {
+			String snapshotPath = np.createSnapshot(fullpath, snapshotName.getValue());
+			final String js = JsonUtil.toJsonString(org.apache.hadoop.fs.Path.class.getSimpleName(), snapshotPath);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case RENAMESNAPSHOT: {
+			np.renameSnapshot(fullpath, oldSnapshotName.getValue(), snapshotName.getValue());
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		default:
+			throw new UnsupportedOperationException(op + " is not supported");
+		}
+	}
 
-    switch(op.getValue()) {
-    case APPEND:
-    {
-      final URI uri = redirectURI(namenode, ugi, delegation, username,
-          doAsUser, fullpath, op.getValue(), -1L, -1L,
-          excludeDatanodes.getValue(), bufferSize);
-      return Response.temporaryRedirect(uri).type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case CONCAT:
-    {
-      np.concat(fullpath, concatSrcs.getAbsolutePaths());
-      return Response.ok().build();
-    }
-    case TRUNCATE:
-    {
-      // We treat each rest request as a separate client.
-      final boolean b = np.truncate(fullpath, newLength.getValue(), 
-          "DFSClient_" + DFSUtil.getSecureRandom().nextLong());
-      final String js = JsonUtil.toJsonString("boolean", b);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    default:
-      throw new UnsupportedOperationException(op + " is not supported");
-    }
-  }
+	/** Handle HTTP POST request for the root. */
+	@POST
+	@Path("/")
+	@Consumes({ "*/*" })
+	@Produces({ MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON })
+	public Response postRoot(@Context final UserGroupInformation ugi,
+			@QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT) final DelegationParam delegation,
+			@QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT) final UserParam username,
+			@QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT) final DoAsParam doAsUser,
+			@QueryParam(PostOpParam.NAME) @DefaultValue(PostOpParam.DEFAULT) final PostOpParam op,
+			@QueryParam(ConcatSourcesParam.NAME) @DefaultValue(ConcatSourcesParam.DEFAULT) final ConcatSourcesParam concatSrcs,
+			@QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT) final BufferSizeParam bufferSize,
+			@QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT) final ExcludeDatanodesParam excludeDatanodes,
+			@QueryParam(NewLengthParam.NAME) @DefaultValue(NewLengthParam.DEFAULT) final NewLengthParam newLength)
+			throws IOException, InterruptedException {
+		return post(ugi, delegation, username, doAsUser, ROOT, op, concatSrcs, bufferSize, excludeDatanodes, newLength);
+	}
 
-  /** Handle HTTP GET request for the root. */
-  @GET
-  @Path("/")
-  @Produces({MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON})
-  public Response getRoot(
-      @Context final UserGroupInformation ugi,
-      @QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT)
-          final DelegationParam delegation,
-      @QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT)
-          final UserParam username,
-      @QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT)
-          final DoAsParam doAsUser,
-      @QueryParam(GetOpParam.NAME) @DefaultValue(GetOpParam.DEFAULT)
-          final GetOpParam op,
-      @QueryParam(OffsetParam.NAME) @DefaultValue(OffsetParam.DEFAULT)
-          final OffsetParam offset,
-      @QueryParam(LengthParam.NAME) @DefaultValue(LengthParam.DEFAULT)
-          final LengthParam length,
-      @QueryParam(RenewerParam.NAME) @DefaultValue(RenewerParam.DEFAULT)
-          final RenewerParam renewer,
-      @QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT)
-          final BufferSizeParam bufferSize,
-      @QueryParam(XAttrNameParam.NAME) @DefaultValue(XAttrNameParam.DEFAULT) 
-          final List<XAttrNameParam> xattrNames,
-      @QueryParam(XAttrEncodingParam.NAME) @DefaultValue(XAttrEncodingParam.DEFAULT) 
-          final XAttrEncodingParam xattrEncoding,
-      @QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT)
-          final ExcludeDatanodesParam excludeDatanodes,
-      @QueryParam(FsActionParam.NAME) @DefaultValue(FsActionParam.DEFAULT)
-          final FsActionParam fsAction,
-      @QueryParam(TokenKindParam.NAME) @DefaultValue(TokenKindParam.DEFAULT)
-          final TokenKindParam tokenKind,
-      @QueryParam(TokenServiceParam.NAME) @DefaultValue(TokenServiceParam.DEFAULT)
-          final TokenServiceParam tokenService
-      ) throws IOException, InterruptedException {
-    return get(ugi, delegation, username, doAsUser, ROOT, op, offset, length,
-        renewer, bufferSize, xattrNames, xattrEncoding, excludeDatanodes, fsAction,
-        tokenKind, tokenService);
-  }
+	/** Handle HTTP POST request. */
+	@POST
+	@Path("{" + UriFsPathParam.NAME + ":.*}")
+	@Consumes({ "*/*" })
+	@Produces({ MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON })
+	public Response post(@Context final UserGroupInformation ugi,
+			@QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT) final DelegationParam delegation,
+			@QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT) final UserParam username,
+			@QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT) final DoAsParam doAsUser,
+			@PathParam(UriFsPathParam.NAME) final UriFsPathParam path,
+			@QueryParam(PostOpParam.NAME) @DefaultValue(PostOpParam.DEFAULT) final PostOpParam op,
+			@QueryParam(ConcatSourcesParam.NAME) @DefaultValue(ConcatSourcesParam.DEFAULT) final ConcatSourcesParam concatSrcs,
+			@QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT) final BufferSizeParam bufferSize,
+			@QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT) final ExcludeDatanodesParam excludeDatanodes,
+			@QueryParam(NewLengthParam.NAME) @DefaultValue(NewLengthParam.DEFAULT) final NewLengthParam newLength)
+			throws IOException, InterruptedException {
 
-  /** Handle HTTP GET request. */
-  @GET
-  @Path("{" + UriFsPathParam.NAME + ":.*}")
-  @Produces({MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON})
-  public Response get(
-      @Context final UserGroupInformation ugi,
-      @QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT)
-          final DelegationParam delegation,
-      @QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT)
-          final UserParam username,
-      @QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT)
-          final DoAsParam doAsUser,
-      @PathParam(UriFsPathParam.NAME) final UriFsPathParam path,
-      @QueryParam(GetOpParam.NAME) @DefaultValue(GetOpParam.DEFAULT)
-          final GetOpParam op,
-      @QueryParam(OffsetParam.NAME) @DefaultValue(OffsetParam.DEFAULT)
-          final OffsetParam offset,
-      @QueryParam(LengthParam.NAME) @DefaultValue(LengthParam.DEFAULT)
-          final LengthParam length,
-      @QueryParam(RenewerParam.NAME) @DefaultValue(RenewerParam.DEFAULT)
-          final RenewerParam renewer,
-      @QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT)
-          final BufferSizeParam bufferSize,
-      @QueryParam(XAttrNameParam.NAME) @DefaultValue(XAttrNameParam.DEFAULT) 
-          final List<XAttrNameParam> xattrNames,
-      @QueryParam(XAttrEncodingParam.NAME) @DefaultValue(XAttrEncodingParam.DEFAULT) 
-          final XAttrEncodingParam xattrEncoding,
-      @QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT)
-          final ExcludeDatanodesParam excludeDatanodes,
-      @QueryParam(FsActionParam.NAME) @DefaultValue(FsActionParam.DEFAULT)
-          final FsActionParam fsAction,
-      @QueryParam(TokenKindParam.NAME) @DefaultValue(TokenKindParam.DEFAULT)
-          final TokenKindParam tokenKind,
-      @QueryParam(TokenServiceParam.NAME) @DefaultValue(TokenServiceParam.DEFAULT)
-          final TokenServiceParam tokenService
-      ) throws IOException, InterruptedException {
+		init(ugi, delegation, username, doAsUser, path, op, concatSrcs, bufferSize, excludeDatanodes, newLength);
 
-    init(ugi, delegation, username, doAsUser, path, op, offset, length,
-        renewer, bufferSize, xattrEncoding, excludeDatanodes, fsAction,
-        tokenKind, tokenService);
+		return ugi.doAs(new PrivilegedExceptionAction<Response>() {
+			@Override
+			public Response run() throws IOException, URISyntaxException {
+				try {
+					return post(ugi, delegation, username, doAsUser, path.getAbsolutePath(), op, concatSrcs, bufferSize,
+							excludeDatanodes, newLength);
+				} finally {
+					reset();
+				}
+			}
+		});
+	}
 
-    return ugi.doAs(new PrivilegedExceptionAction<Response>() {
-      @Override
-      public Response run() throws IOException, URISyntaxException {
-        try {
-          return get(ugi, delegation, username, doAsUser,
-              path.getAbsolutePath(), op, offset, length, renewer, bufferSize,
-              xattrNames, xattrEncoding, excludeDatanodes, fsAction, tokenKind,
-              tokenService);
-        } finally {
-          reset();
-        }
-      }
-    });
-  }
+	private Response post(final UserGroupInformation ugi, final DelegationParam delegation, final UserParam username,
+			final DoAsParam doAsUser, final String fullpath, final PostOpParam op, final ConcatSourcesParam concatSrcs,
+			final BufferSizeParam bufferSize, final ExcludeDatanodesParam excludeDatanodes,
+			final NewLengthParam newLength) throws IOException, URISyntaxException {
+		final NameNode namenode = (NameNode) context.getAttribute("name.node");
+		final NamenodeProtocols np = getRPCServer(namenode);
 
-  private Response get(
-      final UserGroupInformation ugi,
-      final DelegationParam delegation,
-      final UserParam username,
-      final DoAsParam doAsUser,
-      final String fullpath,
-      final GetOpParam op,
-      final OffsetParam offset,
-      final LengthParam length,
-      final RenewerParam renewer,
-      final BufferSizeParam bufferSize,
-      final List<XAttrNameParam> xattrNames,
-      final XAttrEncodingParam xattrEncoding,
-      final ExcludeDatanodesParam excludeDatanodes,
-      final FsActionParam fsAction,
-      final TokenKindParam tokenKind,
-      final TokenServiceParam tokenService
-      ) throws IOException, URISyntaxException {
-    final NameNode namenode = (NameNode)context.getAttribute("name.node");
-    final NamenodeProtocols np = getRPCServer(namenode);
+		switch (op.getValue()) {
+		case APPEND: {
+			final URI uri = redirectURI(namenode, ugi, delegation, username, doAsUser, fullpath, op.getValue(), -1L,
+					-1L, excludeDatanodes.getValue(), bufferSize);
+			return Response.temporaryRedirect(uri).type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case CONCAT: {
+			np.concat(fullpath, concatSrcs.getAbsolutePaths());
+			return Response.ok().build();
+		}
+		case TRUNCATE: {
+			// We treat each rest request as a separate client.
+			final boolean b = np.truncate(fullpath, newLength.getValue(),
+					"DFSClient_" + DFSUtil.getSecureRandom().nextLong());
+			final String js = JsonUtil.toJsonString("boolean", b);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		default:
+			throw new UnsupportedOperationException(op + " is not supported");
+		}
+	}
 
-    switch(op.getValue()) {
-    case OPEN:
-    {
-      final URI uri = redirectURI(namenode, ugi, delegation, username,
-          doAsUser, fullpath, op.getValue(), offset.getValue(), -1L,
-          excludeDatanodes.getValue(), offset, length, bufferSize);
-      return Response.temporaryRedirect(uri).type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case GET_BLOCK_LOCATIONS:
-    {
-      final long offsetValue = offset.getValue();
-      final Long lengthValue = length.getValue();
-      final LocatedBlocks locatedblocks = np.getBlockLocations(fullpath,
-          offsetValue, lengthValue != null? lengthValue: Long.MAX_VALUE);
-      final String js = JsonUtil.toJsonString(locatedblocks);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case GETFILESTATUS:
-    {
-      final HdfsFileStatus status = np.getFileInfo(fullpath);
-      if (status == null) {
-        throw new FileNotFoundException("File does not exist: " + fullpath);
-      }
+	/** Handle HTTP GET request for the root. */
+	@GET
+	@Path("/")
+	@Produces({ MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON })
+	public Response getRoot(@Context final UserGroupInformation ugi,
+			@QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT) final DelegationParam delegation,
+			@QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT) final UserParam username,
+			@QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT) final DoAsParam doAsUser,
+			@QueryParam(GetOpParam.NAME) @DefaultValue(GetOpParam.DEFAULT) final GetOpParam op,
+			@QueryParam(OffsetParam.NAME) @DefaultValue(OffsetParam.DEFAULT) final OffsetParam offset,
+			@QueryParam(LengthParam.NAME) @DefaultValue(LengthParam.DEFAULT) final LengthParam length,
+			@QueryParam(RenewerParam.NAME) @DefaultValue(RenewerParam.DEFAULT) final RenewerParam renewer,
+			@QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT) final BufferSizeParam bufferSize,
+			@QueryParam(XAttrNameParam.NAME) @DefaultValue(XAttrNameParam.DEFAULT) final List<XAttrNameParam> xattrNames,
+			@QueryParam(XAttrEncodingParam.NAME) @DefaultValue(XAttrEncodingParam.DEFAULT) final XAttrEncodingParam xattrEncoding,
+			@QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT) final ExcludeDatanodesParam excludeDatanodes,
+			@QueryParam(FsActionParam.NAME) @DefaultValue(FsActionParam.DEFAULT) final FsActionParam fsAction,
+			@QueryParam(TokenKindParam.NAME) @DefaultValue(TokenKindParam.DEFAULT) final TokenKindParam tokenKind,
+			@QueryParam(TokenServiceParam.NAME) @DefaultValue(TokenServiceParam.DEFAULT) final TokenServiceParam tokenService)
+			throws IOException, InterruptedException {
+		return get(ugi, delegation, username, doAsUser, ROOT, op, offset, length, renewer, bufferSize, xattrNames,
+				xattrEncoding, excludeDatanodes, fsAction, tokenKind, tokenService);
+	}
 
-      final String js = JsonUtil.toJsonString(status, true);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case LISTSTATUS:
-    {
-      final StreamingOutput streaming = getListingStream(np, fullpath);
-      return Response.ok(streaming).type(MediaType.APPLICATION_JSON).build();
-    }
-    case GETCONTENTSUMMARY:
-    {
-      final ContentSummary contentsummary = np.getContentSummary(fullpath);
-      final String js = JsonUtil.toJsonString(contentsummary);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case GETFILECHECKSUM:
-    {
-      final URI uri = redirectURI(namenode, ugi, delegation, username, doAsUser,
-          fullpath, op.getValue(), -1L, -1L, null);
-      return Response.temporaryRedirect(uri).type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    case GETDELEGATIONTOKEN:
-    {
-      if (delegation.getValue() != null) {
-        throw new IllegalArgumentException(delegation.getName()
-            + " parameter is not null.");
-      }
-      final Token<? extends TokenIdentifier> token = generateDelegationToken(
-          namenode, ugi, renewer.getValue());
+	/** Handle HTTP GET request. */
+	@GET
+	@Path("{" + UriFsPathParam.NAME + ":.*}")
+	@Produces({ MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_JSON })
+	public Response get(@Context final UserGroupInformation ugi,
+			@QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT) final DelegationParam delegation,
+			@QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT) final UserParam username,
+			@QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT) final DoAsParam doAsUser,
+			@PathParam(UriFsPathParam.NAME) final UriFsPathParam path,
+			@QueryParam(GetOpParam.NAME) @DefaultValue(GetOpParam.DEFAULT) final GetOpParam op,
+			@QueryParam(OffsetParam.NAME) @DefaultValue(OffsetParam.DEFAULT) final OffsetParam offset,
+			@QueryParam(LengthParam.NAME) @DefaultValue(LengthParam.DEFAULT) final LengthParam length,
+			@QueryParam(RenewerParam.NAME) @DefaultValue(RenewerParam.DEFAULT) final RenewerParam renewer,
+			@QueryParam(BufferSizeParam.NAME) @DefaultValue(BufferSizeParam.DEFAULT) final BufferSizeParam bufferSize,
+			@QueryParam(XAttrNameParam.NAME) @DefaultValue(XAttrNameParam.DEFAULT) final List<XAttrNameParam> xattrNames,
+			@QueryParam(XAttrEncodingParam.NAME) @DefaultValue(XAttrEncodingParam.DEFAULT) final XAttrEncodingParam xattrEncoding,
+			@QueryParam(ExcludeDatanodesParam.NAME) @DefaultValue(ExcludeDatanodesParam.DEFAULT) final ExcludeDatanodesParam excludeDatanodes,
+			@QueryParam(FsActionParam.NAME) @DefaultValue(FsActionParam.DEFAULT) final FsActionParam fsAction,
+			@QueryParam(TokenKindParam.NAME) @DefaultValue(TokenKindParam.DEFAULT) final TokenKindParam tokenKind,
+			@QueryParam(TokenServiceParam.NAME) @DefaultValue(TokenServiceParam.DEFAULT) final TokenServiceParam tokenService)
+			throws IOException, InterruptedException {
 
-      final String setServiceName = tokenService.getValue();
-      final String setKind = tokenKind.getValue();
-      if (setServiceName != null) {
-        token.setService(new Text(setServiceName));
-      }
-      if (setKind != null) {
-        token.setKind(new Text(setKind));
-      }
-      final String js = JsonUtil.toJsonString(token);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case GETHOMEDIRECTORY:
-    {
-      final String js = JsonUtil.toJsonString(
-          org.apache.hadoop.fs.Path.class.getSimpleName(),
-          WebHdfsFileSystem.getHomeDirectoryString(ugi));
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case GETACLSTATUS: {
-      AclStatus status = np.getAclStatus(fullpath);
-      if (status == null) {
-        throw new FileNotFoundException("File does not exist: " + fullpath);
-      }
+		init(ugi, delegation, username, doAsUser, path, op, offset, length, renewer, bufferSize, xattrEncoding,
+				excludeDatanodes, fsAction, tokenKind, tokenService);
 
-      final String js = JsonUtil.toJsonString(status);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case GETXATTRS: {
-      List<String> names = null;
-      if (xattrNames != null) {
-        names = Lists.newArrayListWithCapacity(xattrNames.size());
-        for (XAttrNameParam xattrName : xattrNames) {
-          if (xattrName.getXAttrName() != null) {
-            names.add(xattrName.getXAttrName());
-          }
-        }
-      }
-      List<XAttr> xAttrs = np.getXAttrs(fullpath, (names != null && 
-          !names.isEmpty()) ? XAttrHelper.buildXAttrs(names) : null);
-      final String js = JsonUtil.toJsonString(xAttrs,
-          xattrEncoding.getEncoding());
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case LISTXATTRS: {
-      final List<XAttr> xAttrs = np.listXAttrs(fullpath);
-      final String js = JsonUtil.toJsonString(xAttrs);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case CHECKACCESS: {
-      np.checkAccess(fullpath, FsAction.getFsAction(fsAction.getValue()));
-      return Response.ok().build();
-    }
-    default:
-      throw new UnsupportedOperationException(op + " is not supported");
-    }
-  }
+		return ugi.doAs(new PrivilegedExceptionAction<Response>() {
+			@Override
+			public Response run() throws IOException, URISyntaxException {
+				try {
+					return get(ugi, delegation, username, doAsUser, path.getAbsolutePath(), op, offset, length, renewer,
+							bufferSize, xattrNames, xattrEncoding, excludeDatanodes, fsAction, tokenKind, tokenService);
+				} finally {
+					reset();
+				}
+			}
+		});
+	}
 
-  private static DirectoryListing getDirectoryListing(final NamenodeProtocols np,
-      final String p, byte[] startAfter) throws IOException {
-    final DirectoryListing listing = np.getListing(p, startAfter, false);
-    if (listing == null) { // the directory does not exist
-      throw new FileNotFoundException("File " + p + " does not exist.");
-    }
-    return listing;
-  }
-  
-  private static StreamingOutput getListingStream(final NamenodeProtocols np, 
-      final String p) throws IOException {
-    // allows exceptions like FNF or ACE to prevent http response of 200 for
-    // a failure since we can't (currently) return error responses in the
-    // middle of a streaming operation
-    final DirectoryListing firstDirList = getDirectoryListing(np, p,
-        HdfsFileStatus.EMPTY_NAME);
+	private Response get(final UserGroupInformation ugi, final DelegationParam delegation, final UserParam username,
+			final DoAsParam doAsUser, final String fullpath, final GetOpParam op, final OffsetParam offset,
+			final LengthParam length, final RenewerParam renewer, final BufferSizeParam bufferSize,
+			final List<XAttrNameParam> xattrNames, final XAttrEncodingParam xattrEncoding,
+			final ExcludeDatanodesParam excludeDatanodes, final FsActionParam fsAction, final TokenKindParam tokenKind,
+			final TokenServiceParam tokenService) throws IOException, URISyntaxException {
+		final NameNode namenode = (NameNode) context.getAttribute("name.node");
+		final NamenodeProtocols np = getRPCServer(namenode);
 
-    // must save ugi because the streaming object will be executed outside
-    // the remote user's ugi
-    final UserGroupInformation ugi = UserGroupInformation.getCurrentUser();
-    return new StreamingOutput() {
-      @Override
-      public void write(final OutputStream outstream) throws IOException {
-        final PrintWriter out = new PrintWriter(new OutputStreamWriter(
-            outstream, Charsets.UTF_8));
-        out.println("{\"" + FileStatus.class.getSimpleName() + "es\":{\""
-            + FileStatus.class.getSimpleName() + "\":[");
+		switch (op.getValue()) {
+		case OPEN: {
+			final URI uri = redirectURI(namenode, ugi, delegation, username, doAsUser, fullpath, op.getValue(),
+					offset.getValue(), -1L, excludeDatanodes.getValue(), offset, length, bufferSize);
+			return Response.temporaryRedirect(uri).type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case GET_BLOCK_LOCATIONS: {
+			final long offsetValue = offset.getValue();
+			final Long lengthValue = length.getValue();
+			final LocatedBlocks locatedblocks = np.getBlockLocations(fullpath, offsetValue,
+					lengthValue != null ? lengthValue : Long.MAX_VALUE);
+			final String js = JsonUtil.toJsonString(locatedblocks);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case GETFILESTATUS: {
+			final HdfsFileStatus status = np.getFileInfo(fullpath);
+			if (status == null) {
+				throw new FileNotFoundException("File does not exist: " + fullpath);
+			}
 
-        try {
-          // restore remote user's ugi
-          ugi.doAs(new PrivilegedExceptionAction<Void>() {
-            @Override
-            public Void run() throws IOException {
-              long n = 0;
-              for (DirectoryListing dirList = firstDirList; ;
-                   dirList = getDirectoryListing(np, p, dirList.getLastName())
-              ) {
-                // send each segment of the directory listing
-                for (HdfsFileStatus s : dirList.getPartialListing()) {
-                  if (n++ > 0) {
-                    out.println(',');
-                  }
-                  out.print(JsonUtil.toJsonString(s, false));
-                }
-                // stop if last segment
-                if (!dirList.hasMore()) {
-                  break;
-                }
-              }
-              return null;
-            }
-          });
-        } catch (InterruptedException e) {
-          throw new IOException(e);
-        }
-        
-        out.println();
-        out.println("]}}");
-        out.flush();
-      }
-    };
-  }
+			final String js = JsonUtil.toJsonString(status, true);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case LISTSTATUS: {
+			final StreamingOutput streaming = getListingStream(np, fullpath);
+			return Response.ok(streaming).type(MediaType.APPLICATION_JSON).build();
+		}
+		case GETCONTENTSUMMARY: {
+			final ContentSummary contentsummary = np.getContentSummary(fullpath);
+			final String js = JsonUtil.toJsonString(contentsummary);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case GETFILECHECKSUM: {
+			final URI uri = redirectURI(namenode, ugi, delegation, username, doAsUser, fullpath, op.getValue(), -1L,
+					-1L, null);
+			return Response.temporaryRedirect(uri).type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		case GETDELEGATIONTOKEN: {
+			if (delegation.getValue() != null) {
+				throw new IllegalArgumentException(delegation.getName() + " parameter is not null.");
+			}
+			final Token<? extends TokenIdentifier> token = generateDelegationToken(namenode, ugi, renewer.getValue());
 
-  /** Handle HTTP DELETE request for the root. */
-  @DELETE
-  @Path("/")
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response deleteRoot(
-      @Context final UserGroupInformation ugi,
-      @QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT)
-          final DelegationParam delegation,
-      @QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT)
-          final UserParam username,
-      @QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT)
-          final DoAsParam doAsUser,
-      @QueryParam(DeleteOpParam.NAME) @DefaultValue(DeleteOpParam.DEFAULT)
-          final DeleteOpParam op,
-      @QueryParam(RecursiveParam.NAME) @DefaultValue(RecursiveParam.DEFAULT)
-          final RecursiveParam recursive,
-      @QueryParam(SnapshotNameParam.NAME) @DefaultValue(SnapshotNameParam.DEFAULT)
-          final SnapshotNameParam snapshotName
-      ) throws IOException, InterruptedException {
-    return delete(ugi, delegation, username, doAsUser, ROOT, op, recursive,
-        snapshotName);
-  }
+			final String setServiceName = tokenService.getValue();
+			final String setKind = tokenKind.getValue();
+			if (setServiceName != null) {
+				token.setService(new Text(setServiceName));
+			}
+			if (setKind != null) {
+				token.setKind(new Text(setKind));
+			}
+			final String js = JsonUtil.toJsonString(token);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case GETHOMEDIRECTORY: {
+			final String js = JsonUtil.toJsonString(org.apache.hadoop.fs.Path.class.getSimpleName(),
+					WebHdfsFileSystem.getHomeDirectoryString(ugi));
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case GETACLSTATUS: {
+			AclStatus status = np.getAclStatus(fullpath);
+			if (status == null) {
+				throw new FileNotFoundException("File does not exist: " + fullpath);
+			}
 
-  /** Handle HTTP DELETE request. */
-  @DELETE
-  @Path("{" + UriFsPathParam.NAME + ":.*}")
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response delete(
-      @Context final UserGroupInformation ugi,
-      @QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT)
-          final DelegationParam delegation,
-      @QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT)
-          final UserParam username,
-      @QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT)
-          final DoAsParam doAsUser,
-      @PathParam(UriFsPathParam.NAME) final UriFsPathParam path,
-      @QueryParam(DeleteOpParam.NAME) @DefaultValue(DeleteOpParam.DEFAULT)
-          final DeleteOpParam op,
-      @QueryParam(RecursiveParam.NAME) @DefaultValue(RecursiveParam.DEFAULT)
-          final RecursiveParam recursive,
-      @QueryParam(SnapshotNameParam.NAME) @DefaultValue(SnapshotNameParam.DEFAULT)
-          final SnapshotNameParam snapshotName
-      ) throws IOException, InterruptedException {
+			final String js = JsonUtil.toJsonString(status);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case GETXATTRS: {
+			List<String> names = null;
+			if (xattrNames != null) {
+				names = Lists.newArrayListWithCapacity(xattrNames.size());
+				for (XAttrNameParam xattrName : xattrNames) {
+					if (xattrName.getXAttrName() != null) {
+						names.add(xattrName.getXAttrName());
+					}
+				}
+			}
+			List<XAttr> xAttrs = np.getXAttrs(fullpath,
+					(names != null && !names.isEmpty()) ? XAttrHelper.buildXAttrs(names) : null);
+			final String js = JsonUtil.toJsonString(xAttrs, xattrEncoding.getEncoding());
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case LISTXATTRS: {
+			final List<XAttr> xAttrs = np.listXAttrs(fullpath);
+			final String js = JsonUtil.toJsonString(xAttrs);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case CHECKACCESS: {
+			np.checkAccess(fullpath, FsAction.getFsAction(fsAction.getValue()));
+			return Response.ok().build();
+		}
+		default:
+			throw new UnsupportedOperationException(op + " is not supported");
+		}
+	}
 
-    init(ugi, delegation, username, doAsUser, path, op, recursive, snapshotName);
+	private static DirectoryListing getDirectoryListing(final NamenodeProtocols np, final String p, byte[] startAfter)
+			throws IOException {
+		final DirectoryListing listing = np.getListing(p, startAfter, false);
+		if (listing == null) { // the directory does not exist
+			throw new FileNotFoundException("File " + p + " does not exist.");
+		}
+		return listing;
+	}
 
-    return ugi.doAs(new PrivilegedExceptionAction<Response>() {
-      @Override
-      public Response run() throws IOException {
-        try {
-          return delete(ugi, delegation, username, doAsUser,
-              path.getAbsolutePath(), op, recursive, snapshotName);
-        } finally {
-          reset();
-        }
-      }
-    });
-  }
+	private static StreamingOutput getListingStream(final NamenodeProtocols np, final String p) throws IOException {
+		// allows exceptions like FNF or ACE to prevent http response of 200 for
+		// a failure since we can't (currently) return error responses in the
+		// middle of a streaming operation
+		final DirectoryListing firstDirList = getDirectoryListing(np, p, HdfsFileStatus.EMPTY_NAME);
 
-  private Response delete(
-      final UserGroupInformation ugi,
-      final DelegationParam delegation,
-      final UserParam username,
-      final DoAsParam doAsUser,
-      final String fullpath,
-      final DeleteOpParam op,
-      final RecursiveParam recursive,
-      final SnapshotNameParam snapshotName
-      ) throws IOException {
-    final NameNode namenode = (NameNode)context.getAttribute("name.node");
-    final NamenodeProtocols np = getRPCServer(namenode);
+		// must save ugi because the streaming object will be executed outside
+		// the remote user's ugi
+		final UserGroupInformation ugi = UserGroupInformation.getCurrentUser();
+		return new StreamingOutput() {
+			@Override
+			public void write(final OutputStream outstream) throws IOException {
+				final PrintWriter out = new PrintWriter(new OutputStreamWriter(outstream, Charsets.UTF_8));
+				out.println("{\"" + FileStatus.class.getSimpleName() + "es\":{\"" + FileStatus.class.getSimpleName()
+						+ "\":[");
 
-    switch(op.getValue()) {
-    case DELETE: {
-      final boolean b = np.delete(fullpath, recursive.getValue());
-      final String js = JsonUtil.toJsonString("boolean", b);
-      return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
-    }
-    case DELETESNAPSHOT: {
-      np.deleteSnapshot(fullpath, snapshotName.getValue());
-      return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
-    }
-    default:
-      throw new UnsupportedOperationException(op + " is not supported");
-    }
-  }
+				try {
+					// restore remote user's ugi
+					ugi.doAs(new PrivilegedExceptionAction<Void>() {
+						@Override
+						public Void run() throws IOException {
+							long n = 0;
+							for (DirectoryListing dirList = firstDirList;; dirList = getDirectoryListing(np, p,
+									dirList.getLastName())) {
+								// send each segment of the directory listing
+								for (HdfsFileStatus s : dirList.getPartialListing()) {
+									if (n++ > 0) {
+										out.println(',');
+									}
+									out.print(JsonUtil.toJsonString(s, false));
+								}
+								// stop if last segment
+								if (!dirList.hasMore()) {
+									break;
+								}
+							}
+							return null;
+						}
+					});
+				} catch (InterruptedException e) {
+					throw new IOException(e);
+				}
+
+				out.println();
+				out.println("]}}");
+				out.flush();
+			}
+		};
+	}
+
+	/** Handle HTTP DELETE request for the root. */
+	@DELETE
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteRoot(@Context final UserGroupInformation ugi,
+			@QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT) final DelegationParam delegation,
+			@QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT) final UserParam username,
+			@QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT) final DoAsParam doAsUser,
+			@QueryParam(DeleteOpParam.NAME) @DefaultValue(DeleteOpParam.DEFAULT) final DeleteOpParam op,
+			@QueryParam(RecursiveParam.NAME) @DefaultValue(RecursiveParam.DEFAULT) final RecursiveParam recursive,
+			@QueryParam(SnapshotNameParam.NAME) @DefaultValue(SnapshotNameParam.DEFAULT) final SnapshotNameParam snapshotName)
+			throws IOException, InterruptedException {
+		return delete(ugi, delegation, username, doAsUser, ROOT, op, recursive, snapshotName);
+	}
+
+	/** Handle HTTP DELETE request. */
+	@DELETE
+	@Path("{" + UriFsPathParam.NAME + ":.*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response delete(@Context final UserGroupInformation ugi,
+			@QueryParam(DelegationParam.NAME) @DefaultValue(DelegationParam.DEFAULT) final DelegationParam delegation,
+			@QueryParam(UserParam.NAME) @DefaultValue(UserParam.DEFAULT) final UserParam username,
+			@QueryParam(DoAsParam.NAME) @DefaultValue(DoAsParam.DEFAULT) final DoAsParam doAsUser,
+			@PathParam(UriFsPathParam.NAME) final UriFsPathParam path,
+			@QueryParam(DeleteOpParam.NAME) @DefaultValue(DeleteOpParam.DEFAULT) final DeleteOpParam op,
+			@QueryParam(RecursiveParam.NAME) @DefaultValue(RecursiveParam.DEFAULT) final RecursiveParam recursive,
+			@QueryParam(SnapshotNameParam.NAME) @DefaultValue(SnapshotNameParam.DEFAULT) final SnapshotNameParam snapshotName)
+			throws IOException, InterruptedException {
+
+		init(ugi, delegation, username, doAsUser, path, op, recursive, snapshotName);
+
+		return ugi.doAs(new PrivilegedExceptionAction<Response>() {
+			@Override
+			public Response run() throws IOException {
+				try {
+					return delete(ugi, delegation, username, doAsUser, path.getAbsolutePath(), op, recursive,
+							snapshotName);
+				} finally {
+					reset();
+				}
+			}
+		});
+	}
+
+	private Response delete(final UserGroupInformation ugi, final DelegationParam delegation, final UserParam username,
+			final DoAsParam doAsUser, final String fullpath, final DeleteOpParam op, final RecursiveParam recursive,
+			final SnapshotNameParam snapshotName) throws IOException {
+		final NameNode namenode = (NameNode) context.getAttribute("name.node");
+		final NamenodeProtocols np = getRPCServer(namenode);
+
+		switch (op.getValue()) {
+		case DELETE: {
+			final boolean b = np.delete(fullpath, recursive.getValue());
+			final String js = JsonUtil.toJsonString("boolean", b);
+			return Response.ok(js).type(MediaType.APPLICATION_JSON).build();
+		}
+		case DELETESNAPSHOT: {
+			np.deleteSnapshot(fullpath, snapshotName.getValue());
+			return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).build();
+		}
+		default:
+			throw new UnsupportedOperationException(op + " is not supported");
+		}
+	}
 }

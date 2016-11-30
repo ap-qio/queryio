@@ -28,16 +28,15 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 
 /**
- * A low memory footprint Cache which extends {@link LightWeightGSet}.
- * An entry in the cache is expired if
- * (1) it is added to the cache longer than the creation-expiration period, and
- * (2) it is not accessed for the access-expiration period.
- * When an entry is expired, it may be evicted from the cache.
- * When the size limit of the cache is set, the cache will evict the entries
- * with earliest expiration time, even if they are not expired.
+ * A low memory footprint Cache which extends {@link LightWeightGSet}. An entry
+ * in the cache is expired if (1) it is added to the cache longer than the
+ * creation-expiration period, and (2) it is not accessed for the
+ * access-expiration period. When an entry is expired, it may be evicted from
+ * the cache. When the size limit of the cache is set, the cache will evict the
+ * entries with earliest expiration time, even if they are not expired.
  * 
- * It is guaranteed that number of entries in the cache is less than or equal
- * to the size limit.  However, It is not guaranteed that expired entries are
+ * It is guaranteed that number of entries in the cache is less than or equal to
+ * the size limit. However, It is not guaranteed that expired entries are
  * evicted from the cache. An expired entry may possibly be accessed after its
  * expiration time. In such case, the expiration time may be updated.
  *
@@ -45,219 +44,212 @@ import com.google.common.base.Preconditions;
  *
  * This class is not thread safe.
  *
- * @param <K> Key type for looking up the entries
- * @param <E> Entry type, which must be
- *       (1) a subclass of K, and
- *       (2) implementing {@link Entry} interface, and
+ * @param <K>
+ *            Key type for looking up the entries
+ * @param <E>
+ *            Entry type, which must be (1) a subclass of K, and (2)
+ *            implementing {@link Entry} interface, and
  */
 @InterfaceAudience.Private
 public class LightWeightCache<K, E extends K> extends LightWeightGSet<K, E> {
-  /** Limit the number of entries in each eviction. */
-  private static final int EVICTION_LIMIT = 1 << 16;
+	/** Limit the number of entries in each eviction. */
+	private static final int EVICTION_LIMIT = 1 << 16;
 
-  /**
-   * Entries of {@link LightWeightCache}.
-   */
-  public static interface Entry extends LinkedElement {
-    /** Set the expiration time. */
-    public void setExpirationTime(long timeNano);
+	/**
+	 * Entries of {@link LightWeightCache}.
+	 */
+	public static interface Entry extends LinkedElement {
+		/** Set the expiration time. */
+		public void setExpirationTime(long timeNano);
 
-    /** Get the expiration time. */
-    public long getExpirationTime();
-  }
+		/** Get the expiration time. */
+		public long getExpirationTime();
+	}
 
-  /** Comparator for sorting entries by expiration time in ascending order. */
-  private static final Comparator<Entry> expirationTimeComparator
-      = new Comparator<Entry>() {
-    @Override
-    public int compare(Entry left, Entry right) {
-      final long l = left.getExpirationTime();
-      final long r = right.getExpirationTime();
-      return l > r? 1: l < r? -1: 0;
-    }
-  };
+	/** Comparator for sorting entries by expiration time in ascending order. */
+	private static final Comparator<Entry> expirationTimeComparator = new Comparator<Entry>() {
+		@Override
+		public int compare(Entry left, Entry right) {
+			final long l = left.getExpirationTime();
+			final long r = right.getExpirationTime();
+			return l > r ? 1 : l < r ? -1 : 0;
+		}
+	};
 
-  /** A clock for measuring time so that it can be mocked in unit tests. */
-  static class Clock {
-    /** @return the current time. */
-    long currentTime() {
-      return System.nanoTime();
-    }
-  }
-  
-  private static int updateRecommendedLength(int recommendedLength,
-      int sizeLimit) {
-    return sizeLimit > 0 && sizeLimit < recommendedLength?
-        (sizeLimit/4*3) // 0.75 load factor
-        : recommendedLength;
-  }
+	/** A clock for measuring time so that it can be mocked in unit tests. */
+	static class Clock {
+		/** @return the current time. */
+		long currentTime() {
+			return System.nanoTime();
+		}
+	}
 
-  /*
-   * The memory footprint for java.util.PriorityQueue is low but the
-   * remove(Object) method runs in linear time. We may improve it by using a
-   * balanced tree. However, we do not yet have a low memory footprint balanced
-   * tree implementation.
-   */
-  private final PriorityQueue<Entry> queue;
-  private final long creationExpirationPeriod;
-  private final long accessExpirationPeriod;
-  private final int sizeLimit;
-  private final Clock clock;
+	private static int updateRecommendedLength(int recommendedLength, int sizeLimit) {
+		return sizeLimit > 0 && sizeLimit < recommendedLength ? (sizeLimit / 4 * 3) // 0.75
+																					// load
+																					// factor
+				: recommendedLength;
+	}
 
-  /**
-   * @param recommendedLength Recommended size of the internal array.
-   * @param sizeLimit the limit of the size of the cache.
-   *            The limit is disabled if it is <= 0.
-   * @param creationExpirationPeriod the time period C > 0 in nanoseconds that
-   *            the creation of an entry is expired if it is added to the cache
-   *            longer than C.
-   * @param accessExpirationPeriod the time period A >= 0 in nanoseconds that
-   *            the access of an entry is expired if it is not accessed
-   *            longer than A. 
-   */
-  public LightWeightCache(final int recommendedLength,
-      final int sizeLimit,
-      final long creationExpirationPeriod,
-      final long accessExpirationPeriod) {
-    this(recommendedLength, sizeLimit,
-        creationExpirationPeriod, accessExpirationPeriod, new Clock());
-  }
+	/*
+	 * The memory footprint for java.util.PriorityQueue is low but the
+	 * remove(Object) method runs in linear time. We may improve it by using a
+	 * balanced tree. However, we do not yet have a low memory footprint
+	 * balanced tree implementation.
+	 */
+	private final PriorityQueue<Entry> queue;
+	private final long creationExpirationPeriod;
+	private final long accessExpirationPeriod;
+	private final int sizeLimit;
+	private final Clock clock;
 
-  @VisibleForTesting
-  LightWeightCache(final int recommendedLength,
-      final int sizeLimit,
-      final long creationExpirationPeriod,
-      final long accessExpirationPeriod,
-      final Clock clock) {
-    super(updateRecommendedLength(recommendedLength, sizeLimit));
+	/**
+	 * @param recommendedLength
+	 *            Recommended size of the internal array.
+	 * @param sizeLimit
+	 *            the limit of the size of the cache. The limit is disabled if
+	 *            it is <= 0.
+	 * @param creationExpirationPeriod
+	 *            the time period C > 0 in nanoseconds that the creation of an
+	 *            entry is expired if it is added to the cache longer than C.
+	 * @param accessExpirationPeriod
+	 *            the time period A >= 0 in nanoseconds that the access of an
+	 *            entry is expired if it is not accessed longer than A.
+	 */
+	public LightWeightCache(final int recommendedLength, final int sizeLimit, final long creationExpirationPeriod,
+			final long accessExpirationPeriod) {
+		this(recommendedLength, sizeLimit, creationExpirationPeriod, accessExpirationPeriod, new Clock());
+	}
 
-    this.sizeLimit = sizeLimit;
+	@VisibleForTesting
+	LightWeightCache(final int recommendedLength, final int sizeLimit, final long creationExpirationPeriod,
+			final long accessExpirationPeriod, final Clock clock) {
+		super(updateRecommendedLength(recommendedLength, sizeLimit));
 
-    if (creationExpirationPeriod <= 0) {
-      throw new IllegalArgumentException("creationExpirationPeriod = "
-          + creationExpirationPeriod + " <= 0");
-    }
-    this.creationExpirationPeriod = creationExpirationPeriod;
+		this.sizeLimit = sizeLimit;
 
-    if (accessExpirationPeriod < 0) {
-      throw new IllegalArgumentException("accessExpirationPeriod = "
-          + accessExpirationPeriod + " < 0");
-    }
-    this.accessExpirationPeriod = accessExpirationPeriod;
+		if (creationExpirationPeriod <= 0) {
+			throw new IllegalArgumentException("creationExpirationPeriod = " + creationExpirationPeriod + " <= 0");
+		}
+		this.creationExpirationPeriod = creationExpirationPeriod;
 
-    this.queue = new PriorityQueue<Entry>(
-        sizeLimit > 0? sizeLimit + 1: 1 << 10, expirationTimeComparator);
-    this.clock = clock;
-  }
+		if (accessExpirationPeriod < 0) {
+			throw new IllegalArgumentException("accessExpirationPeriod = " + accessExpirationPeriod + " < 0");
+		}
+		this.accessExpirationPeriod = accessExpirationPeriod;
 
-  void setExpirationTime(final Entry e, final long expirationPeriod) {
-    e.setExpirationTime(clock.currentTime() + expirationPeriod);
-  }
+		this.queue = new PriorityQueue<Entry>(sizeLimit > 0 ? sizeLimit + 1 : 1 << 10, expirationTimeComparator);
+		this.clock = clock;
+	}
 
-  boolean isExpired(final Entry e, final long now) {
-    return now > e.getExpirationTime();
-  }
+	void setExpirationTime(final Entry e, final long expirationPeriod) {
+		e.setExpirationTime(clock.currentTime() + expirationPeriod);
+	}
 
-  private E evict() {
-    @SuppressWarnings("unchecked")
-    final E polled = (E)queue.poll();
-    final E removed = super.remove(polled);
-    Preconditions.checkState(removed == polled);
-    return polled;
-  }
+	boolean isExpired(final Entry e, final long now) {
+		return now > e.getExpirationTime();
+	}
 
-  /** Evict expired entries. */
-  private void evictExpiredEntries() {
-    final long now = clock.currentTime();
-    for(int i = 0; i < EVICTION_LIMIT; i++) {
-      final Entry peeked = queue.peek();
-      if (peeked == null || !isExpired(peeked, now)) {
-        return;
-      }
+	private E evict() {
+		@SuppressWarnings("unchecked")
+		final E polled = (E) queue.poll();
+		final E removed = super.remove(polled);
+		Preconditions.checkState(removed == polled);
+		return polled;
+	}
 
-      final E evicted = evict();
-      Preconditions.checkState(evicted == peeked);
-    }
-  }
+	/** Evict expired entries. */
+	private void evictExpiredEntries() {
+		final long now = clock.currentTime();
+		for (int i = 0; i < EVICTION_LIMIT; i++) {
+			final Entry peeked = queue.peek();
+			if (peeked == null || !isExpired(peeked, now)) {
+				return;
+			}
 
-  /** Evict entries in order to enforce the size limit of the cache. */
-  private void evictEntries() {
-    if (sizeLimit > 0) {
-      for(int i = size(); i > sizeLimit; i--) {
-        evict();
-      }
-    }
-  }
-  
-  @Override
-  public E get(K key) {
-    final E entry = super.get(key);
-    if (entry != null) {
-      if (accessExpirationPeriod > 0) {
-        // update expiration time
-        final Entry existing = (Entry)entry;
-        Preconditions.checkState(queue.remove(existing));
-        setExpirationTime(existing, accessExpirationPeriod);
-        queue.offer(existing);
-      }
-    }
-    return entry;
-  }
+			final E evicted = evict();
+			Preconditions.checkState(evicted == peeked);
+		}
+	}
 
-  @Override
-  public E put(final E entry) {
-    if (!(entry instanceof Entry)) {
-      throw new HadoopIllegalArgumentException(
-          "!(entry instanceof Entry), entry.getClass()=" + entry.getClass());
-    }
+	/** Evict entries in order to enforce the size limit of the cache. */
+	private void evictEntries() {
+		if (sizeLimit > 0) {
+			for (int i = size(); i > sizeLimit; i--) {
+				evict();
+			}
+		}
+	}
 
-    evictExpiredEntries();
+	@Override
+	public E get(K key) {
+		final E entry = super.get(key);
+		if (entry != null) {
+			if (accessExpirationPeriod > 0) {
+				// update expiration time
+				final Entry existing = (Entry) entry;
+				Preconditions.checkState(queue.remove(existing));
+				setExpirationTime(existing, accessExpirationPeriod);
+				queue.offer(existing);
+			}
+		}
+		return entry;
+	}
 
-    final E existing = super.put(entry);
-    if (existing != null) {
-      queue.remove(existing);
-    }
+	@Override
+	public E put(final E entry) {
+		if (!(entry instanceof Entry)) {
+			throw new HadoopIllegalArgumentException("!(entry instanceof Entry), entry.getClass()=" + entry.getClass());
+		}
 
-    final Entry e = (Entry)entry;
-    setExpirationTime(e, creationExpirationPeriod);
-    queue.offer(e);
-    
-    evictEntries();
-    return existing;
-  }
+		evictExpiredEntries();
 
-  @Override
-  public E remove(K key) {
-    evictExpiredEntries();
+		final E existing = super.put(entry);
+		if (existing != null) {
+			queue.remove(existing);
+		}
 
-    final E removed = super.remove(key);
-    if (removed != null) {
-      Preconditions.checkState(queue.remove(removed));
-    }
-    return removed;
-  }
+		final Entry e = (Entry) entry;
+		setExpirationTime(e, creationExpirationPeriod);
+		queue.offer(e);
 
-  @Override
-  public Iterator<E> iterator() {
-    final Iterator<E> iter = super.iterator();
-    return new Iterator<E>() {
-      @Override
-      public boolean hasNext() {
-        return iter.hasNext();
-      }
+		evictEntries();
+		return existing;
+	}
 
-      @Override
-      public E next() {
-        return iter.next();
-      }
+	@Override
+	public E remove(K key) {
+		evictExpiredEntries();
 
-      @Override
-      public void remove() {
-        // It would be tricky to support this because LightWeightCache#remove
-        // may evict multiple elements via evictExpiredEntries.
-        throw new UnsupportedOperationException("Remove via iterator is " +
-            "not supported for LightWeightCache");
-      }
-    };
-  }
+		final E removed = super.remove(key);
+		if (removed != null) {
+			Preconditions.checkState(queue.remove(removed));
+		}
+		return removed;
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		final Iterator<E> iter = super.iterator();
+		return new Iterator<E>() {
+			@Override
+			public boolean hasNext() {
+				return iter.hasNext();
+			}
+
+			@Override
+			public E next() {
+				return iter.next();
+			}
+
+			@Override
+			public void remove() {
+				// It would be tricky to support this because
+				// LightWeightCache#remove
+				// may evict multiple elements via evictExpiredEntries.
+				throw new UnsupportedOperationException(
+						"Remove via iterator is " + "not supported for LightWeightCache");
+			}
+		};
+	}
 }

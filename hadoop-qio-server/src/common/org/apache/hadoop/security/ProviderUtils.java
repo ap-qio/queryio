@@ -23,30 +23,32 @@ import java.net.URI;
 import org.apache.hadoop.fs.Path;
 
 public class ProviderUtils {
-  /**
-   * Convert a nested URI to decode the underlying path. The translation takes
-   * the authority and parses it into the underlying scheme and authority.
-   * For example, "myscheme://hdfs@nn/my/path" is converted to
-   * "hdfs://nn/my/path".
-   * @param nestedUri the URI from the nested URI
-   * @return the unnested path
-   */
-  public static Path unnestUri(URI nestedUri) {
-    String[] parts = nestedUri.getAuthority().split("@", 2);
-    StringBuilder result = new StringBuilder(parts[0]);
-    result.append("://");
-    if (parts.length == 2) {
-      result.append(parts[1]);
-    }
-    result.append(nestedUri.getPath());
-    if (nestedUri.getQuery() != null) {
-      result.append("?");
-      result.append(nestedUri.getQuery());
-    }
-    if (nestedUri.getFragment() != null) {
-      result.append("#");
-      result.append(nestedUri.getFragment());
-    }
-    return new Path(result.toString());
-  }
+	/**
+	 * Convert a nested URI to decode the underlying path. The translation takes
+	 * the authority and parses it into the underlying scheme and authority. For
+	 * example, "myscheme://hdfs@nn/my/path" is converted to
+	 * "hdfs://nn/my/path".
+	 * 
+	 * @param nestedUri
+	 *            the URI from the nested URI
+	 * @return the unnested path
+	 */
+	public static Path unnestUri(URI nestedUri) {
+		String[] parts = nestedUri.getAuthority().split("@", 2);
+		StringBuilder result = new StringBuilder(parts[0]);
+		result.append("://");
+		if (parts.length == 2) {
+			result.append(parts[1]);
+		}
+		result.append(nestedUri.getPath());
+		if (nestedUri.getQuery() != null) {
+			result.append("?");
+			result.append(nestedUri.getQuery());
+		}
+		if (nestedUri.getFragment() != null) {
+			result.append("#");
+			result.append(nestedUri.getFragment());
+		}
+		return new Path(result.toString());
+	}
 }

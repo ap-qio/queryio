@@ -17,15 +17,16 @@ package org.apache.hadoop.security.authentication.util;
  * Exception thrown by {@link Signer} when a string signature is invalid.
  */
 public class SignerException extends Exception {
-  
-  static final long serialVersionUID = 0;
 
-  /**
-   * Creates an exception instance.
-   *
-   * @param msg message for the exception.
-   */
-  public SignerException(String msg) {
-    super(msg);
-  }
+	static final long serialVersionUID = 0;
+
+	/**
+	 * Creates an exception instance.
+	 *
+	 * @param msg
+	 *            message for the exception.
+	 */
+	public SignerException(String msg) {
+		super(msg);
+	}
 }

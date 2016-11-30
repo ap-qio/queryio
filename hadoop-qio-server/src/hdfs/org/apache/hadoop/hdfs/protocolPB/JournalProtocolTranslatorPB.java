@@ -44,71 +44,59 @@ import com.google.protobuf.ServiceException;
  */
 @InterfaceAudience.Private
 @InterfaceStability.Stable
-public class JournalProtocolTranslatorPB implements ProtocolMetaInterface,
-    JournalProtocol, Closeable {
-  /** RpcController is not used and hence is set to null */
-  private final static RpcController NULL_CONTROLLER = null;
-  private final JournalProtocolPB rpcProxy;
-  
-  public JournalProtocolTranslatorPB(JournalProtocolPB rpcProxy) {
-    this.rpcProxy = rpcProxy;
-  }
+public class JournalProtocolTranslatorPB implements ProtocolMetaInterface, JournalProtocol, Closeable {
+	/** RpcController is not used and hence is set to null */
+	private final static RpcController NULL_CONTROLLER = null;
+	private final JournalProtocolPB rpcProxy;
 
-  @Override
-  public void close() {
-    RPC.stopProxy(rpcProxy);
-  }
+	public JournalProtocolTranslatorPB(JournalProtocolPB rpcProxy) {
+		this.rpcProxy = rpcProxy;
+	}
 
-  @Override
-  public void journal(JournalInfo journalInfo, long epoch, long firstTxnId,
-      int numTxns, byte[] records) throws IOException {
-    JournalRequestProto req = JournalRequestProto.newBuilder()
-        .setJournalInfo(PBHelper.convert(journalInfo))
-        .setEpoch(epoch)
-        .setFirstTxnId(firstTxnId)
-        .setNumTxns(numTxns)
-        .setRecords(PBHelper.getByteString(records))
-        .build();
-    try {
-      rpcProxy.journal(NULL_CONTROLLER, req);
-    } catch (ServiceException e) {
-      throw ProtobufHelper.getRemoteException(e);
-    }
-  }
+	@Override
+	public void close() {
+		RPC.stopProxy(rpcProxy);
+	}
 
-  @Override
-  public void startLogSegment(JournalInfo journalInfo, long epoch, long txid)
-      throws IOException {
-    StartLogSegmentRequestProto req = StartLogSegmentRequestProto.newBuilder()
-        .setJournalInfo(PBHelper.convert(journalInfo))
-        .setEpoch(epoch)
-        .setTxid(txid)
-        .build();
-    try {
-      rpcProxy.startLogSegment(NULL_CONTROLLER, req);
-    } catch (ServiceException e) {
-      throw ProtobufHelper.getRemoteException(e);
-    }
-  }
-  
-  @Override
-  public FenceResponse fence(JournalInfo journalInfo, long epoch,
-      String fencerInfo) throws IOException {
-    FenceRequestProto req = FenceRequestProto.newBuilder().setEpoch(epoch)
-        .setJournalInfo(PBHelper.convert(journalInfo)).build();
-    try {
-      FenceResponseProto resp = rpcProxy.fence(NULL_CONTROLLER, req);
-      return new FenceResponse(resp.getPreviousEpoch(),
-          resp.getLastTransactionId(), resp.getInSync());
-    } catch (ServiceException e) {
-      throw ProtobufHelper.getRemoteException(e);
-    }
-  }
+	@Override
+	public void journal(JournalInfo journalInfo, long epoch, long firstTxnId, int numTxns, byte[] records)
+			throws IOException {
+		JournalRequestProto req = JournalRequestProto.newBuilder().setJournalInfo(PBHelper.convert(journalInfo))
+				.setEpoch(epoch).setFirstTxnId(firstTxnId).setNumTxns(numTxns)
+				.setRecords(PBHelper.getByteString(records)).build();
+		try {
+			rpcProxy.journal(NULL_CONTROLLER, req);
+		} catch (ServiceException e) {
+			throw ProtobufHelper.getRemoteException(e);
+		}
+	}
 
-  @Override
-  public boolean isMethodSupported(String methodName) throws IOException {
-    return RpcClientUtil.isMethodSupported(rpcProxy, JournalProtocolPB.class,
-        RPC.RpcKind.RPC_PROTOCOL_BUFFER,
-        RPC.getProtocolVersion(JournalProtocolPB.class), methodName);
-  }
+	@Override
+	public void startLogSegment(JournalInfo journalInfo, long epoch, long txid) throws IOException {
+		StartLogSegmentRequestProto req = StartLogSegmentRequestProto.newBuilder()
+				.setJournalInfo(PBHelper.convert(journalInfo)).setEpoch(epoch).setTxid(txid).build();
+		try {
+			rpcProxy.startLogSegment(NULL_CONTROLLER, req);
+		} catch (ServiceException e) {
+			throw ProtobufHelper.getRemoteException(e);
+		}
+	}
+
+	@Override
+	public FenceResponse fence(JournalInfo journalInfo, long epoch, String fencerInfo) throws IOException {
+		FenceRequestProto req = FenceRequestProto.newBuilder().setEpoch(epoch)
+				.setJournalInfo(PBHelper.convert(journalInfo)).build();
+		try {
+			FenceResponseProto resp = rpcProxy.fence(NULL_CONTROLLER, req);
+			return new FenceResponse(resp.getPreviousEpoch(), resp.getLastTransactionId(), resp.getInSync());
+		} catch (ServiceException e) {
+			throw ProtobufHelper.getRemoteException(e);
+		}
+	}
+
+	@Override
+	public boolean isMethodSupported(String methodName) throws IOException {
+		return RpcClientUtil.isMethodSupported(rpcProxy, JournalProtocolPB.class, RPC.RpcKind.RPC_PROTOCOL_BUFFER,
+				RPC.getProtocolVersion(JournalProtocolPB.class), methodName);
+	}
 }

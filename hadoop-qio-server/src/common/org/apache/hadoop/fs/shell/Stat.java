@@ -29,110 +29,109 @@ import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.fs.FileStatus;
 
 /**
- * Print statistics about path in specified format.
- * Format sequences:<br>
- *   %b: Size of file in blocks<br>
- *   %F: Type<br>
- *   %g: Group name of owner<br>
- *   %n: Filename<br>
- *   %o: Block size<br>
- *   %r: replication<br>
- *   %u: User name of owner<br>
- *   %y: UTC date as &quot;yyyy-MM-dd HH:mm:ss&quot;<br>
- *   %Y: Milliseconds since January 1, 1970 UTC<br>
+ * Print statistics about path in specified format. Format sequences:<br>
+ * %b: Size of file in blocks<br>
+ * %F: Type<br>
+ * %g: Group name of owner<br>
+ * %n: Filename<br>
+ * %o: Block size<br>
+ * %r: replication<br>
+ * %u: User name of owner<br>
+ * %y: UTC date as &quot;yyyy-MM-dd HH:mm:ss&quot;<br>
+ * %Y: Milliseconds since January 1, 1970 UTC<br>
  * If the format is not specified, %y is used by default.
  */
 @InterfaceAudience.Private
 @InterfaceStability.Unstable
 
 class Stat extends FsCommand {
-  public static void registerCommands(CommandFactory factory) {
-    factory.addClass(Stat.class, "-stat");
-  }
+	public static void registerCommands(CommandFactory factory) {
+		factory.addClass(Stat.class, "-stat");
+	}
 
-  private static final String NEWLINE = System.getProperty("line.separator");
+	private static final String NEWLINE = System.getProperty("line.separator");
 
-  public static final String NAME = "stat";
-  public static final String USAGE = "[format] <path> ...";
-  public static final String DESCRIPTION =
-    "Print statistics about the file/directory at <path>" + NEWLINE +
-    "in the specified format. Format accepts filesize in" + NEWLINE +
-    "blocks (%b), type (%F), group name of owner (%g)," + NEWLINE +
-    "name (%n), block size (%o), replication (%r), user name" + NEWLINE +
-    "of owner (%u), modification date (%y, %Y)." + NEWLINE +
-    "%y shows UTC date as \"yyyy-MM-dd HH:mm:ss\" and" + NEWLINE +
-    "%Y shows milliseconds since January 1, 1970 UTC." + NEWLINE +
-    "If the format is not specified, %y is used by default." + NEWLINE;
+	public static final String NAME = "stat";
+	public static final String USAGE = "[format] <path> ...";
+	public static final String DESCRIPTION = "Print statistics about the file/directory at <path>" + NEWLINE
+			+ "in the specified format. Format accepts filesize in" + NEWLINE
+			+ "blocks (%b), type (%F), group name of owner (%g)," + NEWLINE
+			+ "name (%n), block size (%o), replication (%r), user name" + NEWLINE
+			+ "of owner (%u), modification date (%y, %Y)." + NEWLINE
+			+ "%y shows UTC date as \"yyyy-MM-dd HH:mm:ss\" and" + NEWLINE
+			+ "%Y shows milliseconds since January 1, 1970 UTC." + NEWLINE
+			+ "If the format is not specified, %y is used by default." + NEWLINE;
 
-  protected final SimpleDateFormat timeFmt;
-  {
-    timeFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    timeFmt.setTimeZone(TimeZone.getTimeZone("UTC"));
-  }
+	protected final SimpleDateFormat timeFmt;
+	{
+		timeFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		timeFmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+	}
 
-  // default format string
-  protected String format = "%y";
+	// default format string
+	protected String format = "%y";
 
-  @Override
-  protected void processOptions(LinkedList<String> args) throws IOException {
-    CommandFormat cf = new CommandFormat(1, Integer.MAX_VALUE, "R");
-    cf.parse(args);
-    setRecursive(cf.getOpt("R"));
-    if (args.getFirst().contains("%")) format = args.removeFirst();
-    cf.parse(args); // make sure there's still at least one arg
-  }
+	@Override
+	protected void processOptions(LinkedList<String> args) throws IOException {
+		CommandFormat cf = new CommandFormat(1, Integer.MAX_VALUE, "R");
+		cf.parse(args);
+		setRecursive(cf.getOpt("R"));
+		if (args.getFirst().contains("%"))
+			format = args.removeFirst();
+		cf.parse(args); // make sure there's still at least one arg
+	}
 
-  @Override
-  protected void processPath(PathData item) throws IOException {
-    FileStatus stat = item.stat;
-    StringBuilder buf = new StringBuilder();
+	@Override
+	protected void processPath(PathData item) throws IOException {
+		FileStatus stat = item.stat;
+		StringBuilder buf = new StringBuilder();
 
-    char[] fmt = format.toCharArray();
-    for (int i = 0; i < fmt.length; ++i) {
-      if (fmt[i] != '%') {
-        buf.append(fmt[i]);
-      } else {
-        // this silently drops a trailing %?
-        if (i + 1 == fmt.length) break;
-        switch (fmt[++i]) {
-          case 'b':
-            buf.append(stat.getLen());
-            break;
-          case 'F':
-            buf.append(stat.isDirectory()
-                ? "directory"
-                : (stat.isFile() ? "regular file" : "symlink"));
-            break;
-          case 'g':
-            buf.append(stat.getGroup());
-            break;
-          case 'n':
-            buf.append(item.path.getName());
-            break;
-          case 'o':
-            buf.append(stat.getBlockSize());
-            break;
-          case 'r':
-            buf.append(stat.getReplication());
-            break;
-          case 'u':
-            buf.append(stat.getOwner());
-            break;
-          case 'y':
-            buf.append(timeFmt.format(new Date(stat.getModificationTime())));
-            break;
-          case 'Y':
-            buf.append(stat.getModificationTime());
-            break;
-          default:
-            // this leaves %<unknown> alone, which causes the potential for
-            // future format options to break strings; should use %% to
-            // escape percents
-            buf.append(fmt[i]);
-            break;
-        }
-      }
-    }
-    out.println(buf.toString());
-  }
+		char[] fmt = format.toCharArray();
+		for (int i = 0; i < fmt.length; ++i) {
+			if (fmt[i] != '%') {
+				buf.append(fmt[i]);
+			} else {
+				// this silently drops a trailing %?
+				if (i + 1 == fmt.length)
+					break;
+				switch (fmt[++i]) {
+				case 'b':
+					buf.append(stat.getLen());
+					break;
+				case 'F':
+					buf.append(stat.isDirectory() ? "directory" : (stat.isFile() ? "regular file" : "symlink"));
+					break;
+				case 'g':
+					buf.append(stat.getGroup());
+					break;
+				case 'n':
+					buf.append(item.path.getName());
+					break;
+				case 'o':
+					buf.append(stat.getBlockSize());
+					break;
+				case 'r':
+					buf.append(stat.getReplication());
+					break;
+				case 'u':
+					buf.append(stat.getOwner());
+					break;
+				case 'y':
+					buf.append(timeFmt.format(new Date(stat.getModificationTime())));
+					break;
+				case 'Y':
+					buf.append(stat.getModificationTime());
+					break;
+				default:
+					// this leaves %<unknown> alone, which causes the potential
+					// for
+					// future format options to break strings; should use %% to
+					// escape percents
+					buf.append(fmt[i]);
+					break;
+				}
+			}
+		}
+		out.println(buf.toString());
+	}
 }

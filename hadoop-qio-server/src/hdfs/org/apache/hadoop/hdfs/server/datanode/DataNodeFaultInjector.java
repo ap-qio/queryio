@@ -17,28 +17,31 @@
  */
 package org.apache.hadoop.hdfs.server.datanode;
 
-import com.google.common.annotations.VisibleForTesting;
+import java.io.IOException;
 
 import org.apache.hadoop.classification.InterfaceAudience;
 
-import java.io.IOException;
+import com.google.common.annotations.VisibleForTesting;
 
 /**
- * Used for injecting faults in DFSClient and DFSOutputStream tests.
- * Calls into this are a no-op in production code. 
+ * Used for injecting faults in DFSClient and DFSOutputStream tests. Calls into
+ * this are a no-op in production code.
  */
 @VisibleForTesting
 @InterfaceAudience.Private
 public class DataNodeFaultInjector {
-  public static DataNodeFaultInjector instance = new DataNodeFaultInjector();
+	public static DataNodeFaultInjector instance = new DataNodeFaultInjector();
 
-  public static DataNodeFaultInjector get() {
-    return instance;
-  }
+	public static DataNodeFaultInjector get() {
+		return instance;
+	}
 
-  public void getHdfsBlocksMetadata() {}
+	public void getHdfsBlocksMetadata() {
+	}
 
-  public void writeBlockAfterFlush() throws IOException {}
+	public void writeBlockAfterFlush() throws IOException {
+	}
 
-  public void sendShortCircuitShmResponse() throws IOException {}
+	public void sendShortCircuitShmResponse() throws IOException {
+	}
 }

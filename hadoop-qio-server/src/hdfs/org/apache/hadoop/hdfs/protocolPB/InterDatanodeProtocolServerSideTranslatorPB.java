@@ -32,56 +32,47 @@ import com.google.protobuf.RpcController;
 import com.google.protobuf.ServiceException;
 
 /**
- * Implementation for protobuf service that forwards requests
- * received on {@link InterDatanodeProtocolPB} to the
- * {@link InterDatanodeProtocol} server implementation.
+ * Implementation for protobuf service that forwards requests received on
+ * {@link InterDatanodeProtocolPB} to the {@link InterDatanodeProtocol} server
+ * implementation.
  */
 @InterfaceAudience.Private
-public class InterDatanodeProtocolServerSideTranslatorPB implements
-    InterDatanodeProtocolPB {
-  private final InterDatanodeProtocol impl;
+public class InterDatanodeProtocolServerSideTranslatorPB implements InterDatanodeProtocolPB {
+	private final InterDatanodeProtocol impl;
 
-  public InterDatanodeProtocolServerSideTranslatorPB(InterDatanodeProtocol impl) {
-    this.impl = impl;
-  }
+	public InterDatanodeProtocolServerSideTranslatorPB(InterDatanodeProtocol impl) {
+		this.impl = impl;
+	}
 
-  @Override
-  public InitReplicaRecoveryResponseProto initReplicaRecovery(
-      RpcController unused, InitReplicaRecoveryRequestProto request)
-      throws ServiceException {
-    RecoveringBlock b = PBHelper.convert(request.getBlock());
-    ReplicaRecoveryInfo r;
-    try {
-      r = impl.initReplicaRecovery(b);
-    } catch (IOException e) {
-      throw new ServiceException(e);
-    }
-    
-    if (r == null) {
-      return InitReplicaRecoveryResponseProto.newBuilder()
-          .setReplicaFound(false)
-          .build();
-    } else {
-      return InitReplicaRecoveryResponseProto.newBuilder()
-          .setReplicaFound(true)
-          .setBlock(PBHelper.convert(r))
-          .setState(PBHelper.convert(r.getOriginalReplicaState())).build();
-    }
-  }
+	@Override
+	public InitReplicaRecoveryResponseProto initReplicaRecovery(RpcController unused,
+			InitReplicaRecoveryRequestProto request) throws ServiceException {
+		RecoveringBlock b = PBHelper.convert(request.getBlock());
+		ReplicaRecoveryInfo r;
+		try {
+			r = impl.initReplicaRecovery(b);
+		} catch (IOException e) {
+			throw new ServiceException(e);
+		}
 
-  @Override
-  public UpdateReplicaUnderRecoveryResponseProto updateReplicaUnderRecovery(
-      RpcController unused, UpdateReplicaUnderRecoveryRequestProto request)
-      throws ServiceException {
-    final String storageID;
-    try {
-      storageID = impl.updateReplicaUnderRecovery(
-          PBHelper.convert(request.getBlock()), request.getRecoveryId(),
-          request.getNewBlockId(), request.getNewLength());
-    } catch (IOException e) {
-      throw new ServiceException(e);
-    }
-    return UpdateReplicaUnderRecoveryResponseProto.newBuilder()
-        .setStorageUuid(storageID).build();
-  }
+		if (r == null) {
+			return InitReplicaRecoveryResponseProto.newBuilder().setReplicaFound(false).build();
+		} else {
+			return InitReplicaRecoveryResponseProto.newBuilder().setReplicaFound(true).setBlock(PBHelper.convert(r))
+					.setState(PBHelper.convert(r.getOriginalReplicaState())).build();
+		}
+	}
+
+	@Override
+	public UpdateReplicaUnderRecoveryResponseProto updateReplicaUnderRecovery(RpcController unused,
+			UpdateReplicaUnderRecoveryRequestProto request) throws ServiceException {
+		final String storageID;
+		try {
+			storageID = impl.updateReplicaUnderRecovery(PBHelper.convert(request.getBlock()), request.getRecoveryId(),
+					request.getNewBlockId(), request.getNewLength());
+		} catch (IOException e) {
+			throw new ServiceException(e);
+		}
+		return UpdateReplicaUnderRecoveryResponseProto.newBuilder().setStorageUuid(storageID).build();
+	}
 }

@@ -37,40 +37,35 @@ import org.apache.hadoop.conf.Configuration;
 @InterfaceAudience.Public
 @InterfaceStability.Unstable
 public abstract class CredentialProviderFactory {
-  public static final String CREDENTIAL_PROVIDER_PATH =
-      "hadoop.security.credential.provider.path";
+	public static final String CREDENTIAL_PROVIDER_PATH = "hadoop.security.credential.provider.path";
 
-  public abstract CredentialProvider createProvider(URI providerName,
-                                             Configuration conf
-                                             ) throws IOException;
+	public abstract CredentialProvider createProvider(URI providerName, Configuration conf) throws IOException;
 
-  private static final ServiceLoader<CredentialProviderFactory> serviceLoader =
-      ServiceLoader.load(CredentialProviderFactory.class);
+	private static final ServiceLoader<CredentialProviderFactory> serviceLoader = ServiceLoader
+			.load(CredentialProviderFactory.class);
 
-  public static List<CredentialProvider> getProviders(Configuration conf
-                                               ) throws IOException {
-    List<CredentialProvider> result = new ArrayList<CredentialProvider>();
-    for(String path: conf.getStringCollection(CREDENTIAL_PROVIDER_PATH)) {
-      try {
-        URI uri = new URI(path);
-        boolean found = false;
-        for(CredentialProviderFactory factory: serviceLoader) {
-          CredentialProvider kp = factory.createProvider(uri, conf);
-          if (kp != null) {
-            result.add(kp);
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          throw new IOException("No CredentialProviderFactory for " + uri + " in " +
-              CREDENTIAL_PROVIDER_PATH);
-        }
-      } catch (URISyntaxException error) {
-        throw new IOException("Bad configuration of " + CREDENTIAL_PROVIDER_PATH +
-            " at " + path, error);
-      }
-    }
-    return result;
-  }
+	public static List<CredentialProvider> getProviders(Configuration conf) throws IOException {
+		List<CredentialProvider> result = new ArrayList<CredentialProvider>();
+		for (String path : conf.getStringCollection(CREDENTIAL_PROVIDER_PATH)) {
+			try {
+				URI uri = new URI(path);
+				boolean found = false;
+				for (CredentialProviderFactory factory : serviceLoader) {
+					CredentialProvider kp = factory.createProvider(uri, conf);
+					if (kp != null) {
+						result.add(kp);
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					throw new IOException(
+							"No CredentialProviderFactory for " + uri + " in " + CREDENTIAL_PROVIDER_PATH);
+				}
+			} catch (URISyntaxException error) {
+				throw new IOException("Bad configuration of " + CREDENTIAL_PROVIDER_PATH + " at " + path, error);
+			}
+		}
+		return result;
+	}
 }

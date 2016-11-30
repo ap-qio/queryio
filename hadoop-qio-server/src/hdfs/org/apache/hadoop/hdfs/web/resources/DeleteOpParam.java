@@ -21,62 +21,63 @@ import java.net.HttpURLConnection;
 
 /** Http DELETE operation parameter. */
 public class DeleteOpParam extends HttpOpParam<DeleteOpParam.Op> {
-  /** Delete operations. */
-  public static enum Op implements HttpOpParam.Op {
-    DELETE(HttpURLConnection.HTTP_OK),
-    DELETESNAPSHOT(HttpURLConnection.HTTP_OK),
+	/** Delete operations. */
+	public static enum Op implements HttpOpParam.Op {
+		DELETE(HttpURLConnection.HTTP_OK), DELETESNAPSHOT(HttpURLConnection.HTTP_OK),
 
-    NULL(HttpURLConnection.HTTP_NOT_IMPLEMENTED);
+		NULL(HttpURLConnection.HTTP_NOT_IMPLEMENTED);
 
-    final int expectedHttpResponseCode;
+		final int expectedHttpResponseCode;
 
-    Op(final int expectedHttpResponseCode) {
-      this.expectedHttpResponseCode = expectedHttpResponseCode;
-    }
+		Op(final int expectedHttpResponseCode) {
+			this.expectedHttpResponseCode = expectedHttpResponseCode;
+		}
 
-    @Override
-    public HttpOpParam.Type getType() {
-      return HttpOpParam.Type.DELETE;
-    }
+		@Override
+		public HttpOpParam.Type getType() {
+			return HttpOpParam.Type.DELETE;
+		}
 
-    @Override
-    public boolean getRequireAuth() {
-      return false;
-    }
+		@Override
+		public boolean getRequireAuth() {
+			return false;
+		}
 
-    @Override
-    public boolean getDoOutput() {
-      return false;
-    }
+		@Override
+		public boolean getDoOutput() {
+			return false;
+		}
 
-    @Override
-    public boolean getRedirect() {
-      return false;
-    }
+		@Override
+		public boolean getRedirect() {
+			return false;
+		}
 
-    @Override
-    public int getExpectedHttpResponseCode() {
-      return expectedHttpResponseCode;
-    }
+		@Override
+		public int getExpectedHttpResponseCode() {
+			return expectedHttpResponseCode;
+		}
 
-    @Override
-    public String toQueryString() {
-      return NAME + "=" + this;
-    }
-  }
+		@Override
+		public String toQueryString() {
+			return NAME + "=" + this;
+		}
+	}
 
-  private static final Domain<Op> DOMAIN = new Domain<Op>(NAME, Op.class);
+	private static final Domain<Op> DOMAIN = new Domain<Op>(NAME, Op.class);
 
-  /**
-   * Constructor.
-   * @param str a string representation of the parameter value.
-   */
-  public DeleteOpParam(final String str) {
-    super(DOMAIN, DOMAIN.parse(str));
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param str
+	 *            a string representation of the parameter value.
+	 */
+	public DeleteOpParam(final String str) {
+		super(DOMAIN, DOMAIN.parse(str));
+	}
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+	@Override
+	public String getName() {
+		return NAME;
+	}
 }

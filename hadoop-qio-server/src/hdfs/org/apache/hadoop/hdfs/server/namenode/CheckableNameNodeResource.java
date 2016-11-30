@@ -27,19 +27,20 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 interface CheckableNameNodeResource {
-  
-  /**
-   * Is this resource currently available. 
-   * 
-   * @return true if and only if the resource in question is available.  
-   */
-  public boolean isResourceAvailable();
-  
-  /**
-   * Is this resource required.
-   * 
-   * @return true if and only if the resource in question is required for NN operation.
-   */
-  public boolean isRequired();
+
+	/**
+	 * Is this resource currently available.
+	 * 
+	 * @return true if and only if the resource in question is available.
+	 */
+	public boolean isResourceAvailable();
+
+	/**
+	 * Is this resource required.
+	 * 
+	 * @return true if and only if the resource in question is required for NN
+	 *         operation.
+	 */
+	public boolean isRequired();
 
 }

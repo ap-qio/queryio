@@ -24,19 +24,19 @@ import org.apache.hadoop.tracing.SpanReceiverInfo.ConfigurationPair;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class SpanReceiverInfoBuilder {
-  private SpanReceiverInfo info;
+	private SpanReceiverInfo info;
 
-  public SpanReceiverInfoBuilder(String className) {
-    info = new SpanReceiverInfo(0, className);
-  }
+	public SpanReceiverInfoBuilder(String className) {
+		info = new SpanReceiverInfo(0, className);
+	}
 
-  public void addConfigurationPair(String key, String value) {
-    info.configPairs.add(new ConfigurationPair(key, value));
-  }
+	public void addConfigurationPair(String key, String value) {
+		info.configPairs.add(new ConfigurationPair(key, value));
+	}
 
-  public SpanReceiverInfo build() {
-    SpanReceiverInfo ret = info;
-    info = null;
-    return ret;
-  }
+	public SpanReceiverInfo build() {
+		SpanReceiverInfo ret = info;
+		info = null;
+		return ret;
+	}
 }

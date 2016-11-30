@@ -24,84 +24,81 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.record.RecordOutput;
 
-/** 
- * Represents a type information for a field, which is made up of its 
- * ID (name) and its type (a TypeID object).
+/**
+ * Represents a type information for a field, which is made up of its ID (name)
+ * and its type (a TypeID object).
  * 
  * @deprecated Replaced by <a href="http://hadoop.apache.org/avro/">Avro</a>.
  */
 @Deprecated
 @InterfaceAudience.Public
 @InterfaceStability.Stable
-public class FieldTypeInfo
-{
+public class FieldTypeInfo {
 
-  private String fieldID;
-  private TypeID typeID;
+	private String fieldID;
+	private TypeID typeID;
 
-  /**
-   * Construct a FiledTypeInfo with the given field name and the type
-   */
-  FieldTypeInfo(String fieldID, TypeID typeID) {
-    this.fieldID = fieldID;
-    this.typeID = typeID;
-  }
+	/**
+	 * Construct a FiledTypeInfo with the given field name and the type
+	 */
+	FieldTypeInfo(String fieldID, TypeID typeID) {
+		this.fieldID = fieldID;
+		this.typeID = typeID;
+	}
 
-  /**
-   * get the field's TypeID object
-   */
-  public TypeID getTypeID() {
-    return typeID;
-  }
-  
-  /**
-   * get the field's id (name)
-   */
-  public String getFieldID() {
-    return fieldID;
-  }
-  
-  void write(RecordOutput rout, String tag) throws IOException {
-    rout.writeString(fieldID, tag);
-    typeID.write(rout, tag);
-  }
-  
-  /**
-   * Two FieldTypeInfos are equal if ach of their fields matches
-   */
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) 
-      return true;
-    if (!(o instanceof FieldTypeInfo))
-      return false;
-    FieldTypeInfo fti = (FieldTypeInfo) o;
-    // first check if fieldID matches
-    if (!this.fieldID.equals(fti.fieldID)) {
-      return false;
-    }
-    // now see if typeID matches
-    return (this.typeID.equals(fti.typeID));
-  }
-  
-  /**
-   * We use a basic hashcode implementation, since this class will likely not
-   * be used as a hashmap key 
-   */
-  @Override
-  public int hashCode() {
-    return 37*17+typeID.hashCode() + 37*17+fieldID.hashCode();
-  }
-  
+	/**
+	 * get the field's TypeID object
+	 */
+	public TypeID getTypeID() {
+		return typeID;
+	}
 
-  public boolean equals(FieldTypeInfo ti) {
-    // first check if fieldID matches
-    if (!this.fieldID.equals(ti.fieldID)) {
-      return false;
-    }
-    // now see if typeID matches
-    return (this.typeID.equals(ti.typeID));
-  }
+	/**
+	 * get the field's id (name)
+	 */
+	public String getFieldID() {
+		return fieldID;
+	}
+
+	void write(RecordOutput rout, String tag) throws IOException {
+		rout.writeString(fieldID, tag);
+		typeID.write(rout, tag);
+	}
+
+	/**
+	 * Two FieldTypeInfos are equal if ach of their fields matches
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof FieldTypeInfo))
+			return false;
+		FieldTypeInfo fti = (FieldTypeInfo) o;
+		// first check if fieldID matches
+		if (!this.fieldID.equals(fti.fieldID)) {
+			return false;
+		}
+		// now see if typeID matches
+		return (this.typeID.equals(fti.typeID));
+	}
+
+	/**
+	 * We use a basic hashcode implementation, since this class will likely not
+	 * be used as a hashmap key
+	 */
+	@Override
+	public int hashCode() {
+		return 37 * 17 + typeID.hashCode() + 37 * 17 + fieldID.hashCode();
+	}
+
+	public boolean equals(FieldTypeInfo ti) {
+		// first check if fieldID matches
+		if (!this.fieldID.equals(ti.fieldID)) {
+			return false;
+		}
+		// now see if typeID matches
+		return (this.typeID.equals(ti.typeID));
+	}
 
 }
-

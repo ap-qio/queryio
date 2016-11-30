@@ -25,52 +25,53 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.io.Writable;
 
-/** This class is used to represent the capacity, free and used space on a
-  * {@link FileSystem}.
-  */
+/**
+ * This class is used to represent the capacity, free and used space on a
+ * {@link FileSystem}.
+ */
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class FsStatus implements Writable {
-  private long capacity;
-  private long used;
-  private long remaining;
+	private long capacity;
+	private long used;
+	private long remaining;
 
-  /** Construct a FsStatus object, using the specified statistics */
-  public FsStatus(long capacity, long used, long remaining) {
-    this.capacity = capacity;
-    this.used = used;
-    this.remaining = remaining;
-  }
+	/** Construct a FsStatus object, using the specified statistics */
+	public FsStatus(long capacity, long used, long remaining) {
+		this.capacity = capacity;
+		this.used = used;
+		this.remaining = remaining;
+	}
 
-  /** Return the capacity in bytes of the file system */
-  public long getCapacity() {
-    return capacity;
-  }
+	/** Return the capacity in bytes of the file system */
+	public long getCapacity() {
+		return capacity;
+	}
 
-  /** Return the number of bytes used on the file system */
-  public long getUsed() {
-    return used;
-  }
+	/** Return the number of bytes used on the file system */
+	public long getUsed() {
+		return used;
+	}
 
-  /** Return the number of remaining bytes on the file system */
-  public long getRemaining() {
-    return remaining;
-  }
+	/** Return the number of remaining bytes on the file system */
+	public long getRemaining() {
+		return remaining;
+	}
 
-  //////////////////////////////////////////////////
-  // Writable
-  //////////////////////////////////////////////////
-  @Override
-  public void write(DataOutput out) throws IOException {
-    out.writeLong(capacity);
-    out.writeLong(used);
-    out.writeLong(remaining);
-  }
+	//////////////////////////////////////////////////
+	// Writable
+	//////////////////////////////////////////////////
+	@Override
+	public void write(DataOutput out) throws IOException {
+		out.writeLong(capacity);
+		out.writeLong(used);
+		out.writeLong(remaining);
+	}
 
-  @Override
-  public void readFields(DataInput in) throws IOException {
-    capacity = in.readLong();
-    used = in.readLong();
-    remaining = in.readLong();
-  }
+	@Override
+	public void readFields(DataInput in) throws IOException {
+		capacity = in.readLong();
+		used = in.readLong();
+		remaining = in.readLong();
+	}
 }

@@ -26,39 +26,38 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class SpanReceiverInfo {
-  private final long id;
-  private final String className;
-  final List<ConfigurationPair> configPairs =
-      new LinkedList<ConfigurationPair>();
+	private final long id;
+	private final String className;
+	final List<ConfigurationPair> configPairs = new LinkedList<ConfigurationPair>();
 
-  static class ConfigurationPair {
-    private final String key;
-    private final String value;
+	static class ConfigurationPair {
+		private final String key;
+		private final String value;
 
-    ConfigurationPair(String key, String value) {
-      this.key = key;
-      this.value = value;
-    }
+		ConfigurationPair(String key, String value) {
+			this.key = key;
+			this.value = value;
+		}
 
-    public String getKey() {
-      return key;
-    }
+		public String getKey() {
+			return key;
+		}
 
-    public String getValue() {
-      return value;
-    }
-  }
+		public String getValue() {
+			return value;
+		}
+	}
 
-  SpanReceiverInfo(long id, String className) {
-    this.id = id;
-    this.className = className;
-  }
+	SpanReceiverInfo(long id, String className) {
+		this.id = id;
+		this.className = className;
+	}
 
-  public long getId() {
-    return id;
-  }
+	public long getId() {
+		return id;
+	}
 
-  public String getClassName() {
-    return className;
-  }
+	public String getClassName() {
+		return className;
+	}
 }

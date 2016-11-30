@@ -17,109 +17,120 @@
  */
 package org.apache.hadoop.fs.permission;
 
-import org.apache.hadoop.classification.InterfaceAudience;
-import org.apache.hadoop.classification.InterfaceStability;
-import org.apache.hadoop.io.*;
-
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import org.apache.hadoop.classification.InterfaceAudience;
+import org.apache.hadoop.classification.InterfaceStability;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableFactories;
+import org.apache.hadoop.io.WritableFactory;
+
 /**
  * Store permission related information.
  */
-@InterfaceAudience.LimitedPrivate({"HDFS", "MapReduce"})
+@InterfaceAudience.LimitedPrivate({ "HDFS", "MapReduce" })
 @InterfaceStability.Unstable
 public class PermissionStatus implements Writable {
-  static final WritableFactory FACTORY = new WritableFactory() {
-    @Override
-    public Writable newInstance() { return new PermissionStatus(); }
-  };
-  static {                                      // register a ctor
-    WritableFactories.setFactory(PermissionStatus.class, FACTORY);
-  }
+	static final WritableFactory FACTORY = new WritableFactory() {
+		@Override
+		public Writable newInstance() {
+			return new PermissionStatus();
+		}
+	};
+	static { // register a ctor
+		WritableFactories.setFactory(PermissionStatus.class, FACTORY);
+	}
 
-  /** Create an immutable {@link PermissionStatus} object. */
-  public static PermissionStatus createImmutable(
-      String user, String group, FsPermission permission) {
-    return new PermissionStatus(user, group, permission) {
-      @Override
-      public PermissionStatus applyUMask(FsPermission umask) {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void readFields(DataInput in) throws IOException {
-        throw new UnsupportedOperationException();
-      }
-    };
-  }
+	/** Create an immutable {@link PermissionStatus} object. */
+	public static PermissionStatus createImmutable(String user, String group, FsPermission permission) {
+		return new PermissionStatus(user, group, permission) {
+			@Override
+			public PermissionStatus applyUMask(FsPermission umask) {
+				throw new UnsupportedOperationException();
+			}
 
-  private String username;
-  private String groupname;
-  private FsPermission permission;
+			@Override
+			public void readFields(DataInput in) throws IOException {
+				throw new UnsupportedOperationException();
+			}
+		};
+	}
 
-  private PermissionStatus() {}
+	private String username;
+	private String groupname;
+	private FsPermission permission;
 
-  /** Constructor */
-  public PermissionStatus(String user, String group, FsPermission permission) {
-    username = user;
-    groupname = group;
-    this.permission = permission;
-  }
+	private PermissionStatus() {
+	}
 
-  /** Return user name */
-  public String getUserName() {return username;}
+	/** Constructor */
+	public PermissionStatus(String user, String group, FsPermission permission) {
+		username = user;
+		groupname = group;
+		this.permission = permission;
+	}
 
-  /** Return group name */
-  public String getGroupName() {return groupname;}
+	/** Return user name */
+	public String getUserName() {
+		return username;
+	}
 
-  /** Return permission */
-  public FsPermission getPermission() {return permission;}
+	/** Return group name */
+	public String getGroupName() {
+		return groupname;
+	}
 
-  /**
-   * Apply umask.
-   * @see FsPermission#applyUMask(FsPermission)
-   */
-  public PermissionStatus applyUMask(FsPermission umask) {
-    permission = permission.applyUMask(umask);
-    return this;
-  }
+	/** Return permission */
+	public FsPermission getPermission() {
+		return permission;
+	}
 
-  @Override
-  public void readFields(DataInput in) throws IOException {
-    username = Text.readString(in, Text.DEFAULT_MAX_LEN);
-    groupname = Text.readString(in, Text.DEFAULT_MAX_LEN);
-    permission = FsPermission.read(in);
-  }
+	/**
+	 * Apply umask.
+	 * 
+	 * @see FsPermission#applyUMask(FsPermission)
+	 */
+	public PermissionStatus applyUMask(FsPermission umask) {
+		permission = permission.applyUMask(umask);
+		return this;
+	}
 
-  @Override
-  public void write(DataOutput out) throws IOException {
-    write(out, username, groupname, permission);
-  }
+	@Override
+	public void readFields(DataInput in) throws IOException {
+		username = Text.readString(in, Text.DEFAULT_MAX_LEN);
+		groupname = Text.readString(in, Text.DEFAULT_MAX_LEN);
+		permission = FsPermission.read(in);
+	}
 
-  /**
-   * Create and initialize a {@link PermissionStatus} from {@link DataInput}.
-   */
-  public static PermissionStatus read(DataInput in) throws IOException {
-    PermissionStatus p = new PermissionStatus();
-    p.readFields(in);
-    return p;
-  }
+	@Override
+	public void write(DataOutput out) throws IOException {
+		write(out, username, groupname, permission);
+	}
 
-  /**
-   * Serialize a {@link PermissionStatus} from its base components.
-   */
-  public static void write(DataOutput out,
-                           String username, 
-                           String groupname,
-                           FsPermission permission) throws IOException {
-    Text.writeString(out, username, Text.DEFAULT_MAX_LEN);
-    Text.writeString(out, groupname, Text.DEFAULT_MAX_LEN);
-    permission.write(out);
-  }
+	/**
+	 * Create and initialize a {@link PermissionStatus} from {@link DataInput}.
+	 */
+	public static PermissionStatus read(DataInput in) throws IOException {
+		PermissionStatus p = new PermissionStatus();
+		p.readFields(in);
+		return p;
+	}
 
-  @Override
-  public String toString() {
-    return username + ":" + groupname + ":" + permission;
-  }
+	/**
+	 * Serialize a {@link PermissionStatus} from its base components.
+	 */
+	public static void write(DataOutput out, String username, String groupname, FsPermission permission)
+			throws IOException {
+		Text.writeString(out, username, Text.DEFAULT_MAX_LEN);
+		Text.writeString(out, groupname, Text.DEFAULT_MAX_LEN);
+		permission.write(out);
+	}
+
+	@Override
+	public String toString() {
+		return username + ":" + groupname + ":" + permission;
+	}
 }

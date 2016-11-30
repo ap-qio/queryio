@@ -45,202 +45,196 @@ import com.google.common.collect.Lists;
 /** Snapshot of a sub-tree in the namesystem. */
 @InterfaceAudience.Private
 public class Snapshot implements Comparable<byte[]> {
-  /**
-   * This id is used to indicate the current state (vs. snapshots)
-   */
-  public static final int CURRENT_STATE_ID = Integer.MAX_VALUE - 1;
-  public static final int NO_SNAPSHOT_ID = -1;
-  
-  /**
-   * The pattern for generating the default snapshot name.
-   * E.g. s20130412-151029.033
-   */
-  private static final String DEFAULT_SNAPSHOT_NAME_PATTERN = "'s'yyyyMMdd-HHmmss.SSS";
-  
-  public static String generateDefaultSnapshotName() {
-    return new SimpleDateFormat(DEFAULT_SNAPSHOT_NAME_PATTERN).format(new Date());
-  }
+	/**
+	 * This id is used to indicate the current state (vs. snapshots)
+	 */
+	public static final int CURRENT_STATE_ID = Integer.MAX_VALUE - 1;
+	public static final int NO_SNAPSHOT_ID = -1;
 
-  public static String getSnapshotPath(String snapshottableDir,
-      String snapshotRelativePath) {
-    final StringBuilder b = new StringBuilder(snapshottableDir);
-    if (b.charAt(b.length() - 1) != Path.SEPARATOR_CHAR) {
-      b.append(Path.SEPARATOR);
-    }
-    return b.append(HdfsConstants.DOT_SNAPSHOT_DIR)
-        .append(Path.SEPARATOR)
-        .append(snapshotRelativePath)
-        .toString();
-  }
-  
-  /**
-   * Get the name of the given snapshot.
-   * @param s The given snapshot.
-   * @return The name of the snapshot, or an empty string if {@code s} is null
-   */
-  static String getSnapshotName(Snapshot s) {
-    return s != null ? s.getRoot().getLocalName() : "";
-  }
-  
-  public static int getSnapshotId(Snapshot s) {
-    return s == null ? CURRENT_STATE_ID : s.getId();
-  }
+	/**
+	 * The pattern for generating the default snapshot name. E.g.
+	 * s20130412-151029.033
+	 */
+	private static final String DEFAULT_SNAPSHOT_NAME_PATTERN = "'s'yyyyMMdd-HHmmss.SSS";
 
-  /**
-   * Compare snapshot with IDs, where null indicates the current status thus
-   * is greater than any non-null snapshot.
-   */
-  public static final Comparator<Snapshot> ID_COMPARATOR
-      = new Comparator<Snapshot>() {
-    @Override
-    public int compare(Snapshot left, Snapshot right) {
-      return ID_INTEGER_COMPARATOR.compare(Snapshot.getSnapshotId(left),
-          Snapshot.getSnapshotId(right));
-    }
-  };
+	public static String generateDefaultSnapshotName() {
+		return new SimpleDateFormat(DEFAULT_SNAPSHOT_NAME_PATTERN).format(new Date());
+	}
 
-  /**
-   * Compare snapshot with IDs, where null indicates the current status thus
-   * is greater than any non-null ID.
-   */
-  public static final Comparator<Integer> ID_INTEGER_COMPARATOR
-      = new Comparator<Integer>() {
-    @Override
-    public int compare(Integer left, Integer right) {
-      // Snapshot.CURRENT_STATE_ID means the current state, thus should be the 
-      // largest
-      return left - right;
-    }
-  };
+	public static String getSnapshotPath(String snapshottableDir, String snapshotRelativePath) {
+		final StringBuilder b = new StringBuilder(snapshottableDir);
+		if (b.charAt(b.length() - 1) != Path.SEPARATOR_CHAR) {
+			b.append(Path.SEPARATOR);
+		}
+		return b.append(HdfsConstants.DOT_SNAPSHOT_DIR).append(Path.SEPARATOR).append(snapshotRelativePath).toString();
+	}
 
-  /**
-   * Find the latest snapshot that 1) covers the given inode (which means the
-   * snapshot was either taken on the inode or taken on an ancestor of the
-   * inode), and 2) was taken before the given snapshot (if the given snapshot 
-   * is not null).
-   * 
-   * @param inode the given inode that the returned snapshot needs to cover
-   * @param anchor the returned snapshot should be taken before this given id.
-   * @return id of the latest snapshot that covers the given inode and was taken 
-   *         before the the given snapshot (if it is not null).
-   */
-  public static int findLatestSnapshot(INode inode, final int anchor) {
-    int latest = NO_SNAPSHOT_ID;
-    for(; inode != null; inode = inode.getParent()) {
-      if (inode.isDirectory()) {
-        final INodeDirectory dir = inode.asDirectory();
-        if (dir.isWithSnapshot()) {
-          latest = dir.getDiffs().updatePrior(anchor, latest);
-        }
-      }
-    }
-    return latest;
-  }
-  
-  static Snapshot read(DataInput in, FSImageFormat.Loader loader)
-      throws IOException {
-    final int snapshotId = in.readInt();
-    final INode root = loader.loadINodeWithLocalName(false, in, false);
-    return new Snapshot(snapshotId, root.asDirectory(), null);
-  }
+	/**
+	 * Get the name of the given snapshot.
+	 * 
+	 * @param s
+	 *            The given snapshot.
+	 * @return The name of the snapshot, or an empty string if {@code s} is null
+	 */
+	static String getSnapshotName(Snapshot s) {
+		return s != null ? s.getRoot().getLocalName() : "";
+	}
 
-  /** The root directory of the snapshot. */
-  static public class Root extends INodeDirectory {
-    Root(INodeDirectory other) {
-      // Always preserve ACL, XAttr.
-      super(other, false, Lists.newArrayList(
-        Iterables.filter(Arrays.asList(other.getFeatures()), new Predicate<Feature>() {
+	public static int getSnapshotId(Snapshot s) {
+		return s == null ? CURRENT_STATE_ID : s.getId();
+	}
 
-          @Override
-          public boolean apply(Feature input) {
-            if (AclFeature.class.isInstance(input) 
-                || XAttrFeature.class.isInstance(input)) {
-              return true;
-            }
-            return false;
-          }
-          
-        }))
-        .toArray(new Feature[0]));
-    }
+	/**
+	 * Compare snapshot with IDs, where null indicates the current status thus
+	 * is greater than any non-null snapshot.
+	 */
+	public static final Comparator<Snapshot> ID_COMPARATOR = new Comparator<Snapshot>() {
+		@Override
+		public int compare(Snapshot left, Snapshot right) {
+			return ID_INTEGER_COMPARATOR.compare(Snapshot.getSnapshotId(left), Snapshot.getSnapshotId(right));
+		}
+	};
 
-    @Override
-    public ReadOnlyList<INode> getChildrenList(int snapshotId) {
-      return getParent().getChildrenList(snapshotId);
-    }
+	/**
+	 * Compare snapshot with IDs, where null indicates the current status thus
+	 * is greater than any non-null ID.
+	 */
+	public static final Comparator<Integer> ID_INTEGER_COMPARATOR = new Comparator<Integer>() {
+		@Override
+		public int compare(Integer left, Integer right) {
+			// Snapshot.CURRENT_STATE_ID means the current state, thus should be
+			// the
+			// largest
+			return left - right;
+		}
+	};
 
-    @Override
-    public INode getChild(byte[] name, int snapshotId) {
-      return getParent().getChild(name, snapshotId);
-    }
-    
-    @Override
-    public ContentSummaryComputationContext computeContentSummary(
-        ContentSummaryComputationContext summary) {
-      int snapshotId = getParent().getSnapshot(getLocalNameBytes()).getId();
-      return computeDirectoryContentSummary(summary, snapshotId);
-    }
-    
-    @Override
-    public String getFullPathName() {
-      return getSnapshotPath(getParent().getFullPathName(), getLocalName());
-    }
-  }
+	/**
+	 * Find the latest snapshot that 1) covers the given inode (which means the
+	 * snapshot was either taken on the inode or taken on an ancestor of the
+	 * inode), and 2) was taken before the given snapshot (if the given snapshot
+	 * is not null).
+	 * 
+	 * @param inode
+	 *            the given inode that the returned snapshot needs to cover
+	 * @param anchor
+	 *            the returned snapshot should be taken before this given id.
+	 * @return id of the latest snapshot that covers the given inode and was
+	 *         taken before the the given snapshot (if it is not null).
+	 */
+	public static int findLatestSnapshot(INode inode, final int anchor) {
+		int latest = NO_SNAPSHOT_ID;
+		for (; inode != null; inode = inode.getParent()) {
+			if (inode.isDirectory()) {
+				final INodeDirectory dir = inode.asDirectory();
+				if (dir.isWithSnapshot()) {
+					latest = dir.getDiffs().updatePrior(anchor, latest);
+				}
+			}
+		}
+		return latest;
+	}
 
-  /** Snapshot ID. */
-  private final int id;
-  /** The root directory of the snapshot. */
-  private final Root root;
+	static Snapshot read(DataInput in, FSImageFormat.Loader loader) throws IOException {
+		final int snapshotId = in.readInt();
+		final INode root = loader.loadINodeWithLocalName(false, in, false);
+		return new Snapshot(snapshotId, root.asDirectory(), null);
+	}
 
-  Snapshot(int id, String name, INodeDirectory dir) {
-    this(id, dir, dir);
-    this.root.setLocalName(DFSUtil.string2Bytes(name));
-  }
+	/** The root directory of the snapshot. */
+	static public class Root extends INodeDirectory {
+		Root(INodeDirectory other) {
+			// Always preserve ACL, XAttr.
+			super(other, false,
+					Lists.newArrayList(Iterables.filter(Arrays.asList(other.getFeatures()), new Predicate<Feature>() {
 
-  Snapshot(int id, INodeDirectory dir, INodeDirectory parent) {
-    this.id = id;
-    this.root = new Root(dir);
-    this.root.setParent(parent);
-  }
-  
-  public int getId() {
-    return id;
-  }
+						@Override
+						public boolean apply(Feature input) {
+							if (AclFeature.class.isInstance(input) || XAttrFeature.class.isInstance(input)) {
+								return true;
+							}
+							return false;
+						}
 
-  /** @return the root directory of the snapshot. */
-  public Root getRoot() {
-    return root;
-  }
+					})).toArray(new Feature[0]));
+		}
 
-  @Override
-  public int compareTo(byte[] bytes) {
-    return root.compareTo(bytes);
-  }
-  
-  @Override
-  public boolean equals(Object that) {
-    if (this == that) {
-      return true;
-    } else if (that == null || !(that instanceof Snapshot)) {
-      return false;
-    }
-    return this.id == ((Snapshot)that).id;
-  }
-  
-  @Override
-  public int hashCode() {
-    return id;
-  }
-  
-  @Override
-  public String toString() {
-    return getClass().getSimpleName() + "." + root.getLocalName() + "(id=" + id + ")";
-  }
+		@Override
+		public ReadOnlyList<INode> getChildrenList(int snapshotId) {
+			return getParent().getChildrenList(snapshotId);
+		}
 
-  /** Serialize the fields to out */
-  void write(DataOutput out) throws IOException {
-    out.writeInt(id);
-    // write root
-    FSImageSerialization.writeINodeDirectory(root, out);
-  }
+		@Override
+		public INode getChild(byte[] name, int snapshotId) {
+			return getParent().getChild(name, snapshotId);
+		}
+
+		@Override
+		public ContentSummaryComputationContext computeContentSummary(ContentSummaryComputationContext summary) {
+			int snapshotId = getParent().getSnapshot(getLocalNameBytes()).getId();
+			return computeDirectoryContentSummary(summary, snapshotId);
+		}
+
+		@Override
+		public String getFullPathName() {
+			return getSnapshotPath(getParent().getFullPathName(), getLocalName());
+		}
+	}
+
+	/** Snapshot ID. */
+	private final int id;
+	/** The root directory of the snapshot. */
+	private final Root root;
+
+	Snapshot(int id, String name, INodeDirectory dir) {
+		this(id, dir, dir);
+		this.root.setLocalName(DFSUtil.string2Bytes(name));
+	}
+
+	Snapshot(int id, INodeDirectory dir, INodeDirectory parent) {
+		this.id = id;
+		this.root = new Root(dir);
+		this.root.setParent(parent);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	/** @return the root directory of the snapshot. */
+	public Root getRoot() {
+		return root;
+	}
+
+	@Override
+	public int compareTo(byte[] bytes) {
+		return root.compareTo(bytes);
+	}
+
+	@Override
+	public boolean equals(Object that) {
+		if (this == that) {
+			return true;
+		} else if (that == null || !(that instanceof Snapshot)) {
+			return false;
+		}
+		return this.id == ((Snapshot) that).id;
+	}
+
+	@Override
+	public int hashCode() {
+		return id;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "." + root.getLocalName() + "(id=" + id + ")";
+	}
+
+	/** Serialize the fields to out */
+	void write(DataOutput out) throws IOException {
+		out.writeInt(id);
+		// write root
+		FSImageSerialization.writeINodeDirectory(root, out);
+	}
 }

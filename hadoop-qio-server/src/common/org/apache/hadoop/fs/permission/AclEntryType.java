@@ -26,33 +26,33 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public enum AclEntryType {
-  /**
-   * An ACL entry applied to a specific user.  These ACL entries can be unnamed,
-   * which applies to the file owner, or named, which applies to the specific
-   * named user.
-   */
-  USER,
+	/**
+	 * An ACL entry applied to a specific user. These ACL entries can be
+	 * unnamed, which applies to the file owner, or named, which applies to the
+	 * specific named user.
+	 */
+	USER,
 
-  /**
-   * An ACL entry applied to a specific group.  These ACL entries can be
-   * unnamed, which applies to the file's group, or named, which applies to the
-   * specific named group.
-   */
-  GROUP,
+	/**
+	 * An ACL entry applied to a specific group. These ACL entries can be
+	 * unnamed, which applies to the file's group, or named, which applies to
+	 * the specific named group.
+	 */
+	GROUP,
 
-  /**
-   * An ACL mask entry.  Mask entries are unnamed.  During permission checks,
-   * the mask entry interacts with all ACL entries that are members of the group
-   * class.  This consists of all named user entries, the unnamed group entry,
-   * and all named group entries.  For each such entry, any permissions that are
-   * absent from the mask entry are removed from the effective permissions used
-   * during the permission check.
-   */
-  MASK,
+	/**
+	 * An ACL mask entry. Mask entries are unnamed. During permission checks,
+	 * the mask entry interacts with all ACL entries that are members of the
+	 * group class. This consists of all named user entries, the unnamed group
+	 * entry, and all named group entries. For each such entry, any permissions
+	 * that are absent from the mask entry are removed from the effective
+	 * permissions used during the permission check.
+	 */
+	MASK,
 
-  /**
-   * An ACL entry that applies to all other users that were not covered by one
-   * of the more specific ACL entry types.
-   */
-  OTHER;
+	/**
+	 * An ACL entry that applies to all other users that were not covered by one
+	 * of the more specific ACL entry types.
+	 */
+	OTHER;
 }

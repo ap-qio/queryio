@@ -28,16 +28,11 @@ import org.apache.hadoop.security.KerberosInfo;
  * Protocol that a secondary NameNode uses to communicate with the NameNode.
  * It's used to get part of the name node state
  * 
- * Note: This extends the protocolbuffer service based interface to
- * add annotations required for security.
+ * Note: This extends the protocolbuffer service based interface to add
+ * annotations required for security.
  */
-@KerberosInfo(
-    serverPrincipal = DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY,
-    clientPrincipal = DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY)
-@ProtocolInfo(protocolName = 
-    "org.apache.hadoop.hdfs.server.protocol.NamenodeProtocol",
-    protocolVersion = 1)
+@KerberosInfo(serverPrincipal = DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY, clientPrincipal = DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY)
+@ProtocolInfo(protocolName = "org.apache.hadoop.hdfs.server.protocol.NamenodeProtocol", protocolVersion = 1)
 @InterfaceAudience.Private
-public interface NamenodeProtocolPB extends
-    NamenodeProtocolService.BlockingInterface {
+public interface NamenodeProtocolPB extends NamenodeProtocolService.BlockingInterface {
 }

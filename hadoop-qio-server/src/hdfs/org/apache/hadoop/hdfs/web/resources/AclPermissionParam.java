@@ -22,47 +22,47 @@ import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_WEBHDFS_ACL_PERMISSION_PA
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.apache.hadoop.fs.permission.AclEntry;
 import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.fs.permission.AclEntry;
 
 /** AclPermission parameter. */
 public class AclPermissionParam extends StringParam {
-  /** Parameter name. */
-  public static final String NAME = "aclspec";
-  /** Default parameter value. */
-  public static final String DEFAULT = "";
+	/** Parameter name. */
+	public static final String NAME = "aclspec";
+	/** Default parameter value. */
+	public static final String DEFAULT = "";
 
-  private static final Domain DOMAIN = new Domain(NAME,
-      Pattern.compile(DFS_WEBHDFS_ACL_PERMISSION_PATTERN_DEFAULT));
+	private static final Domain DOMAIN = new Domain(NAME, Pattern.compile(DFS_WEBHDFS_ACL_PERMISSION_PATTERN_DEFAULT));
 
-  /**
-   * Constructor.
-   * 
-   * @param str a string representation of the parameter value.
-   */
-  public AclPermissionParam(final String str) {
-    super(DOMAIN, str == null || str.equals(DEFAULT) ? null : str);
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param str
+	 *            a string representation of the parameter value.
+	 */
+	public AclPermissionParam(final String str) {
+		super(DOMAIN, str == null || str.equals(DEFAULT) ? null : str);
+	}
 
-  public AclPermissionParam(List<AclEntry> acl) {
-    super(DOMAIN,parseAclSpec(acl).equals(DEFAULT) ? null : parseAclSpec(acl));
-  }
+	public AclPermissionParam(List<AclEntry> acl) {
+		super(DOMAIN, parseAclSpec(acl).equals(DEFAULT) ? null : parseAclSpec(acl));
+	}
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+	@Override
+	public String getName() {
+		return NAME;
+	}
 
-  public List<AclEntry> getAclPermission(boolean includePermission) {
-    final String v = getValue();
-    return (v != null ? AclEntry.parseAclSpec(v, includePermission) : AclEntry
-        .parseAclSpec(DEFAULT, includePermission));
-  }
+	public List<AclEntry> getAclPermission(boolean includePermission) {
+		final String v = getValue();
+		return (v != null ? AclEntry.parseAclSpec(v, includePermission)
+				: AclEntry.parseAclSpec(DEFAULT, includePermission));
+	}
 
-  /**
-   * @return parse {@code aclEntry} and return aclspec
-   */
-  private static String parseAclSpec(List<AclEntry> aclEntry) {
-    return StringUtils.join(aclEntry, ",");
-  }
+	/**
+	 * @return parse {@code aclEntry} and return aclspec
+	 */
+	private static String parseAclSpec(List<AclEntry> aclEntry) {
+		return StringUtils.join(aclEntry, ",");
+	}
 }

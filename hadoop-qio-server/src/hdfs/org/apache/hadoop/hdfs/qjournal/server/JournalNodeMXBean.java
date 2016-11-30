@@ -26,11 +26,12 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public interface JournalNodeMXBean {
-  
-  /**
-   * Get status information (e.g., whether formatted) of JournalNode's journals.
-   * 
-   * @return A string presenting status for each journal
-   */
-  public String getJournalsStatus();
+
+	/**
+	 * Get status information (e.g., whether formatted) of JournalNode's
+	 * journals.
+	 * 
+	 * @return A string presenting status for each journal
+	 */
+	public String getJournalsStatus();
 }

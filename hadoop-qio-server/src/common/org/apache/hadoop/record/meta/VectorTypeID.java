@@ -24,51 +24,52 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.record.RecordOutput;
 
-/** 
- * Represents typeID for vector. 
+/**
+ * Represents typeID for vector.
+ * 
  * @deprecated Replaced by <a href="http://hadoop.apache.org/avro/">Avro</a>.
  */
 @Deprecated
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class VectorTypeID extends TypeID {
-  private TypeID typeIDElement; 
-  
-  public VectorTypeID(TypeID typeIDElement) {
-    super(RIOType.VECTOR);
-    this.typeIDElement = typeIDElement;
-  }
-  
-  public TypeID getElementTypeID() {
-    return this.typeIDElement;
-  }
-  
-  @Override
-  void write(RecordOutput rout, String tag) throws IOException {
-    rout.writeByte(typeVal, tag);
-    typeIDElement.write(rout, tag);
-  }
-  
-  /**
-   * Two vector typeIDs are equal if their constituent elements have the 
-   * same type
-   */
-  @Override
-  public boolean equals(Object o) {
-    if (!super.equals (o))
-      return false;
+	private TypeID typeIDElement;
 
-    VectorTypeID vti = (VectorTypeID) o;
-    return this.typeIDElement.equals(vti.typeIDElement);
-  }
-  
-  /**
-   * We use a basic hashcode implementation, since this class will likely not
-   * be used as a hashmap key 
-   */
-  @Override
-  public int hashCode() {
-    return 37*17+typeIDElement.hashCode();
-  }
-  
+	public VectorTypeID(TypeID typeIDElement) {
+		super(RIOType.VECTOR);
+		this.typeIDElement = typeIDElement;
+	}
+
+	public TypeID getElementTypeID() {
+		return this.typeIDElement;
+	}
+
+	@Override
+	void write(RecordOutput rout, String tag) throws IOException {
+		rout.writeByte(typeVal, tag);
+		typeIDElement.write(rout, tag);
+	}
+
+	/**
+	 * Two vector typeIDs are equal if their constituent elements have the same
+	 * type
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+
+		VectorTypeID vti = (VectorTypeID) o;
+		return this.typeIDElement.equals(vti.typeIDElement);
+	}
+
+	/**
+	 * We use a basic hashcode implementation, since this class will likely not
+	 * be used as a hashmap key
+	 */
+	@Override
+	public int hashCode() {
+		return 37 * 17 + typeIDElement.hashCode();
+	}
+
 }

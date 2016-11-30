@@ -24,25 +24,25 @@ import org.apache.hadoop.metrics2.MetricsInfo;
 import org.apache.hadoop.metrics2.MetricsVisitor;
 
 class MetricGaugeLong extends AbstractMetric {
-  final long value;
+	final long value;
 
-  MetricGaugeLong(MetricsInfo info, long value) {
-    super(info);
-    this.value = value;
-  }
+	MetricGaugeLong(MetricsInfo info, long value) {
+		super(info);
+		this.value = value;
+	}
 
-  @Override
-  public Long value() {
-    return value;
-  }
+	@Override
+	public Long value() {
+		return value;
+	}
 
-  @Override
-  public MetricType type() {
-    return MetricType.GAUGE;
-  }
+	@Override
+	public MetricType type() {
+		return MetricType.GAUGE;
+	}
 
-  @Override
-  public void visit(MetricsVisitor visitor) {
-    visitor.gauge(this, value);
-  }
+	@Override
+	public void visit(MetricsVisitor visitor) {
+		visitor.gauge(this, value);
+	}
 }

@@ -20,8 +20,8 @@ package org.apache.hadoop.hdfs.server.namenode.ha;
 import java.io.IOException;
 
 import org.apache.hadoop.classification.InterfaceAudience;
-import org.apache.hadoop.ha.ServiceFailedException;
 import org.apache.hadoop.ha.HAServiceProtocol.HAServiceState;
+import org.apache.hadoop.ha.ServiceFailedException;
 import org.apache.hadoop.hdfs.server.namenode.NameNode;
 import org.apache.hadoop.hdfs.server.namenode.NameNode.OperationCategory;
 import org.apache.hadoop.ipc.StandbyException;
@@ -31,65 +31,61 @@ import org.apache.hadoop.ipc.StandbyException;
  * keeps the following updated:
  * <ul>
  * <li>Namespace by getting the edits.</li>
- * <li>Block location information by receiving block reports and blocks
- * received from the datanodes.</li>
+ * <li>Block location information by receiving block reports and blocks received
+ * from the datanodes.</li>
  * </ul>
  * 
  * It does not handle read/write/checkpoint operations.
  */
 @InterfaceAudience.Private
 public class StandbyState extends HAState {
-  public StandbyState() {
-    super(HAServiceState.STANDBY);
-  }
+	public StandbyState() {
+		super(HAServiceState.STANDBY);
+	}
 
-  @Override
-  public void setState(HAContext context, HAState s) throws ServiceFailedException {
-    if (s == NameNode.ACTIVE_STATE) {
-      setStateInternal(context, s);
-      return;
-    }
-    super.setState(context, s);
-  }
+	@Override
+	public void setState(HAContext context, HAState s) throws ServiceFailedException {
+		if (s == NameNode.ACTIVE_STATE) {
+			setStateInternal(context, s);
+			return;
+		}
+		super.setState(context, s);
+	}
 
-  @Override
-  public void enterState(HAContext context) throws ServiceFailedException {
-    try {
-      context.startStandbyServices();
-    } catch (IOException e) {
-      throw new ServiceFailedException("Failed to start standby services", e);
-    }
-  }
+	@Override
+	public void enterState(HAContext context) throws ServiceFailedException {
+		try {
+			context.startStandbyServices();
+		} catch (IOException e) {
+			throw new ServiceFailedException("Failed to start standby services", e);
+		}
+	}
 
-  @Override
-  public void prepareToExitState(HAContext context) throws ServiceFailedException {
-    context.prepareToStopStandbyServices();
-  }
+	@Override
+	public void prepareToExitState(HAContext context) throws ServiceFailedException {
+		context.prepareToStopStandbyServices();
+	}
 
-  @Override
-  public void exitState(HAContext context) throws ServiceFailedException {
-    try {
-      context.stopStandbyServices();
-    } catch (IOException e) {
-      throw new ServiceFailedException("Failed to stop standby services", e);
-    }
-  }
+	@Override
+	public void exitState(HAContext context) throws ServiceFailedException {
+		try {
+			context.stopStandbyServices();
+		} catch (IOException e) {
+			throw new ServiceFailedException("Failed to stop standby services", e);
+		}
+	}
 
-  @Override
-  public void checkOperation(HAContext context, OperationCategory op)
-      throws StandbyException {
-    if (op == OperationCategory.UNCHECKED ||
-        (op == OperationCategory.READ && context.allowStaleReads())) {
-      return;
-    }
-    String msg = "Operation category " + op + " is not supported in state "
-        + context.getState();
-    throw new StandbyException(msg);
-  }
+	@Override
+	public void checkOperation(HAContext context, OperationCategory op) throws StandbyException {
+		if (op == OperationCategory.UNCHECKED || (op == OperationCategory.READ && context.allowStaleReads())) {
+			return;
+		}
+		String msg = "Operation category " + op + " is not supported in state " + context.getState();
+		throw new StandbyException(msg);
+	}
 
-  @Override
-  public boolean shouldPopulateReplQueues() {
-    return false;
-  }
+	@Override
+	public boolean shouldPopulateReplQueues() {
+		return false;
+	}
 }
-

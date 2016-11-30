@@ -43,12 +43,10 @@ import org.apache.hadoop.security.authentication.server.KerberosAuthenticationHa
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
-public class KerberosDelegationTokenAuthenticationHandler
-    extends DelegationTokenAuthenticationHandler {
+public class KerberosDelegationTokenAuthenticationHandler extends DelegationTokenAuthenticationHandler {
 
-  public KerberosDelegationTokenAuthenticationHandler() {
-    super(new KerberosAuthenticationHandler(KerberosAuthenticationHandler.TYPE +
-        TYPE_POSTFIX));
-  }
+	public KerberosDelegationTokenAuthenticationHandler() {
+		super(new KerberosAuthenticationHandler(KerberosAuthenticationHandler.TYPE + TYPE_POSTFIX));
+	}
 
 }

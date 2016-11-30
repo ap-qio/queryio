@@ -22,166 +22,183 @@ import org.apache.hadoop.classification.InterfaceAudience;
 /**
  * 
  * This Interface defines the methods to get the status of a the FSNamesystem of
- * a name node.
- * It is also used for publishing via JMX (hence we follow the JMX naming
- * convention.)
+ * a name node. It is also used for publishing via JMX (hence we follow the JMX
+ * naming convention.)
  * 
- * Note we have not used the MetricsDynamicMBeanBase to implement this
- * because the interface for the NameNodeStateMBean is stable and should
- * be published as an interface.
+ * Note we have not used the MetricsDynamicMBeanBase to implement this because
+ * the interface for the NameNodeStateMBean is stable and should be published as
+ * an interface.
  * 
  * <p>
- * Name Node runtime activity statistic  info is reported in
+ * Name Node runtime activity statistic info is reported in
+ * 
  * @see org.apache.hadoop.hdfs.server.namenode.metrics.NameNodeMetrics
  *
  */
 @InterfaceAudience.Private
 public interface FSNamesystemMBean {
 
-  /**
-   * The state of the file system: Safemode or Operational
-   * @return the state
-   */
-  public String getFSState();
-  
-  
-  /**
-   * Number of allocated blocks in the system
-   * @return -  number of allocated blocks
-   */
-  public long getBlocksTotal();
+	/**
+	 * The state of the file system: Safemode or Operational
+	 * 
+	 * @return the state
+	 */
+	public String getFSState();
 
-  /**
-   * Total storage capacity
-   * @return -  total capacity in bytes
-   */
-  public long getCapacityTotal();
+	/**
+	 * Number of allocated blocks in the system
+	 * 
+	 * @return - number of allocated blocks
+	 */
+	public long getBlocksTotal();
 
+	/**
+	 * Total storage capacity
+	 * 
+	 * @return - total capacity in bytes
+	 */
+	public long getCapacityTotal();
 
-  /**
-   * Free (unused) storage capacity
-   * @return -  free capacity in bytes
-   */
-  public long getCapacityRemaining();
- 
-  /**
-   * Used storage capacity
-   * @return -  used capacity in bytes
-   */
-  public long getCapacityUsed();
- 
+	/**
+	 * Free (unused) storage capacity
+	 * 
+	 * @return - free capacity in bytes
+	 */
+	public long getCapacityRemaining();
 
-  /**
-   * Total number of files and directories
-   * @return -  num of files and directories
-   */
-  public long getFilesTotal();
- 
-  /**
-   * Blocks pending to be replicated
-   * @return -  num of blocks to be replicated
-   */
-  public long getPendingReplicationBlocks();
- 
-  /**
-   * Blocks under replicated 
-   * @return -  num of blocks under replicated
-   */
-  public long getUnderReplicatedBlocks();
- 
-  /**
-   * Blocks scheduled for replication
-   * @return -  num of blocks scheduled for replication
-   */
-  public long getScheduledReplicationBlocks();
+	/**
+	 * Used storage capacity
+	 * 
+	 * @return - used capacity in bytes
+	 */
+	public long getCapacityUsed();
 
-  /**
-   * Total Load on the FSNamesystem
-   * @return -  total load of FSNamesystem
-   */
-  public int getTotalLoad();
+	/**
+	 * Total number of files and directories
+	 * 
+	 * @return - num of files and directories
+	 */
+	public long getFilesTotal();
 
-  /**
-   * Number of Live data nodes
-   * @return number of live data nodes
-   */
-  public int getNumLiveDataNodes();
-  
-  /**
-   * Number of dead data nodes
-   * @return number of dead data nodes
-   */
-  public int getNumDeadDataNodes();
-  
-  /**
-   * Number of stale data nodes
-   * @return number of stale data nodes
-   */
-  public int getNumStaleDataNodes();
+	/**
+	 * Blocks pending to be replicated
+	 * 
+	 * @return - num of blocks to be replicated
+	 */
+	public long getPendingReplicationBlocks();
 
-  /**
-   * Number of decommissioned Live data nodes
-   * @return number of decommissioned live data nodes
-   */
-  public int getNumDecomLiveDataNodes();
+	/**
+	 * Blocks under replicated
+	 * 
+	 * @return - num of blocks under replicated
+	 */
+	public long getUnderReplicatedBlocks();
 
-  /**
-   * Number of decommissioned dead data nodes
-   * @return number of decommissioned dead data nodes
-   */
-  public int getNumDecomDeadDataNodes();
+	/**
+	 * Blocks scheduled for replication
+	 * 
+	 * @return - num of blocks scheduled for replication
+	 */
+	public long getScheduledReplicationBlocks();
 
-  /**
-   * Number of failed data volumes across all live data nodes.
-   * @return number of failed data volumes across all live data nodes
-   */
-  int getVolumeFailuresTotal();
+	/**
+	 * Total Load on the FSNamesystem
+	 * 
+	 * @return - total load of FSNamesystem
+	 */
+	public int getTotalLoad();
 
-  /**
-   * Returns an estimate of total capacity lost due to volume failures in bytes
-   * across all live data nodes.
-   * @return estimate of total capacity lost in bytes
-   */
-  long getEstimatedCapacityLostTotal();
+	/**
+	 * Number of Live data nodes
+	 * 
+	 * @return number of live data nodes
+	 */
+	public int getNumLiveDataNodes();
 
-  /**
-   * Number of data nodes that are in the decommissioning state
-   */
-  public int getNumDecommissioningDataNodes();
+	/**
+	 * Number of dead data nodes
+	 * 
+	 * @return number of dead data nodes
+	 */
+	public int getNumDeadDataNodes();
 
-  /**
-   * The statistics of snapshots
-   */
-  public String getSnapshotStats();
+	/**
+	 * Number of stale data nodes
+	 * 
+	 * @return number of stale data nodes
+	 */
+	public int getNumStaleDataNodes();
 
-  /**
-   * Return the maximum number of inodes in the file system
-   */
-  public long getMaxObjects();
+	/**
+	 * Number of decommissioned Live data nodes
+	 * 
+	 * @return number of decommissioned live data nodes
+	 */
+	public int getNumDecomLiveDataNodes();
 
-  /**
-   * Number of blocks pending deletion
-   * @return number of blocks pending deletion
-   */
-  long getPendingDeletionBlocks();
+	/**
+	 * Number of decommissioned dead data nodes
+	 * 
+	 * @return number of decommissioned dead data nodes
+	 */
+	public int getNumDecomDeadDataNodes();
 
-  /**
-   * Time when block deletions will begin
-   * @return time when block deletions will begin
-   */
-  long getBlockDeletionStartTime();
+	/**
+	 * Number of failed data volumes across all live data nodes.
+	 * 
+	 * @return number of failed data volumes across all live data nodes
+	 */
+	int getVolumeFailuresTotal();
 
-  /**
-   * Number of content stale storages.
-   * @return number of content stale storages
-   */
-  public int getNumStaleStorages();
+	/**
+	 * Returns an estimate of total capacity lost due to volume failures in
+	 * bytes across all live data nodes.
+	 * 
+	 * @return estimate of total capacity lost in bytes
+	 */
+	long getEstimatedCapacityLostTotal();
 
-  /**
-   * Returns a nested JSON object listing the top users for different RPC 
-   * operations over tracked time windows.
-   * 
-   * @return JSON string
-   */
-  public String getTopUserOpCounts();
+	/**
+	 * Number of data nodes that are in the decommissioning state
+	 */
+	public int getNumDecommissioningDataNodes();
+
+	/**
+	 * The statistics of snapshots
+	 */
+	public String getSnapshotStats();
+
+	/**
+	 * Return the maximum number of inodes in the file system
+	 */
+	public long getMaxObjects();
+
+	/**
+	 * Number of blocks pending deletion
+	 * 
+	 * @return number of blocks pending deletion
+	 */
+	long getPendingDeletionBlocks();
+
+	/**
+	 * Time when block deletions will begin
+	 * 
+	 * @return time when block deletions will begin
+	 */
+	long getBlockDeletionStartTime();
+
+	/**
+	 * Number of content stale storages.
+	 * 
+	 * @return number of content stale storages
+	 */
+	public int getNumStaleStorages();
+
+	/**
+	 * Returns a nested JSON object listing the top users for different RPC
+	 * operations over tracked time windows.
+	 * 
+	 * @return JSON string
+	 */
+	public String getTopUserOpCounts();
 }

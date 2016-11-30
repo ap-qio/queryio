@@ -18,9 +18,9 @@
 package org.apache.hadoop.hdfs.protocol;
 
 /**
- * @deprecated Please use {@link HdfsConstants}. This class
- * is left only for other ecosystem projects which depended on
- * it for SafemodeAction and DatanodeReport types.
+ * @deprecated Please use {@link HdfsConstants}. This class is left only for
+ *             other ecosystem projects which depended on it for SafemodeAction
+ *             and DatanodeReport types.
  */
 @Deprecated
 public abstract class FSConstants extends HdfsConstants {

@@ -24,19 +24,21 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceStability.Evolving
 public interface BlockPlacementStatus {
 
-  /**
-   * Boolean value to identify if replicas of this block satisfy requirement of 
-   * placement policy
-   * @return if replicas satisfy placement policy's requirement 
-   */
-  public boolean isPlacementPolicySatisfied();
-  
-  /**
-   * Get description info for log or printed in case replicas are failed to meet
-   * requirement of placement policy
-   * @return description in case replicas are failed to meet requirement of
-   * placement policy
-   */
-  public String getErrorDescription();
+	/**
+	 * Boolean value to identify if replicas of this block satisfy requirement
+	 * of placement policy
+	 * 
+	 * @return if replicas satisfy placement policy's requirement
+	 */
+	public boolean isPlacementPolicySatisfied();
+
+	/**
+	 * Get description info for log or printed in case replicas are failed to
+	 * meet requirement of placement policy
+	 * 
+	 * @return description in case replicas are failed to meet requirement of
+	 *         placement policy
+	 */
+	public String getErrorDescription();
 
 }

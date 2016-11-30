@@ -39,165 +39,161 @@ import org.apache.hadoop.fs.Trash;
 @InterfaceStability.Evolving
 
 class Delete {
-  public static void registerCommands(CommandFactory factory) {
-    factory.addClass(Rm.class, "-rm");
-    factory.addClass(Rmdir.class, "-rmdir");
-    factory.addClass(Rmr.class, "-rmr");
-    factory.addClass(Expunge.class, "-expunge");
-  }
+	public static void registerCommands(CommandFactory factory) {
+		factory.addClass(Rm.class, "-rm");
+		factory.addClass(Rmdir.class, "-rmdir");
+		factory.addClass(Rmr.class, "-rmr");
+		factory.addClass(Expunge.class, "-expunge");
+	}
 
-  /** remove non-directory paths */
-  public static class Rm extends FsCommand {
-    public static final String NAME = "rm";
-    public static final String USAGE = "[-f] [-r|-R] [-skipTrash] <src> ...";
-    public static final String DESCRIPTION =
-      "Delete all files that match the specified file pattern. " +
-      "Equivalent to the Unix command \"rm <src>\"\n" +
-      "-skipTrash: option bypasses trash, if enabled, and immediately " +
-      "deletes <src>\n" +
-      "-f: If the file does not exist, do not display a diagnostic " +
-      "message or modify the exit status to reflect an error.\n" +
-      "-[rR]:  Recursively deletes directories";
+	/** remove non-directory paths */
+	public static class Rm extends FsCommand {
+		public static final String NAME = "rm";
+		public static final String USAGE = "[-f] [-r|-R] [-skipTrash] <src> ...";
+		public static final String DESCRIPTION = "Delete all files that match the specified file pattern. "
+				+ "Equivalent to the Unix command \"rm <src>\"\n"
+				+ "-skipTrash: option bypasses trash, if enabled, and immediately " + "deletes <src>\n"
+				+ "-f: If the file does not exist, do not display a diagnostic "
+				+ "message or modify the exit status to reflect an error.\n"
+				+ "-[rR]:  Recursively deletes directories";
 
-    private boolean skipTrash = false;
-    private boolean deleteDirs = false;
-    private boolean ignoreFNF = false;
-    
-    @Override
-    protected void processOptions(LinkedList<String> args) throws IOException {
-      CommandFormat cf = new CommandFormat(
-          1, Integer.MAX_VALUE, "f", "r", "R", "skipTrash");
-      cf.parse(args);
-      ignoreFNF = cf.getOpt("f");
-      deleteDirs = cf.getOpt("r") || cf.getOpt("R");
-      skipTrash = cf.getOpt("skipTrash");
-    }
+		private boolean skipTrash = false;
+		private boolean deleteDirs = false;
+		private boolean ignoreFNF = false;
 
-    @Override
-    protected List<PathData> expandArgument(String arg) throws IOException {
-      try {
-        return super.expandArgument(arg);
-      } catch (PathNotFoundException e) {
-        if (!ignoreFNF) {
-          throw e;
-        }
-        // prevent -f on a non-existent glob from failing
-        return new LinkedList<PathData>();
-      }
-    }
+		@Override
+		protected void processOptions(LinkedList<String> args) throws IOException {
+			CommandFormat cf = new CommandFormat(1, Integer.MAX_VALUE, "f", "r", "R", "skipTrash");
+			cf.parse(args);
+			ignoreFNF = cf.getOpt("f");
+			deleteDirs = cf.getOpt("r") || cf.getOpt("R");
+			skipTrash = cf.getOpt("skipTrash");
+		}
 
-    @Override
-    protected void processNonexistentPath(PathData item) throws IOException {
-      if (!ignoreFNF) super.processNonexistentPath(item);
-    }
+		@Override
+		protected List<PathData> expandArgument(String arg) throws IOException {
+			try {
+				return super.expandArgument(arg);
+			} catch (PathNotFoundException e) {
+				if (!ignoreFNF) {
+					throw e;
+				}
+				// prevent -f on a non-existent glob from failing
+				return new LinkedList<PathData>();
+			}
+		}
 
-    @Override
-    protected void processPath(PathData item) throws IOException {
-      if (item.stat.isDirectory() && !deleteDirs) {
-        throw new PathIsDirectoryException(item.toString());
-      }
+		@Override
+		protected void processNonexistentPath(PathData item) throws IOException {
+			if (!ignoreFNF)
+				super.processNonexistentPath(item);
+		}
 
-      // TODO: if the user wants the trash to be used but there is any
-      // problem (ie. creating the trash dir, moving the item to be deleted,
-      // etc), then the path will just be deleted because moveToTrash returns
-      // false and it falls thru to fs.delete.  this doesn't seem right
-      if (moveToTrash(item)) {
-        return;
-      }
-      if (!item.fs.delete(item.path, deleteDirs)) {
-        throw new PathIOException(item.toString());
-      }
-      out.println("Deleted " + item);
-    }
+		@Override
+		protected void processPath(PathData item) throws IOException {
+			if (item.stat.isDirectory() && !deleteDirs) {
+				throw new PathIsDirectoryException(item.toString());
+			}
 
-    private boolean moveToTrash(PathData item) throws IOException {
-      boolean success = false;
-      if (!skipTrash) {
-        try {
-          success = Trash.moveToAppropriateTrash(item.fs, item.path, getConf());
-        } catch(FileNotFoundException fnfe) {
-          throw fnfe;
-        } catch (IOException ioe) {
-          String msg = ioe.getMessage();
-          if (ioe.getCause() != null) {
-            msg += ": " + ioe.getCause().getMessage();
-	  }
-          throw new IOException(msg + ". Consider using -skipTrash option", ioe);
-        }
-      }
-      return success;
-    }
-  }
-  
-  /** remove any path */
-  static class Rmr extends Rm {
-    public static final String NAME = "rmr";
-    
-    @Override
-    protected void processOptions(LinkedList<String> args) throws IOException {
-      args.addFirst("-r");
-      super.processOptions(args);
-    }
+			// TODO: if the user wants the trash to be used but there is any
+			// problem (ie. creating the trash dir, moving the item to be
+			// deleted,
+			// etc), then the path will just be deleted because moveToTrash
+			// returns
+			// false and it falls thru to fs.delete. this doesn't seem right
+			if (moveToTrash(item)) {
+				return;
+			}
+			if (!item.fs.delete(item.path, deleteDirs)) {
+				throw new PathIOException(item.toString());
+			}
+			out.println("Deleted " + item);
+		}
 
-    @Override
-    public String getReplacementCommand() {
-      return "rm -r";
-    }
-  }
+		private boolean moveToTrash(PathData item) throws IOException {
+			boolean success = false;
+			if (!skipTrash) {
+				try {
+					success = Trash.moveToAppropriateTrash(item.fs, item.path, getConf());
+				} catch (FileNotFoundException fnfe) {
+					throw fnfe;
+				} catch (IOException ioe) {
+					String msg = ioe.getMessage();
+					if (ioe.getCause() != null) {
+						msg += ": " + ioe.getCause().getMessage();
+					}
+					throw new IOException(msg + ". Consider using -skipTrash option", ioe);
+				}
+			}
+			return success;
+		}
+	}
 
-  /** remove only empty directories */
-  static class Rmdir extends FsCommand {
-    public static final String NAME = "rmdir";
-    public static final String USAGE =
-      "[--ignore-fail-on-non-empty] <dir> ...";
-    public static final String DESCRIPTION =
-      "Removes the directory entry specified by each directory argument, " +
-      "provided it is empty.\n"; 
-    
-    private boolean ignoreNonEmpty = false;
-    
-    @Override
-    protected void processOptions(LinkedList<String> args) throws IOException {
-      CommandFormat cf = new CommandFormat(
-          1, Integer.MAX_VALUE, "-ignore-fail-on-non-empty");
-      cf.parse(args);
-      ignoreNonEmpty = cf.getOpt("-ignore-fail-on-non-empty");
-    }
+	/** remove any path */
+	static class Rmr extends Rm {
+		public static final String NAME = "rmr";
 
-    @Override
-    protected void processPath(PathData item) throws IOException {
-      if (!item.stat.isDirectory()) {
-        throw new PathIsNotDirectoryException(item.toString());
-      }      
-      if (item.fs.listStatus(item.path).length == 0) {
-        if (!item.fs.delete(item.path, false)) {
-          throw new PathIOException(item.toString());
-        }
-      } else if (!ignoreNonEmpty) {
-        throw new PathIsNotEmptyDirectoryException(item.toString());
-      }
-    }
-  }
+		@Override
+		protected void processOptions(LinkedList<String> args) throws IOException {
+			args.addFirst("-r");
+			super.processOptions(args);
+		}
 
-  /** empty the trash */
-  static class Expunge extends FsCommand {
-    public static final String NAME = "expunge";
-    public static final String USAGE = "";
-    public static final String DESCRIPTION = "Empty the Trash";
+		@Override
+		public String getReplacementCommand() {
+			return "rm -r";
+		}
+	}
 
-    // TODO: should probably allow path arguments for the filesystems
-    @Override
-    protected void processOptions(LinkedList<String> args) throws IOException {
-      CommandFormat cf = new CommandFormat(0, 0);
-      cf.parse(args);
-    }
+	/** remove only empty directories */
+	static class Rmdir extends FsCommand {
+		public static final String NAME = "rmdir";
+		public static final String USAGE = "[--ignore-fail-on-non-empty] <dir> ...";
+		public static final String DESCRIPTION = "Removes the directory entry specified by each directory argument, "
+				+ "provided it is empty.\n";
 
-    @Override
-    protected void processArguments(LinkedList<PathData> args)
-    throws IOException {
-      Trash trash = new Trash(getConf());
-      trash.expunge();
-      trash.checkpoint();    
-    }
-  }
+		private boolean ignoreNonEmpty = false;
+
+		@Override
+		protected void processOptions(LinkedList<String> args) throws IOException {
+			CommandFormat cf = new CommandFormat(1, Integer.MAX_VALUE, "-ignore-fail-on-non-empty");
+			cf.parse(args);
+			ignoreNonEmpty = cf.getOpt("-ignore-fail-on-non-empty");
+		}
+
+		@Override
+		protected void processPath(PathData item) throws IOException {
+			if (!item.stat.isDirectory()) {
+				throw new PathIsNotDirectoryException(item.toString());
+			}
+			if (item.fs.listStatus(item.path).length == 0) {
+				if (!item.fs.delete(item.path, false)) {
+					throw new PathIOException(item.toString());
+				}
+			} else if (!ignoreNonEmpty) {
+				throw new PathIsNotEmptyDirectoryException(item.toString());
+			}
+		}
+	}
+
+	/** empty the trash */
+	static class Expunge extends FsCommand {
+		public static final String NAME = "expunge";
+		public static final String USAGE = "";
+		public static final String DESCRIPTION = "Empty the Trash";
+
+		// TODO: should probably allow path arguments for the filesystems
+		@Override
+		protected void processOptions(LinkedList<String> args) throws IOException {
+			CommandFormat cf = new CommandFormat(0, 0);
+			cf.parse(args);
+		}
+
+		@Override
+		protected void processArguments(LinkedList<PathData> args) throws IOException {
+			Trash trash = new Trash(getConf());
+			trash.expunge();
+			trash.checkpoint();
+		}
+	}
 }

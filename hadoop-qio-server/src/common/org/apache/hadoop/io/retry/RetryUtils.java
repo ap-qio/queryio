@@ -23,145 +23,127 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.ipc.RemoteException;
-
-import com.google.protobuf.ServiceException;
 import org.apache.hadoop.ipc.RetriableException;
 
+import com.google.protobuf.ServiceException;
+
 public class RetryUtils {
-  public static final Log LOG = LogFactory.getLog(RetryUtils.class);
-  
-  /**
-   * Return the default retry policy set in conf.
-   * 
-   * If the value retryPolicyEnabledKey is set to false in conf,
-   * use TRY_ONCE_THEN_FAIL.
-   * 
-   * Otherwise, get the MultipleLinearRandomRetry policy specified in the conf
-   * and then
-   * (1) use multipleLinearRandomRetry for
-   *     - remoteExceptionToRetry, or
-   *     - IOException other than RemoteException, or
-   *     - ServiceException; and
-   * (2) use TRY_ONCE_THEN_FAIL for
-   *     - non-remoteExceptionToRetry RemoteException, or
-   *     - non-IOException.
-   *     
-   *
-   * @param conf
-   * @param retryPolicyEnabledKey     conf property key for enabling retry
-   * @param defaultRetryPolicyEnabled default retryPolicyEnabledKey conf value 
-   * @param retryPolicySpecKey        conf property key for retry policy spec
-   * @param defaultRetryPolicySpec    default retryPolicySpecKey conf value
-   * @param remoteExceptionToRetry    The particular RemoteException to retry
-   * @return the default retry policy.
-   */
-  public static RetryPolicy getDefaultRetryPolicy(
-      Configuration conf,
-      String retryPolicyEnabledKey,
-      boolean defaultRetryPolicyEnabled,
-      String retryPolicySpecKey,
-      String defaultRetryPolicySpec,
-      final Class<? extends Exception> remoteExceptionToRetry
-      ) {
-    
-    final RetryPolicy multipleLinearRandomRetry = 
-        getMultipleLinearRandomRetry(
-            conf, 
-            retryPolicyEnabledKey, defaultRetryPolicyEnabled, 
-            retryPolicySpecKey, defaultRetryPolicySpec
-            );
-    
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("multipleLinearRandomRetry = " + multipleLinearRandomRetry);
-    }
+	public static final Log LOG = LogFactory.getLog(RetryUtils.class);
 
-    if (multipleLinearRandomRetry == null) {
-      //no retry
-      return RetryPolicies.TRY_ONCE_THEN_FAIL;
-    } else {
-      return new RetryPolicy() {
-        @Override
-        public RetryAction shouldRetry(Exception e, int retries, int failovers,
-            boolean isMethodIdempotent) throws Exception {
-          if (e instanceof ServiceException) {
-            //unwrap ServiceException
-            final Throwable cause = e.getCause();
-            if (cause != null && cause instanceof Exception) {
-              e = (Exception)cause;
-            }
-          }
+	/**
+	 * Return the default retry policy set in conf.
+	 * 
+	 * If the value retryPolicyEnabledKey is set to false in conf, use
+	 * TRY_ONCE_THEN_FAIL.
+	 * 
+	 * Otherwise, get the MultipleLinearRandomRetry policy specified in the conf
+	 * and then (1) use multipleLinearRandomRetry for - remoteExceptionToRetry,
+	 * or - IOException other than RemoteException, or - ServiceException; and
+	 * (2) use TRY_ONCE_THEN_FAIL for - non-remoteExceptionToRetry
+	 * RemoteException, or - non-IOException.
+	 * 
+	 *
+	 * @param conf
+	 * @param retryPolicyEnabledKey
+	 *            conf property key for enabling retry
+	 * @param defaultRetryPolicyEnabled
+	 *            default retryPolicyEnabledKey conf value
+	 * @param retryPolicySpecKey
+	 *            conf property key for retry policy spec
+	 * @param defaultRetryPolicySpec
+	 *            default retryPolicySpecKey conf value
+	 * @param remoteExceptionToRetry
+	 *            The particular RemoteException to retry
+	 * @return the default retry policy.
+	 */
+	public static RetryPolicy getDefaultRetryPolicy(Configuration conf, String retryPolicyEnabledKey,
+			boolean defaultRetryPolicyEnabled, String retryPolicySpecKey, String defaultRetryPolicySpec,
+			final Class<? extends Exception> remoteExceptionToRetry) {
 
-          //see (1) and (2) in the javadoc of this method.
-          final RetryPolicy p;
-          if (e instanceof RetriableException
-              || RetryPolicies.getWrappedRetriableException(e) != null) {
-            // RetriableException or RetriableException wrapped
-            p = multipleLinearRandomRetry;
-          } else if (e instanceof RemoteException) {
-            final RemoteException re = (RemoteException)e;
-            p = remoteExceptionToRetry.getName().equals(re.getClassName())?
-                multipleLinearRandomRetry: RetryPolicies.TRY_ONCE_THEN_FAIL;
-          } else if (e instanceof IOException || e instanceof ServiceException) {
-            p = multipleLinearRandomRetry;
-          } else { //non-IOException
-            p = RetryPolicies.TRY_ONCE_THEN_FAIL;
-          }
+		final RetryPolicy multipleLinearRandomRetry = getMultipleLinearRandomRetry(conf, retryPolicyEnabledKey,
+				defaultRetryPolicyEnabled, retryPolicySpecKey, defaultRetryPolicySpec);
 
-          if (LOG.isDebugEnabled()) {
-            LOG.debug("RETRY " + retries + ") policy="
-                + p.getClass().getSimpleName() + ", exception=" + e);
-          }
-          return p.shouldRetry(e, retries, failovers, isMethodIdempotent);
-        }
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("multipleLinearRandomRetry = " + multipleLinearRandomRetry);
+		}
 
-        @Override
-        public String toString() {
-          return "RetryPolicy[" + multipleLinearRandomRetry + ", "
-              + RetryPolicies.TRY_ONCE_THEN_FAIL.getClass().getSimpleName()
-              + "]";
-        }
-      };
-    }
-  }
+		if (multipleLinearRandomRetry == null) {
+			// no retry
+			return RetryPolicies.TRY_ONCE_THEN_FAIL;
+		} else {
+			return new RetryPolicy() {
+				@Override
+				public RetryAction shouldRetry(Exception e, int retries, int failovers, boolean isMethodIdempotent)
+						throws Exception {
+					if (e instanceof ServiceException) {
+						// unwrap ServiceException
+						final Throwable cause = e.getCause();
+						if (cause != null && cause instanceof Exception) {
+							e = (Exception) cause;
+						}
+					}
 
-  /**
-   * Return the MultipleLinearRandomRetry policy specified in the conf,
-   * or null if the feature is disabled.
-   * If the policy is specified in the conf but the policy cannot be parsed,
-   * the default policy is returned.
-   * 
-   * Retry policy spec:
-   *   N pairs of sleep-time and number-of-retries "s1,n1,s2,n2,..."
-   * 
-   * @param conf
-   * @param retryPolicyEnabledKey     conf property key for enabling retry
-   * @param defaultRetryPolicyEnabled default retryPolicyEnabledKey conf value 
-   * @param retryPolicySpecKey        conf property key for retry policy spec
-   * @param defaultRetryPolicySpec    default retryPolicySpecKey conf value
-   * @return the MultipleLinearRandomRetry policy specified in the conf,
-   *         or null if the feature is disabled.
-   */
-  public static RetryPolicy getMultipleLinearRandomRetry(
-      Configuration conf,
-      String retryPolicyEnabledKey,
-      boolean defaultRetryPolicyEnabled,
-      String retryPolicySpecKey,
-      String defaultRetryPolicySpec
-      ) {
-    final boolean enabled = 
-        conf.getBoolean(retryPolicyEnabledKey, defaultRetryPolicyEnabled);
-    if (!enabled) {
-      return null;
-    }
+					// see (1) and (2) in the javadoc of this method.
+					final RetryPolicy p;
+					if (e instanceof RetriableException || RetryPolicies.getWrappedRetriableException(e) != null) {
+						// RetriableException or RetriableException wrapped
+						p = multipleLinearRandomRetry;
+					} else if (e instanceof RemoteException) {
+						final RemoteException re = (RemoteException) e;
+						p = remoteExceptionToRetry.getName().equals(re.getClassName()) ? multipleLinearRandomRetry
+								: RetryPolicies.TRY_ONCE_THEN_FAIL;
+					} else if (e instanceof IOException || e instanceof ServiceException) {
+						p = multipleLinearRandomRetry;
+					} else { // non-IOException
+						p = RetryPolicies.TRY_ONCE_THEN_FAIL;
+					}
 
-    final String policy = conf.get(retryPolicySpecKey, defaultRetryPolicySpec);
+					if (LOG.isDebugEnabled()) {
+						LOG.debug("RETRY " + retries + ") policy=" + p.getClass().getSimpleName() + ", exception=" + e);
+					}
+					return p.shouldRetry(e, retries, failovers, isMethodIdempotent);
+				}
 
-    final RetryPolicy r = 
-        RetryPolicies.MultipleLinearRandomRetry.parseCommaSeparatedString(
-            policy);
-    return (r != null) ? 
-        r : 
-        RetryPolicies.MultipleLinearRandomRetry.parseCommaSeparatedString(
-        defaultRetryPolicySpec);
-  }
+				@Override
+				public String toString() {
+					return "RetryPolicy[" + multipleLinearRandomRetry + ", "
+							+ RetryPolicies.TRY_ONCE_THEN_FAIL.getClass().getSimpleName() + "]";
+				}
+			};
+		}
+	}
+
+	/**
+	 * Return the MultipleLinearRandomRetry policy specified in the conf, or
+	 * null if the feature is disabled. If the policy is specified in the conf
+	 * but the policy cannot be parsed, the default policy is returned.
+	 * 
+	 * Retry policy spec: N pairs of sleep-time and number-of-retries
+	 * "s1,n1,s2,n2,..."
+	 * 
+	 * @param conf
+	 * @param retryPolicyEnabledKey
+	 *            conf property key for enabling retry
+	 * @param defaultRetryPolicyEnabled
+	 *            default retryPolicyEnabledKey conf value
+	 * @param retryPolicySpecKey
+	 *            conf property key for retry policy spec
+	 * @param defaultRetryPolicySpec
+	 *            default retryPolicySpecKey conf value
+	 * @return the MultipleLinearRandomRetry policy specified in the conf, or
+	 *         null if the feature is disabled.
+	 */
+	public static RetryPolicy getMultipleLinearRandomRetry(Configuration conf, String retryPolicyEnabledKey,
+			boolean defaultRetryPolicyEnabled, String retryPolicySpecKey, String defaultRetryPolicySpec) {
+		final boolean enabled = conf.getBoolean(retryPolicyEnabledKey, defaultRetryPolicyEnabled);
+		if (!enabled) {
+			return null;
+		}
+
+		final String policy = conf.get(retryPolicySpecKey, defaultRetryPolicySpec);
+
+		final RetryPolicy r = RetryPolicies.MultipleLinearRandomRetry.parseCommaSeparatedString(policy);
+		return (r != null) ? r
+				: RetryPolicies.MultipleLinearRandomRetry.parseCommaSeparatedString(defaultRetryPolicySpec);
+	}
 }

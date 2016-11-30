@@ -17,6 +17,11 @@
  */
 package org.apache.hadoop.hdfs.tools.offlineImageViewer;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.PermissionStatus;
 import org.apache.hadoop.hdfs.server.namenode.FsImageProto.INodeSection.INode;
@@ -24,18 +29,13 @@ import org.apache.hadoop.hdfs.server.namenode.FsImageProto.INodeSection.INodeDir
 import org.apache.hadoop.hdfs.server.namenode.FsImageProto.INodeSection.INodeFile;
 import org.apache.hadoop.hdfs.server.namenode.FsImageProto.INodeSection.INodeSymlink;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
- * A PBImageDelimitedTextWriter generates a text representation of the PB fsimage,
- * with each element separated by a delimiter string.  All of the elements
- * common to both inodes and inodes-under-construction are included. When
- * processing an fsimage with a layout version that did not include an
- * element, such as AccessTime, the output file will include a column
- * for the value, but no value will be included.
+ * A PBImageDelimitedTextWriter generates a text representation of the PB
+ * fsimage, with each element separated by a delimiter string. All of the
+ * elements common to both inodes and inodes-under-construction are included.
+ * When processing an fsimage with a layout version that did not include an
+ * element, such as AccessTime, the output file will include a column for the
+ * value, but no value will be included.
  *
  * Individual block information for each file is not currently included.
  *
@@ -44,91 +44,88 @@ import java.util.Date;
  * constructor.
  */
 public class PBImageDelimitedTextWriter extends PBImageTextWriter {
-  static final String DEFAULT_DELIMITER = "\t";
-  private static final String DATE_FORMAT="yyyy-MM-dd HH:mm";
-  private final SimpleDateFormat dateFormatter =
-      new SimpleDateFormat(DATE_FORMAT);
+	static final String DEFAULT_DELIMITER = "\t";
+	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
+	private final SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
 
-  private final String delimiter;
+	private final String delimiter;
 
-  PBImageDelimitedTextWriter(PrintStream out, String delimiter, String tempPath)
-      throws IOException {
-    super(out, tempPath);
-    this.delimiter = delimiter;
-  }
+	PBImageDelimitedTextWriter(PrintStream out, String delimiter, String tempPath) throws IOException {
+		super(out, tempPath);
+		this.delimiter = delimiter;
+	}
 
-  private String formatDate(long date) {
-    return dateFormatter.format(new Date(date));
-  }
+	private String formatDate(long date) {
+		return dateFormatter.format(new Date(date));
+	}
 
-  private void append(StringBuffer buffer, int field) {
-    buffer.append(delimiter);
-    buffer.append(field);
-  }
+	private void append(StringBuffer buffer, int field) {
+		buffer.append(delimiter);
+		buffer.append(field);
+	}
 
-  private void append(StringBuffer buffer, long field) {
-    buffer.append(delimiter);
-    buffer.append(field);
-  }
+	private void append(StringBuffer buffer, long field) {
+		buffer.append(delimiter);
+		buffer.append(field);
+	}
 
-  private void append(StringBuffer buffer, String field) {
-    buffer.append(delimiter);
-    buffer.append(field);
-  }
+	private void append(StringBuffer buffer, String field) {
+		buffer.append(delimiter);
+		buffer.append(field);
+	}
 
-  @Override
-  public String getEntry(String parent, INode inode) {
-    StringBuffer buffer = new StringBuffer();
-    String inodeName = inode.getName().toStringUtf8();
-    Path path = new Path(parent.isEmpty() ? "/" : parent,
-      inodeName.isEmpty() ? "/" : inodeName);
-    buffer.append(path.toString());
-    PermissionStatus p = null;
+	@Override
+	public String getEntry(String parent, INode inode) {
+		StringBuffer buffer = new StringBuffer();
+		String inodeName = inode.getName().toStringUtf8();
+		Path path = new Path(parent.isEmpty() ? "/" : parent, inodeName.isEmpty() ? "/" : inodeName);
+		buffer.append(path.toString());
+		PermissionStatus p = null;
 
-    switch (inode.getType()) {
-    case FILE:
-      INodeFile file = inode.getFile();
-      p = getPermission(file.getPermission());
-      append(buffer, file.getReplication());
-      append(buffer, formatDate(file.getModificationTime()));
-      append(buffer, formatDate(file.getAccessTime()));
-      append(buffer, file.getPreferredBlockSize());
-      append(buffer, file.getBlocksCount());
-      append(buffer, FSImageLoader.getFileSize(file));
-      append(buffer, 0);  // NS_QUOTA
-      append(buffer, 0);  // DS_QUOTA
-      break;
-    case DIRECTORY:
-      INodeDirectory dir = inode.getDirectory();
-      p = getPermission(dir.getPermission());
-      append(buffer, 0);  // Replication
-      append(buffer, formatDate(dir.getModificationTime()));
-      append(buffer, formatDate(0));  // Access time.
-      append(buffer, 0);  // Block size.
-      append(buffer, 0);  // Num blocks.
-      append(buffer, 0);  // Num bytes.
-      append(buffer, dir.getNsQuota());
-      append(buffer, dir.getDsQuota());
-      break;
-    case SYMLINK:
-      INodeSymlink s = inode.getSymlink();
-      p = getPermission(s.getPermission());
-      append(buffer, 0);  // Replication
-      append(buffer, formatDate(s.getModificationTime()));
-      append(buffer, formatDate(s.getAccessTime()));
-      append(buffer, 0);  // Block size.
-      append(buffer, 0);  // Num blocks.
-      append(buffer, 0);  // Num bytes.
-      append(buffer, 0);  // NS_QUOTA
-      append(buffer, 0);  // DS_QUOTA
-      break;
-    default:
-      break;
-    }
-    assert p != null;
-    append(buffer, p.getPermission().toString());
-    append(buffer, p.getUserName());
-    append(buffer, p.getGroupName());
-    return buffer.toString();
-  }
+		switch (inode.getType()) {
+		case FILE:
+			INodeFile file = inode.getFile();
+			p = getPermission(file.getPermission());
+			append(buffer, file.getReplication());
+			append(buffer, formatDate(file.getModificationTime()));
+			append(buffer, formatDate(file.getAccessTime()));
+			append(buffer, file.getPreferredBlockSize());
+			append(buffer, file.getBlocksCount());
+			append(buffer, FSImageLoader.getFileSize(file));
+			append(buffer, 0); // NS_QUOTA
+			append(buffer, 0); // DS_QUOTA
+			break;
+		case DIRECTORY:
+			INodeDirectory dir = inode.getDirectory();
+			p = getPermission(dir.getPermission());
+			append(buffer, 0); // Replication
+			append(buffer, formatDate(dir.getModificationTime()));
+			append(buffer, formatDate(0)); // Access time.
+			append(buffer, 0); // Block size.
+			append(buffer, 0); // Num blocks.
+			append(buffer, 0); // Num bytes.
+			append(buffer, dir.getNsQuota());
+			append(buffer, dir.getDsQuota());
+			break;
+		case SYMLINK:
+			INodeSymlink s = inode.getSymlink();
+			p = getPermission(s.getPermission());
+			append(buffer, 0); // Replication
+			append(buffer, formatDate(s.getModificationTime()));
+			append(buffer, formatDate(s.getAccessTime()));
+			append(buffer, 0); // Block size.
+			append(buffer, 0); // Num blocks.
+			append(buffer, 0); // Num bytes.
+			append(buffer, 0); // NS_QUOTA
+			append(buffer, 0); // DS_QUOTA
+			break;
+		default:
+			break;
+		}
+		assert p != null;
+		append(buffer, p.getPermission().toString());
+		append(buffer, p.getUserName());
+		append(buffer, p.getGroupName());
+		return buffer.toString();
+	}
 }

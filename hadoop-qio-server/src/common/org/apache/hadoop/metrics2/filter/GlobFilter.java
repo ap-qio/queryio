@@ -19,10 +19,10 @@
 package org.apache.hadoop.metrics2.filter;
 
 import java.util.regex.Pattern;
-import org.apache.hadoop.fs.GlobPattern;
 
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
+import org.apache.hadoop.fs.GlobPattern;
 
 /**
  * A glob pattern filter for metrics.
@@ -33,8 +33,8 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceStability.Evolving
 public class GlobFilter extends AbstractPatternFilter {
 
-  @Override
-  protected Pattern compile(String s) {
-    return GlobPattern.compile(s);
-  }
+	@Override
+	protected Pattern compile(String s) {
+		return GlobPattern.compile(s);
+	}
 }

@@ -26,7 +26,6 @@ import java.util.Map;
 
 import javax.management.ObjectName;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.classification.InterfaceAudience;
@@ -49,282 +48,283 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.mortbay.util.ajax.JSON;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 /**
- * The JournalNode is a daemon which allows namenodes using
- * the QuorumJournalManager to log and retrieve edits stored
- * remotely. It is a thin wrapper around a local edit log
- * directory with the addition of facilities to participate
- * in the quorum protocol.
+ * The JournalNode is a daemon which allows namenodes using the
+ * QuorumJournalManager to log and retrieve edits stored remotely. It is a thin
+ * wrapper around a local edit log directory with the addition of facilities to
+ * participate in the quorum protocol.
  */
 @InterfaceAudience.Private
 public class JournalNode implements Tool, Configurable, JournalNodeMXBean {
-  public static final Log LOG = LogFactory.getLog(JournalNode.class);
-  private Configuration conf;
-  private JournalNodeRpcServer rpcServer;
-  private JournalNodeHttpServer httpServer;
-  private final Map<String, Journal> journalsById = Maps.newHashMap();
-  private ObjectName journalNodeInfoBeanName;
-  private String httpServerURI;
-  private File localDir;
+	public static final Log LOG = LogFactory.getLog(JournalNode.class);
+	private Configuration conf;
+	private JournalNodeRpcServer rpcServer;
+	private JournalNodeHttpServer httpServer;
+	private final Map<String, Journal> journalsById = Maps.newHashMap();
+	private ObjectName journalNodeInfoBeanName;
+	private String httpServerURI;
+	private File localDir;
 
-  static {
-    HdfsConfiguration.init();
-  }
-  
-  /**
-   * When stopped, the daemon will exit with this code. 
-   */
-  private int resultCode = 0;
+	static {
+		HdfsConfiguration.init();
+	}
 
-  synchronized Journal getOrCreateJournal(String jid, StartupOption startOpt)
-      throws IOException {
-    QuorumJournalManager.checkJournalId(jid);
-    
-    Journal journal = journalsById.get(jid);
-    if (journal == null) {
-      File logDir = getLogDir(jid);
-      LOG.info("Initializing journal in directory " + logDir);      
-      journal = new Journal(conf, logDir, jid, startOpt, new ErrorReporter());
-      journalsById.put(jid, journal);
-    }
-    
-    return journal;
-  }
+	/**
+	 * When stopped, the daemon will exit with this code.
+	 */
+	private int resultCode = 0;
 
-  @VisibleForTesting
-  public Journal getOrCreateJournal(String jid) throws IOException {
-    return getOrCreateJournal(jid, StartupOption.REGULAR);
-  }
+	synchronized Journal getOrCreateJournal(String jid, StartupOption startOpt) throws IOException {
+		QuorumJournalManager.checkJournalId(jid);
 
-  @Override
-  public void setConf(Configuration conf) {
-    this.conf = conf;
-    this.localDir = new File(
-        conf.get(DFSConfigKeys.DFS_JOURNALNODE_EDITS_DIR_KEY,
-        DFSConfigKeys.DFS_JOURNALNODE_EDITS_DIR_DEFAULT).trim());
-  }
+		Journal journal = journalsById.get(jid);
+		if (journal == null) {
+			File logDir = getLogDir(jid);
+			LOG.info("Initializing journal in directory " + logDir);
+			journal = new Journal(conf, logDir, jid, startOpt, new ErrorReporter());
+			journalsById.put(jid, journal);
+		}
 
-  private static void validateAndCreateJournalDir(File dir) throws IOException {
-    if (!dir.isAbsolute()) {
-      throw new IllegalArgumentException(
-          "Journal dir '" + dir + "' should be an absolute path");
-    }
+		return journal;
+	}
 
-    DiskChecker.checkDir(dir);
-  }
+	@VisibleForTesting
+	public Journal getOrCreateJournal(String jid) throws IOException {
+		return getOrCreateJournal(jid, StartupOption.REGULAR);
+	}
 
-  @Override
-  public Configuration getConf() {
-    return conf;
-  }
+	@Override
+	public void setConf(Configuration conf) {
+		this.conf = conf;
+		this.localDir = new File(
+				conf.get(DFSConfigKeys.DFS_JOURNALNODE_EDITS_DIR_KEY, DFSConfigKeys.DFS_JOURNALNODE_EDITS_DIR_DEFAULT)
+						.trim());
+	}
 
-  @Override
-  public int run(String[] args) throws Exception {
-    start();
-    return join();
-  }
+	private static void validateAndCreateJournalDir(File dir) throws IOException {
+		if (!dir.isAbsolute()) {
+			throw new IllegalArgumentException("Journal dir '" + dir + "' should be an absolute path");
+		}
 
-  /**
-   * Start listening for edits via RPC.
-   */
-  public void start() throws IOException {
-    Preconditions.checkState(!isStarted(), "JN already running");
-    
-    validateAndCreateJournalDir(localDir);
-    
-    DefaultMetricsSystem.initialize("JournalNode");
-    JvmMetrics.create("JournalNode",
-        conf.get(DFSConfigKeys.DFS_METRICS_SESSION_ID_KEY),
-        DefaultMetricsSystem.instance());
+		DiskChecker.checkDir(dir);
+	}
 
-    InetSocketAddress socAddr = JournalNodeRpcServer.getAddress(conf);
-    SecurityUtil.login(conf, DFSConfigKeys.DFS_JOURNALNODE_KEYTAB_FILE_KEY,
-        DFSConfigKeys.DFS_JOURNALNODE_KERBEROS_PRINCIPAL_KEY, socAddr.getHostName());
-    
-    registerJNMXBean();
-    
-    httpServer = new JournalNodeHttpServer(conf, this);
-    httpServer.start();
+	@Override
+	public Configuration getConf() {
+		return conf;
+	}
 
-    httpServerURI = httpServer.getServerURI().toString();
+	@Override
+	public int run(String[] args) throws Exception {
+		start();
+		return join();
+	}
 
-    rpcServer = new JournalNodeRpcServer(conf, this);
-    rpcServer.start();
-  }
+	/**
+	 * Start listening for edits via RPC.
+	 */
+	public void start() throws IOException {
+		Preconditions.checkState(!isStarted(), "JN already running");
 
-  public boolean isStarted() {
-    return rpcServer != null;
-  }
+		validateAndCreateJournalDir(localDir);
 
-  /**
-   * @return the address the IPC server is bound to
-   */
-  public InetSocketAddress getBoundIpcAddress() {
-    return rpcServer.getAddress();
-  }
-  
-  @Deprecated
-  public InetSocketAddress getBoundHttpAddress() {
-    return httpServer.getAddress();
-  }
+		DefaultMetricsSystem.initialize("JournalNode");
+		JvmMetrics.create("JournalNode", conf.get(DFSConfigKeys.DFS_METRICS_SESSION_ID_KEY),
+				DefaultMetricsSystem.instance());
 
-  public String getHttpServerURI() {
-    return httpServerURI;
-  }
+		InetSocketAddress socAddr = JournalNodeRpcServer.getAddress(conf);
+		SecurityUtil.login(conf, DFSConfigKeys.DFS_JOURNALNODE_KEYTAB_FILE_KEY,
+				DFSConfigKeys.DFS_JOURNALNODE_KERBEROS_PRINCIPAL_KEY, socAddr.getHostName());
 
-  /**
-   * Stop the daemon with the given status code
-   * @param rc the status code with which to exit (non-zero
-   * should indicate an error)
-   */
-  public void stop(int rc) {
-    this.resultCode = rc;
-    
-    if (rpcServer != null) { 
-      rpcServer.stop();
-    }
+		registerJNMXBean();
 
-    if (httpServer != null) {
-      try {
-        httpServer.stop();
-      } catch (IOException ioe) {
-        LOG.warn("Unable to stop HTTP server for " + this, ioe);
-      }
-    }
-    
-    for (Journal j : journalsById.values()) {
-      IOUtils.cleanup(LOG, j);
-    }
+		httpServer = new JournalNodeHttpServer(conf, this);
+		httpServer.start();
 
-    if (journalNodeInfoBeanName != null) {
-      MBeans.unregister(journalNodeInfoBeanName);
-      journalNodeInfoBeanName = null;
-    }
-  }
+		httpServerURI = httpServer.getServerURI().toString();
 
-  /**
-   * Wait for the daemon to exit.
-   * @return the result code (non-zero if error)
-   */
-  int join() throws InterruptedException {
-    if (rpcServer != null) {
-      rpcServer.join();
-    }
-    return resultCode;
-  }
-  
-  public void stopAndJoin(int rc) throws InterruptedException {
-    stop(rc);
-    join();
-  }
+		rpcServer = new JournalNodeRpcServer(conf, this);
+		rpcServer.start();
+	}
 
-  /**
-   * Return the directory inside our configured storage
-   * dir which corresponds to a given journal. 
-   * @param jid the journal identifier
-   * @return the file, which may or may not exist yet
-   */
-  private File getLogDir(String jid) {
-    String dir = conf.get(DFSConfigKeys.DFS_JOURNALNODE_EDITS_DIR_KEY,
-        DFSConfigKeys.DFS_JOURNALNODE_EDITS_DIR_DEFAULT);
-    Preconditions.checkArgument(jid != null &&
-        !jid.isEmpty(),
-        "bad journal identifier: %s", jid);
-    assert jid != null;
-    return new File(new File(dir), jid);
-  }
+	public boolean isStarted() {
+		return rpcServer != null;
+	}
 
-  @Override // JournalNodeMXBean
-  public String getJournalsStatus() {
-    // jid:{Formatted:True/False}
-    Map<String, Map<String, String>> status = 
-        new HashMap<String, Map<String, String>>();
-    synchronized (this) {
-      for (Map.Entry<String, Journal> entry : journalsById.entrySet()) {
-        Map<String, String> jMap = new HashMap<String, String>();
-        jMap.put("Formatted", Boolean.toString(entry.getValue().isFormatted()));
-        status.put(entry.getKey(), jMap);
-      }
-    }
-    
-    // It is possible that some journals have been formatted before, while the 
-    // corresponding journals are not in journalsById yet (because of restarting
-    // JN, e.g.). For simplicity, let's just assume a journal is formatted if
-    // there is a directory for it. We can also call analyzeStorage method for
-    // these directories if necessary.
-    // Also note that we do not need to check localDir here since
-    // validateAndCreateJournalDir has been called before we register the
-    // MXBean.
-    File[] journalDirs = localDir.listFiles(new FileFilter() {
-      @Override
-      public boolean accept(File file) {
-        return file.isDirectory();
-      }
-    });
-    for (File journalDir : journalDirs) {
-      String jid = journalDir.getName();
-      if (!status.containsKey(jid)) {
-        Map<String, String> jMap = new HashMap<String, String>();
-        jMap.put("Formatted", "true");
-        status.put(jid, jMap);
-      }
-    }
-    return JSON.toString(status);
-  }
-  
-  /**
-   * Register JournalNodeMXBean
-   */
-  private void registerJNMXBean() {
-    journalNodeInfoBeanName = MBeans.register("JournalNode", "JournalNodeInfo", this);
-  }
-  
-  private class ErrorReporter implements StorageErrorReporter {
-    @Override
-    public void reportErrorOnFile(File f) {
-      LOG.fatal("Error reported on file " + f + "... exiting",
-          new Exception());
-      stop(1);
-    }
-  }
+	/**
+	 * @return the address the IPC server is bound to
+	 */
+	public InetSocketAddress getBoundIpcAddress() {
+		return rpcServer.getAddress();
+	}
 
-  public static void main(String[] args) throws Exception {
-    StringUtils.startupShutdownMessage(JournalNode.class, args, LOG);
-    System.exit(ToolRunner.run(new JournalNode(), args));
-  }
+	@Deprecated
+	public InetSocketAddress getBoundHttpAddress() {
+		return httpServer.getAddress();
+	}
 
-  public void discardSegments(String journalId, long startTxId)
-      throws IOException {
-    getOrCreateJournal(journalId).discardSegments(startTxId);
-  }
+	public String getHttpServerURI() {
+		return httpServerURI;
+	}
 
-  public void doPreUpgrade(String journalId) throws IOException {
-    getOrCreateJournal(journalId).doPreUpgrade();
-  }
+	/**
+	 * Stop the daemon with the given status code
+	 * 
+	 * @param rc
+	 *            the status code with which to exit (non-zero should indicate
+	 *            an error)
+	 */
+	public void stop(int rc) {
+		this.resultCode = rc;
 
-  public void doUpgrade(String journalId, StorageInfo sInfo) throws IOException {
-    getOrCreateJournal(journalId).doUpgrade(sInfo);
-  }
+		if (rpcServer != null) {
+			rpcServer.stop();
+		}
 
-  public void doFinalize(String journalId) throws IOException {
-    getOrCreateJournal(journalId).doFinalize();
-  }
+		if (httpServer != null) {
+			try {
+				httpServer.stop();
+			} catch (IOException ioe) {
+				LOG.warn("Unable to stop HTTP server for " + this, ioe);
+			}
+		}
 
-  public Boolean canRollBack(String journalId, StorageInfo storage,
-      StorageInfo prevStorage, int targetLayoutVersion) throws IOException {
-    return getOrCreateJournal(journalId, StartupOption.ROLLBACK).canRollBack(
-        storage, prevStorage, targetLayoutVersion);
-  }
+		for (Journal j : journalsById.values()) {
+			IOUtils.cleanup(LOG, j);
+		}
 
-  public void doRollback(String journalId) throws IOException {
-    getOrCreateJournal(journalId, StartupOption.ROLLBACK).doRollback();
-  }
+		if (journalNodeInfoBeanName != null) {
+			MBeans.unregister(journalNodeInfoBeanName);
+			journalNodeInfoBeanName = null;
+		}
+	}
 
-  public Long getJournalCTime(String journalId) throws IOException {
-    return getOrCreateJournal(journalId).getJournalCTime();
-  }
+	/**
+	 * Wait for the daemon to exit.
+	 * 
+	 * @return the result code (non-zero if error)
+	 */
+	int join() throws InterruptedException {
+		if (rpcServer != null) {
+			rpcServer.join();
+		}
+		return resultCode;
+	}
+
+	public void stopAndJoin(int rc) throws InterruptedException {
+		stop(rc);
+		join();
+	}
+
+	/**
+	 * Return the directory inside our configured storage dir which corresponds
+	 * to a given journal.
+	 * 
+	 * @param jid
+	 *            the journal identifier
+	 * @return the file, which may or may not exist yet
+	 */
+	private File getLogDir(String jid) {
+		String dir = conf.get(DFSConfigKeys.DFS_JOURNALNODE_EDITS_DIR_KEY,
+				DFSConfigKeys.DFS_JOURNALNODE_EDITS_DIR_DEFAULT);
+		Preconditions.checkArgument(jid != null && !jid.isEmpty(), "bad journal identifier: %s", jid);
+		assert jid != null;
+		return new File(new File(dir), jid);
+	}
+
+	@Override // JournalNodeMXBean
+	public String getJournalsStatus() {
+		// jid:{Formatted:True/False}
+		Map<String, Map<String, String>> status = new HashMap<String, Map<String, String>>();
+		synchronized (this) {
+			for (Map.Entry<String, Journal> entry : journalsById.entrySet()) {
+				Map<String, String> jMap = new HashMap<String, String>();
+				jMap.put("Formatted", Boolean.toString(entry.getValue().isFormatted()));
+				status.put(entry.getKey(), jMap);
+			}
+		}
+
+		// It is possible that some journals have been formatted before, while
+		// the
+		// corresponding journals are not in journalsById yet (because of
+		// restarting
+		// JN, e.g.). For simplicity, let's just assume a journal is formatted
+		// if
+		// there is a directory for it. We can also call analyzeStorage method
+		// for
+		// these directories if necessary.
+		// Also note that we do not need to check localDir here since
+		// validateAndCreateJournalDir has been called before we register the
+		// MXBean.
+		File[] journalDirs = localDir.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return file.isDirectory();
+			}
+		});
+		for (File journalDir : journalDirs) {
+			String jid = journalDir.getName();
+			if (!status.containsKey(jid)) {
+				Map<String, String> jMap = new HashMap<String, String>();
+				jMap.put("Formatted", "true");
+				status.put(jid, jMap);
+			}
+		}
+		return JSON.toString(status);
+	}
+
+	/**
+	 * Register JournalNodeMXBean
+	 */
+	private void registerJNMXBean() {
+		journalNodeInfoBeanName = MBeans.register("JournalNode", "JournalNodeInfo", this);
+	}
+
+	private class ErrorReporter implements StorageErrorReporter {
+		@Override
+		public void reportErrorOnFile(File f) {
+			LOG.fatal("Error reported on file " + f + "... exiting", new Exception());
+			stop(1);
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		StringUtils.startupShutdownMessage(JournalNode.class, args, LOG);
+		System.exit(ToolRunner.run(new JournalNode(), args));
+	}
+
+	public void discardSegments(String journalId, long startTxId) throws IOException {
+		getOrCreateJournal(journalId).discardSegments(startTxId);
+	}
+
+	public void doPreUpgrade(String journalId) throws IOException {
+		getOrCreateJournal(journalId).doPreUpgrade();
+	}
+
+	public void doUpgrade(String journalId, StorageInfo sInfo) throws IOException {
+		getOrCreateJournal(journalId).doUpgrade(sInfo);
+	}
+
+	public void doFinalize(String journalId) throws IOException {
+		getOrCreateJournal(journalId).doFinalize();
+	}
+
+	public Boolean canRollBack(String journalId, StorageInfo storage, StorageInfo prevStorage, int targetLayoutVersion)
+			throws IOException {
+		return getOrCreateJournal(journalId, StartupOption.ROLLBACK).canRollBack(storage, prevStorage,
+				targetLayoutVersion);
+	}
+
+	public void doRollback(String journalId) throws IOException {
+		getOrCreateJournal(journalId, StartupOption.ROLLBACK).doRollback();
+	}
+
+	public Long getJournalCTime(String journalId) throws IOException {
+		return getOrCreateJournal(journalId).getJournalCTime();
+	}
 
 }

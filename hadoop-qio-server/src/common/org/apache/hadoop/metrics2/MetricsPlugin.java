@@ -28,9 +28,11 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public interface MetricsPlugin {
-  /**
-   * Initialize the plugin
-   * @param conf  the configuration object for the plugin
-   */
-  void init(SubsetConfiguration conf);
+	/**
+	 * Initialize the plugin
+	 * 
+	 * @param conf
+	 *            the configuration object for the plugin
+	 */
+	void init(SubsetConfiguration conf);
 }

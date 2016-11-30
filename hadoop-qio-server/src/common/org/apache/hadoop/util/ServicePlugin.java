@@ -37,15 +37,17 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceStability.Unstable
 public interface ServicePlugin extends Closeable {
 
-  /**
-   * This method is invoked when the service instance has been started.
-   *
-   * @param service The service instance invoking this method
-   */
-  void start(Object service);
-  
-  /**
-   * This method is invoked when the service instance is about to be shut down.
-   */
-  void stop();
+	/**
+	 * This method is invoked when the service instance has been started.
+	 *
+	 * @param service
+	 *            The service instance invoking this method
+	 */
+	void start(Object service);
+
+	/**
+	 * This method is invoked when the service instance is about to be shut
+	 * down.
+	 */
+	void stop();
 }

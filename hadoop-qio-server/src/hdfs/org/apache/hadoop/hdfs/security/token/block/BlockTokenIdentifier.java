@@ -33,154 +33,148 @@ import org.apache.hadoop.security.token.TokenIdentifier;
 
 @InterfaceAudience.Private
 public class BlockTokenIdentifier extends TokenIdentifier {
-  static final Text KIND_NAME = new Text("HDFS_BLOCK_TOKEN");
+	static final Text KIND_NAME = new Text("HDFS_BLOCK_TOKEN");
 
-  private long expiryDate;
-  private int keyId;
-  private String userId;
-  private String blockPoolId;
-  private long blockId;
-  private final EnumSet<AccessMode> modes;
+	private long expiryDate;
+	private int keyId;
+	private String userId;
+	private String blockPoolId;
+	private long blockId;
+	private final EnumSet<AccessMode> modes;
 
-  private byte [] cache;
-  
-  public BlockTokenIdentifier() {
-    this(null, null, 0, EnumSet.noneOf(AccessMode.class));
-  }
+	private byte[] cache;
 
-  public BlockTokenIdentifier(String userId, String bpid, long blockId,
-      EnumSet<AccessMode> modes) {
-    this.cache = null;
-    this.userId = userId;
-    this.blockPoolId = bpid;
-    this.blockId = blockId;
-    this.modes = modes == null ? EnumSet.noneOf(AccessMode.class) : modes;
-  }
+	public BlockTokenIdentifier() {
+		this(null, null, 0, EnumSet.noneOf(AccessMode.class));
+	}
 
-  @Override
-  public Text getKind() {
-    return KIND_NAME;
-  }
+	public BlockTokenIdentifier(String userId, String bpid, long blockId, EnumSet<AccessMode> modes) {
+		this.cache = null;
+		this.userId = userId;
+		this.blockPoolId = bpid;
+		this.blockId = blockId;
+		this.modes = modes == null ? EnumSet.noneOf(AccessMode.class) : modes;
+	}
 
-  @Override
-  public UserGroupInformation getUser() {
-    if (userId == null || "".equals(userId)) {
-      String user = blockPoolId + ":" + Long.toString(blockId);
-      return UserGroupInformation.createRemoteUser(user);
-    }
-    return UserGroupInformation.createRemoteUser(userId);
-  }
+	@Override
+	public Text getKind() {
+		return KIND_NAME;
+	}
 
-  public long getExpiryDate() {
-    return expiryDate;
-  }
+	@Override
+	public UserGroupInformation getUser() {
+		if (userId == null || "".equals(userId)) {
+			String user = blockPoolId + ":" + Long.toString(blockId);
+			return UserGroupInformation.createRemoteUser(user);
+		}
+		return UserGroupInformation.createRemoteUser(userId);
+	}
 
-  public void setExpiryDate(long expiryDate) {
-    this.cache = null;
-    this.expiryDate = expiryDate;
-  }
+	public long getExpiryDate() {
+		return expiryDate;
+	}
 
-  public int getKeyId() {
-    return this.keyId;
-  }
+	public void setExpiryDate(long expiryDate) {
+		this.cache = null;
+		this.expiryDate = expiryDate;
+	}
 
-  public void setKeyId(int keyId) {
-    this.cache = null;
-    this.keyId = keyId;
-  }
+	public int getKeyId() {
+		return this.keyId;
+	}
 
-  public String getUserId() {
-    return userId;
-  }
+	public void setKeyId(int keyId) {
+		this.cache = null;
+		this.keyId = keyId;
+	}
 
-  public String getBlockPoolId() {
-    return blockPoolId;
-  }
+	public String getUserId() {
+		return userId;
+	}
 
-  public long getBlockId() {
-    return blockId;
-  }
+	public String getBlockPoolId() {
+		return blockPoolId;
+	}
 
-  public EnumSet<AccessMode> getAccessModes() {
-    return modes;
-  }
+	public long getBlockId() {
+		return blockId;
+	}
 
-  @Override
-  public String toString() {
-    return "block_token_identifier (expiryDate=" + this.getExpiryDate()
-        + ", keyId=" + this.getKeyId() + ", userId=" + this.getUserId()
-        + ", blockPoolId=" + this.getBlockPoolId()
-        + ", blockId=" + this.getBlockId() + ", access modes="
-        + this.getAccessModes() + ")";
-  }
+	public EnumSet<AccessMode> getAccessModes() {
+		return modes;
+	}
 
-  static boolean isEqual(Object a, Object b) {
-    return a == null ? b == null : a.equals(b);
-  }
+	@Override
+	public String toString() {
+		return "block_token_identifier (expiryDate=" + this.getExpiryDate() + ", keyId=" + this.getKeyId() + ", userId="
+				+ this.getUserId() + ", blockPoolId=" + this.getBlockPoolId() + ", blockId=" + this.getBlockId()
+				+ ", access modes=" + this.getAccessModes() + ")";
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) {
-      return true;
-    }
-    if (obj instanceof BlockTokenIdentifier) {
-      BlockTokenIdentifier that = (BlockTokenIdentifier) obj;
-      return this.expiryDate == that.expiryDate && this.keyId == that.keyId
-          && isEqual(this.userId, that.userId) 
-          && isEqual(this.blockPoolId, that.blockPoolId)
-          && this.blockId == that.blockId
-          && isEqual(this.modes, that.modes);
-    }
-    return false;
-  }
+	static boolean isEqual(Object a, Object b) {
+		return a == null ? b == null : a.equals(b);
+	}
 
-  @Override
-  public int hashCode() {
-    return (int) expiryDate ^ keyId ^ (int) blockId ^ modes.hashCode()
-        ^ (userId == null ? 0 : userId.hashCode())
-        ^ (blockPoolId == null ? 0 : blockPoolId.hashCode());
-  }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj instanceof BlockTokenIdentifier) {
+			BlockTokenIdentifier that = (BlockTokenIdentifier) obj;
+			return this.expiryDate == that.expiryDate && this.keyId == that.keyId && isEqual(this.userId, that.userId)
+					&& isEqual(this.blockPoolId, that.blockPoolId) && this.blockId == that.blockId
+					&& isEqual(this.modes, that.modes);
+		}
+		return false;
+	}
 
-  @Override
-  public void readFields(DataInput in) throws IOException {
-    this.cache = null;
-    expiryDate = WritableUtils.readVLong(in);
-    keyId = WritableUtils.readVInt(in);
-    userId = WritableUtils.readString(in);
-    blockPoolId = WritableUtils.readString(in);
-    blockId = WritableUtils.readVLong(in);
-    int length = WritableUtils.readVIntInRange(in, 0,
-        AccessMode.class.getEnumConstants().length);
-    for (int i = 0; i < length; i++) {
-      modes.add(WritableUtils.readEnum(in, AccessMode.class));
-    }
-  }
+	@Override
+	public int hashCode() {
+		return (int) expiryDate ^ keyId ^ (int) blockId ^ modes.hashCode() ^ (userId == null ? 0 : userId.hashCode())
+				^ (blockPoolId == null ? 0 : blockPoolId.hashCode());
+	}
 
-  @Override
-  public void write(DataOutput out) throws IOException {
-    WritableUtils.writeVLong(out, expiryDate);
-    WritableUtils.writeVInt(out, keyId);
-    WritableUtils.writeString(out, userId);
-    WritableUtils.writeString(out, blockPoolId);
-    WritableUtils.writeVLong(out, blockId);
-    WritableUtils.writeVInt(out, modes.size());
-    for (AccessMode aMode : modes) {
-      WritableUtils.writeEnum(out, aMode);
-    }
-  }
-  
-  @Override
-  public byte[] getBytes() {
-    if(cache == null) cache = super.getBytes();
-    
-    return cache;
-  }
-  
-  @InterfaceAudience.Private
-  public static class Renewer extends Token.TrivialRenewer {
-    @Override
-    protected Text getKind() {
-      return KIND_NAME;
-    }
-  }
+	@Override
+	public void readFields(DataInput in) throws IOException {
+		this.cache = null;
+		expiryDate = WritableUtils.readVLong(in);
+		keyId = WritableUtils.readVInt(in);
+		userId = WritableUtils.readString(in);
+		blockPoolId = WritableUtils.readString(in);
+		blockId = WritableUtils.readVLong(in);
+		int length = WritableUtils.readVIntInRange(in, 0, AccessMode.class.getEnumConstants().length);
+		for (int i = 0; i < length; i++) {
+			modes.add(WritableUtils.readEnum(in, AccessMode.class));
+		}
+	}
+
+	@Override
+	public void write(DataOutput out) throws IOException {
+		WritableUtils.writeVLong(out, expiryDate);
+		WritableUtils.writeVInt(out, keyId);
+		WritableUtils.writeString(out, userId);
+		WritableUtils.writeString(out, blockPoolId);
+		WritableUtils.writeVLong(out, blockId);
+		WritableUtils.writeVInt(out, modes.size());
+		for (AccessMode aMode : modes) {
+			WritableUtils.writeEnum(out, aMode);
+		}
+	}
+
+	@Override
+	public byte[] getBytes() {
+		if (cache == null)
+			cache = super.getBytes();
+
+		return cache;
+	}
+
+	@InterfaceAudience.Private
+	public static class Renewer extends Token.TrivialRenewer {
+		@Override
+		protected Text getKind() {
+			return KIND_NAME;
+		}
+	}
 }

@@ -29,7 +29,7 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class UnknownCipherSuiteException extends IOException {
-  public UnknownCipherSuiteException(String msg) {
-    super(msg);
-  }
+	public UnknownCipherSuiteException(String msg) {
+		super(msg);
+	}
 }

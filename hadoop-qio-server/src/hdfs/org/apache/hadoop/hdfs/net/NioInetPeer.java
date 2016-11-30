@@ -28,109 +28,109 @@ import org.apache.hadoop.net.SocketOutputStream;
 import org.apache.hadoop.net.unix.DomainSocket;
 
 /**
- * Represents a peer that we communicate with by using non-blocking I/O 
- * on a Socket.
+ * Represents a peer that we communicate with by using non-blocking I/O on a
+ * Socket.
  */
 class NioInetPeer implements Peer {
-  private final Socket socket;
+	private final Socket socket;
 
-  /**
-   * An InputStream which simulates blocking I/O with timeouts using NIO.
-   */
-  private final SocketInputStream in;
-  
-  /**
-   * An OutputStream which simulates blocking I/O with timeouts using NIO.
-   */
-  private final SocketOutputStream out;
+	/**
+	 * An InputStream which simulates blocking I/O with timeouts using NIO.
+	 */
+	private final SocketInputStream in;
 
-  private final boolean isLocal;
+	/**
+	 * An OutputStream which simulates blocking I/O with timeouts using NIO.
+	 */
+	private final SocketOutputStream out;
 
-  NioInetPeer(Socket socket) throws IOException {
-    this.socket = socket;
-    this.in = new SocketInputStream(socket.getChannel(), 0);
-    this.out = new SocketOutputStream(socket.getChannel(), 0);
-    this.isLocal = socket.getInetAddress().equals(socket.getLocalAddress());
-  }
+	private final boolean isLocal;
 
-  @Override
-  public ReadableByteChannel getInputStreamChannel() {
-    return in;
-  }
+	NioInetPeer(Socket socket) throws IOException {
+		this.socket = socket;
+		this.in = new SocketInputStream(socket.getChannel(), 0);
+		this.out = new SocketOutputStream(socket.getChannel(), 0);
+		this.isLocal = socket.getInetAddress().equals(socket.getLocalAddress());
+	}
 
-  @Override
-  public void setReadTimeout(int timeoutMs) throws IOException {
-    in.setTimeout(timeoutMs);
-  }
+	@Override
+	public ReadableByteChannel getInputStreamChannel() {
+		return in;
+	}
 
-  @Override
-  public int getReceiveBufferSize() throws IOException {
-    return socket.getReceiveBufferSize();
-  }
+	@Override
+	public void setReadTimeout(int timeoutMs) throws IOException {
+		in.setTimeout(timeoutMs);
+	}
 
-  @Override
-  public boolean getTcpNoDelay() throws IOException {
-    return socket.getTcpNoDelay();
-  }
+	@Override
+	public int getReceiveBufferSize() throws IOException {
+		return socket.getReceiveBufferSize();
+	}
 
-  @Override
-  public void setWriteTimeout(int timeoutMs) throws IOException {
-    out.setTimeout(timeoutMs);
-  }
+	@Override
+	public boolean getTcpNoDelay() throws IOException {
+		return socket.getTcpNoDelay();
+	}
 
-  @Override
-  public boolean isClosed() {
-    return socket.isClosed();
-  }
+	@Override
+	public void setWriteTimeout(int timeoutMs) throws IOException {
+		out.setTimeout(timeoutMs);
+	}
 
-  @Override
-  public void close() throws IOException {
-    // We always close the outermost streams-- in this case, 'in' and 'out'
-    // Closing either one of these will also close the Socket.
-    try {
-      in.close();
-    } finally {
-      out.close();
-    }
-  }
+	@Override
+	public boolean isClosed() {
+		return socket.isClosed();
+	}
 
-  @Override
-  public String getRemoteAddressString() {
-    return socket.getRemoteSocketAddress().toString();
-  }
+	@Override
+	public void close() throws IOException {
+		// We always close the outermost streams-- in this case, 'in' and 'out'
+		// Closing either one of these will also close the Socket.
+		try {
+			in.close();
+		} finally {
+			out.close();
+		}
+	}
 
-  @Override
-  public String getLocalAddressString() {
-    return socket.getLocalSocketAddress().toString();
-  }
+	@Override
+	public String getRemoteAddressString() {
+		return socket.getRemoteSocketAddress().toString();
+	}
 
-  @Override
-  public InputStream getInputStream() throws IOException {
-    return in;
-  }
+	@Override
+	public String getLocalAddressString() {
+		return socket.getLocalSocketAddress().toString();
+	}
 
-  @Override
-  public OutputStream getOutputStream() throws IOException {
-    return out;
-  }
+	@Override
+	public InputStream getInputStream() throws IOException {
+		return in;
+	}
 
-  @Override
-  public boolean isLocal() {
-    return isLocal;
-  }
+	@Override
+	public OutputStream getOutputStream() throws IOException {
+		return out;
+	}
 
-  @Override
-  public String toString() {
-    return "NioInetPeer(" + socket.toString() + ")";
-  }
+	@Override
+	public boolean isLocal() {
+		return isLocal;
+	}
 
-  @Override
-  public DomainSocket getDomainSocket() {
-    return null;
-  }
+	@Override
+	public String toString() {
+		return "NioInetPeer(" + socket.toString() + ")";
+	}
 
-  @Override
-  public boolean hasSecureChannel() {
-    return false;
-  }
+	@Override
+	public DomainSocket getDomainSocket() {
+		return null;
+	}
+
+	@Override
+	public boolean hasSecureChannel() {
+		return false;
+	}
 }

@@ -25,25 +25,38 @@ import java.io.IOException;
  * process.
  */
 class CheckpointFaultInjector {
-  static CheckpointFaultInjector instance = new CheckpointFaultInjector();
-  
-  static CheckpointFaultInjector getInstance() {
-    return instance;
-  }
-  
-  public void beforeGetImageSetsHeaders() throws IOException {}
-  public void afterSecondaryCallsRollEditLog() throws IOException {}
-  public void duringMerge() throws IOException {}
-  public void afterSecondaryUploadsNewImage() throws IOException {}
-  public void aboutToSendFile(File localfile) throws IOException {}
+	static CheckpointFaultInjector instance = new CheckpointFaultInjector();
 
-  public boolean shouldSendShortFile(File localfile) {
-    return false;
-  }
-  public boolean shouldCorruptAByte(File localfile) {
-    return false;
-  }
-  
-  public void afterMD5Rename() throws IOException {}
-  public void beforeEditsRename() throws IOException {}
+	static CheckpointFaultInjector getInstance() {
+		return instance;
+	}
+
+	public void beforeGetImageSetsHeaders() throws IOException {
+	}
+
+	public void afterSecondaryCallsRollEditLog() throws IOException {
+	}
+
+	public void duringMerge() throws IOException {
+	}
+
+	public void afterSecondaryUploadsNewImage() throws IOException {
+	}
+
+	public void aboutToSendFile(File localfile) throws IOException {
+	}
+
+	public boolean shouldSendShortFile(File localfile) {
+		return false;
+	}
+
+	public boolean shouldCorruptAByte(File localfile) {
+		return false;
+	}
+
+	public void afterMD5Rename() throws IOException {
+	}
+
+	public void beforeEditsRename() throws IOException {
+	}
 }

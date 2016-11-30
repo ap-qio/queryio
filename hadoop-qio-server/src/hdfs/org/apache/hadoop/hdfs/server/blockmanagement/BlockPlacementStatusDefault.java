@@ -19,26 +19,25 @@ package org.apache.hadoop.hdfs.server.blockmanagement;
 
 public class BlockPlacementStatusDefault implements BlockPlacementStatus {
 
-  private int requiredRacks = 0;
-  private int currentRacks = 0;
-  
-  public BlockPlacementStatusDefault(int currentRacks, int requiredRacks){
-    this.requiredRacks = requiredRacks;
-    this.currentRacks = currentRacks;
-  }
-  
-  @Override
-  public boolean isPlacementPolicySatisfied() {
-    return requiredRacks <= currentRacks;
-  }
+	private int requiredRacks = 0;
+	private int currentRacks = 0;
 
-  @Override
-  public String getErrorDescription() {
-    if (isPlacementPolicySatisfied()) {
-      return null;
-    }
-    return "Block should be additionally replicated on " + 
-        (requiredRacks - currentRacks) + " more rack(s).";
-  }
+	public BlockPlacementStatusDefault(int currentRacks, int requiredRacks) {
+		this.requiredRacks = requiredRacks;
+		this.currentRacks = currentRacks;
+	}
+
+	@Override
+	public boolean isPlacementPolicySatisfied() {
+		return requiredRacks <= currentRacks;
+	}
+
+	@Override
+	public String getErrorDescription() {
+		if (isPlacementPolicySatisfied()) {
+			return null;
+		}
+		return "Block should be additionally replicated on " + (requiredRacks - currentRacks) + " more rack(s).";
+	}
 
 }

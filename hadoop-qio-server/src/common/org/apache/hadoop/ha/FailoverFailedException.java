@@ -26,13 +26,13 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public class FailoverFailedException extends Exception {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  public FailoverFailedException(final String message) {
-    super(message);
-  }
+	public FailoverFailedException(final String message) {
+		super(message);
+	}
 
-  public FailoverFailedException(String message, Throwable cause) {
-    super(message, cause);
-  }
+	public FailoverFailedException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

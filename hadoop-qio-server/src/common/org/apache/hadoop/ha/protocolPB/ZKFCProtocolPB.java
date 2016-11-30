@@ -25,15 +25,12 @@ import org.apache.hadoop.ipc.ProtocolInfo;
 import org.apache.hadoop.ipc.VersionedProtocol;
 import org.apache.hadoop.security.KerberosInfo;
 
-@KerberosInfo(
-    serverPrincipal=CommonConfigurationKeys.HADOOP_SECURITY_SERVICE_USER_NAME_KEY)
-@ProtocolInfo(protocolName = "org.apache.hadoop.ha.ZKFCProtocol", 
-    protocolVersion = 1)
+@KerberosInfo(serverPrincipal = CommonConfigurationKeys.HADOOP_SECURITY_SERVICE_USER_NAME_KEY)
+@ProtocolInfo(protocolName = "org.apache.hadoop.ha.ZKFCProtocol", protocolVersion = 1)
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
-public interface ZKFCProtocolPB extends
-    ZKFCProtocolService.BlockingInterface, VersionedProtocol {
-  /**
-   * If any methods need annotation, it can be added here
-   */
+public interface ZKFCProtocolPB extends ZKFCProtocolService.BlockingInterface, VersionedProtocol {
+	/**
+	 * If any methods need annotation, it can be added here
+	 */
 }

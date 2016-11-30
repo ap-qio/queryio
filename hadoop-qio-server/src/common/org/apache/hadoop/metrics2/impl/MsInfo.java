@@ -18,38 +18,34 @@
 
 package org.apache.hadoop.metrics2.impl;
 
-import com.google.common.base.Objects;
-
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.metrics2.MetricsInfo;
+
+import com.google.common.base.Objects;
 
 /**
  * Metrics system related metrics info instances
  */
 @InterfaceAudience.Private
 public enum MsInfo implements MetricsInfo {
-  NumActiveSources("Number of active metrics sources"),
-  NumAllSources("Number of all registered metrics sources"),
-  NumActiveSinks("Number of active metrics sinks"),
-  NumAllSinks("Number of all registered metrics sinks"),
-  Context("Metrics context"),
-  Hostname("Local hostname"),
-  SessionId("Session ID"),
-  ProcessName("Process name");
+	NumActiveSources("Number of active metrics sources"), NumAllSources(
+			"Number of all registered metrics sources"), NumActiveSinks("Number of active metrics sinks"), NumAllSinks(
+					"Number of all registered metrics sinks"), Context("Metrics context"), Hostname(
+							"Local hostname"), SessionId("Session ID"), ProcessName("Process name");
 
-  private final String desc;
+	private final String desc;
 
-  MsInfo(String desc) {
-    this.desc = desc;
-  }
+	MsInfo(String desc) {
+		this.desc = desc;
+	}
 
-  @Override public String description() {
-    return desc;
-  }
+	@Override
+	public String description() {
+		return desc;
+	}
 
-  @Override public String toString() {
-    return Objects.toStringHelper(this)
-        .add("name", name()).add("description", desc)
-        .toString();
-  }
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this).add("name", name()).add("description", desc).toString();
+	}
 }

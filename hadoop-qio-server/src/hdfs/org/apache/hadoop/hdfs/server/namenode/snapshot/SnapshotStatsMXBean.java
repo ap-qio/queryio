@@ -26,18 +26,18 @@ import org.apache.hadoop.hdfs.protocol.SnapshottableDirectoryStatus;
  */
 public interface SnapshotStatsMXBean {
 
-  /**
-   * Return the list of snapshottable directories
-   *
-   * @return the list of snapshottable directories
-   */
-  public SnapshottableDirectoryStatus.Bean[] getSnapshottableDirectories();
+	/**
+	 * Return the list of snapshottable directories
+	 *
+	 * @return the list of snapshottable directories
+	 */
+	public SnapshottableDirectoryStatus.Bean[] getSnapshottableDirectories();
 
-  /**
-   * Return the list of snapshots
-   *
-   * @return the list of snapshots
-   */
-  public SnapshotInfo.Bean[] getSnapshots();
+	/**
+	 * Return the list of snapshots
+	 *
+	 * @return the list of snapshots
+	 */
+	public SnapshotInfo.Bean[] getSnapshots();
 
 }

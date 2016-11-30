@@ -30,78 +30,74 @@ import org.apache.hadoop.hdfs.server.datanode.DatanodeUtil;
 /** Utility methods. */
 @InterfaceAudience.Private
 public class FsDatasetUtil {
-  static boolean isUnlinkTmpFile(File f) {
-    return f.getName().endsWith(DatanodeUtil.UNLINK_BLOCK_SUFFIX);
-  }
+	static boolean isUnlinkTmpFile(File f) {
+		return f.getName().endsWith(DatanodeUtil.UNLINK_BLOCK_SUFFIX);
+	}
 
-  static File getOrigFile(File unlinkTmpFile) {
-    final String name = unlinkTmpFile.getName();
-    if (!name.endsWith(DatanodeUtil.UNLINK_BLOCK_SUFFIX)) {
-      throw new IllegalArgumentException("unlinkTmpFile=" + unlinkTmpFile
-          + " does not end with " + DatanodeUtil.UNLINK_BLOCK_SUFFIX);
-    }
-    final int n = name.length() - DatanodeUtil.UNLINK_BLOCK_SUFFIX.length(); 
-    return new File(unlinkTmpFile.getParentFile(), name.substring(0, n));
-  }
-  
-  static File getMetaFile(File f, long gs) {
-    return new File(f.getParent(),
-        DatanodeUtil.getMetaName(f.getName(), gs));
-  }
+	static File getOrigFile(File unlinkTmpFile) {
+		final String name = unlinkTmpFile.getName();
+		if (!name.endsWith(DatanodeUtil.UNLINK_BLOCK_SUFFIX)) {
+			throw new IllegalArgumentException(
+					"unlinkTmpFile=" + unlinkTmpFile + " does not end with " + DatanodeUtil.UNLINK_BLOCK_SUFFIX);
+		}
+		final int n = name.length() - DatanodeUtil.UNLINK_BLOCK_SUFFIX.length();
+		return new File(unlinkTmpFile.getParentFile(), name.substring(0, n));
+	}
 
-  /** Find the corresponding meta data file from a given block file */
-  public static File findMetaFile(final File blockFile) throws IOException {
-    final String prefix = blockFile.getName() + "_";
-    final File parent = blockFile.getParentFile();
-    final File[] matches = parent.listFiles(new FilenameFilter() {
-      @Override
-      public boolean accept(File dir, String name) {
-        return dir.equals(parent) && name.startsWith(prefix)
-            && name.endsWith(Block.METADATA_EXTENSION);
-      }
-    });
+	static File getMetaFile(File f, long gs) {
+		return new File(f.getParent(), DatanodeUtil.getMetaName(f.getName(), gs));
+	}
 
-    if (matches == null || matches.length == 0) {
-      throw new IOException("Meta file not found, blockFile=" + blockFile);
-    }
-    if (matches.length > 1) {
-      throw new IOException("Found more than one meta files: " 
-          + Arrays.asList(matches));
-    }
-    return matches[0];
-  }
+	/** Find the corresponding meta data file from a given block file */
+	public static File findMetaFile(final File blockFile) throws IOException {
+		final String prefix = blockFile.getName() + "_";
+		final File parent = blockFile.getParentFile();
+		final File[] matches = parent.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return dir.equals(parent) && name.startsWith(prefix) && name.endsWith(Block.METADATA_EXTENSION);
+			}
+		});
 
-  /**
-   * Find the meta-file for the specified block file
-   * and then return the generation stamp from the name of the meta-file.
-   */
-  static long getGenerationStampFromFile(File[] listdir, File blockFile) {
-    String blockName = blockFile.getName();
-    for (int j = 0; j < listdir.length; j++) {
-      String path = listdir[j].getName();
-      if (!path.startsWith(blockName)) {
-        continue;
-      }
-      if (blockFile == listdir[j]) {
-        continue;
-      }
-      return Block.getGenerationStamp(listdir[j].getName());
-    }
-    FsDatasetImpl.LOG.warn("Block " + blockFile + " does not have a metafile!");
-    return GenerationStamp.GRANDFATHER_GENERATION_STAMP;
-  }
+		if (matches == null || matches.length == 0) {
+			throw new IOException("Meta file not found, blockFile=" + blockFile);
+		}
+		if (matches.length > 1) {
+			throw new IOException("Found more than one meta files: " + Arrays.asList(matches));
+		}
+		return matches[0];
+	}
 
-  /** Find the corresponding meta data file from a given block file */
-  static long parseGenerationStamp(File blockFile, File metaFile
-      ) throws IOException {
-    final String metaname = metaFile.getName();
-    final String gs = metaname.substring(blockFile.getName().length() + 1,
-        metaname.length() - Block.METADATA_EXTENSION.length());
-    try {
-      return Long.parseLong(gs);
-    } catch(NumberFormatException nfe) {
-      throw new IOException("Failed to parse generation stamp: blockFile="
-          + blockFile + ", metaFile=" + metaFile, nfe);
-    }
-  }
+	/**
+	 * Find the meta-file for the specified block file and then return the
+	 * generation stamp from the name of the meta-file.
+	 */
+	static long getGenerationStampFromFile(File[] listdir, File blockFile) {
+		String blockName = blockFile.getName();
+		for (int j = 0; j < listdir.length; j++) {
+			String path = listdir[j].getName();
+			if (!path.startsWith(blockName)) {
+				continue;
+			}
+			if (blockFile == listdir[j]) {
+				continue;
+			}
+			return Block.getGenerationStamp(listdir[j].getName());
+		}
+		FsDatasetImpl.LOG.warn("Block " + blockFile + " does not have a metafile!");
+		return GenerationStamp.GRANDFATHER_GENERATION_STAMP;
+	}
+
+	/** Find the corresponding meta data file from a given block file */
+	static long parseGenerationStamp(File blockFile, File metaFile) throws IOException {
+		final String metaname = metaFile.getName();
+		final String gs = metaname.substring(blockFile.getName().length() + 1,
+				metaname.length() - Block.METADATA_EXTENSION.length());
+		try {
+			return Long.parseLong(gs);
+		} catch (NumberFormatException nfe) {
+			throw new IOException("Failed to parse generation stamp: blockFile=" + blockFile + ", metaFile=" + metaFile,
+					nfe);
+		}
+	}
 }

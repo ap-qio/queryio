@@ -19,20 +19,20 @@
 package org.apache.hadoop.hdfs.server.blockmanagement;
 
 import java.io.IOException;
+
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
 /**
- * This exception is thrown when the name node runs out of V1 generation
- * stamps.
+ * This exception is thrown when the name node runs out of V1 generation stamps.
  *
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class OutOfV1GenerationStampsException extends IOException {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  public OutOfV1GenerationStampsException() {
-    super("Out of V1 (legacy) generation stamps\n");
-  }
+	public OutOfV1GenerationStampsException() {
+		super("Out of V1 (legacy) generation stamps\n");
+	}
 }

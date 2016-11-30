@@ -25,10 +25,8 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hdfs.DFSConfigKeys;
 import org.apache.hadoop.hdfs.DFSUtil;
 import org.apache.hadoop.hdfs.HdfsConfiguration;
-import org.apache.hadoop.hdfs.server.namenode.FSDirectory;
-import org.apache.hadoop.hdfs.server.datanode.DataNode;
 import org.apache.hadoop.hdfs.server.datanode.DataNodeLayoutVersion;
-import org.apache.hadoop.hdfs.server.namenode.NameNode;
+import org.apache.hadoop.hdfs.server.namenode.FSDirectory;
 import org.apache.hadoop.hdfs.server.namenode.NameNodeLayoutVersion;
 import org.apache.hadoop.util.StringUtils;
 
@@ -38,146 +36,133 @@ import org.apache.hadoop.util.StringUtils;
  ************************************/
 @InterfaceAudience.Private
 public class HdfsConstants {
-  /* Hidden constructor */
-  protected HdfsConstants() {
-  }
-  
-  /**
-   * HDFS Protocol Names:  
-   */
-  public static final String CLIENT_NAMENODE_PROTOCOL_NAME = 
-      "org.apache.hadoop.hdfs.protocol.ClientProtocol";
-  public static final String CLIENT_DATANODE_PROTOCOL_NAME = 
-      "org.apache.hadoop.hdfs.protocol.ClientDatanodeProtocol";
-  
-  
-  public static final int MIN_BLOCKS_FOR_WRITE = 1;
+	/* Hidden constructor */
+	protected HdfsConstants() {
+	}
 
-  // Long that indicates "leave current quota unchanged"
-  public static final long QUOTA_DONT_SET = Long.MAX_VALUE;
-  public static final long QUOTA_RESET = -1L;
+	/**
+	 * HDFS Protocol Names:
+	 */
+	public static final String CLIENT_NAMENODE_PROTOCOL_NAME = "org.apache.hadoop.hdfs.protocol.ClientProtocol";
+	public static final String CLIENT_DATANODE_PROTOCOL_NAME = "org.apache.hadoop.hdfs.protocol.ClientDatanodeProtocol";
 
-  //
-  // Timeouts, constants
-  //
-  public static final long LEASE_SOFTLIMIT_PERIOD = 60 * 1000;
-  public static final long LEASE_HARDLIMIT_PERIOD = 60 * LEASE_SOFTLIMIT_PERIOD;
-  public static final long LEASE_RECOVER_PERIOD = 10 * 1000; // in ms
+	public static final int MIN_BLOCKS_FOR_WRITE = 1;
 
-  // We need to limit the length and depth of a path in the filesystem.
-  // HADOOP-438
-  // Currently we set the maximum length to 8k characters and the maximum depth
-  // to 1k.
-  public static final int MAX_PATH_LENGTH = 8000;
-  public static final int MAX_PATH_DEPTH = 1000;
+	// Long that indicates "leave current quota unchanged"
+	public static final long QUOTA_DONT_SET = Long.MAX_VALUE;
+	public static final long QUOTA_RESET = -1L;
 
-  // TODO should be conf injected?
-  public static final int DEFAULT_DATA_SOCKET_SIZE = 128 * 1024;
-  public static final int IO_FILE_BUFFER_SIZE = new HdfsConfiguration().getInt(
-      DFSConfigKeys.IO_FILE_BUFFER_SIZE_KEY,
-      DFSConfigKeys.IO_FILE_BUFFER_SIZE_DEFAULT);
-  // Used for writing header etc.
-  public static final int SMALL_BUFFER_SIZE = Math.min(IO_FILE_BUFFER_SIZE / 2,
-      512);
+	//
+	// Timeouts, constants
+	//
+	public static final long LEASE_SOFTLIMIT_PERIOD = 60 * 1000;
+	public static final long LEASE_HARDLIMIT_PERIOD = 60 * LEASE_SOFTLIMIT_PERIOD;
+	public static final long LEASE_RECOVER_PERIOD = 10 * 1000; // in ms
 
-  public static final int BYTES_IN_INTEGER = Integer.SIZE / Byte.SIZE;
+	// We need to limit the length and depth of a path in the filesystem.
+	// HADOOP-438
+	// Currently we set the maximum length to 8k characters and the maximum
+	// depth
+	// to 1k.
+	public static final int MAX_PATH_LENGTH = 8000;
+	public static final int MAX_PATH_DEPTH = 1000;
 
-  // SafeMode actions
-  public static enum SafeModeAction {
-    SAFEMODE_LEAVE, SAFEMODE_ENTER, SAFEMODE_GET;
-  }
+	// TODO should be conf injected?
+	public static final int DEFAULT_DATA_SOCKET_SIZE = 128 * 1024;
+	public static final int IO_FILE_BUFFER_SIZE = new HdfsConfiguration().getInt(DFSConfigKeys.IO_FILE_BUFFER_SIZE_KEY,
+			DFSConfigKeys.IO_FILE_BUFFER_SIZE_DEFAULT);
+	// Used for writing header etc.
+	public static final int SMALL_BUFFER_SIZE = Math.min(IO_FILE_BUFFER_SIZE / 2, 512);
 
-  public static enum RollingUpgradeAction {
-    QUERY, PREPARE, FINALIZE;
-    
-    private static final Map<String, RollingUpgradeAction> MAP
-        = new HashMap<String, RollingUpgradeAction>();
-    static {
-      MAP.put("", QUERY);
-      for(RollingUpgradeAction a : values()) {
-        MAP.put(a.name(), a);
-      }
-    }
+	public static final int BYTES_IN_INTEGER = Integer.SIZE / Byte.SIZE;
 
-    /** Covert the given String to a RollingUpgradeAction. */
-    public static RollingUpgradeAction fromString(String s) {
-      return MAP.get(StringUtils.toUpperCase(s));
-    }
-  }
+	// SafeMode actions
+	public static enum SafeModeAction {
+		SAFEMODE_LEAVE, SAFEMODE_ENTER, SAFEMODE_GET;
+	}
 
-  // type of the datanode report
-  public static enum DatanodeReportType {
-    ALL, LIVE, DEAD, DECOMMISSIONING
-  }
+	public static enum RollingUpgradeAction {
+		QUERY, PREPARE, FINALIZE;
 
-  // An invalid transaction ID that will never be seen in a real namesystem.
-  public static final long INVALID_TXID = -12345;
+		private static final Map<String, RollingUpgradeAction> MAP = new HashMap<String, RollingUpgradeAction>();
+		static {
+			MAP.put("", QUERY);
+			for (RollingUpgradeAction a : values()) {
+				MAP.put(a.name(), a);
+			}
+		}
 
-  // Number of generation stamps reserved for legacy blocks.
-  public static final long RESERVED_GENERATION_STAMPS_V1 =
-      1024L * 1024 * 1024 * 1024;
+		/** Covert the given String to a RollingUpgradeAction. */
+		public static RollingUpgradeAction fromString(String s) {
+			return MAP.get(StringUtils.toUpperCase(s));
+		}
+	}
 
-  /**
-   * URI Scheme for hdfs://namenode/ URIs.
-   */
-  public static final String HDFS_URI_SCHEME = "hdfs";
+	// type of the datanode report
+	public static enum DatanodeReportType {
+		ALL, LIVE, DEAD, DECOMMISSIONING
+	}
 
-  /**
-   * A prefix put before the namenode URI inside the "service" field
-   * of a delgation token, indicating that the URI is a logical (HA)
-   * URI.
-   */
-  public static final String HA_DT_SERVICE_PREFIX = "ha-";
+	// An invalid transaction ID that will never be seen in a real namesystem.
+	public static final long INVALID_TXID = -12345;
 
-  /**
-   * Path components that are reserved in HDFS.
-   * <p>
-   * .reserved is only reserved under root ("/").
-   */
-  public static final String[] RESERVED_PATH_COMPONENTS = new String[] {
-    HdfsConstants.DOT_SNAPSHOT_DIR,
-    FSDirectory.DOT_RESERVED_STRING
-  };
+	// Number of generation stamps reserved for legacy blocks.
+	public static final long RESERVED_GENERATION_STAMPS_V1 = 1024L * 1024 * 1024 * 1024;
 
-  /**
-   * Current layout version for NameNode.
-   * Please see {@link NameNodeLayoutVersion.Feature} on adding new layout version.
-   */
-  public static final int NAMENODE_LAYOUT_VERSION
-      = NameNodeLayoutVersion.CURRENT_LAYOUT_VERSION;
+	/**
+	 * URI Scheme for hdfs://namenode/ URIs.
+	 */
+	public static final String HDFS_URI_SCHEME = "hdfs";
 
-  /**
-   * Current layout version for DataNode.
-   * Please see {@link DataNodeLayoutVersion.Feature} on adding new layout version.
-   */
-  public static final int DATANODE_LAYOUT_VERSION
-      = DataNodeLayoutVersion.CURRENT_LAYOUT_VERSION;
+	/**
+	 * A prefix put before the namenode URI inside the "service" field of a
+	 * delgation token, indicating that the URI is a logical (HA) URI.
+	 */
+	public static final String HA_DT_SERVICE_PREFIX = "ha-";
 
-  /**
-   * A special path component contained in the path for a snapshot file/dir
-   */
-  public static final String DOT_SNAPSHOT_DIR = ".snapshot";
+	/**
+	 * Path components that are reserved in HDFS.
+	 * <p>
+	 * .reserved is only reserved under root ("/").
+	 */
+	public static final String[] RESERVED_PATH_COMPONENTS = new String[] { HdfsConstants.DOT_SNAPSHOT_DIR,
+			FSDirectory.DOT_RESERVED_STRING };
 
-  public static final byte[] DOT_SNAPSHOT_DIR_BYTES
-      = DFSUtil.string2Bytes(DOT_SNAPSHOT_DIR);
-  
-  public static final String SEPARATOR_DOT_SNAPSHOT_DIR
-      = Path.SEPARATOR + DOT_SNAPSHOT_DIR;
+	/**
+	 * Current layout version for NameNode. Please see
+	 * {@link NameNodeLayoutVersion.Feature} on adding new layout version.
+	 */
+	public static final int NAMENODE_LAYOUT_VERSION = NameNodeLayoutVersion.CURRENT_LAYOUT_VERSION;
 
-  public static final String SEPARATOR_DOT_SNAPSHOT_DIR_SEPARATOR
-      = Path.SEPARATOR + DOT_SNAPSHOT_DIR + Path.SEPARATOR;
+	/**
+	 * Current layout version for DataNode. Please see
+	 * {@link DataNodeLayoutVersion.Feature} on adding new layout version.
+	 */
+	public static final int DATANODE_LAYOUT_VERSION = DataNodeLayoutVersion.CURRENT_LAYOUT_VERSION;
 
-  public static final String MEMORY_STORAGE_POLICY_NAME = "LAZY_PERSIST";
-  public static final String ALLSSD_STORAGE_POLICY_NAME = "ALL_SSD";
-  public static final String ONESSD_STORAGE_POLICY_NAME = "ONE_SSD";
-  public static final String HOT_STORAGE_POLICY_NAME = "HOT";
-  public static final String WARM_STORAGE_POLICY_NAME = "WARM";
-  public static final String COLD_STORAGE_POLICY_NAME = "COLD";
+	/**
+	 * A special path component contained in the path for a snapshot file/dir
+	 */
+	public static final String DOT_SNAPSHOT_DIR = ".snapshot";
 
-  public static final byte MEMORY_STORAGE_POLICY_ID = 15;
-  public static final byte ALLSSD_STORAGE_POLICY_ID = 12;
-  public static final byte ONESSD_STORAGE_POLICY_ID = 10;
-  public static final byte HOT_STORAGE_POLICY_ID = 7;
-  public static final byte WARM_STORAGE_POLICY_ID = 5;
-  public static final byte COLD_STORAGE_POLICY_ID = 2;
+	public static final byte[] DOT_SNAPSHOT_DIR_BYTES = DFSUtil.string2Bytes(DOT_SNAPSHOT_DIR);
+
+	public static final String SEPARATOR_DOT_SNAPSHOT_DIR = Path.SEPARATOR + DOT_SNAPSHOT_DIR;
+
+	public static final String SEPARATOR_DOT_SNAPSHOT_DIR_SEPARATOR = Path.SEPARATOR + DOT_SNAPSHOT_DIR
+			+ Path.SEPARATOR;
+
+	public static final String MEMORY_STORAGE_POLICY_NAME = "LAZY_PERSIST";
+	public static final String ALLSSD_STORAGE_POLICY_NAME = "ALL_SSD";
+	public static final String ONESSD_STORAGE_POLICY_NAME = "ONE_SSD";
+	public static final String HOT_STORAGE_POLICY_NAME = "HOT";
+	public static final String WARM_STORAGE_POLICY_NAME = "WARM";
+	public static final String COLD_STORAGE_POLICY_NAME = "COLD";
+
+	public static final byte MEMORY_STORAGE_POLICY_ID = 15;
+	public static final byte ALLSSD_STORAGE_POLICY_ID = 12;
+	public static final byte ONESSD_STORAGE_POLICY_ID = 10;
+	public static final byte HOT_STORAGE_POLICY_ID = 7;
+	public static final byte WARM_STORAGE_POLICY_ID = 5;
+	public static final byte COLD_STORAGE_POLICY_ID = 2;
 }

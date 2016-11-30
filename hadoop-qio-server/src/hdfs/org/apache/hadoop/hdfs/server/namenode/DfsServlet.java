@@ -23,6 +23,7 @@ import java.net.InetSocketAddress;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -38,51 +39,46 @@ import org.znerd.xmlenc.XMLOutputter;
  * A base class for the servlets in DFS.
  */
 abstract class DfsServlet extends HttpServlet {
-  /** For java.io.Serializable */
-  private static final long serialVersionUID = 1L;
+	/** For java.io.Serializable */
+	private static final long serialVersionUID = 1L;
 
-  static final Log LOG = LogFactory.getLog(DfsServlet.class.getCanonicalName());
+	static final Log LOG = LogFactory.getLog(DfsServlet.class.getCanonicalName());
 
-  /** Write the object to XML format */
-  protected void writeXml(Exception except, String path, XMLOutputter doc)
-      throws IOException {
-    doc.startTag(RemoteException.class.getSimpleName());
-    doc.attribute("path", path);
-    if (except instanceof RemoteException) {
-      doc.attribute("class", ((RemoteException) except).getClassName());
-    } else {
-      doc.attribute("class", except.getClass().getName());
-    }
-    String msg = except.getLocalizedMessage();
-    int i = msg.indexOf("\n");
-    if (i >= 0) {
-      msg = msg.substring(0, i);
-    }
-    doc.attribute("message", msg.substring(msg.indexOf(":") + 1).trim());
-    doc.endTag();
-  }
+	/** Write the object to XML format */
+	protected void writeXml(Exception except, String path, XMLOutputter doc) throws IOException {
+		doc.startTag(RemoteException.class.getSimpleName());
+		doc.attribute("path", path);
+		if (except instanceof RemoteException) {
+			doc.attribute("class", ((RemoteException) except).getClassName());
+		} else {
+			doc.attribute("class", except.getClass().getName());
+		}
+		String msg = except.getLocalizedMessage();
+		int i = msg.indexOf("\n");
+		if (i >= 0) {
+			msg = msg.substring(0, i);
+		}
+		doc.attribute("message", msg.substring(msg.indexOf(":") + 1).trim());
+		doc.endTag();
+	}
 
-  /**
-   * Create a {@link NameNode} proxy from the current {@link ServletContext}. 
-   */
-  protected ClientProtocol createNameNodeProxy() throws IOException {
-    ServletContext context = getServletContext();
-    // if we are running in the Name Node, use it directly rather than via 
-    // rpc
-    NameNode nn = NameNodeHttpServer.getNameNodeFromContext(context);
-    if (nn != null) {
-      return nn.getRpcServer();
-    }
-    InetSocketAddress nnAddr =
-      NameNodeHttpServer.getNameNodeAddressFromContext(context);
-    Configuration conf = new HdfsConfiguration(
-        NameNodeHttpServer.getConfFromContext(context));
-    return NameNodeProxies.createProxy(conf, NameNode.getUri(nnAddr),
-        ClientProtocol.class).getProxy();
-  }
+	/**
+	 * Create a {@link NameNode} proxy from the current {@link ServletContext}.
+	 */
+	protected ClientProtocol createNameNodeProxy() throws IOException {
+		ServletContext context = getServletContext();
+		// if we are running in the Name Node, use it directly rather than via
+		// rpc
+		NameNode nn = NameNodeHttpServer.getNameNodeFromContext(context);
+		if (nn != null) {
+			return nn.getRpcServer();
+		}
+		InetSocketAddress nnAddr = NameNodeHttpServer.getNameNodeAddressFromContext(context);
+		Configuration conf = new HdfsConfiguration(NameNodeHttpServer.getConfFromContext(context));
+		return NameNodeProxies.createProxy(conf, NameNode.getUri(nnAddr), ClientProtocol.class).getProxy();
+	}
 
-  protected UserGroupInformation getUGI(HttpServletRequest request,
-                                        Configuration conf) throws IOException {
-    return JspHelper.getUGI(getServletContext(), request, conf);
-  }
+	protected UserGroupInformation getUGI(HttpServletRequest request, Configuration conf) throws IOException {
+		return JspHelper.getUGI(getServletContext(), request, conf);
+	}
 }

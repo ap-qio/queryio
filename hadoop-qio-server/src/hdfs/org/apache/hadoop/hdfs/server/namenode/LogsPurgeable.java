@@ -25,27 +25,32 @@ import java.util.Collection;
  * to be purged.
  */
 interface LogsPurgeable {
-  
-  /**
-   * Remove all edit logs with transaction IDs lower than the given transaction
-   * ID.
-   * 
-   * @param minTxIdToKeep the lowest transaction ID that should be retained
-   * @throws IOException in the event of error
-   */
-  public void purgeLogsOlderThan(long minTxIdToKeep) throws IOException;
-  
-  /**
-   * Get a list of edit log input streams.  The list will start with the
-   * stream that contains fromTxnId, and continue until the end of the journal
-   * being managed.
-   * 
-   * @param fromTxId the first transaction id we want to read
-   * @param inProgressOk whether or not in-progress streams should be returned
-   * @throws IOException if the underlying storage has an error or is otherwise
-   * inaccessible
-   */
-  void selectInputStreams(Collection<EditLogInputStream> streams,
-      long fromTxId, boolean inProgressOk) throws IOException;
-  
+
+	/**
+	 * Remove all edit logs with transaction IDs lower than the given
+	 * transaction ID.
+	 * 
+	 * @param minTxIdToKeep
+	 *            the lowest transaction ID that should be retained
+	 * @throws IOException
+	 *             in the event of error
+	 */
+	public void purgeLogsOlderThan(long minTxIdToKeep) throws IOException;
+
+	/**
+	 * Get a list of edit log input streams. The list will start with the stream
+	 * that contains fromTxnId, and continue until the end of the journal being
+	 * managed.
+	 * 
+	 * @param fromTxId
+	 *            the first transaction id we want to read
+	 * @param inProgressOk
+	 *            whether or not in-progress streams should be returned
+	 * @throws IOException
+	 *             if the underlying storage has an error or is otherwise
+	 *             inaccessible
+	 */
+	void selectInputStreams(Collection<EditLogInputStream> streams, long fromTxId, boolean inProgressOk)
+			throws IOException;
+
 }

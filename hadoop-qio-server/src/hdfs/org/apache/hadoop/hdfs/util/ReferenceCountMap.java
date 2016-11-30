@@ -37,82 +37,84 @@ import com.google.common.collect.ImmutableList;
 @InterfaceStability.Evolving
 public class ReferenceCountMap<E extends ReferenceCountMap.ReferenceCounter> {
 
-  private Map<E, E> referenceMap = new HashMap<E, E>();
+	private Map<E, E> referenceMap = new HashMap<E, E>();
 
-  /**
-   * Add the reference. If the instance already present, just increase the
-   * reference count.
-   * 
-   * @param key Key to put in reference map
-   * @return Referenced instance
-   */
-  public E put(E key) {
-    E value = referenceMap.get(key);
-    if (value == null) {
-      value = key;
-      referenceMap.put(key, value);
-    }
-    value.incrementAndGetRefCount();
-    return value;
-  }
+	/**
+	 * Add the reference. If the instance already present, just increase the
+	 * reference count.
+	 * 
+	 * @param key
+	 *            Key to put in reference map
+	 * @return Referenced instance
+	 */
+	public E put(E key) {
+		E value = referenceMap.get(key);
+		if (value == null) {
+			value = key;
+			referenceMap.put(key, value);
+		}
+		value.incrementAndGetRefCount();
+		return value;
+	}
 
-  /**
-   * Delete the reference. Decrease the reference count for the instance, if
-   * any. On all references removal delete the instance from the map.
-   * 
-   * @param key Key to remove the reference.
-   */
-  public void remove(E key) {
-    E value = referenceMap.get(key);
-    if (value != null && value.decrementAndGetRefCount() == 0) {
-      referenceMap.remove(key);
-    }
-  }
+	/**
+	 * Delete the reference. Decrease the reference count for the instance, if
+	 * any. On all references removal delete the instance from the map.
+	 * 
+	 * @param key
+	 *            Key to remove the reference.
+	 */
+	public void remove(E key) {
+		E value = referenceMap.get(key);
+		if (value != null && value.decrementAndGetRefCount() == 0) {
+			referenceMap.remove(key);
+		}
+	}
 
-  /**
-   * Get entries in the reference Map.
-   * 
-   * @return
-   */
-  @VisibleForTesting
-  public ImmutableList<E> getEntries() {
-    return new ImmutableList.Builder<E>().addAll(referenceMap.keySet()).build();
-  }
+	/**
+	 * Get entries in the reference Map.
+	 * 
+	 * @return
+	 */
+	@VisibleForTesting
+	public ImmutableList<E> getEntries() {
+		return new ImmutableList.Builder<E>().addAll(referenceMap.keySet()).build();
+	}
 
-  /**
-   * Get the reference count for the key
-   */
-  public long getReferenceCount(E key) {
-    ReferenceCounter counter = referenceMap.get(key);
-    if (counter != null) {
-      return counter.getRefCount();
-    }
-    return 0;
-  }
+	/**
+	 * Get the reference count for the key
+	 */
+	public long getReferenceCount(E key) {
+		ReferenceCounter counter = referenceMap.get(key);
+		if (counter != null) {
+			return counter.getRefCount();
+		}
+		return 0;
+	}
 
-  /**
-   * Get the number of unique elements
-   */
-  public int getUniqueElementsSize() {
-    return referenceMap.size();
-  }
+	/**
+	 * Get the number of unique elements
+	 */
+	public int getUniqueElementsSize() {
+		return referenceMap.size();
+	}
 
-  /**
-   * Clear the contents
-   */
-  @VisibleForTesting
-  public void clear() {
-    referenceMap.clear();
-  }
+	/**
+	 * Clear the contents
+	 */
+	@VisibleForTesting
+	public void clear() {
+		referenceMap.clear();
+	}
 
-  /**
-   * Interface for the reference count holder
-   */
-  public static interface ReferenceCounter {
-    public int getRefCount();
+	/**
+	 * Interface for the reference count holder
+	 */
+	public static interface ReferenceCounter {
+		public int getRefCount();
 
-    public int incrementAndGetRefCount();
+		public int incrementAndGetRefCount();
 
-    public int decrementAndGetRefCount();
-  }
+		public int decrementAndGetRefCount();
+	}
 }

@@ -26,13 +26,13 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public class UnknownCryptoProtocolVersionException extends IOException {
-  private static final long serialVersionUID = 8957192l;
+	private static final long serialVersionUID = 8957192l;
 
-  public UnknownCryptoProtocolVersionException() {
-    super();
-  }
+	public UnknownCryptoProtocolVersionException() {
+		super();
+	}
 
-  public UnknownCryptoProtocolVersionException(String msg) {
-    super(msg);
-  }
+	public UnknownCryptoProtocolVersionException(String msg) {
+		super(msg);
+	}
 }

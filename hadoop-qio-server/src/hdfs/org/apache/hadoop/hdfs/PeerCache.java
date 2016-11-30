@@ -23,10 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.LinkedListMultimap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.classification.InterfaceAudience;
@@ -37,6 +33,10 @@ import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.util.Daemon;
 import org.apache.hadoop.util.Time;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.LinkedListMultimap;
+
 /**
  * A cache of input stream sockets to Data Node.
  */
@@ -44,247 +44,240 @@ import org.apache.hadoop.util.Time;
 @InterfaceAudience.Private
 @VisibleForTesting
 public class PeerCache {
-  private static final Log LOG = LogFactory.getLog(PeerCache.class);
-  
-  private static class Key {
-    final DatanodeID dnID;
-    final boolean isDomain;
-    
-    Key(DatanodeID dnID, boolean isDomain) {
-      this.dnID = dnID;
-      this.isDomain = isDomain;
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-      if (!(o instanceof Key)) {
-        return false;
-      }
-      Key other = (Key)o;
-      return dnID.equals(other.dnID) && isDomain == other.isDomain;
-    }
+	private static final Log LOG = LogFactory.getLog(PeerCache.class);
 
-    @Override
-    public int hashCode() {
-      return dnID.hashCode() ^ (isDomain ? 1 : 0);
-    }
-  }
-  
-  private static class Value {
-    private final Peer peer;
-    private final long time;
+	private static class Key {
+		final DatanodeID dnID;
+		final boolean isDomain;
 
-    Value(Peer peer, long time) {
-      this.peer = peer;
-      this.time = time;
-    }
+		Key(DatanodeID dnID, boolean isDomain) {
+			this.dnID = dnID;
+			this.isDomain = isDomain;
+		}
 
-    Peer getPeer() {
-      return peer;
-    }
+		@Override
+		public boolean equals(Object o) {
+			if (!(o instanceof Key)) {
+				return false;
+			}
+			Key other = (Key) o;
+			return dnID.equals(other.dnID) && isDomain == other.isDomain;
+		}
 
-    long getTime() {
-      return time;
-    }
-  }
+		@Override
+		public int hashCode() {
+			return dnID.hashCode() ^ (isDomain ? 1 : 0);
+		}
+	}
 
-  private Daemon daemon;
-  /** A map for per user per datanode. */
-  private final LinkedListMultimap<Key, Value> multimap =
-    LinkedListMultimap.create();
-  private final int capacity;
-  private final long expiryPeriod;
-  
-  public PeerCache(int c, long e) {
-    this.capacity = c;
-    this.expiryPeriod = e;
+	private static class Value {
+		private final Peer peer;
+		private final long time;
 
-    if (capacity == 0 ) {
-      LOG.info("SocketCache disabled.");
-    } else if (expiryPeriod == 0) {
-      throw new IllegalStateException("Cannot initialize expiryPeriod to " +
-         expiryPeriod + " when cache is enabled.");
-    }
-  }
- 
-  private boolean isDaemonStarted() {
-    return (daemon == null)? false: true;
-  }
+		Value(Peer peer, long time) {
+			this.peer = peer;
+			this.time = time;
+		}
 
-  private synchronized void startExpiryDaemon() {
-    // start daemon only if not already started
-    if (isDaemonStarted() == true) {
-      return;
-    }
-    
-    daemon = new Daemon(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          PeerCache.this.run();
-        } catch(InterruptedException e) {
-          //noop
-        } finally {
-          PeerCache.this.clear();
-        }
-      }
+		Peer getPeer() {
+			return peer;
+		}
 
-      @Override
-      public String toString() {
-        return String.valueOf(PeerCache.this);
-      }
-    });
-    daemon.start();
-  }
+		long getTime() {
+			return time;
+		}
+	}
 
-  /**
-   * Get a cached peer connected to the given DataNode.
-   * @param dnId         The DataNode to get a Peer for.
-   * @param isDomain     Whether to retrieve a DomainPeer or not.
-   *
-   * @return             An open Peer connected to the DN, or null if none
-   *                     was found. 
-   */
-  public Peer get(DatanodeID dnId, boolean isDomain) {
+	private Daemon daemon;
+	/** A map for per user per datanode. */
+	private final LinkedListMultimap<Key, Value> multimap = LinkedListMultimap.create();
+	private final int capacity;
+	private final long expiryPeriod;
 
-    if (capacity <= 0) { // disabled
-      return null;
-    }
-    return getInternal(dnId, isDomain);
-  }
+	public PeerCache(int c, long e) {
+		this.capacity = c;
+		this.expiryPeriod = e;
 
-  private synchronized Peer getInternal(DatanodeID dnId, boolean isDomain) {
-    List<Value> sockStreamList = multimap.get(new Key(dnId, isDomain));
-    if (sockStreamList == null) {
-      return null;
-    }
+		if (capacity == 0) {
+			LOG.info("SocketCache disabled.");
+		} else if (expiryPeriod == 0) {
+			throw new IllegalStateException(
+					"Cannot initialize expiryPeriod to " + expiryPeriod + " when cache is enabled.");
+		}
+	}
 
-    Iterator<Value> iter = sockStreamList.iterator();
-    while (iter.hasNext()) {
-      Value candidate = iter.next();
-      iter.remove();
-      long ageMs = Time.monotonicNow() - candidate.getTime();
-      Peer peer = candidate.getPeer();
-      if (ageMs >= expiryPeriod) {
-        try {
-          peer.close();
-        } catch (IOException e) {
-          LOG.warn("got IOException closing stale peer " + peer +
-                ", which is " + ageMs + " ms old");
-        }
-      } else if (!peer.isClosed()) {
-        return peer;
-      }
-    }
-    return null;
-  }
+	private boolean isDaemonStarted() {
+		return (daemon == null) ? false : true;
+	}
 
-  /**
-   * Give an unused socket to the cache.
-   */
-  public void put(DatanodeID dnId, Peer peer) {
-    Preconditions.checkNotNull(dnId);
-    Preconditions.checkNotNull(peer);
-    if (peer.isClosed()) return;
-    if (capacity <= 0) {
-      // Cache disabled.
-      IOUtils.cleanup(LOG, peer);
-      return;
-    }
-    putInternal(dnId, peer);
-  }
+	private synchronized void startExpiryDaemon() {
+		// start daemon only if not already started
+		if (isDaemonStarted() == true) {
+			return;
+		}
 
-  private synchronized void putInternal(DatanodeID dnId, Peer peer) {
-    startExpiryDaemon();
+		daemon = new Daemon(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					PeerCache.this.run();
+				} catch (InterruptedException e) {
+					// noop
+				} finally {
+					PeerCache.this.clear();
+				}
+			}
 
-    if (capacity == multimap.size()) {
-      evictOldest();
-    }
-    multimap.put(new Key(dnId, peer.getDomainSocket() != null),
-        new Value(peer, Time.monotonicNow()));
-  }
+			@Override
+			public String toString() {
+				return String.valueOf(PeerCache.this);
+			}
+		});
+		daemon.start();
+	}
 
-  public synchronized int size() {
-    return multimap.size();
-  }
+	/**
+	 * Get a cached peer connected to the given DataNode.
+	 * 
+	 * @param dnId
+	 *            The DataNode to get a Peer for.
+	 * @param isDomain
+	 *            Whether to retrieve a DomainPeer or not.
+	 *
+	 * @return An open Peer connected to the DN, or null if none was found.
+	 */
+	public Peer get(DatanodeID dnId, boolean isDomain) {
 
-  /**
-   * Evict and close sockets older than expiry period from the cache.
-   */
-  private synchronized void evictExpired(long expiryPeriod) {
-    while (multimap.size() != 0) {
-      Iterator<Entry<Key, Value>> iter =
-        multimap.entries().iterator();
-      Entry<Key, Value> entry = iter.next();
-      // if oldest socket expired, remove it
-      if (entry == null || 
-        Time.monotonicNow() - entry.getValue().getTime() <
-        expiryPeriod) {
-        break;
-      }
-      IOUtils.cleanup(LOG, entry.getValue().getPeer());
-      iter.remove();
-    }
-  }
+		if (capacity <= 0) { // disabled
+			return null;
+		}
+		return getInternal(dnId, isDomain);
+	}
 
-  /**
-   * Evict the oldest entry in the cache.
-   */
-  private synchronized void evictOldest() {
-    // We can get the oldest element immediately, because of an interesting
-    // property of LinkedListMultimap: its iterator traverses entries in the
-    // order that they were added.
-    Iterator<Entry<Key, Value>> iter =
-      multimap.entries().iterator();
-    if (!iter.hasNext()) {
-      throw new IllegalStateException("Cannot evict from empty cache! " +
-        "capacity: " + capacity);
-    }
-    Entry<Key, Value> entry = iter.next();
-    IOUtils.cleanup(LOG, entry.getValue().getPeer());
-    iter.remove();
-  }
+	private synchronized Peer getInternal(DatanodeID dnId, boolean isDomain) {
+		List<Value> sockStreamList = multimap.get(new Key(dnId, isDomain));
+		if (sockStreamList == null) {
+			return null;
+		}
 
-  /**
-   * Periodically check in the cache and expire the entries
-   * older than expiryPeriod minutes
-   */
-  private void run() throws InterruptedException {
-    for(long lastExpiryTime = Time.monotonicNow();
-        !Thread.interrupted();
-        Thread.sleep(expiryPeriod)) {
-      final long elapsed = Time.monotonicNow() - lastExpiryTime;
-      if (elapsed >= expiryPeriod) {
-        evictExpired(expiryPeriod);
-        lastExpiryTime = Time.monotonicNow();
-      }
-    }
-    clear();
-    throw new InterruptedException("Daemon Interrupted");
-  }
+		Iterator<Value> iter = sockStreamList.iterator();
+		while (iter.hasNext()) {
+			Value candidate = iter.next();
+			iter.remove();
+			long ageMs = Time.monotonicNow() - candidate.getTime();
+			Peer peer = candidate.getPeer();
+			if (ageMs >= expiryPeriod) {
+				try {
+					peer.close();
+				} catch (IOException e) {
+					LOG.warn("got IOException closing stale peer " + peer + ", which is " + ageMs + " ms old");
+				}
+			} else if (!peer.isClosed()) {
+				return peer;
+			}
+		}
+		return null;
+	}
 
-  /**
-   * Empty the cache, and close all sockets.
-   */
-  @VisibleForTesting
-  synchronized void clear() {
-    for (Value value : multimap.values()) {
-      IOUtils.cleanup(LOG, value.getPeer());
-    }
-    multimap.clear();
-  }
-  
-  @VisibleForTesting
-  void close() {
-    clear();
-    if (daemon != null) {
-      daemon.interrupt();
-      try {
-        daemon.join();
-      } catch (InterruptedException e) {
-        throw new RuntimeException("failed to join thread");
-      }
-    }
-    daemon = null;
-  }
+	/**
+	 * Give an unused socket to the cache.
+	 */
+	public void put(DatanodeID dnId, Peer peer) {
+		Preconditions.checkNotNull(dnId);
+		Preconditions.checkNotNull(peer);
+		if (peer.isClosed())
+			return;
+		if (capacity <= 0) {
+			// Cache disabled.
+			IOUtils.cleanup(LOG, peer);
+			return;
+		}
+		putInternal(dnId, peer);
+	}
+
+	private synchronized void putInternal(DatanodeID dnId, Peer peer) {
+		startExpiryDaemon();
+
+		if (capacity == multimap.size()) {
+			evictOldest();
+		}
+		multimap.put(new Key(dnId, peer.getDomainSocket() != null), new Value(peer, Time.monotonicNow()));
+	}
+
+	public synchronized int size() {
+		return multimap.size();
+	}
+
+	/**
+	 * Evict and close sockets older than expiry period from the cache.
+	 */
+	private synchronized void evictExpired(long expiryPeriod) {
+		while (multimap.size() != 0) {
+			Iterator<Entry<Key, Value>> iter = multimap.entries().iterator();
+			Entry<Key, Value> entry = iter.next();
+			// if oldest socket expired, remove it
+			if (entry == null || Time.monotonicNow() - entry.getValue().getTime() < expiryPeriod) {
+				break;
+			}
+			IOUtils.cleanup(LOG, entry.getValue().getPeer());
+			iter.remove();
+		}
+	}
+
+	/**
+	 * Evict the oldest entry in the cache.
+	 */
+	private synchronized void evictOldest() {
+		// We can get the oldest element immediately, because of an interesting
+		// property of LinkedListMultimap: its iterator traverses entries in the
+		// order that they were added.
+		Iterator<Entry<Key, Value>> iter = multimap.entries().iterator();
+		if (!iter.hasNext()) {
+			throw new IllegalStateException("Cannot evict from empty cache! " + "capacity: " + capacity);
+		}
+		Entry<Key, Value> entry = iter.next();
+		IOUtils.cleanup(LOG, entry.getValue().getPeer());
+		iter.remove();
+	}
+
+	/**
+	 * Periodically check in the cache and expire the entries older than
+	 * expiryPeriod minutes
+	 */
+	private void run() throws InterruptedException {
+		for (long lastExpiryTime = Time.monotonicNow(); !Thread.interrupted(); Thread.sleep(expiryPeriod)) {
+			final long elapsed = Time.monotonicNow() - lastExpiryTime;
+			if (elapsed >= expiryPeriod) {
+				evictExpired(expiryPeriod);
+				lastExpiryTime = Time.monotonicNow();
+			}
+		}
+		clear();
+		throw new InterruptedException("Daemon Interrupted");
+	}
+
+	/**
+	 * Empty the cache, and close all sockets.
+	 */
+	@VisibleForTesting
+	synchronized void clear() {
+		for (Value value : multimap.values()) {
+			IOUtils.cleanup(LOG, value.getPeer());
+		}
+		multimap.clear();
+	}
+
+	@VisibleForTesting
+	void close() {
+		clear();
+		if (daemon != null) {
+			daemon.interrupt();
+			try {
+				daemon.join();
+			} catch (InterruptedException e) {
+				throw new RuntimeException("failed to join thread");
+			}
+		}
+		daemon = null;
+	}
 }

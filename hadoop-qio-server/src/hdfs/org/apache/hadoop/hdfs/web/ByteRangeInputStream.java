@@ -36,223 +36,218 @@ import com.google.common.net.HttpHeaders;
 /**
  * To support HTTP byte streams, a new connection to an HTTP server needs to be
  * created each time. This class hides the complexity of those multiple
- * connections from the client. Whenever seek() is called, a new connection
- * is made on the successive read(). The normal input stream functions are
+ * connections from the client. Whenever seek() is called, a new connection is
+ * made on the successive read(). The normal input stream functions are
  * connected to the currently active input stream.
  */
 public abstract class ByteRangeInputStream extends FSInputStream {
 
-  /**
-   * This class wraps a URL and provides method to open connection.
-   * It can be overridden to change how a connection is opened.
-   */
-  public static abstract class URLOpener {
-    protected URL url;
+	/**
+	 * This class wraps a URL and provides method to open connection. It can be
+	 * overridden to change how a connection is opened.
+	 */
+	public static abstract class URLOpener {
+		protected URL url;
 
-    public URLOpener(URL u) {
-      url = u;
-    }
+		public URLOpener(URL u) {
+			url = u;
+		}
 
-    public void setURL(URL u) {
-      url = u;
-    }
+		public void setURL(URL u) {
+			url = u;
+		}
 
-    public URL getURL() {
-      return url;
-    }
+		public URL getURL() {
+			return url;
+		}
 
-    /** Connect to server with a data offset. */
-    protected abstract HttpURLConnection connect(final long offset,
-        final boolean resolved) throws IOException;
-  }
+		/** Connect to server with a data offset. */
+		protected abstract HttpURLConnection connect(final long offset, final boolean resolved) throws IOException;
+	}
 
-  enum StreamStatus {
-    NORMAL, SEEK, CLOSED
-  }
-  protected InputStream in;
-  protected final URLOpener originalURL;
-  protected final URLOpener resolvedURL;
-  protected long startPos = 0;
-  protected long currentPos = 0;
-  protected Long fileLength = null;
+	enum StreamStatus {
+		NORMAL, SEEK, CLOSED
+	}
 
-  StreamStatus status = StreamStatus.SEEK;
+	protected InputStream in;
+	protected final URLOpener originalURL;
+	protected final URLOpener resolvedURL;
+	protected long startPos = 0;
+	protected long currentPos = 0;
+	protected Long fileLength = null;
 
-  /**
-   * Create with the specified URLOpeners. Original url is used to open the
-   * stream for the first time. Resolved url is used in subsequent requests.
-   * @param o Original url
-   * @param r Resolved url
-   */
-  public ByteRangeInputStream(URLOpener o, URLOpener r) throws IOException {
-    this.originalURL = o;
-    this.resolvedURL = r;
-    getInputStream();
-  }
+	StreamStatus status = StreamStatus.SEEK;
 
-  protected abstract URL getResolvedUrl(final HttpURLConnection connection
-      ) throws IOException;
+	/**
+	 * Create with the specified URLOpeners. Original url is used to open the
+	 * stream for the first time. Resolved url is used in subsequent requests.
+	 * 
+	 * @param o
+	 *            Original url
+	 * @param r
+	 *            Resolved url
+	 */
+	public ByteRangeInputStream(URLOpener o, URLOpener r) throws IOException {
+		this.originalURL = o;
+		this.resolvedURL = r;
+		getInputStream();
+	}
 
-  @VisibleForTesting
-  protected InputStream getInputStream() throws IOException {
-    switch (status) {
-      case NORMAL:
-        break;
-      case SEEK:
-        if (in != null) {
-          in.close();
-        }
-        in = openInputStream();
-        status = StreamStatus.NORMAL;
-        break;
-      case CLOSED:
-        throw new IOException("Stream closed");
-    }
-    return in;
-  }
+	protected abstract URL getResolvedUrl(final HttpURLConnection connection) throws IOException;
 
-  @VisibleForTesting
-  protected InputStream openInputStream() throws IOException {
-    // Use the original url if no resolved url exists, eg. if
-    // it's the first time a request is made.
-    final boolean resolved = resolvedURL.getURL() != null;
-    final URLOpener opener = resolved? resolvedURL: originalURL;
+	@VisibleForTesting
+	protected InputStream getInputStream() throws IOException {
+		switch (status) {
+		case NORMAL:
+			break;
+		case SEEK:
+			if (in != null) {
+				in.close();
+			}
+			in = openInputStream();
+			status = StreamStatus.NORMAL;
+			break;
+		case CLOSED:
+			throw new IOException("Stream closed");
+		}
+		return in;
+	}
 
-    final HttpURLConnection connection = opener.connect(startPos, resolved);
-    resolvedURL.setURL(getResolvedUrl(connection));
+	@VisibleForTesting
+	protected InputStream openInputStream() throws IOException {
+		// Use the original url if no resolved url exists, eg. if
+		// it's the first time a request is made.
+		final boolean resolved = resolvedURL.getURL() != null;
+		final URLOpener opener = resolved ? resolvedURL : originalURL;
 
-    InputStream in = connection.getInputStream();
-    final Map<String, List<String>> headers = connection.getHeaderFields();
-    if (isChunkedTransferEncoding(headers)) {
-      // file length is not known
-      fileLength = null;
-    } else {
-      // for non-chunked transfer-encoding, get content-length
-      long streamlength = getStreamLength(connection, headers);
-      fileLength = startPos + streamlength;
+		final HttpURLConnection connection = opener.connect(startPos, resolved);
+		resolvedURL.setURL(getResolvedUrl(connection));
 
-      // Java has a bug with >2GB request streams.  It won't bounds check
-      // the reads so the transfer blocks until the server times out
-      in = new BoundedInputStream(in, streamlength);
-    }
+		InputStream in = connection.getInputStream();
+		final Map<String, List<String>> headers = connection.getHeaderFields();
+		if (isChunkedTransferEncoding(headers)) {
+			// file length is not known
+			fileLength = null;
+		} else {
+			// for non-chunked transfer-encoding, get content-length
+			long streamlength = getStreamLength(connection, headers);
+			fileLength = startPos + streamlength;
 
-    return in;
-  }
+			// Java has a bug with >2GB request streams. It won't bounds check
+			// the reads so the transfer blocks until the server times out
+			in = new BoundedInputStream(in, streamlength);
+		}
 
-  private static long getStreamLength(HttpURLConnection connection,
-      Map<String, List<String>> headers) throws IOException {
-    String cl = connection.getHeaderField(HttpHeaders.CONTENT_LENGTH);
-    if (cl == null) {
-      // Try to get the content length by parsing the content range
-      // because HftpFileSystem does not return the content length
-      // if the content is partial.
-      if (connection.getResponseCode() == HttpStatus.SC_PARTIAL_CONTENT) {
-        cl = connection.getHeaderField(HttpHeaders.CONTENT_RANGE);
-        return getLengthFromRange(cl);
-      } else {
-        throw new IOException(HttpHeaders.CONTENT_LENGTH + " is missing: "
-            + headers);
-      }
-    }
-    return Long.parseLong(cl);
-  }
+		return in;
+	}
 
-  private static long getLengthFromRange(String cl) throws IOException {
-    try {
+	private static long getStreamLength(HttpURLConnection connection, Map<String, List<String>> headers)
+			throws IOException {
+		String cl = connection.getHeaderField(HttpHeaders.CONTENT_LENGTH);
+		if (cl == null) {
+			// Try to get the content length by parsing the content range
+			// because HftpFileSystem does not return the content length
+			// if the content is partial.
+			if (connection.getResponseCode() == HttpStatus.SC_PARTIAL_CONTENT) {
+				cl = connection.getHeaderField(HttpHeaders.CONTENT_RANGE);
+				return getLengthFromRange(cl);
+			} else {
+				throw new IOException(HttpHeaders.CONTENT_LENGTH + " is missing: " + headers);
+			}
+		}
+		return Long.parseLong(cl);
+	}
 
-      String[] str = cl.substring(6).split("[-/]");
-      return Long.parseLong(str[1]) - Long.parseLong(str[0]) + 1;
-    } catch (Exception e) {
-      throw new IOException(
-          "failed to get content length by parsing the content range: " + cl
-              + " " + e.getMessage());
-    }
-  }
+	private static long getLengthFromRange(String cl) throws IOException {
+		try {
 
-  private static boolean isChunkedTransferEncoding(
-      final Map<String, List<String>> headers) {
-    return contains(headers, HttpHeaders.TRANSFER_ENCODING, "chunked")
-        || contains(headers, HttpHeaders.TE, "chunked");
-  }
+			String[] str = cl.substring(6).split("[-/]");
+			return Long.parseLong(str[1]) - Long.parseLong(str[0]) + 1;
+		} catch (Exception e) {
+			throw new IOException(
+					"failed to get content length by parsing the content range: " + cl + " " + e.getMessage());
+		}
+	}
 
-  /** Does the HTTP header map contain the given key, value pair? */
-  private static boolean contains(final Map<String, List<String>> headers,
-      final String key, final String value) {
-    final List<String> values = headers.get(key);
-    if (values != null) {
-      for(String v : values) {
-        for(final StringTokenizer t = new StringTokenizer(v, ",");
-            t.hasMoreTokens(); ) {
-          if (value.equalsIgnoreCase(t.nextToken())) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
+	private static boolean isChunkedTransferEncoding(final Map<String, List<String>> headers) {
+		return contains(headers, HttpHeaders.TRANSFER_ENCODING, "chunked")
+				|| contains(headers, HttpHeaders.TE, "chunked");
+	}
 
-  private int update(final int n) throws IOException {
-    if (n != -1) {
-      currentPos += n;
-    } else if (fileLength != null && currentPos < fileLength) {
-      throw new IOException("Got EOF but currentPos = " + currentPos
-          + " < filelength = " + fileLength);
-    }
-    return n;
-  }
+	/** Does the HTTP header map contain the given key, value pair? */
+	private static boolean contains(final Map<String, List<String>> headers, final String key, final String value) {
+		final List<String> values = headers.get(key);
+		if (values != null) {
+			for (String v : values) {
+				for (final StringTokenizer t = new StringTokenizer(v, ","); t.hasMoreTokens();) {
+					if (value.equalsIgnoreCase(t.nextToken())) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
-  @Override
-  public int read() throws IOException {
-    final int b = getInputStream().read();
-    update((b == -1) ? -1 : 1);
-    return b;
-  }
+	private int update(final int n) throws IOException {
+		if (n != -1) {
+			currentPos += n;
+		} else if (fileLength != null && currentPos < fileLength) {
+			throw new IOException("Got EOF but currentPos = " + currentPos + " < filelength = " + fileLength);
+		}
+		return n;
+	}
 
-  @Override
-  public int read(byte b[], int off, int len) throws IOException {
-    return update(getInputStream().read(b, off, len));
-  }
+	@Override
+	public int read() throws IOException {
+		final int b = getInputStream().read();
+		update((b == -1) ? -1 : 1);
+		return b;
+	}
 
-  /**
-   * Seek to the given offset from the start of the file.
-   * The next read() will be from that location.  Can't
-   * seek past the end of the file.
-   */
-  @Override
-  public void seek(long pos) throws IOException {
-    if (pos != currentPos) {
-      startPos = pos;
-      currentPos = pos;
-      if (status != StreamStatus.CLOSED) {
-        status = StreamStatus.SEEK;
-      }
-    }
-  }
+	@Override
+	public int read(byte b[], int off, int len) throws IOException {
+		return update(getInputStream().read(b, off, len));
+	}
 
-  /**
-   * Return the current offset from the start of the file
-   */
-  @Override
-  public long getPos() throws IOException {
-    return currentPos;
-  }
+	/**
+	 * Seek to the given offset from the start of the file. The next read() will
+	 * be from that location. Can't seek past the end of the file.
+	 */
+	@Override
+	public void seek(long pos) throws IOException {
+		if (pos != currentPos) {
+			startPos = pos;
+			currentPos = pos;
+			if (status != StreamStatus.CLOSED) {
+				status = StreamStatus.SEEK;
+			}
+		}
+	}
 
-  /**
-   * Seeks a different copy of the data.  Returns true if
-   * found a new source, false otherwise.
-   */
-  @Override
-  public boolean seekToNewSource(long targetPos) throws IOException {
-    return false;
-  }
+	/**
+	 * Return the current offset from the start of the file
+	 */
+	@Override
+	public long getPos() throws IOException {
+		return currentPos;
+	}
 
-  @Override
-  public void close() throws IOException {
-    if (in != null) {
-      in.close();
-      in = null;
-    }
-    status = StreamStatus.CLOSED;
-  }
+	/**
+	 * Seeks a different copy of the data. Returns true if found a new source,
+	 * false otherwise.
+	 */
+	@Override
+	public boolean seekToNewSource(long targetPos) throws IOException {
+		return false;
+	}
+
+	@Override
+	public void close() throws IOException {
+		if (in != null) {
+			in.close();
+			in = null;
+		}
+		status = StreamStatus.CLOSED;
+	}
 }

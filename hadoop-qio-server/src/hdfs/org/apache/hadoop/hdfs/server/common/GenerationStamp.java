@@ -25,21 +25,21 @@ import org.apache.hadoop.util.SequentialNumber;
  ****************************************************************/
 @InterfaceAudience.Private
 public class GenerationStamp extends SequentialNumber {
-  /**
-   * The last reserved generation stamp.
-   */
-  public static final long LAST_RESERVED_STAMP = 1000L;
+	/**
+	 * The last reserved generation stamp.
+	 */
+	public static final long LAST_RESERVED_STAMP = 1000L;
 
-  /**
-   * Generation stamp of blocks that pre-date the introduction
-   * of a generation stamp.
-   */
-  public static final long GRANDFATHER_GENERATION_STAMP = 0;
+	/**
+	 * Generation stamp of blocks that pre-date the introduction of a generation
+	 * stamp.
+	 */
+	public static final long GRANDFATHER_GENERATION_STAMP = 0;
 
-  /**
-   * Create a new instance, initialized to {@link #LAST_RESERVED_STAMP}.
-   */
-  public GenerationStamp() {
-    super(LAST_RESERVED_STAMP);
-  }
+	/**
+	 * Create a new instance, initialized to {@link #LAST_RESERVED_STAMP}.
+	 */
+	public GenerationStamp() {
+		super(LAST_RESERVED_STAMP);
+	}
 }

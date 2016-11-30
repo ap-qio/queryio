@@ -27,10 +27,13 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public interface MetricsSource {
-  /**
-   * Get metrics from the source
-   * @param collector to contain the resulting metrics snapshot
-   * @param all if true, return all metrics even if unchanged.
-   */
-  void getMetrics(MetricsCollector collector, boolean all);
+	/**
+	 * Get metrics from the source
+	 * 
+	 * @param collector
+	 *            to contain the resulting metrics snapshot
+	 * @param all
+	 *            if true, return all metrics even if unchanged.
+	 */
+	void getMetrics(MetricsCollector collector, boolean all);
 }

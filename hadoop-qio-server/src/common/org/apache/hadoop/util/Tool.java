@@ -25,47 +25,57 @@ import org.apache.hadoop.conf.Configurable;
 /**
  * A tool interface that supports handling of generic command-line options.
  * 
- * <p><code>Tool</code>, is the standard for any Map-Reduce tool/application. 
- * The tool/application should delegate the handling of 
- * <a href="{@docRoot}/../hadoop-project-dist/hadoop-common/CommandsManual.html#Generic_Options">
- * standard command-line options</a> to {@link ToolRunner#run(Tool, String[])} 
- * and only handle its custom arguments.</p>
+ * <p>
+ * <code>Tool</code>, is the standard for any Map-Reduce tool/application. The
+ * tool/application should delegate the handling of <a href="
+ * {@docRoot}/../hadoop-project-dist/hadoop-common/CommandsManual.html#Generic_Options">
+ * standard command-line options</a> to {@link ToolRunner#run(Tool, String[])}
+ * and only handle its custom arguments.
+ * </p>
  * 
- * <p>Here is how a typical <code>Tool</code> is implemented:</p>
- * <p><blockquote><pre>
- *     public class MyApp extends Configured implements Tool {
- *     
- *       public int run(String[] args) throws Exception {
- *         // <code>Configuration</code> processed by <code>ToolRunner</code>
- *         Configuration conf = getConf();
- *         
- *         // Create a JobConf using the processed <code>conf</code>
- *         JobConf job = new JobConf(conf, MyApp.class);
- *         
- *         // Process custom command-line options
- *         Path in = new Path(args[1]);
- *         Path out = new Path(args[2]);
- *         
- *         // Specify various job-specific parameters     
- *         job.setJobName("my-app");
- *         job.setInputPath(in);
- *         job.setOutputPath(out);
- *         job.setMapperClass(MyMapper.class);
- *         job.setReducerClass(MyReducer.class);
+ * <p>
+ * Here is how a typical <code>Tool</code> is implemented:
+ * </p>
+ * <p>
+ * <blockquote>
+ * 
+ * <pre>
+ * public class MyApp extends Configured implements Tool {
+ * 
+ * 	public int run(String[] args) throws Exception {
+ * 		// <code>Configuration</code> processed by <code>ToolRunner</code>
+ * 		Configuration conf = getConf();
+ * 
+ * 		// Create a JobConf using the processed <code>conf</code>
+ * 		JobConf job = new JobConf(conf, MyApp.class);
+ * 
+ * 		// Process custom command-line options
+ * 		Path in = new Path(args[1]);
+ * 		Path out = new Path(args[2]);
+ * 
+ * 		// Specify various job-specific parameters
+ * 		job.setJobName("my-app");
+ * 		job.setInputPath(in);
+ * 		job.setOutputPath(out);
+ * 		job.setMapperClass(MyMapper.class);
+ * 		job.setReducerClass(MyReducer.class);
  *
- *         // Submit the job, then poll for progress until the job is complete
- *         JobClient.runJob(job);
- *         return 0;
- *       }
- *       
- *       public static void main(String[] args) throws Exception {
- *         // Let <code>ToolRunner</code> handle generic command-line options 
- *         int res = ToolRunner.run(new Configuration(), new MyApp(), args);
- *         
- *         System.exit(res);
- *       }
- *     }
- * </pre></blockquote></p>
+ * 		// Submit the job, then poll for progress until the job is complete
+ * 		JobClient.runJob(job);
+ * 		return 0;
+ * 	}
+ * 
+ * 	public static void main(String[] args) throws Exception {
+ * 		// Let <code>ToolRunner</code> handle generic command-line options
+ * 		int res = ToolRunner.run(new Configuration(), new MyApp(), args);
+ * 
+ * 		System.exit(res);
+ * 	}
+ * }
+ * </pre>
+ * 
+ * </blockquote>
+ * </p>
  * 
  * @see GenericOptionsParser
  * @see ToolRunner
@@ -73,12 +83,13 @@ import org.apache.hadoop.conf.Configurable;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public interface Tool extends Configurable {
-  /**
-   * Execute the command with the given arguments.
-   * 
-   * @param args command specific arguments.
-   * @return exit code.
-   * @throws Exception
-   */
-  int run(String [] args) throws Exception;
+	/**
+	 * Execute the command with the given arguments.
+	 * 
+	 * @param args
+	 *            command specific arguments.
+	 * @return exit code.
+	 * @throws Exception
+	 */
+	int run(String[] args) throws Exception;
 }

@@ -33,32 +33,29 @@ import org.apache.htrace.TraceScope;
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
-public class EncryptionZoneIterator
-    extends BatchedRemoteIterator<Long, EncryptionZone> {
+public class EncryptionZoneIterator extends BatchedRemoteIterator<Long, EncryptionZone> {
 
-  private final ClientProtocol namenode;
-  private final Sampler<?> traceSampler;
+	private final ClientProtocol namenode;
+	private final Sampler<?> traceSampler;
 
-  public EncryptionZoneIterator(ClientProtocol namenode,
-                                Sampler<?> traceSampler) {
-    super(Long.valueOf(0));
-    this.namenode = namenode;
-    this.traceSampler = traceSampler;
-  }
+	public EncryptionZoneIterator(ClientProtocol namenode, Sampler<?> traceSampler) {
+		super(Long.valueOf(0));
+		this.namenode = namenode;
+		this.traceSampler = traceSampler;
+	}
 
-  @Override
-  public BatchedEntries<EncryptionZone> makeRequest(Long prevId)
-      throws IOException {
-    TraceScope scope = Trace.startSpan("listEncryptionZones", traceSampler);
-    try {
-      return namenode.listEncryptionZones(prevId);
-    } finally {
-      scope.close();
-    }
-  }
+	@Override
+	public BatchedEntries<EncryptionZone> makeRequest(Long prevId) throws IOException {
+		TraceScope scope = Trace.startSpan("listEncryptionZones", traceSampler);
+		try {
+			return namenode.listEncryptionZones(prevId);
+		} finally {
+			scope.close();
+		}
+	}
 
-  @Override
-  public Long elementToPrevKey(EncryptionZone entry) {
-    return entry.getId();
-  }
+	@Override
+	public Long elementToPrevKey(EncryptionZone entry) {
+		return entry.getId();
+	}
 }

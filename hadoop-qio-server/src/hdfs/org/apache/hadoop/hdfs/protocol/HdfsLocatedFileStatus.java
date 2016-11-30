@@ -27,68 +27,74 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.hdfs.DFSUtil;
 
-/** 
- * Interface that represents the over the wire information
- * including block locations for a file.
+/**
+ * Interface that represents the over the wire information including block
+ * locations for a file.
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class HdfsLocatedFileStatus extends HdfsFileStatus {
-  private final LocatedBlocks locations;
+	private final LocatedBlocks locations;
 
-  /**
-   * Constructor
-   * 
-   * @param length size
-   * @param isdir if this is directory
-   * @param block_replication the file's replication factor
-   * @param blocksize the file's block size
-   * @param modification_time most recent modification time
-   * @param access_time most recent access time
-   * @param permission permission
-   * @param owner owner
-   * @param group group
-   * @param symlink symbolic link
-   * @param path local path name in java UTF8 format 
-   * @param fileId the file id
-   * @param locations block locations
-   * @param feInfo file encryption info
-   */
-  public HdfsLocatedFileStatus(long length, boolean isdir,
-      int block_replication, long blocksize, long modification_time,
-      long access_time, FsPermission permission, String owner, String group,
-      byte[] symlink, byte[] path, long fileId, LocatedBlocks locations,
-      int childrenNum, FileEncryptionInfo feInfo, byte storagePolicy) {
-    super(length, isdir, block_replication, blocksize, modification_time,
-        access_time, permission, owner, group, symlink, path, fileId,
-        childrenNum, feInfo, storagePolicy);
-    this.locations = locations;
-  }
+	/**
+	 * Constructor
+	 * 
+	 * @param length
+	 *            size
+	 * @param isdir
+	 *            if this is directory
+	 * @param block_replication
+	 *            the file's replication factor
+	 * @param blocksize
+	 *            the file's block size
+	 * @param modification_time
+	 *            most recent modification time
+	 * @param access_time
+	 *            most recent access time
+	 * @param permission
+	 *            permission
+	 * @param owner
+	 *            owner
+	 * @param group
+	 *            group
+	 * @param symlink
+	 *            symbolic link
+	 * @param path
+	 *            local path name in java UTF8 format
+	 * @param fileId
+	 *            the file id
+	 * @param locations
+	 *            block locations
+	 * @param feInfo
+	 *            file encryption info
+	 */
+	public HdfsLocatedFileStatus(long length, boolean isdir, int block_replication, long blocksize,
+			long modification_time, long access_time, FsPermission permission, String owner, String group,
+			byte[] symlink, byte[] path, long fileId, LocatedBlocks locations, int childrenNum,
+			FileEncryptionInfo feInfo, byte storagePolicy) {
+		super(length, isdir, block_replication, blocksize, modification_time, access_time, permission, owner, group,
+				symlink, path, fileId, childrenNum, feInfo, storagePolicy);
+		this.locations = locations;
+	}
 
-  public HdfsLocatedFileStatus(long length, boolean isdir,
-		  int block_replication, long blocksize, long modification_time,
-		  long access_time, FsPermission permission, String owner, String group,
-		  byte[] symlink, byte[] path, long fileId, LocatedBlocks locations,
-		  int childrenNum, FileEncryptionInfo feInfo, byte storagePolicy, /*@QUERYIO@*/ Block[] blocks) {
-	  super(length, isdir, block_replication, blocksize, modification_time,
-			  access_time, permission, owner, group, symlink, path, fileId,
-			  childrenNum, feInfo, storagePolicy, /*@QUERYIO@*/ blocks);
-	  this.locations = locations;
-  }
-  
-  public LocatedBlocks getBlockLocations() {
-    return locations;
-  }
+	public HdfsLocatedFileStatus(long length, boolean isdir, int block_replication, long blocksize,
+			long modification_time, long access_time, FsPermission permission, String owner, String group,
+			byte[] symlink, byte[] path, long fileId, LocatedBlocks locations, int childrenNum,
+			FileEncryptionInfo feInfo, byte storagePolicy, /* @QUERYIO@ */ Block[] blocks) {
+		super(length, isdir, block_replication, blocksize, modification_time, access_time, permission, owner, group,
+				symlink, path, fileId, childrenNum, feInfo, storagePolicy, /* @QUERYIO@ */ blocks);
+		this.locations = locations;
+	}
 
-  public final LocatedFileStatus makeQualifiedLocated(URI defaultUri,
-      Path path) {
-    return new LocatedFileStatus(getLen(), isDir(), getReplication(),
-        getBlockSize(), getModificationTime(),
-        getAccessTime(),
-        getPermission(), getOwner(), getGroup(),
-        isSymlink() ? new Path(getSymlink()) : null,
-        (getFullPath(path)).makeQualified(
-            defaultUri, null), // fully-qualify path
-        DFSUtil.locatedBlocks2Locations(getBlockLocations()));
-  }
+	public LocatedBlocks getBlockLocations() {
+		return locations;
+	}
+
+	public final LocatedFileStatus makeQualifiedLocated(URI defaultUri, Path path) {
+		return new LocatedFileStatus(getLen(), isDir(), getReplication(), getBlockSize(), getModificationTime(),
+				getAccessTime(), getPermission(), getOwner(), getGroup(), isSymlink() ? new Path(getSymlink()) : null,
+				(getFullPath(path)).makeQualified(defaultUri, null), // fully-qualify
+																		// path
+				DFSUtil.locatedBlocks2Locations(getBlockLocations()));
+	}
 }

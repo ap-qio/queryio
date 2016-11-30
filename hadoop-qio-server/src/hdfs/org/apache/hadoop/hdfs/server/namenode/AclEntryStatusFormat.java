@@ -43,94 +43,86 @@ import com.google.common.collect.ImmutableList;
  */
 public enum AclEntryStatusFormat {
 
-  SCOPE(null, 1),
-  TYPE(SCOPE.BITS, 2),
-  PERMISSION(TYPE.BITS, 3),
-  NAMED_ENTRY_CHECK(PERMISSION.BITS, 1),
-  NAME(NAMED_ENTRY_CHECK.BITS, 25);
+	SCOPE(null, 1), TYPE(SCOPE.BITS, 2), PERMISSION(TYPE.BITS, 3), NAMED_ENTRY_CHECK(PERMISSION.BITS,
+			1), NAME(NAMED_ENTRY_CHECK.BITS, 25);
 
-  private final LongBitFormat BITS;
+	private final LongBitFormat BITS;
 
-  private AclEntryStatusFormat(LongBitFormat previous, int length) {
-    BITS = new LongBitFormat(name(), previous, length, 0);
-  }
+	private AclEntryStatusFormat(LongBitFormat previous, int length) {
+		BITS = new LongBitFormat(name(), previous, length, 0);
+	}
 
-  static AclEntryScope getScope(int aclEntry) {
-    int ordinal = (int) SCOPE.BITS.retrieve(aclEntry);
-    return AclEntryScope.values()[ordinal];
-  }
+	static AclEntryScope getScope(int aclEntry) {
+		int ordinal = (int) SCOPE.BITS.retrieve(aclEntry);
+		return AclEntryScope.values()[ordinal];
+	}
 
-  static AclEntryType getType(int aclEntry) {
-    int ordinal = (int) TYPE.BITS.retrieve(aclEntry);
-    return AclEntryType.values()[ordinal];
-  }
+	static AclEntryType getType(int aclEntry) {
+		int ordinal = (int) TYPE.BITS.retrieve(aclEntry);
+		return AclEntryType.values()[ordinal];
+	}
 
-  static FsAction getPermission(int aclEntry) {
-    int ordinal = (int) PERMISSION.BITS.retrieve(aclEntry);
-    return FsAction.values()[ordinal];
-  }
+	static FsAction getPermission(int aclEntry) {
+		int ordinal = (int) PERMISSION.BITS.retrieve(aclEntry);
+		return FsAction.values()[ordinal];
+	}
 
-  static String getName(int aclEntry) {
-    int nameExists = (int) NAMED_ENTRY_CHECK.BITS.retrieve(aclEntry);
-    if (nameExists == 0) {
-      return null;
-    }
-    int id = (int) NAME.BITS.retrieve(aclEntry);
-    AclEntryType type = getType(aclEntry);
-    if (type == AclEntryType.USER) {
-      return SerialNumberManager.INSTANCE.getUser(id);
-    } else if (type == AclEntryType.GROUP) {
-      return SerialNumberManager.INSTANCE.getGroup(id);
-    }
-    return null;
-  }
+	static String getName(int aclEntry) {
+		int nameExists = (int) NAMED_ENTRY_CHECK.BITS.retrieve(aclEntry);
+		if (nameExists == 0) {
+			return null;
+		}
+		int id = (int) NAME.BITS.retrieve(aclEntry);
+		AclEntryType type = getType(aclEntry);
+		if (type == AclEntryType.USER) {
+			return SerialNumberManager.INSTANCE.getUser(id);
+		} else if (type == AclEntryType.GROUP) {
+			return SerialNumberManager.INSTANCE.getGroup(id);
+		}
+		return null;
+	}
 
-  static int toInt(AclEntry aclEntry) {
-    long aclEntryInt = 0;
-    aclEntryInt = SCOPE.BITS
-        .combine(aclEntry.getScope().ordinal(), aclEntryInt);
-    aclEntryInt = TYPE.BITS.combine(aclEntry.getType().ordinal(), aclEntryInt);
-    aclEntryInt = PERMISSION.BITS.combine(aclEntry.getPermission().ordinal(),
-        aclEntryInt);
-    if (aclEntry.getName() != null) {
-      aclEntryInt = NAMED_ENTRY_CHECK.BITS.combine(1, aclEntryInt);
-      if (aclEntry.getType() == AclEntryType.USER) {
-        int userId = SerialNumberManager.INSTANCE.getUserSerialNumber(aclEntry
-            .getName());
-        aclEntryInt = NAME.BITS.combine(userId, aclEntryInt);
-      } else if (aclEntry.getType() == AclEntryType.GROUP) {
-        int groupId = SerialNumberManager.INSTANCE
-            .getGroupSerialNumber(aclEntry.getName());
-        aclEntryInt = NAME.BITS.combine(groupId, aclEntryInt);
-      }
-    }
-    return (int) aclEntryInt;
-  }
+	static int toInt(AclEntry aclEntry) {
+		long aclEntryInt = 0;
+		aclEntryInt = SCOPE.BITS.combine(aclEntry.getScope().ordinal(), aclEntryInt);
+		aclEntryInt = TYPE.BITS.combine(aclEntry.getType().ordinal(), aclEntryInt);
+		aclEntryInt = PERMISSION.BITS.combine(aclEntry.getPermission().ordinal(), aclEntryInt);
+		if (aclEntry.getName() != null) {
+			aclEntryInt = NAMED_ENTRY_CHECK.BITS.combine(1, aclEntryInt);
+			if (aclEntry.getType() == AclEntryType.USER) {
+				int userId = SerialNumberManager.INSTANCE.getUserSerialNumber(aclEntry.getName());
+				aclEntryInt = NAME.BITS.combine(userId, aclEntryInt);
+			} else if (aclEntry.getType() == AclEntryType.GROUP) {
+				int groupId = SerialNumberManager.INSTANCE.getGroupSerialNumber(aclEntry.getName());
+				aclEntryInt = NAME.BITS.combine(groupId, aclEntryInt);
+			}
+		}
+		return (int) aclEntryInt;
+	}
 
-  static AclEntry toAclEntry(int aclEntry) {
-    AclEntry.Builder builder = new AclEntry.Builder();
-    builder.setScope(getScope(aclEntry)).setType(getType(aclEntry))
-        .setPermission(getPermission(aclEntry));
-    if (getName(aclEntry) != null) {
-      builder.setName(getName(aclEntry));
-    }
-    return builder.build();
-  }
+	static AclEntry toAclEntry(int aclEntry) {
+		AclEntry.Builder builder = new AclEntry.Builder();
+		builder.setScope(getScope(aclEntry)).setType(getType(aclEntry)).setPermission(getPermission(aclEntry));
+		if (getName(aclEntry) != null) {
+			builder.setName(getName(aclEntry));
+		}
+		return builder.build();
+	}
 
-  public static int[] toInt(List<AclEntry> aclEntries) {
-    int[] entries = new int[aclEntries.size()];
-    for (int i = 0; i < entries.length; i++) {
-      entries[i] = toInt(aclEntries.get(i));
-    }
-    return entries;
-  }
+	public static int[] toInt(List<AclEntry> aclEntries) {
+		int[] entries = new int[aclEntries.size()];
+		for (int i = 0; i < entries.length; i++) {
+			entries[i] = toInt(aclEntries.get(i));
+		}
+		return entries;
+	}
 
-  public static ImmutableList<AclEntry> toAclEntries(int[] entries) {
-    ImmutableList.Builder<AclEntry> b = new ImmutableList.Builder<AclEntry>();
-    for (int entry : entries) {
-      AclEntry aclEntry = toAclEntry(entry);
-      b.add(aclEntry);
-    }
-    return b.build();
-  }
+	public static ImmutableList<AclEntry> toAclEntries(int[] entries) {
+		ImmutableList.Builder<AclEntry> b = new ImmutableList.Builder<AclEntry>();
+		for (int entry : entries) {
+			AclEntry aclEntry = toAclEntry(entry);
+			b.add(aclEntry);
+		}
+		return b.build();
+	}
 }

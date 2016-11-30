@@ -19,31 +19,35 @@ package org.apache.hadoop.hdfs.web.resources;
 
 /** Create Parent parameter. */
 public class CreateParentParam extends BooleanParam {
-  /** Parameter name. */
-  public static final String NAME = "createparent";
-  /** Default parameter value. */
-  public static final String DEFAULT = FALSE;
+	/** Parameter name. */
+	public static final String NAME = "createparent";
+	/** Default parameter value. */
+	public static final String DEFAULT = FALSE;
 
-  private static final Domain DOMAIN = new Domain(NAME);
+	private static final Domain DOMAIN = new Domain(NAME);
 
-  /**
-   * Constructor.
-   * @param value the parameter value.
-   */
-  public CreateParentParam(final Boolean value) {
-    super(DOMAIN, value);
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param value
+	 *            the parameter value.
+	 */
+	public CreateParentParam(final Boolean value) {
+		super(DOMAIN, value);
+	}
 
-  /**
-   * Constructor.
-   * @param str a string representation of the parameter value.
-   */
-  public CreateParentParam(final String str) {
-    this(DOMAIN.parse(str));
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param str
+	 *            a string representation of the parameter value.
+	 */
+	public CreateParentParam(final String str) {
+		this(DOMAIN.parse(str));
+	}
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+	@Override
+	public String getName() {
+		return NAME;
+	}
 }

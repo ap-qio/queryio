@@ -30,115 +30,117 @@ import com.google.common.base.Preconditions;
 
 /**
  * Storing all the {@link INode}s and maintaining the mapping between INode ID
- * and INode.  
+ * and INode.
  */
 public class INodeMap {
-  
-  static INodeMap newInstance(INodeDirectory rootDir) {
-    // Compute the map capacity by allocating 1% of total memory
-    int capacity = LightWeightGSet.computeCapacity(1, "INodeMap");
-    GSet<INode, INodeWithAdditionalFields> map
-        = new LightWeightGSet<INode, INodeWithAdditionalFields>(capacity);
-    map.put(rootDir);
-    return new INodeMap(map);
-  }
-  
-  /** Synchronized by external lock. */
-  private final GSet<INode, INodeWithAdditionalFields> map;
-  
-  public Iterator<INodeWithAdditionalFields> getMapIterator() {
-    return map.iterator();
-  }
 
-  private INodeMap(GSet<INode, INodeWithAdditionalFields> map) {
-    Preconditions.checkArgument(map != null);
-    this.map = map;
-  }
-  
-  /**
-   * Add an {@link INode} into the {@link INode} map. Replace the old value if 
-   * necessary. 
-   * @param inode The {@link INode} to be added to the map.
-   */
-  public final void put(INode inode) {
-    if (inode instanceof INodeWithAdditionalFields) {
-      map.put((INodeWithAdditionalFields)inode);
-    }
-  }
-  
-  /**
-   * Remove a {@link INode} from the map.
-   * @param inode The {@link INode} to be removed.
-   */
-  public final void remove(INode inode) {
-    map.remove(inode);
-  }
-  
-  /**
-   * @return The size of the map.
-   */
-  public int size() {
-    return map.size();
-  }
-  
-  /**
-   * Get the {@link INode} with the given id from the map.
-   * @param id ID of the {@link INode}.
-   * @return The {@link INode} in the map with the given id. Return null if no 
-   *         such {@link INode} in the map.
-   */
-  public INode get(long id) {
-    INode inode = new INodeWithAdditionalFields(id, null, new PermissionStatus(
-        "", "", new FsPermission((short) 0)), 0, 0) {
-      
-      @Override
-      void recordModification(int latestSnapshotId) {
-      }
-      
-      @Override
-      public void destroyAndCollectBlocks(BlockStoragePolicySuite bsps,
-          BlocksMapUpdateInfo collectedBlocks, List<INode> removedINodes) {
-        // Nothing to do
-      }
+	static INodeMap newInstance(INodeDirectory rootDir) {
+		// Compute the map capacity by allocating 1% of total memory
+		int capacity = LightWeightGSet.computeCapacity(1, "INodeMap");
+		GSet<INode, INodeWithAdditionalFields> map = new LightWeightGSet<INode, INodeWithAdditionalFields>(capacity);
+		map.put(rootDir);
+		return new INodeMap(map);
+	}
 
-      @Override
-      public QuotaCounts computeQuotaUsage(
-          BlockStoragePolicySuite bsps, byte blockStoragePolicyId,
-          QuotaCounts counts, boolean useCache, int lastSnapshotId) {
-        return null;
-      }
+	/** Synchronized by external lock. */
+	private final GSet<INode, INodeWithAdditionalFields> map;
 
-      @Override
-      public ContentSummaryComputationContext computeContentSummary(
-          ContentSummaryComputationContext summary) {
-        return null;
-      }
-      
-      @Override
-      public QuotaCounts cleanSubtree(BlockStoragePolicySuite bsps,
-          int snapshotId, int priorSnapshotId,
-          BlocksMapUpdateInfo collectedBlocks, List<INode> removedINodes) {
-          return null;
-      }
+	public Iterator<INodeWithAdditionalFields> getMapIterator() {
+		return map.iterator();
+	}
 
-      @Override
-      public byte getStoragePolicyID(){
-        return BlockStoragePolicySuite.ID_UNSPECIFIED;
-      }
+	private INodeMap(GSet<INode, INodeWithAdditionalFields> map) {
+		Preconditions.checkArgument(map != null);
+		this.map = map;
+	}
 
-      @Override
-      public byte getLocalStoragePolicyID() {
-        return BlockStoragePolicySuite.ID_UNSPECIFIED;
-      }
-    };
-      
-    return map.get(inode);
-  }
-  
-  /**
-   * Clear the {@link #map}
-   */
-  public void clear() {
-    map.clear();
-  }
+	/**
+	 * Add an {@link INode} into the {@link INode} map. Replace the old value if
+	 * necessary.
+	 * 
+	 * @param inode
+	 *            The {@link INode} to be added to the map.
+	 */
+	public final void put(INode inode) {
+		if (inode instanceof INodeWithAdditionalFields) {
+			map.put((INodeWithAdditionalFields) inode);
+		}
+	}
+
+	/**
+	 * Remove a {@link INode} from the map.
+	 * 
+	 * @param inode
+	 *            The {@link INode} to be removed.
+	 */
+	public final void remove(INode inode) {
+		map.remove(inode);
+	}
+
+	/**
+	 * @return The size of the map.
+	 */
+	public int size() {
+		return map.size();
+	}
+
+	/**
+	 * Get the {@link INode} with the given id from the map.
+	 * 
+	 * @param id
+	 *            ID of the {@link INode}.
+	 * @return The {@link INode} in the map with the given id. Return null if no
+	 *         such {@link INode} in the map.
+	 */
+	public INode get(long id) {
+		INode inode = new INodeWithAdditionalFields(id, null, new PermissionStatus("", "", new FsPermission((short) 0)),
+				0, 0) {
+
+			@Override
+			void recordModification(int latestSnapshotId) {
+			}
+
+			@Override
+			public void destroyAndCollectBlocks(BlockStoragePolicySuite bsps, BlocksMapUpdateInfo collectedBlocks,
+					List<INode> removedINodes) {
+				// Nothing to do
+			}
+
+			@Override
+			public QuotaCounts computeQuotaUsage(BlockStoragePolicySuite bsps, byte blockStoragePolicyId,
+					QuotaCounts counts, boolean useCache, int lastSnapshotId) {
+				return null;
+			}
+
+			@Override
+			public ContentSummaryComputationContext computeContentSummary(ContentSummaryComputationContext summary) {
+				return null;
+			}
+
+			@Override
+			public QuotaCounts cleanSubtree(BlockStoragePolicySuite bsps, int snapshotId, int priorSnapshotId,
+					BlocksMapUpdateInfo collectedBlocks, List<INode> removedINodes) {
+				return null;
+			}
+
+			@Override
+			public byte getStoragePolicyID() {
+				return BlockStoragePolicySuite.ID_UNSPECIFIED;
+			}
+
+			@Override
+			public byte getLocalStoragePolicyID() {
+				return BlockStoragePolicySuite.ID_UNSPECIFIED;
+			}
+		};
+
+		return map.get(inode);
+	}
+
+	/**
+	 * Clear the {@link #map}
+	 */
+	public void clear() {
+		map.clear();
+	}
 }

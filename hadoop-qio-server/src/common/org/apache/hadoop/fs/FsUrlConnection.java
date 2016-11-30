@@ -34,31 +34,31 @@ import org.apache.hadoop.conf.Configuration;
 @InterfaceStability.Unstable
 class FsUrlConnection extends URLConnection {
 
-  private Configuration conf;
+	private Configuration conf;
 
-  private InputStream is;
+	private InputStream is;
 
-  FsUrlConnection(Configuration conf, URL url) {
-    super(url);
-    this.conf = conf;
-  }
+	FsUrlConnection(Configuration conf, URL url) {
+		super(url);
+		this.conf = conf;
+	}
 
-  @Override
-  public void connect() throws IOException {
-    try {
-      FileSystem fs = FileSystem.get(url.toURI(), conf);
-      is = fs.open(new Path(url.getPath()));
-    } catch (URISyntaxException e) {
-      throw new IOException(e.toString());
-    }
-  }
+	@Override
+	public void connect() throws IOException {
+		try {
+			FileSystem fs = FileSystem.get(url.toURI(), conf);
+			is = fs.open(new Path(url.getPath()));
+		} catch (URISyntaxException e) {
+			throw new IOException(e.toString());
+		}
+	}
 
-  @Override
-  public InputStream getInputStream() throws IOException {
-    if (is == null) {
-      connect();
-    }
-    return is;
-  }
+	@Override
+	public InputStream getInputStream() throws IOException {
+		if (is == null) {
+			connect();
+		}
+		return is;
+	}
 
 }

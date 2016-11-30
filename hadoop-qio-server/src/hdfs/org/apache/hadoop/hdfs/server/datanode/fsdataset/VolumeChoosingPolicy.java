@@ -28,16 +28,19 @@ import org.apache.hadoop.classification.InterfaceAudience;
 @InterfaceAudience.Private
 public interface VolumeChoosingPolicy<V extends FsVolumeSpi> {
 
-  /**
-   * Choose a volume to place a replica,
-   * given a list of volumes and the replica size sought for storage.
-   * 
-   * The implementations of this interface must be thread-safe.
-   * 
-   * @param volumes - a list of available volumes.
-   * @param replicaSize - the size of the replica for which a volume is sought.
-   * @return the chosen volume.
-   * @throws IOException when disks are unavailable or are full.
-   */
-  public V chooseVolume(List<V> volumes, long replicaSize) throws IOException;
+	/**
+	 * Choose a volume to place a replica, given a list of volumes and the
+	 * replica size sought for storage.
+	 * 
+	 * The implementations of this interface must be thread-safe.
+	 * 
+	 * @param volumes
+	 *            - a list of available volumes.
+	 * @param replicaSize
+	 *            - the size of the replica for which a volume is sought.
+	 * @return the chosen volume.
+	 * @throws IOException
+	 *             when disks are unavailable or are full.
+	 */
+	public V chooseVolume(List<V> volumes, long replicaSize) throws IOException;
 }

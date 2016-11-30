@@ -33,70 +33,72 @@ import org.apache.hadoop.security.token.delegation.AbstractDelegationTokenIdenti
  * A delegation token identifier that is specific to HDFS.
  */
 @InterfaceAudience.Private
-public class DelegationTokenIdentifier 
-    extends AbstractDelegationTokenIdentifier {
-  public static final Text HDFS_DELEGATION_KIND = new Text("HDFS_DELEGATION_TOKEN");
+public class DelegationTokenIdentifier extends AbstractDelegationTokenIdentifier {
+	public static final Text HDFS_DELEGATION_KIND = new Text("HDFS_DELEGATION_TOKEN");
 
-  /**
-   * Create an empty delegation token identifier for reading into.
-   */
-  public DelegationTokenIdentifier() {
-  }
+	/**
+	 * Create an empty delegation token identifier for reading into.
+	 */
+	public DelegationTokenIdentifier() {
+	}
 
-  /**
-   * Create a new delegation token identifier
-   * @param owner the effective username of the token owner
-   * @param renewer the username of the renewer
-   * @param realUser the real username of the token owner
-   */
-  public DelegationTokenIdentifier(Text owner, Text renewer, Text realUser) {
-    super(owner, renewer, realUser);
-  }
+	/**
+	 * Create a new delegation token identifier
+	 * 
+	 * @param owner
+	 *            the effective username of the token owner
+	 * @param renewer
+	 *            the username of the renewer
+	 * @param realUser
+	 *            the real username of the token owner
+	 */
+	public DelegationTokenIdentifier(Text owner, Text renewer, Text realUser) {
+		super(owner, renewer, realUser);
+	}
 
-  @Override
-  public Text getKind() {
-    return HDFS_DELEGATION_KIND;
-  }
+	@Override
+	public Text getKind() {
+		return HDFS_DELEGATION_KIND;
+	}
 
-  @Override
-  public String toString() {
-    return getKind() + " token " + getSequenceNumber()
-        + " for " + getUser().getShortUserName();
-  }
+	@Override
+	public String toString() {
+		return getKind() + " token " + getSequenceNumber() + " for " + getUser().getShortUserName();
+	}
 
-  /** @return a string representation of the token */
-  public static String stringifyToken(final Token<?> token) throws IOException {
-    DelegationTokenIdentifier ident = new DelegationTokenIdentifier();
-    ByteArrayInputStream buf = new ByteArrayInputStream(token.getIdentifier());
-    DataInputStream in = new DataInputStream(buf);  
-    ident.readFields(in);
+	/** @return a string representation of the token */
+	public static String stringifyToken(final Token<?> token) throws IOException {
+		DelegationTokenIdentifier ident = new DelegationTokenIdentifier();
+		ByteArrayInputStream buf = new ByteArrayInputStream(token.getIdentifier());
+		DataInputStream in = new DataInputStream(buf);
+		ident.readFields(in);
 
-    if (token.getService().getLength() > 0) {
-      return ident + " on " + token.getService();
-    } else {
-      return ident.toString();
-    }
-  }
-  
-  public static class WebHdfsDelegationTokenIdentifier
-      extends DelegationTokenIdentifier {
-    public WebHdfsDelegationTokenIdentifier() {
-      super();
-    }
-    @Override
-    public Text getKind() {
-      return WebHdfsFileSystem.TOKEN_KIND;
-    }
-  }
-  
-  public static class SWebHdfsDelegationTokenIdentifier
-      extends WebHdfsDelegationTokenIdentifier {
-    public SWebHdfsDelegationTokenIdentifier() {
-      super();
-    }
-    @Override
-    public Text getKind() {
-      return SWebHdfsFileSystem.TOKEN_KIND;
-    }
-  }
+		if (token.getService().getLength() > 0) {
+			return ident + " on " + token.getService();
+		} else {
+			return ident.toString();
+		}
+	}
+
+	public static class WebHdfsDelegationTokenIdentifier extends DelegationTokenIdentifier {
+		public WebHdfsDelegationTokenIdentifier() {
+			super();
+		}
+
+		@Override
+		public Text getKind() {
+			return WebHdfsFileSystem.TOKEN_KIND;
+		}
+	}
+
+	public static class SWebHdfsDelegationTokenIdentifier extends WebHdfsDelegationTokenIdentifier {
+		public SWebHdfsDelegationTokenIdentifier() {
+			super();
+		}
+
+		@Override
+		public Text getKind() {
+			return SWebHdfsFileSystem.TOKEN_KIND;
+		}
+	}
 }

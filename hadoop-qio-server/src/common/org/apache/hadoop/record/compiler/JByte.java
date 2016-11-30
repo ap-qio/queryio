@@ -30,64 +30,62 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class JByte extends JType {
-  
-  class JavaByte extends JavaType {
-    
-    JavaByte() {
-      super("byte", "Byte", "Byte", "TypeID.RIOType.BYTE");
-    }
-    
-    @Override
-    String getTypeIDObjectString() {
-      return "org.apache.hadoop.record.meta.TypeID.ByteTypeID";
-    }
 
-    @Override
-    void genSlurpBytes(CodeBuffer cb, String b, String s, String l) {
-      cb.append("{\n");
-      cb.append("if ("+l+"<1) {\n");
-      cb.append("throw new java.io.IOException(\"Byte is exactly 1 byte."+
-                " Provided buffer is smaller.\");\n");
-      cb.append("}\n");
-      cb.append(s+"++; "+l+"--;\n");
-      cb.append("}\n");
-    }
-    
-    @Override
-    void genCompareBytes(CodeBuffer cb) {
-      cb.append("{\n");
-      cb.append("if (l1<1 || l2<1) {\n");
-      cb.append("throw new java.io.IOException(\"Byte is exactly 1 byte."+
-                " Provided buffer is smaller.\");\n");
-      cb.append("}\n");
-      cb.append("if (b1[s1] != b2[s2]) {\n");
-      cb.append("return (b1[s1]<b2[s2])?-1:0;\n");
-      cb.append("}\n");
-      cb.append("s1++; s2++; l1--; l2--;\n");
-      cb.append("}\n");
-    }
-  }
-  
-  class CppByte extends CppType {
-    
-    CppByte() {
-      super("int8_t");
-    }
-    
-    @Override
-    String getTypeIDObjectString() {
-      return "new ::hadoop::TypeID(::hadoop::RIOTYPE_BYTE)";
-    }
-  }
+	class JavaByte extends JavaType {
 
-  public JByte() {
-    setJavaType(new JavaByte());
-    setCppType(new CppByte());
-    setCType(new CType());
-  }
-  
-  @Override
-  String getSignature() {
-    return "b";
-  }
+		JavaByte() {
+			super("byte", "Byte", "Byte", "TypeID.RIOType.BYTE");
+		}
+
+		@Override
+		String getTypeIDObjectString() {
+			return "org.apache.hadoop.record.meta.TypeID.ByteTypeID";
+		}
+
+		@Override
+		void genSlurpBytes(CodeBuffer cb, String b, String s, String l) {
+			cb.append("{\n");
+			cb.append("if (" + l + "<1) {\n");
+			cb.append("throw new java.io.IOException(\"Byte is exactly 1 byte." + " Provided buffer is smaller.\");\n");
+			cb.append("}\n");
+			cb.append(s + "++; " + l + "--;\n");
+			cb.append("}\n");
+		}
+
+		@Override
+		void genCompareBytes(CodeBuffer cb) {
+			cb.append("{\n");
+			cb.append("if (l1<1 || l2<1) {\n");
+			cb.append("throw new java.io.IOException(\"Byte is exactly 1 byte." + " Provided buffer is smaller.\");\n");
+			cb.append("}\n");
+			cb.append("if (b1[s1] != b2[s2]) {\n");
+			cb.append("return (b1[s1]<b2[s2])?-1:0;\n");
+			cb.append("}\n");
+			cb.append("s1++; s2++; l1--; l2--;\n");
+			cb.append("}\n");
+		}
+	}
+
+	class CppByte extends CppType {
+
+		CppByte() {
+			super("int8_t");
+		}
+
+		@Override
+		String getTypeIDObjectString() {
+			return "new ::hadoop::TypeID(::hadoop::RIOTYPE_BYTE)";
+		}
+	}
+
+	public JByte() {
+		setJavaType(new JavaByte());
+		setCppType(new CppByte());
+		setCType(new CType());
+	}
+
+	@Override
+	String getSignature() {
+		return "b";
+	}
 }

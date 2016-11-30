@@ -24,9 +24,9 @@ import java.io.IOException;
  * parameters or parameters that are not valid.
  */
 public class InvalidRequestException extends IOException {
-  static final long serialVersionUID = 0L;
+	static final long serialVersionUID = 0L;
 
-  public InvalidRequestException(String str) {
-    super(str);
-  }
+	public InvalidRequestException(String str) {
+		super(str);
+	}
 }

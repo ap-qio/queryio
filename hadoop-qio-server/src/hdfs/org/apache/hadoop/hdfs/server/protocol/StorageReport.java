@@ -21,46 +21,46 @@ package org.apache.hadoop.hdfs.server.protocol;
  * Utilization report for a Datanode storage
  */
 public class StorageReport {
-  private final DatanodeStorage storage;
-  private final boolean failed;
-  private final long capacity;
-  private final long dfsUsed;
-  private final long remaining;
-  private final long blockPoolUsed;
+	private final DatanodeStorage storage;
+	private final boolean failed;
+	private final long capacity;
+	private final long dfsUsed;
+	private final long remaining;
+	private final long blockPoolUsed;
 
-  public static final StorageReport[] EMPTY_ARRAY = {};
-  
-  public StorageReport(DatanodeStorage storage, boolean failed,
-      long capacity, long dfsUsed, long remaining, long bpUsed) {
-    this.storage = storage;
-    this.failed = failed;
-    this.capacity = capacity;
-    this.dfsUsed = dfsUsed;
-    this.remaining = remaining;
-    this.blockPoolUsed = bpUsed;
-  }
+	public static final StorageReport[] EMPTY_ARRAY = {};
 
-  public DatanodeStorage getStorage() {
-    return storage;
-  }
+	public StorageReport(DatanodeStorage storage, boolean failed, long capacity, long dfsUsed, long remaining,
+			long bpUsed) {
+		this.storage = storage;
+		this.failed = failed;
+		this.capacity = capacity;
+		this.dfsUsed = dfsUsed;
+		this.remaining = remaining;
+		this.blockPoolUsed = bpUsed;
+	}
 
-  public boolean isFailed() {
-    return failed;
-  }
+	public DatanodeStorage getStorage() {
+		return storage;
+	}
 
-  public long getCapacity() {
-    return capacity;
-  }
+	public boolean isFailed() {
+		return failed;
+	}
 
-  public long getDfsUsed() {
-    return dfsUsed;
-  }
+	public long getCapacity() {
+		return capacity;
+	}
 
-  public long getRemaining() {
-    return remaining;
-  }
+	public long getDfsUsed() {
+		return dfsUsed;
+	}
 
-  public long getBlockPoolUsed() {
-    return blockPoolUsed;
-  }
+	public long getRemaining() {
+		return remaining;
+	}
+
+	public long getBlockPoolUsed() {
+		return blockPoolUsed;
+	}
 }

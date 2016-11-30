@@ -17,80 +17,88 @@
  */
 package org.apache.hadoop.fs;
 
+import java.io.IOException;
+
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.ReflectionUtils;
 
-import java.io.IOException;
-
-/** 
- * This interface is used for implementing different Trash policies.
- * Provides factory method to create instances of the configured Trash policy.
+/**
+ * This interface is used for implementing different Trash policies. Provides
+ * factory method to create instances of the configured Trash policy.
  */
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public abstract class TrashPolicy extends Configured {
-  protected FileSystem fs; // the FileSystem
-  protected Path trash; // path to trash directory
-  protected long deletionInterval; // deletion interval for Emptier
+	protected FileSystem fs; // the FileSystem
+	protected Path trash; // path to trash directory
+	protected long deletionInterval; // deletion interval for Emptier
 
-  /**
-   * Used to setup the trash policy. Must be implemented by all TrashPolicy
-   * implementations
-   * @param conf the configuration to be used
-   * @param fs the filesystem to be used
-   * @param home the home directory
-   */
-  public abstract void initialize(Configuration conf, FileSystem fs, Path home);
+	/**
+	 * Used to setup the trash policy. Must be implemented by all TrashPolicy
+	 * implementations
+	 * 
+	 * @param conf
+	 *            the configuration to be used
+	 * @param fs
+	 *            the filesystem to be used
+	 * @param home
+	 *            the home directory
+	 */
+	public abstract void initialize(Configuration conf, FileSystem fs, Path home);
 
-  /**
-   * Returns whether the Trash Policy is enabled for this filesystem
-   */
-  public abstract boolean isEnabled();
+	/**
+	 * Returns whether the Trash Policy is enabled for this filesystem
+	 */
+	public abstract boolean isEnabled();
 
-  /** 
-   * Move a file or directory to the current trash directory.
-   * @return false if the item is already in the trash or trash is disabled
-   */ 
-  public abstract boolean moveToTrash(Path path) throws IOException;
+	/**
+	 * Move a file or directory to the current trash directory.
+	 * 
+	 * @return false if the item is already in the trash or trash is disabled
+	 */
+	public abstract boolean moveToTrash(Path path) throws IOException;
 
-  /** 
-   * Create a trash checkpoint. 
-   */
-  public abstract void createCheckpoint() throws IOException;
+	/**
+	 * Create a trash checkpoint.
+	 */
+	public abstract void createCheckpoint() throws IOException;
 
-  /** 
-   * Delete old trash checkpoint(s).
-   */
-  public abstract void deleteCheckpoint() throws IOException;
+	/**
+	 * Delete old trash checkpoint(s).
+	 */
+	public abstract void deleteCheckpoint() throws IOException;
 
-  /**
-   * Get the current working directory of the Trash Policy
-   */
-  public abstract Path getCurrentTrashDir();
+	/**
+	 * Get the current working directory of the Trash Policy
+	 */
+	public abstract Path getCurrentTrashDir();
 
-  /** 
-   * Return a {@link Runnable} that periodically empties the trash of all
-   * users, intended to be run by the superuser.
-   */
-  public abstract Runnable getEmptier() throws IOException;
+	/**
+	 * Return a {@link Runnable} that periodically empties the trash of all
+	 * users, intended to be run by the superuser.
+	 */
+	public abstract Runnable getEmptier() throws IOException;
 
-  /**
-   * Get an instance of the configured TrashPolicy based on the value 
-   * of the configuration parameter fs.trash.classname.
-   *
-   * @param conf the configuration to be used
-   * @param fs the file system to be used
-   * @param home the home directory
-   * @return an instance of TrashPolicy
-   */
-  public static TrashPolicy getInstance(Configuration conf, FileSystem fs, Path home) {
-    Class<? extends TrashPolicy> trashClass = conf.getClass(
-        "fs.trash.classname", TrashPolicyDefault.class, TrashPolicy.class);
-    TrashPolicy trash = ReflectionUtils.newInstance(trashClass, conf);
-    trash.initialize(conf, fs, home); // initialize TrashPolicy
-    return trash;
-  }
+	/**
+	 * Get an instance of the configured TrashPolicy based on the value of the
+	 * configuration parameter fs.trash.classname.
+	 *
+	 * @param conf
+	 *            the configuration to be used
+	 * @param fs
+	 *            the file system to be used
+	 * @param home
+	 *            the home directory
+	 * @return an instance of TrashPolicy
+	 */
+	public static TrashPolicy getInstance(Configuration conf, FileSystem fs, Path home) {
+		Class<? extends TrashPolicy> trashClass = conf.getClass("fs.trash.classname", TrashPolicyDefault.class,
+				TrashPolicy.class);
+		TrashPolicy trash = ReflectionUtils.newInstance(trashClass, conf);
+		trash.initialize(conf, fs, home); // initialize TrashPolicy
+		return trash;
+	}
 }

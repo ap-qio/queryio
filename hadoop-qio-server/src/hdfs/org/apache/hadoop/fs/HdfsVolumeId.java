@@ -33,41 +33,41 @@ import com.google.common.base.Preconditions;
 @InterfaceStability.Unstable
 @InterfaceAudience.Public
 public class HdfsVolumeId implements VolumeId {
-  
-  private final byte[] id;
 
-  public HdfsVolumeId(byte[] id) {
-    Preconditions.checkNotNull(id, "id cannot be null");
-    this.id = id;
-  }
+	private final byte[] id;
 
-  @Override
-  public int compareTo(VolumeId arg0) {
-    if (arg0 == null) {
-      return 1;
-    }
-    return hashCode() - arg0.hashCode();
-  }
+	public HdfsVolumeId(byte[] id) {
+		Preconditions.checkNotNull(id, "id cannot be null");
+		this.id = id;
+	}
 
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder().append(id).toHashCode();
-  }
+	@Override
+	public int compareTo(VolumeId arg0) {
+		if (arg0 == null) {
+			return 1;
+		}
+		return hashCode() - arg0.hashCode();
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == null || obj.getClass() != getClass()) {
-      return false;
-    }
-    if (obj == this) {
-      return true;
-    }
-    HdfsVolumeId that = (HdfsVolumeId) obj;
-    return new EqualsBuilder().append(this.id, that.id).isEquals();
-  }
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(id).toHashCode();
+	}
 
-  @Override
-  public String toString() {
-    return StringUtils.byteToHexString(id);
-  }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || obj.getClass() != getClass()) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		HdfsVolumeId that = (HdfsVolumeId) obj;
+		return new EqualsBuilder().append(this.id, that.id).isEquals();
+	}
+
+	@Override
+	public String toString() {
+		return StringUtils.byteToHexString(id);
+	}
 }

@@ -26,34 +26,34 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class RollingUpgradeStatus {
-  private final String blockPoolId;
+	private final String blockPoolId;
 
-  public RollingUpgradeStatus(String blockPoolId) {
-    this.blockPoolId = blockPoolId;
-  }
+	public RollingUpgradeStatus(String blockPoolId) {
+		this.blockPoolId = blockPoolId;
+	}
 
-  public String getBlockPoolId() {
-    return blockPoolId;
-  }
+	public String getBlockPoolId() {
+		return blockPoolId;
+	}
 
-  @Override
-  public int hashCode() {
-    return blockPoolId.hashCode();
-  }
+	@Override
+	public int hashCode() {
+		return blockPoolId.hashCode();
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) {
-      return true;
-    } else if (obj == null || !(obj instanceof RollingUpgradeStatus)) {
-      return false;
-    }
-    final RollingUpgradeStatus that = (RollingUpgradeStatus)obj;
-    return this.blockPoolId.equals(that.blockPoolId);
-  }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		} else if (obj == null || !(obj instanceof RollingUpgradeStatus)) {
+			return false;
+		}
+		final RollingUpgradeStatus that = (RollingUpgradeStatus) obj;
+		return this.blockPoolId.equals(that.blockPoolId);
+	}
 
-  @Override
-  public String toString() {
-    return "  Block Pool ID: " + blockPoolId;
-  }
+	@Override
+	public String toString() {
+		return "  Block Pool ID: " + blockPoolId;
+	}
 }

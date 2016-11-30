@@ -23,36 +23,35 @@ import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
 
 /**
- * A <a href="http://java.sun.com/javase/6/docs/jdk/api/javadoc/doclet/">Doclet</a>
- * for excluding elements that are annotated with
+ * A <a href=
+ * "http://java.sun.com/javase/6/docs/jdk/api/javadoc/doclet/">Doclet</a> for
+ * excluding elements that are annotated with
  * {@link org.apache.hadoop.classification.InterfaceAudience.Private} or
- * {@link org.apache.hadoop.classification.InterfaceAudience.LimitedPrivate}.
- * It delegates to the Standard Doclet, and takes the same options.
+ * {@link org.apache.hadoop.classification.InterfaceAudience.LimitedPrivate}. It
+ * delegates to the Standard Doclet, and takes the same options.
  */
 public class ExcludePrivateAnnotationsStandardDoclet {
-  
-  public static LanguageVersion languageVersion() {
-    return LanguageVersion.JAVA_1_5;
-  }
-  
-  public static boolean start(RootDoc root) {
-    System.out.println(
-	ExcludePrivateAnnotationsStandardDoclet.class.getSimpleName());
-    return Standard.start(RootDocProcessor.process(root));
-  }
-  
-  public static int optionLength(String option) {
-    Integer length = StabilityOptions.optionLength(option);
-    if (length != null) {
-      return length;
-    }
-    return Standard.optionLength(option);
-  }
-  
-  public static boolean validOptions(String[][] options,
-      DocErrorReporter reporter) {
-    StabilityOptions.validOptions(options, reporter);
-    String[][] filteredOptions = StabilityOptions.filterOptions(options);
-    return Standard.validOptions(filteredOptions, reporter);
-  }
+
+	public static LanguageVersion languageVersion() {
+		return LanguageVersion.JAVA_1_5;
+	}
+
+	public static boolean start(RootDoc root) {
+		System.out.println(ExcludePrivateAnnotationsStandardDoclet.class.getSimpleName());
+		return Standard.start(RootDocProcessor.process(root));
+	}
+
+	public static int optionLength(String option) {
+		Integer length = StabilityOptions.optionLength(option);
+		if (length != null) {
+			return length;
+		}
+		return Standard.optionLength(option);
+	}
+
+	public static boolean validOptions(String[][] options, DocErrorReporter reporter) {
+		StabilityOptions.validOptions(options, reporter);
+		String[][] filteredOptions = StabilityOptions.filterOptions(options);
+		return Standard.validOptions(filteredOptions, reporter);
+	}
 }

@@ -17,54 +17,55 @@
  */
 package org.apache.hadoop.classification.tools;
 
-import com.sun.javadoc.DocErrorReporter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.sun.javadoc.DocErrorReporter;
+
 class StabilityOptions {
-  public static final String STABLE_OPTION = "-stable";
-  public static final String EVOLVING_OPTION = "-evolving";
-  public static final String UNSTABLE_OPTION = "-unstable";
+	public static final String STABLE_OPTION = "-stable";
+	public static final String EVOLVING_OPTION = "-evolving";
+	public static final String UNSTABLE_OPTION = "-unstable";
 
-  public static Integer optionLength(String option) {
-    String opt = option.toLowerCase(Locale.ENGLISH);
-    if (opt.equals(UNSTABLE_OPTION)) return 1;
-    if (opt.equals(EVOLVING_OPTION)) return 1;
-    if (opt.equals(STABLE_OPTION)) return 1;
-    return null;
-  }
+	public static Integer optionLength(String option) {
+		String opt = option.toLowerCase(Locale.ENGLISH);
+		if (opt.equals(UNSTABLE_OPTION))
+			return 1;
+		if (opt.equals(EVOLVING_OPTION))
+			return 1;
+		if (opt.equals(STABLE_OPTION))
+			return 1;
+		return null;
+	}
 
-  public static void validOptions(String[][] options,
-      DocErrorReporter reporter) {
-    for (int i = 0; i < options.length; i++) {
-      String opt = options[i][0].toLowerCase(Locale.ENGLISH);
-      if (opt.equals(UNSTABLE_OPTION)) {
-	RootDocProcessor.stability = UNSTABLE_OPTION;
-      } else if (opt.equals(EVOLVING_OPTION)) {
-	RootDocProcessor.stability = EVOLVING_OPTION;
-      } else if (opt.equals(STABLE_OPTION)) {
-	RootDocProcessor.stability = STABLE_OPTION;	
-      }
-    }
-  }
-  
-  public static String[][] filterOptions(String[][] options) {
-    List<String[]> optionsList = new ArrayList<String[]>();
-    for (int i = 0; i < options.length; i++) {
-      if (!options[i][0].equalsIgnoreCase(UNSTABLE_OPTION)
-	  && !options[i][0].equalsIgnoreCase(EVOLVING_OPTION)
-	  && !options[i][0].equalsIgnoreCase(STABLE_OPTION)) {
-	optionsList.add(options[i]);
-      }
-    }
-    String[][] filteredOptions = new String[optionsList.size()][];
-    int i = 0;
-    for (String[] option : optionsList) {
-      filteredOptions[i++] = option;
-    }
-    return filteredOptions;
-  }
+	public static void validOptions(String[][] options, DocErrorReporter reporter) {
+		for (int i = 0; i < options.length; i++) {
+			String opt = options[i][0].toLowerCase(Locale.ENGLISH);
+			if (opt.equals(UNSTABLE_OPTION)) {
+				RootDocProcessor.stability = UNSTABLE_OPTION;
+			} else if (opt.equals(EVOLVING_OPTION)) {
+				RootDocProcessor.stability = EVOLVING_OPTION;
+			} else if (opt.equals(STABLE_OPTION)) {
+				RootDocProcessor.stability = STABLE_OPTION;
+			}
+		}
+	}
+
+	public static String[][] filterOptions(String[][] options) {
+		List<String[]> optionsList = new ArrayList<String[]>();
+		for (int i = 0; i < options.length; i++) {
+			if (!options[i][0].equalsIgnoreCase(UNSTABLE_OPTION) && !options[i][0].equalsIgnoreCase(EVOLVING_OPTION)
+					&& !options[i][0].equalsIgnoreCase(STABLE_OPTION)) {
+				optionsList.add(options[i]);
+			}
+		}
+		String[][] filteredOptions = new String[optionsList.size()][];
+		int i = 0;
+		for (String[] option : optionsList) {
+			filteredOptions[i++] = option;
+		}
+		return filteredOptions;
+	}
 
 }

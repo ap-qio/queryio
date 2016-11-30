@@ -19,23 +19,24 @@ package org.apache.hadoop.hdfs.server.namenode.startupprogress;
 import org.apache.hadoop.classification.InterfaceAudience;
 
 /**
- * Abstract base of internal data structures used for tracking progress.  For
+ * Abstract base of internal data structures used for tracking progress. For
  * primitive long properties, {@link Long#MIN_VALUE} is used as a sentinel value
  * to indicate that the property is undefined.
  */
 @InterfaceAudience.Private
 abstract class AbstractTracking implements Cloneable {
-  long beginTime = Long.MIN_VALUE;
-  long endTime = Long.MIN_VALUE;
+	long beginTime = Long.MIN_VALUE;
+	long endTime = Long.MIN_VALUE;
 
-  /**
-   * Subclass instances may call this method during cloning to copy the values of
-   * all properties stored in this base class.
-   * 
-   * @param dest AbstractTracking destination for copying properties
-   */
-  protected void copy(AbstractTracking dest) {
-    dest.beginTime = beginTime;
-    dest.endTime = endTime;
-  }
+	/**
+	 * Subclass instances may call this method during cloning to copy the values
+	 * of all properties stored in this base class.
+	 * 
+	 * @param dest
+	 *            AbstractTracking destination for copying properties
+	 */
+	protected void copy(AbstractTracking dest) {
+		dest.beginTime = beginTime;
+		dest.endTime = endTime;
+	}
 }

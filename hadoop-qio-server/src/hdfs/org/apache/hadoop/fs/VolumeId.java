@@ -21,20 +21,20 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
 /**
- * Opaque interface that identifies a disk location. Subclasses
- * should implement {@link Comparable} and override both equals and hashCode.
+ * Opaque interface that identifies a disk location. Subclasses should implement
+ * {@link Comparable} and override both equals and hashCode.
  */
 @InterfaceStability.Unstable
 @InterfaceAudience.Public
 public interface VolumeId extends Comparable<VolumeId> {
 
-  @Override
-  abstract public int compareTo(VolumeId arg0);
+	@Override
+	abstract public int compareTo(VolumeId arg0);
 
-  @Override
-  abstract public int hashCode();
+	@Override
+	abstract public int hashCode();
 
-  @Override
-  abstract public boolean equals(Object obj);
+	@Override
+	abstract public boolean equals(Object obj);
 
 }

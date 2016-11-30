@@ -29,111 +29,116 @@ import org.apache.hadoop.classification.InterfaceStability;
  * than the buffer capacity. The object can be reused through <code>reset</code>
  * API and choose different limits in each round.
  */
-@InterfaceAudience.LimitedPrivate({"HDFS", "MapReduce"})
+@InterfaceAudience.LimitedPrivate({ "HDFS", "MapReduce" })
 @InterfaceStability.Unstable
 public class BoundedByteArrayOutputStream extends OutputStream {
-  private byte[] buffer;
-  private int startOffset;
-  private int limit;
-  private int currentPointer;
+	private byte[] buffer;
+	private int startOffset;
+	private int limit;
+	private int currentPointer;
 
-  /**
-   * Create a BoundedByteArrayOutputStream with the specified
-   * capacity
-   * @param capacity The capacity of the underlying byte array
-   */
-  public BoundedByteArrayOutputStream(int capacity) {
-    this(capacity, capacity);
-  }
+	/**
+	 * Create a BoundedByteArrayOutputStream with the specified capacity
+	 * 
+	 * @param capacity
+	 *            The capacity of the underlying byte array
+	 */
+	public BoundedByteArrayOutputStream(int capacity) {
+		this(capacity, capacity);
+	}
 
-  /**
-   * Create a BoundedByteArrayOutputStream with the specified
-   * capacity and limit.
-   * @param capacity The capacity of the underlying byte array
-   * @param limit The maximum limit upto which data can be written
-   */
-  public BoundedByteArrayOutputStream(int capacity, int limit) {
-    this(new byte[capacity], 0, limit);
-  }
+	/**
+	 * Create a BoundedByteArrayOutputStream with the specified capacity and
+	 * limit.
+	 * 
+	 * @param capacity
+	 *            The capacity of the underlying byte array
+	 * @param limit
+	 *            The maximum limit upto which data can be written
+	 */
+	public BoundedByteArrayOutputStream(int capacity, int limit) {
+		this(new byte[capacity], 0, limit);
+	}
 
-  protected BoundedByteArrayOutputStream(byte[] buf, int offset, int limit) {
-    resetBuffer(buf, offset, limit);
-  }
-  
-  protected void resetBuffer(byte[] buf, int offset, int limit) {
-    int capacity = buf.length - offset;
-    if ((capacity < limit) || (capacity | limit) < 0) {
-      throw new IllegalArgumentException("Invalid capacity/limit");
-    }
-    this.buffer = buf;
-    this.startOffset = offset;
-    this.currentPointer = offset;
-    this.limit = offset + limit;
-  }
-  
-  @Override
-  public void write(int b) throws IOException {
-    if (currentPointer >= limit) {
-      throw new EOFException("Reaching the limit of the buffer.");
-    }
-    buffer[currentPointer++] = (byte) b;
-  }
+	protected BoundedByteArrayOutputStream(byte[] buf, int offset, int limit) {
+		resetBuffer(buf, offset, limit);
+	}
 
-  @Override
-  public void write(byte b[], int off, int len) throws IOException {
-    if ((off < 0) || (off > b.length) || (len < 0) || ((off + len) > b.length)
-        || ((off + len) < 0)) {
-      throw new IndexOutOfBoundsException();
-    } else if (len == 0) {
-      return;
-    }
+	protected void resetBuffer(byte[] buf, int offset, int limit) {
+		int capacity = buf.length - offset;
+		if ((capacity < limit) || (capacity | limit) < 0) {
+			throw new IllegalArgumentException("Invalid capacity/limit");
+		}
+		this.buffer = buf;
+		this.startOffset = offset;
+		this.currentPointer = offset;
+		this.limit = offset + limit;
+	}
 
-    if (currentPointer + len > limit) {
-      throw new EOFException("Reach the limit of the buffer");
-    }
+	@Override
+	public void write(int b) throws IOException {
+		if (currentPointer >= limit) {
+			throw new EOFException("Reaching the limit of the buffer.");
+		}
+		buffer[currentPointer++] = (byte) b;
+	}
 
-    System.arraycopy(b, off, buffer, currentPointer, len);
-    currentPointer += len;
-  }
+	@Override
+	public void write(byte b[], int off, int len) throws IOException {
+		if ((off < 0) || (off > b.length) || (len < 0) || ((off + len) > b.length) || ((off + len) < 0)) {
+			throw new IndexOutOfBoundsException();
+		} else if (len == 0) {
+			return;
+		}
 
-  /**
-   * Reset the limit 
-   * @param newlim New Limit
-   */
-  public void reset(int newlim) {
-    if (newlim > (buffer.length - startOffset)) {
-      throw new IndexOutOfBoundsException("Limit exceeds buffer size");
-    }
-    this.limit = newlim;
-    this.currentPointer = startOffset;
-  }
+		if (currentPointer + len > limit) {
+			throw new EOFException("Reach the limit of the buffer");
+		}
 
-  /** Reset the buffer */
-  public void reset() {
-    this.limit = buffer.length - startOffset;
-    this.currentPointer = startOffset;
-  }
+		System.arraycopy(b, off, buffer, currentPointer, len);
+		currentPointer += len;
+	}
 
-  /** Return the current limit */
-  public int getLimit() {
-    return limit;
-  }
+	/**
+	 * Reset the limit
+	 * 
+	 * @param newlim
+	 *            New Limit
+	 */
+	public void reset(int newlim) {
+		if (newlim > (buffer.length - startOffset)) {
+			throw new IndexOutOfBoundsException("Limit exceeds buffer size");
+		}
+		this.limit = newlim;
+		this.currentPointer = startOffset;
+	}
 
-  /** Returns the underlying buffer.
-   *  Data is only valid to {@link #size()}.
-   */
-  public byte[] getBuffer() {
-    return buffer;
-  }
+	/** Reset the buffer */
+	public void reset() {
+		this.limit = buffer.length - startOffset;
+		this.currentPointer = startOffset;
+	}
 
-  /** Returns the length of the valid data 
-   * currently in the buffer.
-   */
-  public int size() {
-    return currentPointer - startOffset;
-  }
-  
-  public int available() {
-    return limit - currentPointer;
-  }
+	/** Return the current limit */
+	public int getLimit() {
+		return limit;
+	}
+
+	/**
+	 * Returns the underlying buffer. Data is only valid to {@link #size()}.
+	 */
+	public byte[] getBuffer() {
+		return buffer;
+	}
+
+	/**
+	 * Returns the length of the valid data currently in the buffer.
+	 */
+	public int size() {
+		return currentPointer - startOffset;
+	}
+
+	public int available() {
+		return limit - currentPointer;
+	}
 }

@@ -13,16 +13,20 @@
  */
 package org.apache.hadoop.security.authentication.util;
 
-import com.google.common.base.Charsets;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.Charset;
+import java.util.Properties;
+
+import javax.servlet.ServletContext;
+
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.security.authentication.server.AuthenticationFilter;
-import org.apache.hadoop.security.authentication.util.SignerSecretProvider;
 
-import javax.servlet.ServletContext;
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.Properties;
+import com.google.common.base.Charsets;
 
 /**
  * A SignerSecretProvider that simply loads a secret from a specified file.
@@ -31,54 +35,51 @@ import java.util.Properties;
 @InterfaceAudience.Private
 public class FileSignerSecretProvider extends SignerSecretProvider {
 
-  private byte[] secret;
-  private byte[][] secrets;
+	private byte[] secret;
+	private byte[][] secrets;
 
-  public FileSignerSecretProvider() {}
+	public FileSignerSecretProvider() {
+	}
 
-  @Override
-  public void init(Properties config, ServletContext servletContext,
-                   long tokenValidity) throws Exception {
+	@Override
+	public void init(Properties config, ServletContext servletContext, long tokenValidity) throws Exception {
 
-    String signatureSecretFile = config.getProperty(
-        AuthenticationFilter.SIGNATURE_SECRET_FILE, null);
+		String signatureSecretFile = config.getProperty(AuthenticationFilter.SIGNATURE_SECRET_FILE, null);
 
-    Reader reader = null;
-    if (signatureSecretFile != null) {
-      try {
-        StringBuilder sb = new StringBuilder();
-        reader = new InputStreamReader(
-            new FileInputStream(signatureSecretFile), Charsets.UTF_8);
-        int c = reader.read();
-        while (c > -1) {
-          sb.append((char) c);
-          c = reader.read();
-        }
-        secret = sb.toString().getBytes(Charset.forName("UTF-8"));
-      } catch (IOException ex) {
-        throw new RuntimeException("Could not read signature secret file: " +
-            signatureSecretFile);
-      } finally {
-        if (reader != null) {
-          try {
-            reader.close();
-          } catch (IOException e) {
-            // nothing to do
-          }
-        }
-      }
-    }
+		Reader reader = null;
+		if (signatureSecretFile != null) {
+			try {
+				StringBuilder sb = new StringBuilder();
+				reader = new InputStreamReader(new FileInputStream(signatureSecretFile), Charsets.UTF_8);
+				int c = reader.read();
+				while (c > -1) {
+					sb.append((char) c);
+					c = reader.read();
+				}
+				secret = sb.toString().getBytes(Charset.forName("UTF-8"));
+			} catch (IOException ex) {
+				throw new RuntimeException("Could not read signature secret file: " + signatureSecretFile);
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						// nothing to do
+					}
+				}
+			}
+		}
 
-    secrets = new byte[][]{secret};
-  }
+		secrets = new byte[][] { secret };
+	}
 
-  @Override
-  public byte[] getCurrentSecret() {
-    return secret;
-  }
+	@Override
+	public byte[] getCurrentSecret() {
+		return secret;
+	}
 
-  @Override
-  public byte[][] getAllSecrets() {
-    return secrets;
-  }
+	@Override
+	public byte[][] getAllSecrets() {
+		return secrets;
+	}
 }

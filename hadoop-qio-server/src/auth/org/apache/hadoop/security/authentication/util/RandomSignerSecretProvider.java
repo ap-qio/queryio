@@ -13,41 +13,44 @@
  */
 package org.apache.hadoop.security.authentication.util;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import java.nio.charset.Charset;
 import java.util.Random;
+
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
+import com.google.common.annotations.VisibleForTesting;
+
 /**
- * A SignerSecretProvider that uses a random number as its secret.  It rolls
- * the secret at a regular interval.
+ * A SignerSecretProvider that uses a random number as its secret. It rolls the
+ * secret at a regular interval.
  */
 @InterfaceStability.Unstable
 @InterfaceAudience.Private
 public class RandomSignerSecretProvider extends RolloverSignerSecretProvider {
 
-  private final Random rand;
+	private final Random rand;
 
-  public RandomSignerSecretProvider() {
-    super();
-    rand = new Random();
-  }
+	public RandomSignerSecretProvider() {
+		super();
+		rand = new Random();
+	}
 
-  /**
-   * This constructor lets you set the seed of the Random Number Generator and
-   * is meant for testing.
-   * @param seed the seed for the random number generator
-   */
-  @VisibleForTesting
-  public RandomSignerSecretProvider(long seed) {
-    super();
-    rand = new Random(seed);
-  }
+	/**
+	 * This constructor lets you set the seed of the Random Number Generator and
+	 * is meant for testing.
+	 * 
+	 * @param seed
+	 *            the seed for the random number generator
+	 */
+	@VisibleForTesting
+	public RandomSignerSecretProvider(long seed) {
+		super();
+		rand = new Random(seed);
+	}
 
-  @Override
-  protected byte[] generateNewSecret() {
-    return Long.toString(rand.nextLong()).getBytes(Charset.forName("UTF-8"));
-  }
+	@Override
+	protected byte[] generateNewSecret() {
+		return Long.toString(rand.nextLong()).getBytes(Charset.forName("UTF-8"));
+	}
 }

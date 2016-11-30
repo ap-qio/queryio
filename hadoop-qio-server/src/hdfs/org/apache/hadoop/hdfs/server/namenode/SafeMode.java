@@ -23,31 +23,32 @@ import org.apache.hadoop.hdfs.protocol.Block;
 /** SafeMode related operations. */
 @InterfaceAudience.Private
 public interface SafeMode {
-  /**
-   * Check safe mode conditions.
-   * If the corresponding conditions are satisfied,
-   * trigger the system to enter/leave safe mode.
-   */
-  public void checkSafeMode();
+	/**
+	 * Check safe mode conditions. If the corresponding conditions are
+	 * satisfied, trigger the system to enter/leave safe mode.
+	 */
+	public void checkSafeMode();
 
-  /** Is the system in safe mode? */
-  public boolean isInSafeMode();
+	/** Is the system in safe mode? */
+	public boolean isInSafeMode();
 
-  /**
-   * Is the system in startup safe mode, i.e. the system is starting up with
-   * safe mode turned on automatically?
-   */
-  public boolean isInStartupSafeMode();
+	/**
+	 * Is the system in startup safe mode, i.e. the system is starting up with
+	 * safe mode turned on automatically?
+	 */
+	public boolean isInStartupSafeMode();
 
-  /** Check whether replication queues are being populated. */
-  public boolean isPopulatingReplQueues();
-    
-  /**
-   * Increment number of blocks that reached minimal replication.
-   * @param replication current replication 
-   */
-  public void incrementSafeBlockCount(int replication);
+	/** Check whether replication queues are being populated. */
+	public boolean isPopulatingReplQueues();
 
-  /** Decrement number of blocks that reached minimal replication. */
-  public void decrementSafeBlockCount(Block b);
+	/**
+	 * Increment number of blocks that reached minimal replication.
+	 * 
+	 * @param replication
+	 *            current replication
+	 */
+	public void incrementSafeBlockCount(int replication);
+
+	/** Decrement number of blocks that reached minimal replication. */
+	public void decrementSafeBlockCount(Block b);
 }

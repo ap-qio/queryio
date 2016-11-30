@@ -27,13 +27,13 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public interface MetricsInfo {
-  /**
-   * @return the name of the metric/tag
-   */
-  String name();
+	/**
+	 * @return the name of the metric/tag
+	 */
+	String name();
 
-  /**
-   * @return the description of the metric/tag
-   */
-  String description();
+	/**
+	 * @return the description of the metric/tag
+	 */
+	String description();
 }

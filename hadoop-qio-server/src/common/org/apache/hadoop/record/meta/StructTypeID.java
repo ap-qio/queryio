@@ -19,15 +19,16 @@
 package org.apache.hadoop.record.meta;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.record.RecordInput;
 import org.apache.hadoop.record.RecordOutput;
 
-/** 
- * Represents typeID for a struct 
+/**
+ * Represents typeID for a struct
  * 
  * @deprecated Replaced by <a href="http://hadoop.apache.org/avro/">Avro</a>.
  */
@@ -35,132 +36,132 @@ import org.apache.hadoop.record.RecordOutput;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class StructTypeID extends TypeID {
-  private ArrayList<FieldTypeInfo> typeInfos = new ArrayList<FieldTypeInfo>();
-  
-  StructTypeID() {
-    super(RIOType.STRUCT);
-  }
-  
-  /**
-   * Create a StructTypeID based on the RecordTypeInfo of some record
-   */
-  public StructTypeID(RecordTypeInfo rti) {
-    super(RIOType.STRUCT);
-    typeInfos.addAll(rti.getFieldTypeInfos());
-  }
+	private ArrayList<FieldTypeInfo> typeInfos = new ArrayList<FieldTypeInfo>();
 
-  void add (FieldTypeInfo ti) {
-    typeInfos.add(ti);
-  }
-  
-  public Collection<FieldTypeInfo> getFieldTypeInfos() {
-    return typeInfos;
-  }
-  
-  /* 
-   * return the StructTypeiD, if any, of the given field 
-   */
-  StructTypeID findStruct(String name) {
-    // walk through the list, searching. Not the most efficient way, but this
-    // in intended to be used rarely, so we keep it simple. 
-    // As an optimization, we can keep a hashmap of record name to its RTI, for later.
-    for (FieldTypeInfo ti : typeInfos) {
-      if ((0 == ti.getFieldID().compareTo(name)) && (ti.getTypeID().getTypeVal() == RIOType.STRUCT)) {
-        return (StructTypeID) ti.getTypeID();
-      }
-    }
-    return null;
-  }
-  
-  @Override
-  void write(RecordOutput rout, String tag) throws IOException {
-    rout.writeByte(typeVal, tag);
-    writeRest(rout, tag);
-  }
+	StructTypeID() {
+		super(RIOType.STRUCT);
+	}
 
-  /* 
-   * Writes rest of the struct (excluding type value).
-   * As an optimization, this method is directly called by RTI 
-   * for the top level record so that we don't write out the byte
-   * indicating that this is a struct (since top level records are
-   * always structs).
-   */
-  void writeRest(RecordOutput rout, String tag) throws IOException {
-    rout.writeInt(typeInfos.size(), tag);
-    for (FieldTypeInfo ti : typeInfos) {
-      ti.write(rout, tag);
-    }
-  }
+	/**
+	 * Create a StructTypeID based on the RecordTypeInfo of some record
+	 */
+	public StructTypeID(RecordTypeInfo rti) {
+		super(RIOType.STRUCT);
+		typeInfos.addAll(rti.getFieldTypeInfos());
+	}
 
-  /* 
-   * deserialize ourselves. Called by RTI. 
-   */
-  void read(RecordInput rin, String tag) throws IOException {
-    // number of elements
-    int numElems = rin.readInt(tag);
-    for (int i=0; i<numElems; i++) {
-      typeInfos.add(genericReadTypeInfo(rin, tag));
-    }
-  }
-  
-  // generic reader: reads the next TypeInfo object from stream and returns it
-  private FieldTypeInfo genericReadTypeInfo(RecordInput rin, String tag) throws IOException {
-    String fieldName = rin.readString(tag);
-    TypeID id = genericReadTypeID(rin, tag);
-    return new FieldTypeInfo(fieldName, id);
-  }
-  
-  // generic reader: reads the next TypeID object from stream and returns it
-  private TypeID genericReadTypeID(RecordInput rin, String tag) throws IOException {
-    byte typeVal = rin.readByte(tag);
-    switch (typeVal) {
-    case TypeID.RIOType.BOOL: 
-      return TypeID.BoolTypeID;
-    case TypeID.RIOType.BUFFER: 
-      return TypeID.BufferTypeID;
-    case TypeID.RIOType.BYTE:
-      return TypeID.ByteTypeID;
-    case TypeID.RIOType.DOUBLE:
-      return TypeID.DoubleTypeID;
-    case TypeID.RIOType.FLOAT:
-      return TypeID.FloatTypeID;
-    case TypeID.RIOType.INT: 
-      return TypeID.IntTypeID;
-    case TypeID.RIOType.LONG:
-      return TypeID.LongTypeID;
-    case TypeID.RIOType.MAP:
-    {
-      TypeID tIDKey = genericReadTypeID(rin, tag);
-      TypeID tIDValue = genericReadTypeID(rin, tag);
-      return new MapTypeID(tIDKey, tIDValue);
-    }
-    case TypeID.RIOType.STRING: 
-      return TypeID.StringTypeID;
-    case TypeID.RIOType.STRUCT: 
-    {
-      StructTypeID stID = new StructTypeID();
-      int numElems = rin.readInt(tag);
-      for (int i=0; i<numElems; i++) {
-        stID.add(genericReadTypeInfo(rin, tag));
-      }
-      return stID;
-    }
-    case TypeID.RIOType.VECTOR: 
-    {
-      TypeID tID = genericReadTypeID(rin, tag);
-      return new VectorTypeID(tID);
-    }
-    default:
-      // shouldn't be here
-      throw new IOException("Unknown type read");
-    }
-  }
-  
-  @Override
-  public boolean equals(Object o) {
-    return super.equals(o);
-  }
-  
-  @Override
-  public int hashCode() { return super.hashCode(); }
+	void add(FieldTypeInfo ti) {
+		typeInfos.add(ti);
+	}
+
+	public Collection<FieldTypeInfo> getFieldTypeInfos() {
+		return typeInfos;
+	}
+
+	/*
+	 * return the StructTypeiD, if any, of the given field
+	 */
+	StructTypeID findStruct(String name) {
+		// walk through the list, searching. Not the most efficient way, but
+		// this
+		// in intended to be used rarely, so we keep it simple.
+		// As an optimization, we can keep a hashmap of record name to its RTI,
+		// for later.
+		for (FieldTypeInfo ti : typeInfos) {
+			if ((0 == ti.getFieldID().compareTo(name)) && (ti.getTypeID().getTypeVal() == RIOType.STRUCT)) {
+				return (StructTypeID) ti.getTypeID();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	void write(RecordOutput rout, String tag) throws IOException {
+		rout.writeByte(typeVal, tag);
+		writeRest(rout, tag);
+	}
+
+	/*
+	 * Writes rest of the struct (excluding type value). As an optimization,
+	 * this method is directly called by RTI for the top level record so that we
+	 * don't write out the byte indicating that this is a struct (since top
+	 * level records are always structs).
+	 */
+	void writeRest(RecordOutput rout, String tag) throws IOException {
+		rout.writeInt(typeInfos.size(), tag);
+		for (FieldTypeInfo ti : typeInfos) {
+			ti.write(rout, tag);
+		}
+	}
+
+	/*
+	 * deserialize ourselves. Called by RTI.
+	 */
+	void read(RecordInput rin, String tag) throws IOException {
+		// number of elements
+		int numElems = rin.readInt(tag);
+		for (int i = 0; i < numElems; i++) {
+			typeInfos.add(genericReadTypeInfo(rin, tag));
+		}
+	}
+
+	// generic reader: reads the next TypeInfo object from stream and returns it
+	private FieldTypeInfo genericReadTypeInfo(RecordInput rin, String tag) throws IOException {
+		String fieldName = rin.readString(tag);
+		TypeID id = genericReadTypeID(rin, tag);
+		return new FieldTypeInfo(fieldName, id);
+	}
+
+	// generic reader: reads the next TypeID object from stream and returns it
+	private TypeID genericReadTypeID(RecordInput rin, String tag) throws IOException {
+		byte typeVal = rin.readByte(tag);
+		switch (typeVal) {
+		case TypeID.RIOType.BOOL:
+			return TypeID.BoolTypeID;
+		case TypeID.RIOType.BUFFER:
+			return TypeID.BufferTypeID;
+		case TypeID.RIOType.BYTE:
+			return TypeID.ByteTypeID;
+		case TypeID.RIOType.DOUBLE:
+			return TypeID.DoubleTypeID;
+		case TypeID.RIOType.FLOAT:
+			return TypeID.FloatTypeID;
+		case TypeID.RIOType.INT:
+			return TypeID.IntTypeID;
+		case TypeID.RIOType.LONG:
+			return TypeID.LongTypeID;
+		case TypeID.RIOType.MAP: {
+			TypeID tIDKey = genericReadTypeID(rin, tag);
+			TypeID tIDValue = genericReadTypeID(rin, tag);
+			return new MapTypeID(tIDKey, tIDValue);
+		}
+		case TypeID.RIOType.STRING:
+			return TypeID.StringTypeID;
+		case TypeID.RIOType.STRUCT: {
+			StructTypeID stID = new StructTypeID();
+			int numElems = rin.readInt(tag);
+			for (int i = 0; i < numElems; i++) {
+				stID.add(genericReadTypeInfo(rin, tag));
+			}
+			return stID;
+		}
+		case TypeID.RIOType.VECTOR: {
+			TypeID tID = genericReadTypeID(rin, tag);
+			return new VectorTypeID(tID);
+		}
+		default:
+			// shouldn't be here
+			throw new IOException("Unknown type read");
+		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return super.equals(o);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

@@ -34,209 +34,200 @@ import org.apache.hadoop.security.token.Token;
 import org.apache.hadoop.util.Progressable;
 
 /**
- * Implementation of AbstractFileSystem based on the existing implementation of 
+ * Implementation of AbstractFileSystem based on the existing implementation of
  * {@link FileSystem}.
  */
 @InterfaceAudience.Private
 @InterfaceStability.Unstable
 public abstract class DelegateToFileSystem extends AbstractFileSystem {
-  protected final FileSystem fsImpl;
-  
-  protected DelegateToFileSystem(URI theUri, FileSystem theFsImpl,
-      Configuration conf, String supportedScheme, boolean authorityRequired)
-      throws IOException, URISyntaxException {
-    super(theUri, supportedScheme, authorityRequired, 
-        theFsImpl.getDefaultPort());
-    fsImpl = theFsImpl;
-    fsImpl.initialize(theUri, conf);
-    fsImpl.statistics = getStatistics();
-  }
+	protected final FileSystem fsImpl;
 
-  @Override
-  public Path getInitialWorkingDirectory() {
-    return fsImpl.getInitialWorkingDirectory();
-  }
-  
-  @Override
-  @SuppressWarnings("deprecation") // call to primitiveCreate
-  public FSDataOutputStream createInternal (Path f,
-      EnumSet<CreateFlag> flag, FsPermission absolutePermission, int bufferSize,
-      short replication, long blockSize, Progressable progress,
-      ChecksumOpt checksumOpt, boolean createParent) throws IOException {
-    checkPath(f);
-    
-    // Default impl assumes that permissions do not matter
-    // calling the regular create is good enough.
-    // FSs that implement permissions should override this.
+	protected DelegateToFileSystem(URI theUri, FileSystem theFsImpl, Configuration conf, String supportedScheme,
+			boolean authorityRequired) throws IOException, URISyntaxException {
+		super(theUri, supportedScheme, authorityRequired, theFsImpl.getDefaultPort());
+		fsImpl = theFsImpl;
+		fsImpl.initialize(theUri, conf);
+		fsImpl.statistics = getStatistics();
+	}
 
-    if (!createParent) { // parent must exist.
-      // since this.create makes parent dirs automatically
-      // we must throw exception if parent does not exist.
-      final FileStatus stat = getFileStatus(f.getParent());
-      if (stat == null) {
-        throw new FileNotFoundException("Missing parent:" + f);
-      }
-      if (!stat.isDirectory()) {
-          throw new ParentNotDirectoryException("parent is not a dir:" + f);
-      }
-      // parent does exist - go ahead with create of file.
-    }
-    return fsImpl.primitiveCreate(f, absolutePermission, flag,
-        bufferSize, replication, blockSize, progress, checksumOpt);
-  }
+	@Override
+	public Path getInitialWorkingDirectory() {
+		return fsImpl.getInitialWorkingDirectory();
+	}
 
-  @Override
-  public boolean delete(Path f, boolean recursive) throws IOException {
-    checkPath(f);
-    return fsImpl.delete(f, recursive);
-  }
+	@Override
+	@SuppressWarnings("deprecation") // call to primitiveCreate
+	public FSDataOutputStream createInternal(Path f, EnumSet<CreateFlag> flag, FsPermission absolutePermission,
+			int bufferSize, short replication, long blockSize, Progressable progress, ChecksumOpt checksumOpt,
+			boolean createParent) throws IOException {
+		checkPath(f);
 
-  @Override
-  public BlockLocation[] getFileBlockLocations(Path f, long start, long len)
-      throws IOException {
-    checkPath(f);
-    return fsImpl.getFileBlockLocations(f, start, len);
-  }
+		// Default impl assumes that permissions do not matter
+		// calling the regular create is good enough.
+		// FSs that implement permissions should override this.
 
-  @Override
-  public FileChecksum getFileChecksum(Path f) throws IOException {
-    checkPath(f);
-    return fsImpl.getFileChecksum(f);
-  }
+		if (!createParent) { // parent must exist.
+			// since this.create makes parent dirs automatically
+			// we must throw exception if parent does not exist.
+			final FileStatus stat = getFileStatus(f.getParent());
+			if (stat == null) {
+				throw new FileNotFoundException("Missing parent:" + f);
+			}
+			if (!stat.isDirectory()) {
+				throw new ParentNotDirectoryException("parent is not a dir:" + f);
+			}
+			// parent does exist - go ahead with create of file.
+		}
+		return fsImpl.primitiveCreate(f, absolutePermission, flag, bufferSize, replication, blockSize, progress,
+				checksumOpt);
+	}
 
-  @Override
-  public FileStatus getFileStatus(Path f) throws IOException {
-    checkPath(f);
-    return fsImpl.getFileStatus(f);
-  }
+	@Override
+	public boolean delete(Path f, boolean recursive) throws IOException {
+		checkPath(f);
+		return fsImpl.delete(f, recursive);
+	}
 
-  @Override
-  public FileStatus getFileLinkStatus(final Path f) throws IOException {
-    FileStatus status = fsImpl.getFileLinkStatus(f);
-    // FileSystem#getFileLinkStatus qualifies the link target
-    // AbstractFileSystem needs to return it plain since it's qualified
-    // in FileContext, so re-get and set the plain target
-    if (status.isSymlink()) {
-      status.setSymlink(fsImpl.getLinkTarget(f));
-    }
-    return status;
-  }
+	@Override
+	public BlockLocation[] getFileBlockLocations(Path f, long start, long len) throws IOException {
+		checkPath(f);
+		return fsImpl.getFileBlockLocations(f, start, len);
+	}
 
-  @Override
-  public FsStatus getFsStatus() throws IOException {
-    return fsImpl.getStatus();
-  }
+	@Override
+	public FileChecksum getFileChecksum(Path f) throws IOException {
+		checkPath(f);
+		return fsImpl.getFileChecksum(f);
+	}
 
-  @Override
-  public FsStatus getFsStatus(final Path f) throws IOException {
-    return fsImpl.getStatus(f);
-  }
+	@Override
+	public FileStatus getFileStatus(Path f) throws IOException {
+		checkPath(f);
+		return fsImpl.getFileStatus(f);
+	}
 
-  @Override
-  public FsServerDefaults getServerDefaults() throws IOException {
-    return fsImpl.getServerDefaults();
-  }
-  
-  @Override
-  public Path getHomeDirectory() {
-    return fsImpl.getHomeDirectory();
-  }
+	@Override
+	public FileStatus getFileLinkStatus(final Path f) throws IOException {
+		FileStatus status = fsImpl.getFileLinkStatus(f);
+		// FileSystem#getFileLinkStatus qualifies the link target
+		// AbstractFileSystem needs to return it plain since it's qualified
+		// in FileContext, so re-get and set the plain target
+		if (status.isSymlink()) {
+			status.setSymlink(fsImpl.getLinkTarget(f));
+		}
+		return status;
+	}
 
-  @Override
-  public int getUriDefaultPort() {
-    return 0;
-  }
+	@Override
+	public FsStatus getFsStatus() throws IOException {
+		return fsImpl.getStatus();
+	}
 
-  @Override
-  public FileStatus[] listStatus(Path f) throws IOException {
-    checkPath(f);
-    return fsImpl.listStatus(f);
-  }
+	@Override
+	public FsStatus getFsStatus(final Path f) throws IOException {
+		return fsImpl.getStatus(f);
+	}
 
-  @Override
-  @SuppressWarnings("deprecation") // call to primitiveMkdir
-  public void mkdir(Path dir, FsPermission permission, boolean createParent)
-      throws IOException {
-    checkPath(dir);
-    fsImpl.primitiveMkdir(dir, permission, createParent);
-    
-  }
+	@Override
+	public FsServerDefaults getServerDefaults() throws IOException {
+		return fsImpl.getServerDefaults();
+	}
 
-  @Override
-  public FSDataInputStream open(Path f, int bufferSize) throws IOException {
-    checkPath(f);
-    return fsImpl.open(f, bufferSize);
-  }
+	@Override
+	public Path getHomeDirectory() {
+		return fsImpl.getHomeDirectory();
+	}
 
-  @Override
-  public boolean truncate(Path f, long newLength) throws IOException {
-    checkPath(f);
-    return fsImpl.truncate(f, newLength);
-  }
+	@Override
+	public int getUriDefaultPort() {
+		return 0;
+	}
 
-  @Override
-  @SuppressWarnings("deprecation") // call to rename
-  public void renameInternal(Path src, Path dst) throws IOException {
-    checkPath(src);
-    checkPath(dst);
-    fsImpl.rename(src, dst, Options.Rename.NONE);
-  }
+	@Override
+	public FileStatus[] listStatus(Path f) throws IOException {
+		checkPath(f);
+		return fsImpl.listStatus(f);
+	}
 
-  @Override
-  public void setOwner(Path f, String username, String groupname)
-      throws IOException {
-    checkPath(f);
-    fsImpl.setOwner(f, username, groupname);
-  }
+	@Override
+	@SuppressWarnings("deprecation") // call to primitiveMkdir
+	public void mkdir(Path dir, FsPermission permission, boolean createParent) throws IOException {
+		checkPath(dir);
+		fsImpl.primitiveMkdir(dir, permission, createParent);
 
-  @Override
-  public void setPermission(Path f, FsPermission permission)
-      throws IOException {
-    checkPath(f);
-    fsImpl.setPermission(f, permission);
-  }
+	}
 
-  @Override
-  public boolean setReplication(Path f, short replication)
-      throws IOException {
-    checkPath(f);
-    return fsImpl.setReplication(f, replication);
-  }
+	@Override
+	public FSDataInputStream open(Path f, int bufferSize) throws IOException {
+		checkPath(f);
+		return fsImpl.open(f, bufferSize);
+	}
 
-  @Override
-  public void setTimes(Path f, long mtime, long atime) throws IOException {
-    checkPath(f);
-    fsImpl.setTimes(f, mtime, atime);
-  }
+	@Override
+	public boolean truncate(Path f, long newLength) throws IOException {
+		checkPath(f);
+		return fsImpl.truncate(f, newLength);
+	}
 
-  @Override
-  public void setVerifyChecksum(boolean verifyChecksum) throws IOException {
-    fsImpl.setVerifyChecksum(verifyChecksum);
-  }
+	@Override
+	@SuppressWarnings("deprecation") // call to rename
+	public void renameInternal(Path src, Path dst) throws IOException {
+		checkPath(src);
+		checkPath(dst);
+		fsImpl.rename(src, dst, Options.Rename.NONE);
+	}
 
-  @Override
-  public boolean supportsSymlinks() {
-    return fsImpl.supportsSymlinks();
-  }  
-  
-  @Override
-  public void createSymlink(Path target, Path link, boolean createParent) 
-      throws IOException { 
-    fsImpl.createSymlink(target, link, createParent);
-  } 
-  
-  @Override
-  public Path getLinkTarget(final Path f) throws IOException {
-    return fsImpl.getLinkTarget(f);
-  }
+	@Override
+	public void setOwner(Path f, String username, String groupname) throws IOException {
+		checkPath(f);
+		fsImpl.setOwner(f, username, groupname);
+	}
 
-  @Override //AbstractFileSystem
-  public String getCanonicalServiceName() {
-    return fsImpl.getCanonicalServiceName();
-  }
-  
-  @Override //AbstractFileSystem
-  public List<Token<?>> getDelegationTokens(String renewer) throws IOException {
-    return Arrays.asList(fsImpl.addDelegationTokens(renewer, null));
-  }
+	@Override
+	public void setPermission(Path f, FsPermission permission) throws IOException {
+		checkPath(f);
+		fsImpl.setPermission(f, permission);
+	}
+
+	@Override
+	public boolean setReplication(Path f, short replication) throws IOException {
+		checkPath(f);
+		return fsImpl.setReplication(f, replication);
+	}
+
+	@Override
+	public void setTimes(Path f, long mtime, long atime) throws IOException {
+		checkPath(f);
+		fsImpl.setTimes(f, mtime, atime);
+	}
+
+	@Override
+	public void setVerifyChecksum(boolean verifyChecksum) throws IOException {
+		fsImpl.setVerifyChecksum(verifyChecksum);
+	}
+
+	@Override
+	public boolean supportsSymlinks() {
+		return fsImpl.supportsSymlinks();
+	}
+
+	@Override
+	public void createSymlink(Path target, Path link, boolean createParent) throws IOException {
+		fsImpl.createSymlink(target, link, createParent);
+	}
+
+	@Override
+	public Path getLinkTarget(final Path f) throws IOException {
+		return fsImpl.getLinkTarget(f);
+	}
+
+	@Override // AbstractFileSystem
+	public String getCanonicalServiceName() {
+		return fsImpl.getCanonicalServiceName();
+	}
+
+	@Override // AbstractFileSystem
+	public List<Token<?>> getDelegationTokens(String renewer) throws IOException {
+		return Arrays.asList(fsImpl.addDelegationTokens(renewer, null));
+	}
 }

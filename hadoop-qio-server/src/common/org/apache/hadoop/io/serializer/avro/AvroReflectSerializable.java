@@ -22,8 +22,8 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
 /**
- * Tag interface for Avro 'reflect' serializable classes. Classes implementing 
- * this interface can be serialized/deserialized using 
+ * Tag interface for Avro 'reflect' serializable classes. Classes implementing
+ * this interface can be serialized/deserialized using
  * {@link AvroReflectSerialization}.
  */
 @InterfaceAudience.Public

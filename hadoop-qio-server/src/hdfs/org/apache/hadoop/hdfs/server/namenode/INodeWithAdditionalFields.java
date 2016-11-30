@@ -27,343 +27,334 @@ import org.apache.hadoop.util.LightWeightGSet.LinkedElement;
 import com.google.common.base.Preconditions;
 
 /**
- * {@link INode} with additional fields including id, name, permission,
- * access time and modification time.
+ * {@link INode} with additional fields including id, name, permission, access
+ * time and modification time.
  */
 @InterfaceAudience.Private
-public abstract class INodeWithAdditionalFields extends INode
-    implements LinkedElement {
-  static enum PermissionStatusFormat {
-    MODE(null, 16),
-    GROUP(MODE.BITS, 25),
-    USER(GROUP.BITS, 23);
+public abstract class INodeWithAdditionalFields extends INode implements LinkedElement {
+	static enum PermissionStatusFormat {
+		MODE(null, 16), GROUP(MODE.BITS, 25), USER(GROUP.BITS, 23);
 
-    final LongBitFormat BITS;
+		final LongBitFormat BITS;
 
-    private PermissionStatusFormat(LongBitFormat previous, int length) {
-      BITS = new LongBitFormat(name(), previous, length, 0);
-    }
+		private PermissionStatusFormat(LongBitFormat previous, int length) {
+			BITS = new LongBitFormat(name(), previous, length, 0);
+		}
 
-    static String getUser(long permission) {
-      final int n = (int)USER.BITS.retrieve(permission);
-      return SerialNumberManager.INSTANCE.getUser(n);
-    }
+		static String getUser(long permission) {
+			final int n = (int) USER.BITS.retrieve(permission);
+			return SerialNumberManager.INSTANCE.getUser(n);
+		}
 
-    static String getGroup(long permission) {
-      final int n = (int)GROUP.BITS.retrieve(permission);
-      return SerialNumberManager.INSTANCE.getGroup(n);
-    }
-    
-    static short getMode(long permission) {
-      return (short)MODE.BITS.retrieve(permission);
-    }
+		static String getGroup(long permission) {
+			final int n = (int) GROUP.BITS.retrieve(permission);
+			return SerialNumberManager.INSTANCE.getGroup(n);
+		}
 
-    /** Encode the {@link PermissionStatus} to a long. */
-    static long toLong(PermissionStatus ps) {
-      long permission = 0L;
-      final int user = SerialNumberManager.INSTANCE.getUserSerialNumber(
-          ps.getUserName());
-      permission = USER.BITS.combine(user, permission);
-      final int group = SerialNumberManager.INSTANCE.getGroupSerialNumber(
-          ps.getGroupName());
-      permission = GROUP.BITS.combine(group, permission);
-      final int mode = ps.getPermission().toShort();
-      permission = MODE.BITS.combine(mode, permission);
-      return permission;
-    }
-  }
+		static short getMode(long permission) {
+			return (short) MODE.BITS.retrieve(permission);
+		}
 
-  /** The inode id. */
-  final private long id;
-  /**
-   *  The inode name is in java UTF8 encoding; 
-   *  The name in HdfsFileStatus should keep the same encoding as this.
-   *  if this encoding is changed, implicitly getFileInfo and listStatus in
-   *  clientProtocol are changed; The decoding at the client
-   *  side should change accordingly.
-   */
-  private byte[] name = null;
-  /** 
-   * Permission encoded using {@link PermissionStatusFormat}.
-   * Codes other than {@link #clonePermissionStatus(INodeWithAdditionalFields)}
-   * and {@link #updatePermissionStatus(PermissionStatusFormat, long)}
-   * should not modify it.
-   */
-  private long permission = 0L;
-  /** The last modification time*/
-  private long modificationTime = 0L;
-  /** The last access time*/
-  private long accessTime = 0L;
+		/** Encode the {@link PermissionStatus} to a long. */
+		static long toLong(PermissionStatus ps) {
+			long permission = 0L;
+			final int user = SerialNumberManager.INSTANCE.getUserSerialNumber(ps.getUserName());
+			permission = USER.BITS.combine(user, permission);
+			final int group = SerialNumberManager.INSTANCE.getGroupSerialNumber(ps.getGroupName());
+			permission = GROUP.BITS.combine(group, permission);
+			final int mode = ps.getPermission().toShort();
+			permission = MODE.BITS.combine(mode, permission);
+			return permission;
+		}
+	}
 
-  /** For implementing {@link LinkedElement}. */
-  private LinkedElement next = null;
-  /** An array {@link Feature}s. */
-  private static final Feature[] EMPTY_FEATURE = new Feature[0];
-  protected Feature[] features = EMPTY_FEATURE;
+	/** The inode id. */
+	final private long id;
+	/**
+	 * The inode name is in java UTF8 encoding; The name in HdfsFileStatus
+	 * should keep the same encoding as this. if this encoding is changed,
+	 * implicitly getFileInfo and listStatus in clientProtocol are changed; The
+	 * decoding at the client side should change accordingly.
+	 */
+	private byte[] name = null;
+	/**
+	 * Permission encoded using {@link PermissionStatusFormat}. Codes other than
+	 * {@link #clonePermissionStatus(INodeWithAdditionalFields)} and
+	 * {@link #updatePermissionStatus(PermissionStatusFormat, long)} should not
+	 * modify it.
+	 */
+	private long permission = 0L;
+	/** The last modification time */
+	private long modificationTime = 0L;
+	/** The last access time */
+	private long accessTime = 0L;
 
-  private INodeWithAdditionalFields(INode parent, long id, byte[] name,
-      long permission, long modificationTime, long accessTime) {
-    super(parent);
-    this.id = id;
-    this.name = name;
-    this.permission = permission;
-    this.modificationTime = modificationTime;
-    this.accessTime = accessTime;
-  }
+	/** For implementing {@link LinkedElement}. */
+	private LinkedElement next = null;
+	/** An array {@link Feature}s. */
+	private static final Feature[] EMPTY_FEATURE = new Feature[0];
+	protected Feature[] features = EMPTY_FEATURE;
 
-  INodeWithAdditionalFields(long id, byte[] name, PermissionStatus permissions,
-      long modificationTime, long accessTime) {
-    this(null, id, name, PermissionStatusFormat.toLong(permissions),
-        modificationTime, accessTime);
-  }
-  
-  /** @param other Other node to be copied */
-  INodeWithAdditionalFields(INodeWithAdditionalFields other) {
-    this(other.getParentReference() != null ? other.getParentReference()
-        : other.getParent(), other.getId(), other.getLocalNameBytes(),
-        other.permission, other.modificationTime, other.accessTime);
-  }
+	private INodeWithAdditionalFields(INode parent, long id, byte[] name, long permission, long modificationTime,
+			long accessTime) {
+		super(parent);
+		this.id = id;
+		this.name = name;
+		this.permission = permission;
+		this.modificationTime = modificationTime;
+		this.accessTime = accessTime;
+	}
 
-  @Override
-  public void setNext(LinkedElement next) {
-    this.next = next;
-  }
-  
-  @Override
-  public LinkedElement getNext() {
-    return next;
-  }
+	INodeWithAdditionalFields(long id, byte[] name, PermissionStatus permissions, long modificationTime,
+			long accessTime) {
+		this(null, id, name, PermissionStatusFormat.toLong(permissions), modificationTime, accessTime);
+	}
 
-  /** Get inode id */
-  @Override
-  public final long getId() {
-    return this.id;
-  }
+	/**
+	 * @param other
+	 *            Other node to be copied
+	 */
+	INodeWithAdditionalFields(INodeWithAdditionalFields other) {
+		this(other.getParentReference() != null ? other.getParentReference() : other.getParent(), other.getId(),
+				other.getLocalNameBytes(), other.permission, other.modificationTime, other.accessTime);
+	}
 
-  @Override
-  public final byte[] getLocalNameBytes() {
-    return name;
-  }
-  
-  @Override
-  public final void setLocalName(byte[] name) {
-    this.name = name;
-  }
+	@Override
+	public void setNext(LinkedElement next) {
+		this.next = next;
+	}
 
-  /** Clone the {@link PermissionStatus}. */
-  final void clonePermissionStatus(INodeWithAdditionalFields that) {
-    this.permission = that.permission;
-  }
+	@Override
+	public LinkedElement getNext() {
+		return next;
+	}
 
-  @Override
-  final PermissionStatus getPermissionStatus(int snapshotId) {
-    return new PermissionStatus(getUserName(snapshotId), getGroupName(snapshotId),
-        getFsPermission(snapshotId));
-  }
+	/** Get inode id */
+	@Override
+	public final long getId() {
+		return this.id;
+	}
 
-  private final void updatePermissionStatus(PermissionStatusFormat f, long n) {
-    this.permission = f.BITS.combine(n, permission);
-  }
+	@Override
+	public final byte[] getLocalNameBytes() {
+		return name;
+	}
 
-  @Override
-  final String getUserName(int snapshotId) {
-    if (snapshotId != Snapshot.CURRENT_STATE_ID) {
-      return getSnapshotINode(snapshotId).getUserName();
-    }
-    return PermissionStatusFormat.getUser(permission);
-  }
+	@Override
+	public final void setLocalName(byte[] name) {
+		this.name = name;
+	}
 
-  @Override
-  final void setUser(String user) {
-    int n = SerialNumberManager.INSTANCE.getUserSerialNumber(user);
-    updatePermissionStatus(PermissionStatusFormat.USER, n);
-  }
+	/** Clone the {@link PermissionStatus}. */
+	final void clonePermissionStatus(INodeWithAdditionalFields that) {
+		this.permission = that.permission;
+	}
 
-  @Override
-  final String getGroupName(int snapshotId) {
-    if (snapshotId != Snapshot.CURRENT_STATE_ID) {
-      return getSnapshotINode(snapshotId).getGroupName();
-    }
-    return PermissionStatusFormat.getGroup(permission);
-  }
+	@Override
+	final PermissionStatus getPermissionStatus(int snapshotId) {
+		return new PermissionStatus(getUserName(snapshotId), getGroupName(snapshotId), getFsPermission(snapshotId));
+	}
 
-  @Override
-  final void setGroup(String group) {
-    int n = SerialNumberManager.INSTANCE.getGroupSerialNumber(group);
-    updatePermissionStatus(PermissionStatusFormat.GROUP, n);
-  }
+	private final void updatePermissionStatus(PermissionStatusFormat f, long n) {
+		this.permission = f.BITS.combine(n, permission);
+	}
 
-  @Override
-  final FsPermission getFsPermission(int snapshotId) {
-    if (snapshotId != Snapshot.CURRENT_STATE_ID) {
-      return getSnapshotINode(snapshotId).getFsPermission();
-    }
+	@Override
+	final String getUserName(int snapshotId) {
+		if (snapshotId != Snapshot.CURRENT_STATE_ID) {
+			return getSnapshotINode(snapshotId).getUserName();
+		}
+		return PermissionStatusFormat.getUser(permission);
+	}
 
-    return new FsPermission(getFsPermissionShort());
-  }
+	@Override
+	final void setUser(String user) {
+		int n = SerialNumberManager.INSTANCE.getUserSerialNumber(user);
+		updatePermissionStatus(PermissionStatusFormat.USER, n);
+	}
 
-  @Override
-  public final short getFsPermissionShort() {
-    return PermissionStatusFormat.getMode(permission);
-  }
-  @Override
-  void setPermission(FsPermission permission) {
-    final short mode = permission.toShort();
-    updatePermissionStatus(PermissionStatusFormat.MODE, mode);
-  }
+	@Override
+	final String getGroupName(int snapshotId) {
+		if (snapshotId != Snapshot.CURRENT_STATE_ID) {
+			return getSnapshotINode(snapshotId).getGroupName();
+		}
+		return PermissionStatusFormat.getGroup(permission);
+	}
 
-  @Override
-  public long getPermissionLong() {
-    return permission;
-  }
+	@Override
+	final void setGroup(String group) {
+		int n = SerialNumberManager.INSTANCE.getGroupSerialNumber(group);
+		updatePermissionStatus(PermissionStatusFormat.GROUP, n);
+	}
 
-  @Override
-  public final AclFeature getAclFeature(int snapshotId) {
-    if (snapshotId != Snapshot.CURRENT_STATE_ID) {
-      return getSnapshotINode(snapshotId).getAclFeature();
-    }
+	@Override
+	final FsPermission getFsPermission(int snapshotId) {
+		if (snapshotId != Snapshot.CURRENT_STATE_ID) {
+			return getSnapshotINode(snapshotId).getFsPermission();
+		}
 
-    return getFeature(AclFeature.class);
-  }
+		return new FsPermission(getFsPermissionShort());
+	}
 
-  @Override
-  final long getModificationTime(int snapshotId) {
-    if (snapshotId != Snapshot.CURRENT_STATE_ID) {
-      return getSnapshotINode(snapshotId).getModificationTime();
-    }
+	@Override
+	public final short getFsPermissionShort() {
+		return PermissionStatusFormat.getMode(permission);
+	}
 
-    return this.modificationTime;
-  }
+	@Override
+	void setPermission(FsPermission permission) {
+		final short mode = permission.toShort();
+		updatePermissionStatus(PermissionStatusFormat.MODE, mode);
+	}
 
+	@Override
+	public long getPermissionLong() {
+		return permission;
+	}
 
-  /** Update modification time if it is larger than the current value. */
-  @Override
-  public final INode updateModificationTime(long mtime, int latestSnapshotId) {
-    Preconditions.checkState(isDirectory());
-    if (mtime <= modificationTime) {
-      return this;
-    }
-    return setModificationTime(mtime, latestSnapshotId);
-  }
+	@Override
+	public final AclFeature getAclFeature(int snapshotId) {
+		if (snapshotId != Snapshot.CURRENT_STATE_ID) {
+			return getSnapshotINode(snapshotId).getAclFeature();
+		}
 
-  final void cloneModificationTime(INodeWithAdditionalFields that) {
-    this.modificationTime = that.modificationTime;
-  }
+		return getFeature(AclFeature.class);
+	}
 
-  @Override
-  public final void setModificationTime(long modificationTime) {
-    this.modificationTime = modificationTime;
-  }
+	@Override
+	final long getModificationTime(int snapshotId) {
+		if (snapshotId != Snapshot.CURRENT_STATE_ID) {
+			return getSnapshotINode(snapshotId).getModificationTime();
+		}
 
-  @Override
-  final long getAccessTime(int snapshotId) {
-    if (snapshotId != Snapshot.CURRENT_STATE_ID) {
-      return getSnapshotINode(snapshotId).getAccessTime();
-    }
-    return accessTime;
-  }
+		return this.modificationTime;
+	}
 
-  /**
-   * Set last access time of inode.
-   */
-  @Override
-  public final void setAccessTime(long accessTime) {
-    this.accessTime = accessTime;
-  }
+	/** Update modification time if it is larger than the current value. */
+	@Override
+	public final INode updateModificationTime(long mtime, int latestSnapshotId) {
+		Preconditions.checkState(isDirectory());
+		if (mtime <= modificationTime) {
+			return this;
+		}
+		return setModificationTime(mtime, latestSnapshotId);
+	}
 
-  protected void addFeature(Feature f) {
-    int size = features.length;
-    Feature[] arr = new Feature[size + 1];
-    if (size != 0) {
-      System.arraycopy(features, 0, arr, 0, size);
-    }
-    arr[size] = f;
-    features = arr;
-  }
+	final void cloneModificationTime(INodeWithAdditionalFields that) {
+		this.modificationTime = that.modificationTime;
+	}
 
-  protected void removeFeature(Feature f) {
-    int size = features.length;
-    Preconditions.checkState(size > 0, "Feature "
-        + f.getClass().getSimpleName() + " not found.");
+	@Override
+	public final void setModificationTime(long modificationTime) {
+		this.modificationTime = modificationTime;
+	}
 
-    if (size == 1) {
-      Preconditions.checkState(features[0] == f, "Feature "
-          + f.getClass().getSimpleName() + " not found.");
-      features = EMPTY_FEATURE;
-      return;
-    }
+	@Override
+	final long getAccessTime(int snapshotId) {
+		if (snapshotId != Snapshot.CURRENT_STATE_ID) {
+			return getSnapshotINode(snapshotId).getAccessTime();
+		}
+		return accessTime;
+	}
 
-    Feature[] arr = new Feature[size - 1];
-    int j = 0;
-    boolean overflow = false;
-    for (Feature f1 : features) {
-      if (f1 != f) {
-        if (j == size - 1) {
-          overflow = true;
-          break;
-        } else {
-          arr[j++] = f1;
-        }
-      }
-    }
+	/**
+	 * Set last access time of inode.
+	 */
+	@Override
+	public final void setAccessTime(long accessTime) {
+		this.accessTime = accessTime;
+	}
 
-    Preconditions.checkState(!overflow && j == size - 1, "Feature "
-        + f.getClass().getSimpleName() + " not found.");
-    features = arr;
-  }
+	protected void addFeature(Feature f) {
+		int size = features.length;
+		Feature[] arr = new Feature[size + 1];
+		if (size != 0) {
+			System.arraycopy(features, 0, arr, 0, size);
+		}
+		arr[size] = f;
+		features = arr;
+	}
 
-  protected <T extends Feature> T getFeature(Class<? extends Feature> clazz) {
-    Preconditions.checkArgument(clazz != null);
-    for (Feature f : features) {
-      if (clazz.isAssignableFrom(f.getClass())) {
-        @SuppressWarnings("unchecked")
-        T ret = (T) f;
-        return ret;
-      }
-    }
-    return null;
-  }
+	protected void removeFeature(Feature f) {
+		int size = features.length;
+		Preconditions.checkState(size > 0, "Feature " + f.getClass().getSimpleName() + " not found.");
 
-  public void removeAclFeature() {
-    AclFeature f = getAclFeature();
-    Preconditions.checkNotNull(f);
-    removeFeature(f);
-    AclStorage.removeAclFeature(f);
-  }
+		if (size == 1) {
+			Preconditions.checkState(features[0] == f, "Feature " + f.getClass().getSimpleName() + " not found.");
+			features = EMPTY_FEATURE;
+			return;
+		}
 
-  public void addAclFeature(AclFeature f) {
-    AclFeature f1 = getAclFeature();
-    if (f1 != null)
-      throw new IllegalStateException("Duplicated ACLFeature");
+		Feature[] arr = new Feature[size - 1];
+		int j = 0;
+		boolean overflow = false;
+		for (Feature f1 : features) {
+			if (f1 != f) {
+				if (j == size - 1) {
+					overflow = true;
+					break;
+				} else {
+					arr[j++] = f1;
+				}
+			}
+		}
 
-    addFeature(AclStorage.addAclFeature(f));
-  }
-  
-  @Override
-  XAttrFeature getXAttrFeature(int snapshotId) {
-    if (snapshotId != Snapshot.CURRENT_STATE_ID) {
-      return getSnapshotINode(snapshotId).getXAttrFeature();
-    }
+		Preconditions.checkState(!overflow && j == size - 1, "Feature " + f.getClass().getSimpleName() + " not found.");
+		features = arr;
+	}
 
-    return getFeature(XAttrFeature.class);
-  }
-  
-  @Override
-  public void removeXAttrFeature() {
-    XAttrFeature f = getXAttrFeature();
-    Preconditions.checkNotNull(f);
-    removeFeature(f);
-  }
-  
-  @Override
-  public void addXAttrFeature(XAttrFeature f) {
-    XAttrFeature f1 = getXAttrFeature();
-    Preconditions.checkState(f1 == null, "Duplicated XAttrFeature");
-    
-    addFeature(f);
-  }
+	protected <T extends Feature> T getFeature(Class<? extends Feature> clazz) {
+		Preconditions.checkArgument(clazz != null);
+		for (Feature f : features) {
+			if (clazz.isAssignableFrom(f.getClass())) {
+				@SuppressWarnings("unchecked")
+				T ret = (T) f;
+				return ret;
+			}
+		}
+		return null;
+	}
 
-  public final Feature[] getFeatures() {
-    return features;
-  }
+	public void removeAclFeature() {
+		AclFeature f = getAclFeature();
+		Preconditions.checkNotNull(f);
+		removeFeature(f);
+		AclStorage.removeAclFeature(f);
+	}
+
+	public void addAclFeature(AclFeature f) {
+		AclFeature f1 = getAclFeature();
+		if (f1 != null)
+			throw new IllegalStateException("Duplicated ACLFeature");
+
+		addFeature(AclStorage.addAclFeature(f));
+	}
+
+	@Override
+	XAttrFeature getXAttrFeature(int snapshotId) {
+		if (snapshotId != Snapshot.CURRENT_STATE_ID) {
+			return getSnapshotINode(snapshotId).getXAttrFeature();
+		}
+
+		return getFeature(XAttrFeature.class);
+	}
+
+	@Override
+	public void removeXAttrFeature() {
+		XAttrFeature f = getXAttrFeature();
+		Preconditions.checkNotNull(f);
+		removeFeature(f);
+	}
+
+	@Override
+	public void addXAttrFeature(XAttrFeature f) {
+		XAttrFeature f1 = getXAttrFeature();
+		Preconditions.checkState(f1 == null, "Duplicated XAttrFeature");
+
+		addFeature(f);
+	}
+
+	public final Feature[] getFeatures() {
+		return features;
+	}
 }

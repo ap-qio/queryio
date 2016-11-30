@@ -33,62 +33,54 @@ import org.apache.hadoop.io.compress.CompressionCodec;
 
 @InterfaceAudience.Private
 public final class FSImageUtil {
-  public static final byte[] MAGIC_HEADER =
-      "HDFSIMG1".getBytes(Charsets.UTF_8);
-  public static final int FILE_VERSION = 1;
+	public static final byte[] MAGIC_HEADER = "HDFSIMG1".getBytes(Charsets.UTF_8);
+	public static final int FILE_VERSION = 1;
 
-  public static boolean checkFileFormat(RandomAccessFile file)
-      throws IOException {
-    if (file.length() < Loader.MINIMUM_FILE_LENGTH)
-      return false;
+	public static boolean checkFileFormat(RandomAccessFile file) throws IOException {
+		if (file.length() < Loader.MINIMUM_FILE_LENGTH)
+			return false;
 
-    byte[] magic = new byte[MAGIC_HEADER.length];
-    file.readFully(magic);
-    if (!Arrays.equals(MAGIC_HEADER, magic))
-      return false;
+		byte[] magic = new byte[MAGIC_HEADER.length];
+		file.readFully(magic);
+		if (!Arrays.equals(MAGIC_HEADER, magic))
+			return false;
 
-    return true;
-  }
+		return true;
+	}
 
-  public static FileSummary loadSummary(RandomAccessFile file)
-      throws IOException {
-    final int FILE_LENGTH_FIELD_SIZE = 4;
-    long fileLength = file.length();
-    file.seek(fileLength - FILE_LENGTH_FIELD_SIZE);
-    int summaryLength = file.readInt();
+	public static FileSummary loadSummary(RandomAccessFile file) throws IOException {
+		final int FILE_LENGTH_FIELD_SIZE = 4;
+		long fileLength = file.length();
+		file.seek(fileLength - FILE_LENGTH_FIELD_SIZE);
+		int summaryLength = file.readInt();
 
-    if (summaryLength <= 0) {
-      throw new IOException("Negative length of the file");
-    }
-    file.seek(fileLength - FILE_LENGTH_FIELD_SIZE - summaryLength);
+		if (summaryLength <= 0) {
+			throw new IOException("Negative length of the file");
+		}
+		file.seek(fileLength - FILE_LENGTH_FIELD_SIZE - summaryLength);
 
-    byte[] summaryBytes = new byte[summaryLength];
-    file.readFully(summaryBytes);
+		byte[] summaryBytes = new byte[summaryLength];
+		file.readFully(summaryBytes);
 
-    FileSummary summary = FileSummary
-        .parseDelimitedFrom(new ByteArrayInputStream(summaryBytes));
-    if (summary.getOndiskVersion() != FILE_VERSION) {
-      throw new IOException("Unsupported file version "
-          + summary.getOndiskVersion());
-    }
+		FileSummary summary = FileSummary.parseDelimitedFrom(new ByteArrayInputStream(summaryBytes));
+		if (summary.getOndiskVersion() != FILE_VERSION) {
+			throw new IOException("Unsupported file version " + summary.getOndiskVersion());
+		}
 
-    if (!NameNodeLayoutVersion.supports(Feature.PROTOBUF_FORMAT,
-        summary.getLayoutVersion())) {
-      throw new IOException("Unsupported layout version "
-          + summary.getLayoutVersion());
-    }
-    return summary;
-  }
+		if (!NameNodeLayoutVersion.supports(Feature.PROTOBUF_FORMAT, summary.getLayoutVersion())) {
+			throw new IOException("Unsupported layout version " + summary.getLayoutVersion());
+		}
+		return summary;
+	}
 
-  public static InputStream wrapInputStreamForCompression(
-      Configuration conf, String codec, InputStream in) throws IOException {
-    if (codec.isEmpty())
-      return in;
+	public static InputStream wrapInputStreamForCompression(Configuration conf, String codec, InputStream in)
+			throws IOException {
+		if (codec.isEmpty())
+			return in;
 
-    FSImageCompression compression = FSImageCompression.createCompression(
-        conf, codec);
-    CompressionCodec imageCodec = compression.getImageCodec();
-    return imageCodec.createInputStream(in);
-  }
+		FSImageCompression compression = FSImageCompression.createCompression(conf, codec);
+		CompressionCodec imageCodec = compression.getImageCodec();
+		return imageCodec.createInputStream(in);
+	}
 
 }

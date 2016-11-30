@@ -25,24 +25,27 @@ import java.io.InputStream;
  */
 public class LengthInputStream extends FilterInputStream {
 
-  private final long length;
+	private final long length;
 
-  /**
-   * Create an stream.
-   * @param in the underlying input stream.
-   * @param length the length of the stream.
-   */
-  public LengthInputStream(InputStream in, long length) {
-    super(in);
-    this.length = length;
-  }
+	/**
+	 * Create an stream.
+	 * 
+	 * @param in
+	 *            the underlying input stream.
+	 * @param length
+	 *            the length of the stream.
+	 */
+	public LengthInputStream(InputStream in, long length) {
+		super(in);
+		this.length = length;
+	}
 
-  /** @return the length. */
-  public long getLength() {
-    return length;
-  }
-  
-  public InputStream getWrappedStream() {
-    return in;
-  }
+	/** @return the length. */
+	public long getLength() {
+		return length;
+	}
+
+	public InputStream getWrappedStream() {
+		return in;
+	}
 }

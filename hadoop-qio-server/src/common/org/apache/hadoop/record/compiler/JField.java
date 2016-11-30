@@ -30,23 +30,23 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class JField<T> {
-  
-  private String name;
-  private T type;
-  
-  /**
-   * Creates a new instance of JField
-   */
-  public JField(String name, T type) {
-    this.type = type;
-    this.name = name;
-  }
-  
-  String getName() {
-    return name;
-  }
-  
-  T getType() {
-    return type;
-  }
+
+	private String name;
+	private T type;
+
+	/**
+	 * Creates a new instance of JField
+	 */
+	public JField(String name, T type) {
+		this.type = type;
+		this.name = name;
+	}
+
+	String getName() {
+		return name;
+	}
+
+	T getType() {
+		return type;
+	}
 }

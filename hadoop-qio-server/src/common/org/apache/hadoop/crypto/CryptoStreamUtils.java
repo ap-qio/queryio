@@ -32,46 +32,43 @@ import com.google.common.base.Preconditions;
 
 @InterfaceAudience.Private
 public class CryptoStreamUtils {
-  private static final int MIN_BUFFER_SIZE = 512;
-  
-  /** Forcibly free the direct buffer. */
-  public static void freeDB(ByteBuffer buffer) {
-    if (buffer instanceof sun.nio.ch.DirectBuffer) {
-      final sun.misc.Cleaner bufferCleaner =
-          ((sun.nio.ch.DirectBuffer) buffer).cleaner();
-      bufferCleaner.clean();
-    }
-  }
-  
-  /** Read crypto buffer size */
-  public static int getBufferSize(Configuration conf) {
-    return conf.getInt(HADOOP_SECURITY_CRYPTO_BUFFER_SIZE_KEY, 
-        HADOOP_SECURITY_CRYPTO_BUFFER_SIZE_DEFAULT);
-  }
-  
-  /** AES/CTR/NoPadding is required */
-  public static void checkCodec(CryptoCodec codec) {
-    if (codec.getCipherSuite() != CipherSuite.AES_CTR_NOPADDING) {
-      throw new UnsupportedCodecException("AES/CTR/NoPadding is required");
-    }
-  }
+	private static final int MIN_BUFFER_SIZE = 512;
 
-  /** Check and floor buffer size */
-  public static int checkBufferSize(CryptoCodec codec, int bufferSize) {
-    Preconditions.checkArgument(bufferSize >= MIN_BUFFER_SIZE, 
-        "Minimum value of buffer size is " + MIN_BUFFER_SIZE + ".");
-    return bufferSize - bufferSize % codec.getCipherSuite()
-        .getAlgorithmBlockSize();
-  }
-  
-  /**
-   * If input stream is {@link org.apache.hadoop.fs.Seekable}, return it's
-   * current position, otherwise return 0;
-   */
-  public static long getInputStreamOffset(InputStream in) throws IOException {
-    if (in instanceof Seekable) {
-      return ((Seekable) in).getPos();
-    }
-    return 0;
-  }
+	/** Forcibly free the direct buffer. */
+	public static void freeDB(ByteBuffer buffer) {
+		if (buffer instanceof sun.nio.ch.DirectBuffer) {
+			final sun.misc.Cleaner bufferCleaner = ((sun.nio.ch.DirectBuffer) buffer).cleaner();
+			bufferCleaner.clean();
+		}
+	}
+
+	/** Read crypto buffer size */
+	public static int getBufferSize(Configuration conf) {
+		return conf.getInt(HADOOP_SECURITY_CRYPTO_BUFFER_SIZE_KEY, HADOOP_SECURITY_CRYPTO_BUFFER_SIZE_DEFAULT);
+	}
+
+	/** AES/CTR/NoPadding is required */
+	public static void checkCodec(CryptoCodec codec) {
+		if (codec.getCipherSuite() != CipherSuite.AES_CTR_NOPADDING) {
+			throw new UnsupportedCodecException("AES/CTR/NoPadding is required");
+		}
+	}
+
+	/** Check and floor buffer size */
+	public static int checkBufferSize(CryptoCodec codec, int bufferSize) {
+		Preconditions.checkArgument(bufferSize >= MIN_BUFFER_SIZE,
+				"Minimum value of buffer size is " + MIN_BUFFER_SIZE + ".");
+		return bufferSize - bufferSize % codec.getCipherSuite().getAlgorithmBlockSize();
+	}
+
+	/**
+	 * If input stream is {@link org.apache.hadoop.fs.Seekable}, return it's
+	 * current position, otherwise return 0;
+	 */
+	public static long getInputStreamOffset(InputStream in) throws IOException {
+		if (in instanceof Seekable) {
+			return ((Seekable) in).getPos();
+		}
+		return 0;
+	}
 }

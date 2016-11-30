@@ -25,5 +25,5 @@ import org.apache.hadoop.classification.InterfaceStability;
 @Deprecated
 @InterfaceAudience.Public
 @InterfaceStability.Stable
-public interface Closeable extends java.io.Closeable{
+public interface Closeable extends java.io.Closeable {
 }

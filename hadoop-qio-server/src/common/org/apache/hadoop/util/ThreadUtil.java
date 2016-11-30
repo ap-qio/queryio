@@ -19,31 +19,30 @@ package org.apache.hadoop.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.apache.hadoop.classification.InterfaceStability;
 
 @InterfaceStability.Evolving
 public class ThreadUtil {
-  
-  private static final Log LOG = LogFactory.getLog(ThreadUtil.class);
 
-  /**
-   * Cause the current thread to sleep as close as possible to the provided
-   * number of milliseconds. This method will log and ignore any
-   * {@link InterruptedException} encountered.
-   * 
-   * @param millis the number of milliseconds for the current thread to sleep
-   */
-  public static void sleepAtLeastIgnoreInterrupts(long millis) {
-    long start = Time.now();
-    while (Time.now() - start < millis) {
-      long timeToSleep = millis -
-          (Time.now() - start);
-      try {
-        Thread.sleep(timeToSleep);
-      } catch (InterruptedException ie) {
-        LOG.warn("interrupted while sleeping", ie);
-      }
-    }
-  }
+	private static final Log LOG = LogFactory.getLog(ThreadUtil.class);
+
+	/**
+	 * Cause the current thread to sleep as close as possible to the provided
+	 * number of milliseconds. This method will log and ignore any
+	 * {@link InterruptedException} encountered.
+	 * 
+	 * @param millis
+	 *            the number of milliseconds for the current thread to sleep
+	 */
+	public static void sleepAtLeastIgnoreInterrupts(long millis) {
+		long start = Time.now();
+		while (Time.now() - start < millis) {
+			long timeToSleep = millis - (Time.now() - start);
+			try {
+				Thread.sleep(timeToSleep);
+			} catch (InterruptedException ie) {
+				LOG.warn("interrupted while sleeping", ie);
+			}
+		}
+	}
 }

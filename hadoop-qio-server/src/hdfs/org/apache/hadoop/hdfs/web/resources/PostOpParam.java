@@ -21,68 +21,70 @@ import java.net.HttpURLConnection;
 
 /** Http POST operation parameter. */
 public class PostOpParam extends HttpOpParam<PostOpParam.Op> {
-  /** Post operations. */
-  public static enum Op implements HttpOpParam.Op {
-    APPEND(true, HttpURLConnection.HTTP_OK),
+	/** Post operations. */
+	public static enum Op implements HttpOpParam.Op {
+		APPEND(true, HttpURLConnection.HTTP_OK),
 
-    CONCAT(false, HttpURLConnection.HTTP_OK),
+		CONCAT(false, HttpURLConnection.HTTP_OK),
 
-    TRUNCATE(false, HttpURLConnection.HTTP_OK),
+		TRUNCATE(false, HttpURLConnection.HTTP_OK),
 
-    NULL(false, HttpURLConnection.HTTP_NOT_IMPLEMENTED);
+		NULL(false, HttpURLConnection.HTTP_NOT_IMPLEMENTED);
 
-    final boolean doOutputAndRedirect;
-    final int expectedHttpResponseCode;
+		final boolean doOutputAndRedirect;
+		final int expectedHttpResponseCode;
 
-    Op(final boolean doOutputAndRedirect, final int expectedHttpResponseCode) {
-      this.doOutputAndRedirect = doOutputAndRedirect;
-      this.expectedHttpResponseCode = expectedHttpResponseCode;
-    }
+		Op(final boolean doOutputAndRedirect, final int expectedHttpResponseCode) {
+			this.doOutputAndRedirect = doOutputAndRedirect;
+			this.expectedHttpResponseCode = expectedHttpResponseCode;
+		}
 
-    @Override
-    public Type getType() {
-      return Type.POST;
-    }
-    
-    @Override
-    public boolean getRequireAuth() {
-      return false;
-    }
+		@Override
+		public Type getType() {
+			return Type.POST;
+		}
 
-    @Override
-    public boolean getDoOutput() {
-      return doOutputAndRedirect;
-    }
+		@Override
+		public boolean getRequireAuth() {
+			return false;
+		}
 
-    @Override
-    public boolean getRedirect() {
-      return doOutputAndRedirect;
-    }
+		@Override
+		public boolean getDoOutput() {
+			return doOutputAndRedirect;
+		}
 
-    @Override
-    public int getExpectedHttpResponseCode() {
-      return expectedHttpResponseCode;
-    }
+		@Override
+		public boolean getRedirect() {
+			return doOutputAndRedirect;
+		}
 
-    /** @return a URI query string. */
-    @Override
-    public String toQueryString() {
-      return NAME + "=" + this;
-    }
-  }
+		@Override
+		public int getExpectedHttpResponseCode() {
+			return expectedHttpResponseCode;
+		}
 
-  private static final Domain<Op> DOMAIN = new Domain<PostOpParam.Op>(NAME, Op.class);
+		/** @return a URI query string. */
+		@Override
+		public String toQueryString() {
+			return NAME + "=" + this;
+		}
+	}
 
-  /**
-   * Constructor.
-   * @param str a string representation of the parameter value.
-   */
-  public PostOpParam(final String str) {
-    super(DOMAIN, DOMAIN.parse(str));
-  }
+	private static final Domain<Op> DOMAIN = new Domain<PostOpParam.Op>(NAME, Op.class);
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param str
+	 *            a string representation of the parameter value.
+	 */
+	public PostOpParam(final String str) {
+		super(DOMAIN, DOMAIN.parse(str));
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
+	}
 }

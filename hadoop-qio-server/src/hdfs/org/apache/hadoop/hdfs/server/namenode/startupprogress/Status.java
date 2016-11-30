@@ -23,18 +23,18 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 public enum Status {
-  /**
-   * The phase has not yet started running.
-   */
-  PENDING,
+	/**
+	 * The phase has not yet started running.
+	 */
+	PENDING,
 
-  /**
-   * The phase is running right now.
-   */
-  RUNNING,
+	/**
+	 * The phase is running right now.
+	 */
+	RUNNING,
 
-  /**
-   * The phase has already completed.
-   */
-  COMPLETE
+	/**
+	 * The phase has already completed.
+	 */
+	COMPLETE
 }

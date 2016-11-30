@@ -19,11 +19,12 @@
 package org.apache.hadoop.ipc;
 
 /**
- * Implement this interface to be used for RPC scheduling in the fair call queues.
+ * Implement this interface to be used for RPC scheduling in the fair call
+ * queues.
  */
 public interface RpcScheduler {
-  /**
-   * Returns priority level greater than zero as a hint for scheduling.
-   */
-  int getPriorityLevel(Schedulable obj);
+	/**
+	 * Returns priority level greater than zero as a hint for scheduling.
+	 */
+	int getPriorityLevel(Schedulable obj);
 }

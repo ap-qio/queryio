@@ -22,55 +22,65 @@ import java.io.IOException;
 import org.apache.hadoop.hdfs.server.datanode.fsdataset.ReplicaOutputStreams;
 import org.apache.hadoop.util.DataChecksum;
 
-/** 
+/**
  * This defines the interface of a replica in Pipeline that's being written to
  */
 public interface ReplicaInPipelineInterface extends Replica {
-  /**
-   * Set the number of bytes received
-   * @param bytesReceived number of bytes received
-   */
-  void setNumBytes(long bytesReceived);
-  
-  /**
-   * Get the number of bytes acked
-   * @return the number of bytes acked
-   */
-  long getBytesAcked();
-  
-  /**
-   * Set the number bytes that have acked
-   * @param bytesAcked number bytes acked
-   */
-  void setBytesAcked(long bytesAcked);
-  
-  /**
-   * Release any disk space reserved for this replica.
-   */
-  public void releaseAllBytesReserved();
+	/**
+	 * Set the number of bytes received
+	 * 
+	 * @param bytesReceived
+	 *            number of bytes received
+	 */
+	void setNumBytes(long bytesReceived);
 
-  /**
-   * store the checksum for the last chunk along with the data length
-   * @param dataLength number of bytes on disk
-   * @param lastChecksum - checksum bytes for the last chunk
-   */
-  public void setLastChecksumAndDataLen(long dataLength, byte[] lastChecksum);
-  
-  /**
-   * gets the last chunk checksum and the length of the block corresponding
-   * to that checksum
-   */
-  public ChunkChecksum getLastChecksumAndDataLen();
-  
-  /**
-   * Create output streams for writing to this replica, 
-   * one for block file and one for CRC file
-   * 
-   * @param isCreate if it is for creation
-   * @param requestedChecksum the checksum the writer would prefer to use
-   * @return output streams for writing
-   * @throws IOException if any error occurs
-   */
-  public ReplicaOutputStreams createStreams(boolean isCreate,
-      DataChecksum requestedChecksum) throws IOException;
+	/**
+	 * Get the number of bytes acked
+	 * 
+	 * @return the number of bytes acked
+	 */
+	long getBytesAcked();
+
+	/**
+	 * Set the number bytes that have acked
+	 * 
+	 * @param bytesAcked
+	 *            number bytes acked
+	 */
+	void setBytesAcked(long bytesAcked);
+
+	/**
+	 * Release any disk space reserved for this replica.
+	 */
+	public void releaseAllBytesReserved();
+
+	/**
+	 * store the checksum for the last chunk along with the data length
+	 * 
+	 * @param dataLength
+	 *            number of bytes on disk
+	 * @param lastChecksum
+	 *            - checksum bytes for the last chunk
+	 */
+	public void setLastChecksumAndDataLen(long dataLength, byte[] lastChecksum);
+
+	/**
+	 * gets the last chunk checksum and the length of the block corresponding to
+	 * that checksum
+	 */
+	public ChunkChecksum getLastChecksumAndDataLen();
+
+	/**
+	 * Create output streams for writing to this replica, one for block file and
+	 * one for CRC file
+	 * 
+	 * @param isCreate
+	 *            if it is for creation
+	 * @param requestedChecksum
+	 *            the checksum the writer would prefer to use
+	 * @return output streams for writing
+	 * @throws IOException
+	 *             if any error occurs
+	 */
+	public ReplicaOutputStreams createStreams(boolean isCreate, DataChecksum requestedChecksum) throws IOException;
 }

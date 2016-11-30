@@ -61,352 +61,321 @@ import org.apache.hadoop.security.token.TokenIdentifier;
 /**
  * A utility class for dealing with SASL on RPC server
  */
-@InterfaceAudience.LimitedPrivate({"HDFS", "MapReduce"})
+@InterfaceAudience.LimitedPrivate({ "HDFS", "MapReduce" })
 @InterfaceStability.Evolving
 public class SaslRpcServer {
-  public static final Log LOG = LogFactory.getLog(SaslRpcServer.class);
-  public static final String SASL_DEFAULT_REALM = "default";
-  private static SaslServerFactory saslFactory;
+	public static final Log LOG = LogFactory.getLog(SaslRpcServer.class);
+	public static final String SASL_DEFAULT_REALM = "default";
+	private static SaslServerFactory saslFactory;
 
-  public static enum QualityOfProtection {
-    AUTHENTICATION("auth"),
-    INTEGRITY("auth-int"),
-    PRIVACY("auth-conf");
-    
-    public final String saslQop;
-    
-    private QualityOfProtection(String saslQop) {
-      this.saslQop = saslQop;
-    }
-    
-    public String getSaslQop() {
-      return saslQop;
-    }
-  }
+	public static enum QualityOfProtection {
+		AUTHENTICATION("auth"), INTEGRITY("auth-int"), PRIVACY("auth-conf");
 
-  @InterfaceAudience.Private
-  @InterfaceStability.Unstable
-  public AuthMethod authMethod;
-  public String mechanism;
-  public String protocol;
-  public String serverId;
-  
-  @InterfaceAudience.Private
-  @InterfaceStability.Unstable
-  public SaslRpcServer(AuthMethod authMethod) throws IOException {
-    this.authMethod = authMethod;
-    mechanism = authMethod.getMechanismName();    
-    switch (authMethod) {
-      case SIMPLE: {
-        return; // no sasl for simple
-      }
-      case TOKEN: {
-        protocol = "";
-        serverId = SaslRpcServer.SASL_DEFAULT_REALM;
-        break;
-      }
-      case KERBEROS: {
-        String fullName = UserGroupInformation.getCurrentUser().getUserName();
-        if (LOG.isDebugEnabled())
-          LOG.debug("Kerberos principal name is " + fullName);
-        // don't use KerberosName because we don't want auth_to_local
-        String[] parts = fullName.split("[/@]", 3);
-        protocol = parts[0];
-        // should verify service host is present here rather than in create()
-        // but lazy tests are using a UGI that isn't a SPN...
-        serverId = (parts.length < 2) ? "" : parts[1];
-        break;
-      }
-      default:
-        // we should never be able to get here
-        throw new AccessControlException(
-            "Server does not support SASL " + authMethod);
-    }
-  }
-  
-  @InterfaceAudience.Private
-  @InterfaceStability.Unstable
-  public SaslServer create(final Connection connection,
-                           final Map<String,?> saslProperties,
-                           SecretManager<TokenIdentifier> secretManager
-      ) throws IOException, InterruptedException {
-    UserGroupInformation ugi = null;
-    final CallbackHandler callback;
-    switch (authMethod) {
-      case TOKEN: {
-        callback = new SaslDigestCallbackHandler(secretManager, connection);
-        break;
-      }
-      case KERBEROS: {
-        ugi = UserGroupInformation.getCurrentUser();
-        if (serverId.isEmpty()) {
-          throw new AccessControlException(
-              "Kerberos principal name does NOT have the expected "
-                  + "hostname part: " + ugi.getUserName());
-        }
-        callback = new SaslGssCallbackHandler();
-        break;
-      }
-      default:
-        // we should never be able to get here
-        throw new AccessControlException(
-            "Server does not support SASL " + authMethod);
-    }
-    
-    final SaslServer saslServer;
-    if (ugi != null) {
-      saslServer = ugi.doAs(
-        new PrivilegedExceptionAction<SaslServer>() {
-          @Override
-          public SaslServer run() throws SaslException  {
-            return saslFactory.createSaslServer(mechanism, protocol, serverId,
-                saslProperties, callback);
-          }
-        });
-    } else {
-      saslServer = saslFactory.createSaslServer(mechanism, protocol, serverId,
-          saslProperties, callback);
-    }
-    if (saslServer == null) {
-      throw new AccessControlException(
-          "Unable to find SASL server implementation for " + mechanism);
-    }
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Created SASL server with mechanism = " + mechanism);
-    }
-    return saslServer;
-  }
+		public final String saslQop;
 
-  public static void init(Configuration conf) {
-    Security.addProvider(new SaslPlainServer.SecurityProvider());
-    // passing null so factory is populated with all possibilities.  the
-    // properties passed when instantiating a server are what really matter
-    saslFactory = new FastSaslServerFactory(null);
-  }
-  
-  static String encodeIdentifier(byte[] identifier) {
-    return new String(Base64.encodeBase64(identifier), Charsets.UTF_8);
-  }
+		private QualityOfProtection(String saslQop) {
+			this.saslQop = saslQop;
+		}
 
-  static byte[] decodeIdentifier(String identifier) {
-    return Base64.decodeBase64(identifier.getBytes(Charsets.UTF_8));
-  }
+		public String getSaslQop() {
+			return saslQop;
+		}
+	}
 
-  public static <T extends TokenIdentifier> T getIdentifier(String id,
-      SecretManager<T> secretManager) throws InvalidToken {
-    byte[] tokenId = decodeIdentifier(id);
-    T tokenIdentifier = secretManager.createIdentifier();
-    try {
-      tokenIdentifier.readFields(new DataInputStream(new ByteArrayInputStream(
-          tokenId)));
-    } catch (IOException e) {
-      throw (InvalidToken) new InvalidToken(
-          "Can't de-serialize tokenIdentifier").initCause(e);
-    }
-    return tokenIdentifier;
-  }
+	@InterfaceAudience.Private
+	@InterfaceStability.Unstable
+	public AuthMethod authMethod;
+	public String mechanism;
+	public String protocol;
+	public String serverId;
 
-  static char[] encodePassword(byte[] password) {
-    return new String(Base64.encodeBase64(password),
-                      Charsets.UTF_8).toCharArray();
-  }
+	@InterfaceAudience.Private
+	@InterfaceStability.Unstable
+	public SaslRpcServer(AuthMethod authMethod) throws IOException {
+		this.authMethod = authMethod;
+		mechanism = authMethod.getMechanismName();
+		switch (authMethod) {
+		case SIMPLE: {
+			return; // no sasl for simple
+		}
+		case TOKEN: {
+			protocol = "";
+			serverId = SaslRpcServer.SASL_DEFAULT_REALM;
+			break;
+		}
+		case KERBEROS: {
+			String fullName = UserGroupInformation.getCurrentUser().getUserName();
+			if (LOG.isDebugEnabled())
+				LOG.debug("Kerberos principal name is " + fullName);
+			// don't use KerberosName because we don't want auth_to_local
+			String[] parts = fullName.split("[/@]", 3);
+			protocol = parts[0];
+			// should verify service host is present here rather than in
+			// create()
+			// but lazy tests are using a UGI that isn't a SPN...
+			serverId = (parts.length < 2) ? "" : parts[1];
+			break;
+		}
+		default:
+			// we should never be able to get here
+			throw new AccessControlException("Server does not support SASL " + authMethod);
+		}
+	}
 
-  /** Splitting fully qualified Kerberos name into parts */
-  public static String[] splitKerberosName(String fullName) {
-    return fullName.split("[/@]");
-  }
+	@InterfaceAudience.Private
+	@InterfaceStability.Unstable
+	public SaslServer create(final Connection connection, final Map<String, ?> saslProperties,
+			SecretManager<TokenIdentifier> secretManager) throws IOException, InterruptedException {
+		UserGroupInformation ugi = null;
+		final CallbackHandler callback;
+		switch (authMethod) {
+		case TOKEN: {
+			callback = new SaslDigestCallbackHandler(secretManager, connection);
+			break;
+		}
+		case KERBEROS: {
+			ugi = UserGroupInformation.getCurrentUser();
+			if (serverId.isEmpty()) {
+				throw new AccessControlException(
+						"Kerberos principal name does NOT have the expected " + "hostname part: " + ugi.getUserName());
+			}
+			callback = new SaslGssCallbackHandler();
+			break;
+		}
+		default:
+			// we should never be able to get here
+			throw new AccessControlException("Server does not support SASL " + authMethod);
+		}
 
-  /** Authentication method */
-  @InterfaceStability.Evolving
-  public static enum AuthMethod {
-    SIMPLE((byte) 80, ""),
-    KERBEROS((byte) 81, "GSSAPI"),
-    @Deprecated
-    DIGEST((byte) 82, "DIGEST-MD5"),
-    TOKEN((byte) 82, "DIGEST-MD5"),
-    PLAIN((byte) 83, "PLAIN");
+		final SaslServer saslServer;
+		if (ugi != null) {
+			saslServer = ugi.doAs(new PrivilegedExceptionAction<SaslServer>() {
+				@Override
+				public SaslServer run() throws SaslException {
+					return saslFactory.createSaslServer(mechanism, protocol, serverId, saslProperties, callback);
+				}
+			});
+		} else {
+			saslServer = saslFactory.createSaslServer(mechanism, protocol, serverId, saslProperties, callback);
+		}
+		if (saslServer == null) {
+			throw new AccessControlException("Unable to find SASL server implementation for " + mechanism);
+		}
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Created SASL server with mechanism = " + mechanism);
+		}
+		return saslServer;
+	}
 
-    /** The code for this method. */
-    public final byte code;
-    public final String mechanismName;
+	public static void init(Configuration conf) {
+		Security.addProvider(new SaslPlainServer.SecurityProvider());
+		// passing null so factory is populated with all possibilities. the
+		// properties passed when instantiating a server are what really matter
+		saslFactory = new FastSaslServerFactory(null);
+	}
 
-    private AuthMethod(byte code, String mechanismName) { 
-      this.code = code;
-      this.mechanismName = mechanismName;
-    }
+	static String encodeIdentifier(byte[] identifier) {
+		return new String(Base64.encodeBase64(identifier), Charsets.UTF_8);
+	}
 
-    private static final int FIRST_CODE = values()[0].code;
+	static byte[] decodeIdentifier(String identifier) {
+		return Base64.decodeBase64(identifier.getBytes(Charsets.UTF_8));
+	}
 
-    /** Return the object represented by the code. */
-    private static AuthMethod valueOf(byte code) {
-      final int i = (code & 0xff) - FIRST_CODE;
-      return i < 0 || i >= values().length ? null : values()[i];
-    }
+	public static <T extends TokenIdentifier> T getIdentifier(String id, SecretManager<T> secretManager)
+			throws InvalidToken {
+		byte[] tokenId = decodeIdentifier(id);
+		T tokenIdentifier = secretManager.createIdentifier();
+		try {
+			tokenIdentifier.readFields(new DataInputStream(new ByteArrayInputStream(tokenId)));
+		} catch (IOException e) {
+			throw (InvalidToken) new InvalidToken("Can't de-serialize tokenIdentifier").initCause(e);
+		}
+		return tokenIdentifier;
+	}
 
-    /** Return the SASL mechanism name */
-    public String getMechanismName() {
-      return mechanismName;
-    }
+	static char[] encodePassword(byte[] password) {
+		return new String(Base64.encodeBase64(password), Charsets.UTF_8).toCharArray();
+	}
 
-    /** Read from in */
-    public static AuthMethod read(DataInput in) throws IOException {
-      return valueOf(in.readByte());
-    }
+	/** Splitting fully qualified Kerberos name into parts */
+	public static String[] splitKerberosName(String fullName) {
+		return fullName.split("[/@]");
+	}
 
-    /** Write to out */
-    public void write(DataOutput out) throws IOException {
-      out.write(code);
-    }
-  };
+	/** Authentication method */
+	@InterfaceStability.Evolving
+	public static enum AuthMethod {
+		SIMPLE((byte) 80, ""), KERBEROS((byte) 81, "GSSAPI"), @Deprecated
+		DIGEST((byte) 82, "DIGEST-MD5"), TOKEN((byte) 82, "DIGEST-MD5"), PLAIN((byte) 83, "PLAIN");
 
-  /** CallbackHandler for SASL DIGEST-MD5 mechanism */
-  @InterfaceStability.Evolving
-  public static class SaslDigestCallbackHandler implements CallbackHandler {
-    private SecretManager<TokenIdentifier> secretManager;
-    private Server.Connection connection; 
-    
-    public SaslDigestCallbackHandler(
-        SecretManager<TokenIdentifier> secretManager,
-        Server.Connection connection) {
-      this.secretManager = secretManager;
-      this.connection = connection;
-    }
+		/** The code for this method. */
+		public final byte code;
+		public final String mechanismName;
 
-    private char[] getPassword(TokenIdentifier tokenid) throws InvalidToken,
-        StandbyException, RetriableException, IOException {
-      return encodePassword(secretManager.retriableRetrievePassword(tokenid));
-    }
+		private AuthMethod(byte code, String mechanismName) {
+			this.code = code;
+			this.mechanismName = mechanismName;
+		}
 
-    @Override
-    public void handle(Callback[] callbacks) throws InvalidToken,
-        UnsupportedCallbackException, StandbyException, RetriableException,
-        IOException {
-      NameCallback nc = null;
-      PasswordCallback pc = null;
-      AuthorizeCallback ac = null;
-      for (Callback callback : callbacks) {
-        if (callback instanceof AuthorizeCallback) {
-          ac = (AuthorizeCallback) callback;
-        } else if (callback instanceof NameCallback) {
-          nc = (NameCallback) callback;
-        } else if (callback instanceof PasswordCallback) {
-          pc = (PasswordCallback) callback;
-        } else if (callback instanceof RealmCallback) {
-          continue; // realm is ignored
-        } else {
-          throw new UnsupportedCallbackException(callback,
-              "Unrecognized SASL DIGEST-MD5 Callback");
-        }
-      }
-      if (pc != null) {
-        TokenIdentifier tokenIdentifier = getIdentifier(nc.getDefaultName(),
-            secretManager);
-        char[] password = getPassword(tokenIdentifier);
-        UserGroupInformation user = null;
-        user = tokenIdentifier.getUser(); // may throw exception
-        connection.attemptingUser = user;
-        
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("SASL server DIGEST-MD5 callback: setting password "
-              + "for client: " + tokenIdentifier.getUser());
-        }
-        pc.setPassword(password);
-      }
-      if (ac != null) {
-        String authid = ac.getAuthenticationID();
-        String authzid = ac.getAuthorizationID();
-        if (authid.equals(authzid)) {
-          ac.setAuthorized(true);
-        } else {
-          ac.setAuthorized(false);
-        }
-        if (ac.isAuthorized()) {
-          if (LOG.isDebugEnabled()) {
-            String username =
-              getIdentifier(authzid, secretManager).getUser().getUserName();
-            LOG.debug("SASL server DIGEST-MD5 callback: setting "
-                + "canonicalized client ID: " + username);
-          }
-          ac.setAuthorizedID(authzid);
-        }
-      }
-    }
-  }
+		private static final int FIRST_CODE = values()[0].code;
 
-  /** CallbackHandler for SASL GSSAPI Kerberos mechanism */
-  @InterfaceStability.Evolving
-  public static class SaslGssCallbackHandler implements CallbackHandler {
+		/** Return the object represented by the code. */
+		private static AuthMethod valueOf(byte code) {
+			final int i = (code & 0xff) - FIRST_CODE;
+			return i < 0 || i >= values().length ? null : values()[i];
+		}
 
-    @Override
-    public void handle(Callback[] callbacks) throws
-        UnsupportedCallbackException {
-      AuthorizeCallback ac = null;
-      for (Callback callback : callbacks) {
-        if (callback instanceof AuthorizeCallback) {
-          ac = (AuthorizeCallback) callback;
-        } else {
-          throw new UnsupportedCallbackException(callback,
-              "Unrecognized SASL GSSAPI Callback");
-        }
-      }
-      if (ac != null) {
-        String authid = ac.getAuthenticationID();
-        String authzid = ac.getAuthorizationID();
-        if (authid.equals(authzid)) {
-          ac.setAuthorized(true);
-        } else {
-          ac.setAuthorized(false);
-        }
-        if (ac.isAuthorized()) {
-          if (LOG.isDebugEnabled())
-            LOG.debug("SASL server GSSAPI callback: setting "
-                + "canonicalized client ID: " + authzid);
-          ac.setAuthorizedID(authzid);
-        }
-      }
-    }
-  }
-  
-  // Sasl.createSaslServer is 100-200X slower than caching the factories!
-  private static class FastSaslServerFactory implements SaslServerFactory {
-    private final Map<String,List<SaslServerFactory>> factoryCache =
-        new HashMap<String,List<SaslServerFactory>>();
+		/** Return the SASL mechanism name */
+		public String getMechanismName() {
+			return mechanismName;
+		}
 
-    FastSaslServerFactory(Map<String,?> props) {
-      final Enumeration<SaslServerFactory> factories =
-          Sasl.getSaslServerFactories();
-      while (factories.hasMoreElements()) {
-        SaslServerFactory factory = factories.nextElement();
-        for (String mech : factory.getMechanismNames(props)) {
-          if (!factoryCache.containsKey(mech)) {
-            factoryCache.put(mech, new ArrayList<SaslServerFactory>());
-          }
-          factoryCache.get(mech).add(factory);
-        }
-      }
-    }
+		/** Read from in */
+		public static AuthMethod read(DataInput in) throws IOException {
+			return valueOf(in.readByte());
+		}
 
-    @Override
-    public SaslServer createSaslServer(String mechanism, String protocol,
-        String serverName, Map<String,?> props, CallbackHandler cbh)
-        throws SaslException {
-      SaslServer saslServer = null;
-      List<SaslServerFactory> factories = factoryCache.get(mechanism);
-      if (factories != null) {
-        for (SaslServerFactory factory : factories) {
-          saslServer = factory.createSaslServer(
-              mechanism, protocol, serverName, props, cbh);
-          if (saslServer != null) {
-            break;
-          }
-        }
-      }
-      return saslServer;
-    }
+		/** Write to out */
+		public void write(DataOutput out) throws IOException {
+			out.write(code);
+		}
+	};
 
-    @Override
-    public String[] getMechanismNames(Map<String, ?> props) {
-      return factoryCache.keySet().toArray(new String[0]);
-    }
-  }
+	/** CallbackHandler for SASL DIGEST-MD5 mechanism */
+	@InterfaceStability.Evolving
+	public static class SaslDigestCallbackHandler implements CallbackHandler {
+		private SecretManager<TokenIdentifier> secretManager;
+		private Server.Connection connection;
+
+		public SaslDigestCallbackHandler(SecretManager<TokenIdentifier> secretManager, Server.Connection connection) {
+			this.secretManager = secretManager;
+			this.connection = connection;
+		}
+
+		private char[] getPassword(TokenIdentifier tokenid)
+				throws InvalidToken, StandbyException, RetriableException, IOException {
+			return encodePassword(secretManager.retriableRetrievePassword(tokenid));
+		}
+
+		@Override
+		public void handle(Callback[] callbacks)
+				throws InvalidToken, UnsupportedCallbackException, StandbyException, RetriableException, IOException {
+			NameCallback nc = null;
+			PasswordCallback pc = null;
+			AuthorizeCallback ac = null;
+			for (Callback callback : callbacks) {
+				if (callback instanceof AuthorizeCallback) {
+					ac = (AuthorizeCallback) callback;
+				} else if (callback instanceof NameCallback) {
+					nc = (NameCallback) callback;
+				} else if (callback instanceof PasswordCallback) {
+					pc = (PasswordCallback) callback;
+				} else if (callback instanceof RealmCallback) {
+					continue; // realm is ignored
+				} else {
+					throw new UnsupportedCallbackException(callback, "Unrecognized SASL DIGEST-MD5 Callback");
+				}
+			}
+			if (pc != null) {
+				TokenIdentifier tokenIdentifier = getIdentifier(nc.getDefaultName(), secretManager);
+				char[] password = getPassword(tokenIdentifier);
+				UserGroupInformation user = null;
+				user = tokenIdentifier.getUser(); // may throw exception
+				connection.attemptingUser = user;
+
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("SASL server DIGEST-MD5 callback: setting password " + "for client: "
+							+ tokenIdentifier.getUser());
+				}
+				pc.setPassword(password);
+			}
+			if (ac != null) {
+				String authid = ac.getAuthenticationID();
+				String authzid = ac.getAuthorizationID();
+				if (authid.equals(authzid)) {
+					ac.setAuthorized(true);
+				} else {
+					ac.setAuthorized(false);
+				}
+				if (ac.isAuthorized()) {
+					if (LOG.isDebugEnabled()) {
+						String username = getIdentifier(authzid, secretManager).getUser().getUserName();
+						LOG.debug("SASL server DIGEST-MD5 callback: setting " + "canonicalized client ID: " + username);
+					}
+					ac.setAuthorizedID(authzid);
+				}
+			}
+		}
+	}
+
+	/** CallbackHandler for SASL GSSAPI Kerberos mechanism */
+	@InterfaceStability.Evolving
+	public static class SaslGssCallbackHandler implements CallbackHandler {
+
+		@Override
+		public void handle(Callback[] callbacks) throws UnsupportedCallbackException {
+			AuthorizeCallback ac = null;
+			for (Callback callback : callbacks) {
+				if (callback instanceof AuthorizeCallback) {
+					ac = (AuthorizeCallback) callback;
+				} else {
+					throw new UnsupportedCallbackException(callback, "Unrecognized SASL GSSAPI Callback");
+				}
+			}
+			if (ac != null) {
+				String authid = ac.getAuthenticationID();
+				String authzid = ac.getAuthorizationID();
+				if (authid.equals(authzid)) {
+					ac.setAuthorized(true);
+				} else {
+					ac.setAuthorized(false);
+				}
+				if (ac.isAuthorized()) {
+					if (LOG.isDebugEnabled())
+						LOG.debug("SASL server GSSAPI callback: setting " + "canonicalized client ID: " + authzid);
+					ac.setAuthorizedID(authzid);
+				}
+			}
+		}
+	}
+
+	// Sasl.createSaslServer is 100-200X slower than caching the factories!
+	private static class FastSaslServerFactory implements SaslServerFactory {
+		private final Map<String, List<SaslServerFactory>> factoryCache = new HashMap<String, List<SaslServerFactory>>();
+
+		FastSaslServerFactory(Map<String, ?> props) {
+			final Enumeration<SaslServerFactory> factories = Sasl.getSaslServerFactories();
+			while (factories.hasMoreElements()) {
+				SaslServerFactory factory = factories.nextElement();
+				for (String mech : factory.getMechanismNames(props)) {
+					if (!factoryCache.containsKey(mech)) {
+						factoryCache.put(mech, new ArrayList<SaslServerFactory>());
+					}
+					factoryCache.get(mech).add(factory);
+				}
+			}
+		}
+
+		@Override
+		public SaslServer createSaslServer(String mechanism, String protocol, String serverName, Map<String, ?> props,
+				CallbackHandler cbh) throws SaslException {
+			SaslServer saslServer = null;
+			List<SaslServerFactory> factories = factoryCache.get(mechanism);
+			if (factories != null) {
+				for (SaslServerFactory factory : factories) {
+					saslServer = factory.createSaslServer(mechanism, protocol, serverName, props, cbh);
+					if (saslServer != null) {
+						break;
+					}
+				}
+			}
+			return saslServer;
+		}
+
+		@Override
+		public String[] getMechanismNames(Map<String, ?> props) {
+			return factoryCache.keySet().toArray(new String[0]);
+		}
+	}
 }

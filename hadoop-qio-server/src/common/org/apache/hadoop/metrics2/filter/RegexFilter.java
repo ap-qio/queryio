@@ -30,8 +30,8 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceStability.Evolving
 public class RegexFilter extends AbstractPatternFilter {
 
-  @Override
-  protected Pattern compile(String s) {
-    return Pattern.compile(s);
-  }
+	@Override
+	protected Pattern compile(String s) {
+		return Pattern.compile(s);
+	}
 }

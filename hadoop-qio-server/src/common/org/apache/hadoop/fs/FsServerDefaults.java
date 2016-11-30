@@ -37,95 +37,93 @@ import org.apache.hadoop.util.DataChecksum;
 @InterfaceStability.Evolving
 public class FsServerDefaults implements Writable {
 
-  static { // register a ctor
-    WritableFactories.setFactory(FsServerDefaults.class, new WritableFactory() {
-      @Override
-      public Writable newInstance() {
-        return new FsServerDefaults();
-      }
-    });
-  }
+	static { // register a ctor
+		WritableFactories.setFactory(FsServerDefaults.class, new WritableFactory() {
+			@Override
+			public Writable newInstance() {
+				return new FsServerDefaults();
+			}
+		});
+	}
 
-  private long blockSize;
-  private int bytesPerChecksum;
-  private int writePacketSize;
-  private short replication;
-  private int fileBufferSize;
-  private boolean encryptDataTransfer;
-  private long trashInterval;
-  private DataChecksum.Type checksumType;
+	private long blockSize;
+	private int bytesPerChecksum;
+	private int writePacketSize;
+	private short replication;
+	private int fileBufferSize;
+	private boolean encryptDataTransfer;
+	private long trashInterval;
+	private DataChecksum.Type checksumType;
 
-  public FsServerDefaults() {
-  }
+	public FsServerDefaults() {
+	}
 
-  public FsServerDefaults(long blockSize, int bytesPerChecksum,
-      int writePacketSize, short replication, int fileBufferSize,
-      boolean encryptDataTransfer, long trashInterval,
-      DataChecksum.Type checksumType) {
-    this.blockSize = blockSize;
-    this.bytesPerChecksum = bytesPerChecksum;
-    this.writePacketSize = writePacketSize;
-    this.replication = replication;
-    this.fileBufferSize = fileBufferSize;
-    this.encryptDataTransfer = encryptDataTransfer;
-    this.trashInterval = trashInterval;
-    this.checksumType = checksumType;
-  }
+	public FsServerDefaults(long blockSize, int bytesPerChecksum, int writePacketSize, short replication,
+			int fileBufferSize, boolean encryptDataTransfer, long trashInterval, DataChecksum.Type checksumType) {
+		this.blockSize = blockSize;
+		this.bytesPerChecksum = bytesPerChecksum;
+		this.writePacketSize = writePacketSize;
+		this.replication = replication;
+		this.fileBufferSize = fileBufferSize;
+		this.encryptDataTransfer = encryptDataTransfer;
+		this.trashInterval = trashInterval;
+		this.checksumType = checksumType;
+	}
 
-  public long getBlockSize() {
-    return blockSize;
-  }
+	public long getBlockSize() {
+		return blockSize;
+	}
 
-  public int getBytesPerChecksum() {
-    return bytesPerChecksum;
-  }
+	public int getBytesPerChecksum() {
+		return bytesPerChecksum;
+	}
 
-  public int getWritePacketSize() {
-    return writePacketSize;
-  }
+	public int getWritePacketSize() {
+		return writePacketSize;
+	}
 
-  public short getReplication() {
-    return replication;
-  }
+	public short getReplication() {
+		return replication;
+	}
 
-  public int getFileBufferSize() {
-    return fileBufferSize;
-  }
-  
-  public boolean getEncryptDataTransfer() {
-    return encryptDataTransfer;
-  }
+	public int getFileBufferSize() {
+		return fileBufferSize;
+	}
 
-  public long getTrashInterval() {
-    return trashInterval;
-  }
+	public boolean getEncryptDataTransfer() {
+		return encryptDataTransfer;
+	}
 
-  public DataChecksum.Type getChecksumType() {
-    return checksumType;
-  }
+	public long getTrashInterval() {
+		return trashInterval;
+	}
 
-  // /////////////////////////////////////////
-  // Writable
-  // /////////////////////////////////////////
-  @Override
-  @InterfaceAudience.Private
-  public void write(DataOutput out) throws IOException {
-    out.writeLong(blockSize);
-    out.writeInt(bytesPerChecksum);
-    out.writeInt(writePacketSize);
-    out.writeShort(replication);
-    out.writeInt(fileBufferSize);
-    WritableUtils.writeEnum(out, checksumType);
-  }
+	public DataChecksum.Type getChecksumType() {
+		return checksumType;
+	}
 
-  @Override
-  @InterfaceAudience.Private
-  public void readFields(DataInput in) throws IOException {
-    blockSize = in.readLong();
-    bytesPerChecksum = in.readInt();
-    writePacketSize = in.readInt();
-    replication = in.readShort();
-    fileBufferSize = in.readInt();
-    checksumType = WritableUtils.readEnum(in, DataChecksum.Type.class);
-  }
+	// /////////////////////////////////////////
+	// Writable
+	// /////////////////////////////////////////
+	@Override
+	@InterfaceAudience.Private
+	public void write(DataOutput out) throws IOException {
+		out.writeLong(blockSize);
+		out.writeInt(bytesPerChecksum);
+		out.writeInt(writePacketSize);
+		out.writeShort(replication);
+		out.writeInt(fileBufferSize);
+		WritableUtils.writeEnum(out, checksumType);
+	}
+
+	@Override
+	@InterfaceAudience.Private
+	public void readFields(DataInput in) throws IOException {
+		blockSize = in.readLong();
+		bytesPerChecksum = in.readInt();
+		writePacketSize = in.readInt();
+		replication = in.readShort();
+		fileBufferSize = in.readInt();
+		checksumType = WritableUtils.readEnum(in, DataChecksum.Type.class);
+	}
 }

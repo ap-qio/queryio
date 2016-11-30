@@ -30,10 +30,11 @@ import org.apache.hadoop.hdfs.server.namenode.JournalManager;
 @InterfaceAudience.Private
 public interface StorageErrorReporter {
 
-  /**
-   * Indicate that some error occurred on the given file.
-   * 
-   * @param f the file which had an error.
-   */
-  public void reportErrorOnFile(File f);
+	/**
+	 * Indicate that some error occurred on the given file.
+	 * 
+	 * @param f
+	 *            the file which had an error.
+	 */
+	public void reportErrorOnFile(File f);
 }

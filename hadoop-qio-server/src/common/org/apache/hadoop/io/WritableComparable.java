@@ -22,21 +22,29 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
 /**
- * A {@link Writable} which is also {@link Comparable}. 
+ * A {@link Writable} which is also {@link Comparable}.
  *
- * <p><code>WritableComparable</code>s can be compared to each other, typically 
- * via <code>Comparator</code>s. Any type which is to be used as a 
- * <code>key</code> in the Hadoop Map-Reduce framework should implement this
- * interface.</p>
+ * <p>
+ * <code>WritableComparable</code>s can be compared to each other, typically via
+ * <code>Comparator</code>s. Any type which is to be used as a <code>key</code>
+ * in the Hadoop Map-Reduce framework should implement this interface.
+ * </p>
  *
- * <p>Note that <code>hashCode()</code> is frequently used in Hadoop to partition
- * keys. It's important that your implementation of hashCode() returns the same 
- * result across different instances of the JVM. Note also that the default 
+ * <p>
+ * Note that <code>hashCode()</code> is frequently used in Hadoop to partition
+ * keys. It's important that your implementation of hashCode() returns the same
+ * result across different instances of the JVM. Note also that the default
  * <code>hashCode()</code> implementation in <code>Object</code> does <b>not</b>
- * satisfy this property.</p>
- *  
- * <p>Example:</p>
- * <p><blockquote><pre>
+ * satisfy this property.
+ * </p>
+ * 
+ * <p>
+ * Example:
+ * </p>
+ * <p>
+ * <blockquote>
+ * 
+ * <pre>
  *     public class MyWritableComparable implements WritableComparable<MyWritableComparable> {
  *       // Some data
  *       private int counter;
@@ -66,7 +74,10 @@ import org.apache.hadoop.classification.InterfaceStability;
  *         return result
  *       }
  *     }
- * </pre></blockquote></p>
+ * </pre>
+ * 
+ * </blockquote>
+ * </p>
  */
 @InterfaceAudience.Public
 @InterfaceStability.Stable

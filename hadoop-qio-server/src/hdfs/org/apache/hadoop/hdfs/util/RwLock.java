@@ -19,24 +19,24 @@ package org.apache.hadoop.hdfs.util;
 
 /** Read-write lock interface. */
 public interface RwLock {
-  /** Acquire read lock. */
-  public void readLock();
-  
-  /** Release read lock. */
-  public void readUnlock();
+	/** Acquire read lock. */
+	public void readLock();
 
-  /** Check if the current thread holds read lock. */
-  public boolean hasReadLock();
+	/** Release read lock. */
+	public void readUnlock();
 
-  /** Acquire write lock. */
-  public void writeLock();
-  
-  /** Acquire write lock, unless interrupted while waiting  */
-  void writeLockInterruptibly() throws InterruptedException;
+	/** Check if the current thread holds read lock. */
+	public boolean hasReadLock();
 
-  /** Release write lock. */
-  public void writeUnlock();
+	/** Acquire write lock. */
+	public void writeLock();
 
-  /** Check if the current thread holds write lock. */
-  public boolean hasWriteLock();
+	/** Acquire write lock, unless interrupted while waiting */
+	void writeLockInterruptibly() throws InterruptedException;
+
+	/** Release write lock. */
+	public void writeUnlock();
+
+	/** Check if the current thread holds write lock. */
+	public boolean hasWriteLock();
 }

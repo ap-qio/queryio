@@ -38,52 +38,49 @@ import org.apache.hadoop.conf.Configuration;
  */
 @InterfaceAudience.Private
 @InterfaceStability.Unstable
-public class FsUrlStreamHandlerFactory implements
-    URLStreamHandlerFactory {
+public class FsUrlStreamHandlerFactory implements URLStreamHandlerFactory {
 
-  // The configuration holds supported FS implementation class names.
-  private Configuration conf;
+	// The configuration holds supported FS implementation class names.
+	private Configuration conf;
 
-  // This map stores whether a protocol is know or not by FileSystem
-  private Map<String, Boolean> protocols =
-      new ConcurrentHashMap<String, Boolean>();
+	// This map stores whether a protocol is know or not by FileSystem
+	private Map<String, Boolean> protocols = new ConcurrentHashMap<String, Boolean>();
 
-  // The URL Stream handler
-  private java.net.URLStreamHandler handler;
+	// The URL Stream handler
+	private java.net.URLStreamHandler handler;
 
-  public FsUrlStreamHandlerFactory() {
-    this(new Configuration());
-  }
+	public FsUrlStreamHandlerFactory() {
+		this(new Configuration());
+	}
 
-  public FsUrlStreamHandlerFactory(Configuration conf) {
-    this.conf = new Configuration(conf);
-    // force init of FileSystem code to avoid HADOOP-9041
-    try {
-      FileSystem.getFileSystemClass("file", conf);
-    } catch (IOException io) {
-      throw new RuntimeException(io);
-    }
-    this.handler = new FsUrlStreamHandler(this.conf);
-  }
+	public FsUrlStreamHandlerFactory(Configuration conf) {
+		this.conf = new Configuration(conf);
+		// force init of FileSystem code to avoid HADOOP-9041
+		try {
+			FileSystem.getFileSystemClass("file", conf);
+		} catch (IOException io) {
+			throw new RuntimeException(io);
+		}
+		this.handler = new FsUrlStreamHandler(this.conf);
+	}
 
-  @Override
-  public java.net.URLStreamHandler createURLStreamHandler(String protocol) {
-    if (!protocols.containsKey(protocol)) {
-      boolean known = true;
-      try {
-        FileSystem.getFileSystemClass(protocol, conf);
-      }
-      catch (IOException ex) {
-        known = false;
-      }
-      protocols.put(protocol, known);
-    }
-    if (protocols.get(protocol)) {
-      return handler;
-    } else {
-      // FileSystem does not know the protocol, let the VM handle this
-      return null;
-    }
-  }
+	@Override
+	public java.net.URLStreamHandler createURLStreamHandler(String protocol) {
+		if (!protocols.containsKey(protocol)) {
+			boolean known = true;
+			try {
+				FileSystem.getFileSystemClass(protocol, conf);
+			} catch (IOException ex) {
+				known = false;
+			}
+			protocols.put(protocol, known);
+		}
+		if (protocols.get(protocol)) {
+			return handler;
+		} else {
+			// FileSystem does not know the protocol, let the VM handle this
+			return null;
+		}
+	}
 
 }

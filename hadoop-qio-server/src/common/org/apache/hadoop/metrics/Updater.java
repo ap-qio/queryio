@@ -24,15 +24,15 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
 /**
- * Call-back interface.  See <code>MetricsContext.registerUpdater()</code>.
+ * Call-back interface. See <code>MetricsContext.registerUpdater()</code>.
  */
-@InterfaceAudience.LimitedPrivate({"HDFS", "MapReduce"})
+@InterfaceAudience.LimitedPrivate({ "HDFS", "MapReduce" })
 @InterfaceStability.Evolving
 public interface Updater {
-    
-  /**
-   * Timer-based call-back from the metric library. 
-   */
-  public abstract void doUpdates(MetricsContext context);
+
+	/**
+	 * Timer-based call-back from the metric library.
+	 */
+	public abstract void doUpdates(MetricsContext context);
 
 }

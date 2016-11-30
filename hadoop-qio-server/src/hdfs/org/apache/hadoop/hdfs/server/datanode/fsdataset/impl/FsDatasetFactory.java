@@ -28,9 +28,8 @@ import org.apache.hadoop.hdfs.server.datanode.fsdataset.FsDatasetSpi;
  * A factory for creating {@link FsDatasetImpl} objects.
  */
 public class FsDatasetFactory extends FsDatasetSpi.Factory<FsDatasetImpl> {
-  @Override
-  public FsDatasetImpl newInstance(DataNode datanode,
-      DataStorage storage, Configuration conf) throws IOException {
-    return new FsDatasetImpl(datanode, storage, conf);
-  }
+	@Override
+	public FsDatasetImpl newInstance(DataNode datanode, DataStorage storage, Configuration conf) throws IOException {
+		return new FsDatasetImpl(datanode, storage, conf);
+	}
 }

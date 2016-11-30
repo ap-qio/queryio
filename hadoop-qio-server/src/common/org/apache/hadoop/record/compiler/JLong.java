@@ -30,69 +30,68 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class JLong extends JType {
-  
-  class JavaLong extends JavaType {
-    
-    JavaLong() {
-      super("long", "Long", "Long", "TypeID.RIOType.LONG");
-    }
-    
-    @Override
-    String getTypeIDObjectString() {
-      return "org.apache.hadoop.record.meta.TypeID.LongTypeID";
-    }
 
-    @Override
-    void genHashCode(CodeBuffer cb, String fname) {
-      cb.append(Consts.RIO_PREFIX + "ret = (int) ("+fname+"^("+
-          fname+">>>32));\n");
-    }
-    
-    @Override
-    void genSlurpBytes(CodeBuffer cb, String b, String s, String l) {
-      cb.append("{\n");
-      cb.append("long i = org.apache.hadoop.record.Utils.readVLong("+b+", "+s+");\n");
-      cb.append("int z = org.apache.hadoop.record.Utils.getVIntSize(i);\n");
-      cb.append(s+"+=z; "+l+"-=z;\n");
-      cb.append("}\n");
-    }
-    
-    @Override
-    void genCompareBytes(CodeBuffer cb) {
-      cb.append("{\n");
-      cb.append("long i1 = org.apache.hadoop.record.Utils.readVLong(b1, s1);\n");
-      cb.append("long i2 = org.apache.hadoop.record.Utils.readVLong(b2, s2);\n");
-      cb.append("if (i1 != i2) {\n");
-      cb.append("return ((i1-i2) < 0) ? -1 : 0;\n");
-      cb.append("}\n");
-      cb.append("int z1 = org.apache.hadoop.record.Utils.getVIntSize(i1);\n");
-      cb.append("int z2 = org.apache.hadoop.record.Utils.getVIntSize(i2);\n");
-      cb.append("s1+=z1; s2+=z2; l1-=z1; l2-=z2;\n");
-      cb.append("}\n");
-    }
-  }
+	class JavaLong extends JavaType {
 
-  class CppLong extends CppType {
-    
-    CppLong() {
-      super("int64_t");
-    }
-    
-    @Override
-    String getTypeIDObjectString() {
-      return "new ::hadoop::TypeID(::hadoop::RIOTYPE_LONG)";
-    }
-  }
+		JavaLong() {
+			super("long", "Long", "Long", "TypeID.RIOType.LONG");
+		}
 
-  /** Creates a new instance of JLong */
-  public JLong() {
-    setJavaType(new JavaLong());
-    setCppType(new CppLong());
-    setCType(new CType());
-  }
-  
-  @Override
-  String getSignature() {
-    return "l";
-  }
+		@Override
+		String getTypeIDObjectString() {
+			return "org.apache.hadoop.record.meta.TypeID.LongTypeID";
+		}
+
+		@Override
+		void genHashCode(CodeBuffer cb, String fname) {
+			cb.append(Consts.RIO_PREFIX + "ret = (int) (" + fname + "^(" + fname + ">>>32));\n");
+		}
+
+		@Override
+		void genSlurpBytes(CodeBuffer cb, String b, String s, String l) {
+			cb.append("{\n");
+			cb.append("long i = org.apache.hadoop.record.Utils.readVLong(" + b + ", " + s + ");\n");
+			cb.append("int z = org.apache.hadoop.record.Utils.getVIntSize(i);\n");
+			cb.append(s + "+=z; " + l + "-=z;\n");
+			cb.append("}\n");
+		}
+
+		@Override
+		void genCompareBytes(CodeBuffer cb) {
+			cb.append("{\n");
+			cb.append("long i1 = org.apache.hadoop.record.Utils.readVLong(b1, s1);\n");
+			cb.append("long i2 = org.apache.hadoop.record.Utils.readVLong(b2, s2);\n");
+			cb.append("if (i1 != i2) {\n");
+			cb.append("return ((i1-i2) < 0) ? -1 : 0;\n");
+			cb.append("}\n");
+			cb.append("int z1 = org.apache.hadoop.record.Utils.getVIntSize(i1);\n");
+			cb.append("int z2 = org.apache.hadoop.record.Utils.getVIntSize(i2);\n");
+			cb.append("s1+=z1; s2+=z2; l1-=z1; l2-=z2;\n");
+			cb.append("}\n");
+		}
+	}
+
+	class CppLong extends CppType {
+
+		CppLong() {
+			super("int64_t");
+		}
+
+		@Override
+		String getTypeIDObjectString() {
+			return "new ::hadoop::TypeID(::hadoop::RIOTYPE_LONG)";
+		}
+	}
+
+	/** Creates a new instance of JLong */
+	public JLong() {
+		setJavaType(new JavaLong());
+		setCppType(new CppLong());
+		setCType(new CType());
+	}
+
+	@Override
+	String getSignature() {
+		return "l";
+	}
 }

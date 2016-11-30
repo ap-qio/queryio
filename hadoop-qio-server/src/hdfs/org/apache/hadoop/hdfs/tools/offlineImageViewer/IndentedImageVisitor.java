@@ -21,91 +21,88 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * IndentedImageVisitor walks over an FSImage and displays its structure 
- * using indenting to organize sections within the image file.
+ * IndentedImageVisitor walks over an FSImage and displays its structure using
+ * indenting to organize sections within the image file.
  */
 class IndentedImageVisitor extends TextWriterImageVisitor {
-  
-  public IndentedImageVisitor(String filename) throws IOException {
-    super(filename);
-  }
 
-  public IndentedImageVisitor(String filename, boolean printToScreen) throws IOException {
-    super(filename, printToScreen);
-  }
+	public IndentedImageVisitor(String filename) throws IOException {
+		super(filename);
+	}
 
-  final private DepthCounter dc = new DepthCounter();// to track leading spacing
+	public IndentedImageVisitor(String filename, boolean printToScreen) throws IOException {
+		super(filename, printToScreen);
+	}
 
-  @Override
-  void start() throws IOException {}
+	final private DepthCounter dc = new DepthCounter();// to track leading
+														// spacing
 
-  @Override
-  void finish() throws IOException { super.finish(); }
+	@Override
+	void start() throws IOException {
+	}
 
-  @Override
-  void finishAbnormally() throws IOException {
-    System.out.println("*** Image processing finished abnormally.  Ending ***");
-    super.finishAbnormally();
-  }
+	@Override
+	void finish() throws IOException {
+		super.finish();
+	}
 
-  @Override
-  void leaveEnclosingElement() throws IOException {
-    dc.decLevel();
-  }
+	@Override
+	void finishAbnormally() throws IOException {
+		System.out.println("*** Image processing finished abnormally.  Ending ***");
+		super.finishAbnormally();
+	}
 
-  @Override
-  void visit(ImageElement element, String value) throws IOException {
-    printIndents();
-    write(element + " = " + value + "\n");
-  }
+	@Override
+	void leaveEnclosingElement() throws IOException {
+		dc.decLevel();
+	}
 
-  @Override
-  void visit(ImageElement element, long value) throws IOException {
-    if ((element == ImageElement.DELEGATION_TOKEN_IDENTIFIER_EXPIRY_TIME) || 
-        (element == ImageElement.DELEGATION_TOKEN_IDENTIFIER_ISSUE_DATE) || 
-        (element == ImageElement.DELEGATION_TOKEN_IDENTIFIER_MAX_DATE)) {
-      visit(element, new Date(value).toString());
-    } else {
-      visit(element, Long.toString(value));
-    }
-  }
-  
-  @Override
-  void visitEnclosingElement(ImageElement element) throws IOException {
-    printIndents();
-    write(element + "\n");
-    dc.incLevel();
-  }
+	@Override
+	void visit(ImageElement element, String value) throws IOException {
+		printIndents();
+		write(element + " = " + value + "\n");
+	}
 
-  // Print element, along with associated key/value pair, in brackets
-  @Override
-  void visitEnclosingElement(ImageElement element,
-      ImageElement key, String value)
-      throws IOException {
-    printIndents();
-    write(element + " [" + key + " = " + value + "]\n");
-    dc.incLevel();
-  }
+	@Override
+	void visit(ImageElement element, long value) throws IOException {
+		if ((element == ImageElement.DELEGATION_TOKEN_IDENTIFIER_EXPIRY_TIME)
+				|| (element == ImageElement.DELEGATION_TOKEN_IDENTIFIER_ISSUE_DATE)
+				|| (element == ImageElement.DELEGATION_TOKEN_IDENTIFIER_MAX_DATE)) {
+			visit(element, new Date(value).toString());
+		} else {
+			visit(element, Long.toString(value));
+		}
+	}
 
-  /**
-  * Print an appropriate number of spaces for the current level.
-  * FsImages can potentially be millions of lines long, so caching can
-  * significantly speed up output.
-  */
-  final private static String [] indents = { "",
-                                             "  ",
-                                             "    ",
-                                             "      ",
-                                             "        ",
-                                             "          ",
-                                             "            "};
-  private void printIndents() throws IOException {
-    try {
-      write(indents[dc.getLevel()]);
-    } catch (IndexOutOfBoundsException e) {
-      // There's no reason in an fsimage would need a deeper indent
-      for(int i = 0; i < dc.getLevel(); i++)
-        write(" ");
-    }
-   }
+	@Override
+	void visitEnclosingElement(ImageElement element) throws IOException {
+		printIndents();
+		write(element + "\n");
+		dc.incLevel();
+	}
+
+	// Print element, along with associated key/value pair, in brackets
+	@Override
+	void visitEnclosingElement(ImageElement element, ImageElement key, String value) throws IOException {
+		printIndents();
+		write(element + " [" + key + " = " + value + "]\n");
+		dc.incLevel();
+	}
+
+	/**
+	 * Print an appropriate number of spaces for the current level. FsImages can
+	 * potentially be millions of lines long, so caching can significantly speed
+	 * up output.
+	 */
+	final private static String[] indents = { "", "  ", "    ", "      ", "        ", "          ", "            " };
+
+	private void printIndents() throws IOException {
+		try {
+			write(indents[dc.getLevel()]);
+		} catch (IndexOutOfBoundsException e) {
+			// There's no reason in an fsimage would need a deeper indent
+			for (int i = 0; i < dc.getLevel(); i++)
+				write(" ");
+		}
+	}
 }

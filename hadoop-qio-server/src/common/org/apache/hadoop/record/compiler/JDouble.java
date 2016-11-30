@@ -21,7 +21,6 @@ package org.apache.hadoop.record.compiler;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
-
 /**
  * @deprecated Replaced by <a href="http://hadoop.apache.org/avro/">Avro</a>.
  */
@@ -29,74 +28,73 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class JDouble extends JType {
-  
-  class JavaDouble extends JavaType {
-    
-    JavaDouble() {
-      super("double", "Double", "Double", "TypeID.RIOType.DOUBLE");
-    }
-    
-    @Override
-    String getTypeIDObjectString() {
-      return "org.apache.hadoop.record.meta.TypeID.DoubleTypeID";
-    }
 
-    @Override
-    void genHashCode(CodeBuffer cb, String fname) {
-      String tmp = "Double.doubleToLongBits("+fname+")";
-      cb.append(Consts.RIO_PREFIX + "ret = (int)("+tmp+"^("+tmp+">>>32));\n");
-    }
-    
-    @Override
-    void genSlurpBytes(CodeBuffer cb, String b, String s, String l) {
-      cb.append("{\n");
-      cb.append("if ("+l+"<8) {\n");
-      cb.append("throw new java.io.IOException(\"Double is exactly 8 bytes."+
-                " Provided buffer is smaller.\");\n");
-      cb.append("}\n");
-      cb.append(s+"+=8; "+l+"-=8;\n");
-      cb.append("}\n");
-    }
-    
-    @Override
-    void genCompareBytes(CodeBuffer cb) {
-      cb.append("{\n");
-      cb.append("if (l1<8 || l2<8) {\n");
-      cb.append("throw new java.io.IOException(\"Double is exactly 8 bytes."+
-                " Provided buffer is smaller.\");\n");
-      cb.append("}\n");
-      cb.append("double d1 = org.apache.hadoop.record.Utils.readDouble(b1, s1);\n");
-      cb.append("double d2 = org.apache.hadoop.record.Utils.readDouble(b2, s2);\n");
-      cb.append("if (d1 != d2) {\n");
-      cb.append("return ((d1-d2) < 0) ? -1 : 0;\n");
-      cb.append("}\n");
-      cb.append("s1+=8; s2+=8; l1-=8; l2-=8;\n");
-      cb.append("}\n");
-    }
-  }
+	class JavaDouble extends JavaType {
 
-  class CppDouble extends CppType {
-    
-    CppDouble() {
-      super("double");
-    }
-    
-    @Override
-    String getTypeIDObjectString() {
-      return "new ::hadoop::TypeID(::hadoop::RIOTYPE_DOUBLE)";
-    }
-  }
+		JavaDouble() {
+			super("double", "Double", "Double", "TypeID.RIOType.DOUBLE");
+		}
 
-  
-  /** Creates a new instance of JDouble */
-  public JDouble() {
-    setJavaType(new JavaDouble());
-    setCppType(new CppDouble());
-    setCType(new CType());
-  }
-  
-  @Override
-  String getSignature() {
-    return "d";
-  }
+		@Override
+		String getTypeIDObjectString() {
+			return "org.apache.hadoop.record.meta.TypeID.DoubleTypeID";
+		}
+
+		@Override
+		void genHashCode(CodeBuffer cb, String fname) {
+			String tmp = "Double.doubleToLongBits(" + fname + ")";
+			cb.append(Consts.RIO_PREFIX + "ret = (int)(" + tmp + "^(" + tmp + ">>>32));\n");
+		}
+
+		@Override
+		void genSlurpBytes(CodeBuffer cb, String b, String s, String l) {
+			cb.append("{\n");
+			cb.append("if (" + l + "<8) {\n");
+			cb.append("throw new java.io.IOException(\"Double is exactly 8 bytes."
+					+ " Provided buffer is smaller.\");\n");
+			cb.append("}\n");
+			cb.append(s + "+=8; " + l + "-=8;\n");
+			cb.append("}\n");
+		}
+
+		@Override
+		void genCompareBytes(CodeBuffer cb) {
+			cb.append("{\n");
+			cb.append("if (l1<8 || l2<8) {\n");
+			cb.append("throw new java.io.IOException(\"Double is exactly 8 bytes."
+					+ " Provided buffer is smaller.\");\n");
+			cb.append("}\n");
+			cb.append("double d1 = org.apache.hadoop.record.Utils.readDouble(b1, s1);\n");
+			cb.append("double d2 = org.apache.hadoop.record.Utils.readDouble(b2, s2);\n");
+			cb.append("if (d1 != d2) {\n");
+			cb.append("return ((d1-d2) < 0) ? -1 : 0;\n");
+			cb.append("}\n");
+			cb.append("s1+=8; s2+=8; l1-=8; l2-=8;\n");
+			cb.append("}\n");
+		}
+	}
+
+	class CppDouble extends CppType {
+
+		CppDouble() {
+			super("double");
+		}
+
+		@Override
+		String getTypeIDObjectString() {
+			return "new ::hadoop::TypeID(::hadoop::RIOTYPE_DOUBLE)";
+		}
+	}
+
+	/** Creates a new instance of JDouble */
+	public JDouble() {
+		setJavaType(new JavaDouble());
+		setCppType(new CppDouble());
+		setCType(new CType());
+	}
+
+	@Override
+	String getSignature() {
+		return "d";
+	}
 }

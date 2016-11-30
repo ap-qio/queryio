@@ -59,100 +59,96 @@ import com.google.common.base.Preconditions;
  *
  */
 final class FileDistributionCalculator {
-  private final static long MAX_SIZE_DEFAULT = 0x2000000000L; // 1/8 TB = 2^37
-  private final static int INTERVAL_DEFAULT = 0x200000; // 2 MB = 2^21
-  private final static int MAX_INTERVALS = 0x8000000; // 128 M = 2^27
+	private final static long MAX_SIZE_DEFAULT = 0x2000000000L; // 1/8 TB = 2^37
+	private final static int INTERVAL_DEFAULT = 0x200000; // 2 MB = 2^21
+	private final static int MAX_INTERVALS = 0x8000000; // 128 M = 2^27
 
-  private final Configuration conf;
-  private final long maxSize;
-  private final int steps;
-  private final PrintStream out;
+	private final Configuration conf;
+	private final long maxSize;
+	private final int steps;
+	private final PrintStream out;
 
-  private final int[] distribution;
-  private int totalFiles;
-  private int totalDirectories;
-  private int totalBlocks;
-  private long totalSpace;
-  private long maxFileSize;
+	private final int[] distribution;
+	private int totalFiles;
+	private int totalDirectories;
+	private int totalBlocks;
+	private long totalSpace;
+	private long maxFileSize;
 
-  FileDistributionCalculator(Configuration conf, long maxSize, int steps,
-      PrintStream out) {
-    this.conf = conf;
-    this.maxSize = maxSize == 0 ? MAX_SIZE_DEFAULT : maxSize;
-    this.steps = steps == 0 ? INTERVAL_DEFAULT : steps;
-    this.out = out;
-    long numIntervals = this.maxSize / this.steps;
-    // avoid OutOfMemoryError when allocating an array
-    Preconditions.checkState(numIntervals <= MAX_INTERVALS,
-        "Too many distribution intervals (maxSize/step): " + numIntervals +
-        ", should be less than " + (MAX_INTERVALS+1) + ".");
-    this.distribution = new int[1 + (int) (numIntervals)];
-  }
+	FileDistributionCalculator(Configuration conf, long maxSize, int steps, PrintStream out) {
+		this.conf = conf;
+		this.maxSize = maxSize == 0 ? MAX_SIZE_DEFAULT : maxSize;
+		this.steps = steps == 0 ? INTERVAL_DEFAULT : steps;
+		this.out = out;
+		long numIntervals = this.maxSize / this.steps;
+		// avoid OutOfMemoryError when allocating an array
+		Preconditions.checkState(numIntervals <= MAX_INTERVALS, "Too many distribution intervals (maxSize/step): "
+				+ numIntervals + ", should be less than " + (MAX_INTERVALS + 1) + ".");
+		this.distribution = new int[1 + (int) (numIntervals)];
+	}
 
-  void visit(RandomAccessFile file) throws IOException {
-    if (!FSImageUtil.checkFileFormat(file)) {
-      throw new IOException("Unrecognized FSImage");
-    }
+	void visit(RandomAccessFile file) throws IOException {
+		if (!FSImageUtil.checkFileFormat(file)) {
+			throw new IOException("Unrecognized FSImage");
+		}
 
-    FileSummary summary = FSImageUtil.loadSummary(file);
-    try (FileInputStream in = new FileInputStream(file.getFD())) {
-      for (FileSummary.Section s : summary.getSectionsList()) {
-        if (SectionName.fromString(s.getName()) != SectionName.INODE) {
-          continue;
-        }
+		FileSummary summary = FSImageUtil.loadSummary(file);
+		try (FileInputStream in = new FileInputStream(file.getFD())) {
+			for (FileSummary.Section s : summary.getSectionsList()) {
+				if (SectionName.fromString(s.getName()) != SectionName.INODE) {
+					continue;
+				}
 
-        in.getChannel().position(s.getOffset());
-        InputStream is = FSImageUtil.wrapInputStreamForCompression(conf,
-            summary.getCodec(), new BufferedInputStream(new LimitInputStream(
-                in, s.getLength())));
-        run(is);
-        output();
-      }
-    }
-  }
+				in.getChannel().position(s.getOffset());
+				InputStream is = FSImageUtil.wrapInputStreamForCompression(conf, summary.getCodec(),
+						new BufferedInputStream(new LimitInputStream(in, s.getLength())));
+				run(is);
+				output();
+			}
+		}
+	}
 
-  private void run(InputStream in) throws IOException {
-    INodeSection s = INodeSection.parseDelimitedFrom(in);
-    for (int i = 0; i < s.getNumInodes(); ++i) {
-      INodeSection.INode p = INodeSection.INode.parseDelimitedFrom(in);
-      if (p.getType() == INodeSection.INode.Type.FILE) {
-        ++totalFiles;
-        INodeSection.INodeFile f = p.getFile();
-        totalBlocks += f.getBlocksCount();
-        long fileSize = 0;
-        for (BlockProto b : f.getBlocksList()) {
-          fileSize += b.getNumBytes();
-        }
-        maxFileSize = Math.max(fileSize, maxFileSize);
-        totalSpace += fileSize * f.getReplication();
+	private void run(InputStream in) throws IOException {
+		INodeSection s = INodeSection.parseDelimitedFrom(in);
+		for (int i = 0; i < s.getNumInodes(); ++i) {
+			INodeSection.INode p = INodeSection.INode.parseDelimitedFrom(in);
+			if (p.getType() == INodeSection.INode.Type.FILE) {
+				++totalFiles;
+				INodeSection.INodeFile f = p.getFile();
+				totalBlocks += f.getBlocksCount();
+				long fileSize = 0;
+				for (BlockProto b : f.getBlocksList()) {
+					fileSize += b.getNumBytes();
+				}
+				maxFileSize = Math.max(fileSize, maxFileSize);
+				totalSpace += fileSize * f.getReplication();
 
-        int bucket = fileSize > maxSize ? distribution.length - 1 : (int) Math
-            .ceil((double)fileSize / steps);
-        ++distribution[bucket];
+				int bucket = fileSize > maxSize ? distribution.length - 1 : (int) Math.ceil((double) fileSize / steps);
+				++distribution[bucket];
 
-      } else if (p.getType() == INodeSection.INode.Type.DIRECTORY) {
-        ++totalDirectories;
-      }
+			} else if (p.getType() == INodeSection.INode.Type.DIRECTORY) {
+				++totalDirectories;
+			}
 
-      if (i % (1 << 20) == 0) {
-        out.println("Processed " + i + " inodes.");
-      }
-    }
-  }
+			if (i % (1 << 20) == 0) {
+				out.println("Processed " + i + " inodes.");
+			}
+		}
+	}
 
-  private void output() {
-    // write the distribution into the output file
-    out.print("Size\tNumFiles\n");
-    for (int i = 0; i < distribution.length; i++) {
-      if (distribution[i] != 0) {
-        out.print(((long) i * steps) + "\t" + distribution[i]);
-        out.print('\n');
-      }
-    }
-    out.print("totalFiles = " + totalFiles + "\n");
-    out.print("totalDirectories = " + totalDirectories + "\n");
-    out.print("totalBlocks = " + totalBlocks + "\n");
-    out.print("totalSpace = " + totalSpace + "\n");
-    out.print("maxFileSize = " + maxFileSize + "\n");
-  }
+	private void output() {
+		// write the distribution into the output file
+		out.print("Size\tNumFiles\n");
+		for (int i = 0; i < distribution.length; i++) {
+			if (distribution[i] != 0) {
+				out.print(((long) i * steps) + "\t" + distribution[i]);
+				out.print('\n');
+			}
+		}
+		out.print("totalFiles = " + totalFiles + "\n");
+		out.print("totalDirectories = " + totalDirectories + "\n");
+		out.print("totalBlocks = " + totalBlocks + "\n");
+		out.print("totalSpace = " + totalSpace + "\n");
+		out.print("maxFileSize = " + maxFileSize + "\n");
+	}
 }

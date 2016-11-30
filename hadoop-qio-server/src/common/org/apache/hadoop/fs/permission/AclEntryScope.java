@@ -26,17 +26,17 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public enum AclEntryScope {
-  /**
-   * An ACL entry that is inspected during permission checks to enforce
-   * permissions.
-   */
-  ACCESS,
+	/**
+	 * An ACL entry that is inspected during permission checks to enforce
+	 * permissions.
+	 */
+	ACCESS,
 
-  /**
-   * An ACL entry to be applied to a directory's children that do not otherwise
-   * have their own ACL defined.  Unlike an access ACL entry, a default ACL
-   * entry is not inspected as part of permission enforcement on the directory
-   * that owns it.
-   */
-  DEFAULT;
+	/**
+	 * An ACL entry to be applied to a directory's children that do not
+	 * otherwise have their own ACL defined. Unlike an access ACL entry, a
+	 * default ACL entry is not inspected as part of permission enforcement on
+	 * the directory that owns it.
+	 */
+	DEFAULT;
 }

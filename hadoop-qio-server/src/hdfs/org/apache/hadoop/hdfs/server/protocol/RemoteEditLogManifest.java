@@ -28,47 +28,45 @@ import com.google.common.base.Preconditions;
  */
 public class RemoteEditLogManifest {
 
-  private List<RemoteEditLog> logs;
-  
-  public RemoteEditLogManifest() {
-  }
-  
-  public RemoteEditLogManifest(List<RemoteEditLog> logs) {
-    this.logs = logs;
-    checkState();
-  }
-  
-  
-  /**
-   * Check that the logs are non-overlapping sequences of transactions,
-   * in sorted order. They do not need to be contiguous.
-   * @throws IllegalStateException if incorrect
-   */
-  private void checkState()  {
-    Preconditions.checkNotNull(logs);
-    
-    RemoteEditLog prev = null;
-    for (RemoteEditLog log : logs) {
-      if (prev != null) {
-        if (log.getStartTxId() <= prev.getEndTxId()) {
-          throw new IllegalStateException(
-              "Invalid log manifest (log " + log + " overlaps " + prev + ")\n"
-              + this);
-        }
-      }
-      
-      prev = log;
-    }
-  }
-  
-  public List<RemoteEditLog> getLogs() {
-    return Collections.unmodifiableList(logs);
-  }
+	private List<RemoteEditLog> logs;
 
+	public RemoteEditLogManifest() {
+	}
 
-  
-  @Override
-  public String toString() {
-    return "[" + Joiner.on(", ").join(logs) + "]";
-  }
+	public RemoteEditLogManifest(List<RemoteEditLog> logs) {
+		this.logs = logs;
+		checkState();
+	}
+
+	/**
+	 * Check that the logs are non-overlapping sequences of transactions, in
+	 * sorted order. They do not need to be contiguous.
+	 * 
+	 * @throws IllegalStateException
+	 *             if incorrect
+	 */
+	private void checkState() {
+		Preconditions.checkNotNull(logs);
+
+		RemoteEditLog prev = null;
+		for (RemoteEditLog log : logs) {
+			if (prev != null) {
+				if (log.getStartTxId() <= prev.getEndTxId()) {
+					throw new IllegalStateException(
+							"Invalid log manifest (log " + log + " overlaps " + prev + ")\n" + this);
+				}
+			}
+
+			prev = log;
+		}
+	}
+
+	public List<RemoteEditLog> getLogs() {
+		return Collections.unmodifiableList(logs);
+	}
+
+	@Override
+	public String toString() {
+		return "[" + Joiner.on(", ").join(logs) + "]";
+	}
 }

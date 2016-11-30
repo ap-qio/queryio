@@ -31,16 +31,15 @@ import org.mortbay.jetty.servlet.DefaultServlet;
  */
 public class AdminAuthorizedServlet extends DefaultServlet {
 
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
- throws ServletException, IOException {
-    // Do the authorization
-    if (HttpServer2.hasAdministratorAccess(getServletContext(), request,
-        response)) {
-      // Authorization is done. Just call super.
-      super.doGet(request, response);
-    }
-  }
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// Do the authorization
+		if (HttpServer2.hasAdministratorAccess(getServletContext(), request, response)) {
+			// Authorization is done. Just call super.
+			super.doGet(request, response);
+		}
+	}
 }

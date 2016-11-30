@@ -22,35 +22,35 @@ import org.apache.hadoop.ha.HAServiceProtocol.HAServiceState;
 
 @InterfaceAudience.Private
 public class HAServiceStatus {
-  private HAServiceState state;
-  private boolean readyToBecomeActive;
-  private String notReadyReason;
-  
-  public HAServiceStatus(HAServiceState state) {
-    this.state = state;
-  }
+	private HAServiceState state;
+	private boolean readyToBecomeActive;
+	private String notReadyReason;
 
-  public HAServiceState getState() {
-    return state;
-  }
+	public HAServiceStatus(HAServiceState state) {
+		this.state = state;
+	}
 
-  public HAServiceStatus setReadyToBecomeActive() {
-    this.readyToBecomeActive = true;
-    this.notReadyReason = null;
-    return this;
-  }
-  
-  public HAServiceStatus setNotReadyToBecomeActive(String reason) {
-    this.readyToBecomeActive = false;
-    this.notReadyReason = reason;
-    return this;
-  }
+	public HAServiceState getState() {
+		return state;
+	}
 
-  public boolean isReadyToBecomeActive() {
-    return readyToBecomeActive;
-  }
+	public HAServiceStatus setReadyToBecomeActive() {
+		this.readyToBecomeActive = true;
+		this.notReadyReason = null;
+		return this;
+	}
 
-  public String getNotReadyReason() {
-    return notReadyReason;
-  }
+	public HAServiceStatus setNotReadyToBecomeActive(String reason) {
+		this.readyToBecomeActive = false;
+		this.notReadyReason = reason;
+		return this;
+	}
+
+	public boolean isReadyToBecomeActive() {
+		return readyToBecomeActive;
+	}
+
+	public String getNotReadyReason() {
+		return notReadyReason;
+	}
 }

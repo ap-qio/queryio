@@ -25,11 +25,12 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 public interface ProtocolTranslator {
-  
-  /**
-   * Return the proxy object underlying this protocol translator.
-   * @return the proxy object underlying this protocol translator.
-   */
-  public Object getUnderlyingProxyObject();
+
+	/**
+	 * Return the proxy object underlying this protocol translator.
+	 * 
+	 * @return the proxy object underlying this protocol translator.
+	 */
+	public Object getUnderlyingProxyObject();
 
 }

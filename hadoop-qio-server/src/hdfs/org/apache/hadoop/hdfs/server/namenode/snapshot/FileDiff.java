@@ -35,96 +35,88 @@ import org.apache.hadoop.hdfs.server.namenode.snapshot.SnapshotFSImageFormat.Ref
 /**
  * The difference of an {@link INodeFile} between two snapshots.
  */
-public class FileDiff extends
-    AbstractINodeDiff<INodeFile, INodeFileAttributes, FileDiff> {
+public class FileDiff extends AbstractINodeDiff<INodeFile, INodeFileAttributes, FileDiff> {
 
-  /** The file size at snapshot creation time. */
-  private final long fileSize;
-  /** A copy of the INodeFile block list. Used in truncate. */
-  private BlockInfoContiguous[] blocks;
+	/** The file size at snapshot creation time. */
+	private final long fileSize;
+	/** A copy of the INodeFile block list. Used in truncate. */
+	private BlockInfoContiguous[] blocks;
 
-  FileDiff(int snapshotId, INodeFile file) {
-    super(snapshotId, null, null);
-    fileSize = file.computeFileSize();
-    blocks = null;
-  }
+	FileDiff(int snapshotId, INodeFile file) {
+		super(snapshotId, null, null);
+		fileSize = file.computeFileSize();
+		blocks = null;
+	}
 
-  /** Constructor used by FSImage loading */
-  FileDiff(int snapshotId, INodeFileAttributes snapshotINode,
-      FileDiff posteriorDiff, long fileSize) {
-    super(snapshotId, snapshotINode, posteriorDiff);
-    this.fileSize = fileSize;
-    blocks = null;
-  }
+	/** Constructor used by FSImage loading */
+	FileDiff(int snapshotId, INodeFileAttributes snapshotINode, FileDiff posteriorDiff, long fileSize) {
+		super(snapshotId, snapshotINode, posteriorDiff);
+		this.fileSize = fileSize;
+		blocks = null;
+	}
 
-  /** @return the file size in the snapshot. */
-  public long getFileSize() {
-    return fileSize;
-  }
+	/** @return the file size in the snapshot. */
+	public long getFileSize() {
+		return fileSize;
+	}
 
-  /**
-   * Copy block references into the snapshot
-   * up to the current {@link #fileSize}.
-   * Should be done only once.
-   */
-  public void setBlocks(BlockInfoContiguous[] blocks) {
-    if(this.blocks != null)
-      return;
-    int numBlocks = 0;
-    for(long s = 0; numBlocks < blocks.length && s < fileSize; numBlocks++)
-      s += blocks[numBlocks].getNumBytes();
-    this.blocks = Arrays.copyOf(blocks, numBlocks);
-  }
+	/**
+	 * Copy block references into the snapshot up to the current
+	 * {@link #fileSize}. Should be done only once.
+	 */
+	public void setBlocks(BlockInfoContiguous[] blocks) {
+		if (this.blocks != null)
+			return;
+		int numBlocks = 0;
+		for (long s = 0; numBlocks < blocks.length && s < fileSize; numBlocks++)
+			s += blocks[numBlocks].getNumBytes();
+		this.blocks = Arrays.copyOf(blocks, numBlocks);
+	}
 
-  public BlockInfoContiguous[] getBlocks() {
-    return blocks;
-  }
+	public BlockInfoContiguous[] getBlocks() {
+		return blocks;
+	}
 
-  @Override
-  QuotaCounts combinePosteriorAndCollectBlocks(
-      BlockStoragePolicySuite bsps, INodeFile currentINode,
-      FileDiff posterior, BlocksMapUpdateInfo collectedBlocks,
-      final List<INode> removedINodes) {
-    FileWithSnapshotFeature sf = currentINode.getFileWithSnapshotFeature();
-    assert sf != null : "FileWithSnapshotFeature is null";
-    return sf.updateQuotaAndCollectBlocks(
-        bsps, currentINode, posterior, collectedBlocks, removedINodes);
-  }
-  
-  @Override
-  public String toString() {
-    return super.toString() + " fileSize=" + fileSize + ", rep="
-        + (snapshotINode == null? "?": snapshotINode.getFileReplication());
-  }
+	@Override
+	QuotaCounts combinePosteriorAndCollectBlocks(BlockStoragePolicySuite bsps, INodeFile currentINode,
+			FileDiff posterior, BlocksMapUpdateInfo collectedBlocks, final List<INode> removedINodes) {
+		FileWithSnapshotFeature sf = currentINode.getFileWithSnapshotFeature();
+		assert sf != null : "FileWithSnapshotFeature is null";
+		return sf.updateQuotaAndCollectBlocks(bsps, currentINode, posterior, collectedBlocks, removedINodes);
+	}
 
-  @Override
-  void write(DataOutput out, ReferenceMap referenceMap) throws IOException {
-    writeSnapshot(out);
-    out.writeLong(fileSize);
+	@Override
+	public String toString() {
+		return super.toString() + " fileSize=" + fileSize + ", rep="
+				+ (snapshotINode == null ? "?" : snapshotINode.getFileReplication());
+	}
 
-    // write snapshotINode
-    if (snapshotINode != null) {
-      out.writeBoolean(true);
-      FSImageSerialization.writeINodeFileAttributes(snapshotINode, out);
-    } else {
-      out.writeBoolean(false);
-    }
-  }
+	@Override
+	void write(DataOutput out, ReferenceMap referenceMap) throws IOException {
+		writeSnapshot(out);
+		out.writeLong(fileSize);
 
-  @Override
-  QuotaCounts destroyDiffAndCollectBlocks(BlockStoragePolicySuite bsps, INodeFile currentINode,
-      BlocksMapUpdateInfo collectedBlocks, final List<INode> removedINodes) {
-    return currentINode.getFileWithSnapshotFeature()
-        .updateQuotaAndCollectBlocks(bsps, currentINode, this, collectedBlocks,
-            removedINodes);
-  }
+		// write snapshotINode
+		if (snapshotINode != null) {
+			out.writeBoolean(true);
+			FSImageSerialization.writeINodeFileAttributes(snapshotINode, out);
+		} else {
+			out.writeBoolean(false);
+		}
+	}
 
-  public void destroyAndCollectSnapshotBlocks(
-      BlocksMapUpdateInfo collectedBlocks) {
-    if(blocks == null || collectedBlocks == null)
-      return;
-    for(BlockInfoContiguous blk : blocks)
-      collectedBlocks.addDeleteBlock(blk);
-    blocks = null;
-  }
+	@Override
+	QuotaCounts destroyDiffAndCollectBlocks(BlockStoragePolicySuite bsps, INodeFile currentINode,
+			BlocksMapUpdateInfo collectedBlocks, final List<INode> removedINodes) {
+		return currentINode.getFileWithSnapshotFeature().updateQuotaAndCollectBlocks(bsps, currentINode, this,
+				collectedBlocks, removedINodes);
+	}
+
+	public void destroyAndCollectSnapshotBlocks(BlocksMapUpdateInfo collectedBlocks) {
+		if (blocks == null || collectedBlocks == null)
+			return;
+		for (BlockInfoContiguous blk : blocks)
+			collectedBlocks.addDeleteBlock(blk);
+		blocks = null;
+	}
 }

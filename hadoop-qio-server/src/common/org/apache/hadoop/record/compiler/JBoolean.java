@@ -21,7 +21,6 @@ package org.apache.hadoop.record.compiler;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
-
 /**
  * @deprecated Replaced by <a href="http://hadoop.apache.org/avro/">Avro</a>.
  */
@@ -29,78 +28,77 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class JBoolean extends JType {
-  
-  class JavaBoolean extends JType.JavaType {
-    
-    JavaBoolean() {
-      super("boolean", "Bool", "Boolean", "TypeID.RIOType.BOOL");
-    }
-    
-    @Override
-    void genCompareTo(CodeBuffer cb, String fname, String other) {
-      cb.append(Consts.RIO_PREFIX + "ret = ("+fname+" == "+other+")? 0 : ("+
-          fname+"?1:-1);\n");
-    }
-    
-    @Override
-    String getTypeIDObjectString() {
-      return "org.apache.hadoop.record.meta.TypeID.BoolTypeID";
-    }
 
-    @Override
-    void genHashCode(CodeBuffer cb, String fname) {
-      cb.append(Consts.RIO_PREFIX + "ret = ("+fname+")?0:1;\n");
-    }
-    
-    // In Binary format, boolean is written as byte. true = 1, false = 0
-    @Override
-    void genSlurpBytes(CodeBuffer cb, String b, String s, String l) {
-      cb.append("{\n");
-      cb.append("if ("+l+"<1) {\n");
-      cb.append("throw new java.io.IOException(\"Boolean is exactly 1 byte."+
-                " Provided buffer is smaller.\");\n");
-      cb.append("}\n");
-      cb.append(s+"++; "+l+"--;\n");
-      cb.append("}\n");
-    }
-    
-    // In Binary format, boolean is written as byte. true = 1, false = 0
-    @Override
-    void genCompareBytes(CodeBuffer cb) {
-      cb.append("{\n");
-      cb.append("if (l1<1 || l2<1) {\n");
-      cb.append("throw new java.io.IOException(\"Boolean is exactly 1 byte."+
-                " Provided buffer is smaller.\");\n");
-      cb.append("}\n");
-      cb.append("if (b1[s1] != b2[s2]) {\n");
-      cb.append("return (b1[s1]<b2[s2])? -1 : 0;\n");
-      cb.append("}\n");
-      cb.append("s1++; s2++; l1--; l2--;\n");
-      cb.append("}\n");
-    }
-  }
-  
-  class CppBoolean extends CppType {
-    
-    CppBoolean() {
-      super("bool");
-    }
-    
-    @Override
-    String getTypeIDObjectString() {
-      return "new ::hadoop::TypeID(::hadoop::RIOTYPE_BOOL)";
-    }
-  }
+	class JavaBoolean extends JType.JavaType {
 
-  /** Creates a new instance of JBoolean */
-  public JBoolean() {
-    setJavaType(new JavaBoolean());
-    setCppType(new CppBoolean());
-    setCType(new CType());
-  }
-  
-  @Override
-  String getSignature() {
-    return "z";
-  }
+		JavaBoolean() {
+			super("boolean", "Bool", "Boolean", "TypeID.RIOType.BOOL");
+		}
+
+		@Override
+		void genCompareTo(CodeBuffer cb, String fname, String other) {
+			cb.append(Consts.RIO_PREFIX + "ret = (" + fname + " == " + other + ")? 0 : (" + fname + "?1:-1);\n");
+		}
+
+		@Override
+		String getTypeIDObjectString() {
+			return "org.apache.hadoop.record.meta.TypeID.BoolTypeID";
+		}
+
+		@Override
+		void genHashCode(CodeBuffer cb, String fname) {
+			cb.append(Consts.RIO_PREFIX + "ret = (" + fname + ")?0:1;\n");
+		}
+
+		// In Binary format, boolean is written as byte. true = 1, false = 0
+		@Override
+		void genSlurpBytes(CodeBuffer cb, String b, String s, String l) {
+			cb.append("{\n");
+			cb.append("if (" + l + "<1) {\n");
+			cb.append("throw new java.io.IOException(\"Boolean is exactly 1 byte."
+					+ " Provided buffer is smaller.\");\n");
+			cb.append("}\n");
+			cb.append(s + "++; " + l + "--;\n");
+			cb.append("}\n");
+		}
+
+		// In Binary format, boolean is written as byte. true = 1, false = 0
+		@Override
+		void genCompareBytes(CodeBuffer cb) {
+			cb.append("{\n");
+			cb.append("if (l1<1 || l2<1) {\n");
+			cb.append("throw new java.io.IOException(\"Boolean is exactly 1 byte."
+					+ " Provided buffer is smaller.\");\n");
+			cb.append("}\n");
+			cb.append("if (b1[s1] != b2[s2]) {\n");
+			cb.append("return (b1[s1]<b2[s2])? -1 : 0;\n");
+			cb.append("}\n");
+			cb.append("s1++; s2++; l1--; l2--;\n");
+			cb.append("}\n");
+		}
+	}
+
+	class CppBoolean extends CppType {
+
+		CppBoolean() {
+			super("bool");
+		}
+
+		@Override
+		String getTypeIDObjectString() {
+			return "new ::hadoop::TypeID(::hadoop::RIOTYPE_BOOL)";
+		}
+	}
+
+	/** Creates a new instance of JBoolean */
+	public JBoolean() {
+		setJavaType(new JavaBoolean());
+		setCppType(new CppBoolean());
+		setCType(new CType());
+	}
+
+	@Override
+	String getSignature() {
+		return "z";
+	}
 }

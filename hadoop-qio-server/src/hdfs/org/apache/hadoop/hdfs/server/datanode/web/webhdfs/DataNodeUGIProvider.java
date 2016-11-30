@@ -13,14 +13,14 @@
  */
 package org.apache.hadoop.hdfs.server.datanode.web.webhdfs;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+
 import org.apache.hadoop.hdfs.security.token.delegation.DelegationTokenIdentifier;
 import org.apache.hadoop.hdfs.server.common.JspHelper;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.security.token.Token;
-
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
 
 /**
  * Create UGI from the request for the WebHDFS requests for the DNs. Note that
@@ -28,43 +28,43 @@ import java.io.IOException;
  * subsequent operations.
  */
 class DataNodeUGIProvider {
-  private final ParameterParser params;
+	private final ParameterParser params;
 
-  DataNodeUGIProvider(ParameterParser params) {
-    this.params = params;
-  }
+	DataNodeUGIProvider(ParameterParser params) {
+		this.params = params;
+	}
 
-  UserGroupInformation ugi() throws IOException {
-    if (UserGroupInformation.isSecurityEnabled()) {
-      return tokenUGI();
-    }
+	UserGroupInformation ugi() throws IOException {
+		if (UserGroupInformation.isSecurityEnabled()) {
+			return tokenUGI();
+		}
 
-    final String usernameFromQuery = params.userName();
-    final String doAsUserFromQuery = params.doAsUser();
-    final String remoteUser = usernameFromQuery == null
-        ? JspHelper.getDefaultWebUserName(params.conf()) // not specified in
-        // request
-        : usernameFromQuery;
+		final String usernameFromQuery = params.userName();
+		final String doAsUserFromQuery = params.doAsUser();
+		final String remoteUser = usernameFromQuery == null ? JspHelper.getDefaultWebUserName(params.conf()) // not
+																												// specified
+																												// in
+				// request
+				: usernameFromQuery;
 
-    UserGroupInformation ugi = UserGroupInformation.createRemoteUser(remoteUser);
-    JspHelper.checkUsername(ugi.getShortUserName(), usernameFromQuery);
-    if (doAsUserFromQuery != null) {
-      // create and attempt to authorize a proxy user
-      ugi = UserGroupInformation.createProxyUser(doAsUserFromQuery, ugi);
-    }
-    return ugi;
-  }
+		UserGroupInformation ugi = UserGroupInformation.createRemoteUser(remoteUser);
+		JspHelper.checkUsername(ugi.getShortUserName(), usernameFromQuery);
+		if (doAsUserFromQuery != null) {
+			// create and attempt to authorize a proxy user
+			ugi = UserGroupInformation.createProxyUser(doAsUserFromQuery, ugi);
+		}
+		return ugi;
+	}
 
-  private UserGroupInformation tokenUGI() throws IOException {
-    Token<DelegationTokenIdentifier> token = params.delegationToken();
-    ByteArrayInputStream buf =
-      new ByteArrayInputStream(token.getIdentifier());
-    DataInputStream in = new DataInputStream(buf);
-    DelegationTokenIdentifier id = new DelegationTokenIdentifier();
-    id.readFields(in);
-    UserGroupInformation ugi = id.getUser();
-    ugi.addToken(token);
-    return ugi;
-  }
+	private UserGroupInformation tokenUGI() throws IOException {
+		Token<DelegationTokenIdentifier> token = params.delegationToken();
+		ByteArrayInputStream buf = new ByteArrayInputStream(token.getIdentifier());
+		DataInputStream in = new DataInputStream(buf);
+		DelegationTokenIdentifier id = new DelegationTokenIdentifier();
+		id.readFields(in);
+		UserGroupInformation ugi = id.getUser();
+		ugi.addToken(token);
+		return ugi;
+	}
 
 }

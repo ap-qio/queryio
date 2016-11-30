@@ -32,371 +32,360 @@ import org.apache.hadoop.hdfs.server.namenode.NameNode;
  * This is usually the last block of a file opened for write or append.
  */
 public class BlockInfoContiguousUnderConstruction extends BlockInfoContiguous {
-  /** Block state. See {@link BlockUCState} */
-  private BlockUCState blockUCState;
+	/** Block state. See {@link BlockUCState} */
+	private BlockUCState blockUCState;
 
-  /**
-   * Block replicas as assigned when the block was allocated.
-   * This defines the pipeline order.
-   */
-  private List<ReplicaUnderConstruction> replicas;
+	/**
+	 * Block replicas as assigned when the block was allocated. This defines the
+	 * pipeline order.
+	 */
+	private List<ReplicaUnderConstruction> replicas;
 
-  /**
-   * Index of the primary data node doing the recovery. Useful for log
-   * messages.
-   */
-  private int primaryNodeIndex = -1;
+	/**
+	 * Index of the primary data node doing the recovery. Useful for log
+	 * messages.
+	 */
+	private int primaryNodeIndex = -1;
 
-  /**
-   * The new generation stamp, which this block will have
-   * after the recovery succeeds. Also used as a recovery id to identify
-   * the right recovery if any of the abandoned recoveries re-appear.
-   */
-  private long blockRecoveryId = 0;
+	/**
+	 * The new generation stamp, which this block will have after the recovery
+	 * succeeds. Also used as a recovery id to identify the right recovery if
+	 * any of the abandoned recoveries re-appear.
+	 */
+	private long blockRecoveryId = 0;
 
-  /**
-   * The block source to use in the event of copy-on-write truncate.
-   */
-  private Block truncateBlock;
+	/**
+	 * The block source to use in the event of copy-on-write truncate.
+	 */
+	private Block truncateBlock;
 
-  /**
-   * ReplicaUnderConstruction contains information about replicas while
-   * they are under construction.
-   * The GS, the length and the state of the replica is as reported by 
-   * the data-node.
-   * It is not guaranteed, but expected, that data-nodes actually have
-   * corresponding replicas.
-   */
-  static class ReplicaUnderConstruction extends Block {
-    private final DatanodeStorageInfo expectedLocation;
-    private ReplicaState state;
-    private boolean chosenAsPrimary;
+	/**
+	 * ReplicaUnderConstruction contains information about replicas while they
+	 * are under construction. The GS, the length and the state of the replica
+	 * is as reported by the data-node. It is not guaranteed, but expected, that
+	 * data-nodes actually have corresponding replicas.
+	 */
+	static class ReplicaUnderConstruction extends Block {
+		private final DatanodeStorageInfo expectedLocation;
+		private ReplicaState state;
+		private boolean chosenAsPrimary;
 
-    ReplicaUnderConstruction(Block block,
-                             DatanodeStorageInfo target,
-                             ReplicaState state) {
-      super(block);
-      this.expectedLocation = target;
-      this.state = state;
-      this.chosenAsPrimary = false;
-    }
+		ReplicaUnderConstruction(Block block, DatanodeStorageInfo target, ReplicaState state) {
+			super(block);
+			this.expectedLocation = target;
+			this.state = state;
+			this.chosenAsPrimary = false;
+		}
 
-    /**
-     * Expected block replica location as assigned when the block was allocated.
-     * This defines the pipeline order.
-     * It is not guaranteed, but expected, that the data-node actually has
-     * the replica.
-     */
-    private DatanodeStorageInfo getExpectedStorageLocation() {
-      return expectedLocation;
-    }
+		/**
+		 * Expected block replica location as assigned when the block was
+		 * allocated. This defines the pipeline order. It is not guaranteed, but
+		 * expected, that the data-node actually has the replica.
+		 */
+		private DatanodeStorageInfo getExpectedStorageLocation() {
+			return expectedLocation;
+		}
 
-    /**
-     * Get replica state as reported by the data-node.
-     */
-    ReplicaState getState() {
-      return state;
-    }
+		/**
+		 * Get replica state as reported by the data-node.
+		 */
+		ReplicaState getState() {
+			return state;
+		}
 
-    /**
-     * Whether the replica was chosen for recovery.
-     */
-    boolean getChosenAsPrimary() {
-      return chosenAsPrimary;
-    }
+		/**
+		 * Whether the replica was chosen for recovery.
+		 */
+		boolean getChosenAsPrimary() {
+			return chosenAsPrimary;
+		}
 
-    /**
-     * Set replica state.
-     */
-    void setState(ReplicaState s) {
-      state = s;
-    }
+		/**
+		 * Set replica state.
+		 */
+		void setState(ReplicaState s) {
+			state = s;
+		}
 
-    /**
-     * Set whether this replica was chosen for recovery.
-     */
-    void setChosenAsPrimary(boolean chosenAsPrimary) {
-      this.chosenAsPrimary = chosenAsPrimary;
-    }
+		/**
+		 * Set whether this replica was chosen for recovery.
+		 */
+		void setChosenAsPrimary(boolean chosenAsPrimary) {
+			this.chosenAsPrimary = chosenAsPrimary;
+		}
 
-    /**
-     * Is data-node the replica belongs to alive.
-     */
-    boolean isAlive() {
-      return expectedLocation.getDatanodeDescriptor().isAlive;
-    }
+		/**
+		 * Is data-node the replica belongs to alive.
+		 */
+		boolean isAlive() {
+			return expectedLocation.getDatanodeDescriptor().isAlive;
+		}
 
-    @Override // Block
-    public int hashCode() {
-      return super.hashCode();
-    }
+		@Override // Block
+		public int hashCode() {
+			return super.hashCode();
+		}
 
-    @Override // Block
-    public boolean equals(Object obj) {
-      // Sufficient to rely on super's implementation
-      return (this == obj) || super.equals(obj);
-    }
+		@Override // Block
+		public boolean equals(Object obj) {
+			// Sufficient to rely on super's implementation
+			return (this == obj) || super.equals(obj);
+		}
 
-    @Override
-    public String toString() {
-      final StringBuilder b = new StringBuilder(50);
-      appendStringTo(b);
-      return b.toString();
-    }
-    
-    @Override
-    public void appendStringTo(StringBuilder sb) {
-      sb.append("ReplicaUC[")
-        .append(expectedLocation)
-        .append("|")
-        .append(state)
-        .append("]");
-    }
-  }
+		@Override
+		public String toString() {
+			final StringBuilder b = new StringBuilder(50);
+			appendStringTo(b);
+			return b.toString();
+		}
 
-  /**
-   * Create block and set its state to
-   * {@link BlockUCState#UNDER_CONSTRUCTION}.
-   */
-  public BlockInfoContiguousUnderConstruction(Block blk, short replication) {
-    this(blk, replication, BlockUCState.UNDER_CONSTRUCTION, null);
-  }
+		@Override
+		public void appendStringTo(StringBuilder sb) {
+			sb.append("ReplicaUC[").append(expectedLocation).append("|").append(state).append("]");
+		}
+	}
 
-  /**
-   * Create a block that is currently being constructed.
-   */
-  public BlockInfoContiguousUnderConstruction(Block blk, short replication, BlockUCState state, DatanodeStorageInfo[] targets) {
-    super(blk, replication);
-    assert getBlockUCState() != BlockUCState.COMPLETE :
-      "BlockInfoUnderConstruction cannot be in COMPLETE state";
-    this.blockUCState = state;
-    setExpectedLocations(targets);
-  }
+	/**
+	 * Create block and set its state to
+	 * {@link BlockUCState#UNDER_CONSTRUCTION}.
+	 */
+	public BlockInfoContiguousUnderConstruction(Block blk, short replication) {
+		this(blk, replication, BlockUCState.UNDER_CONSTRUCTION, null);
+	}
 
-  /**
-   * Convert an under construction block to a complete block.
-   * 
-   * @return BlockInfo - a complete block.
-   * @throws IOException if the state of the block 
-   * (the generation stamp and the length) has not been committed by 
-   * the client or it does not have at least a minimal number of replicas 
-   * reported from data-nodes. 
-   */
-  BlockInfoContiguous convertToCompleteBlock() throws IOException {
-    assert getBlockUCState() != BlockUCState.COMPLETE :
-      "Trying to convert a COMPLETE block";
-    return new BlockInfoContiguous(this);
-  }
+	/**
+	 * Create a block that is currently being constructed.
+	 */
+	public BlockInfoContiguousUnderConstruction(Block blk, short replication, BlockUCState state,
+			DatanodeStorageInfo[] targets) {
+		super(blk, replication);
+		assert getBlockUCState() != BlockUCState.COMPLETE : "BlockInfoUnderConstruction cannot be in COMPLETE state";
+		this.blockUCState = state;
+		setExpectedLocations(targets);
+	}
 
-  /** Set expected locations */
-  public void setExpectedLocations(DatanodeStorageInfo[] targets) {
-    int numLocations = targets == null ? 0 : targets.length;
-    this.replicas = new ArrayList<ReplicaUnderConstruction>(numLocations);
-    for(int i = 0; i < numLocations; i++)
-      replicas.add(
-        new ReplicaUnderConstruction(this, targets[i], ReplicaState.RBW));
-  }
+	/**
+	 * Convert an under construction block to a complete block.
+	 * 
+	 * @return BlockInfo - a complete block.
+	 * @throws IOException
+	 *             if the state of the block (the generation stamp and the
+	 *             length) has not been committed by the client or it does not
+	 *             have at least a minimal number of replicas reported from
+	 *             data-nodes.
+	 */
+	BlockInfoContiguous convertToCompleteBlock() throws IOException {
+		assert getBlockUCState() != BlockUCState.COMPLETE : "Trying to convert a COMPLETE block";
+		return new BlockInfoContiguous(this);
+	}
 
-  /**
-   * Create array of expected replica locations
-   * (as has been assigned by chooseTargets()).
-   */
-  public DatanodeStorageInfo[] getExpectedStorageLocations() {
-    int numLocations = replicas == null ? 0 : replicas.size();
-    DatanodeStorageInfo[] storages = new DatanodeStorageInfo[numLocations];
-    for(int i = 0; i < numLocations; i++)
-      storages[i] = replicas.get(i).getExpectedStorageLocation();
-    return storages;
-  }
+	/** Set expected locations */
+	public void setExpectedLocations(DatanodeStorageInfo[] targets) {
+		int numLocations = targets == null ? 0 : targets.length;
+		this.replicas = new ArrayList<ReplicaUnderConstruction>(numLocations);
+		for (int i = 0; i < numLocations; i++)
+			replicas.add(new ReplicaUnderConstruction(this, targets[i], ReplicaState.RBW));
+	}
 
-  /** Get the number of expected locations */
-  public int getNumExpectedLocations() {
-    return replicas == null ? 0 : replicas.size();
-  }
+	/**
+	 * Create array of expected replica locations (as has been assigned by
+	 * chooseTargets()).
+	 */
+	public DatanodeStorageInfo[] getExpectedStorageLocations() {
+		int numLocations = replicas == null ? 0 : replicas.size();
+		DatanodeStorageInfo[] storages = new DatanodeStorageInfo[numLocations];
+		for (int i = 0; i < numLocations; i++)
+			storages[i] = replicas.get(i).getExpectedStorageLocation();
+		return storages;
+	}
 
-  /**
-   * Return the state of the block under construction.
-   * @see BlockUCState
-   */
-  @Override // BlockInfo
-  public BlockUCState getBlockUCState() {
-    return blockUCState;
-  }
+	/** Get the number of expected locations */
+	public int getNumExpectedLocations() {
+		return replicas == null ? 0 : replicas.size();
+	}
 
-  void setBlockUCState(BlockUCState s) {
-    blockUCState = s;
-  }
+	/**
+	 * Return the state of the block under construction.
+	 * 
+	 * @see BlockUCState
+	 */
+	@Override // BlockInfo
+	public BlockUCState getBlockUCState() {
+		return blockUCState;
+	}
 
-  /** Get block recovery ID */
-  public long getBlockRecoveryId() {
-    return blockRecoveryId;
-  }
+	void setBlockUCState(BlockUCState s) {
+		blockUCState = s;
+	}
 
-  /** Get recover block */
-  public Block getTruncateBlock() {
-    return truncateBlock;
-  }
+	/** Get block recovery ID */
+	public long getBlockRecoveryId() {
+		return blockRecoveryId;
+	}
 
-  public void setTruncateBlock(Block recoveryBlock) {
-    this.truncateBlock = recoveryBlock;
-  }
+	/** Get recover block */
+	public Block getTruncateBlock() {
+		return truncateBlock;
+	}
 
-  /**
-   * Process the recorded replicas. When about to commit or finish the
-   * pipeline recovery sort out bad replicas.
-   * @param genStamp  The final generation stamp for the block.
-   */
-  public void setGenerationStampAndVerifyReplicas(long genStamp) {
-    // Set the generation stamp for the block.
-    setGenerationStamp(genStamp);
-    if (replicas == null)
-      return;
+	public void setTruncateBlock(Block recoveryBlock) {
+		this.truncateBlock = recoveryBlock;
+	}
 
-    // Remove the replicas with wrong gen stamp.
-    // The replica list is unchanged.
-    for (ReplicaUnderConstruction r : replicas) {
-      if (genStamp != r.getGenerationStamp()) {
-        r.getExpectedStorageLocation().removeBlock(this);
-        NameNode.blockStateChangeLog.info("BLOCK* Removing stale replica "
-            + "from location: {}", r.getExpectedStorageLocation());
-      }
-    }
-  }
+	/**
+	 * Process the recorded replicas. When about to commit or finish the
+	 * pipeline recovery sort out bad replicas.
+	 * 
+	 * @param genStamp
+	 *            The final generation stamp for the block.
+	 */
+	public void setGenerationStampAndVerifyReplicas(long genStamp) {
+		// Set the generation stamp for the block.
+		setGenerationStamp(genStamp);
+		if (replicas == null)
+			return;
 
-  /**
-   * Commit block's length and generation stamp as reported by the client.
-   * Set block state to {@link BlockUCState#COMMITTED}.
-   * @param block - contains client reported block length and generation 
-   * @throws IOException if block ids are inconsistent.
-   */
-  void commitBlock(Block block) throws IOException {
-    if(getBlockId() != block.getBlockId())
-      throw new IOException("Trying to commit inconsistent block: id = "
-          + block.getBlockId() + ", expected id = " + getBlockId());
-    blockUCState = BlockUCState.COMMITTED;
-    this.set(getBlockId(), block.getNumBytes(), block.getGenerationStamp());
-    // Sort out invalid replicas.
-    setGenerationStampAndVerifyReplicas(block.getGenerationStamp());
-  }
+		// Remove the replicas with wrong gen stamp.
+		// The replica list is unchanged.
+		for (ReplicaUnderConstruction r : replicas) {
+			if (genStamp != r.getGenerationStamp()) {
+				r.getExpectedStorageLocation().removeBlock(this);
+				NameNode.blockStateChangeLog.info("BLOCK* Removing stale replica " + "from location: {}",
+						r.getExpectedStorageLocation());
+			}
+		}
+	}
 
-  /**
-   * Initialize lease recovery for this block.
-   * Find the first alive data-node starting from the previous primary and
-   * make it primary.
-   */
-  public void initializeBlockRecovery(long recoveryId) {
-    setBlockUCState(BlockUCState.UNDER_RECOVERY);
-    blockRecoveryId = recoveryId;
-    if (replicas.size() == 0) {
-      NameNode.blockStateChangeLog.warn("BLOCK*"
-        + " BlockInfoUnderConstruction.initLeaseRecovery:"
-        + " No blocks found, lease removed.");
-    }
-    boolean allLiveReplicasTriedAsPrimary = true;
-    for (int i = 0; i < replicas.size(); i++) {
-      // Check if all replicas have been tried or not.
-      if (replicas.get(i).isAlive()) {
-        allLiveReplicasTriedAsPrimary =
-            (allLiveReplicasTriedAsPrimary && replicas.get(i).getChosenAsPrimary());
-      }
-    }
-    if (allLiveReplicasTriedAsPrimary) {
-      // Just set all the replicas to be chosen whether they are alive or not.
-      for (int i = 0; i < replicas.size(); i++) {
-        replicas.get(i).setChosenAsPrimary(false);
-      }
-    }
-    long mostRecentLastUpdate = 0;
-    ReplicaUnderConstruction primary = null;
-    primaryNodeIndex = -1;
-    for(int i = 0; i < replicas.size(); i++) {
-      // Skip alive replicas which have been chosen for recovery.
-      if (!(replicas.get(i).isAlive() && !replicas.get(i).getChosenAsPrimary())) {
-        continue;
-      }
-      final ReplicaUnderConstruction ruc = replicas.get(i);
-      final long lastUpdate = ruc.getExpectedStorageLocation()
-          .getDatanodeDescriptor().getLastUpdateMonotonic();
-      if (lastUpdate > mostRecentLastUpdate) {
-        primaryNodeIndex = i;
-        primary = ruc;
-        mostRecentLastUpdate = lastUpdate;
-      }
-    }
-    if (primary != null) {
-      primary.getExpectedStorageLocation().getDatanodeDescriptor().addBlockToBeRecovered(this);
-      primary.setChosenAsPrimary(true);
-      NameNode.blockStateChangeLog.info(
-          "BLOCK* {} recovery started, primary={}", this, primary);
-    }
-  }
+	/**
+	 * Commit block's length and generation stamp as reported by the client. Set
+	 * block state to {@link BlockUCState#COMMITTED}.
+	 * 
+	 * @param block
+	 *            - contains client reported block length and generation
+	 * @throws IOException
+	 *             if block ids are inconsistent.
+	 */
+	void commitBlock(Block block) throws IOException {
+		if (getBlockId() != block.getBlockId())
+			throw new IOException("Trying to commit inconsistent block: id = " + block.getBlockId() + ", expected id = "
+					+ getBlockId());
+		blockUCState = BlockUCState.COMMITTED;
+		this.set(getBlockId(), block.getNumBytes(), block.getGenerationStamp());
+		// Sort out invalid replicas.
+		setGenerationStampAndVerifyReplicas(block.getGenerationStamp());
+	}
 
-  void addReplicaIfNotPresent(DatanodeStorageInfo storage,
-                     Block block,
-                     ReplicaState rState) {
-    Iterator<ReplicaUnderConstruction> it = replicas.iterator();
-    while (it.hasNext()) {
-      ReplicaUnderConstruction r = it.next();
-      DatanodeStorageInfo expectedLocation = r.getExpectedStorageLocation();
-      if(expectedLocation == storage) {
-        // Record the gen stamp from the report
-        r.setGenerationStamp(block.getGenerationStamp());
-        return;
-      } else if (expectedLocation != null &&
-                 expectedLocation.getDatanodeDescriptor() ==
-                     storage.getDatanodeDescriptor()) {
+	/**
+	 * Initialize lease recovery for this block. Find the first alive data-node
+	 * starting from the previous primary and make it primary.
+	 */
+	public void initializeBlockRecovery(long recoveryId) {
+		setBlockUCState(BlockUCState.UNDER_RECOVERY);
+		blockRecoveryId = recoveryId;
+		if (replicas.size() == 0) {
+			NameNode.blockStateChangeLog.warn(
+					"BLOCK*" + " BlockInfoUnderConstruction.initLeaseRecovery:" + " No blocks found, lease removed.");
+		}
+		boolean allLiveReplicasTriedAsPrimary = true;
+		for (int i = 0; i < replicas.size(); i++) {
+			// Check if all replicas have been tried or not.
+			if (replicas.get(i).isAlive()) {
+				allLiveReplicasTriedAsPrimary = (allLiveReplicasTriedAsPrimary && replicas.get(i).getChosenAsPrimary());
+			}
+		}
+		if (allLiveReplicasTriedAsPrimary) {
+			// Just set all the replicas to be chosen whether they are alive or
+			// not.
+			for (int i = 0; i < replicas.size(); i++) {
+				replicas.get(i).setChosenAsPrimary(false);
+			}
+		}
+		long mostRecentLastUpdate = 0;
+		ReplicaUnderConstruction primary = null;
+		primaryNodeIndex = -1;
+		for (int i = 0; i < replicas.size(); i++) {
+			// Skip alive replicas which have been chosen for recovery.
+			if (!(replicas.get(i).isAlive() && !replicas.get(i).getChosenAsPrimary())) {
+				continue;
+			}
+			final ReplicaUnderConstruction ruc = replicas.get(i);
+			final long lastUpdate = ruc.getExpectedStorageLocation().getDatanodeDescriptor().getLastUpdateMonotonic();
+			if (lastUpdate > mostRecentLastUpdate) {
+				primaryNodeIndex = i;
+				primary = ruc;
+				mostRecentLastUpdate = lastUpdate;
+			}
+		}
+		if (primary != null) {
+			primary.getExpectedStorageLocation().getDatanodeDescriptor().addBlockToBeRecovered(this);
+			primary.setChosenAsPrimary(true);
+			NameNode.blockStateChangeLog.info("BLOCK* {} recovery started, primary={}", this, primary);
+		}
+	}
 
-        // The Datanode reported that the block is on a different storage
-        // than the one chosen by BlockPlacementPolicy. This can occur as
-        // we allow Datanodes to choose the target storage. Update our
-        // state by removing the stale entry and adding a new one.
-        it.remove();
-        break;
-      }
-    }
-    replicas.add(new ReplicaUnderConstruction(block, storage, rState));
-  }
+	void addReplicaIfNotPresent(DatanodeStorageInfo storage, Block block, ReplicaState rState) {
+		Iterator<ReplicaUnderConstruction> it = replicas.iterator();
+		while (it.hasNext()) {
+			ReplicaUnderConstruction r = it.next();
+			DatanodeStorageInfo expectedLocation = r.getExpectedStorageLocation();
+			if (expectedLocation == storage) {
+				// Record the gen stamp from the report
+				r.setGenerationStamp(block.getGenerationStamp());
+				return;
+			} else if (expectedLocation != null
+					&& expectedLocation.getDatanodeDescriptor() == storage.getDatanodeDescriptor()) {
 
-  @Override // BlockInfo
-  // BlockInfoUnderConstruction participates in maps the same way as BlockInfo
-  public int hashCode() {
-    return super.hashCode();
-  }
+				// The Datanode reported that the block is on a different
+				// storage
+				// than the one chosen by BlockPlacementPolicy. This can occur
+				// as
+				// we allow Datanodes to choose the target storage. Update our
+				// state by removing the stale entry and adding a new one.
+				it.remove();
+				break;
+			}
+		}
+		replicas.add(new ReplicaUnderConstruction(block, storage, rState));
+	}
 
-  @Override // BlockInfo
-  public boolean equals(Object obj) {
-    // Sufficient to rely on super's implementation
-    return (this == obj) || super.equals(obj);
-  }
+	@Override // BlockInfo
+	// BlockInfoUnderConstruction participates in maps the same way as BlockInfo
+	public int hashCode() {
+		return super.hashCode();
+	}
 
-  @Override
-  public String toString() {
-    final StringBuilder b = new StringBuilder(100);
-    appendStringTo(b);
-    return b.toString();
-  }
+	@Override // BlockInfo
+	public boolean equals(Object obj) {
+		// Sufficient to rely on super's implementation
+		return (this == obj) || super.equals(obj);
+	}
 
-  @Override
-  public void appendStringTo(StringBuilder sb) {
-    super.appendStringTo(sb);
-    appendUCParts(sb);
-  }
+	@Override
+	public String toString() {
+		final StringBuilder b = new StringBuilder(100);
+		appendStringTo(b);
+		return b.toString();
+	}
 
-  private void appendUCParts(StringBuilder sb) {
-    sb.append("{UCState=").append(blockUCState)
-      .append(", truncateBlock=" + truncateBlock)
-      .append(", primaryNodeIndex=").append(primaryNodeIndex)
-      .append(", replicas=[");
-    if (replicas != null) {
-      Iterator<ReplicaUnderConstruction> iter = replicas.iterator();
-      if (iter.hasNext()) {
-        iter.next().appendStringTo(sb);
-        while (iter.hasNext()) {
-          sb.append(", ");
-          iter.next().appendStringTo(sb);
-        }
-      }
-    }
-    sb.append("]}");
-  }
+	@Override
+	public void appendStringTo(StringBuilder sb) {
+		super.appendStringTo(sb);
+		appendUCParts(sb);
+	}
+
+	private void appendUCParts(StringBuilder sb) {
+		sb.append("{UCState=").append(blockUCState).append(", truncateBlock=" + truncateBlock)
+				.append(", primaryNodeIndex=").append(primaryNodeIndex).append(", replicas=[");
+		if (replicas != null) {
+			Iterator<ReplicaUnderConstruction> iter = replicas.iterator();
+			if (iter.hasNext()) {
+				iter.next().appendStringTo(sb);
+				while (iter.hasNext()) {
+					sb.append(", ");
+					iter.next().appendStringTo(sb);
+				}
+			}
+		}
+		sb.append("]}");
+	}
 }

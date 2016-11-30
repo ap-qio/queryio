@@ -28,13 +28,13 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class InvalidEncryptionKeyException extends IOException {
-  private static final long serialVersionUID = 0l;
+	private static final long serialVersionUID = 0l;
 
-  public InvalidEncryptionKeyException() {
-    super();
-  }
+	public InvalidEncryptionKeyException() {
+		super();
+	}
 
-  public InvalidEncryptionKeyException(String msg) {
-    super(msg);
-  }
+	public InvalidEncryptionKeyException(String msg) {
+		super(msg);
+	}
 }

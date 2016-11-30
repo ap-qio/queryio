@@ -22,12 +22,11 @@ import org.apache.hadoop.crypto.CipherOption;
 
 @InterfaceAudience.Private
 public class SaslResponseWithNegotiatedCipherOption {
-  final byte[] payload;
-  final CipherOption cipherOption;
-  
-  public SaslResponseWithNegotiatedCipherOption(byte[] payload, 
-      CipherOption cipherOption) {
-    this.payload = payload;
-    this.cipherOption = cipherOption;
-  }
+	final byte[] payload;
+	final CipherOption cipherOption;
+
+	public SaslResponseWithNegotiatedCipherOption(byte[] payload, CipherOption cipherOption) {
+		this.payload = payload;
+		this.cipherOption = cipherOption;
+	}
 }

@@ -17,34 +17,38 @@ package org.apache.hadoop.security.authentication.client;
  * Exception thrown when an authentication error occurrs.
  */
 public class AuthenticationException extends Exception {
-  
-  static final long serialVersionUID = 0;
 
-  /**
-   * Creates an {@link AuthenticationException}.
-   *
-   * @param cause original exception.
-   */
-  public AuthenticationException(Throwable cause) {
-    super(cause);
-  }
+	static final long serialVersionUID = 0;
 
-  /**
-   * Creates an {@link AuthenticationException}.
-   *
-   * @param msg exception message.
-   */
-  public AuthenticationException(String msg) {
-    super(msg);
-  }
+	/**
+	 * Creates an {@link AuthenticationException}.
+	 *
+	 * @param cause
+	 *            original exception.
+	 */
+	public AuthenticationException(Throwable cause) {
+		super(cause);
+	}
 
-  /**
-   * Creates an {@link AuthenticationException}.
-   *
-   * @param msg exception message.
-   * @param cause original exception.
-   */
-  public AuthenticationException(String msg, Throwable cause) {
-    super(msg, cause);
-  }
+	/**
+	 * Creates an {@link AuthenticationException}.
+	 *
+	 * @param msg
+	 *            exception message.
+	 */
+	public AuthenticationException(String msg) {
+		super(msg);
+	}
+
+	/**
+	 * Creates an {@link AuthenticationException}.
+	 *
+	 * @param msg
+	 *            exception message.
+	 * @param cause
+	 *            original exception.
+	 */
+	public AuthenticationException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
 }

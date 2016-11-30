@@ -25,17 +25,19 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Public
 public class EventBatch {
-  private final long txid;
-  private final Event[] events;
+	private final long txid;
+	private final Event[] events;
 
-  public EventBatch(long txid, Event[] events) {
-    this.txid = txid;
-    this.events = events;
-  }
+	public EventBatch(long txid, Event[] events) {
+		this.txid = txid;
+		this.events = events;
+	}
 
-  public long getTxid() {
-    return txid;
-  }
+	public long getTxid() {
+		return txid;
+	}
 
-  public Event[] getEvents() { return events; }
+	public Event[] getEvents() {
+		return events;
+	}
 }

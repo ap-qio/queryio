@@ -18,17 +18,17 @@
 
 package org.apache.hadoop.security.alias;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.permission.FsPermission;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
 
 /**
  * CredentialProvider based on Java's KeyStore file format. The file may be
@@ -39,67 +39,64 @@ import java.net.URI;
  */
 @InterfaceAudience.Private
 public class JavaKeyStoreProvider extends AbstractJavaKeyStoreProvider {
-  public static final String SCHEME_NAME = "jceks";
+	public static final String SCHEME_NAME = "jceks";
 
-  private FileSystem fs;
-  private FsPermission permissions;
+	private FileSystem fs;
+	private FsPermission permissions;
 
-  private JavaKeyStoreProvider(URI uri, Configuration conf)
-      throws IOException {
-    super(uri, conf);
-  }
+	private JavaKeyStoreProvider(URI uri, Configuration conf) throws IOException {
+		super(uri, conf);
+	}
 
-  @Override
-  protected String getSchemeName() {
-    return SCHEME_NAME;
-  }
+	@Override
+	protected String getSchemeName() {
+		return SCHEME_NAME;
+	}
 
-  @Override
-  protected OutputStream getOutputStreamForKeystore() throws IOException {
-    FSDataOutputStream out = FileSystem.create(fs, getPath(), permissions);
-    return out;
-  }
+	@Override
+	protected OutputStream getOutputStreamForKeystore() throws IOException {
+		FSDataOutputStream out = FileSystem.create(fs, getPath(), permissions);
+		return out;
+	}
 
-  @Override
-  protected boolean keystoreExists() throws IOException {
-    return fs.exists(getPath());
-  }
+	@Override
+	protected boolean keystoreExists() throws IOException {
+		return fs.exists(getPath());
+	}
 
-  @Override
-  protected InputStream getInputStreamForFile() throws IOException {
-    return fs.open(getPath());
-  }
+	@Override
+	protected InputStream getInputStreamForFile() throws IOException {
+		return fs.open(getPath());
+	}
 
-  @Override
-  protected void createPermissions(String perms) {
-    permissions = new FsPermission(perms);
-  }
+	@Override
+	protected void createPermissions(String perms) {
+		permissions = new FsPermission(perms);
+	}
 
-  @Override
-  protected void stashOriginalFilePermissions() throws IOException {
-    // save off permissions in case we need to
-    // rewrite the keystore in flush()
-    FileStatus s = fs.getFileStatus(getPath());
-    permissions = s.getPermission();
-  }
+	@Override
+	protected void stashOriginalFilePermissions() throws IOException {
+		// save off permissions in case we need to
+		// rewrite the keystore in flush()
+		FileStatus s = fs.getFileStatus(getPath());
+		permissions = s.getPermission();
+	}
 
-  protected void initFileSystem(URI uri, Configuration conf)
-      throws IOException {
-    super.initFileSystem(uri, conf);
-    fs = getPath().getFileSystem(conf);
-  }
+	protected void initFileSystem(URI uri, Configuration conf) throws IOException {
+		super.initFileSystem(uri, conf);
+		fs = getPath().getFileSystem(conf);
+	}
 
-  /**
-   * The factory to create JksProviders, which is used by the ServiceLoader.
-   */
-  public static class Factory extends CredentialProviderFactory {
-    @Override
-    public CredentialProvider createProvider(URI providerName,
-        Configuration conf) throws IOException {
-      if (SCHEME_NAME.equals(providerName.getScheme())) {
-        return new JavaKeyStoreProvider(providerName, conf);
-      }
-      return null;
-    }
-  }
+	/**
+	 * The factory to create JksProviders, which is used by the ServiceLoader.
+	 */
+	public static class Factory extends CredentialProviderFactory {
+		@Override
+		public CredentialProvider createProvider(URI providerName, Configuration conf) throws IOException {
+			if (SCHEME_NAME.equals(providerName.getScheme())) {
+				return new JavaKeyStoreProvider(providerName, conf);
+			}
+			return null;
+		}
+	}
 }

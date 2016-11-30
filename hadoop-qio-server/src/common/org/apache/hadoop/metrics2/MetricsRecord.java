@@ -29,38 +29,41 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public interface MetricsRecord {
-  /**
-   * Get the timestamp of the metrics
-   * @return  the timestamp
-   */
-  long timestamp();
+	/**
+	 * Get the timestamp of the metrics
+	 * 
+	 * @return the timestamp
+	 */
+	long timestamp();
 
-  /**
-   * @return the record name
-   */
-  String name();
+	/**
+	 * @return the record name
+	 */
+	String name();
 
-  /**
-   * @return the description of the record
-   */
-  String description();
+	/**
+	 * @return the description of the record
+	 */
+	String description();
 
-  /**
-   * @return the context name of the record
-   */
-  String context();
+	/**
+	 * @return the context name of the record
+	 */
+	String context();
 
-  /**
-   * Get the tags of the record
-   * Note: returning a collection instead of iterable as we
-   * need to use tags as keys (hence Collection#hashCode etc.) in maps
-   * @return an unmodifiable collection of tags
-   */
-  Collection<MetricsTag> tags();
+	/**
+	 * Get the tags of the record Note: returning a collection instead of
+	 * iterable as we need to use tags as keys (hence Collection#hashCode etc.)
+	 * in maps
+	 * 
+	 * @return an unmodifiable collection of tags
+	 */
+	Collection<MetricsTag> tags();
 
-  /**
-   * Get the metrics of the record
-   * @return an immutable iterable interface for metrics
-   */
-  Iterable<AbstractMetric> metrics();
+	/**
+	 * Get the metrics of the record
+	 * 
+	 * @return an immutable iterable interface for metrics
+	 */
+	Iterable<AbstractMetric> metrics();
 }

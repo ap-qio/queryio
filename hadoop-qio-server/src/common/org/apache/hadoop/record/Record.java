@@ -18,9 +18,9 @@
 
 package org.apache.hadoop.record;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInput;
 import java.io.DataOutput;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.apache.hadoop.classification.InterfaceAudience;
@@ -36,67 +36,75 @@ import org.apache.hadoop.io.WritableComparable;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public abstract class Record implements WritableComparable, Cloneable {
-  
-  /**
-   * Serialize a record with tag (ususally field name)
-   * @param rout Record output destination
-   * @param tag record tag (Used only in tagged serialization e.g. XML)
-   */
-  public abstract void serialize(RecordOutput rout, String tag)
-    throws IOException;
-  
-  /**
-   * Deserialize a record with a tag (usually field name)
-   * @param rin Record input source
-   * @param tag Record tag (Used only in tagged serialization e.g. XML)
-   */
-  public abstract void deserialize(RecordInput rin, String tag)
-    throws IOException;
-  
-  // inheric javadoc
-  @Override
-  public abstract int compareTo (final Object peer) throws ClassCastException;
-  
-  /**
-   * Serialize a record without a tag
-   * @param rout Record output destination
-   */
-  public void serialize(RecordOutput rout) throws IOException {
-    this.serialize(rout, "");
-  }
-  
-  /**
-   * Deserialize a record without a tag
-   * @param rin Record input source
-   */
-  public void deserialize(RecordInput rin) throws IOException {
-    this.deserialize(rin, "");
-  }
-  
-  // inherit javadoc
-  @Override
-  public void write(final DataOutput out) throws java.io.IOException {
-    BinaryRecordOutput bout = BinaryRecordOutput.get(out);
-    this.serialize(bout);
-  }
-  
-  // inherit javadoc
-  @Override
-  public void readFields(final DataInput din) throws java.io.IOException {
-    BinaryRecordInput rin = BinaryRecordInput.get(din);
-    this.deserialize(rin);
-  }
 
-  // inherit javadoc
-  @Override
-  public String toString() {
-    try {
-      ByteArrayOutputStream s = new ByteArrayOutputStream();
-      CsvRecordOutput a = new CsvRecordOutput(s);
-      this.serialize(a);
-      return new String(s.toByteArray(), "UTF-8");
-    } catch (Throwable ex) {
-      throw new RuntimeException(ex);
-    }
-  }
+	/**
+	 * Serialize a record with tag (ususally field name)
+	 * 
+	 * @param rout
+	 *            Record output destination
+	 * @param tag
+	 *            record tag (Used only in tagged serialization e.g. XML)
+	 */
+	public abstract void serialize(RecordOutput rout, String tag) throws IOException;
+
+	/**
+	 * Deserialize a record with a tag (usually field name)
+	 * 
+	 * @param rin
+	 *            Record input source
+	 * @param tag
+	 *            Record tag (Used only in tagged serialization e.g. XML)
+	 */
+	public abstract void deserialize(RecordInput rin, String tag) throws IOException;
+
+	// inheric javadoc
+	@Override
+	public abstract int compareTo(final Object peer) throws ClassCastException;
+
+	/**
+	 * Serialize a record without a tag
+	 * 
+	 * @param rout
+	 *            Record output destination
+	 */
+	public void serialize(RecordOutput rout) throws IOException {
+		this.serialize(rout, "");
+	}
+
+	/**
+	 * Deserialize a record without a tag
+	 * 
+	 * @param rin
+	 *            Record input source
+	 */
+	public void deserialize(RecordInput rin) throws IOException {
+		this.deserialize(rin, "");
+	}
+
+	// inherit javadoc
+	@Override
+	public void write(final DataOutput out) throws java.io.IOException {
+		BinaryRecordOutput bout = BinaryRecordOutput.get(out);
+		this.serialize(bout);
+	}
+
+	// inherit javadoc
+	@Override
+	public void readFields(final DataInput din) throws java.io.IOException {
+		BinaryRecordInput rin = BinaryRecordInput.get(din);
+		this.deserialize(rin);
+	}
+
+	// inherit javadoc
+	@Override
+	public String toString() {
+		try {
+			ByteArrayOutputStream s = new ByteArrayOutputStream();
+			CsvRecordOutput a = new CsvRecordOutput(s);
+			this.serialize(a);
+			return new String(s.toByteArray(), "UTF-8");
+		} catch (Throwable ex) {
+			throw new RuntimeException(ex);
+		}
+	}
 }

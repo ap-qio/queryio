@@ -19,8 +19,8 @@ package org.apache.hadoop.hdfs.server.datanode.fsdataset;
 
 import java.io.Closeable;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.util.DataChecksum;
@@ -29,65 +29,65 @@ import org.apache.hadoop.util.DataChecksum;
  * Contains the output streams for the data and checksum of a replica.
  */
 public class ReplicaOutputStreams implements Closeable {
-  private final OutputStream dataOut;
-  private final OutputStream checksumOut;
-  private final DataChecksum checksum;
-  private final boolean isTransientStorage;
+	private final OutputStream dataOut;
+	private final OutputStream checksumOut;
+	private final DataChecksum checksum;
+	private final boolean isTransientStorage;
 
-  /**
-   * Create an object with a data output stream, a checksum output stream
-   * and a checksum.
-   */
-  public ReplicaOutputStreams(OutputStream dataOut, OutputStream checksumOut,
-      DataChecksum checksum, boolean isTransientStorage) {
-    this.dataOut = dataOut;
-    this.checksumOut = checksumOut;
-    this.checksum = checksum;
-    this.isTransientStorage = isTransientStorage;
-  }
+	/**
+	 * Create an object with a data output stream, a checksum output stream and
+	 * a checksum.
+	 */
+	public ReplicaOutputStreams(OutputStream dataOut, OutputStream checksumOut, DataChecksum checksum,
+			boolean isTransientStorage) {
+		this.dataOut = dataOut;
+		this.checksumOut = checksumOut;
+		this.checksum = checksum;
+		this.isTransientStorage = isTransientStorage;
+	}
 
-  /** @return the data output stream. */
-  public OutputStream getDataOut() {
-    return dataOut;
-  }
+	/** @return the data output stream. */
+	public OutputStream getDataOut() {
+		return dataOut;
+	}
 
-  /** @return the checksum output stream. */
-  public OutputStream getChecksumOut() {
-    return checksumOut;
-  }
+	/** @return the checksum output stream. */
+	public OutputStream getChecksumOut() {
+		return checksumOut;
+	}
 
-  /** @return the checksum. */
-  public DataChecksum getChecksum() {
-    return checksum;
-  }
+	/** @return the checksum. */
+	public DataChecksum getChecksum() {
+		return checksum;
+	}
 
-  /** @return is writing to a transient storage? */
-  public boolean isTransientStorage() {
-    return isTransientStorage;
-  }
+	/** @return is writing to a transient storage? */
+	public boolean isTransientStorage() {
+		return isTransientStorage;
+	}
 
-  @Override
-  public void close() {
-    IOUtils.closeStream(dataOut);
-    IOUtils.closeStream(checksumOut);
-  }
+	@Override
+	public void close() {
+		IOUtils.closeStream(dataOut);
+		IOUtils.closeStream(checksumOut);
+	}
 
-  /**
-   * Sync the data stream if it supports it.
-   */
-  public void syncDataOut() throws IOException {
-    if (dataOut instanceof FileOutputStream) {
-      ((FileOutputStream)dataOut).getChannel().force(true);
-    }
-  }
-  
-  /**
-   * Sync the checksum stream if it supports it.
-   */
-  public void syncChecksumOut() throws IOException {
-    if (checksumOut instanceof FileOutputStream) {
-      ((FileOutputStream)checksumOut).getChannel().force(true);
-    }
-  }
+	/**
+	 * Sync the data stream if it supports it.
+	 */
+	public void syncDataOut() throws IOException {
+		if (dataOut instanceof FileOutputStream) {
+			((FileOutputStream) dataOut).getChannel().force(true);
+		}
+	}
+
+	/**
+	 * Sync the checksum stream if it supports it.
+	 */
+	public void syncChecksumOut() throws IOException {
+		if (checksumOut instanceof FileOutputStream) {
+			((FileOutputStream) checksumOut).getChannel().force(true);
+		}
+	}
 
 }

@@ -23,10 +23,11 @@ package org.apache.hadoop.ipc;
  * FairCallQueue.
  */
 public interface RpcMultiplexer {
-  /**
-   * Should get current index and optionally perform whatever is needed
-   * to prepare the next index.
-   * @return current index
-   */
-  int getAndAdvanceCurrentIndex();
+	/**
+	 * Should get current index and optionally perform whatever is needed to
+	 * prepare the next index.
+	 * 
+	 * @return current index
+	 */
+	int getAndAdvanceCurrentIndex();
 }

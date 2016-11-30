@@ -31,131 +31,121 @@ import org.apache.hadoop.hdfs.server.namenode.snapshot.Snapshot;
  */
 @InterfaceAudience.Private
 public class INodeSymlink extends INodeWithAdditionalFields {
-  private final byte[] symlink; // The target URI
+	private final byte[] symlink; // The target URI
 
-  INodeSymlink(long id, byte[] name, PermissionStatus permissions,
-      long mtime, long atime, String symlink) {
-    super(id, name, permissions, mtime, atime);
-    this.symlink = DFSUtil.string2Bytes(symlink);
-  }
-  
-  INodeSymlink(INodeSymlink that) {
-    super(that);
-    this.symlink = that.symlink;
-  }
+	INodeSymlink(long id, byte[] name, PermissionStatus permissions, long mtime, long atime, String symlink) {
+		super(id, name, permissions, mtime, atime);
+		this.symlink = DFSUtil.string2Bytes(symlink);
+	}
 
-  @Override
-  void recordModification(int latestSnapshotId) {
-    if (isInLatestSnapshot(latestSnapshotId)) {
-      INodeDirectory parent = getParent();
-      parent.saveChild2Snapshot(this, latestSnapshotId, new INodeSymlink(this));
-    }
-  }
+	INodeSymlink(INodeSymlink that) {
+		super(that);
+		this.symlink = that.symlink;
+	}
 
-  /** @return true unconditionally. */
-  @Override
-  public boolean isSymlink() {
-    return true;
-  }
+	@Override
+	void recordModification(int latestSnapshotId) {
+		if (isInLatestSnapshot(latestSnapshotId)) {
+			INodeDirectory parent = getParent();
+			parent.saveChild2Snapshot(this, latestSnapshotId, new INodeSymlink(this));
+		}
+	}
 
-  /** @return this object. */
-  @Override
-  public INodeSymlink asSymlink() {
-    return this;
-  }
+	/** @return true unconditionally. */
+	@Override
+	public boolean isSymlink() {
+		return true;
+	}
 
-  public String getSymlinkString() {
-    return DFSUtil.bytes2String(symlink);
-  }
+	/** @return this object. */
+	@Override
+	public INodeSymlink asSymlink() {
+		return this;
+	}
 
-  public byte[] getSymlink() {
-    return symlink;
-  }
-  
-  @Override
-  public QuotaCounts cleanSubtree(BlockStoragePolicySuite bsps,
-      final int snapshotId, int priorSnapshotId,
-      final BlocksMapUpdateInfo collectedBlocks,
-      final List<INode> removedINodes) {
-    if (snapshotId == Snapshot.CURRENT_STATE_ID
-        && priorSnapshotId == Snapshot.NO_SNAPSHOT_ID) {
-      destroyAndCollectBlocks(bsps, collectedBlocks, removedINodes);
-    }
-    return new QuotaCounts.Builder().nameSpace(1).build();
-  }
-  
-  @Override
-  public void destroyAndCollectBlocks(final BlockStoragePolicySuite bsps,
-      final BlocksMapUpdateInfo collectedBlocks,
-      final List<INode> removedINodes) {
-    removedINodes.add(this);
-  }
+	public String getSymlinkString() {
+		return DFSUtil.bytes2String(symlink);
+	}
 
-  @Override
-  public QuotaCounts computeQuotaUsage(
-      BlockStoragePolicySuite bsps, byte blockStoragePolicyId,
-      QuotaCounts counts, boolean useCache, int lastSnapshotId) {
-    counts.addNameSpace(1);
-    return counts;
-  }
+	public byte[] getSymlink() {
+		return symlink;
+	}
 
-  @Override
-  public ContentSummaryComputationContext computeContentSummary(
-      final ContentSummaryComputationContext summary) {
-    summary.getCounts().addContent(Content.SYMLINK, 1);
-    return summary;
-  }
+	@Override
+	public QuotaCounts cleanSubtree(BlockStoragePolicySuite bsps, final int snapshotId, int priorSnapshotId,
+			final BlocksMapUpdateInfo collectedBlocks, final List<INode> removedINodes) {
+		if (snapshotId == Snapshot.CURRENT_STATE_ID && priorSnapshotId == Snapshot.NO_SNAPSHOT_ID) {
+			destroyAndCollectBlocks(bsps, collectedBlocks, removedINodes);
+		}
+		return new QuotaCounts.Builder().nameSpace(1).build();
+	}
 
-  @Override
-  public void dumpTreeRecursively(PrintWriter out, StringBuilder prefix,
-      final int snapshot) {
-    super.dumpTreeRecursively(out, prefix, snapshot);
-    out.println();
-  }
+	@Override
+	public void destroyAndCollectBlocks(final BlockStoragePolicySuite bsps, final BlocksMapUpdateInfo collectedBlocks,
+			final List<INode> removedINodes) {
+		removedINodes.add(this);
+	}
 
-  /**
-   * getAclFeature is not overridden because it is needed for resolving
-   * symlinks.
-  @Override
-  final AclFeature getAclFeature(int snapshotId) {
-    throw new UnsupportedOperationException("ACLs are not supported on symlinks");
-  }
-  */
+	@Override
+	public QuotaCounts computeQuotaUsage(BlockStoragePolicySuite bsps, byte blockStoragePolicyId, QuotaCounts counts,
+			boolean useCache, int lastSnapshotId) {
+		counts.addNameSpace(1);
+		return counts;
+	}
 
-  @Override
-  public void removeAclFeature() {
-    throw new UnsupportedOperationException("ACLs are not supported on symlinks");
-  }
+	@Override
+	public ContentSummaryComputationContext computeContentSummary(final ContentSummaryComputationContext summary) {
+		summary.getCounts().addContent(Content.SYMLINK, 1);
+		return summary;
+	}
 
-  @Override
-  public void addAclFeature(AclFeature f) {
-    throw new UnsupportedOperationException("ACLs are not supported on symlinks");
-  }
+	@Override
+	public void dumpTreeRecursively(PrintWriter out, StringBuilder prefix, final int snapshot) {
+		super.dumpTreeRecursively(out, prefix, snapshot);
+		out.println();
+	}
 
-  @Override
-  final XAttrFeature getXAttrFeature(int snapshotId) {
-    throw new UnsupportedOperationException("XAttrs are not supported on symlinks");
-  }
-  
-  @Override
-  public void removeXAttrFeature() {
-    throw new UnsupportedOperationException("XAttrs are not supported on symlinks");
-  }
-  
-  @Override
-  public void addXAttrFeature(XAttrFeature f) {
-    throw new UnsupportedOperationException("XAttrs are not supported on symlinks");
-  }
+	/**
+	 * getAclFeature is not overridden because it is needed for resolving
+	 * symlinks.
+	 * 
+	 * @Override final AclFeature getAclFeature(int snapshotId) { throw new
+	 *           UnsupportedOperationException("ACLs are not supported on
+	 *           symlinks"); }
+	 */
 
-  @Override
-  public byte getStoragePolicyID() {
-    throw new UnsupportedOperationException(
-        "Storage policy are not supported on symlinks");
-  }
+	@Override
+	public void removeAclFeature() {
+		throw new UnsupportedOperationException("ACLs are not supported on symlinks");
+	}
 
-  @Override
-  public byte getLocalStoragePolicyID() {
-    throw new UnsupportedOperationException(
-        "Storage policy are not supported on symlinks");
-  }
+	@Override
+	public void addAclFeature(AclFeature f) {
+		throw new UnsupportedOperationException("ACLs are not supported on symlinks");
+	}
+
+	@Override
+	final XAttrFeature getXAttrFeature(int snapshotId) {
+		throw new UnsupportedOperationException("XAttrs are not supported on symlinks");
+	}
+
+	@Override
+	public void removeXAttrFeature() {
+		throw new UnsupportedOperationException("XAttrs are not supported on symlinks");
+	}
+
+	@Override
+	public void addXAttrFeature(XAttrFeature f) {
+		throw new UnsupportedOperationException("XAttrs are not supported on symlinks");
+	}
+
+	@Override
+	public byte getStoragePolicyID() {
+		throw new UnsupportedOperationException("Storage policy are not supported on symlinks");
+	}
+
+	@Override
+	public byte getLocalStoragePolicyID() {
+		throw new UnsupportedOperationException("Storage policy are not supported on symlinks");
+	}
 }

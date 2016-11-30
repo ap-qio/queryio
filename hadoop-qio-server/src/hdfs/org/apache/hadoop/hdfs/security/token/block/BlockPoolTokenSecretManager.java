@@ -33,99 +33,95 @@ import com.google.common.annotations.VisibleForTesting;
  * Manages a {@link BlockTokenSecretManager} per block pool. Routes the requests
  * given a block pool Id to corresponding {@link BlockTokenSecretManager}
  */
-public class BlockPoolTokenSecretManager extends
-    SecretManager<BlockTokenIdentifier> {
-  
-  private final Map<String, BlockTokenSecretManager> map = 
-    new HashMap<String, BlockTokenSecretManager>();
+public class BlockPoolTokenSecretManager extends SecretManager<BlockTokenIdentifier> {
 
-  /**
-   * Add a block pool Id and corresponding {@link BlockTokenSecretManager} to map
-   * @param bpid block pool Id
-   * @param secretMgr {@link BlockTokenSecretManager}
-   */
-  public synchronized void addBlockPool(String bpid,
-      BlockTokenSecretManager secretMgr) {
-    map.put(bpid, secretMgr);
-  }
+	private final Map<String, BlockTokenSecretManager> map = new HashMap<String, BlockTokenSecretManager>();
 
-  synchronized BlockTokenSecretManager get(String bpid) {
-    BlockTokenSecretManager secretMgr = map.get(bpid);
-    if (secretMgr == null) {
-      throw new IllegalArgumentException("Block pool " + bpid
-          + " is not found");
-    }
-    return secretMgr;
-  }
-  
-  public synchronized boolean isBlockPoolRegistered(String bpid) {
-    return map.containsKey(bpid);
-  }
+	/**
+	 * Add a block pool Id and corresponding {@link BlockTokenSecretManager} to
+	 * map
+	 * 
+	 * @param bpid
+	 *            block pool Id
+	 * @param secretMgr
+	 *            {@link BlockTokenSecretManager}
+	 */
+	public synchronized void addBlockPool(String bpid, BlockTokenSecretManager secretMgr) {
+		map.put(bpid, secretMgr);
+	}
 
-  /** Return an empty BlockTokenIdentifer */
-  @Override
-  public BlockTokenIdentifier createIdentifier() {
-    return new BlockTokenIdentifier();
-  }
+	synchronized BlockTokenSecretManager get(String bpid) {
+		BlockTokenSecretManager secretMgr = map.get(bpid);
+		if (secretMgr == null) {
+			throw new IllegalArgumentException("Block pool " + bpid + " is not found");
+		}
+		return secretMgr;
+	}
 
-  @Override
-  public byte[] createPassword(BlockTokenIdentifier identifier) {
-    return get(identifier.getBlockPoolId()).createPassword(identifier);
-  }
+	public synchronized boolean isBlockPoolRegistered(String bpid) {
+		return map.containsKey(bpid);
+	}
 
-  @Override
-  public byte[] retrievePassword(BlockTokenIdentifier identifier)
-      throws InvalidToken {
-    return get(identifier.getBlockPoolId()).retrievePassword(identifier);
-  }
+	/** Return an empty BlockTokenIdentifer */
+	@Override
+	public BlockTokenIdentifier createIdentifier() {
+		return new BlockTokenIdentifier();
+	}
 
-  /**
-   * See {@link BlockTokenSecretManager#checkAccess(BlockTokenIdentifier, 
-   *                String, ExtendedBlock, AccessMode)}
-   */
-  public void checkAccess(BlockTokenIdentifier id, String userId,
-      ExtendedBlock block, AccessMode mode) throws InvalidToken {
-    get(block.getBlockPoolId()).checkAccess(id, userId, block, mode);
-  }
+	@Override
+	public byte[] createPassword(BlockTokenIdentifier identifier) {
+		return get(identifier.getBlockPoolId()).createPassword(identifier);
+	}
 
-  /**
-   * See {@link BlockTokenSecretManager#checkAccess(Token, String, 
-   *                ExtendedBlock, AccessMode)}
-   */
-  public void checkAccess(Token<BlockTokenIdentifier> token,
-      String userId, ExtendedBlock block, AccessMode mode) throws InvalidToken {
-    get(block.getBlockPoolId()).checkAccess(token, userId, block, mode);
-  }
+	@Override
+	public byte[] retrievePassword(BlockTokenIdentifier identifier) throws InvalidToken {
+		return get(identifier.getBlockPoolId()).retrievePassword(identifier);
+	}
 
-  /**
-   * See {@link BlockTokenSecretManager#addKeys(ExportedBlockKeys)}
-   */
-  public void addKeys(String bpid, ExportedBlockKeys exportedKeys)
-      throws IOException {
-    get(bpid).addKeys(exportedKeys);
-  }
+	/**
+	 * See
+	 * {@link BlockTokenSecretManager#checkAccess(BlockTokenIdentifier, String, ExtendedBlock, AccessMode)}
+	 */
+	public void checkAccess(BlockTokenIdentifier id, String userId, ExtendedBlock block, AccessMode mode)
+			throws InvalidToken {
+		get(block.getBlockPoolId()).checkAccess(id, userId, block, mode);
+	}
 
-  /**
-   * See {@link BlockTokenSecretManager#generateToken(ExtendedBlock, EnumSet)}
-   */
-  public Token<BlockTokenIdentifier> generateToken(ExtendedBlock b,
-      EnumSet<AccessMode> of) throws IOException {
-    return get(b.getBlockPoolId()).generateToken(b, of);
-  }
-  
-  @VisibleForTesting
-  public void clearAllKeysForTesting() {
-    for (BlockTokenSecretManager btsm : map.values()) {
-      btsm.clearAllKeysForTesting();
-    }
-  }
+	/**
+	 * See
+	 * {@link BlockTokenSecretManager#checkAccess(Token, String, ExtendedBlock, AccessMode)}
+	 */
+	public void checkAccess(Token<BlockTokenIdentifier> token, String userId, ExtendedBlock block, AccessMode mode)
+			throws InvalidToken {
+		get(block.getBlockPoolId()).checkAccess(token, userId, block, mode);
+	}
 
-  public DataEncryptionKey generateDataEncryptionKey(String blockPoolId) {
-    return get(blockPoolId).generateDataEncryptionKey();
-  }
-  
-  public byte[] retrieveDataEncryptionKey(int keyId, String blockPoolId,
-      byte[] nonce) throws IOException {
-    return get(blockPoolId).retrieveDataEncryptionKey(keyId, nonce);
-  }
+	/**
+	 * See {@link BlockTokenSecretManager#addKeys(ExportedBlockKeys)}
+	 */
+	public void addKeys(String bpid, ExportedBlockKeys exportedKeys) throws IOException {
+		get(bpid).addKeys(exportedKeys);
+	}
+
+	/**
+	 * See {@link BlockTokenSecretManager#generateToken(ExtendedBlock, EnumSet)}
+	 */
+	public Token<BlockTokenIdentifier> generateToken(ExtendedBlock b, EnumSet<AccessMode> of) throws IOException {
+		return get(b.getBlockPoolId()).generateToken(b, of);
+	}
+
+	@VisibleForTesting
+	public void clearAllKeysForTesting() {
+		for (BlockTokenSecretManager btsm : map.values()) {
+			btsm.clearAllKeysForTesting();
+		}
+	}
+
+	public DataEncryptionKey generateDataEncryptionKey(String blockPoolId) {
+		return get(blockPoolId).generateDataEncryptionKey();
+	}
+
+	public byte[] retrieveDataEncryptionKey(int keyId, String blockPoolId, byte[] nonce) throws IOException {
+		return get(blockPoolId).retrieveDataEncryptionKey(keyId, nonce);
+	}
 }

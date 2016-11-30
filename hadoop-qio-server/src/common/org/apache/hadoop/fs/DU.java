@@ -17,234 +17,250 @@
  */
 package org.apache.hadoop.fs;
 
-import org.apache.hadoop.classification.InterfaceAudience;
-import org.apache.hadoop.classification.InterfaceStability;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.CommonConfigurationKeys;
-import org.apache.hadoop.util.Shell;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
-/** Filesystem disk space usage statistics.  Uses the unix 'du' program*/
-@InterfaceAudience.LimitedPrivate({"HDFS", "MapReduce"})
+import org.apache.hadoop.classification.InterfaceAudience;
+import org.apache.hadoop.classification.InterfaceStability;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.util.Shell;
+
+/** Filesystem disk space usage statistics. Uses the unix 'du' program */
+@InterfaceAudience.LimitedPrivate({ "HDFS", "MapReduce" })
 @InterfaceStability.Evolving
 public class DU extends Shell {
-  private String  dirPath;
+	private String dirPath;
 
-  private AtomicLong used = new AtomicLong();
-  private volatile boolean shouldRun = true;
-  private Thread refreshUsed;
-  private IOException duException = null;
-  private long refreshInterval;
-  
-  /**
-   * Keeps track of disk usage.
-   * @param path the path to check disk usage in
-   * @param interval refresh the disk usage at this interval
-   * @throws IOException if we fail to refresh the disk usage
-   */
-  public DU(File path, long interval) throws IOException {
-    this(path, interval, -1L);
-  }
-  
-  /**
-   * Keeps track of disk usage.
-   * @param path the path to check disk usage in
-   * @param interval refresh the disk usage at this interval
-   * @param initialUsed use this value until next refresh
-   * @throws IOException if we fail to refresh the disk usage
-   */
-  public DU(File path, long interval, long initialUsed) throws IOException { 
-    super(0);
+	private AtomicLong used = new AtomicLong();
+	private volatile boolean shouldRun = true;
+	private Thread refreshUsed;
+	private IOException duException = null;
+	private long refreshInterval;
 
-    //we set the Shell interval to 0 so it will always run our command
-    //and use this one to set the thread sleep interval
-    this.refreshInterval = interval;
-    this.dirPath = path.getCanonicalPath();
+	/**
+	 * Keeps track of disk usage.
+	 * 
+	 * @param path
+	 *            the path to check disk usage in
+	 * @param interval
+	 *            refresh the disk usage at this interval
+	 * @throws IOException
+	 *             if we fail to refresh the disk usage
+	 */
+	public DU(File path, long interval) throws IOException {
+		this(path, interval, -1L);
+	}
 
-    //populate the used variable if the initial value is not specified.
-    if (initialUsed < 0) {
-      run();
-    } else {
-      this.used.set(initialUsed);
-    }
-  }
+	/**
+	 * Keeps track of disk usage.
+	 * 
+	 * @param path
+	 *            the path to check disk usage in
+	 * @param interval
+	 *            refresh the disk usage at this interval
+	 * @param initialUsed
+	 *            use this value until next refresh
+	 * @throws IOException
+	 *             if we fail to refresh the disk usage
+	 */
+	public DU(File path, long interval, long initialUsed) throws IOException {
+		super(0);
 
-  /**
-   * Keeps track of disk usage.
-   * @param path the path to check disk usage in
-   * @param conf configuration object
-   * @throws IOException if we fail to refresh the disk usage
-   */
-  public DU(File path, Configuration conf) throws IOException {
-    this(path, conf, -1L);
-  }
+		// we set the Shell interval to 0 so it will always run our command
+		// and use this one to set the thread sleep interval
+		this.refreshInterval = interval;
+		this.dirPath = path.getCanonicalPath();
 
-  /**
-   * Keeps track of disk usage.
-   * @param path the path to check disk usage in
-   * @param conf configuration object
-   * @param initialUsed use it until the next refresh.
-   * @throws IOException if we fail to refresh the disk usage
-   */
-  public DU(File path, Configuration conf, long initialUsed)
-      throws IOException {
-    this(path, conf.getLong(CommonConfigurationKeys.FS_DU_INTERVAL_KEY,
-                CommonConfigurationKeys.FS_DU_INTERVAL_DEFAULT), initialUsed);
-  }
-    
-  
+		// populate the used variable if the initial value is not specified.
+		if (initialUsed < 0) {
+			run();
+		} else {
+			this.used.set(initialUsed);
+		}
+	}
 
-  /**
-   * This thread refreshes the "used" variable.
-   * 
-   * Future improvements could be to not permanently
-   * run this thread, instead run when getUsed is called.
-   **/
-  class DURefreshThread implements Runnable {
-    
-    @Override
-    public void run() {
-      
-      while(shouldRun) {
+	/**
+	 * Keeps track of disk usage.
+	 * 
+	 * @param path
+	 *            the path to check disk usage in
+	 * @param conf
+	 *            configuration object
+	 * @throws IOException
+	 *             if we fail to refresh the disk usage
+	 */
+	public DU(File path, Configuration conf) throws IOException {
+		this(path, conf, -1L);
+	}
 
-        try {
-          Thread.sleep(refreshInterval);
-          
-          try {
-            //update the used variable
-            DU.this.run();
-          } catch (IOException e) {
-            synchronized (DU.this) {
-              //save the latest exception so we can return it in getUsed()
-              duException = e;
-            }
-            
-            LOG.warn("Could not get disk usage information", e);
-          }
-        } catch (InterruptedException e) {
-        }
-      }
-    }
-  }
-  
-  /**
-   * Decrease how much disk space we use.
-   * @param value decrease by this value
-   */
-  public void decDfsUsed(long value) {
-    used.addAndGet(-value);
-  }
+	/**
+	 * Keeps track of disk usage.
+	 * 
+	 * @param path
+	 *            the path to check disk usage in
+	 * @param conf
+	 *            configuration object
+	 * @param initialUsed
+	 *            use it until the next refresh.
+	 * @throws IOException
+	 *             if we fail to refresh the disk usage
+	 */
+	public DU(File path, Configuration conf, long initialUsed) throws IOException {
+		this(path, conf.getLong(CommonConfigurationKeys.FS_DU_INTERVAL_KEY,
+				CommonConfigurationKeys.FS_DU_INTERVAL_DEFAULT), initialUsed);
+	}
 
-  /**
-   * Increase how much disk space we use.
-   * @param value increase by this value
-   */
-  public void incDfsUsed(long value) {
-    used.addAndGet(value);
-  }
-  
-  /**
-   * @return disk space used 
-   * @throws IOException if the shell command fails
-   */
-  public long getUsed() throws IOException {
-    //if the updating thread isn't started, update on demand
-    if(refreshUsed == null) {
-      run();
-    } else {
-      synchronized (DU.this) {
-        //if an exception was thrown in the last run, rethrow
-        if(duException != null) {
-          IOException tmp = duException;
-          duException = null;
-          throw tmp;
-        }
-      }
-    }
-    
-    return Math.max(used.longValue(), 0L);
-  }
+	/**
+	 * This thread refreshes the "used" variable.
+	 * 
+	 * Future improvements could be to not permanently run this thread, instead
+	 * run when getUsed is called.
+	 **/
+	class DURefreshThread implements Runnable {
 
-  /**
-   * @return the path of which we're keeping track of disk usage
-   */
-  public String getDirPath() {
-    return dirPath;
-  }
+		@Override
+		public void run() {
 
+			while (shouldRun) {
 
-  /**
-   * Override to hook in DUHelper class. Maybe this can be used more
-   * generally as well on Unix/Linux based systems
-   */
-  @Override
-  protected void run() throws IOException {
-    if (WINDOWS) {
-      used.set(DUHelper.getFolderUsage(dirPath));
-      return;
-    }
-    super.run();
-  }
-  
-  /**
-   * Start the disk usage checking thread.
-   */
-  public void start() {
-    //only start the thread if the interval is sane
-    if(refreshInterval > 0) {
-      refreshUsed = new Thread(new DURefreshThread(), 
-          "refreshUsed-"+dirPath);
-      refreshUsed.setDaemon(true);
-      refreshUsed.start();
-    }
-  }
-  
-  /**
-   * Shut down the refreshing thread.
-   */
-  public void shutdown() {
-    this.shouldRun = false;
-    
-    if(this.refreshUsed != null) {
-      this.refreshUsed.interrupt();
-    }
-  }
-  
-  @Override
-  public String toString() {
-    return
-      "du -sk " + dirPath +"\n" +
-      used + "\t" + dirPath;
-  }
+				try {
+					Thread.sleep(refreshInterval);
 
-  @Override
-  protected String[] getExecString() {
-    return new String[] {"du", "-sk", dirPath};
-  }
-  
-  @Override
-  protected void parseExecResult(BufferedReader lines) throws IOException {
-    String line = lines.readLine();
-    if (line == null) {
-      throw new IOException("Expecting a line not the end of stream");
-    }
-    String[] tokens = line.split("\t");
-    if(tokens.length == 0) {
-      throw new IOException("Illegal du output");
-    }
-    this.used.set(Long.parseLong(tokens[0])*1024);
-  }
+					try {
+						// update the used variable
+						DU.this.run();
+					} catch (IOException e) {
+						synchronized (DU.this) {
+							// save the latest exception so we can return it in
+							// getUsed()
+							duException = e;
+						}
 
-  public static void main(String[] args) throws Exception {
-    String path = ".";
-    if (args.length > 0) {
-      path = args[0];
-    }
+						LOG.warn("Could not get disk usage information", e);
+					}
+				} catch (InterruptedException e) {
+				}
+			}
+		}
+	}
 
-    System.out.println(new DU(new File(path), new Configuration()).toString());
-  }
+	/**
+	 * Decrease how much disk space we use.
+	 * 
+	 * @param value
+	 *            decrease by this value
+	 */
+	public void decDfsUsed(long value) {
+		used.addAndGet(-value);
+	}
+
+	/**
+	 * Increase how much disk space we use.
+	 * 
+	 * @param value
+	 *            increase by this value
+	 */
+	public void incDfsUsed(long value) {
+		used.addAndGet(value);
+	}
+
+	/**
+	 * @return disk space used
+	 * @throws IOException
+	 *             if the shell command fails
+	 */
+	public long getUsed() throws IOException {
+		// if the updating thread isn't started, update on demand
+		if (refreshUsed == null) {
+			run();
+		} else {
+			synchronized (DU.this) {
+				// if an exception was thrown in the last run, rethrow
+				if (duException != null) {
+					IOException tmp = duException;
+					duException = null;
+					throw tmp;
+				}
+			}
+		}
+
+		return Math.max(used.longValue(), 0L);
+	}
+
+	/**
+	 * @return the path of which we're keeping track of disk usage
+	 */
+	public String getDirPath() {
+		return dirPath;
+	}
+
+	/**
+	 * Override to hook in DUHelper class. Maybe this can be used more generally
+	 * as well on Unix/Linux based systems
+	 */
+	@Override
+	protected void run() throws IOException {
+		if (WINDOWS) {
+			used.set(DUHelper.getFolderUsage(dirPath));
+			return;
+		}
+		super.run();
+	}
+
+	/**
+	 * Start the disk usage checking thread.
+	 */
+	public void start() {
+		// only start the thread if the interval is sane
+		if (refreshInterval > 0) {
+			refreshUsed = new Thread(new DURefreshThread(), "refreshUsed-" + dirPath);
+			refreshUsed.setDaemon(true);
+			refreshUsed.start();
+		}
+	}
+
+	/**
+	 * Shut down the refreshing thread.
+	 */
+	public void shutdown() {
+		this.shouldRun = false;
+
+		if (this.refreshUsed != null) {
+			this.refreshUsed.interrupt();
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "du -sk " + dirPath + "\n" + used + "\t" + dirPath;
+	}
+
+	@Override
+	protected String[] getExecString() {
+		return new String[] { "du", "-sk", dirPath };
+	}
+
+	@Override
+	protected void parseExecResult(BufferedReader lines) throws IOException {
+		String line = lines.readLine();
+		if (line == null) {
+			throw new IOException("Expecting a line not the end of stream");
+		}
+		String[] tokens = line.split("\t");
+		if (tokens.length == 0) {
+			throw new IOException("Illegal du output");
+		}
+		this.used.set(Long.parseLong(tokens[0]) * 1024);
+	}
+
+	public static void main(String[] args) throws Exception {
+		String path = ".";
+		if (args.length > 0) {
+			path = args[0];
+		}
+
+		System.out.println(new DU(new File(path), new Configuration()).toString());
+	}
 }

@@ -29,24 +29,24 @@ import org.apache.hadoop.hdfs.server.common.HdfsServerConstants.ReplicaState;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class ReplicaRecoveryInfo extends Block {
-  private final ReplicaState originalState;
+	private final ReplicaState originalState;
 
-  public ReplicaRecoveryInfo(long blockId, long diskLen, long gs, ReplicaState rState) {
-    set(blockId, diskLen, gs);
-    originalState = rState;
-  }
+	public ReplicaRecoveryInfo(long blockId, long diskLen, long gs, ReplicaState rState) {
+		set(blockId, diskLen, gs);
+		originalState = rState;
+	}
 
-  public ReplicaState getOriginalReplicaState() {
-    return originalState;
-  }
+	public ReplicaState getOriginalReplicaState() {
+		return originalState;
+	}
 
-  @Override
-  public boolean equals(Object o) {
-    return super.equals(o);
-  }
+	@Override
+	public boolean equals(Object o) {
+		return super.equals(o);
+	}
 
-  @Override
-  public int hashCode() {
-    return super.hashCode();
-  }
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

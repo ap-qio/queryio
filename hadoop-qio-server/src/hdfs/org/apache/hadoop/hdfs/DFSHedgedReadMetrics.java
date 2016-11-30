@@ -20,36 +20,36 @@ package org.apache.hadoop.hdfs;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * The client-side metrics for hedged read feature.
- * This class has a number of metrics variables that are publicly accessible,
- * we can grab them from client side, like HBase.
+ * The client-side metrics for hedged read feature. This class has a number of
+ * metrics variables that are publicly accessible, we can grab them from client
+ * side, like HBase.
  */
 public class DFSHedgedReadMetrics {
-  public final AtomicLong hedgedReadOps = new AtomicLong();
-  public final AtomicLong hedgedReadOpsWin = new AtomicLong();
-  public final AtomicLong hedgedReadOpsInCurThread = new AtomicLong();
+	public final AtomicLong hedgedReadOps = new AtomicLong();
+	public final AtomicLong hedgedReadOpsWin = new AtomicLong();
+	public final AtomicLong hedgedReadOpsInCurThread = new AtomicLong();
 
-  public void incHedgedReadOps() {
-    hedgedReadOps.incrementAndGet();
-  }
+	public void incHedgedReadOps() {
+		hedgedReadOps.incrementAndGet();
+	}
 
-  public void incHedgedReadOpsInCurThread() {
-    hedgedReadOpsInCurThread.incrementAndGet();
-  }
+	public void incHedgedReadOpsInCurThread() {
+		hedgedReadOpsInCurThread.incrementAndGet();
+	}
 
-  public void incHedgedReadWins() {
-    hedgedReadOpsWin.incrementAndGet();
-  }
+	public void incHedgedReadWins() {
+		hedgedReadOpsWin.incrementAndGet();
+	}
 
-  public long getHedgedReadOps() {
-    return hedgedReadOps.longValue();
-  }
+	public long getHedgedReadOps() {
+		return hedgedReadOps.longValue();
+	}
 
-  public long getHedgedReadOpsInCurThread() {
-    return hedgedReadOpsInCurThread.longValue();
-  }
+	public long getHedgedReadOpsInCurThread() {
+		return hedgedReadOpsInCurThread.longValue();
+	}
 
-  public long getHedgedReadWins() {
-    return hedgedReadOpsWin.longValue();
-  }
+	public long getHedgedReadWins() {
+		return hedgedReadOpsWin.longValue();
+	}
 }

@@ -20,227 +20,238 @@ package org.apache.hadoop.hdfs.util;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.google.common.base.Preconditions;
 import org.apache.commons.lang.ArrayUtils;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Counters for an enum type.
  * 
  * For example, suppose there is an enum type
+ * 
  * <pre>
- * enum Fruit { APPLE, ORANGE, GRAPE }
+ * enum Fruit {
+ * 	APPLE, ORANGE, GRAPE
+ * }
  * </pre>
+ * 
  * An {@link EnumCounters} object can be created for counting the numbers of
  * APPLE, ORANGLE and GRAPE.
  *
- * @param <E> the enum type
+ * @param <E>
+ *            the enum type
  */
 public class EnumCounters<E extends Enum<E>> {
-  /** The class of the enum. */
-  private final Class<E> enumClass;
-  /** An array of longs corresponding to the enum type. */
-  private final long[] counters;
+	/** The class of the enum. */
+	private final Class<E> enumClass;
+	/** An array of longs corresponding to the enum type. */
+	private final long[] counters;
 
-  /**
-   * Construct counters for the given enum constants.
-   * @param enumClass the enum class of the counters.
-   */
-  public EnumCounters(final Class<E> enumClass) {
-    final E[] enumConstants = enumClass.getEnumConstants();
-    Preconditions.checkNotNull(enumConstants);
-    this.enumClass = enumClass;
-    this.counters = new long[enumConstants.length];
-  }
+	/**
+	 * Construct counters for the given enum constants.
+	 * 
+	 * @param enumClass
+	 *            the enum class of the counters.
+	 */
+	public EnumCounters(final Class<E> enumClass) {
+		final E[] enumConstants = enumClass.getEnumConstants();
+		Preconditions.checkNotNull(enumConstants);
+		this.enumClass = enumClass;
+		this.counters = new long[enumConstants.length];
+	}
 
-  public EnumCounters(final Class<E> enumClass, long defaultVal) {
-    final E[] enumConstants = enumClass.getEnumConstants();
-    Preconditions.checkNotNull(enumConstants);
-    this.enumClass = enumClass;
-    this.counters = new long[enumConstants.length];
-    reset(defaultVal);
-  }
-  
-  /** @return the value of counter e. */
-  public final long get(final E e) {
-    return counters[e.ordinal()];
-  }
+	public EnumCounters(final Class<E> enumClass, long defaultVal) {
+		final E[] enumConstants = enumClass.getEnumConstants();
+		Preconditions.checkNotNull(enumConstants);
+		this.enumClass = enumClass;
+		this.counters = new long[enumConstants.length];
+		reset(defaultVal);
+	}
 
-  /** @return the values of counter as a shadow copy of array*/
-  public long[] asArray() {
-    return ArrayUtils.clone(counters);
-  }
+	/** @return the value of counter e. */
+	public final long get(final E e) {
+		return counters[e.ordinal()];
+	}
 
-  /** Negate all counters. */
-  public final void negation() {
-    for(int i = 0; i < counters.length; i++) {
-      counters[i] = -counters[i];
-    }
-  }
-  
-  /** Set counter e to the given value. */
-  public final void set(final E e, final long value) {
-    counters[e.ordinal()] = value;
-  }
+	/** @return the values of counter as a shadow copy of array */
+	public long[] asArray() {
+		return ArrayUtils.clone(counters);
+	}
 
-  /** Set this counters to that counters. */
-  public final void set(final EnumCounters<E> that) {
-    for(int i = 0; i < counters.length; i++) {
-      this.counters[i] = that.counters[i];
-    }
-  }
+	/** Negate all counters. */
+	public final void negation() {
+		for (int i = 0; i < counters.length; i++) {
+			counters[i] = -counters[i];
+		}
+	}
 
-  /** Reset all counters to zero. */
-  public final void reset() {
-    reset(0L);
-  }
+	/** Set counter e to the given value. */
+	public final void set(final E e, final long value) {
+		counters[e.ordinal()] = value;
+	}
 
-  /** Add the given value to counter e. */
-  public final void add(final E e, final long value) {
-    counters[e.ordinal()] += value;
-  }
+	/** Set this counters to that counters. */
+	public final void set(final EnumCounters<E> that) {
+		for (int i = 0; i < counters.length; i++) {
+			this.counters[i] = that.counters[i];
+		}
+	}
 
-  /** Add that counters to this counters. */
-  public final void add(final EnumCounters<E> that) {
-    for(int i = 0; i < counters.length; i++) {
-      this.counters[i] += that.counters[i];
-    }
-  }
+	/** Reset all counters to zero. */
+	public final void reset() {
+		reset(0L);
+	}
 
-  /** Subtract the given value from counter e. */
-  public final void subtract(final E e, final long value) {
-    counters[e.ordinal()] -= value;
-  }
+	/** Add the given value to counter e. */
+	public final void add(final E e, final long value) {
+		counters[e.ordinal()] += value;
+	}
 
-  /** Subtract this counters from that counters. */
-  public final void subtract(final EnumCounters<E> that) {
-    for(int i = 0; i < counters.length; i++) {
-      this.counters[i] -= that.counters[i];
-    }
-  }
-  
-  /** @return the sum of all counters. */
-  public final long sum() {
-    long sum = 0;
-    for(int i = 0; i < counters.length; i++) {
-      sum += counters[i];
-    }
-    return sum;
-  }
+	/** Add that counters to this counters. */
+	public final void add(final EnumCounters<E> that) {
+		for (int i = 0; i < counters.length; i++) {
+			this.counters[i] += that.counters[i];
+		}
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) {
-      return true;
-    } else if (obj == null || !(obj instanceof EnumCounters)) {
-      return false;
-    }
-    final EnumCounters<?> that = (EnumCounters<?>)obj;
-    return this.enumClass == that.enumClass
-        && Arrays.equals(this.counters, that.counters);
-  }
+	/** Subtract the given value from counter e. */
+	public final void subtract(final E e, final long value) {
+		counters[e.ordinal()] -= value;
+	}
 
-  @Override
-  public int hashCode() {
-    return Arrays.hashCode(counters);
-  }
+	/** Subtract this counters from that counters. */
+	public final void subtract(final EnumCounters<E> that) {
+		for (int i = 0; i < counters.length; i++) {
+			this.counters[i] -= that.counters[i];
+		}
+	}
 
-  @Override
-  public String toString() {
-    final E[] enumConstants = enumClass.getEnumConstants();
-    final StringBuilder b = new StringBuilder();
-    for(int i = 0; i < counters.length; i++) {
-      final String name = enumConstants[i].name();
-      b.append(name).append("=").append(counters[i]).append(", ");
-    }
-    return b.substring(0, b.length() - 2);
-  }
+	/** @return the sum of all counters. */
+	public final long sum() {
+		long sum = 0;
+		for (int i = 0; i < counters.length; i++) {
+			sum += counters[i];
+		}
+		return sum;
+	}
 
-  public final void reset(long val) {
-    for(int i = 0; i < counters.length; i++) {
-      this.counters[i] = val;
-    }
-  }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		} else if (obj == null || !(obj instanceof EnumCounters)) {
+			return false;
+		}
+		final EnumCounters<?> that = (EnumCounters<?>) obj;
+		return this.enumClass == that.enumClass && Arrays.equals(this.counters, that.counters);
+	}
 
-  public boolean allLessOrEqual(long val) {
-    for (long c : counters) {
-      if (c > val) {
-        return false;
-      }
-    }
-    return true;
-  }
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(counters);
+	}
 
-  public boolean anyGreaterOrEqual(long val) {
-    for (long c: counters) {
-      if (c >= val) {
-        return true;
-      }
-    }
-    return false;
-  }
+	@Override
+	public String toString() {
+		final E[] enumConstants = enumClass.getEnumConstants();
+		final StringBuilder b = new StringBuilder();
+		for (int i = 0; i < counters.length; i++) {
+			final String name = enumConstants[i].name();
+			b.append(name).append("=").append(counters[i]).append(", ");
+		}
+		return b.substring(0, b.length() - 2);
+	}
 
-  /**
-   * A factory for creating counters.
-   * 
-   * @param <E> the enum type
-   * @param <C> the counter type
-   */
-  public static interface Factory<E extends Enum<E>,
-                                  C extends EnumCounters<E>> {
-    /** Create a new counters instance. */
-    public C newInstance(); 
-  }
+	public final void reset(long val) {
+		for (int i = 0; i < counters.length; i++) {
+			this.counters[i] = val;
+		}
+	}
 
-  /**
-   * A key-value map which maps the keys to {@link EnumCounters}.
-   * Note that null key is supported.
-   *
-   * @param <K> the key type
-   * @param <E> the enum type
-   * @param <C> the counter type
-   */
-  public static class Map<K, E extends Enum<E>, C extends EnumCounters<E>> {
-    /** The factory for creating counters. */
-    private final Factory<E, C> factory;
-    /** Key-to-Counts map. */
-    private final java.util.Map<K, C> counts = new HashMap<K, C>();
-    
-    /** Construct a map. */
-    public Map(final Factory<E, C> factory) {
-      this.factory = factory;
-    }
+	public boolean allLessOrEqual(long val) {
+		for (long c : counters) {
+			if (c > val) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    /** @return the counters for the given key. */
-    public final C getCounts(final K key) {
-      C c = counts.get(key);
-      if (c == null) {
-        c = factory.newInstance();
-        counts.put(key, c); 
-      }
-      return c;
-    }
-    
-    /** @return the sum of the values of all the counters. */
-    public final C sum() {
-      final C sum = factory.newInstance();
-      for(C c : counts.values()) {
-        sum.add(c);
-      }
-      return sum;
-    }
-    
-    /** @return the sum of the values of all the counters for e. */
-    public final long sum(final E e) {
-      long sum = 0;
-      for(C c : counts.values()) {
-        sum += c.get(e);
-      }
-      return sum;
-    }
+	public boolean anyGreaterOrEqual(long val) {
+		for (long c : counters) {
+			if (c >= val) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public String toString() {
-      return counts.toString();
-    }
-  }
+	/**
+	 * A factory for creating counters.
+	 * 
+	 * @param <E>
+	 *            the enum type
+	 * @param <C>
+	 *            the counter type
+	 */
+	public static interface Factory<E extends Enum<E>, C extends EnumCounters<E>> {
+		/** Create a new counters instance. */
+		public C newInstance();
+	}
+
+	/**
+	 * A key-value map which maps the keys to {@link EnumCounters}. Note that
+	 * null key is supported.
+	 *
+	 * @param <K>
+	 *            the key type
+	 * @param <E>
+	 *            the enum type
+	 * @param <C>
+	 *            the counter type
+	 */
+	public static class Map<K, E extends Enum<E>, C extends EnumCounters<E>> {
+		/** The factory for creating counters. */
+		private final Factory<E, C> factory;
+		/** Key-to-Counts map. */
+		private final java.util.Map<K, C> counts = new HashMap<K, C>();
+
+		/** Construct a map. */
+		public Map(final Factory<E, C> factory) {
+			this.factory = factory;
+		}
+
+		/** @return the counters for the given key. */
+		public final C getCounts(final K key) {
+			C c = counts.get(key);
+			if (c == null) {
+				c = factory.newInstance();
+				counts.put(key, c);
+			}
+			return c;
+		}
+
+		/** @return the sum of the values of all the counters. */
+		public final C sum() {
+			final C sum = factory.newInstance();
+			for (C c : counts.values()) {
+				sum.add(c);
+			}
+			return sum;
+		}
+
+		/** @return the sum of the values of all the counters for e. */
+		public final long sum(final E e) {
+			long sum = 0;
+			for (C c : counts.values()) {
+				sum += c.get(e);
+			}
+			return sum;
+		}
+
+		@Override
+		public String toString() {
+			return counts.toString();
+		}
+	}
 }

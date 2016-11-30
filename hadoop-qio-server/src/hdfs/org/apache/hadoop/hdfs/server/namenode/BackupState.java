@@ -30,41 +30,40 @@ import org.apache.hadoop.ipc.StandbyException;
 @InterfaceAudience.Private
 public class BackupState extends HAState {
 
-  public BackupState() {
-    super(HAServiceState.STANDBY);
-  }
+	public BackupState() {
+		super(HAServiceState.STANDBY);
+	}
 
-  @Override // HAState
-  public void checkOperation(HAContext context, OperationCategory op)
-      throws StandbyException {
-    context.checkOperation(op);
-  }
+	@Override // HAState
+	public void checkOperation(HAContext context, OperationCategory op) throws StandbyException {
+		context.checkOperation(op);
+	}
 
-  @Override // HAState
-  public boolean shouldPopulateReplQueues() {
-    return false;
-  }
+	@Override // HAState
+	public boolean shouldPopulateReplQueues() {
+		return false;
+	}
 
-  @Override // HAState
-  public void enterState(HAContext context) throws ServiceFailedException {
-    try {
-      context.startActiveServices();
-    } catch (IOException e) {
-      throw new ServiceFailedException("Failed to start backup services", e);
-    }
-  }
+	@Override // HAState
+	public void enterState(HAContext context) throws ServiceFailedException {
+		try {
+			context.startActiveServices();
+		} catch (IOException e) {
+			throw new ServiceFailedException("Failed to start backup services", e);
+		}
+	}
 
-  @Override // HAState
-  public void exitState(HAContext context) throws ServiceFailedException {
-    try {
-      context.stopActiveServices();
-    } catch (IOException e) {
-      throw new ServiceFailedException("Failed to stop backup services", e);
-    }
-  }
+	@Override // HAState
+	public void exitState(HAContext context) throws ServiceFailedException {
+		try {
+			context.stopActiveServices();
+		} catch (IOException e) {
+			throw new ServiceFailedException("Failed to stop backup services", e);
+		}
+	}
 
-  @Override // HAState
-  public void prepareToExitState(HAContext context) throws ServiceFailedException {
-    context.prepareToStopStandbyServices();
-  }
+	@Override // HAState
+	public void prepareToExitState(HAContext context) throws ServiceFailedException {
+		context.prepareToStopStandbyServices();
+	}
 }

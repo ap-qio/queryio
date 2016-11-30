@@ -25,39 +25,37 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.util.NativeCodeLoader;
 
-public class JniBasedUnixGroupsNetgroupMappingWithFallback implements
-    GroupMappingServiceProvider {
+public class JniBasedUnixGroupsNetgroupMappingWithFallback implements GroupMappingServiceProvider {
 
-  private static final Log LOG = LogFactory
-      .getLog(JniBasedUnixGroupsNetgroupMappingWithFallback.class);
+	private static final Log LOG = LogFactory.getLog(JniBasedUnixGroupsNetgroupMappingWithFallback.class);
 
-  private GroupMappingServiceProvider impl;
+	private GroupMappingServiceProvider impl;
 
-  public JniBasedUnixGroupsNetgroupMappingWithFallback() {
-    if (NativeCodeLoader.isNativeCodeLoaded()) {
-      this.impl = new JniBasedUnixGroupsNetgroupMapping();
-    } else {
-      LOG.info("Falling back to shell based");
-      this.impl = new ShellBasedUnixGroupsNetgroupMapping();
-    }
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Group mapping impl=" + impl.getClass().getName());
-    }
-  }
+	public JniBasedUnixGroupsNetgroupMappingWithFallback() {
+		if (NativeCodeLoader.isNativeCodeLoaded()) {
+			this.impl = new JniBasedUnixGroupsNetgroupMapping();
+		} else {
+			LOG.info("Falling back to shell based");
+			this.impl = new ShellBasedUnixGroupsNetgroupMapping();
+		}
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Group mapping impl=" + impl.getClass().getName());
+		}
+	}
 
-  @Override
-  public List<String> getGroups(String user) throws IOException {
-    return impl.getGroups(user);
-  }
+	@Override
+	public List<String> getGroups(String user) throws IOException {
+		return impl.getGroups(user);
+	}
 
-  @Override
-  public void cacheGroupsRefresh() throws IOException {
-    impl.cacheGroupsRefresh();
-  }
+	@Override
+	public void cacheGroupsRefresh() throws IOException {
+		impl.cacheGroupsRefresh();
+	}
 
-  @Override
-  public void cacheGroupsAdd(List<String> groups) throws IOException {
-    impl.cacheGroupsAdd(groups);
-  }
+	@Override
+	public void cacheGroupsAdd(List<String> groups) throws IOException {
+		impl.cacheGroupsAdd(groups);
+	}
 
 }

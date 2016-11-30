@@ -25,26 +25,25 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 public class DataEncryptionKey {
-  public final int keyId;
-  public final String blockPoolId;
-  public final byte[] nonce;
-  public final byte[] encryptionKey;
-  public final long expiryDate;
-  public final String encryptionAlgorithm;
-  
-  public DataEncryptionKey(int keyId, String blockPoolId, byte[] nonce,
-      byte[] encryptionKey, long expiryDate, String encryptionAlgorithm) {
-    this.keyId = keyId;
-    this.blockPoolId = blockPoolId;
-    this.nonce = nonce;
-    this.encryptionKey = encryptionKey;
-    this.expiryDate = expiryDate;
-    this.encryptionAlgorithm = encryptionAlgorithm;
-  }
-  
-  @Override
-  public String toString() {
-    return keyId + "/" + blockPoolId + "/" + nonce.length + "/" +
-        encryptionKey.length;
-  }
+	public final int keyId;
+	public final String blockPoolId;
+	public final byte[] nonce;
+	public final byte[] encryptionKey;
+	public final long expiryDate;
+	public final String encryptionAlgorithm;
+
+	public DataEncryptionKey(int keyId, String blockPoolId, byte[] nonce, byte[] encryptionKey, long expiryDate,
+			String encryptionAlgorithm) {
+		this.keyId = keyId;
+		this.blockPoolId = blockPoolId;
+		this.nonce = nonce;
+		this.encryptionKey = encryptionKey;
+		this.expiryDate = expiryDate;
+		this.encryptionAlgorithm = encryptionAlgorithm;
+	}
+
+	@Override
+	public String toString() {
+		return keyId + "/" + blockPoolId + "/" + nonce.length + "/" + encryptionKey.length;
+	}
 }

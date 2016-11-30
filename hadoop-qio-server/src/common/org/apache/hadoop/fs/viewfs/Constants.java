@@ -20,50 +20,49 @@ package org.apache.hadoop.fs.viewfs;
 import org.apache.hadoop.fs.permission.FsPermission;
 
 /**
- * Config variable prefixes for ViewFs -
- *     see {@link org.apache.hadoop.fs.viewfs.ViewFs} for examples.
- * The mount table is specified in the config using these prefixes.
- * See {@link org.apache.hadoop.fs.viewfs.ConfigUtil} for convenience lib.
+ * Config variable prefixes for ViewFs - see
+ * {@link org.apache.hadoop.fs.viewfs.ViewFs} for examples. The mount table is
+ * specified in the config using these prefixes. See
+ * {@link org.apache.hadoop.fs.viewfs.ConfigUtil} for convenience lib.
  */
 public interface Constants {
-  /**
-   * Prefix for the config variable prefix for the ViewFs mount-table
-   */
-  public static final String CONFIG_VIEWFS_PREFIX = "fs.viewfs.mounttable";
- 
-  /**
-   * Prefix for the home dir for the mount table - if not specified
-   * then the hadoop default value (/user) is used.
-   */
-  public static final String CONFIG_VIEWFS_HOMEDIR = "homedir";
-  
-  /**
-   * Config variable name for the default mount table.
-   */
-  public static final String CONFIG_VIEWFS_DEFAULT_MOUNT_TABLE = "default";
-  
-  /**
-   * Config variable full prefix for the default mount table.
-   */
-  public static final String CONFIG_VIEWFS_PREFIX_DEFAULT_MOUNT_TABLE = 
-          CONFIG_VIEWFS_PREFIX + "." + CONFIG_VIEWFS_DEFAULT_MOUNT_TABLE;
-  
-  /**
-   * Config variable for specifying a simple link
-   */
-  public static final String CONFIG_VIEWFS_LINK = "link";
-  
-  /**
-   * Config variable for specifying a merge link
-   */
-  public static final String CONFIG_VIEWFS_LINK_MERGE = "linkMerge";
-  
-  /**
-   * Config variable for specifying a merge of the root of the mount-table
-   *  with the root of another file system. 
-   */
-  public static final String CONFIG_VIEWFS_LINK_MERGE_SLASH = "linkMergeSlash";
+	/**
+	 * Prefix for the config variable prefix for the ViewFs mount-table
+	 */
+	public static final String CONFIG_VIEWFS_PREFIX = "fs.viewfs.mounttable";
 
-  static public final FsPermission PERMISSION_555 =
-      new FsPermission((short) 0555);
+	/**
+	 * Prefix for the home dir for the mount table - if not specified then the
+	 * hadoop default value (/user) is used.
+	 */
+	public static final String CONFIG_VIEWFS_HOMEDIR = "homedir";
+
+	/**
+	 * Config variable name for the default mount table.
+	 */
+	public static final String CONFIG_VIEWFS_DEFAULT_MOUNT_TABLE = "default";
+
+	/**
+	 * Config variable full prefix for the default mount table.
+	 */
+	public static final String CONFIG_VIEWFS_PREFIX_DEFAULT_MOUNT_TABLE = CONFIG_VIEWFS_PREFIX + "."
+			+ CONFIG_VIEWFS_DEFAULT_MOUNT_TABLE;
+
+	/**
+	 * Config variable for specifying a simple link
+	 */
+	public static final String CONFIG_VIEWFS_LINK = "link";
+
+	/**
+	 * Config variable for specifying a merge link
+	 */
+	public static final String CONFIG_VIEWFS_LINK_MERGE = "linkMerge";
+
+	/**
+	 * Config variable for specifying a merge of the root of the mount-table
+	 * with the root of another file system.
+	 */
+	public static final String CONFIG_VIEWFS_LINK_MERGE_SLASH = "linkMergeSlash";
+
+	static public final FsPermission PERMISSION_555 = new FsPermission((short) 0555);
 }

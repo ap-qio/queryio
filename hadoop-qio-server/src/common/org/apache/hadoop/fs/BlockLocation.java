@@ -23,231 +23,228 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 
 /**
- * Represents the network location of a block, information about the hosts
- * that contain block replicas, and other block metadata (E.g. the file
- * offset associated with the block, length, whether it is corrupt, etc).
+ * Represents the network location of a block, information about the hosts that
+ * contain block replicas, and other block metadata (E.g. the file offset
+ * associated with the block, length, whether it is corrupt, etc).
  */
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class BlockLocation {
-  private String[] hosts; // Datanode hostnames
-  private String[] cachedHosts; // Datanode hostnames with a cached replica
-  private String[] names; // Datanode IP:xferPort for accessing the block
-  private String[] topologyPaths; // Full path name in network topology
-  private long offset;  // Offset of the block in the file
-  private long length;
-  private boolean corrupt;
+	private String[] hosts; // Datanode hostnames
+	private String[] cachedHosts; // Datanode hostnames with a cached replica
+	private String[] names; // Datanode IP:xferPort for accessing the block
+	private String[] topologyPaths; // Full path name in network topology
+	private long offset; // Offset of the block in the file
+	private long length;
+	private boolean corrupt;
 
-  private static final String[] EMPTY_STR_ARRAY = new String[0];
+	private static final String[] EMPTY_STR_ARRAY = new String[0];
 
-  /**
-   * Default Constructor
-   */
-  public BlockLocation() {
-    this(EMPTY_STR_ARRAY, EMPTY_STR_ARRAY, 0L, 0L);
-  }
+	/**
+	 * Default Constructor
+	 */
+	public BlockLocation() {
+		this(EMPTY_STR_ARRAY, EMPTY_STR_ARRAY, 0L, 0L);
+	}
 
-  /**
-   * Copy constructor
-   */
-  public BlockLocation(BlockLocation that) {
-    this.hosts = that.hosts;
-    this.cachedHosts = that.cachedHosts;
-    this.names = that.names;
-    this.topologyPaths = that.topologyPaths;
-    this.offset = that.offset;
-    this.length = that.length;
-    this.corrupt = that.corrupt;
-  }
+	/**
+	 * Copy constructor
+	 */
+	public BlockLocation(BlockLocation that) {
+		this.hosts = that.hosts;
+		this.cachedHosts = that.cachedHosts;
+		this.names = that.names;
+		this.topologyPaths = that.topologyPaths;
+		this.offset = that.offset;
+		this.length = that.length;
+		this.corrupt = that.corrupt;
+	}
 
-  /**
-   * Constructor with host, name, offset and length
-   */
-  public BlockLocation(String[] names, String[] hosts, long offset, 
-                       long length) {
-    this(names, hosts, offset, length, false);
-  }
+	/**
+	 * Constructor with host, name, offset and length
+	 */
+	public BlockLocation(String[] names, String[] hosts, long offset, long length) {
+		this(names, hosts, offset, length, false);
+	}
 
-  /**
-   * Constructor with host, name, offset, length and corrupt flag
-   */
-  public BlockLocation(String[] names, String[] hosts, long offset, 
-                       long length, boolean corrupt) {
-    this(names, hosts, null, offset, length, corrupt);
-  }
+	/**
+	 * Constructor with host, name, offset, length and corrupt flag
+	 */
+	public BlockLocation(String[] names, String[] hosts, long offset, long length, boolean corrupt) {
+		this(names, hosts, null, offset, length, corrupt);
+	}
 
-  /**
-   * Constructor with host, name, network topology, offset and length
-   */
-  public BlockLocation(String[] names, String[] hosts, String[] topologyPaths,
-                       long offset, long length) {
-    this(names, hosts, topologyPaths, offset, length, false);
-  }
+	/**
+	 * Constructor with host, name, network topology, offset and length
+	 */
+	public BlockLocation(String[] names, String[] hosts, String[] topologyPaths, long offset, long length) {
+		this(names, hosts, topologyPaths, offset, length, false);
+	}
 
-  /**
-   * Constructor with host, name, network topology, offset, length 
-   * and corrupt flag
-   */
-  public BlockLocation(String[] names, String[] hosts, String[] topologyPaths,
-                       long offset, long length, boolean corrupt) {
-    this(names, hosts, null, topologyPaths, offset, length, corrupt);
-  }
+	/**
+	 * Constructor with host, name, network topology, offset, length and corrupt
+	 * flag
+	 */
+	public BlockLocation(String[] names, String[] hosts, String[] topologyPaths, long offset, long length,
+			boolean corrupt) {
+		this(names, hosts, null, topologyPaths, offset, length, corrupt);
+	}
 
-  public BlockLocation(String[] names, String[] hosts, String[] cachedHosts,
-      String[] topologyPaths, long offset, long length, boolean corrupt) {
-    if (names == null) {
-      this.names = EMPTY_STR_ARRAY;
-    } else {
-      this.names = names;
-    }
-    if (hosts == null) {
-      this.hosts = EMPTY_STR_ARRAY;
-    } else {
-      this.hosts = hosts;
-    }
-    if (cachedHosts == null) {
-      this.cachedHosts = EMPTY_STR_ARRAY;
-    } else {
-      this.cachedHosts = cachedHosts;
-    }
-    if (topologyPaths == null) {
-      this.topologyPaths = EMPTY_STR_ARRAY;
-    } else {
-      this.topologyPaths = topologyPaths;
-    }
-    this.offset = offset;
-    this.length = length;
-    this.corrupt = corrupt;
-  }
+	public BlockLocation(String[] names, String[] hosts, String[] cachedHosts, String[] topologyPaths, long offset,
+			long length, boolean corrupt) {
+		if (names == null) {
+			this.names = EMPTY_STR_ARRAY;
+		} else {
+			this.names = names;
+		}
+		if (hosts == null) {
+			this.hosts = EMPTY_STR_ARRAY;
+		} else {
+			this.hosts = hosts;
+		}
+		if (cachedHosts == null) {
+			this.cachedHosts = EMPTY_STR_ARRAY;
+		} else {
+			this.cachedHosts = cachedHosts;
+		}
+		if (topologyPaths == null) {
+			this.topologyPaths = EMPTY_STR_ARRAY;
+		} else {
+			this.topologyPaths = topologyPaths;
+		}
+		this.offset = offset;
+		this.length = length;
+		this.corrupt = corrupt;
+	}
 
-  /**
-   * Get the list of hosts (hostname) hosting this block
-   */
-  public String[] getHosts() throws IOException {
-    return hosts;
-  }
+	/**
+	 * Get the list of hosts (hostname) hosting this block
+	 */
+	public String[] getHosts() throws IOException {
+		return hosts;
+	}
 
-  /**
-   * Get the list of hosts (hostname) hosting a cached replica of the block
-   */
-  public String[] getCachedHosts() {
-   return cachedHosts;
-  }
+	/**
+	 * Get the list of hosts (hostname) hosting a cached replica of the block
+	 */
+	public String[] getCachedHosts() {
+		return cachedHosts;
+	}
 
-  /**
-   * Get the list of names (IP:xferPort) hosting this block
-   */
-  public String[] getNames() throws IOException {
-    return names;
-  }
+	/**
+	 * Get the list of names (IP:xferPort) hosting this block
+	 */
+	public String[] getNames() throws IOException {
+		return names;
+	}
 
-  /**
-   * Get the list of network topology paths for each of the hosts.
-   * The last component of the path is the "name" (IP:xferPort).
-   */
-  public String[] getTopologyPaths() throws IOException {
-    return topologyPaths;
-  }
-  
-  /**
-   * Get the start offset of file associated with this block
-   */
-  public long getOffset() {
-    return offset;
-  }
-  
-  /**
-   * Get the length of the block
-   */
-  public long getLength() {
-    return length;
-  }
+	/**
+	 * Get the list of network topology paths for each of the hosts. The last
+	 * component of the path is the "name" (IP:xferPort).
+	 */
+	public String[] getTopologyPaths() throws IOException {
+		return topologyPaths;
+	}
 
-  /**
-   * Get the corrupt flag.
-   */
-  public boolean isCorrupt() {
-    return corrupt;
-  }
+	/**
+	 * Get the start offset of file associated with this block
+	 */
+	public long getOffset() {
+		return offset;
+	}
 
-  /**
-   * Set the start offset of file associated with this block
-   */
-  public void setOffset(long offset) {
-    this.offset = offset;
-  }
+	/**
+	 * Get the length of the block
+	 */
+	public long getLength() {
+		return length;
+	}
 
-  /**
-   * Set the length of block
-   */
-  public void setLength(long length) {
-    this.length = length;
-  }
+	/**
+	 * Get the corrupt flag.
+	 */
+	public boolean isCorrupt() {
+		return corrupt;
+	}
 
-  /**
-   * Set the corrupt flag.
-   */
-  public void setCorrupt(boolean corrupt) {
-    this.corrupt = corrupt;
-  }
+	/**
+	 * Set the start offset of file associated with this block
+	 */
+	public void setOffset(long offset) {
+		this.offset = offset;
+	}
 
-  /**
-   * Set the hosts hosting this block
-   */
-  public void setHosts(String[] hosts) throws IOException {
-    if (hosts == null) {
-      this.hosts = EMPTY_STR_ARRAY;
-    } else {
-      this.hosts = hosts;
-    }
-  }
+	/**
+	 * Set the length of block
+	 */
+	public void setLength(long length) {
+		this.length = length;
+	}
 
-  /**
-   * Set the hosts hosting a cached replica of this block
-   */
-  public void setCachedHosts(String[] cachedHosts) {
-    if (cachedHosts == null) {
-      this.cachedHosts = EMPTY_STR_ARRAY;
-    } else {
-      this.cachedHosts = cachedHosts;
-    }
-  }
+	/**
+	 * Set the corrupt flag.
+	 */
+	public void setCorrupt(boolean corrupt) {
+		this.corrupt = corrupt;
+	}
 
-  /**
-   * Set the names (host:port) hosting this block
-   */
-  public void setNames(String[] names) throws IOException {
-    if (names == null) {
-      this.names = EMPTY_STR_ARRAY;
-    } else {
-      this.names = names;
-    }
-  }
+	/**
+	 * Set the hosts hosting this block
+	 */
+	public void setHosts(String[] hosts) throws IOException {
+		if (hosts == null) {
+			this.hosts = EMPTY_STR_ARRAY;
+		} else {
+			this.hosts = hosts;
+		}
+	}
 
-  /**
-   * Set the network topology paths of the hosts
-   */
-  public void setTopologyPaths(String[] topologyPaths) throws IOException {
-    if (topologyPaths == null) {
-      this.topologyPaths = EMPTY_STR_ARRAY;
-    } else {
-      this.topologyPaths = topologyPaths;
-    }
-  }
+	/**
+	 * Set the hosts hosting a cached replica of this block
+	 */
+	public void setCachedHosts(String[] cachedHosts) {
+		if (cachedHosts == null) {
+			this.cachedHosts = EMPTY_STR_ARRAY;
+		} else {
+			this.cachedHosts = cachedHosts;
+		}
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder result = new StringBuilder();
-    result.append(offset);
-    result.append(',');
-    result.append(length);
-    if (corrupt) {
-      result.append("(corrupt)");
-    }
-    for(String h: hosts) {
-      result.append(',');
-      result.append(h);
-    }
-    return result.toString();
-  }
+	/**
+	 * Set the names (host:port) hosting this block
+	 */
+	public void setNames(String[] names) throws IOException {
+		if (names == null) {
+			this.names = EMPTY_STR_ARRAY;
+		} else {
+			this.names = names;
+		}
+	}
+
+	/**
+	 * Set the network topology paths of the hosts
+	 */
+	public void setTopologyPaths(String[] topologyPaths) throws IOException {
+		if (topologyPaths == null) {
+			this.topologyPaths = EMPTY_STR_ARRAY;
+		} else {
+			this.topologyPaths = topologyPaths;
+		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(offset);
+		result.append(',');
+		result.append(length);
+		if (corrupt) {
+			result.append("(corrupt)");
+		}
+		for (String h : hosts) {
+			result.append(',');
+			result.append(h);
+		}
+		return result.toString();
+	}
 }

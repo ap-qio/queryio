@@ -26,39 +26,37 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.util.NativeCodeLoader;
 import org.apache.hadoop.util.PerformanceAdvisory;
 
-public class JniBasedUnixGroupsMappingWithFallback implements
-    GroupMappingServiceProvider {
+public class JniBasedUnixGroupsMappingWithFallback implements GroupMappingServiceProvider {
 
-  private static final Log LOG = LogFactory
-      .getLog(JniBasedUnixGroupsMappingWithFallback.class);
-  
-  private GroupMappingServiceProvider impl;
+	private static final Log LOG = LogFactory.getLog(JniBasedUnixGroupsMappingWithFallback.class);
 
-  public JniBasedUnixGroupsMappingWithFallback() {
-    if (NativeCodeLoader.isNativeCodeLoaded()) {
-      this.impl = new JniBasedUnixGroupsMapping();
-    } else {
-      PerformanceAdvisory.LOG.debug("Falling back to shell based");
-      this.impl = new ShellBasedUnixGroupsMapping();
-    }
-    if (LOG.isDebugEnabled()){
-      LOG.debug("Group mapping impl=" + impl.getClass().getName());
-    }
-  }
+	private GroupMappingServiceProvider impl;
 
-  @Override
-  public List<String> getGroups(String user) throws IOException {
-    return impl.getGroups(user);
-  }
+	public JniBasedUnixGroupsMappingWithFallback() {
+		if (NativeCodeLoader.isNativeCodeLoaded()) {
+			this.impl = new JniBasedUnixGroupsMapping();
+		} else {
+			PerformanceAdvisory.LOG.debug("Falling back to shell based");
+			this.impl = new ShellBasedUnixGroupsMapping();
+		}
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Group mapping impl=" + impl.getClass().getName());
+		}
+	}
 
-  @Override
-  public void cacheGroupsRefresh() throws IOException {
-    impl.cacheGroupsRefresh();
-  }
+	@Override
+	public List<String> getGroups(String user) throws IOException {
+		return impl.getGroups(user);
+	}
 
-  @Override
-  public void cacheGroupsAdd(List<String> groups) throws IOException {
-    impl.cacheGroupsAdd(groups);
-  }
+	@Override
+	public void cacheGroupsRefresh() throws IOException {
+		impl.cacheGroupsRefresh();
+	}
+
+	@Override
+	public void cacheGroupsAdd(List<String> groups) throws IOException {
+		impl.cacheGroupsAdd(groups);
+	}
 
 }

@@ -21,16 +21,14 @@ import java.io.IOException;
 
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
-import org.apache.hadoop.hdfs.net.Peer;
-import org.apache.hadoop.hdfs.protocol.DatanodeID;
 import org.apache.hadoop.hdfs.protocol.ExtendedBlock;
 import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.BaseHeaderProto;
 import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.BlockOpResponseProto;
-import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.Status;
 import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.ChecksumProto;
 import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.ClientOperationHeaderProto;
-import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.OpWriteBlockProto;
 import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.DataTransferTraceInfoProto;
+import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.OpWriteBlockProto;
+import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.Status;
 import org.apache.hadoop.hdfs.protocol.proto.HdfsProtos.ChecksumTypeProto;
 import org.apache.hadoop.hdfs.protocolPB.PBHelper;
 import org.apache.hadoop.hdfs.security.token.block.BlockTokenIdentifier;
@@ -43,106 +41,86 @@ import org.apache.htrace.TraceInfo;
 import org.apache.htrace.TraceScope;
 
 /**
- * Static utilities for dealing with the protocol buffers used by the
- * Data Transfer Protocol.
+ * Static utilities for dealing with the protocol buffers used by the Data
+ * Transfer Protocol.
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public abstract class DataTransferProtoUtil {
-  static BlockConstructionStage fromProto(
-      OpWriteBlockProto.BlockConstructionStage stage) {
-    return BlockConstructionStage.valueOf(stage.name());
-  }
+	static BlockConstructionStage fromProto(OpWriteBlockProto.BlockConstructionStage stage) {
+		return BlockConstructionStage.valueOf(stage.name());
+	}
 
-  static OpWriteBlockProto.BlockConstructionStage toProto(
-      BlockConstructionStage stage) {
-    return OpWriteBlockProto.BlockConstructionStage.valueOf(stage.name());
-  }
+	static OpWriteBlockProto.BlockConstructionStage toProto(BlockConstructionStage stage) {
+		return OpWriteBlockProto.BlockConstructionStage.valueOf(stage.name());
+	}
 
-  public static ChecksumProto toProto(DataChecksum checksum) {
-    ChecksumTypeProto type = PBHelper.convert(checksum.getChecksumType());
-    // ChecksumType#valueOf never returns null
-    return ChecksumProto.newBuilder()
-      .setBytesPerChecksum(checksum.getBytesPerChecksum())
-      .setType(type)
-      .build();
-  }
+	public static ChecksumProto toProto(DataChecksum checksum) {
+		ChecksumTypeProto type = PBHelper.convert(checksum.getChecksumType());
+		// ChecksumType#valueOf never returns null
+		return ChecksumProto.newBuilder().setBytesPerChecksum(checksum.getBytesPerChecksum()).setType(type).build();
+	}
 
-  public static DataChecksum fromProto(ChecksumProto proto) {
-    if (proto == null) return null;
+	public static DataChecksum fromProto(ChecksumProto proto) {
+		if (proto == null)
+			return null;
 
-    int bytesPerChecksum = proto.getBytesPerChecksum();
-    DataChecksum.Type type = PBHelper.convert(proto.getType());
-    return DataChecksum.newDataChecksum(type, bytesPerChecksum);
-  }
+		int bytesPerChecksum = proto.getBytesPerChecksum();
+		DataChecksum.Type type = PBHelper.convert(proto.getType());
+		return DataChecksum.newDataChecksum(type, bytesPerChecksum);
+	}
 
-  static ClientOperationHeaderProto buildClientHeader(ExtendedBlock blk,
-      String client, Token<BlockTokenIdentifier> blockToken) {
-    ClientOperationHeaderProto header =
-      ClientOperationHeaderProto.newBuilder()
-        .setBaseHeader(buildBaseHeader(blk, blockToken))
-        .setClientName(client)
-        .build();
-    return header;
-  }
+	static ClientOperationHeaderProto buildClientHeader(ExtendedBlock blk, String client,
+			Token<BlockTokenIdentifier> blockToken) {
+		ClientOperationHeaderProto header = ClientOperationHeaderProto.newBuilder()
+				.setBaseHeader(buildBaseHeader(blk, blockToken)).setClientName(client).build();
+		return header;
+	}
 
-  static BaseHeaderProto buildBaseHeader(ExtendedBlock blk,
-      Token<BlockTokenIdentifier> blockToken) {
-    BaseHeaderProto.Builder builder =  BaseHeaderProto.newBuilder()
-      .setBlock(PBHelper.convert(blk))
-      .setToken(PBHelper.convert(blockToken));
-    if (Trace.isTracing()) {
-      Span s = Trace.currentSpan();
-      builder.setTraceInfo(DataTransferTraceInfoProto.newBuilder()
-          .setTraceId(s.getTraceId())
-          .setParentId(s.getSpanId()));
-    }
-    return builder.build();
-  }
+	static BaseHeaderProto buildBaseHeader(ExtendedBlock blk, Token<BlockTokenIdentifier> blockToken) {
+		BaseHeaderProto.Builder builder = BaseHeaderProto.newBuilder().setBlock(PBHelper.convert(blk))
+				.setToken(PBHelper.convert(blockToken));
+		if (Trace.isTracing()) {
+			Span s = Trace.currentSpan();
+			builder.setTraceInfo(
+					DataTransferTraceInfoProto.newBuilder().setTraceId(s.getTraceId()).setParentId(s.getSpanId()));
+		}
+		return builder.build();
+	}
 
-  public static TraceInfo fromProto(DataTransferTraceInfoProto proto) {
-    if (proto == null) return null;
-    if (!proto.hasTraceId()) return null;
-    return new TraceInfo(proto.getTraceId(), proto.getParentId());
-  }
+	public static TraceInfo fromProto(DataTransferTraceInfoProto proto) {
+		if (proto == null)
+			return null;
+		if (!proto.hasTraceId())
+			return null;
+		return new TraceInfo(proto.getTraceId(), proto.getParentId());
+	}
 
-  public static TraceScope continueTraceSpan(ClientOperationHeaderProto header,
-      String description) {
-    return continueTraceSpan(header.getBaseHeader(), description);
-  }
+	public static TraceScope continueTraceSpan(ClientOperationHeaderProto header, String description) {
+		return continueTraceSpan(header.getBaseHeader(), description);
+	}
 
-  public static TraceScope continueTraceSpan(BaseHeaderProto header,
-      String description) {
-    return continueTraceSpan(header.getTraceInfo(), description);
-  }
+	public static TraceScope continueTraceSpan(BaseHeaderProto header, String description) {
+		return continueTraceSpan(header.getTraceInfo(), description);
+	}
 
-  public static TraceScope continueTraceSpan(DataTransferTraceInfoProto proto,
-      String description) {
-    TraceScope scope = null;
-    TraceInfo info = fromProto(proto);
-    if (info != null) {
-      scope = Trace.startSpan(description, info);
-    }
-    return scope;
-  }
+	public static TraceScope continueTraceSpan(DataTransferTraceInfoProto proto, String description) {
+		TraceScope scope = null;
+		TraceInfo info = fromProto(proto);
+		if (info != null) {
+			scope = Trace.startSpan(description, info);
+		}
+		return scope;
+	}
 
-  public static void checkBlockOpStatus(
-          BlockOpResponseProto response,
-          String logInfo) throws IOException {
-    if (response.getStatus() != Status.SUCCESS) {
-      if (response.getStatus() == Status.ERROR_ACCESS_TOKEN) {
-        throw new InvalidBlockTokenException(
-          "Got access token error"
-          + ", status message " + response.getMessage()
-          + ", " + logInfo
-        );
-      } else {
-        throw new IOException(
-          "Got error"
-          + ", status message " + response.getMessage()
-          + ", " + logInfo
-        );
-      }
-    }
-  }
+	public static void checkBlockOpStatus(BlockOpResponseProto response, String logInfo) throws IOException {
+		if (response.getStatus() != Status.SUCCESS) {
+			if (response.getStatus() == Status.ERROR_ACCESS_TOKEN) {
+				throw new InvalidBlockTokenException(
+						"Got access token error" + ", status message " + response.getMessage() + ", " + logInfo);
+			} else {
+				throw new IOException("Got error" + ", status message " + response.getMessage() + ", " + logInfo);
+			}
+		}
+	}
 }

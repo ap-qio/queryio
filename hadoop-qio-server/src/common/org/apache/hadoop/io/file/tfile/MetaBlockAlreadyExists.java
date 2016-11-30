@@ -29,13 +29,13 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class MetaBlockAlreadyExists extends IOException {
-  /**
-   * Constructor
-   * 
-   * @param s
-   *          message.
-   */
-  MetaBlockAlreadyExists(String s) {
-    super(s);
-  }
+	/**
+	 * Constructor
+	 * 
+	 * @param s
+	 *            message.
+	 */
+	MetaBlockAlreadyExists(String s) {
+		super(s);
+	}
 }

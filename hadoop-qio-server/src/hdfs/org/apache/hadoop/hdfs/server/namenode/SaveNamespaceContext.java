@@ -29,55 +29,49 @@ import org.apache.hadoop.hdfs.util.Canceler;
 import com.google.common.base.Preconditions;
 
 /**
- * Context for an ongoing SaveNamespace operation. This class
- * allows cancellation, and also is responsible for accumulating
- * failed storage directories.
+ * Context for an ongoing SaveNamespace operation. This class allows
+ * cancellation, and also is responsible for accumulating failed storage
+ * directories.
  */
 @InterfaceAudience.Private
 public class SaveNamespaceContext {
-  private final FSNamesystem sourceNamesystem;
-  private final long txid;
-  private final List<StorageDirectory> errorSDs =
-    Collections.synchronizedList(new ArrayList<StorageDirectory>());
-  
-  private final Canceler canceller;
-  private final CountDownLatch completionLatch = new CountDownLatch(1);
+	private final FSNamesystem sourceNamesystem;
+	private final long txid;
+	private final List<StorageDirectory> errorSDs = Collections.synchronizedList(new ArrayList<StorageDirectory>());
 
-  SaveNamespaceContext(
-      FSNamesystem sourceNamesystem,
-      long txid,
-      Canceler canceller) {
-    this.sourceNamesystem = sourceNamesystem;
-    this.txid = txid;
-    this.canceller = canceller;
-  }
+	private final Canceler canceller;
+	private final CountDownLatch completionLatch = new CountDownLatch(1);
 
-  FSNamesystem getSourceNamesystem() {
-    return sourceNamesystem;
-  }
+	SaveNamespaceContext(FSNamesystem sourceNamesystem, long txid, Canceler canceller) {
+		this.sourceNamesystem = sourceNamesystem;
+		this.txid = txid;
+		this.canceller = canceller;
+	}
 
-  long getTxId() {
-    return txid;
-  }
+	FSNamesystem getSourceNamesystem() {
+		return sourceNamesystem;
+	}
 
-  void reportErrorOnStorageDirectory(StorageDirectory sd) {
-    errorSDs.add(sd);
-  }
+	long getTxId() {
+		return txid;
+	}
 
-  List<StorageDirectory> getErrorSDs() {
-    return errorSDs;
-  }
+	void reportErrorOnStorageDirectory(StorageDirectory sd) {
+		errorSDs.add(sd);
+	}
 
-  void markComplete() {
-    Preconditions.checkState(completionLatch.getCount() == 1,
-        "Context already completed!");
-    completionLatch.countDown();
-  }
+	List<StorageDirectory> getErrorSDs() {
+		return errorSDs;
+	}
 
-  public void checkCancelled() throws SaveNamespaceCancelledException {
-    if (canceller.isCancelled()) {
-      throw new SaveNamespaceCancelledException(
-          canceller.getCancellationReason());
-    }
-  }
+	void markComplete() {
+		Preconditions.checkState(completionLatch.getCount() == 1, "Context already completed!");
+		completionLatch.countDown();
+	}
+
+	public void checkCancelled() throws SaveNamespaceCancelledException {
+		if (canceller.isCancelled()) {
+			throw new SaveNamespaceCancelledException(canceller.getCancellationReason());
+		}
+	}
 }

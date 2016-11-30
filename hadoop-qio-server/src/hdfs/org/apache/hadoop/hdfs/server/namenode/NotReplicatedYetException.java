@@ -29,9 +29,9 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class NotReplicatedYetException extends IOException {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  public NotReplicatedYetException(String msg) {
-    super(msg);
-  }
+	public NotReplicatedYetException(String msg) {
+		super(msg);
+	}
 }

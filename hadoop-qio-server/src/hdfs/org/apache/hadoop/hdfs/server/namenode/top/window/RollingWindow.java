@@ -43,147 +43,152 @@ import org.slf4j.LoggerFactory;
  *
  * (3) The buffering delays are not more than the window length, i.e., after two
  * consecutive invocation {@link #incAt(long time1, long)} and
- * {@link #incAt(long time2, long)}, time1 < time2 || time1 - time2 < windowLenMs.
- * This assumption helps avoiding unnecessary synchronizations.
+ * {@link #incAt(long time2, long)}, time1 < time2 || time1 - time2 <
+ * windowLenMs. This assumption helps avoiding unnecessary synchronizations.
  * <p/>
  *
  * Thread-safety is built in the {@link RollingWindow.Bucket}
  */
 @InterfaceAudience.Private
 public class RollingWindow {
-  private static final Logger LOG = LoggerFactory.getLogger(RollingWindow.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RollingWindow.class);
 
-  /**
-   * Each window is composed of buckets, which offer a trade-off between
-   * accuracy and space complexity: the lower the number of buckets, the less
-   * memory is required by the rolling window but more inaccuracy is possible in
-   * reading window total values.
-   */
-  Bucket[] buckets;
-  final int windowLenMs;
-  final int bucketSize;
+	/**
+	 * Each window is composed of buckets, which offer a trade-off between
+	 * accuracy and space complexity: the lower the number of buckets, the less
+	 * memory is required by the rolling window but more inaccuracy is possible
+	 * in reading window total values.
+	 */
+	Bucket[] buckets;
+	final int windowLenMs;
+	final int bucketSize;
 
-  /**
-   * @param windowLenMs The period that is covered by the window. This period must
-   *          be more than the buffering delays.
-   * @param numBuckets number of buckets in the window
-   */
-  RollingWindow(int windowLenMs, int numBuckets) {
-    buckets = new Bucket[numBuckets];
-    for (int i = 0; i < numBuckets; i++) {
-      buckets[i] = new Bucket();
-    }
-    this.windowLenMs = windowLenMs;
-    this.bucketSize = windowLenMs / numBuckets;
-    if (this.bucketSize % bucketSize != 0) {
-      throw new IllegalArgumentException(
-          "The bucket size in the rolling window is not integer: windowLenMs= "
-              + windowLenMs + " numBuckets= " + numBuckets);
-    }
-  }
+	/**
+	 * @param windowLenMs
+	 *            The period that is covered by the window. This period must be
+	 *            more than the buffering delays.
+	 * @param numBuckets
+	 *            number of buckets in the window
+	 */
+	RollingWindow(int windowLenMs, int numBuckets) {
+		buckets = new Bucket[numBuckets];
+		for (int i = 0; i < numBuckets; i++) {
+			buckets[i] = new Bucket();
+		}
+		this.windowLenMs = windowLenMs;
+		this.bucketSize = windowLenMs / numBuckets;
+		if (this.bucketSize % bucketSize != 0) {
+			throw new IllegalArgumentException("The bucket size in the rolling window is not integer: windowLenMs= "
+					+ windowLenMs + " numBuckets= " + numBuckets);
+		}
+	}
 
-  /**
-   * When an event occurs at the specified time, this method reflects that in
-   * the rolling window.
-   * <p/>
-   *
-   * @param time the time at which the event occurred
-   * @param delta the delta that will be added to the window
-   */
-  public void incAt(long time, long delta) {
-    int bi = computeBucketIndex(time);
-    Bucket bucket = buckets[bi];
-    // If the last time the bucket was updated is out of the scope of the
-    // rolling window, reset the bucket.
-    if (bucket.isStaleNow(time)) {
-      bucket.safeReset(time);
-    }
-    bucket.inc(delta);
-  }
+	/**
+	 * When an event occurs at the specified time, this method reflects that in
+	 * the rolling window.
+	 * <p/>
+	 *
+	 * @param time
+	 *            the time at which the event occurred
+	 * @param delta
+	 *            the delta that will be added to the window
+	 */
+	public void incAt(long time, long delta) {
+		int bi = computeBucketIndex(time);
+		Bucket bucket = buckets[bi];
+		// If the last time the bucket was updated is out of the scope of the
+		// rolling window, reset the bucket.
+		if (bucket.isStaleNow(time)) {
+			bucket.safeReset(time);
+		}
+		bucket.inc(delta);
+	}
 
-  private int computeBucketIndex(long time) {
-    int positionOnWindow = (int) (time % windowLenMs);
-    int bucketIndex = positionOnWindow * buckets.length / windowLenMs;
-    return bucketIndex;
-  }
+	private int computeBucketIndex(long time) {
+		int positionOnWindow = (int) (time % windowLenMs);
+		int bucketIndex = positionOnWindow * buckets.length / windowLenMs;
+		return bucketIndex;
+	}
 
-  /**
-   * Thread-safety is provided by synchronization when resetting the update time
-   * as well as atomic fields.
-   */
-  private class Bucket {
-    AtomicLong value = new AtomicLong(0);
-    AtomicLong updateTime = new AtomicLong(0);
+	/**
+	 * Thread-safety is provided by synchronization when resetting the update
+	 * time as well as atomic fields.
+	 */
+	private class Bucket {
+		AtomicLong value = new AtomicLong(0);
+		AtomicLong updateTime = new AtomicLong(0);
 
-    /**
-     * Check whether the last time that the bucket was updated is no longer
-     * covered by rolling window.
-     *
-     * @param time the current time
-     * @return true if the bucket state is stale
-     */
-    boolean isStaleNow(long time) {
-      long utime = updateTime.get();
-      return time - utime >= windowLenMs;
-    }
+		/**
+		 * Check whether the last time that the bucket was updated is no longer
+		 * covered by rolling window.
+		 *
+		 * @param time
+		 *            the current time
+		 * @return true if the bucket state is stale
+		 */
+		boolean isStaleNow(long time) {
+			long utime = updateTime.get();
+			return time - utime >= windowLenMs;
+		}
 
-    /**
-     * Safely reset the bucket state considering concurrent updates (inc) and
-     * resets.
-     *
-     * @param time the current time
-     */
-    void safeReset(long time) {
-      // At any point in time, only one thread is allowed to reset the
-      // bucket
-      synchronized (this) {
-        if (isStaleNow(time)) {
-          // reset the value before setting the time, it allows other
-          // threads to safely assume that the value is updated if the
-          // time is not stale
-          value.set(0);
-          updateTime.set(time);
-        }
-        // else a concurrent thread has already reset it: do nothing
-      }
-    }
+		/**
+		 * Safely reset the bucket state considering concurrent updates (inc)
+		 * and resets.
+		 *
+		 * @param time
+		 *            the current time
+		 */
+		void safeReset(long time) {
+			// At any point in time, only one thread is allowed to reset the
+			// bucket
+			synchronized (this) {
+				if (isStaleNow(time)) {
+					// reset the value before setting the time, it allows other
+					// threads to safely assume that the value is updated if the
+					// time is not stale
+					value.set(0);
+					updateTime.set(time);
+				}
+				// else a concurrent thread has already reset it: do nothing
+			}
+		}
 
-    /**
-     * Increment the bucket. It assumes that staleness check is already
-     * performed. We do not need to update the {@link #updateTime} because as
-     * long as the {@link #updateTime} belongs to the current view of the
-     * rolling window, the algorithm works fine.
-     */
-    void inc(long delta) {
-      value.addAndGet(delta);
-    }
-  }
+		/**
+		 * Increment the bucket. It assumes that staleness check is already
+		 * performed. We do not need to update the {@link #updateTime} because
+		 * as long as the {@link #updateTime} belongs to the current view of the
+		 * rolling window, the algorithm works fine.
+		 */
+		void inc(long delta) {
+			value.addAndGet(delta);
+		}
+	}
 
-  /**
-   * Get value represented by this window at the specified time
-   * <p/>
-   *
-   * If time lags behind the latest update time, the new updates are still
-   * included in the sum
-   *
-   * @param time
-   * @return number of events occurred in the past period
-   */
-  public long getSum(long time) {
-    long sum = 0;
-    for (Bucket bucket : buckets) {
-      boolean stale = bucket.isStaleNow(time);
-      if (!stale) {
-        sum += bucket.value.get();
-      }
-      if (LOG.isDebugEnabled()) {
-        long bucketTime = bucket.updateTime.get();
-        String timeStr = new Date(bucketTime).toString();
-        LOG.debug("Sum: + " + sum + " Bucket: updateTime: " + timeStr + " ("
-            + bucketTime + ") isStale " + stale + " at " + time);
-      }
-    }
-    return sum;
-  }
+	/**
+	 * Get value represented by this window at the specified time
+	 * <p/>
+	 *
+	 * If time lags behind the latest update time, the new updates are still
+	 * included in the sum
+	 *
+	 * @param time
+	 * @return number of events occurred in the past period
+	 */
+	public long getSum(long time) {
+		long sum = 0;
+		for (Bucket bucket : buckets) {
+			boolean stale = bucket.isStaleNow(time);
+			if (!stale) {
+				sum += bucket.value.get();
+			}
+			if (LOG.isDebugEnabled()) {
+				long bucketTime = bucket.updateTime.get();
+				String timeStr = new Date(bucketTime).toString();
+				LOG.debug("Sum: + " + sum + " Bucket: updateTime: " + timeStr + " (" + bucketTime + ") isStale " + stale
+						+ " at " + time);
+			}
+		}
+		return sum;
+	}
 
 }

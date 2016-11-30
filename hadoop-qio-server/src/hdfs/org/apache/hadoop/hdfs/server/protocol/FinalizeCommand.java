@@ -26,17 +26,18 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class FinalizeCommand extends DatanodeCommand {
-  String blockPoolId;
-  private FinalizeCommand() {
-    super(DatanodeProtocol.DNA_FINALIZE);
-  }
-  
-  public FinalizeCommand(String bpid) {
-    super(DatanodeProtocol.DNA_FINALIZE);
-    blockPoolId = bpid;
-  }
-  
-  public String getBlockPoolId() {
-    return blockPoolId;
-  }
+	String blockPoolId;
+
+	private FinalizeCommand() {
+		super(DatanodeProtocol.DNA_FINALIZE);
+	}
+
+	public FinalizeCommand(String bpid) {
+		super(DatanodeProtocol.DNA_FINALIZE);
+		blockPoolId = bpid;
+	}
+
+	public String getBlockPoolId() {
+		return blockPoolId;
+	}
 }

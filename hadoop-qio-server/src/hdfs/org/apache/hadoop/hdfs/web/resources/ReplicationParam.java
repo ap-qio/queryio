@@ -24,37 +24,40 @@ import org.apache.hadoop.conf.Configuration;
 
 /** Replication parameter. */
 public class ReplicationParam extends ShortParam {
-  /** Parameter name. */
-  public static final String NAME = "replication";
-  /** Default parameter value. */
-  public static final String DEFAULT = NULL;
+	/** Parameter name. */
+	public static final String NAME = "replication";
+	/** Default parameter value. */
+	public static final String DEFAULT = NULL;
 
-  private static final Domain DOMAIN = new Domain(NAME);
+	private static final Domain DOMAIN = new Domain(NAME);
 
-  /**
-   * Constructor.
-   * @param value the parameter value.
-   */
-  public ReplicationParam(final Short value) {
-    super(DOMAIN, value, (short)1, null);
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param value
+	 *            the parameter value.
+	 */
+	public ReplicationParam(final Short value) {
+		super(DOMAIN, value, (short) 1, null);
+	}
 
-  /**
-   * Constructor.
-   * @param str a string representation of the parameter value.
-   */
-  public ReplicationParam(final String str) {
-    this(DOMAIN.parse(str));
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param str
+	 *            a string representation of the parameter value.
+	 */
+	public ReplicationParam(final String str) {
+		this(DOMAIN.parse(str));
+	}
 
-  @Override
-  public String getName() {
-    return NAME;
-  }
+	@Override
+	public String getName() {
+		return NAME;
+	}
 
-  /** @return the value or, if it is null, return the default from conf. */
-  public short getValue(final Configuration conf) {
-    return getValue() != null? getValue()
-        : (short)conf.getInt(DFS_REPLICATION_KEY, DFS_REPLICATION_DEFAULT);
-  }
+	/** @return the value or, if it is null, return the default from conf. */
+	public short getValue(final Configuration conf) {
+		return getValue() != null ? getValue() : (short) conf.getInt(DFS_REPLICATION_KEY, DFS_REPLICATION_DEFAULT);
+	}
 }

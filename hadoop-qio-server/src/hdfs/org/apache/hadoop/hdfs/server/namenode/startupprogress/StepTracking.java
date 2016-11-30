@@ -25,15 +25,15 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 final class StepTracking extends AbstractTracking {
-  AtomicLong count = new AtomicLong();
-  long total = Long.MIN_VALUE;
+	AtomicLong count = new AtomicLong();
+	long total = Long.MIN_VALUE;
 
-  @Override
-  public StepTracking clone() {
-    StepTracking clone = new StepTracking();
-    super.copy(clone);
-    clone.count = new AtomicLong(count.get());
-    clone.total = total;
-    return clone;
-  }
+	@Override
+	public StepTracking clone() {
+		StepTracking clone = new StepTracking();
+		super.copy(clone);
+		clone.count = new AtomicLong(count.get());
+		clone.total = total;
+		return clone;
+	}
 }

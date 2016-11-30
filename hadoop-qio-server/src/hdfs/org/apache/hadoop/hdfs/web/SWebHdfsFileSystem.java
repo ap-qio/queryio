@@ -24,28 +24,28 @@ import com.google.common.annotations.VisibleForTesting;
 
 public class SWebHdfsFileSystem extends WebHdfsFileSystem {
 
-  public static final Text TOKEN_KIND = new Text("SWEBHDFS delegation");
-  public static final String SCHEME = "swebhdfs";
+	public static final Text TOKEN_KIND = new Text("SWEBHDFS delegation");
+	public static final String SCHEME = "swebhdfs";
 
-  @Override
-  public String getScheme() {
-    return SCHEME;
-  }
+	@Override
+	public String getScheme() {
+		return SCHEME;
+	}
 
-  @Override
-  protected String getTransportScheme() {
-    return "https";
-  }
+	@Override
+	protected String getTransportScheme() {
+		return "https";
+	}
 
-  @Override
-  protected Text getTokenKind() {
-    return TOKEN_KIND;
-  }
+	@Override
+	protected Text getTokenKind() {
+		return TOKEN_KIND;
+	}
 
-  @Override
-  @VisibleForTesting
-  public int getDefaultPort() {
-    return getConf().getInt(DFSConfigKeys.DFS_NAMENODE_HTTPS_PORT_KEY,
-        DFSConfigKeys.DFS_NAMENODE_HTTPS_PORT_DEFAULT);
-  }
+	@Override
+	@VisibleForTesting
+	public int getDefaultPort() {
+		return getConf().getInt(DFSConfigKeys.DFS_NAMENODE_HTTPS_PORT_KEY,
+				DFSConfigKeys.DFS_NAMENODE_HTTPS_PORT_DEFAULT);
+	}
 }

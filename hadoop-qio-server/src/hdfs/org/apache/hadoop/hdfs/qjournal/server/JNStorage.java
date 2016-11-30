@@ -46,210 +46,201 @@ import com.google.common.collect.ImmutableList;
  */
 class JNStorage extends Storage {
 
-  private final FileJournalManager fjm;
-  private final StorageDirectory sd;
-  private StorageState state;
-  
+	private final FileJournalManager fjm;
+	private final StorageDirectory sd;
+	private StorageState state;
 
-  private static final List<Pattern> CURRENT_DIR_PURGE_REGEXES =
-      ImmutableList.of(
-        Pattern.compile("edits_\\d+-(\\d+)"),
-        Pattern.compile("edits_inprogress_(\\d+)(?:\\..*)?"));
-  
-  private static final List<Pattern> PAXOS_DIR_PURGE_REGEXES = 
-      ImmutableList.of(Pattern.compile("(\\d+)"));
+	private static final List<Pattern> CURRENT_DIR_PURGE_REGEXES = ImmutableList
+			.of(Pattern.compile("edits_\\d+-(\\d+)"), Pattern.compile("edits_inprogress_(\\d+)(?:\\..*)?"));
 
-  /**
-   * @param conf Configuration object
-   * @param logDir the path to the directory in which data will be stored
-   * @param errorReporter a callback to report errors
-   * @throws IOException 
-   */
-  protected JNStorage(Configuration conf, File logDir, StartupOption startOpt,
-      StorageErrorReporter errorReporter) throws IOException {
-    super(NodeType.JOURNAL_NODE);
-    
-    sd = new StorageDirectory(logDir);
-    this.addStorageDir(sd);
-    this.fjm = new FileJournalManager(conf, sd, errorReporter);
+	private static final List<Pattern> PAXOS_DIR_PURGE_REGEXES = ImmutableList.of(Pattern.compile("(\\d+)"));
 
-    analyzeAndRecoverStorage(startOpt);
-  }
-  
-  FileJournalManager getJournalManager() {
-    return fjm;
-  }
+	/**
+	 * @param conf
+	 *            Configuration object
+	 * @param logDir
+	 *            the path to the directory in which data will be stored
+	 * @param errorReporter
+	 *            a callback to report errors
+	 * @throws IOException
+	 */
+	protected JNStorage(Configuration conf, File logDir, StartupOption startOpt, StorageErrorReporter errorReporter)
+			throws IOException {
+		super(NodeType.JOURNAL_NODE);
 
-  @Override
-  public boolean isPreUpgradableLayout(StorageDirectory sd) throws IOException {
-    return false;
-  }
+		sd = new StorageDirectory(logDir);
+		this.addStorageDir(sd);
+		this.fjm = new FileJournalManager(conf, sd, errorReporter);
 
-  /**
-   * Find an edits file spanning the given transaction ID range.
-   * If no such file exists, an exception is thrown.
-   */
-  File findFinalizedEditsFile(long startTxId, long endTxId) throws IOException {
-    File ret = new File(sd.getCurrentDir(),
-        NNStorage.getFinalizedEditsFileName(startTxId, endTxId));
-    if (!ret.exists()) {
-      throw new IOException(
-          "No edits file for range " + startTxId + "-" + endTxId);
-    }
-    return ret;
-  }
+		analyzeAndRecoverStorage(startOpt);
+	}
 
-  /**
-   * @return the path for an in-progress edits file starting at the given
-   * transaction ID. This does not verify existence of the file. 
-   */
-  File getInProgressEditLog(long startTxId) {
-    return new File(sd.getCurrentDir(),
-        NNStorage.getInProgressEditsFileName(startTxId));
-  }
-  
-  /**
-   * @param segmentTxId the first txid of the segment
-   * @param epoch the epoch number of the writer which is coordinating
-   * recovery
-   * @return the temporary path in which an edits log should be stored
-   * while it is being downloaded from a remote JournalNode
-   */
-  File getSyncLogTemporaryFile(long segmentTxId, long epoch) {
-    String name = NNStorage.getInProgressEditsFileName(segmentTxId) +
-        ".epoch=" + epoch; 
-    return new File(sd.getCurrentDir(), name);
-  }
+	FileJournalManager getJournalManager() {
+		return fjm;
+	}
 
-  /**
-   * @return the path for the file which contains persisted data for the
-   * paxos-like recovery process for the given log segment.
-   */
-  File getPaxosFile(long segmentTxId) {
-    return new File(getPaxosDir(), String.valueOf(segmentTxId));
-  }
-  
-  File getPaxosDir() {
-    return new File(sd.getCurrentDir(), "paxos");
-  }
-  
-  File getRoot() {
-    return sd.getRoot();
-  }
-  
-  /**
-   * Remove any log files and associated paxos files which are older than
-   * the given txid.
-   */
-  void purgeDataOlderThan(long minTxIdToKeep) throws IOException {
-    purgeMatching(sd.getCurrentDir(),
-        CURRENT_DIR_PURGE_REGEXES, minTxIdToKeep);
-    purgeMatching(getPaxosDir(), PAXOS_DIR_PURGE_REGEXES, minTxIdToKeep);
-  }
-  
-  /**
-   * Purge files in the given directory which match any of the set of patterns.
-   * The patterns must have a single numeric capture group which determines
-   * the associated transaction ID of the file. Only those files for which
-   * the transaction ID is less than the <code>minTxIdToKeep</code> parameter
-   * are removed.
-   */
-  private static void purgeMatching(File dir, List<Pattern> patterns,
-      long minTxIdToKeep) throws IOException {
+	@Override
+	public boolean isPreUpgradableLayout(StorageDirectory sd) throws IOException {
+		return false;
+	}
 
-    for (File f : FileUtil.listFiles(dir)) {
-      if (!f.isFile()) continue;
-      
-      for (Pattern p : patterns) {
-        Matcher matcher = p.matcher(f.getName());
-        if (matcher.matches()) {
-          // This parsing will always succeed since the group(1) is
-          // /\d+/ in the regex itself.
-          long txid = Long.parseLong(matcher.group(1));
-          if (txid < minTxIdToKeep) {
-            LOG.info("Purging no-longer needed file " + txid);
-            if (!f.delete()) {
-              LOG.warn("Unable to delete no-longer-needed data " +
-                  f);
-            }
-            break;
-          }
-        }
-      }
-    }
-  }
+	/**
+	 * Find an edits file spanning the given transaction ID range. If no such
+	 * file exists, an exception is thrown.
+	 */
+	File findFinalizedEditsFile(long startTxId, long endTxId) throws IOException {
+		File ret = new File(sd.getCurrentDir(), NNStorage.getFinalizedEditsFileName(startTxId, endTxId));
+		if (!ret.exists()) {
+			throw new IOException("No edits file for range " + startTxId + "-" + endTxId);
+		}
+		return ret;
+	}
 
-  void format(NamespaceInfo nsInfo) throws IOException {
-    setStorageInfo(nsInfo);
-    LOG.info("Formatting journal " + sd + " with nsid: " + getNamespaceID());
-    // Unlock the directory before formatting, because we will
-    // re-analyze it after format(). The analyzeStorage() call
-    // below is reponsible for re-locking it. This is a no-op
-    // if the storage is not currently locked.
-    unlockAll();
-    sd.clearDirectory();
-    writeProperties(sd);
-    createPaxosDir();
-    analyzeStorage();
-  }
-  
-  void createPaxosDir() throws IOException {
-    if (!getPaxosDir().mkdirs()) {
-      throw new IOException("Could not create paxos dir: " + getPaxosDir());
-    }
-  }
-  
-  void analyzeStorage() throws IOException {
-    this.state = sd.analyzeStorage(StartupOption.REGULAR, this);
-    if (state == StorageState.NORMAL) {
-      readProperties(sd);
-    }
-  }
+	/**
+	 * @return the path for an in-progress edits file starting at the given
+	 *         transaction ID. This does not verify existence of the file.
+	 */
+	File getInProgressEditLog(long startTxId) {
+		return new File(sd.getCurrentDir(), NNStorage.getInProgressEditsFileName(startTxId));
+	}
 
-  @Override
-  protected void setLayoutVersion(Properties props, StorageDirectory sd)
-      throws IncorrectVersionException, InconsistentFSStateException {
-    int lv = Integer.parseInt(getProperty(props, sd, "layoutVersion"));
-    // For journal node, since it now does not decode but just scan through the
-    // edits, it can handle edits with future version in most of the cases.
-    // Thus currently we may skip the layoutVersion check here.
-    layoutVersion = lv;
-  }
+	/**
+	 * @param segmentTxId
+	 *            the first txid of the segment
+	 * @param epoch
+	 *            the epoch number of the writer which is coordinating recovery
+	 * @return the temporary path in which an edits log should be stored while
+	 *         it is being downloaded from a remote JournalNode
+	 */
+	File getSyncLogTemporaryFile(long segmentTxId, long epoch) {
+		String name = NNStorage.getInProgressEditsFileName(segmentTxId) + ".epoch=" + epoch;
+		return new File(sd.getCurrentDir(), name);
+	}
 
-  void analyzeAndRecoverStorage(StartupOption startOpt) throws IOException {
-    this.state = sd.analyzeStorage(startOpt, this);
-    final boolean needRecover = state != StorageState.NORMAL
-        && state != StorageState.NON_EXISTENT
-        && state != StorageState.NOT_FORMATTED;
-    if (state == StorageState.NORMAL && startOpt != StartupOption.ROLLBACK) {
-      readProperties(sd);
-    } else if (needRecover) {
-      sd.doRecover(state);
-    }
-  }
+	/**
+	 * @return the path for the file which contains persisted data for the
+	 *         paxos-like recovery process for the given log segment.
+	 */
+	File getPaxosFile(long segmentTxId) {
+		return new File(getPaxosDir(), String.valueOf(segmentTxId));
+	}
 
-  void checkConsistentNamespace(NamespaceInfo nsInfo)
-      throws IOException {
-    if (nsInfo.getNamespaceID() != getNamespaceID()) {
-      throw new IOException("Incompatible namespaceID for journal " +
-          this.sd + ": NameNode has nsId " + nsInfo.getNamespaceID() +
-          " but storage has nsId " + getNamespaceID());
-    }
-    
-    if (!nsInfo.getClusterID().equals(getClusterID())) {
-      throw new IOException("Incompatible clusterID for journal " +
-          this.sd + ": NameNode has clusterId '" + nsInfo.getClusterID() +
-          "' but storage has clusterId '" + getClusterID() + "'");
-      
-    }
-  }
+	File getPaxosDir() {
+		return new File(sd.getCurrentDir(), "paxos");
+	}
 
-  public void close() throws IOException {
-    LOG.info("Closing journal storage for " + sd);
-    unlockAll();
-  }
+	File getRoot() {
+		return sd.getRoot();
+	}
 
-  public boolean isFormatted() {
-    return state == StorageState.NORMAL;
-  }
+	/**
+	 * Remove any log files and associated paxos files which are older than the
+	 * given txid.
+	 */
+	void purgeDataOlderThan(long minTxIdToKeep) throws IOException {
+		purgeMatching(sd.getCurrentDir(), CURRENT_DIR_PURGE_REGEXES, minTxIdToKeep);
+		purgeMatching(getPaxosDir(), PAXOS_DIR_PURGE_REGEXES, minTxIdToKeep);
+	}
+
+	/**
+	 * Purge files in the given directory which match any of the set of
+	 * patterns. The patterns must have a single numeric capture group which
+	 * determines the associated transaction ID of the file. Only those files
+	 * for which the transaction ID is less than the <code>minTxIdToKeep</code>
+	 * parameter are removed.
+	 */
+	private static void purgeMatching(File dir, List<Pattern> patterns, long minTxIdToKeep) throws IOException {
+
+		for (File f : FileUtil.listFiles(dir)) {
+			if (!f.isFile())
+				continue;
+
+			for (Pattern p : patterns) {
+				Matcher matcher = p.matcher(f.getName());
+				if (matcher.matches()) {
+					// This parsing will always succeed since the group(1) is
+					// /\d+/ in the regex itself.
+					long txid = Long.parseLong(matcher.group(1));
+					if (txid < minTxIdToKeep) {
+						LOG.info("Purging no-longer needed file " + txid);
+						if (!f.delete()) {
+							LOG.warn("Unable to delete no-longer-needed data " + f);
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	void format(NamespaceInfo nsInfo) throws IOException {
+		setStorageInfo(nsInfo);
+		LOG.info("Formatting journal " + sd + " with nsid: " + getNamespaceID());
+		// Unlock the directory before formatting, because we will
+		// re-analyze it after format(). The analyzeStorage() call
+		// below is reponsible for re-locking it. This is a no-op
+		// if the storage is not currently locked.
+		unlockAll();
+		sd.clearDirectory();
+		writeProperties(sd);
+		createPaxosDir();
+		analyzeStorage();
+	}
+
+	void createPaxosDir() throws IOException {
+		if (!getPaxosDir().mkdirs()) {
+			throw new IOException("Could not create paxos dir: " + getPaxosDir());
+		}
+	}
+
+	void analyzeStorage() throws IOException {
+		this.state = sd.analyzeStorage(StartupOption.REGULAR, this);
+		if (state == StorageState.NORMAL) {
+			readProperties(sd);
+		}
+	}
+
+	@Override
+	protected void setLayoutVersion(Properties props, StorageDirectory sd)
+			throws IncorrectVersionException, InconsistentFSStateException {
+		int lv = Integer.parseInt(getProperty(props, sd, "layoutVersion"));
+		// For journal node, since it now does not decode but just scan through
+		// the
+		// edits, it can handle edits with future version in most of the cases.
+		// Thus currently we may skip the layoutVersion check here.
+		layoutVersion = lv;
+	}
+
+	void analyzeAndRecoverStorage(StartupOption startOpt) throws IOException {
+		this.state = sd.analyzeStorage(startOpt, this);
+		final boolean needRecover = state != StorageState.NORMAL && state != StorageState.NON_EXISTENT
+				&& state != StorageState.NOT_FORMATTED;
+		if (state == StorageState.NORMAL && startOpt != StartupOption.ROLLBACK) {
+			readProperties(sd);
+		} else if (needRecover) {
+			sd.doRecover(state);
+		}
+	}
+
+	void checkConsistentNamespace(NamespaceInfo nsInfo) throws IOException {
+		if (nsInfo.getNamespaceID() != getNamespaceID()) {
+			throw new IOException("Incompatible namespaceID for journal " + this.sd + ": NameNode has nsId "
+					+ nsInfo.getNamespaceID() + " but storage has nsId " + getNamespaceID());
+		}
+
+		if (!nsInfo.getClusterID().equals(getClusterID())) {
+			throw new IOException("Incompatible clusterID for journal " + this.sd + ": NameNode has clusterId '"
+					+ nsInfo.getClusterID() + "' but storage has clusterId '" + getClusterID() + "'");
+
+		}
+	}
+
+	public void close() throws IOException {
+		LOG.info("Closing journal storage for " + sd);
+		unlockAll();
+	}
+
+	public boolean isFormatted() {
+		return state == StorageState.NORMAL;
+	}
 }

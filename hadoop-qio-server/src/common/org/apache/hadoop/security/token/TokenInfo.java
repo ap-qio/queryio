@@ -18,7 +18,10 @@
 
 package org.apache.hadoop.security.token;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
@@ -28,9 +31,9 @@ import org.apache.hadoop.classification.InterfaceStability;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@InterfaceAudience.LimitedPrivate({"HDFS", "MapReduce"})
+@InterfaceAudience.LimitedPrivate({ "HDFS", "MapReduce" })
 @InterfaceStability.Evolving
 public @interface TokenInfo {
-  /** The type of TokenSelector to be used */
-  Class<? extends TokenSelector<? extends TokenIdentifier>> value();
+	/** The type of TokenSelector to be used */
+	Class<? extends TokenSelector<? extends TokenIdentifier>> value();
 }

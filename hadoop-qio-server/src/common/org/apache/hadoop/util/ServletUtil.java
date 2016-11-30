@@ -17,10 +17,12 @@
  */
 package org.apache.hadoop.util;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Calendar;
 
-import javax.servlet.*;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.httpclient.URIException;
@@ -33,108 +35,120 @@ import com.google.common.base.Preconditions;
 @InterfaceAudience.Private
 @InterfaceStability.Unstable
 public class ServletUtil {
-  /**
-   * Initial HTML header
-   */
-  public static PrintWriter initHTML(ServletResponse response, String title
-      ) throws IOException {
-    response.setContentType("text/html");
-    PrintWriter out = response.getWriter();
-    out.println("<html>\n"
-        + "<link rel='stylesheet' type='text/css' href='/static/hadoop.css'>\n"
-        + "<title>" + title + "</title>\n"
-        + "<body>\n"
-        + "<h1>" + title + "</h1>\n");
-    return out;
-  }
+	/**
+	 * Initial HTML header
+	 */
+	public static PrintWriter initHTML(ServletResponse response, String title) throws IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.println("<html>\n" + "<link rel='stylesheet' type='text/css' href='/static/hadoop.css'>\n" + "<title>"
+				+ title + "</title>\n" + "<body>\n" + "<h1>" + title + "</h1>\n");
+		return out;
+	}
 
-  /**
-   * Get a parameter from a ServletRequest.
-   * Return null if the parameter contains only white spaces.
-   */
-  public static String getParameter(ServletRequest request, String name) {
-    String s = request.getParameter(name);
-    if (s == null) {
-      return null;
-    }
-    s = s.trim();
-    return s.length() == 0? null: s;
-  }
-  
-  /**
-   * @return a long value as passed in the given parameter, throwing
-   * an exception if it is not present or if it is not a valid number.
-   */
-  public static long parseLongParam(ServletRequest request, String param)
-      throws IOException {
-    String paramStr = request.getParameter(param);
-    if (paramStr == null) {
-      throw new IOException("Invalid request has no " + param + " parameter");
-    }
-    
-    return Long.parseLong(paramStr);
-  }
+	/**
+	 * Get a parameter from a ServletRequest. Return null if the parameter
+	 * contains only white spaces.
+	 */
+	public static String getParameter(ServletRequest request, String name) {
+		String s = request.getParameter(name);
+		if (s == null) {
+			return null;
+		}
+		s = s.trim();
+		return s.length() == 0 ? null : s;
+	}
 
-  public static final String HTML_TAIL = "<hr />\n"
-    + "<a href='http://hadoop.apache.org/core'>Hadoop</a>, "
-    + Calendar.getInstance().get(Calendar.YEAR) + ".\n"
-    + "</body></html>";
+	/**
+	 * @return a long value as passed in the given parameter, throwing an
+	 *         exception if it is not present or if it is not a valid number.
+	 */
+	public static long parseLongParam(ServletRequest request, String param) throws IOException {
+		String paramStr = request.getParameter(param);
+		if (paramStr == null) {
+			throw new IOException("Invalid request has no " + param + " parameter");
+		}
 
-  /**
-   * HTML footer to be added in the jsps.
-   * @return the HTML footer.
-   */
-  public static String htmlFooter() {
-    return HTML_TAIL;
-  }
-  /**
-   * Escape and encode a string regarded as within the query component of an URI.
-   * @param value the value to encode
-   * @return encoded query, null if the default charset is not supported
-   */
-  public static String encodeQueryValue(final String value) {
-    try {
-      return URIUtil.encodeWithinQuery(value, "UTF-8");
-    } catch (URIException e) {
-      throw new AssertionError("JVM does not support UTF-8"); // should never happen!
-    }
-  }
+		return Long.parseLong(paramStr);
+	}
 
-  /**
-   * Escape and encode a string regarded as the path component of an URI.
-   * @param path the path component to encode
-   * @return encoded path, null if UTF-8 is not supported
-   */
-  public static String encodePath(final String path) {
-    try {
-      return URIUtil.encodePath(path, "UTF-8");
-    } catch (URIException e) {
-      throw new AssertionError("JVM does not support UTF-8"); // should never happen!
-    }
-  }
+	public static final String HTML_TAIL = "<hr />\n" + "<a href='http://hadoop.apache.org/core'>Hadoop</a>, "
+			+ Calendar.getInstance().get(Calendar.YEAR) + ".\n" + "</body></html>";
 
-  /**
-   * Parse and decode the path component from the given request.
-   * @param request Http request to parse
-   * @param servletName the name of servlet that precedes the path
-   * @return decoded path component, null if UTF-8 is not supported
-   */
-  public static String getDecodedPath(final HttpServletRequest request, String servletName) {
-    try {
-      return URIUtil.decode(getRawPath(request, servletName), "UTF-8");
-    } catch (URIException e) {
-      throw new AssertionError("JVM does not support UTF-8"); // should never happen!
-    }
-  }
+	/**
+	 * HTML footer to be added in the jsps.
+	 * 
+	 * @return the HTML footer.
+	 */
+	public static String htmlFooter() {
+		return HTML_TAIL;
+	}
 
-  /**
-   * Parse the path component from the given request and return w/o decoding.
-   * @param request Http request to parse
-   * @param servletName the name of servlet that precedes the path
-   * @return path component, null if the default charset is not supported
-   */
-  public static String getRawPath(final HttpServletRequest request, String servletName) {
-    Preconditions.checkArgument(request.getRequestURI().startsWith(servletName+"/"));
-    return request.getRequestURI().substring(servletName.length());
-  }
+	/**
+	 * Escape and encode a string regarded as within the query component of an
+	 * URI.
+	 * 
+	 * @param value
+	 *            the value to encode
+	 * @return encoded query, null if the default charset is not supported
+	 */
+	public static String encodeQueryValue(final String value) {
+		try {
+			return URIUtil.encodeWithinQuery(value, "UTF-8");
+		} catch (URIException e) {
+			throw new AssertionError("JVM does not support UTF-8"); // should
+																	// never
+																	// happen!
+		}
+	}
+
+	/**
+	 * Escape and encode a string regarded as the path component of an URI.
+	 * 
+	 * @param path
+	 *            the path component to encode
+	 * @return encoded path, null if UTF-8 is not supported
+	 */
+	public static String encodePath(final String path) {
+		try {
+			return URIUtil.encodePath(path, "UTF-8");
+		} catch (URIException e) {
+			throw new AssertionError("JVM does not support UTF-8"); // should
+																	// never
+																	// happen!
+		}
+	}
+
+	/**
+	 * Parse and decode the path component from the given request.
+	 * 
+	 * @param request
+	 *            Http request to parse
+	 * @param servletName
+	 *            the name of servlet that precedes the path
+	 * @return decoded path component, null if UTF-8 is not supported
+	 */
+	public static String getDecodedPath(final HttpServletRequest request, String servletName) {
+		try {
+			return URIUtil.decode(getRawPath(request, servletName), "UTF-8");
+		} catch (URIException e) {
+			throw new AssertionError("JVM does not support UTF-8"); // should
+																	// never
+																	// happen!
+		}
+	}
+
+	/**
+	 * Parse the path component from the given request and return w/o decoding.
+	 * 
+	 * @param request
+	 *            Http request to parse
+	 * @param servletName
+	 *            the name of servlet that precedes the path
+	 * @return path component, null if the default charset is not supported
+	 */
+	public static String getRawPath(final HttpServletRequest request, String servletName) {
+		Preconditions.checkArgument(request.getRequestURI().startsWith(servletName + "/"));
+		return request.getRequestURI().substring(servletName.length());
+	}
 }

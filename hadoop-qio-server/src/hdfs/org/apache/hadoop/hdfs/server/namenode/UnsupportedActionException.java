@@ -29,10 +29,10 @@ import org.apache.hadoop.classification.InterfaceStability;
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
 public class UnsupportedActionException extends IOException {
-  /** for java.io.Serializable */
-  private static final long serialVersionUID = 1L;
+	/** for java.io.Serializable */
+	private static final long serialVersionUID = 1L;
 
-  public UnsupportedActionException(String msg) {
-    super(msg);
-  }
+	public UnsupportedActionException(String msg) {
+		super(msg);
+	}
 }

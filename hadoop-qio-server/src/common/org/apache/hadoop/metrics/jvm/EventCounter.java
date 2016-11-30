@@ -18,16 +18,14 @@
 package org.apache.hadoop.metrics.jvm;
 
 /**
- * A log4J Appender that simply counts logging events in three levels:
- * fatal, error and warn.
+ * A log4J Appender that simply counts logging events in three levels: fatal,
+ * error and warn.
  */
 public class EventCounter extends org.apache.hadoop.log.metrics.EventCounter {
 
-  static {
-    // The logging system is not started yet.
-    System.err.println("WARNING: "+ EventCounter.class.getName() +
-        " is deprecated. Please use "+
-        org.apache.hadoop.log.metrics.EventCounter.class.getName() +
-        " in all the log4j.properties files.");
-  }
+	static {
+		// The logging system is not started yet.
+		System.err.println("WARNING: " + EventCounter.class.getName() + " is deprecated. Please use "
+				+ org.apache.hadoop.log.metrics.EventCounter.class.getName() + " in all the log4j.properties files.");
+	}
 }

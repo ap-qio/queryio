@@ -17,8 +17,8 @@
  */
 package org.apache.hadoop.hdfs.server.namenode.ha;
 
-import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_KEYTAB_FILE_KEY;
 import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY;
+import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_KEYTAB_FILE_KEY;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -41,9 +41,9 @@ import org.apache.hadoop.hdfs.DFSUtil;
 import org.apache.hadoop.hdfs.HAUtil;
 import org.apache.hadoop.hdfs.NameNodeProxies;
 import org.apache.hadoop.hdfs.protocol.HdfsConstants;
+import org.apache.hadoop.hdfs.server.common.HdfsServerConstants.StartupOption;
 import org.apache.hadoop.hdfs.server.common.InconsistentFSStateException;
 import org.apache.hadoop.hdfs.server.common.Storage;
-import org.apache.hadoop.hdfs.server.common.HdfsServerConstants.StartupOption;
 import org.apache.hadoop.hdfs.server.common.Storage.StorageDirectory;
 import org.apache.hadoop.hdfs.server.common.Storage.StorageState;
 import org.apache.hadoop.hdfs.server.namenode.EditLogInputStream;
@@ -74,356 +74,329 @@ import com.google.common.base.Preconditions;
  */
 @InterfaceAudience.Private
 public class BootstrapStandby implements Tool, Configurable {
-  private static final Log LOG = LogFactory.getLog(BootstrapStandby.class);
-  private String nsId;
-  private String nnId;
-  private String otherNNId;
+	private static final Log LOG = LogFactory.getLog(BootstrapStandby.class);
+	private String nsId;
+	private String nnId;
+	private String otherNNId;
 
-  private URL otherHttpAddr;
-  private InetSocketAddress otherIpcAddr;
-  private Collection<URI> dirsToFormat;
-  private List<URI> editUrisToFormat;
-  private List<URI> sharedEditsUris;
-  private Configuration conf;
-  
-  private boolean force = false;
-  private boolean interactive = true;
-  private boolean skipSharedEditsCheck = false;
+	private URL otherHttpAddr;
+	private InetSocketAddress otherIpcAddr;
+	private Collection<URI> dirsToFormat;
+	private List<URI> editUrisToFormat;
+	private List<URI> sharedEditsUris;
+	private Configuration conf;
 
-  // Exit/return codes.
-  static final int ERR_CODE_FAILED_CONNECT = 2;
-  static final int ERR_CODE_INVALID_VERSION = 3;
-  // Skip 4 - was used in previous versions, but no longer returned.
-  static final int ERR_CODE_ALREADY_FORMATTED = 5;
-  static final int ERR_CODE_LOGS_UNAVAILABLE = 6; 
+	private boolean force = false;
+	private boolean interactive = true;
+	private boolean skipSharedEditsCheck = false;
 
-  @Override
-  public int run(String[] args) throws Exception {
-    parseArgs(args);
-    parseConfAndFindOtherNN();
-    NameNode.checkAllowFormat(conf);
+	// Exit/return codes.
+	static final int ERR_CODE_FAILED_CONNECT = 2;
+	static final int ERR_CODE_INVALID_VERSION = 3;
+	// Skip 4 - was used in previous versions, but no longer returned.
+	static final int ERR_CODE_ALREADY_FORMATTED = 5;
+	static final int ERR_CODE_LOGS_UNAVAILABLE = 6;
 
-    InetSocketAddress myAddr = NameNode.getAddress(conf);
-    SecurityUtil.login(conf, DFS_NAMENODE_KEYTAB_FILE_KEY,
-        DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY, myAddr.getHostName());
+	@Override
+	public int run(String[] args) throws Exception {
+		parseArgs(args);
+		parseConfAndFindOtherNN();
+		NameNode.checkAllowFormat(conf);
 
-    return SecurityUtil.doAsLoginUserOrFatal(new PrivilegedAction<Integer>() {
-      @Override
-      public Integer run() {
-        try {
-          return doRun();
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    });
-  }
-  
-  private void parseArgs(String[] args) {
-    for (String arg : args) {
-      if ("-force".equals(arg)) {
-        force = true;
-      } else if ("-nonInteractive".equals(arg)) {
-        interactive = false;
-      } else if ("-skipSharedEditsCheck".equals(arg)) {
-        skipSharedEditsCheck = true;
-      } else {
-        printUsage();
-        throw new HadoopIllegalArgumentException(
-            "Illegal argument: " + arg);
-      }
-    }
-  }
+		InetSocketAddress myAddr = NameNode.getAddress(conf);
+		SecurityUtil.login(conf, DFS_NAMENODE_KEYTAB_FILE_KEY, DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY,
+				myAddr.getHostName());
 
-  private void printUsage() {
-    System.err.println("Usage: " + this.getClass().getSimpleName() +
-        " [-force] [-nonInteractive] [-skipSharedEditsCheck]");
-  }
-  
-  private NamenodeProtocol createNNProtocolProxy()
-      throws IOException {
-    return NameNodeProxies.createNonHAProxy(getConf(),
-        otherIpcAddr, NamenodeProtocol.class,
-        UserGroupInformation.getLoginUser(), true)
-        .getProxy();
-  }
-  
-  private int doRun() throws IOException {
-    NamenodeProtocol proxy = createNNProtocolProxy();
-    NamespaceInfo nsInfo;
-    boolean isUpgradeFinalized;
-    try {
-      nsInfo = proxy.versionRequest();
-      isUpgradeFinalized = proxy.isUpgradeFinalized();
-    } catch (IOException ioe) {
-      LOG.fatal("Unable to fetch namespace information from active NN at " +
-          otherIpcAddr + ": " + ioe.getMessage());
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Full exception trace", ioe);
-      }
-      return ERR_CODE_FAILED_CONNECT;
-    }
+		return SecurityUtil.doAsLoginUserOrFatal(new PrivilegedAction<Integer>() {
+			@Override
+			public Integer run() {
+				try {
+					return doRun();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		});
+	}
 
-    if (!checkLayoutVersion(nsInfo)) {
-      LOG.fatal("Layout version on remote node (" + nsInfo.getLayoutVersion()
-          + ") does not match " + "this node's layout version ("
-          + HdfsConstants.NAMENODE_LAYOUT_VERSION + ")");
-      return ERR_CODE_INVALID_VERSION;
-    }
+	private void parseArgs(String[] args) {
+		for (String arg : args) {
+			if ("-force".equals(arg)) {
+				force = true;
+			} else if ("-nonInteractive".equals(arg)) {
+				interactive = false;
+			} else if ("-skipSharedEditsCheck".equals(arg)) {
+				skipSharedEditsCheck = true;
+			} else {
+				printUsage();
+				throw new HadoopIllegalArgumentException("Illegal argument: " + arg);
+			}
+		}
+	}
 
-    System.out.println(
-        "=====================================================\n" +
-        "About to bootstrap Standby ID " + nnId + " from:\n" +
-        "           Nameservice ID: " + nsId + "\n" +
-        "        Other Namenode ID: " + otherNNId + "\n" +
-        "  Other NN's HTTP address: " + otherHttpAddr + "\n" +
-        "  Other NN's IPC  address: " + otherIpcAddr + "\n" +
-        "             Namespace ID: " + nsInfo.getNamespaceID() + "\n" +
-        "            Block pool ID: " + nsInfo.getBlockPoolID() + "\n" +
-        "               Cluster ID: " + nsInfo.getClusterID() + "\n" +
-        "           Layout version: " + nsInfo.getLayoutVersion() + "\n" +
-        "       isUpgradeFinalized: " + isUpgradeFinalized + "\n" +
-        "=====================================================");
-    
-    NNStorage storage = new NNStorage(conf, dirsToFormat, editUrisToFormat);
+	private void printUsage() {
+		System.err.println(
+				"Usage: " + this.getClass().getSimpleName() + " [-force] [-nonInteractive] [-skipSharedEditsCheck]");
+	}
 
-    if (!isUpgradeFinalized) {
-      // the remote NameNode is in upgrade state, this NameNode should also
-      // create the previous directory. First prepare the upgrade and rename
-      // the current dir to previous.tmp.
-      LOG.info("The active NameNode is in Upgrade. " +
-          "Prepare the upgrade for the standby NameNode as well.");
-      if (!doPreUpgrade(storage, nsInfo)) {
-        return ERR_CODE_ALREADY_FORMATTED;
-      }
-    } else if (!format(storage, nsInfo)) { // prompt the user to format storage
-      return ERR_CODE_ALREADY_FORMATTED;
-    }
+	private NamenodeProtocol createNNProtocolProxy() throws IOException {
+		return NameNodeProxies.createNonHAProxy(getConf(), otherIpcAddr, NamenodeProtocol.class,
+				UserGroupInformation.getLoginUser(), true).getProxy();
+	}
 
-    // download the fsimage from active namenode
-    int download = downloadImage(storage, proxy);
-    if (download != 0) {
-      return download;
-    }
+	private int doRun() throws IOException {
+		NamenodeProtocol proxy = createNNProtocolProxy();
+		NamespaceInfo nsInfo;
+		boolean isUpgradeFinalized;
+		try {
+			nsInfo = proxy.versionRequest();
+			isUpgradeFinalized = proxy.isUpgradeFinalized();
+		} catch (IOException ioe) {
+			LOG.fatal("Unable to fetch namespace information from active NN at " + otherIpcAddr + ": "
+					+ ioe.getMessage());
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Full exception trace", ioe);
+			}
+			return ERR_CODE_FAILED_CONNECT;
+		}
 
-    // finish the upgrade: rename previous.tmp to previous
-    if (!isUpgradeFinalized) {
-      doUpgrade(storage);
-    }
-    return 0;
-  }
+		if (!checkLayoutVersion(nsInfo)) {
+			LOG.fatal("Layout version on remote node (" + nsInfo.getLayoutVersion() + ") does not match "
+					+ "this node's layout version (" + HdfsConstants.NAMENODE_LAYOUT_VERSION + ")");
+			return ERR_CODE_INVALID_VERSION;
+		}
 
-  /**
-   * Iterate over all the storage directories, checking if it should be
-   * formatted. Format the storage if necessary and allowed by the user.
-   * @return True if formatting is processed
-   */
-  private boolean format(NNStorage storage, NamespaceInfo nsInfo)
-      throws IOException {
-    // Check with the user before blowing away data.
-    if (!Storage.confirmFormat(storage.dirIterable(null), force, interactive)) {
-      storage.close();
-      return false;
-    } else {
-      // Format the storage (writes VERSION file)
-      storage.format(nsInfo);
-      return true;
-    }
-  }
+		System.out.println("=====================================================\n" + "About to bootstrap Standby ID "
+				+ nnId + " from:\n" + "           Nameservice ID: " + nsId + "\n" + "        Other Namenode ID: "
+				+ otherNNId + "\n" + "  Other NN's HTTP address: " + otherHttpAddr + "\n"
+				+ "  Other NN's IPC  address: " + otherIpcAddr + "\n" + "             Namespace ID: "
+				+ nsInfo.getNamespaceID() + "\n" + "            Block pool ID: " + nsInfo.getBlockPoolID() + "\n"
+				+ "               Cluster ID: " + nsInfo.getClusterID() + "\n" + "           Layout version: "
+				+ nsInfo.getLayoutVersion() + "\n" + "       isUpgradeFinalized: " + isUpgradeFinalized + "\n"
+				+ "=====================================================");
 
-  /**
-   * This is called when using bootstrapStandby for HA upgrade. The SBN should
-   * also create previous directory so that later when it starts, it understands
-   * that the cluster is in the upgrade state. This function renames the old
-   * current directory to previous.tmp.
-   */
-  private boolean doPreUpgrade(NNStorage storage, NamespaceInfo nsInfo)
-      throws IOException {
-    boolean isFormatted = false;
-    Map<StorageDirectory, StorageState> dataDirStates =
-        new HashMap<>();
-    try {
-      isFormatted = FSImage.recoverStorageDirs(StartupOption.UPGRADE, storage,
-          dataDirStates);
-      if (dataDirStates.values().contains(StorageState.NOT_FORMATTED)) {
-        // recoverStorageDirs returns true if there is a formatted directory
-        isFormatted = false;
-        System.err.println("The original storage directory is not formatted.");
-      }
-    } catch (InconsistentFSStateException e) {
-      // if the storage is in a bad state,
-      LOG.warn("The storage directory is in an inconsistent state", e);
-    } finally {
-      storage.unlockAll();
-    }
+		NNStorage storage = new NNStorage(conf, dirsToFormat, editUrisToFormat);
 
-    // if there is InconsistentFSStateException or the storage is not formatted,
-    // format the storage. Although this format is done through the new
-    // software, since in HA setup the SBN is rolled back through
-    // "-bootstrapStandby", we should still be fine.
-    if (!isFormatted && !format(storage, nsInfo)) {
-      return false;
-    }
+		if (!isUpgradeFinalized) {
+			// the remote NameNode is in upgrade state, this NameNode should
+			// also
+			// create the previous directory. First prepare the upgrade and
+			// rename
+			// the current dir to previous.tmp.
+			LOG.info("The active NameNode is in Upgrade. " + "Prepare the upgrade for the standby NameNode as well.");
+			if (!doPreUpgrade(storage, nsInfo)) {
+				return ERR_CODE_ALREADY_FORMATTED;
+			}
+		} else if (!format(storage, nsInfo)) { // prompt the user to format
+												// storage
+			return ERR_CODE_ALREADY_FORMATTED;
+		}
 
-    // make sure there is no previous directory
-    FSImage.checkUpgrade(storage);
-    // Do preUpgrade for each directory
-    for (Iterator<StorageDirectory> it = storage.dirIterator(false);
-         it.hasNext();) {
-      StorageDirectory sd = it.next();
-      try {
-        NNUpgradeUtil.renameCurToTmp(sd);
-      } catch (IOException e) {
-        LOG.error("Failed to move aside pre-upgrade storage " +
-            "in image directory " + sd.getRoot(), e);
-        throw e;
-      }
-    }
-    storage.setStorageInfo(nsInfo);
-    storage.setBlockPoolID(nsInfo.getBlockPoolID());
-    return true;
-  }
+		// download the fsimage from active namenode
+		int download = downloadImage(storage, proxy);
+		if (download != 0) {
+			return download;
+		}
 
-  private void doUpgrade(NNStorage storage) throws IOException {
-    for (Iterator<StorageDirectory> it = storage.dirIterator(false);
-         it.hasNext();) {
-      StorageDirectory sd = it.next();
-      NNUpgradeUtil.doUpgrade(sd, storage);
-    }
-  }
+		// finish the upgrade: rename previous.tmp to previous
+		if (!isUpgradeFinalized) {
+			doUpgrade(storage);
+		}
+		return 0;
+	}
 
-  private int downloadImage(NNStorage storage, NamenodeProtocol proxy)
-      throws IOException {
-    // Load the newly formatted image, using all of the directories
-    // (including shared edits)
-    final long imageTxId = proxy.getMostRecentCheckpointTxId();
-    final long curTxId = proxy.getTransactionID();
-    FSImage image = new FSImage(conf);
-    try {
-      image.getStorage().setStorageInfo(storage);
-      image.initEditLog(StartupOption.REGULAR);
-      assert image.getEditLog().isOpenForRead() :
-          "Expected edit log to be open for read";
+	/**
+	 * Iterate over all the storage directories, checking if it should be
+	 * formatted. Format the storage if necessary and allowed by the user.
+	 * 
+	 * @return True if formatting is processed
+	 */
+	private boolean format(NNStorage storage, NamespaceInfo nsInfo) throws IOException {
+		// Check with the user before blowing away data.
+		if (!Storage.confirmFormat(storage.dirIterable(null), force, interactive)) {
+			storage.close();
+			return false;
+		} else {
+			// Format the storage (writes VERSION file)
+			storage.format(nsInfo);
+			return true;
+		}
+	}
 
-      // Ensure that we have enough edits already in the shared directory to
-      // start up from the last checkpoint on the active.
-      if (!skipSharedEditsCheck &&
-          !checkLogsAvailableForRead(image, imageTxId, curTxId)) {
-        return ERR_CODE_LOGS_UNAVAILABLE;
-      }
+	/**
+	 * This is called when using bootstrapStandby for HA upgrade. The SBN should
+	 * also create previous directory so that later when it starts, it
+	 * understands that the cluster is in the upgrade state. This function
+	 * renames the old current directory to previous.tmp.
+	 */
+	private boolean doPreUpgrade(NNStorage storage, NamespaceInfo nsInfo) throws IOException {
+		boolean isFormatted = false;
+		Map<StorageDirectory, StorageState> dataDirStates = new HashMap<>();
+		try {
+			isFormatted = FSImage.recoverStorageDirs(StartupOption.UPGRADE, storage, dataDirStates);
+			if (dataDirStates.values().contains(StorageState.NOT_FORMATTED)) {
+				// recoverStorageDirs returns true if there is a formatted
+				// directory
+				isFormatted = false;
+				System.err.println("The original storage directory is not formatted.");
+			}
+		} catch (InconsistentFSStateException e) {
+			// if the storage is in a bad state,
+			LOG.warn("The storage directory is in an inconsistent state", e);
+		} finally {
+			storage.unlockAll();
+		}
 
-      image.getStorage().writeTransactionIdFileToStorage(curTxId);
+		// if there is InconsistentFSStateException or the storage is not
+		// formatted,
+		// format the storage. Although this format is done through the new
+		// software, since in HA setup the SBN is rolled back through
+		// "-bootstrapStandby", we should still be fine.
+		if (!isFormatted && !format(storage, nsInfo)) {
+			return false;
+		}
 
-      // Download that checkpoint into our storage directories.
-      MD5Hash hash = TransferFsImage.downloadImageToStorage(
-          otherHttpAddr, imageTxId, storage, true);
-      image.saveDigestAndRenameCheckpointImage(NameNodeFile.IMAGE, imageTxId,
-          hash);
-    } catch (IOException ioe) {
-      image.close();
-      throw ioe;
-    }
-    return 0;
-  }
+		// make sure there is no previous directory
+		FSImage.checkUpgrade(storage);
+		// Do preUpgrade for each directory
+		for (Iterator<StorageDirectory> it = storage.dirIterator(false); it.hasNext();) {
+			StorageDirectory sd = it.next();
+			try {
+				NNUpgradeUtil.renameCurToTmp(sd);
+			} catch (IOException e) {
+				LOG.error("Failed to move aside pre-upgrade storage " + "in image directory " + sd.getRoot(), e);
+				throw e;
+			}
+		}
+		storage.setStorageInfo(nsInfo);
+		storage.setBlockPoolID(nsInfo.getBlockPoolID());
+		return true;
+	}
 
-  private boolean checkLogsAvailableForRead(FSImage image, long imageTxId,
-      long curTxIdOnOtherNode) {
+	private void doUpgrade(NNStorage storage) throws IOException {
+		for (Iterator<StorageDirectory> it = storage.dirIterator(false); it.hasNext();) {
+			StorageDirectory sd = it.next();
+			NNUpgradeUtil.doUpgrade(sd, storage);
+		}
+	}
 
-    if (imageTxId == curTxIdOnOtherNode) {
-      // The other node hasn't written any logs since the last checkpoint.
-      // This can be the case if the NN was freshly formatted as HA, and
-      // then started in standby mode, so it has no edit logs at all.
-      return true;
-    }
-    long firstTxIdInLogs = imageTxId + 1;
-    
-    assert curTxIdOnOtherNode >= firstTxIdInLogs :
-      "first=" + firstTxIdInLogs + " onOtherNode=" + curTxIdOnOtherNode;
-    
-    try {
-      Collection<EditLogInputStream> streams =
-        image.getEditLog().selectInputStreams(
-          firstTxIdInLogs, curTxIdOnOtherNode, null, true);
-      for (EditLogInputStream stream : streams) {
-        IOUtils.closeStream(stream);
-      }
-      return true;
-    } catch (IOException e) {
-      String msg = "Unable to read transaction ids " +
-          firstTxIdInLogs + "-" + curTxIdOnOtherNode +
-          " from the configured shared edits storage " +
-          Joiner.on(",").join(sharedEditsUris) + ". " +
-          "Please copy these logs into the shared edits storage " + 
-          "or call saveNamespace on the active node.\n" +
-          "Error: " + e.getLocalizedMessage();
-      if (LOG.isDebugEnabled()) {
-        LOG.fatal(msg, e);
-      } else {
-        LOG.fatal(msg);
-      }
-      return false;
-    }
-  }
+	private int downloadImage(NNStorage storage, NamenodeProtocol proxy) throws IOException {
+		// Load the newly formatted image, using all of the directories
+		// (including shared edits)
+		final long imageTxId = proxy.getMostRecentCheckpointTxId();
+		final long curTxId = proxy.getTransactionID();
+		FSImage image = new FSImage(conf);
+		try {
+			image.getStorage().setStorageInfo(storage);
+			image.initEditLog(StartupOption.REGULAR);
+			assert image.getEditLog().isOpenForRead() : "Expected edit log to be open for read";
 
-  private boolean checkLayoutVersion(NamespaceInfo nsInfo) throws IOException {
-    return (nsInfo.getLayoutVersion() == HdfsConstants.NAMENODE_LAYOUT_VERSION);
-  }
-  
-  private void parseConfAndFindOtherNN() throws IOException {
-    Configuration conf = getConf();
-    nsId = DFSUtil.getNamenodeNameServiceId(conf);
+			// Ensure that we have enough edits already in the shared directory
+			// to
+			// start up from the last checkpoint on the active.
+			if (!skipSharedEditsCheck && !checkLogsAvailableForRead(image, imageTxId, curTxId)) {
+				return ERR_CODE_LOGS_UNAVAILABLE;
+			}
 
-    if (!HAUtil.isHAEnabled(conf, nsId)) {
-      throw new HadoopIllegalArgumentException(
-          "HA is not enabled for this namenode.");
-    }
-    nnId = HAUtil.getNameNodeId(conf, nsId);
-    NameNode.initializeGenericKeys(conf, nsId, nnId);
+			image.getStorage().writeTransactionIdFileToStorage(curTxId);
 
-    if (!HAUtil.usesSharedEditsDir(conf)) {
-      throw new HadoopIllegalArgumentException(
-        "Shared edits storage is not enabled for this namenode.");
-    }
-    
-    Configuration otherNode = HAUtil.getConfForOtherNode(conf);
-    otherNNId = HAUtil.getNameNodeId(otherNode, nsId);
-    otherIpcAddr = NameNode.getServiceAddress(otherNode, true);
-    Preconditions.checkArgument(otherIpcAddr.getPort() != 0 &&
-        !otherIpcAddr.getAddress().isAnyLocalAddress(),
-        "Could not determine valid IPC address for other NameNode (%s)" +
-        ", got: %s", otherNNId, otherIpcAddr);
+			// Download that checkpoint into our storage directories.
+			MD5Hash hash = TransferFsImage.downloadImageToStorage(otherHttpAddr, imageTxId, storage, true);
+			image.saveDigestAndRenameCheckpointImage(NameNodeFile.IMAGE, imageTxId, hash);
+		} catch (IOException ioe) {
+			image.close();
+			throw ioe;
+		}
+		return 0;
+	}
 
-    final String scheme = DFSUtil.getHttpClientScheme(conf);
-    otherHttpAddr = DFSUtil.getInfoServerWithDefaultHost(
-        otherIpcAddr.getHostName(), otherNode, scheme).toURL();
+	private boolean checkLogsAvailableForRead(FSImage image, long imageTxId, long curTxIdOnOtherNode) {
 
-    dirsToFormat = FSNamesystem.getNamespaceDirs(conf);
-    editUrisToFormat = FSNamesystem.getNamespaceEditsDirs(
-        conf, false);
-    sharedEditsUris = FSNamesystem.getSharedEditsDirs(conf);
-  }
+		if (imageTxId == curTxIdOnOtherNode) {
+			// The other node hasn't written any logs since the last checkpoint.
+			// This can be the case if the NN was freshly formatted as HA, and
+			// then started in standby mode, so it has no edit logs at all.
+			return true;
+		}
+		long firstTxIdInLogs = imageTxId + 1;
 
-  @Override
-  public void setConf(Configuration conf) {
-    this.conf = DFSHAAdmin.addSecurityConfiguration(conf);
-  }
+		assert curTxIdOnOtherNode >= firstTxIdInLogs : "first=" + firstTxIdInLogs + " onOtherNode="
+				+ curTxIdOnOtherNode;
 
-  @Override
-  public Configuration getConf() {
-    return conf;
-  }
-  
-  public static int run(String[] argv, Configuration conf) throws IOException {
-    BootstrapStandby bs = new BootstrapStandby();
-    bs.setConf(conf);
-    try {
-      return ToolRunner.run(bs, argv);
-    } catch (Exception e) {
-      if (e instanceof IOException) {
-        throw (IOException)e;
-      } else {
-        throw new IOException(e);
-      }
-    }
-  }
+		try {
+			Collection<EditLogInputStream> streams = image.getEditLog().selectInputStreams(firstTxIdInLogs,
+					curTxIdOnOtherNode, null, true);
+			for (EditLogInputStream stream : streams) {
+				IOUtils.closeStream(stream);
+			}
+			return true;
+		} catch (IOException e) {
+			String msg = "Unable to read transaction ids " + firstTxIdInLogs + "-" + curTxIdOnOtherNode
+					+ " from the configured shared edits storage " + Joiner.on(",").join(sharedEditsUris) + ". "
+					+ "Please copy these logs into the shared edits storage "
+					+ "or call saveNamespace on the active node.\n" + "Error: " + e.getLocalizedMessage();
+			if (LOG.isDebugEnabled()) {
+				LOG.fatal(msg, e);
+			} else {
+				LOG.fatal(msg);
+			}
+			return false;
+		}
+	}
+
+	private boolean checkLayoutVersion(NamespaceInfo nsInfo) throws IOException {
+		return (nsInfo.getLayoutVersion() == HdfsConstants.NAMENODE_LAYOUT_VERSION);
+	}
+
+	private void parseConfAndFindOtherNN() throws IOException {
+		Configuration conf = getConf();
+		nsId = DFSUtil.getNamenodeNameServiceId(conf);
+
+		if (!HAUtil.isHAEnabled(conf, nsId)) {
+			throw new HadoopIllegalArgumentException("HA is not enabled for this namenode.");
+		}
+		nnId = HAUtil.getNameNodeId(conf, nsId);
+		NameNode.initializeGenericKeys(conf, nsId, nnId);
+
+		if (!HAUtil.usesSharedEditsDir(conf)) {
+			throw new HadoopIllegalArgumentException("Shared edits storage is not enabled for this namenode.");
+		}
+
+		Configuration otherNode = HAUtil.getConfForOtherNode(conf);
+		otherNNId = HAUtil.getNameNodeId(otherNode, nsId);
+		otherIpcAddr = NameNode.getServiceAddress(otherNode, true);
+		Preconditions.checkArgument(otherIpcAddr.getPort() != 0 && !otherIpcAddr.getAddress().isAnyLocalAddress(),
+				"Could not determine valid IPC address for other NameNode (%s)" + ", got: %s", otherNNId, otherIpcAddr);
+
+		final String scheme = DFSUtil.getHttpClientScheme(conf);
+		otherHttpAddr = DFSUtil.getInfoServerWithDefaultHost(otherIpcAddr.getHostName(), otherNode, scheme).toURL();
+
+		dirsToFormat = FSNamesystem.getNamespaceDirs(conf);
+		editUrisToFormat = FSNamesystem.getNamespaceEditsDirs(conf, false);
+		sharedEditsUris = FSNamesystem.getSharedEditsDirs(conf);
+	}
+
+	@Override
+	public void setConf(Configuration conf) {
+		this.conf = DFSHAAdmin.addSecurityConfiguration(conf);
+	}
+
+	@Override
+	public Configuration getConf() {
+		return conf;
+	}
+
+	public static int run(String[] argv, Configuration conf) throws IOException {
+		BootstrapStandby bs = new BootstrapStandby();
+		bs.setConf(conf);
+		try {
+			return ToolRunner.run(bs, argv);
+		} catch (Exception e) {
+			if (e instanceof IOException) {
+				throw (IOException) e;
+			} else {
+				throw new IOException(e);
+			}
+		}
+	}
 }

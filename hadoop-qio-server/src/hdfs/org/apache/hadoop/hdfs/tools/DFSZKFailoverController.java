@@ -17,8 +17,8 @@
  */
 package org.apache.hadoop.hdfs.tools;
 
-import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_KEYTAB_FILE_KEY;
 import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY;
+import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_KEYTAB_FILE_KEY;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -51,152 +51,130 @@ import com.google.protobuf.InvalidProtocolBufferException;
 @InterfaceAudience.Private
 public class DFSZKFailoverController extends ZKFailoverController {
 
-  private static final Log LOG =
-    LogFactory.getLog(DFSZKFailoverController.class);
-  private final AccessControlList adminAcl;
-  /* the same as superclass's localTarget, but with the more specfic NN type */
-  private final NNHAServiceTarget localNNTarget;
+	private static final Log LOG = LogFactory.getLog(DFSZKFailoverController.class);
+	private final AccessControlList adminAcl;
+	/*
+	 * the same as superclass's localTarget, but with the more specfic NN type
+	 */
+	private final NNHAServiceTarget localNNTarget;
 
-  @Override
-  protected HAServiceTarget dataToTarget(byte[] data) {
-    ActiveNodeInfo proto;
-    try {
-      proto = ActiveNodeInfo.parseFrom(data);
-    } catch (InvalidProtocolBufferException e) {
-      throw new RuntimeException("Invalid data in ZK: " +
-          StringUtils.byteToHexString(data));
-    }
-    NNHAServiceTarget ret = new NNHAServiceTarget(
-        conf, proto.getNameserviceId(), proto.getNamenodeId());
-    InetSocketAddress addressFromProtobuf = new InetSocketAddress(
-        proto.getHostname(), proto.getPort());
-    
-    if (!addressFromProtobuf.equals(ret.getAddress())) {
-      throw new RuntimeException("Mismatched address stored in ZK for " +
-          ret + ": Stored protobuf was " + proto + ", address from our own " +
-          "configuration for this NameNode was " + ret.getAddress());
-    }
-    
-    ret.setZkfcPort(proto.getZkfcPort());
-    return ret;
-  }
+	@Override
+	protected HAServiceTarget dataToTarget(byte[] data) {
+		ActiveNodeInfo proto;
+		try {
+			proto = ActiveNodeInfo.parseFrom(data);
+		} catch (InvalidProtocolBufferException e) {
+			throw new RuntimeException("Invalid data in ZK: " + StringUtils.byteToHexString(data));
+		}
+		NNHAServiceTarget ret = new NNHAServiceTarget(conf, proto.getNameserviceId(), proto.getNamenodeId());
+		InetSocketAddress addressFromProtobuf = new InetSocketAddress(proto.getHostname(), proto.getPort());
 
-  @Override
-  protected byte[] targetToData(HAServiceTarget target) {
-    InetSocketAddress addr = target.getAddress();
+		if (!addressFromProtobuf.equals(ret.getAddress())) {
+			throw new RuntimeException("Mismatched address stored in ZK for " + ret + ": Stored protobuf was " + proto
+					+ ", address from our own " + "configuration for this NameNode was " + ret.getAddress());
+		}
 
-    return ActiveNodeInfo.newBuilder()
-      .setHostname(addr.getHostName())
-      .setPort(addr.getPort())
-      .setZkfcPort(target.getZKFCAddress().getPort())
-      .setNameserviceId(localNNTarget.getNameServiceId())
-      .setNamenodeId(localNNTarget.getNameNodeId())
-      .build()
-      .toByteArray();
-  }
-  
-  @Override
-  protected InetSocketAddress getRpcAddressToBindTo() {
-    int zkfcPort = getZkfcPort(conf);
-    return new InetSocketAddress(localTarget.getAddress().getAddress(),
-          zkfcPort);
-  }
-  
+		ret.setZkfcPort(proto.getZkfcPort());
+		return ret;
+	}
 
-  @Override
-  protected PolicyProvider getPolicyProvider() {
-    return new HDFSPolicyProvider();
-  }
-  
-  static int getZkfcPort(Configuration conf) {
-    return conf.getInt(DFSConfigKeys.DFS_HA_ZKFC_PORT_KEY,
-        DFSConfigKeys.DFS_HA_ZKFC_PORT_DEFAULT);
-  }
-  
-  public static DFSZKFailoverController create(Configuration conf) {
-    Configuration localNNConf = DFSHAAdmin.addSecurityConfiguration(conf);
-    String nsId = DFSUtil.getNamenodeNameServiceId(conf);
+	@Override
+	protected byte[] targetToData(HAServiceTarget target) {
+		InetSocketAddress addr = target.getAddress();
 
-    if (!HAUtil.isHAEnabled(localNNConf, nsId)) {
-      throw new HadoopIllegalArgumentException(
-          "HA is not enabled for this namenode.");
-    }
-    String nnId = HAUtil.getNameNodeId(localNNConf, nsId);
-    if (nnId == null) {
-      String msg = "Could not get the namenode ID of this node. " +
-          "You may run zkfc on the node other than namenode.";
-      throw new HadoopIllegalArgumentException(msg);
-    }
-    NameNode.initializeGenericKeys(localNNConf, nsId, nnId);
-    DFSUtil.setGenericConf(localNNConf, nsId, nnId, ZKFC_CONF_KEYS);
-    
-    NNHAServiceTarget localTarget = new NNHAServiceTarget(
-        localNNConf, nsId, nnId);
-    return new DFSZKFailoverController(localNNConf, localTarget);
-  }
+		return ActiveNodeInfo.newBuilder().setHostname(addr.getHostName()).setPort(addr.getPort())
+				.setZkfcPort(target.getZKFCAddress().getPort()).setNameserviceId(localNNTarget.getNameServiceId())
+				.setNamenodeId(localNNTarget.getNameNodeId()).build().toByteArray();
+	}
 
-  private DFSZKFailoverController(Configuration conf,
-      NNHAServiceTarget localTarget) {
-    super(conf, localTarget);
-    this.localNNTarget = localTarget;
-    // Setup ACLs
-    adminAcl = new AccessControlList(
-        conf.get(DFSConfigKeys.DFS_ADMIN, " "));
-    LOG.info("Failover controller configured for NameNode " +
-        localTarget);
-}
-  
-  
-  @Override
-  protected void initRPC() throws IOException {
-    super.initRPC();
-    localNNTarget.setZkfcPort(rpcServer.getAddress().getPort());
-  }
+	@Override
+	protected InetSocketAddress getRpcAddressToBindTo() {
+		int zkfcPort = getZkfcPort(conf);
+		return new InetSocketAddress(localTarget.getAddress().getAddress(), zkfcPort);
+	}
 
-  @Override
-  public void loginAsFCUser() throws IOException {
-    InetSocketAddress socAddr = NameNode.getAddress(conf);
-    SecurityUtil.login(conf, DFS_NAMENODE_KEYTAB_FILE_KEY,
-        DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY, socAddr.getHostName());
-  }
-  
-  @Override
-  protected String getScopeInsideParentNode() {
-    return localNNTarget.getNameServiceId();
-  }
+	@Override
+	protected PolicyProvider getPolicyProvider() {
+		return new HDFSPolicyProvider();
+	}
 
-  public static void main(String args[])
-      throws Exception {
-    if (DFSUtil.parseHelpArgument(args, 
-        ZKFailoverController.USAGE, System.out, true)) {
-      System.exit(0);
-    }
-    
-    GenericOptionsParser parser = new GenericOptionsParser(
-        new HdfsConfiguration(), args);
-    DFSZKFailoverController zkfc = DFSZKFailoverController.create(
-        parser.getConfiguration());
-    int retCode = 0;
-    try {
-      retCode = zkfc.run(parser.getRemainingArgs());
-    } catch (Throwable t) {
-      LOG.fatal("Got a fatal error, exiting now", t);
-    }
-    System.exit(retCode);
-  }
+	static int getZkfcPort(Configuration conf) {
+		return conf.getInt(DFSConfigKeys.DFS_HA_ZKFC_PORT_KEY, DFSConfigKeys.DFS_HA_ZKFC_PORT_DEFAULT);
+	}
 
-  @Override
-  protected void checkRpcAdminAccess() throws IOException, AccessControlException {
-    UserGroupInformation ugi = UserGroupInformation.getCurrentUser();
-    UserGroupInformation zkfcUgi = UserGroupInformation.getLoginUser();
-    if (adminAcl.isUserAllowed(ugi) ||
-        ugi.getShortUserName().equals(zkfcUgi.getShortUserName())) {
-      LOG.info("Allowed RPC access from " + ugi + " at " + Server.getRemoteAddress());
-      return;
-    }
-    String msg = "Disallowed RPC access from " + ugi + " at " +
-        Server.getRemoteAddress() + ". Not listed in " + DFSConfigKeys.DFS_ADMIN; 
-    LOG.warn(msg);
-    throw new AccessControlException(msg);
-  }
+	public static DFSZKFailoverController create(Configuration conf) {
+		Configuration localNNConf = DFSHAAdmin.addSecurityConfiguration(conf);
+		String nsId = DFSUtil.getNamenodeNameServiceId(conf);
+
+		if (!HAUtil.isHAEnabled(localNNConf, nsId)) {
+			throw new HadoopIllegalArgumentException("HA is not enabled for this namenode.");
+		}
+		String nnId = HAUtil.getNameNodeId(localNNConf, nsId);
+		if (nnId == null) {
+			String msg = "Could not get the namenode ID of this node. "
+					+ "You may run zkfc on the node other than namenode.";
+			throw new HadoopIllegalArgumentException(msg);
+		}
+		NameNode.initializeGenericKeys(localNNConf, nsId, nnId);
+		DFSUtil.setGenericConf(localNNConf, nsId, nnId, ZKFC_CONF_KEYS);
+
+		NNHAServiceTarget localTarget = new NNHAServiceTarget(localNNConf, nsId, nnId);
+		return new DFSZKFailoverController(localNNConf, localTarget);
+	}
+
+	private DFSZKFailoverController(Configuration conf, NNHAServiceTarget localTarget) {
+		super(conf, localTarget);
+		this.localNNTarget = localTarget;
+		// Setup ACLs
+		adminAcl = new AccessControlList(conf.get(DFSConfigKeys.DFS_ADMIN, " "));
+		LOG.info("Failover controller configured for NameNode " + localTarget);
+	}
+
+	@Override
+	protected void initRPC() throws IOException {
+		super.initRPC();
+		localNNTarget.setZkfcPort(rpcServer.getAddress().getPort());
+	}
+
+	@Override
+	public void loginAsFCUser() throws IOException {
+		InetSocketAddress socAddr = NameNode.getAddress(conf);
+		SecurityUtil.login(conf, DFS_NAMENODE_KEYTAB_FILE_KEY, DFS_NAMENODE_KERBEROS_PRINCIPAL_KEY,
+				socAddr.getHostName());
+	}
+
+	@Override
+	protected String getScopeInsideParentNode() {
+		return localNNTarget.getNameServiceId();
+	}
+
+	public static void main(String args[]) throws Exception {
+		if (DFSUtil.parseHelpArgument(args, ZKFailoverController.USAGE, System.out, true)) {
+			System.exit(0);
+		}
+
+		GenericOptionsParser parser = new GenericOptionsParser(new HdfsConfiguration(), args);
+		DFSZKFailoverController zkfc = DFSZKFailoverController.create(parser.getConfiguration());
+		int retCode = 0;
+		try {
+			retCode = zkfc.run(parser.getRemainingArgs());
+		} catch (Throwable t) {
+			LOG.fatal("Got a fatal error, exiting now", t);
+		}
+		System.exit(retCode);
+	}
+
+	@Override
+	protected void checkRpcAdminAccess() throws IOException, AccessControlException {
+		UserGroupInformation ugi = UserGroupInformation.getCurrentUser();
+		UserGroupInformation zkfcUgi = UserGroupInformation.getLoginUser();
+		if (adminAcl.isUserAllowed(ugi) || ugi.getShortUserName().equals(zkfcUgi.getShortUserName())) {
+			LOG.info("Allowed RPC access from " + ugi + " at " + Server.getRemoteAddress());
+			return;
+		}
+		String msg = "Disallowed RPC access from " + ugi + " at " + Server.getRemoteAddress() + ". Not listed in "
+				+ DFSConfigKeys.DFS_ADMIN;
+		LOG.warn(msg);
+		throw new AccessControlException(msg);
+	}
 }

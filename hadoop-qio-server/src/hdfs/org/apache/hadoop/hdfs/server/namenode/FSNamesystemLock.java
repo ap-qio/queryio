@@ -21,7 +21,6 @@ package org.apache.hadoop.hdfs.server.namenode;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -31,32 +30,32 @@ import com.google.common.annotations.VisibleForTesting;
  * are possible.
  */
 class FSNamesystemLock implements ReadWriteLock {
-  @VisibleForTesting
-  protected ReentrantReadWriteLock coarseLock;
-  
-  FSNamesystemLock(boolean fair) {
-    this.coarseLock = new ReentrantReadWriteLock(fair);
-  }
-  
-  @Override
-  public Lock readLock() {
-    return coarseLock.readLock();
-  }
-  
-  @Override
-  public Lock writeLock() {
-    return coarseLock.writeLock();
-  }
+	@VisibleForTesting
+	protected ReentrantReadWriteLock coarseLock;
 
-  public int getReadHoldCount() {
-    return coarseLock.getReadHoldCount();
-  }
-  
-  public int getWriteHoldCount() {
-    return coarseLock.getWriteHoldCount();
-  }
-  
-  public boolean isWriteLockedByCurrentThread() {
-    return coarseLock.isWriteLockedByCurrentThread();
-  }
+	FSNamesystemLock(boolean fair) {
+		this.coarseLock = new ReentrantReadWriteLock(fair);
+	}
+
+	@Override
+	public Lock readLock() {
+		return coarseLock.readLock();
+	}
+
+	@Override
+	public Lock writeLock() {
+		return coarseLock.writeLock();
+	}
+
+	public int getReadHoldCount() {
+		return coarseLock.getReadHoldCount();
+	}
+
+	public int getWriteHoldCount() {
+		return coarseLock.getWriteHoldCount();
+	}
+
+	public boolean isWriteLockedByCurrentThread() {
+		return coarseLock.isWriteLockedByCurrentThread();
+	}
 }

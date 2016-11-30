@@ -28,11 +28,12 @@ import org.apache.hadoop.hdfs.security.token.block.DataEncryptionKey;
 @InterfaceAudience.Private
 public interface DataEncryptionKeyFactory {
 
-  /**
-   * Creates a new DataEncryptionKey.
-   *
-   * @return DataEncryptionKey newly created
-   * @throws IOException for any error
-   */
-  DataEncryptionKey newDataEncryptionKey() throws IOException;
+	/**
+	 * Creates a new DataEncryptionKey.
+	 *
+	 * @return DataEncryptionKey newly created
+	 * @throws IOException
+	 *             for any error
+	 */
+	DataEncryptionKey newDataEncryptionKey() throws IOException;
 }

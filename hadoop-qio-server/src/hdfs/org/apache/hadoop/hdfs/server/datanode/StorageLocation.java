@@ -18,12 +18,11 @@
 
 package org.apache.hadoop.hdfs.server.datanode;
 
-import java.util.regex.Pattern;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.fs.Path;
@@ -31,74 +30,74 @@ import org.apache.hadoop.fs.StorageType;
 import org.apache.hadoop.util.StringUtils;
 
 /**
- * Encapsulates the URI and storage medium that together describe a
- * storage directory.
- * The default storage medium is assumed to be DISK, if none is specified.
+ * Encapsulates the URI and storage medium that together describe a storage
+ * directory. The default storage medium is assumed to be DISK, if none is
+ * specified.
  *
  */
 @InterfaceAudience.Private
 public class StorageLocation {
-  final StorageType storageType;
-  final File file;
+	final StorageType storageType;
+	final File file;
 
-  /** Regular expression that describes a storage uri with a storage type.
-   *  e.g. [Disk]/storages/storage1/
-   */
-  private static final Pattern regex = Pattern.compile("^\\[(\\w*)\\](.+)$");
+	/**
+	 * Regular expression that describes a storage uri with a storage type. e.g.
+	 * [Disk]/storages/storage1/
+	 */
+	private static final Pattern regex = Pattern.compile("^\\[(\\w*)\\](.+)$");
 
-  private StorageLocation(StorageType storageType, URI uri) {
-    this.storageType = storageType;
+	private StorageLocation(StorageType storageType, URI uri) {
+		this.storageType = storageType;
 
-    if (uri.getScheme() == null ||
-        "file".equalsIgnoreCase(uri.getScheme())) {
-      // drop any (illegal) authority in the URI for backwards compatibility
-      this.file = new File(uri.getPath());
-    } else {
-      throw new IllegalArgumentException("Unsupported URI schema in " + uri);
-    }
-  }
+		if (uri.getScheme() == null || "file".equalsIgnoreCase(uri.getScheme())) {
+			// drop any (illegal) authority in the URI for backwards
+			// compatibility
+			this.file = new File(uri.getPath());
+		} else {
+			throw new IllegalArgumentException("Unsupported URI schema in " + uri);
+		}
+	}
 
-  public StorageType getStorageType() {
-    return this.storageType;
-  }
+	public StorageType getStorageType() {
+		return this.storageType;
+	}
 
-  URI getUri() {
-    return file.toURI();
-  }
+	URI getUri() {
+		return file.toURI();
+	}
 
-  public File getFile() {
-    return this.file;
-  }
+	public File getFile() {
+		return this.file;
+	}
 
-  /**
-   * Attempt to parse a storage uri with storage class and URI. The storage
-   * class component of the uri is case-insensitive.
-   *
-   * @param rawLocation Location string of the format [type]uri, where [type] is
-   *                    optional.
-   * @return A StorageLocation object if successfully parsed, null otherwise.
-   *         Does not throw any exceptions.
-   */
-  public static StorageLocation parse(String rawLocation)
-      throws IOException, SecurityException {
-    Matcher matcher = regex.matcher(rawLocation);
-    StorageType storageType = StorageType.DEFAULT;
-    String location = rawLocation;
+	/**
+	 * Attempt to parse a storage uri with storage class and URI. The storage
+	 * class component of the uri is case-insensitive.
+	 *
+	 * @param rawLocation
+	 *            Location string of the format [type]uri, where [type] is
+	 *            optional.
+	 * @return A StorageLocation object if successfully parsed, null otherwise.
+	 *         Does not throw any exceptions.
+	 */
+	public static StorageLocation parse(String rawLocation) throws IOException, SecurityException {
+		Matcher matcher = regex.matcher(rawLocation);
+		StorageType storageType = StorageType.DEFAULT;
+		String location = rawLocation;
 
-    if (matcher.matches()) {
-      String classString = matcher.group(1);
-      location = matcher.group(2);
-      if (!classString.isEmpty()) {
-        storageType =
-            StorageType.valueOf(StringUtils.toUpperCase(classString));
-      }
-    }
+		if (matcher.matches()) {
+			String classString = matcher.group(1);
+			location = matcher.group(2);
+			if (!classString.isEmpty()) {
+				storageType = StorageType.valueOf(StringUtils.toUpperCase(classString));
+			}
+		}
 
-    return new StorageLocation(storageType, new Path(location).toUri());
-  }
+		return new StorageLocation(storageType, new Path(location).toUri());
+	}
 
-  @Override
-  public String toString() {
-    return "[" + storageType + "]" + file.toURI();
-  }
+	@Override
+	public String toString() {
+		return "[" + storageType + "]" + file.toURI();
+	}
 }

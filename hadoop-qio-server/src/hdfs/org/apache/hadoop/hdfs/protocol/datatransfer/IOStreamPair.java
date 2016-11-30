@@ -27,11 +27,11 @@ import org.apache.hadoop.classification.InterfaceAudience;
  */
 @InterfaceAudience.Private
 public class IOStreamPair {
-  public final InputStream in;
-  public final OutputStream out;
-  
-  public IOStreamPair(InputStream in, OutputStream out) {
-    this.in = in;
-    this.out = out;
-  }
+	public final InputStream in;
+	public final OutputStream out;
+
+	public IOStreamPair(InputStream in, OutputStream out) {
+		this.in = in;
+		this.out = out;
+	}
 }
