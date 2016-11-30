@@ -9,11 +9,11 @@ import com.queryio.common.DFSMap;
 import com.queryio.ftpserver.core.HdfsUser;
 
 public class IsFileRequest extends RequestProcessorCore {
-	public IsFileRequest(HdfsUser user, Path path){
+	public IsFileRequest(HdfsUser user, Path path) {
 		super(user, path);
 	}
-	
-	public Object process() throws IOException{
+
+	public Object process() throws IOException {
 		final FileSystem dfs = DFSMap.getDFSForUser(user.getName());
 		return dfs.isFile(path);
 	}

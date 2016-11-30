@@ -35,12 +35,11 @@ import com.queryio.ftpserver.requestprocessor.LoginRequest;
 import com.queryio.ftpserver.userinfo.UserInfoContainer;
 
 /**
- * Extended AbstractUserManager to use  HdfsUser
+ * Extended AbstractUserManager to use HdfsUser
  */
 public class HdfsUserManager extends AbstractUserManager {
 
-	private static final Logger LOG = Logger
-			.getLogger(HdfsUserManager.class);
+	private static final Logger LOG = Logger.getLogger(HdfsUserManager.class);
 
 	private final static String PREFIX = "ftpserver.user.";
 
@@ -50,10 +49,10 @@ public class HdfsUserManager extends AbstractUserManager {
 
 	private boolean isConfigured = false;
 
-	public HdfsUserManager(){
+	public HdfsUserManager() {
 		super(null, null);
 	}
-			
+
 	public HdfsUserManager(String adminName, PasswordEncryptor passwordEncryptor) {
 		super(adminName, passwordEncryptor);
 	}
@@ -71,7 +70,8 @@ public class HdfsUserManager extends AbstractUserManager {
 	 * Set the file used to store and read users. Must be set before
 	 * {@link #configure()} is called.
 	 *
-	 * @param propFile A file containing users
+	 * @param propFile
+	 *            A file containing users
 	 */
 	public void setFile(File propFile) {
 		if (isConfigured) {
@@ -109,8 +109,7 @@ public class HdfsUserManager extends AbstractUserManager {
 			}
 		} catch (IOException e) {
 			throw new FtpServerConfigurationException(
-					"Error loading user data file : "
-							+ userDataFile.getAbsolutePath(), e);
+					"Error loading user data file : " + userDataFile.getAbsolutePath(), e);
 		}
 	}
 
@@ -118,39 +117,31 @@ public class HdfsUserManager extends AbstractUserManager {
 	 * Get all user names.
 	 */
 	public synchronized String[] getAllUserNames() {
-		
+
 		lazyInit();
 
 		Connection connection = null;
-		
+
 		ArrayList users = null;
-		
-		try
-		{
+
+		try {
 			connection = CoreDBManager.getQueryIODBConnection();
-			
+
 			users = UserGroupDAO.getAllUserNames(connection);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			AppLogger.getLogger().fatal("getAllUserNames() failed with exception: " + e.getMessage(), e);
-		}
-		finally
-		{
-			try
-			{
+		} finally {
+			try {
 				CoreDBManager.closeConnection(connection);
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				AppLogger.getLogger().fatal("Error closing database connection.", e);
 			}
 		}
-		
+
 		Collections.sort(users);
-		
+
 		String[] userList = (String[]) users.toArray(new String[0]);
-		
+
 		return userList;
 	}
 
@@ -164,10 +155,9 @@ public class HdfsUserManager extends AbstractUserManager {
 		HdfsUser user = new HdfsUser();
 		user.setName(userName);
 		user.setDefaultGroup(UserInfoContainer.getDefaultGroupForUser(userName));
-		
+
 		user.setEnabled(userDataProp.getBoolean(baseKey + ATTR_ENABLE, true));
-		user.setHomeDirectory(userDataProp
-				.getProperty(baseKey + ATTR_HOME, "/"));
+		user.setHomeDirectory(userDataProp.getProperty(baseKey + ATTR_HOME, "/"));
 
 		ArrayList<String> groups = new ArrayList<String>();
 		groups.add(QueryIOConstants.DEFAULT_GROUP_NAME);
@@ -178,22 +168,25 @@ public class HdfsUserManager extends AbstractUserManager {
 		if (userDataProp.getBoolean(baseKey + ATTR_WRITE_PERM, false)) {
 			authorities.add(new WritePermission());
 		}
-		
-		//int maxLogin = userDataProp.getInteger(baseKey + ATTR_MAX_LOGIN_NUMBER, 0);
-		//int maxLoginPerIP = userDataProp.getInteger(baseKey + ATTR_MAX_LOGIN_PER_IP, 0);
+
+		// int maxLogin = userDataProp.getInteger(baseKey +
+		// ATTR_MAX_LOGIN_NUMBER, 0);
+		// int maxLoginPerIP = userDataProp.getInteger(baseKey +
+		// ATTR_MAX_LOGIN_PER_IP, 0);
 
 		authorities.add(new ConcurrentLoginPermission(Integer.MAX_VALUE, Integer.MAX_VALUE));
 
-		//int uploadRate = userDataProp.getInteger(baseKey + ATTR_MAX_UPLOAD_RATE, 0);
-		//int downloadRate = userDataProp.getInteger(baseKey + ATTR_MAX_DOWNLOAD_RATE, 0);
+		// int uploadRate = userDataProp.getInteger(baseKey +
+		// ATTR_MAX_UPLOAD_RATE, 0);
+		// int downloadRate = userDataProp.getInteger(baseKey +
+		// ATTR_MAX_DOWNLOAD_RATE, 0);
 
 		authorities.add(new TransferRatePermission(Integer.MAX_VALUE, Integer.MAX_VALUE));
 
 		user.setAuthorities(authorities);
 
-		user.setMaxIdleTime(userDataProp.getInteger(baseKey
-				+ ATTR_MAX_IDLE_TIME, 0));
-		
+		user.setMaxIdleTime(userDataProp.getInteger(baseKey + ATTR_MAX_IDLE_TIME, 0));
+
 		return user;
 	}
 
@@ -210,8 +203,7 @@ public class HdfsUserManager extends AbstractUserManager {
 	/**
 	 * User authenticate method
 	 */
-	public synchronized User authenticate(Authentication authentication)
-			throws AuthenticationFailedException {
+	public synchronized User authenticate(Authentication authentication) throws AuthenticationFailedException {
 		lazyInit();
 
 		if (authentication instanceof UsernamePasswordAuthentication) {
@@ -227,10 +219,10 @@ public class HdfsUserManager extends AbstractUserManager {
 			if (password == null) {
 				password = "";
 			}
-			
+
 			LOG.debug("Authenticating user: " + user);
-			
-			if(authenticate(user, password)){
+
+			if (authenticate(user, password)) {
 				LOG.debug("User authenticated successfully");
 				User us = getUserByName(user);
 				LOG.debug("User: " + us.getName());
@@ -238,7 +230,7 @@ public class HdfsUserManager extends AbstractUserManager {
 			} else {
 				throw new AuthenticationFailedException("Authentication failed");
 			}
-			
+
 		} else if (authentication instanceof AnonymousAuthentication) {
 			if (doesExist("anonymous")) {
 				return getUserByName("anonymous");
@@ -246,8 +238,7 @@ public class HdfsUserManager extends AbstractUserManager {
 				throw new AuthenticationFailedException("Authentication failed");
 			}
 		} else {
-			throw new IllegalArgumentException(
-					"Authentication not supported by this user manager");
+			throw new IllegalArgumentException("Authentication not supported by this user manager");
 		}
 	}
 
@@ -256,9 +247,9 @@ public class HdfsUserManager extends AbstractUserManager {
 		user.setName(username);
 		user.setPassword(password);
 		user.setDefaultGroup(UserInfoContainer.getDefaultGroupForUser(username));
-		
+
 		LOG.debug("Processing authenticate request");
-		
+
 		LoginRequest request = new LoginRequest(user, null);
 		FileSystem fs = null;
 		try {
@@ -266,18 +257,18 @@ public class HdfsUserManager extends AbstractUserManager {
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 		}
-		
+
 		LOG.debug("authenticate(): username: " + username + ", password: " + password + ", success: " + fs != null);
 		LOG.debug("dfs: " + fs);
-		
-		if(fs != null){
+
+		if (fs != null) {
 			DFSMap.addDFS(username, fs);
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Close the user manager - remove existing entries.
 	 */
@@ -291,7 +282,7 @@ public class HdfsUserManager extends AbstractUserManager {
 	@Override
 	public void delete(String arg0) throws FtpException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

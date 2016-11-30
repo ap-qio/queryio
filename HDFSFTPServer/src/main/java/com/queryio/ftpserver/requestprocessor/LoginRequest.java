@@ -12,39 +12,39 @@ import com.queryio.ftpserver.core.HdfsUser;
 import com.queryio.ftpserver.core.QIODFSUtils;
 import com.queryio.ftpserver.userinfo.UserInfoContainer;
 
-public class LoginRequest extends RequestProcessorCore{
+public class LoginRequest extends RequestProcessorCore {
 	private static Logger log = Logger.getLogger(LoginRequest.class);
-	
+
 	private FileSystem fileSystemDFS;
-	
+
 	public LoginRequest(HdfsUser user, Path path) {
 		super(user, path);
 	}
-	
-	public Object process() throws Exception{
+
+	public Object process() throws Exception {
 		FileSystem fs = null;
-		if(EnvironmentalConstants.isUseKerberos()){
+		if (EnvironmentalConstants.isUseKerberos()) {
 			final Configuration conf = DFSMap.getKerberosConfiguration();
-		
+
 			UserGroupInformation.setConfiguration(conf);
-//			UserGroupInformation.getLoginUser(user.getName(), user.getPassword());
-				
+			// UserGroupInformation.getLoginUser(user.getName(),
+			// user.getPassword());
+
 			fs = FileSystem.get(conf);
 			fs.getStatus();
 		} else {
-			if( ! UserInfoContainer.validateUser(user.getName(), user.getPassword())){
+			if (!UserInfoContainer.validateUser(user.getName(), user.getPassword())) {
 				return null;
 			}
 			final Configuration conf = DFSMap.getConfiguration();
-			
-			fs = QIODFSUtils.getFileSystemAs(
-					user.getName(), user.getDefaultGroup(), conf);
+
+			fs = QIODFSUtils.getFileSystemAs(user.getName(), user.getDefaultGroup(), conf);
 			fs.getStatus();
 		}
 		return fs;
 	}
 
-	public FileSystem getDFS(){
+	public FileSystem getDFS() {
 		return this.fileSystemDFS;
 	}
 }

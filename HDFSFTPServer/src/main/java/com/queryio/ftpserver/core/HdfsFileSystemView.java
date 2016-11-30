@@ -15,12 +15,11 @@ public class HdfsFileSystemView implements FileSystemView {
 			throw new IllegalArgumentException("user can not be null");
 		}
 		if (user.getHomeDirectory() == null) {
-			throw new IllegalArgumentException(
-					"HdfsUser home directory can not be null");
+			throw new IllegalArgumentException("HdfsUser home directory can not be null");
 		}
 
 		LOGGER.debug("HdfsFileSystemView created for user: " + user.getName());
-		
+
 		this.user = user;
 	}
 

@@ -104,16 +104,14 @@ public class HdfsFtpFile implements FtpFile {
 					return true;
 				}
 
-			}
-			else if (permissions.toString().substring(6, 7)
-					.equals("r")) {
+			} else if (permissions.toString().substring(6, 7).equals("r")) {
 				return true;
 			}
 
 			return false;
 		} catch (IOException e) {
 			log.fatal(e.getMessage(), e);
-			}
+		}
 		return false;
 	}
 
@@ -135,9 +133,7 @@ public class HdfsFtpFile implements FtpFile {
 					return true;
 				}
 
-			}
-			else if (permissions.toString().substring(7, 8)
-					.equals("w")) {
+			} else if (permissions.toString().substring(7, 8).equals("w")) {
 				return true;
 			}
 

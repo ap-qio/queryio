@@ -19,7 +19,7 @@ public class HdfsUser implements User, Serializable {
 	private String name = null;
 
 	private String defaultGroup = null;
-	
+
 	private String password = null;
 
 	private int maxIdleTimeSec = 0; // no limit
@@ -73,7 +73,8 @@ public class HdfsUser implements User, Serializable {
 	/**
 	 * Checks if user is a member of the group
 	 *
-	 * @param group to check
+	 * @param group
+	 *            to check
 	 * @return true if the user id a member of the group
 	 */
 	public boolean isGroupMember(String group) {
@@ -88,7 +89,8 @@ public class HdfsUser implements User, Serializable {
 	/**
 	 * Set users' groups
 	 *
-	 * @param groups to set
+	 * @param groups
+	 *            to set
 	 */
 	public void setGroups(ArrayList<String> groups) {
 		if (groups.size() < 1) {

@@ -13,22 +13,22 @@ import com.queryio.common.DFSMap;
 import com.queryio.ftpserver.core.HdfsFtpFile;
 import com.queryio.ftpserver.core.HdfsUser;
 
-public class ListFilesRequest extends RequestProcessorCore{
-	
-	public ListFilesRequest(HdfsUser user, Path path){
+public class ListFilesRequest extends RequestProcessorCore {
+
+	public ListFilesRequest(HdfsUser user, Path path) {
 		super(user, path);
 	}
-	
+
 	public List<FtpFile> process() throws IOException {
 		final FileSystem dfs = DFSMap.getDFSForUser(user.getName());
-	
+
 		final FileStatus fileStats[] = dfs.listStatus(path);
 		final List<FtpFile> fileObjects = new LinkedList<FtpFile>();
-		
+
 		for (int i = 0; i < fileStats.length; i++) {
 			fileObjects.add(new HdfsFtpFile(fileStats[i].getPath().toString(), user));
 		}
-		
+
 		return fileObjects;
 	}
 }

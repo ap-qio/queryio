@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 
 import com.queryio.common.EnvironmentalConstants;
 import com.queryio.common.HadoopConstants;
-import com.queryio.common.HadoopConstants;
 import com.queryio.common.QueryIOConstants;
 
 public class HdfsOverFtpServer {
@@ -51,29 +50,22 @@ public class HdfsOverFtpServer {
 	public static void loadConfig(String fileContainer) throws IOException {
 
 		Properties props = new Properties();
-		props.load(new FileInputStream(fileContainer
-				+ HDFS_OVER_FTP_CONF_FILE_NAME));
+		props.load(new FileInputStream(fileContainer + HDFS_OVER_FTP_CONF_FILE_NAME));
 
 		// queryio.ftpserver.port
-		port = Integer.parseInt(HadoopConstants.getHadoopConf()
-				.get(QueryIOConstants.QUERYIO_FTPSERVER_PORT));
+		port = Integer.parseInt(HadoopConstants.getHadoopConf().get(QueryIOConstants.QUERYIO_FTPSERVER_PORT));
 		passivePorts = (port + 1) + "-" + (port + 3);
 		log.info("port: " + port);
 		log.info("passivePorts: " + passivePorts);
-		log.info("sslEnabled: "
-				+ HadoopConstants.getHadoopConf()
-						.get(QueryIOConstants.QUERYIO_FTPSERVER_SSLENABLED));
-		sslEnabled = Boolean.parseBoolean(HadoopConstants.getHadoopConf().get(
-				QueryIOConstants.QUERYIO_FTPSERVER_SSLENABLED, "false"));
-		
+		log.info("sslEnabled: " + HadoopConstants.getHadoopConf().get(QueryIOConstants.QUERYIO_FTPSERVER_SSLENABLED));
+		sslEnabled = Boolean.parseBoolean(
+				HadoopConstants.getHadoopConf().get(QueryIOConstants.QUERYIO_FTPSERVER_SSLENABLED, "false"));
+
 		if (sslEnabled) {
-			sslPort = Integer.parseInt(HadoopConstants.getHadoopConf()
-					.get(QueryIOConstants.QUERYIO_FTPSERVER_SSLPORT));
+			sslPort = Integer.parseInt(HadoopConstants.getHadoopConf().get(QueryIOConstants.QUERYIO_FTPSERVER_SSLPORT));
 			sslPassivePorts = (sslPort + 1) + "-" + (sslPort + 3);
-			sslPassword = HadoopConstants.getHadoopConf()
-					.get(QueryIOConstants.QUERYIO_FTPSERVER_SSLPASSWORD);
-			keystoreFile = HadoopConstants.getHadoopConf()
-					.get(QueryIOConstants.QUERYIO_FTPSERVER_SSLKEYSTORE);
+			sslPassword = HadoopConstants.getHadoopConf().get(QueryIOConstants.QUERYIO_FTPSERVER_SSLPASSWORD);
+			keystoreFile = HadoopConstants.getHadoopConf().get(QueryIOConstants.QUERYIO_FTPSERVER_SSLKEYSTORE);
 			log.info("sslPort: " + sslPort);
 			log.info("sslPassivePorts: " + sslPassivePorts);
 			log.info("sslPassword: " + sslPassword);
@@ -90,12 +82,9 @@ public class HdfsOverFtpServer {
 
 		EnvironmentalConstants.setUseKerberos(useKerberos);
 
-		System.setProperty("sun.security.krb5.debug",
-				props.getProperty("sun.security.krb5.debug"));
-		System.setProperty("java.security.krb5.realm",
-				props.getProperty("java.security.krb5.realm"));
-		System.setProperty("java.security.krb5.kdc",
-				props.getProperty("java.security.krb5.kdc"));
+		System.setProperty("sun.security.krb5.debug", props.getProperty("sun.security.krb5.debug"));
+		System.setProperty("java.security.krb5.realm", props.getProperty("java.security.krb5.realm"));
+		System.setProperty("java.security.krb5.kdc", props.getProperty("java.security.krb5.kdc"));
 
 		String defaultGroup = props.getProperty("defaultGroup");
 		if (defaultGroup == null || defaultGroup.equals("")) {
@@ -105,8 +94,7 @@ public class HdfsOverFtpServer {
 	}
 
 	public static void startServer(String fileContainer) throws Exception {
-		log.info("Starting Hdfs-Over-Ftp server. port: " + port
-				+ " data-ports: " + passivePorts);
+		log.info("Starting Hdfs-Over-Ftp server. port: " + port + " data-ports: " + passivePorts);
 
 		FtpServerFactory ftpServerFactory = new FtpServerFactory();
 
@@ -114,8 +102,7 @@ public class HdfsOverFtpServer {
 		dataConFactory.setPassivePorts(passivePorts);
 
 		ListenerFactory listenerFactory = new ListenerFactory();
-		listenerFactory.setDataConnectionConfiguration(dataConFactory
-				.createDataConnectionConfiguration());
+		listenerFactory.setDataConnectionConfiguration(dataConFactory.createDataConnectionConfiguration());
 		listenerFactory.setPort(port);
 
 		Map listenerMap = new HashMap();
@@ -136,8 +123,7 @@ public class HdfsOverFtpServer {
 	}
 
 	public static void startSSLServer(String fileContainer) throws Exception {
-		log.info("Starting Hdfs-Over-Ftp SSL server. ssl-port: " + sslPort
-				+ " ssl-data-ports: " + sslPassivePorts);
+		log.info("Starting Hdfs-Over-Ftp SSL server. ssl-port: " + sslPort + " ssl-data-ports: " + sslPassivePorts);
 
 		FtpServerFactory ftpServerFactory = new FtpServerFactory();
 
@@ -149,11 +135,9 @@ public class HdfsOverFtpServer {
 		sslConfigurationFactory.setKeystorePassword(sslPassword);
 
 		ListenerFactory listenerFactory = new ListenerFactory();
-		listenerFactory.setDataConnectionConfiguration(dataConFactory
-				.createDataConnectionConfiguration());
+		listenerFactory.setDataConnectionConfiguration(dataConFactory.createDataConnectionConfiguration());
 		listenerFactory.setPort(sslPort);
-		listenerFactory.setSslConfiguration(sslConfigurationFactory
-				.createSslConfiguration());
+		listenerFactory.setSslConfiguration(sslConfigurationFactory.createSslConfiguration());
 		listenerFactory.setImplicitSsl(true);
 
 		Map listenerMap = new HashMap();

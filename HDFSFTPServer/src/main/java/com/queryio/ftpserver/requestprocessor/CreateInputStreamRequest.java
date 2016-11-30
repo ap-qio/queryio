@@ -12,21 +12,21 @@ import com.queryio.common.DFSMap;
 import com.queryio.ftpserver.core.HdfsUser;
 import com.queryio.stream.util.QIODFSInputStream;
 
-public class CreateInputStreamRequest extends RequestProcessorCore{
-	public CreateInputStreamRequest(HdfsUser user, Path path){
+public class CreateInputStreamRequest extends RequestProcessorCore {
+	public CreateInputStreamRequest(HdfsUser user, Path path) {
 		super(user, path);
 	}
-	
-	public Object process() throws IOException{
+
+	public Object process() throws IOException {
 		final FileSystem dfs = DFSMap.getDFSForUser(user.getName());
-		
+
 		DFSInputStream dfsInputStream = null;
 		InputStream qioInputStream = null;
 		DistributedFileSystem fs = (DistributedFileSystem) dfs;
 		try {
 			dfsInputStream = (DFSInputStream) fs.getClient().open(this.path.toUri().getPath());
 			qioInputStream = new QIODFSInputStream(dfsInputStream, fs, this.path.toUri().getPath());
-			
+
 			return qioInputStream;
 		} catch (Exception e) {
 			if (dfsInputStream != null) {
