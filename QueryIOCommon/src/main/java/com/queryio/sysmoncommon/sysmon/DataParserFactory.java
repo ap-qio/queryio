@@ -75,7 +75,9 @@ public class DataParserFactory {
 				propertyName.append(".10.9");
 			} else if (osType == IOSProtocolConstants.MACOSX && osVersion.indexOf("10.10") != -1) {
 				propertyName.append(".10.10");
-			} else if (osType == IOSProtocolConstants.MACOSX && osVersion.indexOf("10.11") != -1) {
+			}
+			else if (osType == IOSProtocolConstants.MACOSX && (osVersion.indexOf("10.11") != -1
+					|| osVersion.indexOf("10.12") != -1)) {
 				propertyName.append(".10.11");
 			} else {
 				final String sVersionInfo = getVersionInfo(osVersion);

@@ -176,9 +176,12 @@ class MacOSXNativeAPI extends AbstractUnixNativeAPI {
 		if (this.wrapperForTop.login()) {
 			if (this.dataParser == null) {
 				this.sVersion = this.wrapperForTop.execute(this.OSVERSIONCOMMAND, true);
+
 				bOS_10_6Version = (this.sVersion.indexOf("10.6") != -1 || this.sVersion.indexOf("10.7") != -1
 						|| this.sVersion.indexOf("10.8") != -1 || this.sVersion.indexOf("10.9") != -1
-						|| this.sVersion.indexOf("10.10") != -1 || this.sVersion.indexOf("10.11") != -1);
+						|| this.sVersion.indexOf("10.10") != -1 || this.sVersion.indexOf("10.11") != -1
+						|| this.sVersion.indexOf("10.12") != -1);
+
 				this.dataParser = DataParserFactory.getDataParser(IOSProtocolConstants.MACOSX, this.sVersion);
 				this.dataParser.setMonitorProcesses(monitorProcesses);
 			}
