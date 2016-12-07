@@ -96,12 +96,12 @@
 			<groupId>com.queryio</groupId>
 			<artifactId>QueryIODemo</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.queryio</groupId>
-					<artifactId>hadoop-qio-server</artifactId>
-				</exclusion>
-			</exclusions>
+<!-- 			<exclusions> -->
+<!-- 				<exclusion> -->
+<!-- 					<groupId>com.queryio</groupId> -->
+<!-- 					<artifactId>hadoop-qio-server</artifactId> -->
+<!-- 				</exclusion> -->
+<!-- 			</exclusions> -->
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
 		<dependency>

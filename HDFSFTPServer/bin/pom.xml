@@ -18,12 +18,12 @@
 			<groupId>com.queryio</groupId>
 			<artifactId>QueryIOPlugins</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.queryio</groupId>
-					<artifactId>hadoop-qio-server</artifactId>
-				</exclusion>
-				</exclusions>
+<!-- 			<exclusions> -->
+<!-- 				<exclusion> -->
+<!-- 					<groupId>com.queryio</groupId> -->
+<!-- 					<artifactId>hadoop-qio-server</artifactId> -->
+<!-- 				</exclusion> -->
+<!-- 				</exclusions> -->
 		</dependency>
 		<dependency>
 			<groupId>com.queryio</groupId>

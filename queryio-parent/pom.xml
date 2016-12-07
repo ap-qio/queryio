@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>../hadoop-qio-common</module>
-		<module>../hadoop-qio-server</module>
+<!-- 		<module>../hadoop-qio-server</module> -->
 <!-- 		<module>../hadoop-queryio</module> -->
 		<module>../HDFSFTPServer</module>
 <!-- 		<module>../JDBCAuthenticate</module> -->
