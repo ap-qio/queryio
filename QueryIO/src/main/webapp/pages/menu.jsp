@@ -107,7 +107,6 @@
 			<li onmouseout="showDropDown(9);"><a id="automateCluster" href="javascript:Navbar.changeTab('Admin','admin');hideDropDown(9);">Cluster Setup</a></li>
 			<li onmouseout="showDropDown(9);"><a id="Hosts" href="javascript:Navbar.changeTab('Hosts','admin', 'hosts');hideDropDown(9);" >Manage Hosts</a></li>
 			<li onmouseout="showDropDown(9);"><a id="FTP Server" href="javascript:Navbar.changeTab('QueryIO Services','admin', 'queryio_services');hideDropDown(9);">QueryIO Services</a></li>
-			<li onmouseout="showDropDown(9);"><a id="BackupAndRecovery" href="javascript:Navbar.changeTab('System Config','admin', 'BackupAndRecovery','BackupAndRecovery');hideDropDown(9);">Disaster Recovery</a></li>
 			<li onmouseout="showDropDown(9);"><a href="javascript:Navbar.changeTab('All Reports','admin', 'all_reports');hideDropDown(9);">System Reports</a></li>
 			<li onmouseout="showDropDown(9);"><a id="Users" href="javascript:Navbar.changeTab('Users','admin','users');hideDropDown(9);"  > Users & Groups</a></li>
 			<li onmouseout="showDropDown(9);"><a id="Report Schedules" href="javascript:Navbar.changeTab('Report Schedules','admin', 'report_schedules');hideDropDown(9);" >System Schedules</a></li>
