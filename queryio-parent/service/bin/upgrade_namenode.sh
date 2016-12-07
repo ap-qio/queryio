@@ -10,10 +10,10 @@ pid=$(ps -ef | grep -v grep | grep hdfs.server.namenode.NameNode | awk '{print $
         then
             echo "NamoNode Process is already running on this host."
         else
-            for i in $(find $HOME/Hadoop-2.7.1/etc -name "namenode-conf_*"); do
+            for i in $(find $HOME/Hadoop-2.7.3/etc -name "namenode-conf_*"); do
 	        	echo $i
 				chmod 766 $i/*
-				sh $HOME/Hadoop-2.7.1/sbin/hadoop-daemon.sh --config $i start namenode -upgrade 
+				sh $HOME/Hadoop-2.7.3/sbin/hadoop-daemon.sh --config $i start namenode -upgrade 
 			done
             echo "NamoNode Upgrade Process launched successfully."
         fi

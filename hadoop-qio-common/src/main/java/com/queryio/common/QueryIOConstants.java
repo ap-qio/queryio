@@ -115,7 +115,7 @@ public interface QueryIOConstants {
 	String HADOOP_2_2_0_DIR_NAME = "hadoop-2.2.0";
 	String HADOOP_2_4_0_DIR_NAME = "hadoop-2.4.0";
 	String HADOOP_2_7_0_DIR_NAME = "Hadoop-2.7.0";
-	String HADOOP_DIR_NAME = "Hadoop-2.7.1";
+	String HADOOP_DIR_NAME = "Hadoop-2.7.3";
 	String HIVE_0_10_0_DIR_NAME = "hive-0.10.0";
 	String HIVE_0_11_0_DIR_NAME = "hive-0.11.0";
 	String HIVE_0_12_0_DIR_NAME = "hive-0.12.0";

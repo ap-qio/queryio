@@ -46,7 +46,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home
 
 
 # Set HADOOP_HOME to point to a specific hadoop install directory
-HADOOP_HOME=/Users/aos/QueryIO/QueryIOPackage/Hadoop-2.7.1
+HADOOP_HOME=/Users/aos/QueryIO/QueryIOPackage/Hadoop-2.7.3
 # HADOOP_CONF_DIR=/Users/prasoon/QueryIO/QueryIOPackage/hadoop-2.0.4-alpha/etc
 
 # Hive Configuration Directory can be controlled by:
