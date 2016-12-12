@@ -21,7 +21,7 @@
       <variable name="executable" value="tomcat\bin\start_queryio.sh" description="" category="" />
       <variable name="BUILD_NUMBER" value="1111" description="" category="" />
       <variable name="DSTAMP" value="" description="" category="" />
-      <variable name="HADOOP_VERSION" value="2.7.1" description="" category="" />
+      <variable name="HADOOP_VERSION" value="2.7.3" description="" category="" />
       <variable name="METADATA_FILE" value=".queryio.install" description="" category="" />
       <variable name="HIVE_VERSION" value="1.2.1" description="" category="" />
     </variables>
@@ -8373,7 +8373,7 @@ return true;</condition>
                             <object class="com.install4j.runtime.beans.actions.files.CopyFileAction">
                               <void property="destinationFile">
                                 <object class="java.io.File">
-                                  <string>services/Hadoop-2.7.1/share/hadoop/common</string>
+                                  <string>services/Hadoop-2.7.3/share/hadoop/common</string>
                                 </object>
                               </void>
                               <void property="files">
@@ -8396,7 +8396,7 @@ return true;</condition>
                             <object class="com.install4j.runtime.beans.actions.files.CopyFileAction">
                               <void property="destinationFile">
                                 <object class="java.io.File">
-                                  <string>services/Hadoop-2.7.1/share/hadoop/common</string>
+                                  <string>services/Hadoop-2.7.3/share/hadoop/common</string>
                                 </object>
                               </void>
                               <void property="files">

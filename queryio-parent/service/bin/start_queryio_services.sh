@@ -1,10 +1,10 @@
-# find /root/QueryIOPackage/Hadoop-2.7.1/etc -name "namenode-conf_*" -exec cat {} \;
-# find /root/QueryIOPackage/Hadoop-2.7.1/etc -name "namenode-conf_*" -exec cat {}/core-site.xml \;
+# find /root/QueryIOPackage/Hadoop-2.7.3/etc -name "namenode-conf_*" -exec cat {} \;
+# find /root/QueryIOPackage/Hadoop-2.7.3/etc -name "namenode-conf_*" -exec cat {}/core-site.xml \;
 
 HOME=$USER_INSTALL_DIR$
 echo $HOME
 
-for i in $(find $HOME/Hadoop-2.7.1/etc -name "namenode-conf_*"); do
+for i in $(find $HOME/Hadoop-2.7.3/etc -name "namenode-conf_*"); do
         echo $i
         ftpPortString=$(grep -n queryio.hdfsoverftp.port $i/core-site.xml)
         ftpPort=$(echo $ftpPortString | cut -d'<' -f 5 |cut -d '>' -f 2)
@@ -19,7 +19,7 @@ done
 
 
 
-# ftpPort=$(find /root/QueryIOPackage/Hadoop-2.7.1/etc -name "namenode-conf_*" -exec grep -n queryio.ftpserver.port {}/core-site.xml \;)
+# ftpPort=$(find /root/QueryIOPackage/Hadoop-2.7.3/etc -name "namenode-conf_*" -exec grep -n queryio.ftpserver.port {}/core-site.xml \;)
 # echo "FTP Port"
 # echo $ftpPort
 
