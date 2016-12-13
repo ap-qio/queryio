@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,6 +45,8 @@ public class Log4JParser {
 	private StringBuffer lastMessage = new StringBuffer();
 
 	public static final String NEW_LINE = System.getProperty("line.separator");
+	
+	private static Pattern convCharPattern = Pattern.compile("\\p{Alpha}");
 
 	private static LogEntry logEntry = null;
 
@@ -76,7 +80,7 @@ public class Log4JParser {
 
 		while (st.hasMoreTokens()) {
 			tokens[i] = st.nextToken();
-			colName = getNativeColNameFromConversionChar(tokens[i].toCharArray()[0]);
+			colName = getNativeColNameFromConversionChar(getConversionCharacter(convCharPattern, tokens[i]));
 			if ("MESSAGE".equalsIgnoreCase(colName))
 				messageIndex = i + 1;
 			nativeColumnNames.put((i + 1), colName);
@@ -283,7 +287,7 @@ public class Log4JParser {
 		lastMessage.setLength(0);
 	}
 
-	boolean parseLine(String str, IMessageListener listener) throws IOException, InterruptedException, SQLException {
+	boolean parseLine(String str, IMessageListener listener, boolean isFirstLine) throws IOException, InterruptedException, SQLException {
 		boolean flag = true;
 		start = 0;
 		index = 0;
@@ -296,14 +300,13 @@ public class Log4JParser {
 				while (j < arr.length && arr[j] != '{') {
 					if (isConversionCharacter(arr[j])) {
 						s = identifyConversionCharacter(arr[j], str, tokens[i]);
-
 						if (s != null) {
 							if (arr[j] == 'm') {
-								if (listener != null && lastMessage.length() > 0) {
-									listener.messageComplete();
-								}
 								resetLastMessage();
 								lastMessage.append(s);
+								if (listener != null && (lastMessage.length() > 0)) {
+									listener.messageComplete();
+								}
 							}
 							flag = false;
 							break;
@@ -331,6 +334,7 @@ public class Log4JParser {
 	public void parse(InputStream is) throws IOException, InterruptedException, SQLException {
 		BufferedReader rd = null;
 		String str;
+		boolean isFirstLine = true;
 		try {
 			InputStreamReader in = new InputStreamReader(is, encodingType);
 
@@ -342,7 +346,7 @@ public class Log4JParser {
 
 					String lastMessage = Log4JParser.this.getLastMessage();
 
-					Log4JParser.this.logEntry.setMessage(lastMessage.toString());
+					Log4JParser.this.logEntry.setMessage(lastMessage);
 
 					// Handle
 
@@ -350,7 +354,7 @@ public class Log4JParser {
 
 					rowdata.add(fileName);
 					for (int k = 0; k < tokens.length; k++) {
-						rowdata.add(getColValueFromConversionChar(tokens[k].toCharArray()[0]));
+						rowdata.add(getColValueFromConversionChar(getConversionCharacter(convCharPattern, tokens[k])));
 					}
 
 					// rowdata.add(FILE_NAME);
@@ -382,9 +386,10 @@ public class Log4JParser {
 			while ((str = rd.readLine()) != null && dataCounter < recordsToAnalyze) {
 				LOG.info("Parsing Line: " + str);
 				if (dataCounter <= recordsToAnalyze)
-					this.parseLine(str, listener);
+					this.parseLine(str, listener, isFirstLine);
 				else
 					break;
+				isFirstLine = false;
 			}
 
 		} finally {
@@ -561,11 +566,11 @@ public class Log4JParser {
 		}
 
 		ind = start != 0 ? (str.indexOf(start, index) + 1) : index;
+		index = ind + s.length();
 		getSeparator('d', token);
 		Date d = dateFormat.parse(str, new ParsePosition(ind));
 		if (d != null)
 			result = d.toString();
-
 		return result;
 	}
 
@@ -616,7 +621,20 @@ public class Log4JParser {
 	}
 
 	private String getPriority(String str, String token) {
-		return getProperty(str, token, 'p');
+		String result = null;
+		int ind = start != 0 ? (str.indexOf(start, index) + 1) : index;
+		char sep = getSeparator('p', token);
+		if (sep != 0) {
+			result = str.substring(ind, str.indexOf(sep, ind));
+			if(token.charAt(0) != 'p') {				
+				Matcher m = convCharPattern.matcher(token);
+				m.find();
+				index = str.indexOf(sep, ind + Math.abs((Integer.parseInt(token.substring(0, m.start())))));				
+			} else {
+				index = str.indexOf(sep, ind);				
+			}
+		} 
+		return result;
 	}
 
 	private String getElapsedMilliSecond(String str, String token) {
@@ -656,5 +674,13 @@ public class Log4JParser {
 
 	public JSONArray getDetails() {
 		return details;
+	}
+	
+	private char getConversionCharacter(Pattern p, String token) {
+		Matcher m = p.matcher(token);
+		if(m.find()) {
+			return m.group().charAt(0);
+		}
+		return token.charAt(0);
 	}
 }

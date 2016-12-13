@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,6 +35,7 @@ public class LogParser implements IAdHocParser {
 
 	private static final String CONVERSION_CHARS = "cCdFlLmMnprtxX";
 	private static final String NEW_LINE = System.getProperty("line.separator");
+	private static Pattern convCharPattern = Pattern.compile("\\p{Alpha}");
 	private String tokens[];
 	private Map<Integer, String> nativeColumnNames = new TreeMap<Integer, String>();
 	private Map<Integer, String> columns = new TreeMap<Integer, String>();
@@ -115,7 +118,7 @@ public class LogParser implements IAdHocParser {
 		nativeColumnNames.put(i, "FILEPATH");
 		while (st.hasMoreTokens()) {
 			tokens[i] = st.nextToken();
-			nativeColumnNames.put((i + 1), getNativeColNameFromConversionChar(tokens[i].toCharArray()[0]));
+			nativeColumnNames.put((i + 1), getNativeColNameFromConversionChar(getConversionCharacter(convCharPattern, tokens[i])));
 			++i;
 		}
 	}
@@ -270,11 +273,11 @@ public class LogParser implements IAdHocParser {
 
 							if (s != null) {
 								if (arr[j] == 'm') {
+									resetLastMessage();
+									lastMessage.append(s);
 									if (listener != null && lastMessage.length() > 0) {
 										listener.messageComplete();
 									}
-									resetLastMessage();
-									lastMessage.append(s);
 								}
 								flag = false;
 								break;
@@ -536,10 +539,24 @@ public class LogParser implements IAdHocParser {
 		private String getMethodName(String str, String token) {
 			return getProperty(str, token, 'M');
 		}
-
+		
 		private String getPriority(String str, String token) {
-			return getProperty(str, token, 'p');
+			String result = null;
+			int ind = start != 0 ? (str.indexOf(start, index) + 1) : index;
+			char sep = getSeparator('p', token);
+			if (sep != 0) {
+				result = str.substring(ind, str.indexOf(sep, ind));
+				if(token.charAt(0) != 'p') {				
+					Matcher m = convCharPattern.matcher(token);
+					m.find();
+					index = str.indexOf(sep, ind + Math.abs((Integer.parseInt(token.substring(0, m.start())))));				
+				} else {
+					index = str.indexOf(sep, ind);				
+				}
+			} 
+			return result;
 		}
+
 
 		private String getElapsedMilliSecond(String str, String token) {
 			return getProperty(str, token, 'r');
@@ -567,5 +584,13 @@ public class LogParser implements IAdHocParser {
 			}
 			return result;
 		}
+	}
+	
+	private char getConversionCharacter(Pattern p, String token) {
+		Matcher m = p.matcher(token);
+		if(m.find()) {
+			return m.group().charAt(0);
+		}
+		return token.charAt(0);
 	}
 }
