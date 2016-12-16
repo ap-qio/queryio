@@ -430,8 +430,14 @@ public class QueryIOServiceImpl implements QueryIOService {
 	}
 
 	public QueryIOResponse updateHiveSiteConfiguration(String installDir, String nodeId, ArrayList property,
-			ArrayList value, boolean refresh) {
-		return NodeOperation.updateHiveSiteConfiguration(installDir, nodeId, property, value, refresh);
+			ArrayList value, boolean refresh) throws IOException {
+		QueryIOResponse response = NodeOperation.updateHiveSiteConfiguration(installDir, nodeId, property, value, refresh);
+		if(response.isSuccessful()){
+			return NodeOperation.configureHiveSchema(installDir);
+		}
+		else {
+			return response;
+		}
 	}
 
 	public QueryIOResponse startHiveServer(String installDir) throws IOException {

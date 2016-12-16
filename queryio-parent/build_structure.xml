@@ -10,14 +10,14 @@
 		</copy>
 		<copy todir="${QueryIOBuildRoot}/tomcat/conf">
 			<fileset dir="${dir.source}/QueryIO/src/main/webapp/tomcatconf">
-				<include name="context.xml" />
+				<!--<include name="context.xml" />-->
 				<include name="server.xml" />
 			</fileset>
 		</copy>
 		<copy todir="${QueryIOBuildRoot}/tomcat/lib">
 			<fileset dir="${dir.source}/queryio-parent/lib/Authenticate">
 				<include name="Authenticate.jar" />
-				<include name="Webapploader.jar" />
+				<exclude name="Webapploader.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${QueryIOBuild}/tomcat">
@@ -41,6 +41,11 @@
 				<exclude name="**/target/**" />
 			</fileset>
 		</copy>
+		<copy todir="${dir.queryio}/WEB-INF/lib" >
+					<fileset dir="${dir.source}/QueryIO/lib">
+						<include name="**/*" />
+					</fileset>
+				</copy>
 		<mkdir dir="${dir.queryio}/docs" />
 		<delete dir="${dir.queryio}/src"/>
 		<delete dir="${dir.queryio}/database" />

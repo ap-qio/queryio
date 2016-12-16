@@ -25,6 +25,7 @@ import com.queryio.common.HadoopConstants;
 import com.queryio.common.QueryIOConstants;
 import com.queryio.common.database.CoreDBManager;
 import com.queryio.common.database.DatabaseConfigParser;
+import com.queryio.common.util.AppLogger;
 import com.queryio.servlets.ReinitializeHadoopConf;
 
 public class StartupListener implements ServletContextListener {
@@ -56,6 +57,8 @@ public class StartupListener implements ServletContextListener {
 		} else {
 			BasicConfigurator.configure();
 		}
+		
+		AppLogger.initQIOLogger();
 
 		logger = Logger.getLogger("OS3");
 

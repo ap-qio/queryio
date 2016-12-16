@@ -169,7 +169,7 @@ public interface QueryIOService extends RemoteService {
 	public void updateHiveHadoopHome(String installDir) throws Exception;
 
 	public QueryIOResponse updateHiveSiteConfiguration(String installDir, String nodeId, ArrayList property,
-			ArrayList value, boolean refresh);
+			ArrayList value, boolean refresh) throws IOException;
 
 	public QueryIOResponse startHiveServer(String installDir) throws IOException;
 

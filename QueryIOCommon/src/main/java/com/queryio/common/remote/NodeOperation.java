@@ -402,18 +402,20 @@ public class NodeOperation {
 
 	public static QueryIOResponse executeHadoopCommand(String cmd, String installDir, final boolean unblock,
 			int exitCode, boolean getOutput, boolean appendHadoopDir) {
+		AppLogger.getLogger().info("Entered executeHadoopCommand");
 		if (AppLogger.getLogger().isDebugEnabled())
 			AppLogger.getLogger().debug(cmd);
 		Process process = null;
 		StringWriter errorWriter = null;
 		StringWriter inputWriter = null;
 		try {
-
+			AppLogger.getLogger().info("Entered executeHadoopCommand: Starting process");
 			if (appendHadoopDir)
 				process = Runtime.getRuntime().exec(cmd, null, new File(installDir + QueryIOConstants.HADOOP_DIR_NAME));
 			else {
 				process = Runtime.getRuntime().exec(cmd, null, new File(installDir));
 			}
+			AppLogger.getLogger().info("Entered executeHadoopCommand: Started process");
 			inputWriter = new StringWriter();
 			final StreamPumper spInput = new StreamPumper(
 					new BufferedReader(new InputStreamReader(process.getInputStream())), inputWriter);
@@ -424,6 +426,7 @@ public class NodeOperation {
 						new BufferedReader(new InputStreamReader(process.getErrorStream())), errorWriter);
 				spError.start();
 			}
+			AppLogger.getLogger().info("Entered executeHadoopCommand: Started streams");
 
 			if (unblock) {
 				Writer writer = null;
@@ -438,8 +441,10 @@ public class NodeOperation {
 						writer.close();
 				}
 			}
+			AppLogger.getLogger().info("Entered executeHadoopCommand: Going to wait now");
 
 			process.waitFor();
+			AppLogger.getLogger().info("Entered executeHadoopCommand: Wait over");
 			// Thread.sleep(10000); // TODO: Windows temp handling. Uncomment
 			// process.waitFor() later.
 			int count = 0;
@@ -1524,7 +1529,7 @@ public class NodeOperation {
 			int i = 0;
 			while (i < 60 && !inputWriter.toString().contains("STARTUP:SUCCESS")
 					&& !errorWriter.toString().contains("STARTUP:SUCCESS")) {
-				Thread.sleep(1000);
+				Thread.sleep(5000);
 				i++;
 				if (AppLogger.getLogger().isDebugEnabled())
 					AppLogger.getLogger().debug(i);
@@ -2461,9 +2466,34 @@ public class NodeOperation {
 			}
 		}
 	}
+	
+	// Changes done for Hive 2.1
+	// Need to run schematool for creation of hive metastore DB
+	public static QueryIOResponse configureHiveSchema(String installDir) throws IOException {
+		if (!installDir.endsWith("/")) {
+			installDir = installDir + "/";
+		}
+		installDir = installDir + QueryIOConstants.HIVE_DIR_NAME;
+
+		AppLogger.getLogger().debug("installDir: " + installDir);
+		
+		String schemaToolCmd = "bin/schematool -dbType MYSQL -initSchema --verbose";
+		
+		QueryIOResponse schemaCreationResponse = executeHadoopCommand(schemaToolCmd, installDir, false, 0, false, false);
+
+		if(schemaCreationResponse.isSuccessful()){
+			schemaCreationResponse.setResponseMsg(QueryIOConstants.HIVE_STARTED_SUCCESS);
+			schemaCreationResponse.setSuccessful(true);
+		}
+		else {
+			schemaCreationResponse.setResponseMsg(QueryIOConstants.HIVE_STARTED_FAILED);
+			schemaCreationResponse.setSuccessful(false);
+		}
+		return schemaCreationResponse;
+	}
 
 	public static QueryIOResponse startHiveServer(String installDir) throws IOException {
-		String cmd = "sh bin/startHive.sh";
+		
 		if (!installDir.endsWith("/")) {
 			installDir = installDir + "/";
 		}
@@ -2471,6 +2501,7 @@ public class NodeOperation {
 
 		AppLogger.getLogger().debug("installDir: " + installDir);
 
+		String cmd = "sh bin/startHive.sh";
 		QueryIOResponse response = executeHadoopCommand(cmd, installDir, false, 0, false, false);
 		if (response.isSuccessful()) {
 			response.setResponseMsg(QueryIOConstants.HIVE_STARTED_SUCCESS);
@@ -2480,6 +2511,7 @@ public class NodeOperation {
 			response.setSuccessful(false);
 		}
 		return response;
+
 	}
 
 	public static QueryIOResponse stopHiveServer() {

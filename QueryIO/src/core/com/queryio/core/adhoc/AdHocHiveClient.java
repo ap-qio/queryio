@@ -31,6 +31,9 @@ public class AdHocHiveClient {
 		String password = config.get(QueryIOConstants.HIVE_QUERYIO_CONNECTION_PASSWORD);
 
 		Class.forName(driverName);
+		AppLogger.getLogger().info("Url: " + url);
+		AppLogger.getLogger().info("userName" + userName);
+		AppLogger.getLogger().info("password: " + password);
 		hiveConnection = DriverManager.getConnection(url, userName, password);
 		return hiveConnection;
 	}
