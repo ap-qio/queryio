@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <delete dir="/Users/gaurav/Documents/QIOWS/queryio/Hive-1.2.1/hcatalog/target/tmp"/>
+  <delete dir="/Users/gaurav/Documents/QIOWS/queryio/Hive-1.2.1/hcatalog/target/warehouse"/>
+  <mkdir dir="/Users/gaurav/Documents/QIOWS/queryio/Hive-1.2.1/hcatalog/target/tmp"/>
+  <mkdir dir="/Users/gaurav/Documents/QIOWS/queryio/Hive-1.2.1/hcatalog/target/warehouse"/>
+  <mkdir dir="/Users/gaurav/Documents/QIOWS/queryio/Hive-1.2.1/hcatalog/target/tmp/conf"/>
+  <copy todir="/Users/gaurav/Documents/QIOWS/queryio/Hive-1.2.1/hcatalog/target/tmp/conf/">
+    <fileset dir="/Users/gaurav/Documents/QIOWS/queryio/Hive-1.2.1/hcatalog/../data/conf/"/>
+  </copy>
+</target>
+</project>

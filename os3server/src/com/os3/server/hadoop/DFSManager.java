@@ -120,7 +120,7 @@ public class DFSManager {
 	@SuppressWarnings("PMD.AvoidUsingShortType")
 	public static StreamWriteStatus createObject(String username, String group, short permission, FileSystem dfs,
 			String bucketName, String objectName, long contentLength, InputStream is, List<UserDefinedTag> tags,
-			String compressionType, String encryptionType) throws IOException, NoSuchAlgorithmException {
+			String compressionType, String encryptionType) throws Exception {
 		StreamWriteStatus status = createObject(username, group, dfs, bucketName, objectName, contentLength, is, tags,
 				compressionType, encryptionType);
 		dfs.setPermission(new Path(ROOT_PATH + bucketName, objectName), DFSManager.parsePermissions(permission));
@@ -129,7 +129,7 @@ public class DFSManager {
 
 	public static StreamWriteStatus createObject(String username, String group, FileSystem dfs, String bucketName,
 			String objectName, long contentLength, InputStream is, List<UserDefinedTag> tags, String compressionType,
-			String encryptionType) throws IOException, NoSuchAlgorithmException {
+			String encryptionType) throws Exception {
 		Path objectPath = new Path(ROOT_PATH + bucketName, objectName);
 		LOGGER.debug("Creating object: " + objectPath);
 		QIODFSOutputStream cipherOutputStream = null;
@@ -150,7 +150,8 @@ public class DFSManager {
 				if (dfsOutputStream != null) {
 					dfsOutputStream.close();
 				}
-				throw new Error(e);
+				LOGGER.error(e);
+				throw e;
 			}
 			status = StreamUtilities.writeToStream(is, cipherOutputStream, contentLength);
 
