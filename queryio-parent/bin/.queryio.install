@@ -11,5 +11,5 @@ uninstalled=false
 postgresVersion=$postgresVersion$
 NameNode=
 installLoc=/Users/queryio/QueryIO
-hiveVersion=1.2.1
+hiveVersion=2.1.1
 buildId=1470

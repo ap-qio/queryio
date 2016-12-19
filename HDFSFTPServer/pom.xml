@@ -35,7 +35,7 @@
 			<artifactId>QueryIOCommon</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.queryio</groupId>
 			<artifactId>QueryIODemo</artifactId>
@@ -46,6 +46,12 @@
 		<!-- <artifactId>hadoop-queryio</artifactId> -->
 		<!-- <version>0.0.1-SNAPSHOT</version> -->
 		<!-- </dependency> -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.ftpserver</groupId>
 			<artifactId>ftplet-api</artifactId>

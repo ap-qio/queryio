@@ -62,6 +62,14 @@ public final class AppLogger {
 		initLoggerProperties(loggerPropertiesLocation, logFileLocation, loggerFileName, logFileProperty, null);
 	}
 
+	public static final void initQIOLogger(){
+		_apQueryIOOS3Logger = Logger.getLogger("QueryIO");
+
+		if (_apConsoleLogger == null) {
+			_apConsoleLogger = Logger.getLogger("QueryIO_CONSOLE"); //$NON-NLS-1$
+		}
+	}
+	
 	public static final void initLoggerProperties(final String loggerPropertiesLocation, final String logFileLocation,
 			final String loggerFileName, final String logFileProperty, final String logFileName) {
 		BufferedInputStream bis = null;

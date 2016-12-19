@@ -15,6 +15,7 @@ import com.queryio.common.EnvironmentalConstants;
 import com.queryio.common.QueryIOConstants;
 import com.queryio.common.database.CoreDBManager;
 import com.queryio.common.database.DatabaseConfigParser;
+import com.queryio.common.util.AppLogger;
 import com.queryio.ftpserver.core.HdfsOverFtpServer;
 import com.queryio.ftpserver.userinfo.UserInfoManager;
 import com.queryio.servlets.ReinitializeHadoopConf;
@@ -43,6 +44,8 @@ public class StartupListener implements ServletContextListener {
 		} else {
 			BasicConfigurator.configure();
 		}
+		
+		AppLogger.initQIOLogger();
 
 		logger = Logger.getLogger("FTP");
 

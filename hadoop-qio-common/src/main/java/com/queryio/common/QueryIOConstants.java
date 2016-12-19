@@ -121,7 +121,7 @@ public interface QueryIOConstants {
 	String HIVE_0_12_0_DIR_NAME = "hive-0.12.0";
 	String HIVE_0_13_0_DIR_NAME = "hive-0.13.0";
 	String HIVE_1_2_0_DIR_NAME = "hive-1.2.0";
-	String HIVE_DIR_NAME = "hive-1.2.1";
+	String HIVE_DIR_NAME = "hive-2.1.1";
 	String SCRIPTS_DIR_NAME = "bin";
 	String NM_AUX_SERVICE = "mapreduce.shuffle";
 	String NM_AUX_SERVICE_UPDATE = "mapreduce_shuffle";

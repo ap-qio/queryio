@@ -3,18 +3,18 @@
 <project default="main" basedir=".">
 
 
-	<target name="init" >
-	  	<tstamp>
-	      	<format property="touch.time" pattern="MM/dd/yyyy hh:mm aa" offset="-8" unit="hour"/>
-	  	</tstamp>
+	<target name="init">
+		<tstamp>
+			<format property="touch.time" pattern="MM/dd/yyyy hh:mm aa" offset="-8" unit="hour" />
+		</tstamp>
 	</target>
-		
+
 	<!--<path id="queryio.lib.birtJars">
 		<fileset dir="${dir.source}/lib/birt4.2.2">
 			<include name="**/*.jar" />
 		</fileset>
-	</path-->	
-	
+	</path-->
+
 	<path id="queryio.lib.QueryIOJars">
 		<fileset dir="${dir.source}/lib/QueryIOJars">
 			<include name="**/*.jar" />
@@ -23,17 +23,17 @@
 			<include name="httpclient-4.2.1.jar" />
 			<include name="httpcore-4.2.1.jar" />
 		</fileset>
-	</path>	
-	
+	</path>
+
 	<path id="temp.build.queryiocommon">
 		<fileset dir="${temp.build}">
 			<include name="QueryIOCommon.jar" />
 			<include name="QueryIOCommonAgent.jar" />
 			<include name="QueryIOPlugins.jar" />
 			<include name="QueryIOAgent.jar" />
-		</fileset>	
+		</fileset>
 	</path>
-	
+
 	<path id="other.jar">
 		<fileset dir="${dir.source}/lib/QueryIOJars">
 			<include name="json_simple-1.1.jar" />
@@ -42,27 +42,32 @@
 			<include name="commons-jexl-2.1.1.jar" />
 		</fileset>
 	</path>
-	
-		
 
-		<target name="compile-all" depends="init" >
-				<antcall target="create.jar" />
-				<antcall target="copy.resources" />
-		</target>
+
+
+	<target name="compile-all" depends="init">
+		<antcall target="create.jar" />
+		<antcall target="copy.resources" />
+		<copy toDir="${dir.queryio}/UserLibs/Plugins">
+			<fileset dir="${dir.source}/QueryIO/target/QueryIO/WEB-INF/lib">
+				<include name="tika-app-1.14.jar" />
+			</fileset>
+		</copy>
+	</target>
 	<!-- QueryIO COMPILATION ENDS -->
-	
-	
-	<target name="create.queryio.jar" >
+
+
+	<target name="create.queryio.jar">
 		<jar jarfile="${dir.queryio}/WEB-INF/lib/QueryIOUI.jar">
 			<fileset dir="${dir.source}/QueryIO/target/QueryIO/WEB-INF/classes">
 				<include name="**/*.class" />
 			</fileset>
 		</jar>
 	</target>
-	
-	
-	
-	
+
+
+
+
 	<target name="copy.related.jar">
 		<copy todir="${dir.queryio}/WEB-INF/lib">
 			<fileset dir="${dir.source}/queryio-parent/lib/QueryIOJars">
@@ -97,31 +102,31 @@
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<target name="copy.jar">
 		<antcall target="copy.related.jar" />
 	</target>
-	
+
 	<target name="create.jar">
 		<antcall target="create.queryio.jar" />
 		<antcall target="copy.jar" />
 	</target>
-	
-	
+
+
 	<target name="create.classes">
 		<mkdir dir="${dir.queryio}/WEB-INF/classes" />
 	</target>
-	
+
 	<target name="copy.resources" depends="create.classes">
 		<copy todir="${dir.queryio}/WEB-INF/classes">
 			<fileset dir="${dir.source}/QueryIO/src/resource">
-					<include name="**/*.properties" />
+				<include name="**/*.properties" />
 			</fileset>
 		</copy>
 	</target>
-	
-	<target name="main" >
-			<antcall target="compile-all" />
+
+	<target name="main">
+		<antcall target="compile-all" />
 	</target>
-  
+
 </project>
