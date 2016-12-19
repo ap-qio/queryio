@@ -112,7 +112,7 @@ public class DataManager {
 
 	public static StreamWriteStatus createObject(String username, String group, FileSystem dfs, String bucketName,
 			String objectName, long contentLength, InputStream inputStream, List<UserDefinedTag> tags,
-			String compressionType, String encryptionType) throws IOException, NoSuchAlgorithmException {
+			String compressionType, String encryptionType) throws Exception {
 		return DFSManager.createObject(username, group, dfs, bucketName, objectName, contentLength, inputStream, tags,
 				compressionType, encryptionType);
 	}
@@ -121,7 +121,7 @@ public class DataManager {
 	public static StreamWriteStatus createObject(String username, String group, short permission, FileSystem dfs,
 			String bucketName, String objectName, long contentLength, InputStream inputStream,
 			List<UserDefinedTag> tags, String compressionType, String encryptionType)
-			throws IOException, NoSuchAlgorithmException {
+			throws Exception {
 		return DFSManager.createObject(username, group, permission, dfs, bucketName, objectName, contentLength,
 				inputStream, tags, compressionType, encryptionType);
 	}
