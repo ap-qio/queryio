@@ -10,7 +10,6 @@
 		</copy>
 		<copy todir="${QueryIOBuildRoot}/tomcat/conf">
 			<fileset dir="${dir.source}/QueryIO/src/main/webapp/tomcatconf">
-				<!--<include name="context.xml" />-->
 				<include name="server.xml" />
 			</fileset>
 		</copy>
