@@ -202,7 +202,12 @@
 				<include name="tika-app-1.14.jar" />
 			</fileset>
 		</copy>
-		<mkdir dir="${QueryIOBuild}/services/UserLibs/jdbcJars"/>
+		<copy todir="${dir.hadoop.service}/${hadoop.dir}/share/hadoop/common/lib">
+			<fileset dir="${dir.source}/QueryIO/target/QueryIO/WEB-INF/lib">
+				<include name="tika-app-1.14.jar" />
+			</fileset>
+		</copy>
+		<mkdir dir="${QueryIOBuild}/services/UserLibs/jdbcJars" />
 		<copy todir="${QueryIOBuild}/services/UserLibs/jdbcJars">
 			<fileset dir="${dir.source}/queryio-parent/lib/jdbcJars">
 				<include name="*.*" />
