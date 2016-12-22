@@ -2477,7 +2477,7 @@ public class NodeOperation {
 
 		AppLogger.getLogger().debug("installDir: " + installDir);
 		
-		String schemaToolCmd = "bin/schematool -dbType MYSQL -initSchema --verbose";
+		String schemaToolCmd = "bin/schematool -dbType mysql -initSchema --verbose";
 		
 		QueryIOResponse schemaCreationResponse = executeHadoopCommand(schemaToolCmd, installDir, false, 0, false, false);
 
