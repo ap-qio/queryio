@@ -28,6 +28,8 @@
 		<property environment="env" />
 		<!--delete dir="${dir.source}" quiet="true" />
 		<mkdir dir="${dir.source}" /-->
+		<delete dir="${QueryIOBuildRoot}" />
+		<mkdir dir="${QueryIOBuildRoot}" />
 		<delete dir="${dir.hadoop.service}" quiet="true" />
 		<mkdir dir="${dir.hadoop.service}" />
 		<delete dir="${QueryIOBuild}" quiet="true" />
