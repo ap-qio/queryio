@@ -19,9 +19,9 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.pdfbox.io.IOUtils;
 import org.xerial.snappy.SnappyInputStream;
 import org.xerial.snappy.SnappyOutputStream;
 
@@ -39,7 +39,7 @@ public class EncryptionHandler {
 	private static byte[] SALT = null;
 
 	private static int ITERATION_COUNT = 65536;
-	private static int KEY_LEN = 256;
+	private static int KEY_LEN = 128;
 
 	private static String SECRETKEY_ALGO = "PBKDF2WithHmacSHA1";
 	private static String SECRETKEYSPEC_ALGO = "AES";
@@ -133,8 +133,24 @@ public class EncryptionHandler {
 
 				secretKeyMap.put(encryptionKey, secret);
 			}
-
+			LOG.info("mode: " + mode);
+			LOG.info("key: " + encryptionKey);
+			LOG.info("secretKey: " + secretKeyMap.get(encryptionKey));
+			LOG.info("params: " + INIT_VECTOR);
 			cipher = Cipher.getInstance(TRANSFORMATION);
+			int maxKeyLength = Cipher.getMaxAllowedKeyLength(TRANSFORMATION);
+			System.out.println(encryptionKey.getBytes().length);
+			System.out.println("Java Virtual Machine specification version  : "
+					+ System.getProperty("java.vm.specification.version"));
+			System.out.println("Java Virtual Machine specification vendor : "
+					+ System.getProperty("java.vm.specification.vendor"));
+			System.out.println(
+					"Java Virtual Machine specification name : " + System.getProperty("java.vm.specification.name"));
+			System.out
+					.println("Java Virtual Machine implementation version : " + System.getProperty("java.vm.version"));
+			System.out.println("Java Virtual Machine implementation vendor : " + System.getProperty("java.vm.vendor"));
+			System.out.println("Java Virtual Machine implementation name : " + System.getProperty("java.vm.name"));
+			LOG.info("key-algo: " + secretKeyMap.get(encryptionKey).getAlgorithm());
 			cipher.init(mode, secretKeyMap.get(encryptionKey), new IvParameterSpec(INIT_VECTOR));
 		}
 	}
@@ -186,7 +202,11 @@ public class EncryptionHandler {
 		String key = SecurityHandler.encryptData("queryio-hdfs-encrypt");
 		System.out.println("key: " + key);
 		EncryptionHandler handler1 = new EncryptionHandler(Cipher.ENCRYPT_MODE, true, key);
-		IOUtils.copy(handler1.getCompressedCipherInputStream(new FileInputStream("/AppPerfect/ns-metadata.xml"),
+
+		IOUtils.copy(handler1.getCompressedCipherInputStream(
+				new FileInputStream(
+						"/Users/gaurav/Documents/QIOWS/queryio/QueryIODemo/stuff/samples/csv_sample/MachineLogs_1364454240895.csv"),
 				EncryptionHandler.COMPRESSION_TYPE_NONE), System.out);
+
 	}
 }
