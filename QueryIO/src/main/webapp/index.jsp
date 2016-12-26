@@ -1,12 +1,21 @@
+<%@page import="java.security.Principal"%>
 <%@page language="java" import="java.util.Set"%>
 <%@page language="java" import="java.util.ArrayList"%>
 <%@page language="java" import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page language="java" import="java.util.HashMap"%>
 <%@page language="java" import="com.queryio.core.conf.RemoteManager"%>
+<%@page language="java" import="org.apache.catalina.realm.GenericPrincipal"%>
 <%
 	
 //String username = request.getRemoteUser();
 String username = request.getUserPrincipal().getName();
+System.out.println("Roles: ");
+final Principal userPrincipal = request.getUserPrincipal();
+GenericPrincipal genericPrincipal = (GenericPrincipal) userPrincipal;
+final String[] roles = genericPrincipal.getRoles();
+for(String role: roles){
+	System.out.println(role);	
+}
 if (username == null)
 {
 	System.out.println("username: " + username);
