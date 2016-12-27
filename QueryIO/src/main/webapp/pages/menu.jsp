@@ -37,22 +37,10 @@
 	<%
 		ArrayList hostIPList = RemoteManager.getAllHostDetails();
 	%>
-	<%
-		if (request.isUserInRole("Admin")) {
-	%>
-	<div>Admin user</div>
-	<%
-		} else {
-	%>
-
-	<div>Normal User</div>
-	<%
-		}
-	%>
 	<ul id="menu_ul">
 
 		<li onmouseout="showDropDown(1);" id="Data_li"
-			style="margin-left: 1px;" class="first"><a id="Data"
+			style="margin-left: 1px; <% if (!request.isUserInRole("Admin")) { %> width :50% <% } %> " class="first"><a id="Data"
 			href="javascript:Navbar.changeTab('Data Migration','data', 'data_migration');hideDropDown(1);">Data</a>
 			<ul>
 				<li onmouseout="showDropDown(1);"><a id="Data Migration"
@@ -64,22 +52,14 @@
 				<!-- <li onmouseout="showDropDown(1);"><a href="javascript:Navbar.changeTab('AdHocDataDefinition','data','AdHocDataDefinition');hideDropDown(1);">Manage Hive</a></li> -->
 				<li onmouseout="showDropDown(1);"><a
 					href="javascript:Navbar.changeTab('DB_Config','data','define_data_tags');hideDropDown(1);">Data
-						Tagging</a>
+						Tagging</a></li>
 				<li onmouseout="showDropDown(1);"><a
 					href="javascript:Navbar.changeTab('DB_Config','data','manage_hive');hideDropDown(1);">Manage
-						Hive</a>
-				<li onmouseout="showDropDown(1);"><a
-					href="javascript:Navbar.changeTab('DB_Config','data','manage_datasources');hideDropDown(1);">Manage
-						Datasource</a> <!-- <ul>
-					<li onmouseout="showDropDown(1);"><a id="DB_Config" href="javascript:Navbar.changeTab('DB_Config','data', 'db_Config');hideDropDown(1);">Manage Databases</a></li>
-					<li onmouseout="showDropDown(1);"><a id="System Config" href="javascript:Navbar.changeTab('Data Connections','data', 'data_connections');hideDropDown(1);">Manage Datasource Connections</a></li>
-					<li onmouseout="showDropDown(1);"><a  href="javascript:Navbar.changeTab('Tag Manager','data','tag_manager');hideDropDown(1);">Manage Data Tagging</a></li>
-					<li onmouseout="showDropDown(1);"><a  href="javascript:Navbar.changeTab('AdHocContent','data','AdHocContent');hideDropDown(1);">Manage Content Processor</a></li>
-				</ul> --></li>
+						Hive</a></li>
 			</ul></li>
 
-		<li onmouseout="showDropDown(3);" id="Analytics_li"><a
-			href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Analytics</a>
+		<li onmouseout="showDropDown(3);" id="Analytics_li" style=" <% if (!request.isUserInRole("Admin")) { %> width :49.8%; border-right: 0px; <% } %> ">
+			<a href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Analytics</a>
 			<ul>
 				<li onmouseout="showDropDown(3);"><a
 					href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Query
@@ -96,9 +76,12 @@
 				<!-- <li onmouseout="showDropDown(3);"><a  href="javascript:Navbar.changeTab('QuerySpreadSheetSlick','analytics','QuerySpreadSheetSlick');hideDropDown(3);">Slick SpreadSheet Viewer</a></li>-->
 			</ul></li>
 
-		<li onmouseout="showDropDown(5);" id="Dashboard_li"><a
-			id="Dashboard"
-			href="javascript:Navbar.changeTab('Dashboard','dashboard');hideDropDown(5)">Dashboard</a>
+		<%
+			if (request.isUserInRole("Admin")) {
+		%>
+
+		<li onmouseout="showDropDown(5);" id="Dashboard_li">
+			<a id="Dashboard" href="javascript:Navbar.changeTab('Dashboard','dashboard');hideDropDown(5)">Dashboard</a>
 			<ul>
 				<li onmouseout="showDropDown(5);"><a
 					href="javascript:Navbar.changeTab('Dashboard','dashboard');hideDropDown(5);">
@@ -120,8 +103,8 @@
 						Notifications</a></li>
 			</ul></li>
 
-		<li onmouseout="showDropDown(7);" id="Hadoop_li"><a id="Hadoop"
-			href="javascript:Navbar.changeTab('Hadoop','Hadoop');hideDropDown(7);">Hadoop</a>
+		<li onmouseout="showDropDown(7);" id="Hadoop_li">
+		<a id="Hadoop" href="javascript:Navbar.changeTab('Hadoop','Hadoop');hideDropDown(7);">Hadoop</a>
 			<ul>
 				<li onmouseout="showDropDown(7);"><a
 					href="javascript:Navbar.changeTab('Hadoop','Hadoop');hideDropDown(7);">System
@@ -190,8 +173,16 @@
 				<li onmouseout="showDropDown(9);"><a id="Report Schedules"
 					href="javascript:Navbar.changeTab('Report Schedules','admin', 'report_schedules');hideDropDown(9);">System
 						Schedules</a></li>
+				<li onmouseout="showDropDown(9);"><a
+					href="javascript:Navbar.changeTab('DB_Config','admin','manage_datasources');hideDropDown(9);">Manage
+						Datasource</a></li>
+				
 			</ul></li>
 
+		<%
+			}
+		%>
+		
 	</ul>
 	<span id="totaldn" style="display: none"><span id="hostList"
 		style="display: none"><%=hostIPList.size()%></span> </span> <br
