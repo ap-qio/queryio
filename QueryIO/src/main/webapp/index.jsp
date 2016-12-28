@@ -48,6 +48,7 @@ if (username == null)
 		<script type="text/javascript" src="dwr/engine.js"></script>
 		<script type="text/javascript" src="dwr/util.js"></script>
 		<script type="text/javascript" src="dwr/interface/RemoteManager.js"></script>
+		<script type="text/javascript" src="scripts/navbar.js"></script>
 		
 		
 		<!-- comment it for demo.queryio -->
@@ -119,13 +120,17 @@ if (username == null)
 				function showDropDown(index){
 					var li = document.getElementById('menu_ul').childNodes;
 					var ul = li[index].childNodes;
-					ul[ul.length-2].style.display = '';
+					if(ul[ul.length-2].hasOwnProperty('style')) {
+						ul[ul.length-2].style.display = '';					
+					}
 				}
 				
 				function hideDropDown(index){
 					var li = document.getElementById('menu_ul').childNodes;
 					var ul = li[index].childNodes;
-					ul[ul.length-2].style.display = 'none';
+					if(ul[ul.length-2].hasOwnProperty('style')) {
+						ul[ul.length-2].style.display = 'none';						
+					}
 				}
 		
 		

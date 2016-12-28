@@ -295,15 +295,15 @@ Navbar = {
 				source = 'resources/data_tagging.html';
 				Navbar.doAutoRefresh=true;
 			}
-			else if (childtab == 'manage_datasources') 
-			{
-				header = 'Manage Data Sources ';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/manage_datasources.html';
-				Navbar.doAutoRefresh=true;
-			}
+//			else if (childtab == 'manage_datasources') 
+//			{
+//				header = 'Manage Data Sources ';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+//					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+//				source = 'resources/manage_datasources.html';
+//				Navbar.doAutoRefresh=true;
+//			}
 			else if (childtab == 'tag_manager') 
 			{
 				header = 'Manage Data Tagging ';
@@ -323,15 +323,15 @@ Navbar = {
 				source = 'resources/data_migration.html';
 				Navbar.doAutoRefresh=true;
 			}
-			else if(childtab == 'DBConfigMigration') 
-			{
-				header = 'Databases Migration Statistics';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\',\'manage_datasources\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/database_migration.html';
-			}
+//			else if(childtab == 'DBConfigMigration') 
+//			{
+//				header = 'Databases Migration Statistics';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\',\'manage_datasources\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+//				source = 'resources/database_migration.html';
+//			}
 			else if(childtab == 'db_Config') 
 			{
 				header = 'Manage Databases';
@@ -660,6 +660,24 @@ Navbar = {
 							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
 							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span>System Schedules</span>';
 				source = 'resources/reports_' + childtab + '.html';
+			} 			
+			else if (childtab == 'manage_datasources') 
+			{
+				header = 'Manage Data Sources ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/manage_datasources.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if(childtab == 'DBConfigMigration') 
+			{
+				header = 'Databases Migration Statistics';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'admin\',\'manage_datasources\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/database_migration.html';
 			}
 			else if(childtab == 'reportnotifications')
 			{
