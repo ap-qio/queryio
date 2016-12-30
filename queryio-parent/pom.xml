@@ -18,7 +18,7 @@
 		<module>../QueryIODemo</module>
 <!-- 		<module>../QueryIOPlugins</module> -->
 		<module>../os3server</module>
-		<module>../Hive-2.1.1</module>
+<!-- 		<module>../Hive-2.1.1</module> -->
 	</modules>
 	<name>parent</name>
 	<url>http://maven.apache.org</url>

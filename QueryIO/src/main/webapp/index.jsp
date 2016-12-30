@@ -21,6 +21,10 @@ if (username == null)
 	System.out.println("username: " + username);
 }
 
+String currentView = (String) request.getSession().getAttribute("viewType");
+System.out.println("index.jsp called, current view is: " + currentView);
+
+
 %>
 <!--[if IE]>
 <meta http-equiv="X-UA-Compatible" content="IE=9" />
@@ -231,7 +235,25 @@ if (username == null)
 			<div id="nav_bar" class="nav_bar">
 				<div class="nav">
 					<p id="user_welcome">
-					<span id="login_info"><span id="clock">&nbsp;</span>| Hello,<span id="loggedInUser">&nbsp;</span><span id = "loggedInUserName" style="display: none;"></span><span id = "loggedInUserId" style="display: none;"></span>| <a href="javascript:Navbar.helpClicked();">Help</a> | <a href="javascript:Navbar.gettingStarted();">Quick Start</a> | <a href="logout.jsp">Logout</a></span>
+					<span id="login_info">
+					<span id="clock">&nbsp;</span>| Hello,<span id="loggedInUser">&nbsp;</span><span id = "loggedInUserName" style="display: none;"></span><span id = "loggedInUserId" style="display: none;"></span>| <a href="javascript:Navbar.helpClicked();">Help</a> | <a href="javascript:Navbar.gettingStarted();">Quick Start</a> | <a href="logout.jsp">Logout</a> | 
+					<%
+						if (request.isUserInRole("Admin")) {
+					%>
+					<a href="toggleView.jsp">
+					<%
+						if ("AdminView".equalsIgnoreCase((String) request.getSession().getAttribute("viewType"))) {
+					%>
+					User view
+					<%
+						} else {
+					%>
+					Admin view
+					<%
+						}
+					%>
+					</a> <% } %>
+					</span>
 					<span id="logo">
 						<a href="javascript:Navbar.changeTab('Dashboard','dashboard');">
 							<img src="images/queryio_logo.png" style="width: 220px;height: 70px;">
