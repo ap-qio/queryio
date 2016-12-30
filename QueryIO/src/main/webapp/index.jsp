@@ -9,13 +9,9 @@
 	
 //String username = request.getRemoteUser();
 String username = request.getUserPrincipal().getName();
-System.out.println("Roles: ");
 final Principal userPrincipal = request.getUserPrincipal();
 GenericPrincipal genericPrincipal = (GenericPrincipal) userPrincipal;
 final String[] roles = genericPrincipal.getRoles();
-for(String role: roles){
-	System.out.println(role);	
-}
 if (username == null)
 {
 	System.out.println("username: " + username);
@@ -252,7 +248,7 @@ System.out.println("index.jsp called, current view is: " + currentView);
 					<%
 						}
 					%>
-					</a> <% } %>
+					</a> | <% } %>
 					</span>
 					<span id="logo">
 						<a href="javascript:Navbar.changeTab('Dashboard','dashboard');">

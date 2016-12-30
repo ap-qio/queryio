@@ -356,7 +356,6 @@ div.lightbox input[type="button"][disabled] {
 
 #menu_ul li {
 	margin-right: 0px;
-	width: 20%;
 	border-right: 1px solid #135;
 	text-align: center;
 	height: 24px;
@@ -368,6 +367,14 @@ div.lightbox input[type="button"][disabled] {
 	position: relative;
 	line-height: 0
 }
+
+.user {
+		width: 16.6%;	
+} 
+
+.admin {
+		width: 20%;	
+} 
 
 #menu_ul a {
 	float: left;
