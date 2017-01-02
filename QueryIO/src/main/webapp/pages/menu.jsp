@@ -57,7 +57,7 @@
 		<li onmouseout="showDropDown(1);" id="DataPrep_li"
 			style="margin-left: 1px;" class="user"><a id="Data"
 			href="javascript:Navbar.changeTab('Data Migration','data', 'data_migration');hideDropDown(1);">Data
-				Preapration</a>
+				Preparation</a>
 			<ul>
 				<li onmouseout="showDropDown(1);"><a
 					href="javascript:Navbar.changeTab('DB_Config','data','define_data_tags');hideDropDown(1);">Data

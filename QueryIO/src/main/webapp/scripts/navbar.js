@@ -273,7 +273,7 @@ Navbar = {
 			{
 				header = 'Data Browser';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data Perparation </a></span><img src="images/forward.png" style="height:20px">'
 							+'<img src="images/forward.png" style="height:20px"><span> Data Browser</span>';
 				source = 'resources/databrowser.html';
 				document.getElementById("queryIONameNodeIdSpan").style.display = '';
@@ -318,7 +318,7 @@ Navbar = {
 			{
 				header = 'Data Import/Export ';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> Data</span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Data Preparation</span><img src="images/forward.png" style="height:20px">'
 							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
 				source = 'resources/data_migration.html';
 				Navbar.doAutoRefresh=true;
