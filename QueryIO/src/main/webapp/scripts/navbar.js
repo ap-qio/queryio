@@ -284,7 +284,7 @@ Navbar = {
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/manage_hive.html';
+				source = 'resources/adHocQuery.html';
 				Navbar.doAutoRefresh=true;
 			}else if (childtab == 'define_data_tags') 
 			{
