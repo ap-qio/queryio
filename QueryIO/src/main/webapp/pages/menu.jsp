@@ -41,65 +41,45 @@
 			if (!"AdminView".equalsIgnoreCase((String) request.getSession().getAttribute("viewType"))) {
 		%>
 
-		<li onmouseout="showDropDown(1);" id="DataIntgn_li"
+		<li onmouseout="showDropDown(1);" id="Data_li"
 			style="margin-left: 1px;" class="first user"><a id="Data"
-			href="javascript:Navbar.changeTab('Data Migration','data', 'data_migration');hideDropDown(1);">Data
-				Integration</a>
+			href="javascript:Navbar.changeTab('Data Migration','data', 'data_migration');hideDropDown(1);">Data</a>
 			<ul>
 				<li onmouseout="showDropDown(1);"><a id="Data Migration"
-					href="javascript:Navbar.changeTab('Data Migration','data', 'data_migration');hideDropDown(1);">Data
-						Import/Export</a></li>
+					href="javascript:Navbar.changeTab('Data Migration','data', 'data_migration');hideDropDown(1);">Import/Export</a></li>
 				<li onmouseout="showDropDown(1);"><a
-					href="javascript:Navbar.changeTab('Data','data');hideDropDown(1);">Data
-						Browser</a></li>
+					href="javascript:Navbar.changeTab('Data','data');hideDropDown(1);">Browse</a></li>
+				<li onmouseout="showDropDown(1);"><a
+					href="javascript:Navbar.changeTab('DB_Config','data','manage_hive');hideDropDown(1);">Define Schema</a></li>
+				<li onmouseout="showDropDown(1);"><a
+					href="javascript:Navbar.changeTab('DB_Config','data','define_data_tags');hideDropDown(1);">Define Tags</a></li>				
 			</ul></li>
 
-		<li onmouseout="showDropDown(1);" id="DataPrep_li"
-			style="margin-left: 1px;" class="user"><a id="Data"
-			href="javascript:Navbar.changeTab('Data Migration','data', 'data_migration');hideDropDown(1);">Data
-				Preparation</a>
-			<ul>
-				<li onmouseout="showDropDown(1);"><a
-					href="javascript:Navbar.changeTab('DB_Config','data','define_data_tags');hideDropDown(1);">Data
-						Tagging</a></li>
-				<li onmouseout="showDropDown(1);"><a
-					href="javascript:Navbar.changeTab('DB_Config','data','manage_hive');hideDropDown(1);">Manage
-						Hive</a></li>
-			</ul></li>
-
-		<li onmouseout="showDropDown(3);" id="DataVis_li" class="user"><a
-			href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Data
-				Visualization</a>
+		<li onmouseout="showDropDown(3);" id="Analytics" class="user"><a
+			href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Analyze</a>
 			<ul>
 				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Query
-						Manager</a></li>
+					href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Manage Query</a></li>
 				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('QueryDesigner','analytics','QueryDesigner');hideDropDown(3);">Query
-						Designer</a></li>
+					href="javascript:Navbar.changeTab('QueryDesigner','analytics','QueryDesigner');hideDropDown(3);">Design Report</a></li>
 				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('QueryViewer','analytics','QueryViewer');hideDropDown(3);">Report
-						Viewer</a></li>
-				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('QuerySpreadSheet','analytics','QuerySpreadSheet');hideDropDown(3);">SpreadSheet
-						Viewer</a></li>
-				<!-- <li onmouseout="showDropDown(3);"><a  href="javascript:Navbar.changeTab('QuerySpreadSheetSlick','analytics','QuerySpreadSheetSlick');hideDropDown(3);">Slick SpreadSheet Viewer</a></li>-->
+					href="javascript:Navbar.changeTab('QueryViewer','analytics','QueryViewer');hideDropDown(3);">View Report</a></li>
+<!-- 				<li onmouseout="showDropDown(3);"><a
+					href="javascript:Navbar.changeTab('QuerySpreadSheet','analytics','QuerySpreadSheet');hideDropDown(3);">View Status</a></li>
+ -->				<!-- <li onmouseout="showDropDown(3);"><a  href="javascript:Navbar.changeTab('QuerySpreadSheetSlick','analytics','QuerySpreadSheetSlick');hideDropDown(3);">Slick SpreadSheet Viewer</a></li>-->
 			</ul></li>
 
-		<li onmouseout="showDropDown(3);" id="ManageJobs_li" class="user">
+		<li onmouseout="showDropDown(3);" id="Jobs_li" class="user">
 			<a
-			href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Manage
-				Jobs</a>
+			href="javascript:Navbar.changeTab('Jobs','Jobs');hideDropDown(3);">Jobs</a>
 			<ul>
-				<li onmouseout="showDropDown(7);"><a
-					href="javascript:Navbar.changeTab('Hadoop','Hadoop','JobBrowser');hideDropDown(7);">Configure</a></li>
-				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('QueryDesigner','analytics','QueryDesigner');hideDropDown(3);">History</a></li>
+				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('Hadoop','Hadoop','JobBrowser');hideDropDown(7);">Manage Jobs</a></li>
+				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('Hadoop','Hadoop','JobHistory');hideDropDown(7);">History</a></li>
 			</ul>
 		</li>
 
 		<li onmouseout="showDropDown(3);" id="Scheduler_li" class="user"
-			style="border-right: 0px; width: 19%;"><a
+			style="border-right: 0px; width: 24%;"><a
 			href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Scheduler</a>
 			<ul>
 				<li onmouseout="showDropDown(3);"><a

@@ -31,6 +31,7 @@ Navbar = {
 	currentScheduleTabSelected : '',
 	currentManageTabSelected : '',
 	currentHiveTabSelected : '',
+	currentViewTabSelected : '',
 	isHiveViewSelected : false,
 	hiveViewNameNode : undefined,
 	hiveViewSelectedTable : undefined,
@@ -263,6 +264,15 @@ Navbar = {
 				source = 'resources/job_browser.html';
 				Navbar.doAutoRefresh=true;
 			}
+			else if(childtab=='JobHistory')
+			{
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span>History</span>';
+				source = 'resources/job_history.html';
+				Navbar.doAutoRefresh=true;
+			}
 			selectedId = 'Hadoop';
 		}
 		
@@ -273,14 +283,14 @@ Navbar = {
 			{
 				header = 'Data Browser';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data Perparation </a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data </a></span><img src="images/forward.png" style="height:20px">'
 							+'<img src="images/forward.png" style="height:20px"><span> Data Browser</span>';
 				source = 'resources/databrowser.html';
 				document.getElementById("queryIONameNodeIdSpan").style.display = '';
 			}
 			else if (childtab == 'manage_hive') 
 			{
-				header = 'Manage Hive ';
+				header = 'Define Schema ';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
@@ -288,7 +298,7 @@ Navbar = {
 				Navbar.doAutoRefresh=true;
 			}else if (childtab == 'define_data_tags') 
 			{
-				header = 'Data Tagging';
+				header = 'Data Tags';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
@@ -318,7 +328,7 @@ Navbar = {
 			{
 				header = 'Data Import/Export ';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> Data Preparation</span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Data </span><img src="images/forward.png" style="height:20px">'
 							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
 				source = 'resources/data_migration.html';
 				Navbar.doAutoRefresh=true;
