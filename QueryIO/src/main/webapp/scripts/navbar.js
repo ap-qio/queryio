@@ -111,7 +111,218 @@ Navbar = {
 		var source = '';
 		var header = 'Dashboard';
 		var pathHeader = 'HDFS >> Dashboard';
-		if (tabName == 'dashboard')
+		
+		
+		if(tabName == "data")
+		{
+			selectedId = 'Data';
+			if (typeof(childtab) == "undefined")
+			{
+				header = 'Data Browser';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data </a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Data Browser</span>';
+				source = 'resources/databrowser.html';
+				document.getElementById("queryIONameNodeIdSpan").style.display = '';
+			}
+			else if (childtab == 'define_schema') 
+			{
+				header = 'Define Schema ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/adHocQuery.html';
+				Navbar.doAutoRefresh=true;
+			}else if (childtab == 'define_data_tags') 
+			{
+				header = 'Data Tags';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/data_tagging.html';
+				Navbar.doAutoRefresh=true;
+			}
+//			else if (childtab == 'tag_manager') 
+//			{
+//				header = 'Manage Data Tagging ';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\', \'db_Config\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+//				source = 'resources/tagManager.html';
+//				Navbar.doAutoRefresh=true;
+//			}
+			else if (childtab == 'data_migration') 
+			{
+				header = 'Data Import/Export ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Data </span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/data_migration.html';
+				Navbar.doAutoRefresh=true;
+			}
+//			else if(childtab == 'DBConfigMigration') 
+//			{
+//				header = 'Databases Migration Statistics';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\',\'manage_datasources\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+//				source = 'resources/database_migration.html';
+//			}
+//			else if(childtab == 'db_Config') 
+//			{
+//				header = 'Manage Databases';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+//				source = 'resources/database_config.html';
+//			}
+//			else if(childtab == 'data_connections')
+//			{
+//				header = 'Manage Datasource Connections';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\', \'db_Config\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+//				
+//				source = 'resources/dataConnections.html';
+//			}
+//			else if(childtab == 'AdHocDataDefinition') 
+//			{
+//				header = 'Manage Hive';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+//				source = 'resources/adHocQuery.html';
+//			}
+//			else if(childtab == 'AdHocContent') 
+//			{
+//				header = 'Manage Content Processor';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\', \'db_Config\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+//				source = 'resources/adhocJobs.html';
+//			}
+		}
+		else if (tabName == 'analytics')
+		{
+			selectedId = 'Analytics';
+			Navbar.isViewerView=false;
+			
+			if (typeof(childtab) == "undefined")
+			{
+				header = 'Manage Query';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> ' + header + '</span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design Report</span></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View Report</span></a>'
+							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');">SpreadSheet</span></a>';
+				document.getElementById("queryIONameNodeIdSpan").style.display = '';
+				source = 'resources/bigQuerySummary.html';
+			}
+			else if(childtab == 'QueryDesigner') 
+			{
+				header = 'Design Report';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage Query</span></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View Report</span></a>'
+					+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');"> SpreadSheet </span></a>';
+				source = 'resources/data_analyzerTab.html';
+				document.getElementById("queryIONameNodeIdSpan").style.display = '';
+				$('#queryIONameNodeId').attr('disabled','disabled');
+				$('#refreshViewButton').hide();
+				
+			}
+			else if(childtab == 'QueryViewer') 
+			{
+				header = 'View Report';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage Query</span></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design Report</span></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>'
+					+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');">SpreadSheet</span></a>';
+				source = 'resources/bigQueryViewer.html';
+				$('#refreshViewButton').hide();
+				document.getElementById("queryIONameNodeIdSpan").style.display = '';
+			}
+			else if(childtab == 'QuerySpreadSheet') {
+				
+				if(document.getElementById('bigQueryIds') != undefined){
+					var queryId = document.getElementById('bigQueryIds').value;
+					
+					Util.setCookie("last-visited-query",queryId,1);
+				}
+				
+                header = ' View SpreadSheet';
+                pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage Query</span></a><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design Report</span></a><img src="images/forward.png" style="height:20px">'
+                    +'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View Report</span></a>'
+                    +'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+                source = 'spreadsheet/spreadSheetView.html';
+                $('#refreshViewButton').hide();
+                document.getElementById("queryIONameNodeIdSpan").style.display = '';
+			}
+		}
+		else if (tabName == 'jobs') 
+		{
+			if(childtab=='JobBrowser')
+			{
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'jobs\',\'jobs\', \'JobBrowser\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Manage Jobs </span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'jobs\',\'jobs\',\'JobHistory\');"> History </a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'jobs\',\'jobs\',\'JobStatus\');"> Status </a></span>';
+				source = 'resources/job_browser.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if(childtab=='JobHistory')
+			{
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'jobs\',\'jobs\', \'JobBrowser\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'jobs\',\'jobs\',\'JobBrowser\');"> Manage Jobs </a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span>History</span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'jobs\',\'jobs\',\'JobStatus\');"> Status </a></span>';
+				source = 'resources/job_history.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if(childtab=='JobStatus')
+			{
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'jobs\',\'jobs\', \'JobBrowser\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'jobs\',\'jobs\',\'JobBrowser\' );"> Manage Jobs </a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'jobs\',\'jobs\',\'JobHistory\');">  History </a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Status </span>';
+				source = 'resources/schedule_status.html';
+				Navbar.doAutoRefresh=true;
+			}
+			selectedId = 'Jobs';
+		}
+		else if (tabName == 'setup') 
+		{
+			if(childtab == 'quicksetup')
+			{
+				header = 'Cluster Setup ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Setup\',\'setup\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Quick Setup </span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+				source = 'resources/automate_cluster_setup.html';
+				Navbar.doAutoRefresh=false;
+			}
+			else if(childtab == 'hosts') 
+			{
+				header = 'Manage Hosts';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Setup\',\'setup\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Quick Setup </span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/host_config.html';
+				Navbar.doAutoRefresh=true;
+			}
+			selectedId = 'Setup';
+		}
+		
+		else if (tabName == 'dashboard')
 		{
 			if (typeof(childtab) == "undefined")
 			{
@@ -255,139 +466,9 @@ Navbar = {
 				source = 'resources/node_manager.html';	
 				Navbar.doAutoRefresh=true;
 			}
-			else if(childtab=='JobBrowser')
-			{
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span>JobManager</span>';
-				source = 'resources/job_browser.html';
-				Navbar.doAutoRefresh=true;
-			}
-			else if(childtab=='JobHistory')
-			{
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span>History</span>';
-				source = 'resources/job_history.html';
-				Navbar.doAutoRefresh=true;
-			}
-			else if(childtab=='JobStatus')
-			{
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span>History</span>';
-				source = 'resources/schedule_status.html';
-				Navbar.doAutoRefresh=true;
-			}
 			selectedId = 'Hadoop';
 		}
 		
-		else if(tabName == "data")
-		{
-			selectedId = 'Data';
-			if (typeof(childtab) == "undefined")
-			{
-				header = 'Data Browser';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data </a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> Data Browser</span>';
-				source = 'resources/databrowser.html';
-				document.getElementById("queryIONameNodeIdSpan").style.display = '';
-			}
-			else if (childtab == 'manage_hive') 
-			{
-				header = 'Define Schema ';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/adHocQuery.html';
-				Navbar.doAutoRefresh=true;
-			}else if (childtab == 'define_data_tags') 
-			{
-				header = 'Data Tags';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/data_tagging.html';
-				Navbar.doAutoRefresh=true;
-			}
-//			else if (childtab == 'manage_datasources') 
-//			{
-//				header = 'Manage Data Sources ';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/manage_datasources.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-			else if (childtab == 'tag_manager') 
-			{
-				header = 'Manage Data Tagging ';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\', \'db_Config\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/tagManager.html';
-				Navbar.doAutoRefresh=true;
-			}
-			else if (childtab == 'data_migration') 
-			{
-				header = 'Data Import/Export ';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> Data </span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/data_migration.html';
-				Navbar.doAutoRefresh=true;
-			}
-//			else if(childtab == 'DBConfigMigration') 
-//			{
-//				header = 'Databases Migration Statistics';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\',\'manage_datasources\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/database_migration.html';
-//			}
-			else if(childtab == 'db_Config') 
-			{
-				header = 'Manage Databases';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/database_config.html';
-			}
-			else if(childtab == 'data_connections')
-			{
-				header = 'Manage Datasource Connections';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\', \'db_Config\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				
-				source = 'resources/dataConnections.html';
-			}
-			else if(childtab == 'AdHocDataDefinition') 
-			{
-				header = 'Manage Hive';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/adHocQuery.html';
-			}
-			else if(childtab == 'AdHocContent') 
-			{
-				header = 'Manage Content Processor';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'data\', \'db_Config\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/adhocJobs.html';
-			}
-		}
 		else if (tabName == 'analytics')
 		{
 			selectedId = 'Analytics';
@@ -395,23 +476,23 @@ Navbar = {
 			
 			if (typeof(childtab) == "undefined")
 			{
-				header = 'Query Manager';
+				header = 'Manage Query';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
 							+'<img src="images/forward.png" style="height:20px"><span> ' + header + '</span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');"> Query Designer</span></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');"> Query Viewer</span></a>'
-							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');"> SpreadSheet Viewer</span></a>';
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design Report</span></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View Report</span></a>'
+							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');">SpreadSheet</span></a>';
 				document.getElementById("queryIONameNodeIdSpan").style.display = '';
 				source = 'resources/bigQuerySummary.html';
 			}
 			else if(childtab == 'QueryDesigner') 
 			{
-				header = 'Query Designer';
+				header = 'Design Report';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');"> Query Manager</span></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage Query</span></a><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');"> Query Viewer</span></a>'
-					+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');"> SpreadSheet Viewer</span></a>';
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View Report</span></a>'
+					+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');"> SpreadSheet </span></a>';
 				source = 'resources/data_analyzerTab.html';
 				document.getElementById("queryIONameNodeIdSpan").style.display = '';
 				$('#queryIONameNodeId').attr('disabled','disabled');
@@ -420,12 +501,12 @@ Navbar = {
 			}
 			else if(childtab == 'QueryViewer') 
 			{
-				header = 'Query Viewer';
+				header = 'View Query';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');"> Query Manager</span></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');"> Query Designer</span></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage Query</span></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design Query</span></a><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>'
-					+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');"> SpreadSheet Viewer</span></a>';
+					+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');">SpreadSheet</span></a>';
 				source = 'resources/bigQueryViewer.html';
 				$('#refreshViewButton').hide();
 				document.getElementById("queryIONameNodeIdSpan").style.display = '';
@@ -438,11 +519,11 @@ Navbar = {
 					Util.setCookie("last-visited-query",queryId,1);
 				}
 				
-                header = 'SpreadSheet Viewer';
+                header = ' View SpreadSheet';
                 pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');"> Query Manager</span></a><img src="images/forward.png" style="height:20px">'
-                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');"> Query Designer</span></a><img src="images/forward.png" style="height:20px">'
-                    +'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');"> Query Viewer</span></a>'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage Query</span></a><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design Report</span></a><img src="images/forward.png" style="height:20px">'
+                    +'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View Report</span></a>'
                     +'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
                 source = 'spreadsheet/spreadSheetView.html';
                 $('#refreshViewButton').hide();

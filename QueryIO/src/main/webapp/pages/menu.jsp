@@ -50,7 +50,7 @@
 				<li onmouseout="showDropDown(1);"><a
 					href="javascript:Navbar.changeTab('Data','data');hideDropDown(1);">Browse</a></li>
 				<li onmouseout="showDropDown(1);"><a
-					href="javascript:Navbar.changeTab('DB_Config','data','manage_hive');hideDropDown(1);">Define Schema</a></li>
+					href="javascript:Navbar.changeTab('DB_Config','data','define_schema');hideDropDown(1);">Define Schema</a></li>
 				<li onmouseout="showDropDown(1);"><a
 					href="javascript:Navbar.changeTab('DB_Config','data','define_data_tags');hideDropDown(1);">Define Tags</a></li>				
 			</ul></li>
@@ -73,9 +73,9 @@
 			<a
 			href="javascript:Navbar.changeTab('Jobs','Jobs');hideDropDown(3);">Jobs</a>
 			<ul>
-				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('Hadoop','Hadoop','JobBrowser');hideDropDown(7);">Manage Jobs</a></li>
-				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('Hadoop','Hadoop','JobHistory');hideDropDown(7);">History</a></li>
-				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('Hadoop','Hadoop','JobStatus');hideDropDown(7);">Status</a></li>
+				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobBrowser');hideDropDown(7);">Manage Jobs</a></li>
+				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobHistory');hideDropDown(7);">History</a></li>
+				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobStatus');hideDropDown(7);">Status</a></li>
 			</ul>
 		</li>
 
@@ -99,14 +99,14 @@
 
 		<li onmouseout="showDropDown(5);" id="HadoopMan_li"
 			style="margin-left: 1px;" class="first admin"><a id="Dashboard"
-			href="javascript:Navbar.changeTab('Dashboard','dashboard');hideDropDown(5)">Quick
+			href="javascript:Navbar.changeTab('Setup','setup','quicksetup');hideDropDown(5)">Quick
 				Setup</a>
 			<ul>
 				<li onmouseout="showDropDown(9);"><a id="automateCluster"
-					href="javascript:Navbar.changeTab('Admin','admin');hideDropDown(9);">Cluster
+					href="javascript:Navbar.changeTab('Setup','setup','quicksetup');hideDropDown(9);">Cluster
 						Setup</a></li>
 				<li onmouseout="showDropDown(9);"><a id="Hosts"
-					href="javascript:Navbar.changeTab('Hosts','admin', 'hosts');hideDropDown(9);">Manage
+					href="javascript:Navbar.changeTab('Setup','setup','hosts');hideDropDown(9);">Manage
 						Hosts</a></li>
 			</ul></li>
 
