@@ -28,7 +28,7 @@
 
 
 	<target name="create.querio.structure">
-		<copy todir="${dir.queryio}" >
+		<copy todir="${dir.queryio}">
 			<fileset dir="${dir.source}/QueryIO/target/QueryIO">
 				<include name="**/*" />
 				<exclude name="**/.svn" />
@@ -40,13 +40,13 @@
 				<exclude name="**/target/**" />
 			</fileset>
 		</copy>
-		<copy todir="${dir.queryio}/WEB-INF/lib" >
-					<fileset dir="${dir.source}/QueryIO/lib">
-						<include name="**/*" />
-					</fileset>
-				</copy>
+		<copy todir="${dir.queryio}/WEB-INF/lib">
+			<fileset dir="${dir.source}/QueryIO/lib">
+				<include name="**/*" />
+			</fileset>
+		</copy>
 		<mkdir dir="${dir.queryio}/docs" />
-		<delete dir="${dir.queryio}/src"/>
+		<delete dir="${dir.queryio}/src" />
 		<delete dir="${dir.queryio}/database" />
 		<delete dir="${dir.queryio}/tomcatconf" />
 		<delete dir="${dir.queryio}/hdfs-over-ftp" />
@@ -109,7 +109,7 @@
 
 
 	<target name="create.os3server.structure">
-		<copy todir="${dir.queryio.os3server}" >
+		<copy todir="${dir.queryio.os3server}">
 			<fileset dir="${dir.source}/os3server/WebContent">
 				<include name="**/*" />
 				<exclude name="**/lib/**" />
@@ -120,14 +120,14 @@
 
 
 	<target name="create.ftpserver.structure">
-		<copy todir="${dir.queryio.ftpserver}" >
+		<copy todir="${dir.queryio.ftpserver}">
 			<fileset dir="${dir.source}/HDFSFTPServer/src/main/webapp">
 				<include name="**/*" />
 				<exclude name="**/lib/**" />
 				<exclude name="index.jsp" />
 			</fileset>
 		</copy>
-		<copy todir="${dir.queryio.ftpserver}/WEB-INF" >
+		<copy todir="${dir.queryio.ftpserver}/WEB-INF">
 			<fileset dir="${dir.source}/HDFSFTPServer/src/main/resources">
 				<include name="**/*" />
 			</fileset>
@@ -147,25 +147,25 @@
 
 
 	<target name="create.installer.structure">
-		<copy todir="${QueryIOBuildRoot}/SupportedFiles" >
+		<copy todir="${QueryIOBuildRoot}/SupportedFiles">
 			<fileset dir="${dir.source}/queryio-parent/SupportedFiles">
 				<include name="**/*" />
 			</fileset>
 		</copy>
 
-		<copy todir="${QueryIOBuildRoot}/Scripts" >
+		<copy todir="${QueryIOBuildRoot}/Scripts">
 			<fileset dir="${dir.source}/queryio-parent/Scripts">
 				<include name="**/*" />
 			</fileset>
 		</copy>
 
-		<copy todir="${QueryIOBuildRoot}" >
+		<copy todir="${QueryIOBuildRoot}">
 			<fileset dir="${dir.source}/queryio-parent/logo">
 				<include name="hpcs.jpg" />
 			</fileset>
 		</copy>
 
-		<copy todir="${QueryIOBuildRoot}/Icon" >
+		<copy todir="${QueryIOBuildRoot}/Icon">
 			<fileset dir="${dir.source}/queryio-parent/logo">
 				<exclude name="hpcs.jpg" />
 				<include name="**/*" />
@@ -173,19 +173,19 @@
 		</copy>
 
 
-		<copy todir="${QueryIOBuild}/docs" >
+		<copy todir="${QueryIOBuild}/docs">
 			<fileset dir="${dir.source}/QueryIO/src/main/webapp/Documents">
 				<include name="**/*" />
 			</fileset>
 		</copy>
-		<copy todir="${QueryIOBuild}/Readme" >
+		<copy todir="${QueryIOBuild}/Readme">
 			<fileset dir="${dir.source}/queryio-parent/Readme">
 				<include name="**/*" />
 			</fileset>
 		</copy>
 	</target>
 
-	<target name="do.all" >
+	<target name="do.all">
 		<antcall target="create.tomcat.structure" />
 		<antcall target="create.querio.structure" />
 		<antcall target="create.service.structure" />

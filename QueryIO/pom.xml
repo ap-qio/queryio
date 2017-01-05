@@ -118,6 +118,13 @@
 			<systemPath>${basedir}/lib/LZ4Java.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>batik-pdf</groupId>
+			<artifactId>batik-pdf-modified</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/org.apache.batik.pdf-1.6.0.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>com.queryio</groupId>
 			<artifactId>QueryIODemo</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
