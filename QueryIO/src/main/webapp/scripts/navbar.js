@@ -273,6 +273,15 @@ Navbar = {
 				source = 'resources/job_history.html';
 				Navbar.doAutoRefresh=true;
 			}
+			else if(childtab=='JobStatus')
+			{
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span>History</span>';
+				source = 'resources/schedule_status.html';
+				Navbar.doAutoRefresh=true;
+			}
 			selectedId = 'Hadoop';
 		}
 		
