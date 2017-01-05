@@ -69,6 +69,13 @@
 
 
 	<target name="copy.related.jar">
+
+		<copy todir="${dir.queryio}/WEB-INF/lib">
+			<fileset dir="${dir.source}/QueryIO/lib">
+				<include name="**/org.apache.batik.pdf-1.6.0.jar" />
+			</fileset>
+		</copy>
+
 		<copy todir="${dir.queryio}/WEB-INF/lib">
 			<fileset dir="${dir.source}/queryio-parent/lib/QueryIOJars">
 				<include name="**/*.jar" />

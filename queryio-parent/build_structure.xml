@@ -40,7 +40,7 @@
 				<exclude name="**/target/**" />
 			</fileset>
 		</copy>
-		<copy todir="${dir.queryio}/WEB-INF/lib">
+		<copy todir="${dir.queryio}/WEB-INF/lib" verbose="true">
 			<fileset dir="${dir.source}/QueryIO/lib">
 				<include name="**/*" />
 			</fileset>
