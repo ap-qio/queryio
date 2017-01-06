@@ -43,7 +43,7 @@
 
 		<li onmouseout="showDropDown(1);" id="Data_li"
 			style="margin-left: 1px;" class="first user"><a id="Data"
-			href="javascript:Navbar.changeTab('Data Migration','data', 'data_migration');hideDropDown(1);">Data</a>
+			href="javascript:Navbar.changeTab('Data Migration','data', 'data_overview');hideDropDown(1);">Data</a>
 			<ul>
 				<li onmouseout="showDropDown(1);"><a id="Data Migration"
 					href="javascript:Navbar.changeTab('Data Migration','data', 'data_migration');hideDropDown(1);">Import/Export</a></li>
@@ -53,10 +53,11 @@
 					href="javascript:Navbar.changeTab('DB_Config','data','define_schema');hideDropDown(1);">Define Schema</a></li>
 				<li onmouseout="showDropDown(1);"><a
 					href="javascript:Navbar.changeTab('DB_Config','data','define_data_tags');hideDropDown(1);">Define Tags</a></li>				
-			</ul></li>
+			</ul>
+		</li>
 
 		<li onmouseout="showDropDown(3);" id="Analytics" class="user"><a
-			href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Analyze</a>
+			href="javascript:Navbar.changeTab('Analytics','analytics', 'analytics_overview');hideDropDown(3);">Analyze</a>
 			<ul>
 				<li onmouseout="showDropDown(3);"><a
 					href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Manage Query</a></li>
@@ -69,13 +70,13 @@
  				<!-- <li onmouseout="showDropDown(3);"><a  href="javascript:Navbar.changeTab('QuerySpreadSheetSlick','analytics','QuerySpreadSheetSlick');hideDropDown(3);">Slick SpreadSheet Viewer</a></li>-->
 			</ul></li>
 
-		<li onmouseout="showDropDown(3);" id="Jobs_li" style="border-right: 0px; width: 33%;" class="user end">
+		<li onmouseout="showDropDown(5);" id="Jobs_li" style="border-right: 0px; width: 33%;" class="user end">
 			<a
-			href="javascript:Navbar.changeTab('Jobs','Jobs');hideDropDown(3);">Jobs</a>
+			href="javascript:Navbar.changeTab('jobs','jobs', 'jobs_overview');hideDropDown(5);">Jobs</a>
 			<ul>
-				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobBrowser');hideDropDown(7);">Manage Jobs</a></li>
-				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobHistory');hideDropDown(7);">History</a></li>
-				<li onmouseout="showDropDown(7);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobStatus');hideDropDown(7);">Status</a></li>
+				<li onmouseout="showDropDown(5);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobBrowser');hideDropDown(5);">Manage Jobs</a></li>
+				<li onmouseout="showDropDown(5);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobHistory');hideDropDown(5);">History</a></li>
+				<li onmouseout="showDropDown(5);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobStatus');hideDropDown(5);">Status</a></li>
 			</ul>
 		</li>
 
