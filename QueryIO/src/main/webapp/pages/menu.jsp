@@ -116,17 +116,17 @@
 				HDFS</a>
 			<ul>
 				<li onmouseout="showDropDown(7);"><a
-					href="javascript:Navbar.changeTab('Hadoop','Hadoop','HDFS');hideDropDown(7);">
+					href="javascript:Navbar.changeTab('Hadoop','Hadoop');hideDropDown(7);">
 						HDFS Overview</a></li>
 				<li onmouseout="showDropDown(7);"><a
-					href="javascript:Navbar.changeTab('Hadoop','nn_summary');hideDropDown(7);">NameNode</a></li>
+					href="javascript:Navbar.changeTab('Hadoop','Hadoop','nn_summary');hideDropDown(7);">NameNode</a></li>
 				<li onmouseout="showDropDown(7);"><a
-					href="javascript:Navbar.changeTab('Hadoop','dn_summary');hideDropDown(7);">DataNode</a></li>
+					href="javascript:Navbar.changeTab('Hadoop','Hadoop','dn_summary');hideDropDown(7);">DataNode</a></li>
 				<li onmouseout="showDropDown(7);"><a id="Check Point"
-					href="javascript:Navbar.changeTab('System Config','Hadoop', 'JournalNode');hideDropDown(7);">Journal
+					href="javascript:Navbar.changeTab('Hadoop','Hadoop', 'JournalNode');hideDropDown(7);">Journal
 						Node</a></li>
 				<li onmouseout="showDropDown(7);"><a id="Check Point"
-					href="javascript:Navbar.changeTab('System Config','Hadoop', 'CheckPointNode','CheckPointNode');hideDropDown(7);">CheckPoint
+					href="javascript:Navbar.changeTab('Hadoop','Hadoop', 'CheckPointNode','CheckPointNode');hideDropDown(7);">CheckPoint
 						Node</a></li>
 				<li onmouseout="showDropDown(7);"><a id="System Config"
 					href="javascript:Navbar.changeTab('Hadoop','Hadoop', 'system_config_HDFS');hideDropDown(7);">Configure
@@ -134,65 +134,62 @@
 			</ul></li>
 
 		<li onmouseout="showDropDown(7);" class="admin"><a
-			href="javascript:Navbar.changeTab('Hadoop','Hadoop','MapReduce');hideDropDown(7);">
+			href="javascript:Navbar.changeTab('MapReduce','MapReduce');hideDropDown(7);">
 				Manage MapReduce/Yarn</a>
 			<ul>
 				<li onmouseout="showDropDown(7);"><a
-					href="javascript:Navbar.changeTab('Hadoop','Hadoop','MapReduce');hideDropDown(7);">
+					href="javascript:Navbar.changeTab('MapReduce','MapReduce');hideDropDown(7);">
 						MapReduce Overview</a></li>
 				<li onmouseout="showDropDown(7);"><a
-					href="javascript:Navbar.changeTab('Hadoop','Hadoop', 'ResourceManager');hideDropDown(7);">ResourceManager</a></li>
+					href="javascript:Navbar.changeTab('MapReduce','MapReduce', 'ResourceManager');hideDropDown(7);">ResourceManager</a></li>
 				<li onmouseout="showDropDown(7);"><a
-					href="javascript:Navbar.changeTab('Hadoop','Hadoop', 'NodeManager');hideDropDown(7);">NodeManager</a></li>
-				<li onmouseout="showDropDown(7);"><a
-					href="javascript:Navbar.changeTab('Hadoop','Hadoop','JobBrowser');hideDropDown(7);">Job
-						Manager</a></li>
+					href="javascript:Navbar.changeTab('MapReduce','MapReduce', 'NodeManager');hideDropDown(7);">NodeManager</a></li>
 				<li onmouseout="showDropDown(7);"><a id="System Config"
-					href="javascript:Navbar.changeTab('System Config','Hadoop', 'system_config_MR','MapReduce');hideDropDown(7);">Configure
+					href="javascript:Navbar.changeTab('MapReduce','MapReduce', 'system_config_MR','MapReduce');hideDropDown(7);">Configure
 						MapReduce</a></li>
 			</ul></li>
 
 		<li onmouseout="showDropDown(7);" id="QioSvc_li" class="admin"><a
 			id="Hadoop"
-			href="javascript:Navbar.changeTab('Hadoop','Hadoop');hideDropDown(7);">Monitor</a>
+			href="javascript:Navbar.changeTab('Monitor','Monitor','system_monitor');hideDropDown(7);">Monitor</a>
 			<ul id="Admin">
 				<li onmouseout="showDropDown(5);"><a
-					href="javascript:Navbar.changeTab('Status','dashboard', 'system_monitor');hideDropDown(5);">Status</a></li>
+					href="javascript:Navbar.changeTab('Monitor','Monitor', 'system_monitor');hideDropDown(5);">Status</a></li>
 				<li onmouseout="showDropDown(7);"><a
-					href="javascript:Navbar.changeTab('Hadoop','Hadoop','HDFS');hideDropDown(7);">
+					href="javascript:Navbar.changeTab('Monitor','Monitor','HDFS');hideDropDown(7);">
 						HDFS Monitor</a></li>
 				<li onmouseout="showDropDown(5);"><a
-					href="javascript:Navbar.changeTab('Dashboard','dashboard','MapReduce');hideDropDown(5);">
+					href="javascript:Navbar.changeTab('Monitor','Monitor','MapReduce');hideDropDown(5);">
 						MapReduce Monitor</a></li>
 			</ul></li>
 
 		<li onmouseout="showDropDown(7);" id="QioSvc_li" class="last admin" style="border-right: 0px; width: 19%;"><a
 			id="Hadoop"
-			href="javascript:Navbar.changeTab('Hadoop','Hadoop');hideDropDown(7);">Others</a>
+			href="javascript:Navbar.changeTab('Admin','Admin','queryio_services');hideDropDown(7);">Others</a>
 			<ul id="Admin">
 				<li onmouseout="showDropDown(9);"><a id="FTP Server"
-					href="javascript:Navbar.changeTab('QueryIO Services','admin', 'queryio_services');hideDropDown(9);">QueryIO
+					href="javascript:Navbar.changeTab('Admin','Admin','queryio_services');hideDropDown(9);">QueryIO
 						Services</a></li>
 				<li onmouseout="showDropDown(9);"><a
-					href="javascript:Navbar.changeTab('DB_Config','admin','manage_datasources');hideDropDown(9);">Manage
+					href="javascript:Navbar.changeTab('Admin','Admin','manage_datasources');hideDropDown(9);">Manage
 						Datasource</a></li>
 				<li onmouseout="showDropDown(9);"><a id="Users"
-					href="javascript:Navbar.changeTab('Users','admin','users');hideDropDown(9);">
+					href="javascript:Navbar.changeTab('Admin','Admin','users');hideDropDown(9);">
 						Users & Groups</a></li>
 				<li onmouseout="showDropDown(5);"><a
-					href="javascript:Navbar.changeTab('All Alerts','dashboard', 'all_alerts');hideDropDown(5);">
+					href="javascript:Navbar.changeTab('Admin','Admin','all_alerts');hideDropDown(5);">
 						Alerts</a></li>
 				<li onmouseout="showDropDown(5);"><a id="Configure Alerts"
-					href="javascript:Navbar.changeTab('Configure Alerts','dashboard', 'set_alerts');hideDropDown(5);">Rules
+					href="javascript:Navbar.changeTab('Admin','Admin','set_alerts');hideDropDown(5);">Rules
 				</a></li>
 				<li onmouseout="showDropDown(5);"><a id="Users"
-					href="javascript:Navbar.changeTab('Notifications','dashboard','notifications');hideDropDown(5);">
+					href="javascript:Navbar.changeTab('Admin','Admin','notifications');hideDropDown(5);">
 						Notifications</a></li>
 				<li onmouseout="showDropDown(9);"><a
-					href="javascript:Navbar.changeTab('All Reports','admin', 'all_reports');hideDropDown(9);">System
+					href="javascript:Navbar.changeTab('Admin','Admin', 'all_reports');hideDropDown(9);">System
 						Reports</a></li>
 				<li onmouseout="showDropDown(9);"><a id="Report Schedules"
-					href="javascript:Navbar.changeTab('Report Schedules','admin', 'report_schedules');hideDropDown(9);">
+					href="javascript:Navbar.changeTab('Admin','Admin', 'report_schedules');hideDropDown(9);">
 						Schedules</a></li>
 			</ul></li>
 
