@@ -49,7 +49,7 @@
 		<antcall target="create.jar" />
 		<antcall target="copy.resources" />
 		<copy toDir="${dir.queryio}/UserLibs/Plugins">
-			<fileset dir="${dir.source}/QueryIO/target/QueryIO/WEB-INF/lib">
+			<fileset dir="${dir.source}/queryio-parent/lib/otherJar">
 				<include name="tika-app-1.14.jar" />
 			</fileset>
 		</copy>
