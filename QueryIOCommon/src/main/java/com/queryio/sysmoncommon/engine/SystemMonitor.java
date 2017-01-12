@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import com.queryio.common.IOSProtocolConstants;
 import com.queryio.common.QueryIOConstants;
@@ -176,6 +177,7 @@ public class SystemMonitor {
 				}
 			} else if (isMacOS(OS_NAME)) {
 				list = getMacOSMachineStatistics();
+				AppLogger.getLogger().debug(new ObjectMapper().writeValueAsString(list));
 				if (list != null) {
 					networkInfo = (NetworkInfo[]) list.get(0);
 					diskInfo = (DiskInfo[]) list.get(1);
@@ -275,7 +277,7 @@ public class SystemMonitor {
 					diskInfo = monitor.getPhysicalDiskInfo();
 					cpuUssage = monitor.getSystemCPUUsage();
 					memoryInfo = monitor.getPhysicalMemoryInfo();
-
+					AppLogger.getLogger().debug(new ObjectMapper().writeValueAsString(memoryInfo));
 					break;
 				}
 			}
