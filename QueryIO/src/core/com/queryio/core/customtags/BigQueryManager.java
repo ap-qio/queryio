@@ -94,6 +94,92 @@ public class BigQueryManager {
 		}
 		return dwrResponse;
 	}
+	
+	public static DWRResponse saveChart(String queryId, String jsonProperties) {
+
+		DWRResponse dwrResponse = new DWRResponse();
+
+		Connection connection = null;
+
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			String user = RemoteManager.getLoggedInUser();
+
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, "Failed to save query: " + e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+	}
+	
+	public static DWRResponse saveTable(String queryId, String jsonProperties) {
+
+		DWRResponse dwrResponse = new DWRResponse();
+
+		Connection connection = null;
+
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			String user = RemoteManager.getLoggedInUser();
+
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, "Failed to save query: " + e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+	}
+	
+	public static DWRResponse saveQuery(String namenodeId, String dbName, String jsonProperties) {
+
+		DWRResponse dwrResponse = new DWRResponse();
+
+		Connection connection = null;
+
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			String user = RemoteManager.getLoggedInUser();
+
+			JSONParser parser = new JSONParser();
+			JSONObject properties = (JSONObject) parser.parse(jsonProperties);
+			properties.put("username", user);
+			String queryId = (String) properties.get(BigQueryIdentifiers.QUERYID);
+
+			BigQueryDAO.deleteBigQuery(connection, queryId, namenodeId, user);
+			BigQueryDAO.saveBigQuery(connection, queryId, (String) properties.get(BigQueryIdentifiers.QUERYDESC),
+					properties, namenodeId, dbName, user);
+
+			dwrResponse = checkRptDesignExists(connection, namenodeId, queryId, properties, true, true);
+
+			if (dwrResponse.isTaskSuccess())
+				dwrResponse.setDwrResponse(true, "Query saved successfully", 200);
+			else {
+				String resp = dwrResponse.getResponseMessage();
+				dwrResponse.setDwrResponse(false, "Failed to save query: " + resp, 500);
+			}
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, "Failed to save query: " + e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+	}
 
 	public static DWRResponse saveChartPreferences(String chartPreferencesJson) {
 
