@@ -324,7 +324,7 @@ public class SSHExportMigrationThread extends Thread {
 		}
 		migrationInfo.setStatus("Migrated " + successCount + " of " + totalFiles + " objects."
 				+ (failCount > 0 ? " Failed cases: " + failCount + "." : ""));
-		if (unitCount != 0 && (successCount + failCount) % unitCount == 0) {
+		if (unitCount == 0 || (successCount + failCount) % unitCount == 0) {
 			updateMigrationStatusInDB();
 		}
 	}
