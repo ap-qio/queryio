@@ -148,8 +148,6 @@ public class HostMonitorController extends Thread {
 
 				systemStatistics = QueryIOAgentManager.getSystemStatistics(host);
 
-				AppLogger.getLogger().debug(Arrays.toString(systemStatistics.getDiskInfo()));
-
 				// if(AppLogger.getLogger().isDebugEnabled())
 				// AppLogger.getLogger().debug("CPU Usage: " +
 				// systemStatistics.getCpuUsage());

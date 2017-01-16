@@ -1,9 +1,11 @@
 package com.queryio.ssh.migrate;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.Timestamp;
@@ -43,6 +45,8 @@ public class SSHExportMigrationThread extends Thread {
 	private long failCount = 0;
 	private long unitCount = 0;
 	private MigrationInfo migrationInfo;
+
+	private static int SCP_ACK_READ_TIMEOUT = 10000; // in ms
 
 	private FileSystem dfs;
 
@@ -132,6 +136,7 @@ public class SSHExportMigrationThread extends Thread {
 			}
 		}
 
+		AppLogger.getLogger().debug("Export Thread interrupted after updating status, closing the dfs stream");
 		super.interrupt();
 
 		try {
@@ -196,11 +201,13 @@ public class SSHExportMigrationThread extends Thread {
 
 					FileStatus fileStatus = dfs.getFileStatus(sourcePath);
 					if (fileStatus.isDirectory()) {
+						AppLogger.getLogger().debug("Source is a directory, hence using recursive approach");
 						createFolder(migrationInfo.getDestinationPath() + File.separator
 								+ fileStatus.getPath().getName().toString());
 						exportRecursive(sourcePath, migrationInfo.getDestinationPath() + File.separator
 								+ fileStatus.getPath().getName().toString());// ,
 																				// fileStatus);
+						AppLogger.getLogger().debug("Completed Export of the files");
 					} else
 						exportFile(sourcePath, importedFilePath);
 				} catch (Exception e) {
@@ -209,7 +216,7 @@ public class SSHExportMigrationThread extends Thread {
 					failCount++;
 				}
 			}
-
+			AppLogger.getLogger().debug("Migration Complete, setting end time");
 			migrationInfo.setEndTime(new Timestamp(System.currentTimeMillis()));
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal("Error occured in migration.", e);
@@ -253,15 +260,25 @@ public class SSHExportMigrationThread extends Thread {
 
 	private void exportRecursive(Path sourcePath, String folderName) throws Exception {
 		FileStatus[] files = dfs.listStatus(sourcePath);
-
-		for (FileStatus file : files) {
-			if (file.isDirectory()) {
-				createFolder(folderName + File.separator + file.getPath().getName().toString());
-				exportRecursive(file.getPath(), folderName + File.separator + file.getPath().getName().toString());
-			} else {
-				exportFile(file.getPath(), new Path(folderName + File.separator + file.getPath().getName()));
+		int i = 1;
+		AppLogger.getLogger().debug("Total Number of Files found from HDFS: " + files.length);
+		try {
+			for (FileStatus file : files) {
+				AppLogger.getLogger().debug(String.format("%d. %s ", i++, file.getPath()));
+				if (file.isDirectory()) {
+					AppLogger.getLogger().debug(String.format("Exporting Directory : %s", file.getPath()));
+					createFolder(folderName + File.separator + file.getPath().getName().toString());
+					exportRecursive(file.getPath(), folderName + File.separator + file.getPath().getName().toString());
+				} else {
+					AppLogger.getLogger().debug("Exporting file: " + file.getPath());
+					exportFile(file.getPath(), new Path(folderName + File.separator + file.getPath().getName()));
+				}
 			}
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal("Found exception while exporting files at index " + i + " : " + e.getMessage());
+			throw e;
 		}
+
 	}
 
 	private void createFolder(String path) {
@@ -280,12 +297,13 @@ public class SSHExportMigrationThread extends Thread {
 		InputStream inputStream;
 		long fileLength;
 		int connectRetry = 0;
+		AppLogger.getLogger().debug(String.format("Trying to export from %s, to %s", sourcePath, importedFilePath));
 		try {
 			obj = getObject(sourcePath);
-
 			inputStream = (InputStream) obj[0];
 			fileLength = ((Long) obj[1]).longValue();
 		} catch (Exception e) {
+			AppLogger.getLogger().debug(String.format("Got an error in exporting %s : %s", e.getMessage(), sourcePath));
 			Thread.sleep(3000);
 			if (connectRetry == 3) {
 				failCount++;
@@ -367,6 +385,41 @@ public class SSHExportMigrationThread extends Thread {
 			channel.connect();
 			out = channel.getOutputStream();
 			in = channel.getInputStream();
+
+			// byte[] buffer = new byte[1024];
+			// while (true) {
+			// while (in.available() > 0) {
+			// int i = in.read(buffer, 0, 1024);
+			// if (i < 0)
+			// break;
+			// AppLogger.getLogger().debug(new String(buffer, 0, i));
+			// }
+			// if (((ChannelExec) channel).isClosed()) {
+			// if (in.available() > 0)
+			// continue;
+			// AppLogger.getLogger().debug("exit-status: " + ((ChannelExec)
+			// channel).getExitStatus());
+			// break;
+			// }
+			// try {
+			// Thread.sleep(1000);
+			// } catch (Exception ee) {
+			// AppLogger.getLogger().fatal(ee);
+			// }
+			// }
+			//
+			// if (channel.getExitStatus() != 0) {
+			// AppLogger.getLogger().fatal("Unable to complete file transfer");
+			// BufferedReader errorReader = new BufferedReader(
+			// new InputStreamReader(((ChannelExec) channel).getErrStream()));
+			// String line;
+			// AppLogger.getLogger().fatal("Error: ");
+			// while ((line = errorReader.readLine()) != null) {
+			// AppLogger.getLogger().fatal(line);
+			// }
+			// } else {
+			// AppLogger.getLogger().debug("File successfully transferred");
+			// }
 
 			if (checkAck(in) != 0) {
 				if (AppLogger.getLogger().isDebugEnabled())
@@ -452,8 +505,23 @@ public class SSHExportMigrationThread extends Thread {
 		}
 	}
 
-	private static int checkAck(InputStream in) throws IOException {
-		int b = in.read();
+	private static int checkAck(InputStream in) throws IOException, InterruptedException {
+		int time = 0;
+		int b = 0;
+		while (true) {
+			if (in.available() > 0) {
+				b = in.read();
+				AppLogger.getLogger().debug("Successfully read response : " + b);
+				break;
+			} else {
+				if (time > SCP_ACK_READ_TIMEOUT) {
+					AppLogger.getLogger().debug("Read timeout occurred");
+					break;
+				}
+				time += 100;
+				Thread.sleep(100);
+			}
+		}
 		// b may be 0 for success,
 		// 1 for error,
 		// 2 for fatal error,
