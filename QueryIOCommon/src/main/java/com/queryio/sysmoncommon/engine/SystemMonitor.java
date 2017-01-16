@@ -177,7 +177,6 @@ public class SystemMonitor {
 				}
 			} else if (isMacOS(OS_NAME)) {
 				list = getMacOSMachineStatistics();
-				AppLogger.getLogger().debug(new ObjectMapper().writeValueAsString(list));
 				if (list != null) {
 					networkInfo = (NetworkInfo[]) list.get(0);
 					diskInfo = (DiskInfo[]) list.get(1);
@@ -277,7 +276,6 @@ public class SystemMonitor {
 					diskInfo = monitor.getPhysicalDiskInfo();
 					cpuUssage = monitor.getSystemCPUUsage();
 					memoryInfo = monitor.getPhysicalMemoryInfo();
-					AppLogger.getLogger().debug(new ObjectMapper().writeValueAsString(memoryInfo));
 					break;
 				}
 			}
