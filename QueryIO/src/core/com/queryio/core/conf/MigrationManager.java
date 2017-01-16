@@ -9,7 +9,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -1464,6 +1467,7 @@ public class MigrationManager {
 
 	public static boolean stopMigration(int id) {
 		Connection connection = null;
+		AppLogger.getLogger().fatal("Trying to stop migration of data");
 		try {
 			connection = CoreDBManager.getQueryIODBConnection();
 			MigrationInfo migrationInfo = MigrationInfoDAO.getById(connection, id);
@@ -1517,6 +1521,7 @@ public class MigrationManager {
 	}
 
 	public static void stopAllMigrationThreads() {
+		AppLogger.getLogger().fatal("Stopping all migration threads");
 		if (migrationThreadMap != null) {
 			if (migrationThreadMap.size() != 0) {
 				final Iterator itr = migrationThreadMap.keySet().iterator();
