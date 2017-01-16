@@ -138,18 +138,6 @@ public class EncryptionHandler {
 			LOG.info("secretKey: " + secretKeyMap.get(encryptionKey));
 			LOG.info("params: " + INIT_VECTOR);
 			cipher = Cipher.getInstance(TRANSFORMATION);
-			int maxKeyLength = Cipher.getMaxAllowedKeyLength(TRANSFORMATION);
-			System.out.println(encryptionKey.getBytes().length);
-			System.out.println("Java Virtual Machine specification version  : "
-					+ System.getProperty("java.vm.specification.version"));
-			System.out.println("Java Virtual Machine specification vendor : "
-					+ System.getProperty("java.vm.specification.vendor"));
-			System.out.println(
-					"Java Virtual Machine specification name : " + System.getProperty("java.vm.specification.name"));
-			System.out
-					.println("Java Virtual Machine implementation version : " + System.getProperty("java.vm.version"));
-			System.out.println("Java Virtual Machine implementation vendor : " + System.getProperty("java.vm.vendor"));
-			System.out.println("Java Virtual Machine implementation name : " + System.getProperty("java.vm.name"));
 			LOG.info("key-algo: " + secretKeyMap.get(encryptionKey).getAlgorithm());
 			cipher.init(mode, secretKeyMap.get(encryptionKey), new IvParameterSpec(INIT_VECTOR));
 		}

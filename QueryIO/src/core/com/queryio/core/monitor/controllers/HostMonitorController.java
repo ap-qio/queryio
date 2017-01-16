@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -146,6 +147,8 @@ public class HostMonitorController extends Thread {
 				// Host Monitoring
 
 				systemStatistics = QueryIOAgentManager.getSystemStatistics(host);
+
+				AppLogger.getLogger().debug(Arrays.toString(systemStatistics.getDiskInfo()));
 
 				// if(AppLogger.getLogger().isDebugEnabled())
 				// AppLogger.getLogger().debug("CPU Usage: " +
