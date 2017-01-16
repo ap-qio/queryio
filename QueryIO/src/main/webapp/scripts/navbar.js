@@ -39,6 +39,11 @@ Navbar = {
 	promptPasswordChange : false,
 	imgArray : new Array(),
 	
+	isAddNewChart: false,
+	isEditChart: false,
+	selectedChartId: null,
+	CM.isNewChart = true,
+	
 	changeTab: function (selectedId, tabName, childtab, grandchildtab) {
 		
 		console.log("selectedId: " + selectedId);
@@ -170,6 +175,57 @@ Navbar = {
 				Navbar.doAutoRefresh=true;
 			}
 		}
+		
+		else if (tabName == 'queries') {
+			if (childtab == 'define_schema') 
+			{
+				header = 'Define Schema ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/adHocQuery.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'define_data_tags') 
+			{
+				header = 'Data Tags';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/data_tagging.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'data_migration') 
+			{
+				header = 'Data Import/Export ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Data </span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/data_migration.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'data_overview') 
+			{
+				header = 'Overview ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Data </span>';
+				source = 'resources/data_overview.html';
+				Navbar.doAutoRefresh=true;
+			}
+		}
+
+		else if (tabName == 'tables') {
+			
+		}
+		
+		else if (tabName == 'charts') {
+			
+		}
+		
+		else if (tabName == 'reports') {
+			
+		}
+		
 		else if (tabName == 'analytics')
 		{
 			selectedId = 'Analytics';

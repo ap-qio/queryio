@@ -50,49 +50,74 @@
 				<li onmouseout="showDropDown(1);"><a
 					href="javascript:Navbar.changeTab('Data','data');hideDropDown(1);">Browse</a></li>
 				<li onmouseout="showDropDown(1);"><a
-					href="javascript:Navbar.changeTab('DB_Config','data','define_schema');hideDropDown(1);">Define Schema</a></li>
+					href="javascript:Navbar.changeTab('DB_Config','data','define_schema');hideDropDown(1);">Define
+						Schema</a></li>
 				<li onmouseout="showDropDown(1);"><a
-					href="javascript:Navbar.changeTab('DB_Config','data','define_data_tags');hideDropDown(1);">Define Tags</a></li>				
-			</ul>
-		</li>
+					href="javascript:Navbar.changeTab('DB_Config','data','define_data_tags');hideDropDown(1);">Define
+						Tags</a></li>
+			</ul></li>
 
-		<li onmouseout="showDropDown(3);" id="Analytics" class="user"><a
-			href="javascript:Navbar.changeTab('Analytics','analytics', 'analytics_overview');hideDropDown(3);">Analyze</a>
+		<li onmouseout="showDropDown(3);" id="Queries" class="user"><a
+			href="javascript:Navbar.changeTab('Queries','queries', 'queries_overview');hideDropDown(3);">Queries</a>
 			<ul>
 				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Manage Query</a></li>
+					href="javascript:Navbar.changeTab('QueryManager','queries', 'manage_queries');hideDropDown(3);">Manage
+						Queries</a></li>
 				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('QueryDesigner','analytics','QueryDesigner');hideDropDown(3);">Design Report</a></li>
+					href="javascript:Navbar.changeTab('QueryEditor','queries','edit_queries');hideDropDown(3);">Edit
+						Queries</a></li>
 				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('QueryViewer','analytics','QueryViewer');hideDropDown(3);">View Report</a></li>
- 				<li onmouseout="showDropDown(3);"><a
 					href="javascript:Navbar.changeTab('QuerySpreadSheet','analytics','QuerySpreadSheet');hideDropDown(3);">SpreadSheet</a></li>
- 				<!-- <li onmouseout="showDropDown(3);"><a  href="javascript:Navbar.changeTab('QuerySpreadSheetSlick','analytics','QuerySpreadSheetSlick');hideDropDown(3);">Slick SpreadSheet Viewer</a></li>-->
 			</ul></li>
 
-		<li onmouseout="showDropDown(5);" id="Jobs_li" style="border-right: 0px; width: 33%;" class="user end">
-			<a
-			href="javascript:Navbar.changeTab('jobs','jobs', 'jobs_overview');hideDropDown(5);">Jobs</a>
+		<li onmouseout="showDropDown(5);" id="Charts" class="user"><a
+			href="javascript:Navbar.changeTab('Charts','charts', 'charts_overview');hideDropDown(5);">Charts</a>
 			<ul>
-				<li onmouseout="showDropDown(5);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobBrowser');hideDropDown(5);">Manage Jobs</a></li>
-				<li onmouseout="showDropDown(5);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobHistory');hideDropDown(5);">History</a></li>
-				<li onmouseout="showDropDown(5);"><a href="javascript:Navbar.changeTab('jobs','jobs','JobStatus');hideDropDown(5);">Status</a></li>
-			</ul>
-		</li>
-
-<!-- 		<li onmouseout="showDropDown(3);" id="Scheduler_li" class="user"
-			style="border-right: 0px; width: 24%;"><a
-			href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Scheduler</a>
-			<ul>
-				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('Analytics','analytics');hideDropDown(3);">Query</a></li>
-				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('QueryDesigner','analytics','QueryDesigner');hideDropDown(3);">Jobs</a></li>
-				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('QueryViewer','analytics','QueryViewer');hideDropDown(3);">Status</a></li>
+				<li onmouseout="showDropDown(5);"><a
+					href="javascript:Navbar.changeTab('ChartManager','charts', 'manage_charts');hideDropDown(5);">Manage
+						Charts</a></li>
+				<li onmouseout="showDropDown(5);"><a
+					href="javascript:Navbar.changeTab('ChartEditor','charts','edit_charts');hideDropDown(5);">Edit
+						Charts</a></li>
 			</ul></li>
- -->
 
+		<li onmouseout="showDropDown(7);" id="Tables" class="user"><a
+			href="javascript:Navbar.changeTab('Tables','tables', 'analytics_overview');hideDropDown(7);">Tables</a>
+			<ul>
+				<li onmouseout="showDropDown(7);"><a
+					href="javascript:Navbar.changeTab('TableManager','tables', 'manage_tables');hideDropDown(7);">Manage
+						Tables</a></li>
+				<li onmouseout="showDropDown(7);"><a
+					href="javascript:Navbar.changeTab('TableEditor','tables','edit_tables');hideDropDown(7);">Edit
+						Tables</a></li>
+			</ul></li>
+
+		<li onmouseout="showDropDown(9);" id="Analytics" class="user"><a
+			href="javascript:Navbar.changeTab('Reports','reports', 'reports_overview');hideDropDown(9);">Reports</a>
+			<ul>
+				<li onmouseout="showDropDown(9);"><a
+					href="javascript:Navbar.changeTab('ReportManager','reports', 'manage_reports');hideDropDown(9);">Manage
+						Reports</a></li>
+				<li onmouseout="showDropDown(9);"><a
+					href="javascript:Navbar.changeTab('ReportDesigner','reports', 'design_reports');hideDropDown(9);">Design
+						Report</a></li>
+				<li onmouseout="showDropDown(9);"><a
+					href="javascript:Navbar.changeTab('ReportViewer','reports', 'run_report');hideDropDown(9);">View
+						Report</a></li>
+			</ul></li>
+
+		<li onmouseout="showDropDown(11);" id="Jobs_li"
+			style="border-right: 0px; width: 33%;" class="user end"><a
+			href="javascript:Navbar.changeTab('jobs','jobs', 'jobs_overview');hideDropDown(11);">Jobs</a>
+			<ul>
+				<li onmouseout="showDropDown(11);"><a
+					href="javascript:Navbar.changeTab('jobs','jobs','JobBrowser');hideDropDown(11);">Manage
+						Jobs</a></li>
+				<li onmouseout="showDropDown(11);"><a
+					href="javascript:Navbar.changeTab('jobs','jobs','JobHistory');hideDropDown(11);">History</a></li>
+				<li onmouseout="showDropDown(11);"><a
+					href="javascript:Navbar.changeTab('jobs','jobs','JobStatus');hideDropDown(11);">Status</a></li>
+			</ul></li>
 
 		<%
 			} else {
@@ -111,7 +136,8 @@
 						Hosts</a></li>
 			</ul></li>
 
-		<li onmouseout="showDropDown(7);" class="admin"><a id="System Config"
+		<li onmouseout="showDropDown(7);" class="admin"><a
+			id="System Config"
 			href="javascript:Navbar.changeTab('Hadoop','Hadoop','HDFS');hideDropDown(7);">Manage
 				HDFS</a>
 			<ul>
@@ -163,8 +189,8 @@
 						MapReduce Monitor</a></li>
 			</ul></li>
 
-		<li onmouseout="showDropDown(7);" id="QioSvc_li" class="last admin" style="border-right: 0px; width: 19%;"><a
-			id="Hadoop"
+		<li onmouseout="showDropDown(7);" id="QioSvc_li" class="last admin"
+			style="border-right: 0px; width: 19%;"><a id="Hadoop"
 			href="javascript:Navbar.changeTab('Admin','Admin','queryio_services');hideDropDown(7);">Others</a>
 			<ul id="Admin">
 				<li onmouseout="showDropDown(9);"><a id="FTP Server"
