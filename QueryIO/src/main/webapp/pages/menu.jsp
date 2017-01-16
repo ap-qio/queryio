@@ -67,7 +67,7 @@
 					href="javascript:Navbar.changeTab('QueryEditor','queries','edit_queries');hideDropDown(3);">Edit
 						Queries</a></li>
 				<li onmouseout="showDropDown(3);"><a
-					href="javascript:Navbar.changeTab('QuerySpreadSheet','analytics','QuerySpreadSheet');hideDropDown(3);">SpreadSheet</a></li>
+					href="javascript:Navbar.changeTab('QuerySpreadSheet','queries','QuerySpreadSheet');hideDropDown(3);">SpreadSheet</a></li>
 			</ul></li>
 
 		<li onmouseout="showDropDown(5);" id="Charts" class="user"><a
@@ -92,7 +92,7 @@
 						Tables</a></li>
 			</ul></li>
 
-		<li onmouseout="showDropDown(9);" id="Analytics" class="user"><a
+		<li onmouseout="showDropDown(9);" id="Reports" class="user"><a
 			href="javascript:Navbar.changeTab('Reports','reports', 'reports_overview');hideDropDown(9);">Reports</a>
 			<ul>
 				<li onmouseout="showDropDown(9);"><a

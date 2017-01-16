@@ -74,7 +74,7 @@ Navbar = {
                 });
                 jQuery.alerts.okButton = ' Ok ';
     			jQuery.alerts.cancelButton  = ' Cancel';
-//            $("#popup_container").css("z-index","99999999");
+// $("#popup_container").css("z-index","99999999");
 		}
 		else
 		{
@@ -104,7 +104,7 @@ Navbar = {
 		
 		if (this.selectedChildTab == 'QuerySpreadSheet')
 		{
-//			console.log("Remove all textarea, if any.");
+// console.log("Remove all textarea, if any.");
 			$.sheet.killAll();
 		}
 		
@@ -177,53 +177,147 @@ Navbar = {
 		}
 		
 		else if (tabName == 'queries') {
-			if (childtab == 'define_schema') 
-			{
-				header = 'Define Schema ';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/adHocQuery.html';
-				Navbar.doAutoRefresh=true;
-			}
-			else if (childtab == 'define_data_tags') 
-			{
-				header = 'Data Tags';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Data Migration\',\'data\', \'data_migration\');"> Data</a></span><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/data_tagging.html';
-				Navbar.doAutoRefresh=true;
-			}
-			else if (childtab == 'data_migration') 
-			{
-				header = 'Data Import/Export ';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> Data </span><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-				source = 'resources/data_migration.html';
-				Navbar.doAutoRefresh=true;
-			}
-			else if (childtab == 'data_overview') 
+			if (childtab == 'queries_overview') 
 			{
 				header = 'Overview ';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-							+'<img src="images/forward.png" style="height:20px"><span> Data </span>';
-				source = 'resources/data_overview.html';
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Queries\',\'queries\', \'queries_overview\');"> Queries</a></span>';
+				source = 'resources/query_overview.html';
 				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'manage_queries') 
+			{
+				header = 'Manage Queries ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Queries\',\'queries\', \'queries_overview\');"> Queries</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Queries\',\'queries\',\'manage_queries\');">Manage Queries</span>';
+				source = 'resources/query_manager.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'edit_queries') 
+			{
+				header = 'Edit Queries ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Queries\',\'queries\', \'queries_overview\');"> Queries</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Queries\',\'queries\',\'edit_queries\');">Manage Queries</span>';
+				source = 'resources/query_editor.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if(childtab == 'QuerySpreadSheet') {
+				
+				if(document.getElementById('bigQueryIds') != undefined){
+					var queryId = document.getElementById('bigQueryIds').value;
+					
+					Util.setCookie("last-visited-query",queryId,1);
+				}
+				
+                header = ' View SpreadSheet';
+                pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Queries\',\'queries\', \'queries_overview\');"> Queries</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'queries\',\'QuerySpreadSheet\');">View SpreadSheet</span>';
+                source = 'spreadsheet/spreadSheetView.html';
+                $('#refreshViewButton').hide();
+                document.getElementById("queryIONameNodeIdSpan").style.display = '';
 			}
 		}
 
 		else if (tabName == 'tables') {
+			if (childtab == 'tables_overview') 
+			{
+				header = 'Overview ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Tables\',\'tables\', \'tables_overview\');"> Tables</a></span>';
+				source = 'resources/table_overview.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'manage_tables') 
+			{
+				header = 'Manage Tables ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Tables\',\'tables\', \'tables_overview\');"> Tables</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Tables\',\'tables\', \'manage_tables\');">Manage Tables</span>';
+				source = 'resources/table_manager.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'edit_tables') 
+			{
+				header = 'Edit Charts ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Tables\',\'tables\', \'tables_overview\');"> Tables</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Tables\',\'tables\', \'edit_tables\');">Edit Tables</span>';
+				source = 'resources/table_editor.html';
+				Navbar.doAutoRefresh=true;
+			}
 			
 		}
 		
 		else if (tabName == 'charts') {
+			if (childtab == 'charts_overview') 
+			{
+				header = 'Overview ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Charts\',\'charts\', \'charts_overview\');"> Charts</a></span>';
+				source = 'resources/chart_overview.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'manage_charts') 
+			{
+				header = 'Manage Charts ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Charts\',\'charts\', \'charts_overview\');"> Charts</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Charts\',\'charts\', \'manage_charts\');">Manage Charts</span>';
+				source = 'resources/chart_manager.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'edit_charts') 
+			{
+				header = 'Edit Charts ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Charts\',\'charts\', \'charts_overview\');"> Charts</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Charts\',\'charts\', \'edit_charts\');">Edit Chart</span>';
+				source = 'resources/chart_editor.html';
+				Navbar.doAutoRefresh=true;
+			}
 			
 		}
 		
 		else if (tabName == 'reports') {
+			if (childtab == 'reports_overview') 
+			{
+				header = 'Overview ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Reports\',\'reports\', \'reports_overview\');"> Reports</a></span>';
+				source = 'resources/report_overview.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'manage_reports') 
+			{
+				header = 'Manage Reports ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Reports\',\'reports\', \'reports_overview\');"> Reports</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Reports\',\'reports\', \'reports_overview\');">Manage Reports</span>';
+				source = 'resources/report_manager.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if (childtab == 'design_reports') 
+			{
+				header = 'Edit Reports ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Reports\',\'reports\', \'reports_overview\');"> Reports</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Reports\',\'reports\', \'reports_overview\');">Design Reports</span>';
+				source = 'resources/report_editor.html';
+				Navbar.doAutoRefresh=true;
+			}
+			else if(childtab == 'run_report') {
+
+				header = 'Run Reports ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Reports\',\'reports\', \'reports_overview\');"> Reports</a></span><img src="images/forward.png" style="height:20px">'
+                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Reports\',\'reports\', \'reports_overview\');">Run Reports</span>';
+				source = 'resources/report_runner.html';
+				Navbar.doAutoRefresh=true;
 			
+			}
 		}
 		
 		else if (tabName == 'analytics')
@@ -564,8 +658,8 @@ Navbar = {
 			else if(childtab == 'report_schedules')
 			{
 				header = 'Schedules';
-//				header = childtab == 'all_reports' ? 'Reports':'Schedules';
-//				var temp = (childtab == 'all_reports' ? 'All Reports':'Report Schedules');
+// header = childtab == 'all_reports' ? 'Reports':'Schedules';
+// var temp = (childtab == 'all_reports' ? 'All Reports':'Report Schedules');
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Admin\',\'Admin\',\'queryio_services\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span> Others </span><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
@@ -583,480 +677,819 @@ Navbar = {
 //		
 //		
 //		
-//		else if (tabName == 'dashboard')
-//		{
-//			if (typeof(childtab) == "undefined")
-//			{
-//				header = 'Dashboard';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span> Dashboard</span>'
-//					+ '<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span>HDFS Overview</span>';
-//				source = 'resources/dashboard.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//			else if(childtab == 'MapReduce')
-//			{
-//				header = 'Dashboard';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"> Dashboard</a></span>'
-//							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span>MapReduce Overview</span>';
-//				source = 'resources/dashboard-MapReduce.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//			else if (childtab == "system_monitor")
-//			{
-//				header = 'System Monitor';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"> Dashboard</a></span>'
-//							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span>System Monitor</span>';
-//				source = 'resources/status.html';
-//				Navbar.doAutoRefresh=true;				
-//			}
-//			else if (childtab == "all_alerts")
-//			{
-//				header = 'Alerts';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"> Dashboard</a></span>'
-//							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span>System Alerts</span>';
-//				source = 'resources/alerts_list.html';
-//			}
-//			else if (childtab == 'set_alerts') 
-//			{
-//				header = 'Rules for Alerts';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"> Dashboard</a></span>'
-//							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/alerts_configure.html';
-//			}
-//			else if(childtab == 'notifications') 
-//			{
-//				header = 'Notifications';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"> Dashboard</a></span>'
-//							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/admin_notifications.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//			else if (childtab == 'notifications_rules_for_alerts')
-//			{
-//				header = 'Notifications';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"> Dashboard</a></span>'
-//							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Configure Alerts\',\'dashboard\', \'set_alerts\');"> Rules for Alerts</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/admin_notifications.html';
-//			}
-//			selectedId = 'Dashboard';
+// else if (tabName == 'dashboard')
+// {
+// if (typeof(childtab) == "undefined")
+// {
+// header = 'Dashboard';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px"><img src="images/forward.png"
+// style="height:20px"><span> Dashboard</span>'
+// + '<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span>HDFS Overview</span>';
+// source = 'resources/dashboard.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if(childtab == 'MapReduce')
+// {
+// header = 'Dashboard';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px"><img src="images/forward.png"
+// style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');">
+// Dashboard</a></span>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span>MapReduce
+// Overview</span>';
+// source = 'resources/dashboard-MapReduce.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if (childtab == "system_monitor")
+// {
+// header = 'System Monitor';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px"><img src="images/forward.png"
+// style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');">
+// Dashboard</a></span>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span>System Monitor</span>';
+// source = 'resources/status.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if (childtab == "all_alerts")
+// {
+// header = 'Alerts';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px"><img src="images/forward.png"
+// style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');">
+// Dashboard</a></span>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span>System Alerts</span>';
+// source = 'resources/alerts_list.html';
+// }
+// else if (childtab == 'set_alerts')
+// {
+// header = 'Rules for Alerts';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px"><img src="images/forward.png"
+// style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');">
+// Dashboard</a></span>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+// source = 'resources/alerts_configure.html';
+// }
+// else if(childtab == 'notifications')
+// {
+// header = 'Notifications';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px"><img src="images/forward.png"
+// style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');">
+// Dashboard</a></span>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+// source = 'resources/admin_notifications.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if (childtab == 'notifications_rules_for_alerts')
+// {
+// header = 'Notifications';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px"><img src="images/forward.png"
+// style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');">
+// Dashboard</a></span>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Configure Alerts\',\'dashboard\',
+// \'set_alerts\');"> Rules for Alerts</a></span><img src="images/forward.png"
+// style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// source = 'resources/admin_notifications.html';
+// }
+// selectedId = 'Dashboard';
 //			
-//		}
-//		else if (tabName == 'Hadoop') 
-//		{
-//			if(childtab == "HDFS")
-//			{
-//				header = 'HDFS Overview';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+ '<img src="images/forward.png" style="height:20px"><span>HDFS</span><img src="images/forward.png" style="height:20px">'
-//							+ '<img src="images/forward.png" style="height:20px"><span>HDFS Overview</span>';
-//				source = 'resources/dashboard.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//			else if (childtab == "MapReduce")
-//			{
-//				header = 'MapReduce Overview';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+ '<img src="images/forward.png" style="height:20px"><span>MapReduce</span><img src="images/forward.png" style="height:20px">'
-//							+ '<img src="images/forward.png" style="height:20px"><span>MapReduce Overview</span>';
-//				source = 'resources/dashboard-MapReduce.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//			else if (typeof(childtab) == "undefined")
-//			{
-//				header = 'System Monitor';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+ '<img src="images/forward.png" style="height:20px"><span> Hadoop</span><img src="images/forward.png" style="height:20px">'
-//							+ '<img src="images/forward.png" style="height:20px"><span>' + header + '</span>';
-//				source = 'resources/status.html';
-//				Navbar.doAutoRefresh=true;				
-//			}
-//			else if (childtab == "system_config_HDFS") 
-//			{
-//				header = "Configure HDFS";
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/system_config.html';
-//			}
-//			else if(childtab == 'JournalNode') 
-//			{
-//				header = 'Journal Node';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/journal_node.html';
-//			}
-//			else if(childtab == 'CheckPointNode') 
-//			{
-//				header = 'CheckPoint Node';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/check_point_node.html';
-//			}
-//			else if(childtab == 'system_config_MR')
-//			{
-//				header = "Configure "+grandchildtab;
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/system_config.html';
-//			}
-//			else if(childtab=='ResourceManager')
-//			{
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span>ResourceManager</span>';
-//				source = 'resources/resource_manager.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//			else if(childtab=='NodeManager')
-//			{
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span>NodeManager</span>';
-//				source = 'resources/node_manager.html';	
-//				Navbar.doAutoRefresh=true;
-//			}
-//			selectedId = 'Hadoop';
-//		}
+// }
+// else if (tabName == 'Hadoop')
+// {
+// if(childtab == "HDFS")
+// {
+// header = 'HDFS Overview';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// + '<img src="images/forward.png" style="height:20px"><span>HDFS</span><img
+// src="images/forward.png" style="height:20px">'
+// + '<img src="images/forward.png" style="height:20px"><span>HDFS
+// Overview</span>';
+// source = 'resources/dashboard.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if (childtab == "MapReduce")
+// {
+// header = 'MapReduce Overview';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// + '<img src="images/forward.png"
+// style="height:20px"><span>MapReduce</span><img src="images/forward.png"
+// style="height:20px">'
+// + '<img src="images/forward.png" style="height:20px"><span>MapReduce
+// Overview</span>';
+// source = 'resources/dashboard-MapReduce.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if (typeof(childtab) == "undefined")
+// {
+// header = 'System Monitor';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// + '<img src="images/forward.png" style="height:20px"><span> Hadoop</span><img
+// src="images/forward.png" style="height:20px">'
+// + '<img src="images/forward.png" style="height:20px"><span>' + header +
+// '</span>';
+// source = 'resources/status.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if (childtab == "system_config_HDFS")
+// {
+// header = "Configure HDFS";
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// source = 'resources/system_config.html';
+// }
+// else if(childtab == 'JournalNode')
+// {
+// header = 'Journal Node';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// source = 'resources/journal_node.html';
+// }
+// else if(childtab == 'CheckPointNode')
+// {
+// header = 'CheckPoint Node';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// source = 'resources/check_point_node.html';
+// }
+// else if(childtab == 'system_config_MR')
+// {
+// header = "Configure "+grandchildtab;
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');">
+// MapReduce</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// source = 'resources/system_config.html';
+// }
+// else if(childtab=='ResourceManager')
+// {
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');">
+// MapReduce</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png"
+// style="height:20px"><span>ResourceManager</span>';
+// source = 'resources/resource_manager.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if(childtab=='NodeManager')
+// {
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');">
+// MapReduce</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png"
+// style="height:20px"><span>NodeManager</span>';
+// source = 'resources/node_manager.html';
+// Navbar.doAutoRefresh=true;
+// }
+// selectedId = 'Hadoop';
+// }
 //		
-//		else if (tabName == 'analytics')
-//		{
-//			selectedId = 'Analytics';
-//			Navbar.isViewerView=false;
+// else if (tabName == 'analytics')
+// {
+// selectedId = 'Analytics';
+// Navbar.isViewerView=false;
 //			
-//			if (typeof(childtab) == "undefined")
-//			{
-//				header = 'Manage Query';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> ' + header + '</span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design Report</span></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View Report</span></a>'
-//							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');">SpreadSheet</span></a>';
-//				document.getElementById("queryIONameNodeIdSpan").style.display = '';
-//				source = 'resources/bigQuerySummary.html';
-//			}
-//			else if(childtab == 'QueryDesigner') 
-//			{
-//				header = 'Design Report';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage Query</span></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View Report</span></a>'
-//					+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');"> SpreadSheet </span></a>';
-//				source = 'resources/data_analyzerTab.html';
-//				document.getElementById("queryIONameNodeIdSpan").style.display = '';
-//				$('#queryIONameNodeId').attr('disabled','disabled');
-//				$('#refreshViewButton').hide();
+// if (typeof(childtab) == "undefined")
+// {
+// header = 'Manage Query';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span> ' + header +
+// '</span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design
+// Report</span></a><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View
+// Report</span></a>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');">SpreadSheet</span></a>';
+// document.getElementById("queryIONameNodeIdSpan").style.display = '';
+// source = 'resources/bigQuerySummary.html';
+// }
+// else if(childtab == 'QueryDesigner')
+// {
+// header = 'Design Report';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage
+// Query</span></a><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View
+// Report</span></a>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');">
+// SpreadSheet </span></a>';
+// source = 'resources/data_analyzerTab.html';
+// document.getElementById("queryIONameNodeIdSpan").style.display = '';
+// $('#queryIONameNodeId').attr('disabled','disabled');
+// $('#refreshViewButton').hide();
 //				
-//			}
-//			else if(childtab == 'QueryViewer') 
-//			{
-//				header = 'View Query';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage Query</span></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design Query</span></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>'
-//					+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');">SpreadSheet</span></a>';
-//				source = 'resources/bigQueryViewer.html';
-//				$('#refreshViewButton').hide();
-//				document.getElementById("queryIONameNodeIdSpan").style.display = '';
-//			}
-//			else if(childtab == 'QuerySpreadSheet') {
+// }
+// else if(childtab == 'QueryViewer')
+// {
+// header = 'View Query';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage
+// Query</span></a><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design
+// Query</span></a><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QuerySpreadSheet\',\'analytics\',\'QuerySpreadSheet\');">SpreadSheet</span></a>';
+// source = 'resources/bigQueryViewer.html';
+// $('#refreshViewButton').hide();
+// document.getElementById("queryIONameNodeIdSpan").style.display = '';
+// }
+// else if(childtab == 'QuerySpreadSheet') {
 //				
-//				if(document.getElementById('bigQueryIds') != undefined){
-//					var queryId = document.getElementById('bigQueryIds').value;
+// if(document.getElementById('bigQueryIds') != undefined){
+// var queryId = document.getElementById('bigQueryIds').value;
 //					
-//					Util.setCookie("last-visited-query",queryId,1);
-//				}
+// Util.setCookie("last-visited-query",queryId,1);
+// }
 //				
-//                header = ' View SpreadSheet';
-//                pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage Query</span></a><img src="images/forward.png" style="height:20px">'
-//                	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design Report</span></a><img src="images/forward.png" style="height:20px">'
-//                    +'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View Report</span></a>'
-//                    +'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//                source = 'spreadsheet/spreadSheetView.html';
-//                $('#refreshViewButton').hide();
-//                document.getElementById("queryIONameNodeIdSpan").style.display = '';
-//			}
-//			else if(childtab == 'QuerySpreadSheetSlick') {
-//				header = 'Slick SpreadSheet Viewer';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');"> Query Manager</span></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');"> Query Designer</span></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');"> Query Viewer</span></a>'
-//					+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/spreadSheet_slick.html';
-//				$('#refreshViewButton').hide();
-//				document.getElementById("queryIONameNodeIdSpan").style.display = '';
-//			}
-//		}
+// header = ' View SpreadSheet';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');">Manage
+// Query</span></a><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">Design
+// Report</span></a><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">View
+// Report</span></a>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+// source = 'spreadsheet/spreadSheetView.html';
+// $('#refreshViewButton').hide();
+// document.getElementById("queryIONameNodeIdSpan").style.display = '';
+// }
+// else if(childtab == 'QuerySpreadSheetSlick') {
+// header = 'Slick SpreadSheet Viewer';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Analytics\',\'analytics\');"> Query
+// Manager</span></a><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QueryDesigner\',\'analytics\',\'QueryDesigner\');">
+// Query Designer</span></a><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'QueryViewer\',\'analytics\',\'QueryViewer\');">
+// Query Viewer</span></a>'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+// source = 'resources/spreadSheet_slick.html';
+// $('#refreshViewButton').hide();
+// document.getElementById("queryIONameNodeIdSpan").style.display = '';
+// }
+// }
 //
-//		else if (tabName == 'nn_summary')
-//		{
-//				header = 'Rack Summary' +selectedId;
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'		
-//							+'<img src="images/forward.png" style="height:20px"><span> NameNode Summary</span>';
-//				source = 'resources/nn_summary.html';
-//				Navbar.doAutoRefresh=true;
-//				selectedId = 'Hadoop';
+// else if (tabName == 'nn_summary')
+// {
+// header = 'Rack Summary' +selectedId;
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span> NameNode
+// Summary</span>';
+// source = 'resources/nn_summary.html';
+// Navbar.doAutoRefresh=true;
+// selectedId = 'Hadoop';
 //				
-//		}
-//		else if (tabName == 'rack_summary') 
-//		{
-//			header = 'Rack Summary'+selectedId;
-//			pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');" class="tab_banner" >DataNode Summary</a></span><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span> '+selectedId+'</span>';
-//			Navbar.doAutoRefresh=true;
-//			selectedId = 'Hadoop';
-//			this.selectedRack=selectedId;
-//			source = 'resources/rack_summary.html';
+// }
+// else if (tabName == 'rack_summary')
+// {
+// header = 'Rack Summary'+selectedId;
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');"
+// class="tab_banner" >DataNode Summary</a></span><img src="images/forward.png"
+// style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+selectedId+'</span>';
+// Navbar.doAutoRefresh=true;
+// selectedId = 'Hadoop';
+// this.selectedRack=selectedId;
+// source = 'resources/rack_summary.html';
 //			
-//		}
-//		else if(tabName=='nn_host')
-//		{
-//			header = 'Host Summary'+selectedId;
-//			pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'nn_summary\');" class="tab_banner">NameNode Summary</a></span><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span> '+selectedId+'</span>';
-//			this.selectedHost=selectedId;
-//			source = 'resources/nn_host_summary.html';
-//			selectedId = 'Hadoop';
-//			Navbar.doAutoRefresh=true;
-//		}
-//		else if (tabName == 'host_summary')
-//		{
-//			header = 'Host Summary'+selectedId;
-//			pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
-//						+'<img src="images/forward.png" style="height:20px"><span> '+selectedId+'</span>';
-//			this.selectedHost=selectedId;
-//			selectedId = 'Hadoop';
-//			source = 'resources/host_summary.html';
-//			Navbar.doAutoRefresh=true;
-//		}
-//		else if (tabName == 'nn_detail') 
-//		{
-//				header = 'NameNode Details : '+selectedId;
-//				selectedNameNode = selectedId;
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'TreeNameNode\',\'nn_summary\');" class="tab_banner" >NameNode Summary</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\''+childtab+'\',\'nn_host\');" class="tab_banner" >'+childtab+'</a></span><img src="images/forward.png" style="height:20px">'	
-//							+'<img src="images/forward.png" style="height:20px"><span id="NameNode'+selectedId+'"> '+selectedId+'</span>';
+// }
+// else if(tabName=='nn_host')
+// {
+// header = 'Host Summary'+selectedId;
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'nn_summary\');"
+// class="tab_banner">NameNode Summary</a></span><img src="images/forward.png"
+// style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+selectedId+'</span>';
+// this.selectedHost=selectedId;
+// source = 'resources/nn_host_summary.html';
+// selectedId = 'Hadoop';
+// Navbar.doAutoRefresh=true;
+// }
+// else if (tabName == 'host_summary')
+// {
+// header = 'Host Summary'+selectedId;
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+selectedId+'</span>';
+// this.selectedHost=selectedId;
+// selectedId = 'Hadoop';
+// source = 'resources/host_summary.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if (tabName == 'nn_detail')
+// {
+// header = 'NameNode Details : '+selectedId;
+// selectedNameNode = selectedId;
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'TreeNameNode\',\'nn_summary\');"
+// class="tab_banner" >NameNode Summary</a></span><img src="images/forward.png"
+// style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\''+childtab+'\',\'nn_host\');"
+// class="tab_banner" >'+childtab+'</a></span><img src="images/forward.png"
+// style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span
+// id="NameNode'+selectedId+'"> '+selectedId+'</span>';
 //				
-//				source = 'resources/nn_detail.html';
-//				selectedNodeTypeForDetailView = "NameNode";
-//				selectedId = 'Hadoop';
-//				Navbar.doAutoRefresh=true;
+// source = 'resources/nn_detail.html';
+// selectedNodeTypeForDetailView = "NameNode";
+// selectedId = 'Hadoop';
+// Navbar.doAutoRefresh=true;
 //			
-//		}
-//		else if (tabName == 'dn_summary')
-//		{
-//				header = 'DataNode Summary';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
-//							+'<img src="images/forward.png" style="height:20px"><span> DataNode Summary</span>';
-//				Navbar.doAutoRefresh=true;
-//				source = 'resources/dn_summary.html';
-//		}
-//		else if (tabName == 'dn_detail') 
-//		{
-//			if (typeof(grandchildtab) == "undefined")
-//			{
-//				header = 'DataNode Details : '+selectedId;
-//				selectedDataNode = selectedId;
+// }
+// else if (tabName == 'dn_summary')
+// {
+// header = 'DataNode Summary';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span> DataNode
+// Summary</span>';
+// Navbar.doAutoRefresh=true;
+// source = 'resources/dn_summary.html';
+// }
+// else if (tabName == 'dn_detail')
+// {
+// if (typeof(grandchildtab) == "undefined")
+// {
+// header = 'DataNode Details : '+selectedId;
+// selectedDataNode = selectedId;
 //				
-//				pathHeader+=$('#pathbar_div').html();
+// pathHeader+=$('#pathbar_div').html();
 //				
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');" class="tab_banner" >DataNode Summary</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+selectedId+'</span>';
-//				source = 'resources/dn_detail_host.html';
-//				selectedNodeTypeForDetailView = "DataNode";
-//				selectedId = 'Hadoop';
-//				Navbar.doAutoRefresh=true;
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');">
+// HDFS</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');"
+// class="tab_banner" >DataNode Summary</a></span><img src="images/forward.png"
+// style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+selectedId+'</span>';
+// source = 'resources/dn_detail_host.html';
+// selectedNodeTypeForDetailView = "DataNode";
+// selectedId = 'Hadoop';
+// Navbar.doAutoRefresh=true;
 //				
-//			}
-//			else 
-//			{
-//				header = 'DataNode Volume Details';
-//				selectedDataNode = selectedId;
-//				pathHeader+=$('#pathbar_div').html();
-//				source = 'resources/dn_detail_volume.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//		}
-//		else if(tabName=='rm_detail')
-//		{
-//				header = 'ResourceManager Details : '+selectedId;
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'		
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\', \'ResourceManager\');"> ResourceManager</a></span><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px">';
-//				Navbar.doAutoRefresh=true;
-//				if(typeof(grandchildtab) != "undefined")
-//				{
-//					pathHeader += '<span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'rm_detail\',\''+childtab+'\');" class="tab_banner">'+childtab+'</a></span><img src="images/forward.png" style="height:20px">'
-//								 +'<img src="images/forward.png" style="height:20px"><span>'+grandchildtab+'</span>';
-//					selectedNodeTypeForDetailView = "RM";
-//				}
-//				else{
-//					pathHeader+='<span>'+childtab+'</span>';
-//				}
-//				source = 'resources/rm_detail.html';
-//				selectedId = 'Hadoop';
-//			source = 'resources/rm_detail.html';
+// }
+// else
+// {
+// header = 'DataNode Volume Details';
+// selectedDataNode = selectedId;
+// pathHeader+=$('#pathbar_div').html();
+// source = 'resources/dn_detail_volume.html';
+// Navbar.doAutoRefresh=true;
+// }
+// }
+// else if(tabName=='rm_detail')
+// {
+// header = 'ResourceManager Details : '+selectedId;
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');">
+// MapReduce</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',
+// \'ResourceManager\');"> ResourceManager</a></span><img
+// src="images/forward.png" style="height:20px"><img src="images/forward.png"
+// style="height:20px">';
+// Navbar.doAutoRefresh=true;
+// if(typeof(grandchildtab) != "undefined")
+// {
+// pathHeader += '<span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'rm_detail\',\''+childtab+'\');"
+// class="tab_banner">'+childtab+'</a></span><img src="images/forward.png"
+// style="height:20px">'
+// +'<img src="images/forward.png"
+// style="height:20px"><span>'+grandchildtab+'</span>';
+// selectedNodeTypeForDetailView = "RM";
+// }
+// else{
+// pathHeader+='<span>'+childtab+'</span>';
+// }
+// source = 'resources/rm_detail.html';
+// selectedId = 'Hadoop';
+// source = 'resources/rm_detail.html';
 //			
-//		}
-//		else if(tabName=='nm_detail')
-//		{
-//			header = 'NodeManager Details : '+selectedId;
-//			pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
-//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\', \'NodeManager\');"> NodeManager</a></span><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px">';
-//			Navbar.doAutoRefresh=true;
-//			if(typeof(grandchildtab) != "undefined")
-//			{
-//				pathHeader+='<span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'nm_detail\',\''+childtab+'\');">'+childtab+'</a></span><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px">'
-//				+'<span>'+grandchildtab+'</span>';
-//				selectedNodeTypeForDetailView = "NM";
-//			}
-//			else
-//			{
-//				pathHeader+='<span>'+childtab+'</span>';
-//			}
-//			source = 'resources/nm_detail.html';
+// }
+// else if(tabName=='nm_detail')
+// {
+// header = 'NodeManager Details : '+selectedId;
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');">
+// Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');">
+// MapReduce</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\', \'NodeManager\');">
+// NodeManager</a></span><img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px">';
+// Navbar.doAutoRefresh=true;
+// if(typeof(grandchildtab) != "undefined")
+// {
+// pathHeader+='<span><a
+// href="javascript:Navbar.changeTab(\'Hadoop\',\'nm_detail\',\''+childtab+'\');">'+childtab+'</a></span><img
+// src="images/forward.png" style="height:20px"><img src="images/forward.png"
+// style="height:20px">'
+// +'<span>'+grandchildtab+'</span>';
+// selectedNodeTypeForDetailView = "NM";
+// }
+// else
+// {
+// pathHeader+='<span>'+childtab+'</span>';
+// }
+// source = 'resources/nm_detail.html';
 //			
-//			selectedId = 'Hadoop';
-//		}
+// selectedId = 'Hadoop';
+// }
 //		
 //		
-//		else if (tabName == 'admin') 
-//		{
-//			if(typeof(childtab) == "undefined")
-//			{
-//				header = 'Cluster Setup ';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> Admin</span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
-//				source = 'resources/automate_cluster_setup.html';
-//				Navbar.doAutoRefresh=false;
-//			}
-//			else if(childtab == 'hosts') 
-//			{
-//				header = 'Manage Hosts';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/host_config.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//			else if (childtab == 'queryio_services') 
-//			{
-//				header = 'QueryIO Services ';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
-//				source = 'resources/queryio_services.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//			else if(childtab == 'BackupAndRecovery') 
-//			{
-//				header = 'Disaster Recovery';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/backup_recovery.html';
-//			}
-//			else if (childtab == 'all_reports') 
-//			{
-//				header = 'System Reports';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span>' + header + '</span>';
-//				source = 'resources/reports_all_reports.html';
-//			}
-//			else if (childtab == 'users') 
-//			{
-//				header = 'Users & Groups';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				if(Navbar.promptPasswordChange) {
-//					source = 'resources/demoUserPasswordChange.html';
-//				} else {
-//					source = 'resources/admin_users.html';
-//				}
-//			}
-//			else if(childtab == 'report_schedules')
-//			{
-////				header = childtab == 'all_reports' ? 'Reports':'Schedules';
-////				var temp = (childtab == 'all_reports' ? 'All Reports':'Report Schedules');
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px"><span>System Schedules</span>';
-//				source = 'resources/reports_' + childtab + '.html';
-//			} 			
-//			else if (childtab == 'manage_datasources') 
-//			{
-//				header = 'Manage Data Sources ';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
-//					+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/manage_datasources.html';
-//				Navbar.doAutoRefresh=true;
-//			}
-//			else if(childtab == 'DBConfigMigration') 
-//			{
-//				header = 'Databases Migration Statistics';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'DB_Config\',\'admin\',\'manage_datasources\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
-//				source = 'resources/database_migration.html';
-//			}
-//			else if(childtab == 'reportnotifications')
-//			{
-//				header = 'Notifications';
-//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'admin\');"> Admin</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'All Reports\',\'admin\', \'all_reports\');"> System Reports</a></span><img src="images/forward.png" style="height:20px">'
-//							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+// else if (tabName == 'admin')
+// {
+// if(typeof(childtab) == "undefined")
+// {
+// header = 'Cluster Setup ';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span> Admin</span><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>'
+// +header+'</span>';
+// source = 'resources/automate_cluster_setup.html';
+// Navbar.doAutoRefresh=false;
+// }
+// else if(childtab == 'hosts')
+// {
+// header = 'Manage Hosts';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Admin\',\'admin\');">
+// Admin</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// source = 'resources/host_config.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if (childtab == 'queryio_services')
+// {
+// header = 'QueryIO Services ';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Admin\',\'admin\');">
+// Admin</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>'
+// +header+'</span>';
+// source = 'resources/queryio_services.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if(childtab == 'BackupAndRecovery')
+// {
+// header = 'Disaster Recovery';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Admin\',\'admin\');">
+// Admin</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// source = 'resources/backup_recovery.html';
+// }
+// else if (childtab == 'all_reports')
+// {
+// header = 'System Reports';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Admin\',\'admin\');">
+// Admin</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>' + header +
+// '</span>';
+// source = 'resources/reports_all_reports.html';
+// }
+// else if (childtab == 'users')
+// {
+// header = 'Users & Groups';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Admin\',\'admin\');">
+// Admin</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// if(Navbar.promptPasswordChange) {
+// source = 'resources/demoUserPasswordChange.html';
+// } else {
+// source = 'resources/admin_users.html';
+// }
+// }
+// else if(childtab == 'report_schedules')
+// {
+// // header = childtab == 'all_reports' ? 'Reports':'Schedules';
+// // var temp = (childtab == 'all_reports' ? 'All Reports':'Report Schedules');
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Admin\',\'admin\');">
+// Admin</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><img
+// src="images/forward.png" style="height:20px"><span>System Schedules</span>';
+// source = 'resources/reports_' + childtab + '.html';
+// }
+// else if (childtab == 'manage_datasources')
+// {
+// header = 'Manage Data Sources ';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Admin\',\'admin\');">
+// Admin</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// source = 'resources/manage_datasources.html';
+// Navbar.doAutoRefresh=true;
+// }
+// else if(childtab == 'DBConfigMigration')
+// {
+// header = 'Databases Migration Statistics';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Admin\',\'admin\');">
+// Admin</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'DB_Config\',\'admin\',\'manage_datasources\');">
+// Manage Datasources</a></span><img src="images/forward.png"
+// style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
+// source = 'resources/database_migration.html';
+// }
+// else if(childtab == 'reportnotifications')
+// {
+// header = 'Notifications';
+// pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'Admin\',\'admin\');">
+// Admin</a></span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span><a
+// href="javascript:Navbar.changeTab(\'All Reports\',\'admin\',
+// \'all_reports\');"> System Reports</a></span><img src="images/forward.png"
+// style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+header+'</span>';
 //				
-//				source = 'resources/admin_notifications.html';
-//			}
-//			selectedId = 'Users';
-//		}
+// source = 'resources/admin_notifications.html';
+// }
+// selectedId = 'Users';
+// }
 		else if (tabName == 'help') {
 			
 				header = 'Help';
-	//			pathHeader = 'HDFS >> Admin >> System Config';
-				//pathHeader = '<a href="javascript:Navbar.changeTab(\'dashboard\')"><img src="" id="homeImage"></a> <i><b><a href="#" style="text-decoration: underline; color: #222;" onclick="javascript:Navbar.changeTab(\'admin\')">Admin</a> <a style="color: #222;">Help</a></b></i>';
+	// pathHeader = 'HDFS >> Admin >> System Config';
+				// pathHeader = '<a
+				// href="javascript:Navbar.changeTab(\'dashboard\')"><img src=""
+				// id="homeImage"></a> <i><b><a href="#" style="text-decoration:
+				// underline; color: #222;"
+				// onclick="javascript:Navbar.changeTab(\'admin\')">Admin</a> <a
+				// style="color: #222;">Help</a></b></i>';
 				return;
 			
 		} else {
@@ -1064,7 +1497,8 @@ Navbar = {
 		if (source != '') {
 			$("#rhs_header").html(header);
 			$("#pathbar_div").html(pathHeader);
-			//$("#surround_box_div #surround_box span#header").html(pathHeader);
+			// $("#surround_box_div #surround_box
+			// span#header").html(pathHeader);
 			var appender = '<script>Navbar.setButtonWidth();</script>';
 			Navbar.isSetButtonWidth=true;
 			Util.importResource("service_ref", source);
@@ -1094,20 +1528,21 @@ Navbar = {
 		}
 		$('#refreshViewButton').css("display","block");
 		
-//		Navbar.doAutoRefreshView();
+// Navbar.doAutoRefreshView();
 		
 	},
 	
 	
 	doAutoRefreshView : function(){
-//		for(var i=0;i<Navbar.timeOutArray.length;i++){
-//			clearTimeout(Navbar.timeOutArray[i]);
-//		}
+// for(var i=0;i<Navbar.timeOutArray.length;i++){
+// clearTimeout(Navbar.timeOutArray[i]);
+// }
 //	
-//		if(Navbar.doAutoRefresh && !Navbar.disableAutoRefresh){
-//			Navbar.interval = setTimeout('Navbar.refreshView()',Navbar.autoRefreshTimeout);
-//			Navbar.timeOutArray.push(Navbar.interval);
-//		}
+// if(Navbar.doAutoRefresh && !Navbar.disableAutoRefresh){
+// Navbar.interval =
+// setTimeout('Navbar.refreshView()',Navbar.autoRefreshTimeout);
+// Navbar.timeOutArray.push(Navbar.interval);
+// }
 	},
 	
 	clearAllTimeout : function(){
@@ -1132,7 +1567,8 @@ Navbar = {
 			if (isHover)
 				id.style.backgroundColor = "#535353";
 			else
-				id.style.backgroundColor = "rgb(255, 255, 255)";	// White color
+				id.style.backgroundColor = "rgb(255, 255, 255)";	// White
+																	// color
 		}
 	},
 	
@@ -1213,7 +1649,7 @@ Navbar = {
 	
 	fillAllQueryIONameNode :function()
 	{
-		//get all host ip and id for populate hostForNode selection box.
+		// get all host ip and id for populate hostForNode selection box.
 		RemoteManager.getNonStandByNodes(Navbar.fillNameNodeDropDown);
 	},
 
@@ -1301,7 +1737,7 @@ Navbar = {
 			return;
 		}else if($("#rhs_header").text()=='Dashboard'){
 			Navbar.isRefreshPage = true;
-//			/this.selectedTabId = ''
+// /this.selectedTabId = ''
 			Navbar.changeTab(Navbar.selectedTabId, Navbar.selectedTabName, Navbar.selectedChildTab, Navbar.selectedGrandChildTab);
 			return;
 		}else if(Navbar.selectedTabName=="rack_summary"){
@@ -1316,23 +1752,43 @@ Navbar = {
 		window.open("docs/common/index.html");
 		return;
 	},
-//	setDataNodePathbar : function(array){
-//		var pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-//			+'<img src="images/forward.png" style="height:20px"><span> HDFS Node</span><img src="images/forward.png" style="height:20px">'
-//			+'<img src="images/forward.png" style="height:20px"><a href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');" class="tab_banner" ><span>DataNode Summary</span></a><img src="images/forward.png" style="height:20px">'
-//			+'<img src="images/forward.png" style="height:20px"><span> '+array[0]+'</span><img src="images/forward.png" style="height:20px">'
-//			+'<img src="images/forward.png" style="height:20px"><span> '+array[1]+'</span><img src="images/forward.png" style="height:20px">'
-//			+'<img src="images/forward.png" style="height:20px"><span> '+array[2]+'</span>';
-//		$("#pathbar_div").html(pathHeader);	
-//	},
-//	setHostPathbar : function(array){
-////		var pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-////			+'<img src="images/forward.png" style="height:20px"><a href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');" class="tab_banner" ><span>DataNode Summary</span></a><img src="images/forward.png" style="height:20px">'
-////			+'<img src="images/forward.png" style="height:20px"><span><a id="rack'+array[0]+'" href="javascript:Navbar.changeTab(\''+array[0]+'\',\'rack_summary\');"  > '+array[0]+'</a></span><img src="images/forward.png" style="height:20px">'
-////			+'<img src="images/forward.png" style="height:20px"><span> '+array[1]+'</span><img src="images/forward.png" style="height:20px">'
-////			
-////		$("#pathbar_div").html(pathHeader);	
-//	},
+// setDataNodePathbar : function(array){
+// var pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span> HDFS
+// Node</span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><a
+// href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');"
+// class="tab_banner" ><span>DataNode Summary</span></a><img
+// src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+array[0]+'</span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+array[1]+'</span><img src="images/forward.png" style="height:20px">'
+// +'<img src="images/forward.png" style="height:20px"><span>
+// '+array[2]+'</span>';
+// $("#pathbar_div").html(pathHeader);
+// },
+// setHostPathbar : function(array){
+// // var pathHeader = '<a
+// href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');"
+// class="tab_banner" ><img src="" id="homeImage"></a><img
+// src="images/forward.png" style="height:20px">'
+// // +'<img src="images/forward.png" style="height:20px"><a
+// href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');"
+// class="tab_banner" ><span>DataNode Summary</span></a><img
+// src="images/forward.png" style="height:20px">'
+// // +'<img src="images/forward.png" style="height:20px"><span><a
+// id="rack'+array[0]+'"
+// href="javascript:Navbar.changeTab(\''+array[0]+'\',\'rack_summary\');" >
+// '+array[0]+'</a></span><img src="images/forward.png" style="height:20px">'
+// // +'<img src="images/forward.png" style="height:20px"><span>
+// '+array[1]+'</span><img src="images/forward.png" style="height:20px">'
+// //
+// // $("#pathbar_div").html(pathHeader);
+// },
 	setDataNodePathbar : function(array){
 		var pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
 			+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
@@ -1356,13 +1812,14 @@ Navbar = {
 	},
 	gettingStarted: function()
 	{
-//		window.open('resources/getting_Started.html','location=no','width=850,height=580,left=200,top=120');
-//		var w = 850;
-//		var h = 580;
-//		var left = (screen.width/2)-(w/2);
-//		var top = (screen.height/2)-(h/2);
-//		window.open('resources/getting_Started.html','location=no','width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + "'");
-//		Util.addLightbox("GS","resources/getting_Started.html",null,null);
+// window.open('resources/getting_Started.html','location=no','width=850,height=580,left=200,top=120');
+// var w = 850;
+// var h = 580;
+// var left = (screen.width/2)-(w/2);
+// var top = (screen.height/2)-(h/2);
+// window.open('resources/getting_Started.html','location=no','width=' + w + ',
+// height=' + h + ', top=' + top + ', left=' + left + "'");
+// Util.addLightbox("GS","resources/getting_Started.html",null,null);
 		window.open("docs/hadoop-big-data-tutorial/index.html", 'gettingStarted', 'toolbar=no,location=no,titlebar=no,status=no,menubar=no,titlebar=no,fullscreen=no,width=1500,height=750,top=100,left=100');
 		return;
 	},
@@ -1600,7 +2057,7 @@ Navbar = {
 			}
 		}
 		
-//		console.log("Navbar.setButtonWidth");
+// console.log("Navbar.setButtonWidth");
 		
 		$('#createFSimage').css('width', '90px');
 		$('#createFSimage').css('background-color', '#5DA423');
