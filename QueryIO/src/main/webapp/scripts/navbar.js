@@ -42,7 +42,7 @@ Navbar = {
 	isAddNewChart: false,
 	isEditChart: false,
 	selectedChartId: null,
-	CM.isNewChart = true,
+	isNewChart: true,
 	
 	changeTab: function (selectedId, tabName, childtab, grandchildtab) {
 		
