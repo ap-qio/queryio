@@ -19,6 +19,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -42,6 +43,9 @@ import com.queryio.common.database.DatabaseFunctions;
 import com.queryio.common.database.QueryConstants;
 import com.queryio.common.util.AppLogger;
 import com.queryio.core.bean.AdHocQueryBean;
+import com.queryio.core.bean.Chart;
+import com.queryio.core.bean.Query;
+import com.queryio.core.bean.Table;
 import com.queryio.core.conf.ConfigurationManager;
 import com.queryio.core.conf.DataTableParams;
 import com.queryio.core.conf.RemoteManager;
@@ -69,6 +73,318 @@ public class BigQueryDAO {
 				AppLogger.getLogger().fatal(e.getMessage(), e);
 			}
 		}
+	}
+
+	public static void createChart(final Connection connection, String id, String queryId, String description,
+			JSONObject properties) throws SQLException {
+		PreparedStatement stmt = null;
+		try {
+			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.INSERT_CHART_QUERY);
+			stmt.setString(1, id);
+			stmt.setString(2, properties.toJSONString());
+			stmt.setString(3, description);
+			stmt.setString(4, queryId);
+
+			DatabaseFunctions.executeUpdateStatement(stmt);
+		} finally {
+			try {
+				DatabaseFunctions.closeStatement(stmt);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+	}
+
+	public static void deleteChart(final Connection connection, String id) throws SQLException {
+		PreparedStatement stmt = null;
+		try {
+			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.DELETE_CHART);
+			stmt.setString(1, id);
+			DatabaseFunctions.executeUpdateStatement(stmt);
+		} finally {
+			try {
+				DatabaseFunctions.closeStatement(stmt);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+	}
+
+	public static Chart getChart(final Connection connection, String chartId) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Chart chart = null;
+		try {
+			chart = new Chart();
+			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_CHART_BY_ID);
+			ps.setString(1, chartId);
+			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
+
+			JSONParser parser = new JSONParser();
+			if (rs.next()) {
+				chart.setId(rs.getString(ColumnConstants.COL_CHARTS_ID));
+				chart.setDescription(rs.getString(ColumnConstants.COL_CHARTS_DESCRIPTION));
+				String jsonString = rs.getString(ColumnConstants.COL_CHARTS_PROPERTIES);
+				JSONObject properties = (JSONObject) parser.parse(jsonString);
+				chart.setProperties(properties);
+				chart.setQueryId(rs.getString(ColumnConstants.COL_CHARTS_QUERY_ID));
+			}
+		} finally {
+			try {
+				DatabaseFunctions.closeResultSet(rs);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+			try {
+				DatabaseFunctions.closeStatement(ps);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+		return chart;
+	}
+
+	public static List<Chart> getAllCharts(final Connection connection) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Chart> charts = new ArrayList<>();
+		try {
+			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_ALL_CHARTS);
+			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
+			JSONParser parser = new JSONParser();
+			while (rs.next()) {
+				Chart chart = new Chart();
+				chart.setId(rs.getString(ColumnConstants.COL_CHARTS_ID));
+				chart.setDescription(rs.getString(ColumnConstants.COL_CHARTS_DESCRIPTION));
+				String jsonString = rs.getString(ColumnConstants.COL_CHARTS_PROPERTIES);
+				JSONObject properties = (JSONObject) parser.parse(jsonString);
+				chart.setProperties(properties);
+				chart.setQueryId(rs.getString(ColumnConstants.COL_CHARTS_QUERY_ID));
+				charts.add(chart);
+			}
+		} finally {
+			try {
+				DatabaseFunctions.closeResultSet(rs);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+			try {
+				DatabaseFunctions.closeStatement(ps);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+		return charts;
+	}
+
+	public static void createTable(final Connection connection, String id, String queryId, String description,
+			JSONObject properties) throws SQLException {
+		PreparedStatement stmt = null;
+		try {
+			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.INSERT_TABLE_QUERY);
+			stmt.setString(1, id);
+			stmt.setString(2, properties.toJSONString());
+			stmt.setString(3, description);
+			stmt.setString(4, queryId);
+
+			DatabaseFunctions.executeUpdateStatement(stmt);
+		} finally {
+			try {
+				DatabaseFunctions.closeStatement(stmt);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+	}
+
+	public static void deleteTable(final Connection connection, String id) throws SQLException {
+		PreparedStatement stmt = null;
+		try {
+			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.DELETE_VIEW_TABLE);
+			stmt.setString(1, id);
+			DatabaseFunctions.executeUpdateStatement(stmt);
+		} finally {
+			try {
+				DatabaseFunctions.closeStatement(stmt);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+	}
+
+	public static Table getTable(final Connection connection, String chartId) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Table table = null;
+		try {
+			table = new Table();
+			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_TABLE_BY_ID);
+			ps.setString(1, chartId);
+			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
+
+			JSONParser parser = new JSONParser();
+			if (rs.next()) {
+				table.setId(rs.getString(ColumnConstants.COL_TABLES_ID));
+				table.setDescription(rs.getString(ColumnConstants.COL_TABLES_DESCRIPTION));
+				String jsonString = rs.getString(ColumnConstants.COL_TABLES_PROPERTIES);
+				JSONObject properties = (JSONObject) parser.parse(jsonString);
+				table.setProperties(properties);
+				table.setQueryId(rs.getString(ColumnConstants.COL_TABLES_QUERY_ID));
+			}
+		} finally {
+			try {
+				DatabaseFunctions.closeResultSet(rs);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+			try {
+				DatabaseFunctions.closeStatement(ps);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+		return table;
+	}
+
+	public static List<Table> getAllTables(final Connection connection) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Table> tables = new ArrayList<>();
+		try {
+			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_ALL_CHARTS);
+			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
+			JSONParser parser = new JSONParser();
+			while (rs.next()) {
+				Table table = new Table();
+				table.setId(rs.getString(ColumnConstants.COL_TABLES_ID));
+				table.setDescription(rs.getString(ColumnConstants.COL_TABLES_DESCRIPTION));
+				String jsonString = rs.getString(ColumnConstants.COL_TABLES_PROPERTIES);
+				JSONObject properties = (JSONObject) parser.parse(jsonString);
+				table.setProperties(properties);
+				table.setQueryId(rs.getString(ColumnConstants.COL_TABLES_QUERY_ID));
+				tables.add(table);
+			}
+		} finally {
+			try {
+				DatabaseFunctions.closeResultSet(rs);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+			try {
+				DatabaseFunctions.closeStatement(ps);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+		return tables;
+	}
+
+	public static void createQuery(final Connection connection, String queryId, JSONObject properties,
+			String description, String namenodeId, String dbName, String username) throws SQLException {
+		PreparedStatement stmt = null;
+		try {
+			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.INSERT_QUERY_OBJ_QUERY);
+			stmt.setString(1, queryId);
+			stmt.setString(2, properties.toJSONString());
+			stmt.setString(3, description);
+			stmt.setString(4, namenodeId);
+			stmt.setString(5, dbName);
+			stmt.setString(6, username);
+
+			DatabaseFunctions.executeUpdateStatement(stmt);
+		} finally {
+			try {
+				DatabaseFunctions.closeStatement(stmt);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+	}
+
+	public static void deleteQuery(final Connection connection, String id) throws SQLException {
+		PreparedStatement stmt = null;
+		try {
+			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.DELETE_QUERY);
+			stmt.setString(1, id);
+			DatabaseFunctions.executeUpdateStatement(stmt);
+		} finally {
+			try {
+				DatabaseFunctions.closeStatement(stmt);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+	}
+
+	public static Query getQuery(final Connection connection, String queryId) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Query query = null;
+		try {
+			query = new Query();
+			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_QUERY_BY_ID);
+			ps.setString(1, queryId);
+			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
+
+			JSONParser parser = new JSONParser();
+			if (rs.next()) {
+				query.setId(rs.getString(ColumnConstants.COL_QUERIES_ID));
+				query.setDescription(rs.getString(ColumnConstants.COL_QUERIES_DESCRIPTION));
+				String jsonString = rs.getString(ColumnConstants.COL_QUERIES_PROPERTIES);
+				JSONObject properties = (JSONObject) parser.parse(jsonString);
+				query.setProperties(properties);
+				query.setDbname(rs.getString(ColumnConstants.COL_QUERIES_DBNAME));
+				query.setNamenodeId(rs.getString(ColumnConstants.COL_QUERIES_NAMENODEID));
+				query.setUsername(rs.getString(ColumnConstants.COL_QUERIES_USERNAME));
+			}
+		} finally {
+			try {
+				DatabaseFunctions.closeResultSet(rs);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+			try {
+				DatabaseFunctions.closeStatement(ps);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+		return query;
+	}
+
+	public static List<Query> getAllQueries(final Connection connection) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Query> queries = new ArrayList<>();
+		try {
+			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_ALL_QUERIES);
+			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
+			JSONParser parser = new JSONParser();
+			while (rs.next()) {
+				Query query = new Query();
+				query.setId(rs.getString(ColumnConstants.COL_QUERIES_ID));
+				query.setDescription(rs.getString(ColumnConstants.COL_QUERIES_DESCRIPTION));
+				String jsonString = rs.getString(ColumnConstants.COL_QUERIES_PROPERTIES);
+				JSONObject properties = (JSONObject) parser.parse(jsonString);
+				query.setProperties(properties);
+				query.setDbname(rs.getString(ColumnConstants.COL_QUERIES_DBNAME));
+				query.setNamenodeId(rs.getString(ColumnConstants.COL_QUERIES_NAMENODEID));
+				query.setUsername(rs.getString(ColumnConstants.COL_QUERIES_USERNAME));
+				queries.add(query);
+			}
+		} finally {
+			try {
+				DatabaseFunctions.closeResultSet(rs);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+			try {
+				DatabaseFunctions.closeStatement(ps);
+			} catch (SQLException e) {
+				AppLogger.getLogger().fatal(e.getMessage(), e);
+			}
+		}
+		return queries;
 	}
 
 	public static void updateBigQuery(final Connection connection, String id, JSONObject properties, String namenodeId)

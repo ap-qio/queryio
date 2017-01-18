@@ -805,10 +805,55 @@ public interface QueryConstants {
 
 	String INSERT_INTO = "INSERT INTO ";
 
+	// New Addition for fixes
+
 	String INSERT_BIG_QUERY = "INSERT INTO " + TableConstants.TABLE_BIGQUERIES + "(" + ColumnConstants.COL_BIGQUERIES_ID
 			+ "," + ColumnConstants.COL_BIGQUERIES_PROPERTIES + "," + ColumnConstants.COL_BIGQUERIES_DESCRIPTION + ","
 			+ ColumnConstants.COL_BIGQUERIES_NAMENODEID + "," + ColumnConstants.COL_BIGQUERIES_DBNAME + ","
 			+ ColumnConstants.COL_BIGQUERIES_USERNAME + ") VALUES (?,?,?,?,?,?)";
+
+	String INSERT_CHART_QUERY = "INSERT INTO " + TableConstants.TABLE_CHARTS + "(" + ColumnConstants.COL_CHARTS_ID + ","
+			+ ColumnConstants.COL_CHARTS_PROPERTIES + "," + ColumnConstants.COL_CHARTS_DESCRIPTION + ","
+			+ ColumnConstants.COL_CHARTS_QUERY_ID + ") VALUES (?,?,?,?)";
+
+	String INSERT_TABLE_QUERY = "INSERT INTO " + TableConstants.TABLE_VIEW_TABLES + "(" + ColumnConstants.COL_TABLES_ID
+			+ "," + ColumnConstants.COL_TABLES_PROPERTIES + "," + ColumnConstants.COL_TABLES_DESCRIPTION + ","
+			+ ColumnConstants.COL_TABLES_QUERY_ID + ") VALUES (?,?,?,?)";
+
+	String INSERT_QUERY_OBJ_QUERY = "INSERT INTO " + TableConstants.TABLE_QUERIES + "(" + ColumnConstants.COL_QUERIES_ID
+			+ "," + ColumnConstants.COL_QUERIES_PROPERTIES + "," + ColumnConstants.COL_QUERIES_DESCRIPTION + ","
+			+ ColumnConstants.COL_QUERIES_NAMENODEID + "," + ColumnConstants.COL_QUERIES_DBNAME + ","
+			+ ColumnConstants.COL_QUERIES_USERNAME + ") VALUES (?,?,?,?,?,?)";
+
+	String DELETE_QUERY = "DELETE FROM " + TableConstants.TABLE_QUERIES + " WHERE " + ColumnConstants.COL_QUERIES_ID
+			+ "=? AND " + ColumnConstants.COL_QUERIES_NAMENODEID + "=? AND " + ColumnConstants.COL_QUERIES_USERNAME
+			+ "=?";
+
+	String DELETE_CHART = "DELETE FROM " + TableConstants.TABLE_CHARTS + " WHERE " + ColumnConstants.COL_CHARTS_ID
+			+ " = ?";
+
+	String DELETE_VIEW_TABLE = "DELETE FROM " + TableConstants.TABLE_VIEW_TABLES + " WHERE "
+			+ ColumnConstants.COL_TABLES_ID + " = ?";
+
+	String GET_ALL_QUERIES = "SELECT * FROM " + TableConstants.TABLE_QUERIES + " WHERE "
+			+ ColumnConstants.COL_QUERIES_NAMENODEID + "=? " + " ORDER BY " + ColumnConstants.COL_QUERIES_ID + " ASC";
+
+	String GET_ALL_CHARTS = "SELECT * FROM " + TableConstants.TABLE_CHARTS + " ORDER BY "
+			+ ColumnConstants.COL_CHARTS_ID + " ASC";
+
+	String GET_ALL_TABLES = "SELECT * FROM " + TableConstants.TABLE_VIEW_TABLES + " ORDER BY "
+			+ ColumnConstants.COL_TABLES_ID + " ASC";
+
+	String GET_QUERY_BY_ID = "SELECT * FROM " + TableConstants.TABLE_QUERIES + " WHERE "
+			+ ColumnConstants.COL_QUERIES_ID + "=? ";
+
+	String GET_CHART_BY_ID = "SELECT * FROM " + TableConstants.TABLE_CHARTS + " WHERE " + ColumnConstants.COL_CHARTS_ID
+			+ "=? ";
+
+	String GET_TABLE_BY_ID = "SELECT * FROM " + TableConstants.TABLE_VIEW_TABLES + " WHERE "
+			+ ColumnConstants.COL_TABLES_ID + "=? ";
+
+	// ------------ //
 
 	String UPDATE_CHART_PREFERENCES = "UPDATE " + TableConstants.TABLE_CHARTPREFERENCES + " SET "
 			+ ColumnConstants.COL_CHARTPREFERENCES_PROPERTIES + " = ?";
