@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 
@@ -21,6 +23,8 @@ public class AdHocHiveClient {
 	public static String warehouseDir = "/hive";
 	public static String templateDir = "/hiveTemplate/sample";
 
+	public static List<String> connectionUrls = new ArrayList<>();
+
 	public static Connection getHiveConnection(Connection connection, String nameNodeId) throws Exception {
 		Connection hiveConnection = null;
 		Configuration config = ConfigurationManager.getConfiguration(connection, nameNodeId);
@@ -31,9 +35,13 @@ public class AdHocHiveClient {
 		String password = config.get(QueryIOConstants.HIVE_QUERYIO_CONNECTION_PASSWORD);
 
 		Class.forName(driverName);
-		AppLogger.getLogger().info("Url: " + url);
-		AppLogger.getLogger().info("userName" + userName);
-		AppLogger.getLogger().info("password: " + password);
+		if (!connectionUrls.contains(url)) {
+			AppLogger.getLogger().debug("Url: " + url);
+			AppLogger.getLogger().debug("userName: " + userName);
+			AppLogger.getLogger().debug("password: " + password);
+			connectionUrls.add(url);
+		}
+
 		hiveConnection = DriverManager.getConnection(url, userName, password);
 		return hiveConnection;
 	}
