@@ -1,5 +1,6 @@
 package com.queryio.core.bean;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 
 public class Query {
@@ -62,6 +63,16 @@ public class Query {
 
 	public void setProperties(JSONObject properties) {
 		this.properties = properties;
+	}
+
+	@Override
+	public String toString() {
+		try {
+			return new ObjectMapper().writeValueAsString(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.queryio.core.bean;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 
 public class Table {
@@ -42,6 +43,16 @@ public class Table {
 
 	public void setQueryId(String queryId) {
 		this.queryId = queryId;
+	}
+
+	@Override
+	public String toString() {
+		try {
+			return new ObjectMapper().writeValueAsString(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

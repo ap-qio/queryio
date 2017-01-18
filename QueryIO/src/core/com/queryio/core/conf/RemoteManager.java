@@ -10160,15 +10160,15 @@ public class RemoteManager {
 	public static DWRResponse saveBigQuery(String namenodeId, String dbName, String jsonProperties) {
 		return BigQueryManager.saveBigQuery(namenodeId, dbName, jsonProperties);
 	}
-	
+
 	public static DWRResponse saveChart(String namenodeId, String dbName, String jsonProperties) {
 		return BigQueryManager.saveBigQuery(namenodeId, dbName, jsonProperties);
 	}
-	
+
 	public static DWRResponse saveTable(String namenodeId, String dbName, String jsonProperties) {
 		return BigQueryManager.saveBigQuery(namenodeId, dbName, jsonProperties);
 	}
-	
+
 	public static DWRResponse saveQuery(String namenodeId, String dbName, String jsonProperties) {
 		return BigQueryManager.saveBigQuery(namenodeId, dbName, jsonProperties);
 	}
@@ -10200,6 +10200,10 @@ public class RemoteManager {
 
 	public static JSONObject getAllBigQueriesInfo(String namenodeId) {
 		return BigQueryManager.getAllBigQueriesInfo(namenodeId);
+	}
+
+	public static DWRResponse getAllChartsInfo() {
+		return BigQueryManager.getAllChartsInfo();
 	}
 
 	public static JSONObject getAllBigQueriesInfo(String namenodeId, String aoData) {

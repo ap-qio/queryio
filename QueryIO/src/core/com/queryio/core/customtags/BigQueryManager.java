@@ -18,10 +18,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.yarn.api.records.FinalApplicationStatus;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -42,6 +44,7 @@ import com.queryio.common.util.AppLogger;
 import com.queryio.core.adhoc.AdHocHiveClient;
 import com.queryio.core.applications.ApplicationManager;
 import com.queryio.core.bean.AdHocQueryBean;
+import com.queryio.core.bean.Chart;
 import com.queryio.core.bean.DWRResponse;
 import com.queryio.core.conf.ConfigurationManager;
 import com.queryio.core.conf.RemoteManager;
@@ -94,7 +97,7 @@ public class BigQueryManager {
 		}
 		return dwrResponse;
 	}
-	
+
 	public static DWRResponse saveChart(String queryId, String jsonProperties) {
 
 		DWRResponse dwrResponse = new DWRResponse();
@@ -117,7 +120,7 @@ public class BigQueryManager {
 		}
 		return dwrResponse;
 	}
-	
+
 	public static DWRResponse saveTable(String queryId, String jsonProperties) {
 
 		DWRResponse dwrResponse = new DWRResponse();
@@ -140,7 +143,7 @@ public class BigQueryManager {
 		}
 		return dwrResponse;
 	}
-	
+
 	public static DWRResponse saveQuery(String namenodeId, String dbName, String jsonProperties) {
 
 		DWRResponse dwrResponse = new DWRResponse();
@@ -910,6 +913,27 @@ public class BigQueryManager {
 			}
 		}
 		return null;
+	}
+
+	public static DWRResponse getAllChartsInfo() {
+		Connection connection = null;
+		DWRResponse dwrResponse = new DWRResponse();
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			List<Chart> charts = BigQueryDAO.getAllCharts(connection);
+			dwrResponse.setDwrResponse(true, new ObjectMapper().writeValueAsString(charts), 200);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
 	}
 
 	public static String exportBigQueryReport(String namenodeId, String queryId, String formatType) {
