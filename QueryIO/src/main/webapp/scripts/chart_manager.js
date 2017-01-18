@@ -34,7 +34,7 @@ CM={
 				"searching": true,
 				"aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0 ] }],
 				"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
-					RemoteManager.getAllChartsInfo(CM.selectedNameNode, JSON.stringify(aoData), {
+					RemoteManager.getAllChartsInfo({
 			            async:false,
 			            callback:function(result){
 			                 fnCallback(CM.fillChartSummaryTable(result));	
@@ -194,8 +194,7 @@ CM={
 			CM.isNewChart = true;
 			Navbar.isAddNewChart=true;
 			Navbar.isFromsummaryView = true;
-			// TODO: Idhar change karo, Navbar.js and menu.jsp me bhi changes karo
-			Navbar.changeTab('QueryDesigner','analytics','QueryDesigner');
+			Navbar.changeTab('Charts','charts','edit_charts');
 		},
 		editSelectedChart : function(){
 			Navbar.isEditChart = true;
@@ -203,8 +202,7 @@ CM={
 			Navbar.selectedChartId = chartId;
 			Navbar.isFromsummaryView = true;
 			var nameNodeId = CM.selectedNameNode;
-			// TODO: Idhar change karo, Navbar.js and menu.jsp me bhi changes karo
-			Navbar.changeTab('QueryDesigner','analytics','QueryDesigner');
+			Navbar.changeTab('Charts','charts','edit_charts');
 		},
 		backToSummary : function(){
 			$('#refreshViewButton').attr('onclick','javascript:Navbar.refreshView()');
@@ -231,7 +229,6 @@ CM={
 		deleteSelectedChart : function(){
 			DA.selectedChartId = CM.selectedChartArray[0];
 			DA.deleteChart();
-			
 		},
 		populateDeleteChartBox : function(){
 			
@@ -306,8 +303,7 @@ CM={
 			Navbar.selectedChartId= CM.selectedChartArray[0];
 			Navbar.isEditChart=true;
 			
-			// TODO: Idhar change karo, Navbar.js and menu.jsp me bhi changes karo
-			Navbar.changeTab('QueryViewer','analytics','QueryViewer')
+			Navbar.changeTab('Charts','charts','edit_charts');
 			
 		},
 		closeDeleteChartBox : function(){

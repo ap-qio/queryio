@@ -4,17 +4,16 @@
 <script src="scripts/host.js"></script>
 
 -->
-
-<script src="scripts/chart_manager.js"></script>
-<script src="scripts/data-analyzer.js"></script>
+<script type="text/javascript" src="scripts/data-analyzer.js"></script>
+<script type="text/javascript" src="scripts/chart_manager.js"></script>
 
 <div id='chart_list' class="viewDiv">
 	<div id="chart_table_div" class="detailDivView">
 		<div id="chart_buttons" class="buttons">
-			<button class="button" id="chartAdd" onclick="javascript:CM.addNewQuery();" >Add</button>
-			<button class="button" id="chartEdit" onclick="javascript:CM.editSelectedQuery();" disabled="disabled">Design</button>
-			<button class="button" id="chartDelete" onclick="javascript:CM.deleteSelectedQuery();" disabled="disabled">Delete</button>
-			<button class="button" id="chartClone" onclick="javascipt:CM.cloneSelectedQuery();" disabled="disabled">Clone</button>
+			<button class="button" id="chartAdd" onclick="javascript:CM.addNewChart();" >Add</button>
+			<button class="button" id="chartEdit" onclick="javascript:CM.editSelectedChart();" disabled="disabled">Design</button>
+			<button class="button" id="chartDelete" onclick="javascript:CM.deleteSelectedChart();" disabled="disabled">Delete</button>
+			<button class="button" id="chartClone" onclick="javascipt:CM.cloneSelectedChart();" disabled="disabled">Clone</button>
 		</div>
 		<form action="">
 		<div id ="chart_list_table_div" style="width: 100%;">
@@ -26,40 +25,6 @@
 <script type="text/javascript">
 Navbar.isFromsummaryView=true;
 	CM.ready();
-	var count=1;
-	function fillPopUp(flag)
-	{
-		var id = DA.selectedQueryId;
-		
-		dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
-		dwr.util.byId('pop.pattern'+id).style.display = '';
-		dwr.util.byId('popup.image.processing'+id).style.display = '';
-		dwr.util.setValue('popup.component','Query ID');
-		dwr.util.setValue('popup.host'+id,id);
-		dwr.util.setValue('popup.message'+id,'Processing Request...');
-		
-		var str = JSON.stringify(DA.queryInfo);
-		
-		if (DA.isDelete)
-		{
-			dwr.util.setValue('popup.status'+id,'Deleting..');
-			RemoteManager.deleteBigQuery(DA.selectedNameNode, DA.selectedQueryId, DA.querySaveResponse);
-			
-		}
-		else if(DA.isClone)
-		{
-			dwr.util.setValue('popup.status'+id,'Cloning..');	
-			var str = JSON.stringify(DA.cloneData);
-			var dbName = DA.cloneData["dbName"];
-			RemoteManager.saveBigQuery(DA.selectedNameNode, dbName, str, DA.querySaveResponse);
-			DA.isClone = false;
-		}
-		else
-		{
-			dwr.util.setValue('popup.status'+id,'Saving..');
-			RemoteManager.saveBigQuery(DA.selectedNameNode, DA.selectedDbName, str, DA.querySaveResponse);
-		}
-	}
 
 	function closePopUpBox()
 	{
@@ -69,4 +34,3 @@ Navbar.isFromsummaryView=true;
 
 </script>
 <script type="text/javascript" src="scripts/data_analyzerTab.js"></script>
-<script type="text/javascript" src="scripts/report_schedules.js"></script>

@@ -107,7 +107,7 @@
 			</ul></li>
 
 		<li onmouseout="showDropDown(11);" id="Jobs_li"
-			style="border-right: 0px; width: 33%;" class="user end"><a
+			style="border-right: 0px; width: 15%;" class="user end"><a
 			href="javascript:Navbar.changeTab('jobs','jobs', 'jobs_overview');hideDropDown(11);">Jobs</a>
 			<ul>
 				<li onmouseout="showDropDown(11);"><a

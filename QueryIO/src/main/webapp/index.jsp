@@ -50,7 +50,6 @@ System.out.println("index.jsp called, current view is: " + currentView);
 		<script type="text/javascript" src="dwr/interface/RemoteManager.js"></script>
 		<script type="text/javascript" src="scripts/navbar.js"></script>
 		
-		
 		<!-- comment it for demo.queryio -->
 		<!-- 
 		<script type="text/javascript" src="scripts/jquery-1.7.2.min.js"></script>

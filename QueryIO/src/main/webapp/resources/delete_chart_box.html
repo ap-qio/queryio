@@ -13,8 +13,8 @@
 </a>
 -->
 
-<div id="DeleteChartBox" class="lightbox">
-    <table id="DeleteChartBox_table" class="outer" style="">
+<div id="DeleteQueryBox" class="lightbox">
+    <table id="DeleteQueryBox_table" class="outer" style="">
         <tbody>
         	<tr>
             	<td id="hdr_td" style="padding: 0pt; ">
@@ -26,13 +26,13 @@
                 	<div class="instructional" style="text-align: center; width: 100%;">
                 		<table align="center" width="100%" style="border-collapse: collapse; text-align: center;">
 							<tr>
-								<th><span id="chartHeader">Chart</span></th>
+								<th><span id="queryHeader">Query</span></th>
 								<th><span id="headermessage">Message</span></th>
 								<th><span id="headerStatus">Status</span></th>
 								<th><span id="">	</span></th>
 							</tr>
 							<tr id="pattern" style="display:none;">
-								<td><span id="chart"></span></td>
+								<td><span id="query"></span></td>
 								<td><span id="message"></span><br><div id="log_div" style="display: none;"></div></td>
 								<td><span id="status"></span></td>
 								<td>
@@ -44,7 +44,7 @@
 							</tr>
 							<tr>
 							<td colspan="4">
-								<input type="button" disabled="true"  class="buttonAdmin" id="okbtn" value="Ok" onclick="javascript:CM.closeDeleteQueryBox();">
+								<input type="button" disabled="true"  class="buttonAdmin" id="okbtn" value="Ok" onclick="javascript:BQS.closeDeleteQueryBox();">
 							</td>
 							</tr>
 						</table>
@@ -57,6 +57,6 @@
     	</tbody>
 	</table>
 	<script type="text/javascript">
-	CM.populateDeleteChartBox();
+	BQS.populateDeleteQueryBox();
 	</script>
 </div>

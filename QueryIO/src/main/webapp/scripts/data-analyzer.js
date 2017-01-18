@@ -38,6 +38,7 @@ DA = {
 	colList : [],
 	selectedQueryId : '',
 	selectedChartId : '',
+	chartInfo: null,
 	cloneData : [],
 	isSave : false,
 	isDelete : false,
@@ -2635,6 +2636,29 @@ DA = {
 				});
 		$("#popup_container").css("z-index", "99999999");
 
+	},
+	
+	deleteAChart : function() {
+
+		jQuery.alerts.okButton = ' Yes ';
+		jQuery.alerts.cancelButton = ' No';
+		jConfirm('Are you sure you want to delete this Chart ?',
+				'Delete Chart', function(val) {
+					if (val == true) {
+						// callBackFunc = deleteQuery;
+						DA.isDelete = true;
+						Navbar.chartManagerDirtyBit = false;
+						Util.addLightbox('export',
+								'resources/delete_chart_box.html');
+					} else {
+						return;
+					}
+					jQuery.alerts.okButton = ' Ok ';
+					jQuery.alerts.cancelButton = ' Cancel';
+				});
+		$("#popup_container").css("z-index", "99999999");
+
+	
 	},
 
 	fillSavedQuery : function(historyObj) {

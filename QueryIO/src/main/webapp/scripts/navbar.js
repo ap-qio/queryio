@@ -241,7 +241,7 @@ Navbar = {
 			}
 			else if (childtab == 'edit_tables') 
 			{
-				header = 'Edit Charts ';
+				header = 'Edit Tables ';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Tables\',\'tables\', \'tables_overview\');"> Tables</a></span><img src="images/forward.png" style="height:20px">'
                 	+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Tables\',\'tables\', \'edit_tables\');">Edit Tables</span>';
