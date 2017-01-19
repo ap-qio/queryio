@@ -2661,6 +2661,29 @@ DA = {
 	
 	},
 
+	deleteAQuery : function() {
+		
+		jQuery.alerts.okButton = ' Yes ';
+		jQuery.alerts.cancelButton = ' No';
+		jConfirm('Are you sure you want to delete this Query ?',
+				'Delete Query', function(val) {
+			if (val == true) {
+				// callBackFunc = deleteQuery;
+				DA.isDelete = true;
+				Navbar.queryManagerDirtyBit = false;
+				Util.addLightbox('export',
+				'resources/delete_query_box.html');
+			} else {
+				return;
+			}
+			jQuery.alerts.okButton = ' Ok ';
+			jQuery.alerts.cancelButton = ' Cancel';
+		});
+		$("#popup_container").css("z-index", "99999999");
+		
+		
+	},
+
 	fillSavedQuery : function(historyObj) {
 		if (historyObj == null || historyObj == undefined)
 			return;

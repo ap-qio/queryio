@@ -1,11 +1,6 @@
 <script src="scripts/jquery.alerts.js"></script>
 <link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
 
-
-
-
-
-
 <div id="cloneQuery" class="lightbox">
 	<div id="close" class="close">
 		<a href="javascript:DA.closeCloneBox();"><img src="images/light-box-close.png"></a>
@@ -51,7 +46,7 @@
 										</tbody>
 									</table>
 									<div style="float:right; margin-right: 42px;">
-										<input type="button" class="buttonAdmin" id="saveClone" value="Save" onclick="javascript:DA.addClone();"  /> 
+										<input type="button" class="buttonAdmin" id="saveClone" value="Save" onclick="javascript:DA.addCloneChart();"  /> 
 										<input type="button" class="buttonAdmin" id="cancelClone" value="Cancel" onclick="javascript:DA.closeCloneBox();" />	
 									</div>
 								</td>
@@ -63,8 +58,7 @@
 		</tbody>
 	</table>
 <script>
-var userName = Util.getLoggedInUserName(); 
-RemoteManager.getChartInfo(CM.selectedNameNode, DA.selectedChartId,userName,CM.fillCloneChartObject);
+RemoteManager.getChart(CM.selectedChartId,CM.fillCloneChartObject);
 
 </script>
 </div>

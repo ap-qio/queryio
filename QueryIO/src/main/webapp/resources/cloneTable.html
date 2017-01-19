@@ -1,7 +1,7 @@
 <script src="scripts/jquery.alerts.js"></script>
 <link rel="stylesheet" href="styles/jquery.alerts.css" type="text/css" />
 
-<div id="cloneQuery" class="lightbox">
+<div id="cloneTable" class="lightbox">
 	<div id="close" class="close">
 		<a href="javascript:DA.closeCloneBox();"><img src="images/light-box-close.png"></a>
 	</div>
@@ -22,7 +22,7 @@
 						<table align="center" width="100%" style="border-collapse: collapse;">
 							<tr>
 								<td id="msg_td">
-									<div class="instructional" style="">It is used to clone an existing query.</div>
+									<div class="instructional" style="">It is used to clone an existing table.</div>
 								</td>
 							</tr>
 							<tr>
@@ -30,23 +30,23 @@
 									<table class="viewTable" style=" width: 100%">
 										<tbody>
 											<tr>
-												<td style="text-align: left; width: 25%; vertical-align: top;">Query ID*</td>
+												<td style="text-align: left; width: 25%; vertical-align: top;">Table ID*</td>
 												<td style="text-align: left; width: 75%">
-													<input style = "width: 250px;" type="text" name="queryIdClone" id="queryIdClone">
+													<input style = "width: 250px;" type="text" name="tableIdClone" id="tableIdClone">
 												</td>
 											</tr>
 											<tr>
 												<td style="text-align: left;vertical-align: top; width: 25%;">Description*</td>
 												<td style = "width: 75%;">
 													<span>
-														<input style = "width: 250px;" type="text" name="queryDescClone" id="queryDescClone">
+														<input style = "width: 250px;" type="text" name="tableDescClone" id="tableDescClone">
 													</span>
 												</td>
 											</tr>
 										</tbody>
 									</table>
 									<div style="float:right; margin-right: 42px;">
-										<input type="button" class="buttonAdmin" id="saveClone" value="Save" onclick="javascript:DA.addCloneQuery();"  /> 
+										<input type="button" class="buttonAdmin" id="saveClone" value="Save" onclick="javascript:DA.addCloneTable();"  /> 
 										<input type="button" class="buttonAdmin" id="cancelClone" value="Cancel" onclick="javascript:DA.closeCloneBox();" />	
 									</div>
 								</td>
@@ -58,7 +58,7 @@
 		</tbody>
 	</table>
 <script>
-RemoteManager.getQuery(QM.selectedQueryId,QM.fillCloneQueryObject);
+RemoteManager.getTable(TM.selectedTableId,TM.fillCloneTableObject);
 
 </script>
 </div>
