@@ -178,7 +178,7 @@ DB_Config = {
 	moveToMigrationStatus : function()
 	{
 		Util.removeLightbox('addDBConnection');
-		Navbar.changeTab('DB_Config', 'admin', 'DBConfigMigration');
+		Navbar.changeTab('Admin', 'Admin', 'DBConfigMigration');
 	},
 	
 	

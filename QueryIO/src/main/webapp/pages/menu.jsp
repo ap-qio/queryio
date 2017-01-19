@@ -154,13 +154,23 @@
 			href="javascript:Navbar.changeTab('Monitor','Monitor','system_monitor');hideDropDown(7);">Monitor</a>
 			<ul id="Admin">
 				<li onmouseout="showDropDown(5);"><a
-					href="javascript:Navbar.changeTab('Monitor','Monitor', 'system_monitor');hideDropDown(5);">Status</a></li>
+					href="javascript:Navbar.changeTab('Monitor','Monitor', 'system_monitor');hideDropDown(5);">System Monitor</a></li>
 				<li onmouseout="showDropDown(7);"><a
 					href="javascript:Navbar.changeTab('Monitor','Monitor','HDFS');hideDropDown(7);">
 						HDFS Monitor</a></li>
 				<li onmouseout="showDropDown(5);"><a
 					href="javascript:Navbar.changeTab('Monitor','Monitor','MapReduce');hideDropDown(5);">
 						MapReduce Monitor</a></li>
+				<li onmouseout="showDropDown(5);"><a
+					href="javascript:Navbar.changeTab('Monitor','Monitor','all_alerts');hideDropDown(5);">
+						Alerts</a></li>
+				<li onmouseout="showDropDown(5);"><a id="Configure Alerts"
+					href="javascript:Navbar.changeTab('Monitor','Monitor','set_alerts');hideDropDown(5);">Rules
+				</a></li>
+				<li onmouseout="showDropDown(9);"><a
+					href="javascript:Navbar.changeTab('Monitor','Monitor', 'all_reports');hideDropDown(9);">System
+						Reports</a></li>
+				
 			</ul></li>
 
 		<li onmouseout="showDropDown(7);" id="QioSvc_li" class="last admin" style="border-right: 0px; width: 19%;"><a
@@ -176,18 +186,9 @@
 				<li onmouseout="showDropDown(9);"><a id="Users"
 					href="javascript:Navbar.changeTab('Admin','Admin','users');hideDropDown(9);">
 						Users & Groups</a></li>
-				<li onmouseout="showDropDown(5);"><a
-					href="javascript:Navbar.changeTab('Admin','Admin','all_alerts');hideDropDown(5);">
-						Alerts</a></li>
-				<li onmouseout="showDropDown(5);"><a id="Configure Alerts"
-					href="javascript:Navbar.changeTab('Admin','Admin','set_alerts');hideDropDown(5);">Rules
-				</a></li>
 				<li onmouseout="showDropDown(5);"><a id="Users"
 					href="javascript:Navbar.changeTab('Admin','Admin','notifications');hideDropDown(5);">
 						Notifications</a></li>
-				<li onmouseout="showDropDown(9);"><a
-					href="javascript:Navbar.changeTab('Admin','Admin', 'all_reports');hideDropDown(9);">System
-						Reports</a></li>
 				<li onmouseout="showDropDown(9);"><a id="Report Schedules"
 					href="javascript:Navbar.changeTab('Admin','Admin', 'report_schedules');hideDropDown(9);">
 						Schedules</a></li>
