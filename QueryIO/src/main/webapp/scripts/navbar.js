@@ -436,6 +436,30 @@ Navbar = {
 				source = 'resources/dashboard-MapReduce.html';
 				Navbar.doAutoRefresh=true;
 			}
+			else if (childtab == "all_alerts")
+			{
+				header = 'Alerts';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Monitor\',\'Monitor\',\'system_monitor\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> Monitor </span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+				source = 'resources/alerts_list.html';
+			}
+			else if (childtab == 'set_alerts') 
+			{
+				header = 'Rules for Alerts';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Monitor\',\'Monitor\',\'system_monitor\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> Monitor </span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+				source = 'resources/alerts_configure.html';
+			}
+			else if (childtab == 'all_reports') 
+			{
+				header = 'System Reports';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Monitor\',\'Monitor\',\'system_monitor\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span> Monitor </span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+				source = 'resources/reports_all_reports.html';
+			}
 			selectedId = 'Monitor';
 			
 		}
@@ -472,22 +496,6 @@ Navbar = {
 					source = 'resources/admin_users.html';
 				}
 			}
-			else if (childtab == "all_alerts")
-			{
-				header = 'Alerts';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Admin\',\'Admin\',\'queryio_services\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span> Others </span><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
-				source = 'resources/alerts_list.html';
-			}
-			else if (childtab == 'set_alerts') 
-			{
-				header = 'Rules for Alerts';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Admin\',\'Admin\',\'queryio_services\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span> Others </span><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
-				source = 'resources/alerts_configure.html';
-			}
 			else if(childtab == 'notifications') 
 			{
 				header = 'Notifications';
@@ -496,14 +504,6 @@ Navbar = {
 					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
 				source = 'resources/admin_notifications.html';
 				Navbar.doAutoRefresh=true;
-			}
-			else if (childtab == 'all_reports') 
-			{
-				header = 'System Reports';
-				pathHeader = '<a href="javascript:Navbar.changeTab(\'Admin\',\'Admin\',\'queryio_services\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span> Others </span><img src="images/forward.png" style="height:20px">'
-					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
-				source = 'resources/reports_all_reports.html';
 			}
 			else if(childtab == 'report_schedules')
 			{
@@ -514,7 +514,16 @@ Navbar = {
 					+'<img src="images/forward.png" style="height:20px"><span> Others </span><img src="images/forward.png" style="height:20px">'
 					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
 				source = 'resources/reports_' + childtab + '.html';
-			} 			
+			}
+			else if(childtab == 'DBConfigMigration') 
+			{
+				header = 'Databases Migration Statistics';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Admin\',\'Admin\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Others </span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Admin\',\'Admin\',\'manage_datasources\');"> Manage Datasources</a></span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> '+header+'</span>';
+				source = 'resources/database_migration.html';
+			}
 			selectedId = 'Admin';
 		}
 //		
