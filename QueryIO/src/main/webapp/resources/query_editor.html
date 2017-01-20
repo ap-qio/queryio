@@ -2,10 +2,12 @@
 <link rel="stylesheet" href="styles/data_analyzer.css" type="text/css" />
 
 <script src="scripts/data-analyzer.js"></script>
+<script type="text/javascript" src="scripts/data_analyzerTab.js"></script>
 
 <!-- script src="scripts/jquery.custom.jqplot.js"></script-->
 <script type="text/javascript" src="scripts/report_chart.js"></script>
 <script type="text/javascript" src="scripts/chart_preferences.js"></script>
+<script type="text/javascript" src="scripts/query_manager.js"></script>
 
 <div class="queryHeader" style="text-align: left; margin-top: 8px;">
 	<img id="expandQueryDesign" src="images/Right.png"
@@ -13,7 +15,7 @@
 		id="shrinkQueryDesign" src="images/Down.png" style="height: 15px;">
 	<span style="margin-left: 5px;">Query Builder</span>
 </div>
-<iv id="rightPart" class="designBackground">
+<div id="rightPart" class="designBackground">
 <div style="height: auto;">
 	<table>
 		<tr style="display: none;">
@@ -227,5 +229,99 @@
 	</table>
 </div>
 
-
+<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="lineClear" name="Clear" onclick="clearQuery();">Clear</button>
+<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="lineSave" name="Save" onclick="DA.saveQuery();">Save</button>
 </div>
+
+<script>
+
+function clearQuery(){
+	$("#srch_col_fld").val('');
+	$("#srch_from_fld").val('');
+	$("#persist").val('');
+	$("#resultTableName").val('');
+	$("#where_col").val('');
+	$("#grp_by_col").val('');
+	$("#having_col").val('');
+	$("#order_by_col").val('');
+	$("#query_textarea").val('');
+};
+
+
+var colList=[];
+var currentDesignerType = "";
+DA.readyQEdit();
+DA.setQueryDirtyBitHandlerEvent();
+	
+var chartPosition='';
+function fillPopUp(flag)
+{
+	var id = DA.selectedQueryId;
+	
+	dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+	dwr.util.byId('pop.pattern'+id).style.display = '';
+	dwr.util.byId('popup.image.processing'+id).style.display = '';
+	dwr.util.setValue('popup.component','Query ID');
+	dwr.util.setValue('popup.host'+id,id);
+	dwr.util.setValue('popup.message'+id,'Processing Request...');
+	
+	var str = JSON.stringify(DA.queryInfo);
+	if (DA.isDelete){
+	//	RemoteManager.deleteBigQuery(DA.selectedNameNode, DA.selectedQueryId, DA.querySaveResponse);
+		//DA.resetFields();
+		dwr.util.setValue('popup.status'+id,'Deleting..');
+	}
+	else if(DA.isClone)
+	{
+		dwr.util.setValue('popup.status'+id,'Cloning..');	
+		var str = JSON.stringify(DA.cloneData);
+		RemoteManager.saveQuery(DA.selectedNameNode,DA.selectedDbName, str, DA.querySaveResponse);
+		DA.isClone = false;
+	}
+	else{
+		dwr.util.setValue('popup.status'+id,'Saving..');
+		RemoteManager.saveQuery(DA.selectedNameNode,DA.selectedDbName, str, DA.querySaveResponse);
+	}
+	
+}
+
+function closePopUpBox()
+{
+    DA.closeBox(true);
+}
+
+function getOnlyAlphaNumericValues(event)
+{	
+	    var cod = event.which;
+	    var code = String.fromCharCode(cod);
+	    var controlKeys = [8, 9, 32 ,0];
+	    var isControlKey = controlKeys.join(",").match(new RegExp(event.which));
+    	if((code>='A' && code<='Z')||(code>='0' && code<='9') || (code>='a' && code<='z') || (code>=35 && code<=40) || isControlKey ){
+    		return;
+    	}
+    	else{
+    		event.preventDefault();
+    	}
+	}
+	
+QM.totalQuery = $('select#queryIds option').length+1;
+$('#queryId').val("New Query "+DA.checkID(QM.totalQuery ));
+//$('#queryId').val("New Query "+BQS.totalQuery);
+$('#queryIdTitle').text($('#queryId').val());
+$("#design_link").text("Design: "+$("#queryId").val());
+$("#preview_span").text("Preview: "+$("#queryId").val());
+
+if(QM.totalQuery==1) {
+	Navbar.isAddNewQuery = true;
+}
+if(Navbar.isAddNewQuery){
+	DAT.tempQuery=$('#queryId').val();
+	DA.isNewQuery=true;
+	DA.selectedQueryId = $('#queryId').val();
+}else{
+	DA.isNewQuery=false;
+}
+
+</script>
+
+<script src="scripts/dropdown.textbox.js"></script>

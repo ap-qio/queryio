@@ -109,7 +109,6 @@ DA = {
 		}
 		$('#query_textarea').val(query);
 		DA.query = query;
-		DA.showReportPreview();
 	},
 
 	resetQueryInfoJSON : function() {
@@ -175,6 +174,27 @@ DA = {
 		DA.setDBNameForNameNode(DA.selectedNameNode);
 		$('#chartPreviewDiv').css('display', 'none');
 
+	},
+
+	readyQEdit : function() {
+		Navbar.isDataAvailabe = false;
+		DA.checkForAdded = false;
+		DA.resetQueryInfoJSON();
+
+		DA.selectedNameNode = $("#queryIONameNodeId").val();
+		QM.selectedNameNode = $("#queryIONameNodeId").val();
+
+		if (Navbar.isEditQuery) {
+			if (Navbar.selectedQueryId != null && Navbar.selectedQueryId != '')
+				$("#queryIds").val(Navbar.selectedQueryId);
+		}
+		DA.selectedQueryId = $("#queryIds").val();
+
+		if (Navbar.selectedQueryId == '' || Navbar.selectedQueryId == null
+				|| Navbar.selectedQueryId == undefined)
+			Navbar.selectedQueryId = DA.selectedQueryId;
+
+		DA.setDBNameForNameNode(DA.selectedNameNode);
 	},
 
 	resizeGrid : function() {
@@ -390,7 +410,6 @@ DA = {
 		}
 		Navbar.isAddNewQuery = false;
 		DA.isTableSelectedByUser = false;
-		DA.selectTableOperation(list[0]);
 		$('#filterBy' + list[0]).attr('checked', 'checked');
 	},
 
@@ -585,7 +604,6 @@ DA = {
 		DA.queryInfo["selectedGroupBy"] = new Array();
 		DA.queryInfo["selectedHaving"] = new Object();
 
-		DA.showReportPreview();
 		RC.ready();
 
 		DA.selectedWhereArray = [];
@@ -595,10 +613,6 @@ DA = {
 			DA.isSetQueryRequest = false;
 			DA.setQueryBuilderValues();
 
-		}
-		if (DA.blockPreviewToShow) {
-			DA.blockPreviewToShow = false;
-			DA.showReportPreview();
 		}
 		DA.setQueryDirtyBitHandlerEvent();
 	},
@@ -1847,8 +1861,8 @@ DA = {
 		});
 		for ( var i = 0; i < names.length; i++) {
 			if (names[i] == $("#queryId").val()) {
-				if (BQS.isNewQuery) {
-					BQS.isNewQuery = false;
+				if (QM.isNewQuery) {
+					QM.isNewQuery = false;
 					jAlert("Query with Query ID \"" + names[i]
 							+ "\" already exists. Please rename the Query ID.",
 							"Error : Query Id");
@@ -1861,7 +1875,6 @@ DA = {
 				}
 			}
 		}
-		DA.chartDesignerDirtyBit = false;
 		if (!DA.isClone)
 			DA.getQueryInfoObject();
 
@@ -1873,10 +1886,6 @@ DA = {
 			jAlert("Query Title is not specified.", "Error : Query Title");
 			return;
 		}
-		if (($("#error_msg").text() != '')) {
-			jAlert("Error in Chart Designer.", "Error : Charts");
-			return;
-		}
 
 		DA.selectedQueryId = DA.queryInfo["queryId"];
 		Navbar.selectedQueryId = DA.selectedQueryId;
@@ -1885,7 +1894,6 @@ DA = {
 		Navbar.queryManagerDirtyBit = false;
 		DAT.tempQuery = '';
 		DA.queryInfo["namenode"] = $('#queryIONameNodeId').val();
-		DA.queryInfo["colspanDetail"] = DA.getChartColSpanDetail();
 		DA.queryInfo["dbName"] = $('#queryIODatabase').val();
 		
 		var list = new Array();
@@ -1905,12 +1913,16 @@ DA = {
 		if (DA.isExecuteAfterSave) {
 			DA.isExecuteAfterSave = false;
 			var str = JSON.stringify(DA.queryInfo);
-			RemoteManager.saveBigQuery(DA.selectedNameNode,
-					DA.selectedDbName, str, DA.executeCommand);
+			RemoteManager.saveQuery(DA.selectedNameNode,
+					DA.selectedDbName, str, showQuerySavePopup);
 		} else {
 			Util.addLightbox('export', 'pages/popup.jsp');
 		}
 
+	},
+	
+	showQuerySavePopup : function(response){
+		Util.addLightbox('export', 'pages/popup.jsp');
 	},
 
 	querySaveResponse : function(response) {
@@ -4451,7 +4463,7 @@ DA = {
 		}
 		
 		$('#queryIODatabase').html(data);
-		DA.afterReady();
+		DA.afterReadyQuery();
 	},
 
 	changeQueryIODbName : function(dbName) {
@@ -4506,6 +4518,18 @@ DA = {
 		$("#chartContainer").height($("#chartDiv").height() - 42);
 	},
 
+	afterReadyQuery : function() {
+
+		RemoteManager.getAllTagTableNames(DA.selectedNameNode,
+				DA.selectedDbName, DA.populateNameNodeFromList);
+
+		DA.isFirstTime = true;
+		DA.chartDesignerDirtyBit = false;
+		DA.slide();
+		DA.SearchReady();
+
+	},
+	
 	saveChangeColor : function() {
 		var colorArray = [];
 		for ( var i = 1; i < 11; i++) {

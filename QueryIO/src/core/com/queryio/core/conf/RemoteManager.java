@@ -10161,16 +10161,16 @@ public class RemoteManager {
 		return BigQueryManager.saveBigQuery(namenodeId, dbName, jsonProperties);
 	}
 
-	public static DWRResponse saveChart(String namenodeId, String dbName, String jsonProperties) {
-		return BigQueryManager.saveBigQuery(namenodeId, dbName, jsonProperties);
+	public static DWRResponse saveChart(String queryId, String jsonProperties) {
+		return BigQueryManager.saveChart(queryId, jsonProperties);
 	}
 
-	public static DWRResponse saveTable(String namenodeId, String dbName, String jsonProperties) {
-		return BigQueryManager.saveBigQuery(namenodeId, dbName, jsonProperties);
+	public static DWRResponse saveTable(String queryId, String jsonProperties) {
+		return BigQueryManager.saveTable(queryId, jsonProperties);
 	}
 
-	public static DWRResponse saveQuery(String namenodeId, String dbName, String jsonProperties) {
-		return BigQueryManager.saveBigQuery(namenodeId, dbName, jsonProperties);
+	public static DWRResponse saveQuery(String queryID, String desc, String namenodeId, String dbName, String qs) {
+		return BigQueryManager.saveQuery(queryID, desc, namenodeId, dbName, qs);
 	}
 
 	public static DWRResponse dropBigQueryTable(String databaseName, String[] tableList) {

@@ -144,7 +144,7 @@ public class BigQueryManager {
 		return dwrResponse;
 	}
 
-	public static DWRResponse saveQuery(String namenodeId, String dbName, String jsonProperties) {
+	public static DWRResponse saveQuery(String queryId, String desc, String namenodeId, String dbName, String qs) {
 
 		DWRResponse dwrResponse = new DWRResponse();
 
@@ -154,23 +154,11 @@ public class BigQueryManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 			String user = RemoteManager.getLoggedInUser();
 
-			JSONParser parser = new JSONParser();
-			JSONObject properties = (JSONObject) parser.parse(jsonProperties);
-			properties.put("username", user);
-			String queryId = (String) properties.get(BigQueryIdentifiers.QUERYID);
-
-			BigQueryDAO.deleteBigQuery(connection, queryId, namenodeId, user);
-			BigQueryDAO.saveBigQuery(connection, queryId, (String) properties.get(BigQueryIdentifiers.QUERYDESC),
-					properties, namenodeId, dbName, user);
-
-			dwrResponse = checkRptDesignExists(connection, namenodeId, queryId, properties, true, true);
-
-			if (dwrResponse.isTaskSuccess())
-				dwrResponse.setDwrResponse(true, "Query saved successfully", 200);
-			else {
-				String resp = dwrResponse.getResponseMessage();
-				dwrResponse.setDwrResponse(false, "Failed to save query: " + resp, 500);
-			}
+			BigQueryDAO.deleteQuery(connection, queryId);
+			BigQueryDAO.createQuery(connection, queryId, qs, desc, namenodeId, dbName, user);
+			
+			dwrResponse.setDwrResponse(true, "Query saved successfully", 200);
+			
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			dwrResponse.setDwrResponse(false, "Failed to save query: " + e.getMessage(), 500);

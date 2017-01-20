@@ -279,13 +279,13 @@ public class BigQueryDAO {
 		return tables;
 	}
 
-	public static void createQuery(final Connection connection, String queryId, JSONObject properties,
+	public static void createQuery(final Connection connection, String queryId, String qs,
 			String description, String namenodeId, String dbName, String username) throws SQLException {
 		PreparedStatement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.INSERT_QUERY_OBJ_QUERY);
 			stmt.setString(1, queryId);
-			stmt.setString(2, properties.toJSONString());
+			stmt.setString(2, qs);
 			stmt.setString(3, description);
 			stmt.setString(4, namenodeId);
 			stmt.setString(5, dbName);
@@ -1634,5 +1634,11 @@ public class BigQueryDAO {
 				AppLogger.getLogger().fatal(e.getMessage(), e);
 			}
 		}
+	}
+
+	public static void saveQuery(Connection connection, String queryId, String jsonProperties, String namenodeId,
+			String dbName, String user) {
+		// TODO Auto-generated method stub
+		
 	}
 }

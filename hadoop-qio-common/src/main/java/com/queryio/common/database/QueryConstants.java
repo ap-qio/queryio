@@ -826,8 +826,7 @@ public interface QueryConstants {
 			+ ColumnConstants.COL_QUERIES_USERNAME + ") VALUES (?,?,?,?,?,?)";
 
 	String DELETE_QUERY = "DELETE FROM " + TableConstants.TABLE_QUERIES + " WHERE " + ColumnConstants.COL_QUERIES_ID
-			+ "=? AND " + ColumnConstants.COL_QUERIES_NAMENODEID + "=? AND " + ColumnConstants.COL_QUERIES_USERNAME
-			+ "=?";
+			+ "=?;";
 
 	String DELETE_CHART = "DELETE FROM " + TableConstants.TABLE_CHARTS + " WHERE " + ColumnConstants.COL_CHARTS_ID
 			+ " = ?";
