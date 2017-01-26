@@ -46,6 +46,8 @@ import com.queryio.core.applications.ApplicationManager;
 import com.queryio.core.bean.AdHocQueryBean;
 import com.queryio.core.bean.Chart;
 import com.queryio.core.bean.DWRResponse;
+import com.queryio.core.bean.Query;
+import com.queryio.core.bean.Table;
 import com.queryio.core.conf.ConfigurationManager;
 import com.queryio.core.conf.RemoteManager;
 import com.queryio.core.dao.AdHocJobConfigDAO;
@@ -98,53 +100,8 @@ public class BigQueryManager {
 		return dwrResponse;
 	}
 
-	public static DWRResponse saveChart(String queryId, String jsonProperties) {
-
-		DWRResponse dwrResponse = new DWRResponse();
-
-		Connection connection = null;
-
-		try {
-			connection = CoreDBManager.getQueryIODBConnection();
-			String user = RemoteManager.getLoggedInUser();
-
-		} catch (Exception e) {
-			AppLogger.getLogger().fatal(e.getMessage(), e);
-			dwrResponse.setDwrResponse(false, "Failed to save query: " + e.getMessage(), 500);
-		} finally {
-			try {
-				CoreDBManager.closeConnection(connection);
-			} catch (Exception e) {
-				AppLogger.getLogger().fatal("Error closing database connection.", e);
-			}
-		}
-		return dwrResponse;
-	}
-
-	public static DWRResponse saveTable(String queryId, String jsonProperties) {
-
-		DWRResponse dwrResponse = new DWRResponse();
-
-		Connection connection = null;
-
-		try {
-			connection = CoreDBManager.getQueryIODBConnection();
-			String user = RemoteManager.getLoggedInUser();
-
-		} catch (Exception e) {
-			AppLogger.getLogger().fatal(e.getMessage(), e);
-			dwrResponse.setDwrResponse(false, "Failed to save query: " + e.getMessage(), 500);
-		} finally {
-			try {
-				CoreDBManager.closeConnection(connection);
-			} catch (Exception e) {
-				AppLogger.getLogger().fatal("Error closing database connection.", e);
-			}
-		}
-		return dwrResponse;
-	}
-
-	public static DWRResponse saveQuery(String queryId, String desc, String namenodeId, String dbName, String qs) {
+	// Queries
+	public static DWRResponse saveQuery(String queryId, String desc, String namenodeId, String dbName, String selectedCols, String qs) {
 
 		DWRResponse dwrResponse = new DWRResponse();
 
@@ -155,10 +112,10 @@ public class BigQueryManager {
 			String user = RemoteManager.getLoggedInUser();
 
 			BigQueryDAO.deleteQuery(connection, queryId);
-			BigQueryDAO.createQuery(connection, queryId, qs, desc, namenodeId, dbName, user);
-			
+			BigQueryDAO.createQuery(connection, queryId, selectedCols, qs, desc, namenodeId, dbName, user);
+
 			dwrResponse.setDwrResponse(true, "Query saved successfully", 200);
-			
+
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 			dwrResponse.setDwrResponse(false, "Failed to save query: " + e.getMessage(), 500);
@@ -170,6 +127,264 @@ public class BigQueryManager {
 			}
 		}
 		return dwrResponse;
+	}
+
+	public static String getQuery(String queryID) {
+		Connection connection = null;
+		String queryJs = null;
+
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+
+			Query query = BigQueryDAO.getQuery(connection, queryID);
+			
+			queryJs = new ObjectMapper().writeValueAsString(query);
+
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return queryJs;
+	}
+
+	public static DWRResponse getAllQueriesInfo() {
+		Connection connection = null;
+		DWRResponse dwrResponse = new DWRResponse();
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			List<Query> queries = BigQueryDAO.getAllQueries(connection);
+			dwrResponse.setDwrResponse(true, new ObjectMapper().writeValueAsString(queries), 200);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+	}
+
+	public static DWRResponse deleteQuery(String queryID) {
+		Connection connection = null;
+		DWRResponse dwrResponse = new DWRResponse();
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			BigQueryDAO.deleteQuery(connection, queryID);
+			dwrResponse.setId(queryID);
+			dwrResponse.setDwrResponse(true, "", 200);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+
+	}
+
+	// Charts
+	public static DWRResponse saveChart(String chartId, String queryID, String desc, JSONObject props) {
+
+		DWRResponse dwrResponse = new DWRResponse();
+
+		Connection connection = null;
+
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+
+			BigQueryDAO.deleteChart(connection, chartId);
+			BigQueryDAO.createChart(connection, chartId, queryID, desc, props);
+
+			dwrResponse.setDwrResponse(true, "Chart saved successfully", 200);
+
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, "Failed to save chart: " + e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+	}
+
+	public static String getChart(String chartID) {
+		Connection connection = null;
+		String chartJs = null;
+
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+
+			Chart chart = BigQueryDAO.getChart(connection, chartID);
+			
+			chartJs = new ObjectMapper().writeValueAsString(chart);
+
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return chartJs;
+	}
+
+	public static DWRResponse getAllChartsInfo() {
+		Connection connection = null;
+		DWRResponse dwrResponse = new DWRResponse();
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			List<Chart> charts = BigQueryDAO.getAllCharts(connection);
+			dwrResponse.setDwrResponse(true, new ObjectMapper().writeValueAsString(charts), 200);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+	}
+
+	public static DWRResponse deleteChart(String chartID) {
+		Connection connection = null;
+		DWRResponse dwrResponse = new DWRResponse();
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			BigQueryDAO.deleteChart(connection, chartID);
+			dwrResponse.setDwrResponse(true, "", 200);
+			dwrResponse.setId(chartID);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+
+	}
+
+	// Tables
+	public static DWRResponse saveTable(String tableId, String queryID, String desc, JSONObject props) {
+
+		DWRResponse dwrResponse = new DWRResponse();
+
+		Connection connection = null;
+
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			String user = RemoteManager.getLoggedInUser();
+
+			BigQueryDAO.deleteTable(connection, tableId);
+			BigQueryDAO.createTable(connection, tableId, queryID, desc, props);
+
+			dwrResponse.setDwrResponse(true, "Table saved successfully", 200);
+
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, "Failed to save table: " + e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+	}
+
+	public static String getTable(String tableID) {
+		Connection connection = null;
+		String tableJs = null;
+
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+
+			Table table = BigQueryDAO.getTable(connection, tableID);
+			
+			tableJs = new ObjectMapper().writeValueAsString(table);
+
+		} catch (Exception e) {
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return tableJs;
+	}
+
+	public static DWRResponse getAllTablesInfo() {
+		Connection connection = null;
+		DWRResponse dwrResponse = new DWRResponse();
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			List<Table> tables = BigQueryDAO.getAllTables(connection);
+			dwrResponse.setDwrResponse(true, new ObjectMapper().writeValueAsString(tables), 200);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+	}
+
+	public static DWRResponse deleteTable(String tableID) {
+		Connection connection = null;
+		DWRResponse dwrResponse = new DWRResponse();
+		try {
+			connection = CoreDBManager.getQueryIODBConnection();
+			BigQueryDAO.deleteTable(connection, tableID);
+			dwrResponse.setDwrResponse(true, "", 200);
+			dwrResponse.setId(tableID);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			AppLogger.getLogger().fatal(e.getMessage(), e);
+			dwrResponse.setDwrResponse(false, e.getMessage(), 500);
+		} finally {
+			try {
+				CoreDBManager.closeConnection(connection);
+			} catch (Exception e) {
+				AppLogger.getLogger().fatal("Error closing database connection.", e);
+			}
+		}
+		return dwrResponse;
+
 	}
 
 	public static DWRResponse saveChartPreferences(String chartPreferencesJson) {
@@ -238,8 +453,8 @@ public class BigQueryManager {
 			pst.setString(1, tableName);
 			rs = pst.executeQuery();
 			if (AppLogger.getLogger().isDebugEnabled())
-				AppLogger.getLogger()
-						.debug("tableName : " + tableName + " " + QueryConstants.GET_JOBNAME_FOR_TABLE_NAME);
+				AppLogger.getLogger().debug(
+						"tableName : " + tableName + " " + QueryConstants.GET_JOBNAME_FOR_TABLE_NAME);
 			if (rs != null) {
 				if (rs.next()) {
 					isAdhoc = true;
@@ -340,25 +555,25 @@ public class BigQueryManager {
 					isAdHocId = true;
 					selectedType = adHocBean.getType();
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger()
-								.debug("selectedTable: " + selectedTable + " jobName: " + jobName + " adHocId: "
+						AppLogger.getLogger().debug(
+								"selectedTable: " + selectedTable + " jobName: " + jobName + " adHocId: "
 										+ adHocBean.getAdHocId() + " adHocType: " + selectedType + " isAdHocId: "
 										+ isAdHocId + " parseRecursive: " + adHocBean.isParseRecursive());
 				}
 
 				isHive = HiveTableDAO.doesHiveTableExist(connection, selectedTable, namenodeId);
 				if (AppLogger.getLogger().isDebugEnabled()) {
-					AppLogger.getLogger()
-							.debug("HIVE RESULT TABLE selectedTable: " + selectedTable + " jobName: " + jobName
-									+ " adHocId: " + selectedType + " isAdHocId: " + isAdHocId + " isHive: " + isHive);
-					AppLogger.getLogger().debug("HiveTableDAO.getFileType(connection, selectedTable, namenodeId) : "
-							+ HiveTableDAO.getFileType(connection, selectedTable, namenodeId));
+					AppLogger.getLogger().debug(
+							"HIVE RESULT TABLE selectedTable: " + selectedTable + " jobName: " + jobName + " adHocId: "
+									+ selectedType + " isAdHocId: " + isAdHocId + " isHive: " + isHive);
+					AppLogger.getLogger().debug(
+							"HiveTableDAO.getFileType(connection, selectedTable, namenodeId) : "
+									+ HiveTableDAO.getFileType(connection, selectedTable, namenodeId));
 
 				}
 				boolean isPutOldResultTable = false;
-				if (QueryIOConstants.ADHOC_TYPE_LOG
-						.equalsIgnoreCase(HiveTableDAO.getFileType(connection, selectedTable, namenodeId))
-						|| QueryIOConstants.ADHOC_TYPE_XML.equalsIgnoreCase(selectedType)) {
+				if (QueryIOConstants.ADHOC_TYPE_LOG.equalsIgnoreCase(HiveTableDAO.getFileType(connection,
+						selectedTable, namenodeId)) || QueryIOConstants.ADHOC_TYPE_XML.equalsIgnoreCase(selectedType)) {
 					isHive = false;
 					isPutOldResultTable = true;
 				}
@@ -408,8 +623,8 @@ public class BigQueryManager {
 					String arguments = null;
 
 					if (isAdHocId)
-						arguments = AdHocQueryDAO.getUpdatedArguments(connection, jobName, whereClause,
-								resultTableName);
+						arguments = AdHocQueryDAO
+								.getUpdatedArguments(connection, jobName, whereClause, resultTableName);
 					else
 						arguments = AdHocJobConfigDAO.getUpdatedArguments(connection, jobName, whereClause,
 								resultTableName);
@@ -427,16 +642,15 @@ public class BigQueryManager {
 								AppLogger.getLogger().debug("filterQuery: " + filterQuery);
 						}
 					}
-					QueryIOResponse response = ApplicationManager.runJobQuery(connection, jobName, arguments, isAdHocId,
-							adHocBean.isParseRecursive(), isFilterQuery, filterQuery);
+					QueryIOResponse response = ApplicationManager.runJobQuery(connection, jobName, arguments,
+							isAdHocId, adHocBean.isParseRecursive(), isFilterQuery, filterQuery);
 
 					if (response != null) {
 						if (response.isSuccessful()) {
 							applicationId = response.getResponseMsg();
 						} else {
-							QueryExecutionDAO.updatePathStatus(connection, executionId,
-									"MapRed Job Execution Failed." + response.getResponseMsg(),
-									QueryIOConstants.QUERYEXECUTION_STATUS_FAILED);
+							QueryExecutionDAO.updatePathStatus(connection, executionId, "MapRed Job Execution Failed."
+									+ response.getResponseMsg(), QueryIOConstants.QUERYEXECUTION_STATUS_FAILED);
 						}
 					} else {
 						QueryExecutionDAO.updatePathStatus(connection, executionId, "MapRed Job Execution Failed.",
@@ -465,8 +679,8 @@ public class BigQueryManager {
 							QueryIOConstants.QUERYEXECUTION_STATUS_RUNNING, null, namenodeId, userName);
 					if (((adHocBean != null) && (QueryIOConstants.ADHOC_TYPE_CSV.equalsIgnoreCase(adHocBean.getType())
 							|| QueryIOConstants.ADHOC_TYPE_JSON.equalsIgnoreCase(adHocBean.getType())
-							|| QueryIOConstants.ADHOC_TYPE_IISLOG.equalsIgnoreCase(adHocBean.getType())
-							|| QueryIOConstants.ADHOC_TYPE_PAIRS.equalsIgnoreCase(adHocBean.getType()))) || isHive) {
+							|| QueryIOConstants.ADHOC_TYPE_IISLOG.equalsIgnoreCase(adHocBean.getType()) || QueryIOConstants.ADHOC_TYPE_PAIRS
+								.equalsIgnoreCase(adHocBean.getType()))) || isHive) {
 						Configuration rmConf = null;
 						HashMap configKeys = new HashMap();
 
@@ -541,8 +755,9 @@ public class BigQueryManager {
 								resultTableName.toLowerCase();
 
 							if (AppLogger.getLogger().isDebugEnabled())
-								AppLogger.getLogger().debug("persistResults: " + persistResults + " resultTableName: "
-										+ resultTableName + " sqlQuery: " + sqlQuery);
+								AppLogger.getLogger().debug(
+										"persistResults: " + persistResults + " resultTableName: " + resultTableName
+												+ " sqlQuery: " + sqlQuery);
 
 							JobDefinitionDAO.createResultTable(customTagConnection, resultTableName, selectedTable,
 									conf.get(QueryIOConstants.CUSTOM_TAG_DB_CREATESTMT));
@@ -663,7 +878,7 @@ public class BigQueryManager {
 		// else
 		// newTables.add(tempTable);
 		// }
-		//// properties.remove(BigQueryIdentifiers.SELECTEDTABLE);
+		// // properties.remove(BigQueryIdentifiers.SELECTEDTABLE);
 		// properties.put(BigQueryIdentifiers.SELECTEDTABLE, newTables);
 
 		DWRResponse dwrResponse = checkRptDesignExists(connection, namenodeId, queryId, properties, true, true);
@@ -769,8 +984,8 @@ public class BigQueryManager {
 				AppLogger.getLogger().debug("executequery - jsonProperties: " + jsonProperties);
 
 			if (!(ReportConstants.TYPE_HTML.equalsIgnoreCase(format)
-					|| ReportConstants.TYPE_PDF.equalsIgnoreCase(format)
-					|| ReportConstants.TYPE_XLS.equalsIgnoreCase(format))) {
+					|| ReportConstants.TYPE_PDF.equalsIgnoreCase(format) || ReportConstants.TYPE_XLS
+						.equalsIgnoreCase(format))) {
 				format = ReportConstants.TYPE_HTML;
 			}
 
@@ -901,27 +1116,6 @@ public class BigQueryManager {
 			}
 		}
 		return null;
-	}
-
-	public static DWRResponse getAllChartsInfo() {
-		Connection connection = null;
-		DWRResponse dwrResponse = new DWRResponse();
-		try {
-			connection = CoreDBManager.getQueryIODBConnection();
-			List<Chart> charts = BigQueryDAO.getAllCharts(connection);
-			dwrResponse.setDwrResponse(true, new ObjectMapper().writeValueAsString(charts), 200);
-		} catch (Throwable e) {
-			e.printStackTrace();
-			AppLogger.getLogger().fatal(e.getMessage(), e);
-			dwrResponse.setDwrResponse(false, e.getMessage(), 500);
-		} finally {
-			try {
-				CoreDBManager.closeConnection(connection);
-			} catch (Exception e) {
-				AppLogger.getLogger().fatal("Error closing database connection.", e);
-			}
-		}
-		return dwrResponse;
 	}
 
 	public static String exportBigQueryReport(String namenodeId, String queryId, String formatType) {
@@ -1114,8 +1308,9 @@ public class BigQueryManager {
 					selectedTable = (String) allTables.get(0);
 					boolean isHive = HiveTableDAO.doesHiveTableExist(connection, selectedTable, namenodeId);
 					String fileType = HiveTableDAO.getFileType(connection, selectedTable, namenodeId);
-					if (isHive && (QueryIOConstants.ADHOC_TYPE_LOG.equalsIgnoreCase(fileType)
-							|| QueryIOConstants.ADHOC_TYPE_XML.equalsIgnoreCase(fileType))) {
+					if (isHive
+							&& (QueryIOConstants.ADHOC_TYPE_LOG.equalsIgnoreCase(fileType) || QueryIOConstants.ADHOC_TYPE_XML
+									.equalsIgnoreCase(fileType))) {
 						String oldResultTable = (String) properties.get(BigQueryIdentifiers.OLD_RESULTTABLENAME);
 						if ((Boolean) properties.get(BigQueryIdentifiers.PERSISTRESULTS) == false) {
 							AppLogger.getLogger().debug("drop old result table:  " + oldResultTable);
@@ -1367,8 +1562,8 @@ public class BigQueryManager {
 		} catch (Exception e) {
 			BigQueryDAO.updateSpreadSheetQueryError(connection, queryId, namenodeId, userName, e.getMessage());
 			try {
-				BigQueryManager.getEmptySpreadSheetResult(writer, connection, namenodeId, queryId, userName,
-						properties);
+				BigQueryManager
+						.getEmptySpreadSheetResult(writer, connection, namenodeId, queryId, userName, properties);
 			} catch (Exception e1) {
 				AppLogger.getLogger().fatal(e.getMessage(), e1);
 			}
@@ -1605,8 +1800,8 @@ public class BigQueryManager {
 
 				String sqlQuery = (String) properties.get(BigQueryIdentifiers.SQLQUERY);
 				boolean setLimitResultRows = (Boolean) properties.get(BigQueryIdentifiers.SETLIMITRESULTROWS);
-				int limitResultRowsValue = Integer
-						.parseInt(String.valueOf(properties.get(BigQueryIdentifiers.LIMITRESULTROWSVALUE)));
+				int limitResultRowsValue = Integer.parseInt(String.valueOf(properties
+						.get(BigQueryIdentifiers.LIMITRESULTROWSVALUE)));
 
 				String selectedTable = null;
 				JSONArray allTables = (JSONArray) properties.get(BigQueryIdentifiers.SELECTEDTABLE);

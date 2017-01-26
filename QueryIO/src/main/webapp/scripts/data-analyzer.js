@@ -1,8 +1,8 @@
 DA = {
-	queryFilterObj:{},
-	queryFilterColMap:{},
+	queryFilterObj : {},
+	queryFilterColMap : {},
 	checkForAdded : false,
-	selectedTableSchema : {},	
+	selectedTableSchema : {},
 	globalChartPreferences : {},
 	currentChartDetail : {},
 	blockPreviewToShow : false,
@@ -38,7 +38,7 @@ DA = {
 	colList : [],
 	selectedQueryId : '',
 	selectedChartId : '',
-	chartInfo: null,
+	chartInfo : null,
 	cloneData : [],
 	isSave : false,
 	isDelete : false,
@@ -62,97 +62,7 @@ DA = {
 	tableMap : new Object(),
 	currentSelectedChart : null,
 	isHistoryFilled : false,
-	showCommand : function() {
-		if (DA.searchFrom == null) {
-			$('#query_textarea').val('');
-			return;
-		}
-		var query = 'SELECT ';
-		for ( var i = 0; i < DA.searchColumn.length; i++) {
-			if (i != 0) {
-				query += ', ';
-			}
-			query += DA.searchColumn[i];
-			if(DA.searchColumn[i].indexOf('(') != -1){
-				query += ' AS ';
-				var aliasName =  DA.searchColumn[i];
-				aliasName = aliasName.replace(' ','_');
-				aliasName = aliasName.replace('(','_');
-				aliasName = aliasName.replace(')','_');
-				query+=aliasName.substring(0,aliasName.lastIndexOf('_')).toLowerCase()+" ";
-			}
-			
-			
-		}
-		query += ' ';
-		query += ' FROM ' + DA.searchFrom;
 
-		if ($('#where_col').val() != "") {
-
-			query += ' WHERE ' + $('#where_col').val();
-		}
-
-		if ($('#grp_by_col').val() != "") {
-			query += ' GROUP BY ';
-			query += $('#grp_by_col').val() + ' ';
-		}
-		
-		if ($('#having_col').val() != "") 
-		{
-			query += ' HAVING ' + $('#having_col').val();
-		}
-		
-		if ($('#order_by_col').val() != "") {
-			query += ' ORDER BY ';
-			query += $('#order_by_col').val() + ' ';
-
-		}
-		$('#query_textarea').val(query);
-		DA.query = query;
-	},
-
-	resetQueryInfoJSON : function() {
-		
-		DA.queryInfo = new Object();
-		DA.queryInfo["queryId"] = "";
-		DA.queryInfo["queryDesc"] = "";
-		DA.queryInfo["sqlQuery"] = "";
-		DA.queryInfo["chartDetail"] = DA.getInitialChartPRObject();
-		DA.queryInfo["colDetail"] = new Object();
-		DA.queryInfo["colHeaderDetail"] = DA.getDefaultHeaderColumnJSON();
-
-		DA.queryInfo["queryHeader"] = new Object();
-		DA.queryInfo["queryHeader"]["header"] = new Object();
-		DA.queryInfo["queryHeader"]["header"]["title"] = "";
-
-		DA.queryInfo["queryFooter"] = new Object();
-		DA.queryInfo["queryFooter"]["footer"] = new Object();
-		DA.queryInfo["queryFooter"]["footer"]["title"] = "";
-
-		DA.queryInfo["groupHeader"] = new Object();
-		DA.queryInfo["groupFooter"] = new Object();
-
-		DA.queryInfo["selectedColumn"] = new Object();
-		DA.queryInfo["selectedTable"] = new Array();
-		DA.queryInfo["selectedWhere"] = new Object();
-		DA.queryInfo["selectedOrderBy"] = new Array();
-		DA.queryInfo["selectedGroupBy"] = new Array();
-		DA.queryInfo["selectedHaving"] = new Object();
-
-		DA.queryInfo["setHighFidelityOutput"] = true;
-		DA.queryInfo["setLimitResultRows"] = true;
-		DA.queryInfo["limitResultRowsValue"] = 300;
-		DA.queryInfo["namenode"] = $('#queryIONameNodeId').val();
-		DA.queryInfo["dbName"] = "";
-		DA.queryInfo["persistResults"] = false;
-		
-		DA.queryInfo["isFilterQuery"] =  false
-		DA.queryInfo["queryFilterDetail"] =  new Object();
-		DA.queryInfo["queryFilterDetail"]["filterQuery"] = ''; 
-		DA.queryInfo["queryFilterDetail"]["selectedWhere"] = new Object();
-		DA.queryInfo["queryFilterDetail"]["selectedTable"] = new Array();
-		
-	},
 	ready : function() {
 		Navbar.isDataAvailabe = false;
 		DA.checkForAdded = false;
@@ -174,27 +84,6 @@ DA = {
 		DA.setDBNameForNameNode(DA.selectedNameNode);
 		$('#chartPreviewDiv').css('display', 'none');
 
-	},
-
-	readyQEdit : function() {
-		Navbar.isDataAvailabe = false;
-		DA.checkForAdded = false;
-		DA.resetQueryInfoJSON();
-
-		DA.selectedNameNode = $("#queryIONameNodeId").val();
-		QM.selectedNameNode = $("#queryIONameNodeId").val();
-
-		if (Navbar.isEditQuery) {
-			if (Navbar.selectedQueryId != null && Navbar.selectedQueryId != '')
-				$("#queryIds").val(Navbar.selectedQueryId);
-		}
-		DA.selectedQueryId = $("#queryIds").val();
-
-		if (Navbar.selectedQueryId == '' || Navbar.selectedQueryId == null
-				|| Navbar.selectedQueryId == undefined)
-			Navbar.selectedQueryId = DA.selectedQueryId;
-
-		DA.setDBNameForNameNode(DA.selectedNameNode);
 	},
 
 	resizeGrid : function() {
@@ -330,89 +219,6 @@ DA = {
 		});
 	},
 
-	populateNameNodeFromList : function(map) {
-		var list = [];
-		if (map.ConnectionError == null) {
-			DA.tableMap = map;
-			for ( var tableName in map) {
-				list.push(tableName);
-			}
-		} else {
-			var dbname = DA.selectedDbName;
-
-			jAlert("Could not connect to " + dbname
-					+ " database. Please check if database is running.",
-					"Error");
-			if (DA.selectedDbName != DA.lastSelectedDbName)
-				DA.selectedDbName = DA.lastSelectedDbName;
-			$('#queryIODatabase').val(DA.selectedDbName);
-			return;
-		}
-
-		if (list == null || list.length == 0) {
-
-			var dName = DA.selectedDbName;
-			if ((dName == "") || (dName == "Not Configured")) {
-				jAlert(
-						"Current Namespace is not associated with any database. Please configure a database for selected Namespace.",
-						"Error");
-
-			} else {
-				jAlert("There is no table found in selected " + dName
-						+ " database.", "Error");
-
-				if (DA.selectedDbName != DA.lastSelectedDbName)
-					DA.selectedDbName = DA.lastSelectedDbName;
-				$('#queryIODatabase').val(DA.selectedDbName);
-			}
-
-			return;
-		}
-		Navbar.isDataAvailabe = true;
-		var data = '<form name="tables" id="tables">';
-		data += '<table><tr><td colspan="2"><span>Search On:</span><span id="selectColClose" class="divcloser"><a href="javascript:DA.closeSelectionDiv();"><img src="images/light-box-close.png" class="closerImage"></a></span></td></tr>';
-		for ( var i = 0; i < list.length; i++) {
-			var tbl_name = list[i];
-			if (i == 0) {
-				data += '<tr><td><input checked checked="checked" type="checkbox" name="nnID[]" id="filterBy'
-						+ tbl_name
-						+ '" value="'
-						+ tbl_name
-						+ '" onclick="DA.setLocationSearch(\''
-						+ tbl_name
-						+ '\',this.checked);" > </td><td>' + tbl_name + '</td></tr>';
-			} else {
-				data += '<tr><td><input type="checkbox" name="nnID[]" id="filterBy'
-						+ tbl_name
-						+ '" value="'
-						+ tbl_name
-						+ '" onclick="DA.setLocationSearch(\''
-						+ tbl_name
-						+ '\',this.checked);" > </td><td>' + tbl_name + '</td></tr>';
-			}
-		}
-		data += '</table></form>';
-		$('#searchFromFilters').html(data);
-
-		if ((Navbar.isEditQuery || DA.isFirstTime) && (!Navbar.isAddNewQuery)) {
-			DA.selectedQueryId = $('#bigQueryIds').val();
-			if (Navbar.selectedQueryId == "" || Navbar.selectedQueryId == null) {
-				Navbar.selectedQueryId = $('#bigQueryIds').val();
-			} else {
-				$('#bigQueryIds').val(Navbar.selectedQueryId);
-			}
-			var userName = Util.getLoggedInUserName();
-			if (BQS.selectedNameNode != '' && Navbar.selectedQueryId != '') {
-				RemoteManager.getBigQueryInfo(BQS.selectedNameNode,
-						Navbar.selectedQueryId,userName, DA.fillSavedQuery);
-			}
-			return;
-		}
-		Navbar.isAddNewQuery = false;
-		DA.isTableSelectedByUser = false;
-		$('#filterBy' + list[0]).attr('checked', 'checked');
-	},
-
 	selectChartTask : function() {
 		var option = $("#chartAction").val();
 		if (option == "Add") {
@@ -463,240 +269,13 @@ DA = {
 		}
 	},
 
-	populateSearchColNames : function(tagListObject) {
-		
-		if(tagListObject == null || tagListObject == undefined){
-			jAlert("No column found for selected table.","No column Found");
-			return;
-		}
-		var map = tagListObject["columnMap"];
-		var tableSchema = tagListObject["tableSchema"];
-		DA.selectedTableSchema = tableSchema;
-		if (map == null || map == undefined)
-			return;
-		var list = new Array();
-		
-		for ( var attr in map) {
-			list.push(attr);
-		}
-
-		DA.colList = list;
-		DA.colMap = map;
-		var obj = new Object();
-		var headerObj = new Object();
-
-		if (DA.columnsForCurrentFromSelection.length > 0) {
-			DA.columnsForCurrentFromSelection.splice(1,
-					DA.columnsForCurrentFromSelection.length);
-		}
-		var data = '<span id="selectColClose" class="divcloser"><a href="javascript:DA.closeSelectionDiv();"><img src="images/light-box-close.png" class="closerImage"></a></span> <table id="columnTable"><tbody><tr><td nowrap="nowrap">Select Column</td><td nowrap="nowrap">Aggregate Function</td></tr>';
-		var groupbyOptData = '<span> </span><span id="selectColClose" class="divcloser"><a href="javascript:DA.closeSelectionDiv();"><img src="images/light-box-close.png" class="closerImage"></a></span> <br><form name="groupByForm" id="groupByForm" style = "white-space: nowrap;">';
-		var havingData = '<span id="selectColClose" class="divcloser"><a href="javascript:DA.closeSelectionDiv();"><img src="images/light-box-close.png" class="closerImage"></a></span> <table id="having_tbl"><tbody><tr><td nowrap="nowrap">Select Column</td><td nowrap="nowrap">Relational Operator</td><td nowrap="nowrap">Value</td><td nowrap="nowrap">Logical Operator</td></tr>';
-		var colOpt = '';
-		var where_data_table = '<span id="selectColClose" class="divcloser"><a href="javascript:DA.closeSelectionDiv();"><img src="images/light-box-close.png" class="closerImage"></a></span> <table id="where_tbl"><tbody><tr><td nowrap="nowrap">Select Column</td><td nowrap="nowrap">Relational Operator</td><td nowrap="nowrap">Value</td><td nowrap="nowrap">Logical Operator</td></tr>';
-
-		data += '<tr><td><input checked type="checkbox" name="ALL" id="filterByALL" value="*" onclick="DA.selectColumnOperationWrapper(\'*\', this.checked);" checked="checked" >All</td><td nowrap="nowrap">'
-				+ '</td></tr>';
-
-		for ( var i = 0; i < list.length; i++) {
-			DA.columnsForCurrentFromSelection.push(list[i]);
-			obj[list[i] + ''] = new Object();
-			headerObj[list[i] + ''] = new Object();
-			data += '<tr><td nowrap="nowrap"><input type="checkbox" name="'
-					+ list[i] + '" id="filterBy' + list[i] + '" value="'
-					+ list[i] + '" onclick="DA.selectColumnOperationWrapper(\'' + list[i]
-					+ '\', this.checked);" > ' + list[i] + '</td>';
-			data += '<td nowrap="nowrap">'
-					+ DA.getAggregateFunctionDropDown('aggregate_', list[i],
-							'DA.selectAggregateFunction(this,\'' + list[i]
-									+ '\')') + '</td></tr>';
-			groupbyOptData += '<input type="checkbox" name="groupBy' + list[i]
-					+ '" id="groupBy' + list[i] + '" value="' + list[i]
-					+ '" onclick="DA.setGroupBy(\'' + list[i]
-					+ '\', this.checked);" > ' + list[i] + '<br>';
-			colOpt += '<option value="' + list[i] + '">' + list[i]
-					+ '</option>';
-			
-			where_data_table += '<tr>';
-			where_data_table += '<td nowrap="nowrap"><input type="checkbox" name="'
-					+ list[i]
-					+ '" id="whereBy'
-					+ list[i]
-					+ '" value="'
-					+ list[i]
-					+ '" onclick="DA.setWhereIn(\''
-					+ list[i]
-					+ '\', this.checked);" > ' + list[i] + '</td>';
-			where_data_table += '<td>'
-					+ DA.getRelationalOperatorDropDown(list[i],'roperator_','DA.selectRelationalFunction',DA.colMap[list[i]]) + '</td>';
-			where_data_table += '<td><input type="text" id="whereval_'
-					+ list[i]
-					+ '" value="" onblur="javascript:DA.makeWhereCondition();"></td>';
-			where_data_table += '<td>' + DA.getLogicalOperatorDropDown(list[i],'loperator_','DA.selectLogicalFunction')
-					+ '</td>';
-			
-			havingData += '<tr>';
-			havingData += '<td nowrap="nowrap"><input type="checkbox" name="'
-				+ list[i]
-			+ '" id="having'
-			+ list[i]
-			+ '" value="'
-			+ list[i]
-			+ '" onclick="DA.setHavingIn(\''
-			+ list[i]
-			+ '\', this.checked);" > ' + list[i] + '</td>';
-			havingData += '<td>'
-				+ DA.getRelationalOperatorDropDown(list[i],'roperatorHaving_','DA.selectRelationalFunctionForHaving',DA.colMap[list[i]]) + '</td>';
-			havingData += '<td><input type="text" id="havingval_'
-				+ list[i]
-			+ '" value="" onblur="javascript:DA.makeHavingCondition();"></td>';
-			havingData += '<td>' + DA.getLogicalOperatorDropDown(list[i],'loperatorHaving_','DA.makeHavingCondition')
-			+ '</td>';
-			
-			if (i == list.length - 1)
-				DA.lastColumn = list[i];
-
-		}
-		groupbyOptData += '</form>';
-		DA.searchColumn.splice(0, DA.searchColumn.length);
-		DA.searchColumn = [];
-		DA.setColSearch('*', true);
-		data += '</tbody></table>';
-		where_data_table += '</tbody></table>';
-
-		$('#searchColFilters').html(data);
-		$('#whereFilters').html(where_data_table);
-
-		$('#groupByColFilters').html(groupbyOptData);
-		$('#grp_by_col').val('');
-		$('#having_col').val('');
-		
-		$('#havingColFilters').html(havingData);
-		$('#selectColForProp').html(colOpt);
-		$('#selectColHeaderForProp').html(colOpt);
-		
-		if(DA.isHistoryFilled){
-			DA.isHistoryFilled = false;
-
-		}else{
-			DA.selectColumnOperationWrapper('*', true);
-			
-		}
-
-		DA.populateComparisonKeyDropdown(list);
-		DA.showCommand();
-		DA.queryInfo["colDetail"] = new Object();
-		DA.queryInfo["colHeaderDetail"] = DA.getDefaultHeaderColumnJSON();
-		DA.queryInfo["groupFooter"] = new Object();
-		DA.queryInfo["groupHeader"] = new Object();
-		DA.queryInfo["chartDetail"] = DA.getInitialChartPRObject();
-		DA.queryInfo["queryHeader"] = new Object();
-		DA.queryInfo["queryHeader"]["header"] = new Object();
-		DA.queryInfo["queryHeader"]["header"]["title"] = "";
-
-		DA.queryInfo["queryFooter"] = new Object();
-		DA.queryInfo["queryFooter"]["footer"] = new Object();
-		DA.queryInfo["queryFooter"]["footer"]["title"] = "";
-
-		DA.queryInfo["selectedColumn"] = new Object();
-		DA.queryInfo["selectedWhere"] = new Object();
-		DA.queryInfo["selectedOrderBy"] = new Array();
-		DA.queryInfo["selectedGroupBy"] = new Array();
-		DA.queryInfo["selectedHaving"] = new Object();
-
-		RC.ready();
-
-		DA.selectedWhereArray = [];
-		$('#where_col').val("");
-
-		if (DA.isSetQueryRequest) {
-			DA.isSetQueryRequest = false;
-			DA.setQueryBuilderValues();
-
-		}
-		DA.setQueryDirtyBitHandlerEvent();
-	},
-
-	populateComparisonKeyDropdown : function(list) {
-
-		var data = '';
-		if (list == null)
-			return;
-
-		for ( var i = 0; i < list.length; i++) {
-			data += '<option value="' + list[i] + '">' + list[i] + '</option>';
-		}
-		$('#comparison_col').html(data);
-		$('#orderby_col').html(data);
-		$('#groupby_col').append(data);
-	},
-
-	serachColChanged : function() {
-		DA.showCommand();
-	},
-	searchFromChanged : function() {
-		DA.showCommand();
-	},
-	showColFilters : function(element) {
-		$('#searchColFilters').fadeIn('slow');
-		$(
-				'#columnDetailColFilters,#columnHeaderColFilters,#groupHeaderColFilters,#searchFromFilters,#groupByColFilters,#havingColFilters,#orderByColFilters,#whereFilters')
-				.hide();
-		DA.isColumnSelected = true;
-
-	},
-	showGroupByCol : function(element) {
-		$('#groupByColFilters').fadeIn('slow');
-		$(
-				'#columnDetailColFilters,#columnHeaderColFilters,#groupHeaderColFilters,#searchColFilters,#searchFromFilters,#havingColFilters,#orderByColFilters,#whereFilters')
-				.hide();
-		DA.isGroupBySelected = true;
-
-	},
-	showHavingCol : function(element) {
-		
-		if($("#grp_by_col").val() == "")
-		{
-			jAlert("HAVING clause cannot be set before GROUP BY clause.", "Improper Query");
-			return;
-		}
-			
-		$('#havingColFilters').fadeIn('slow');
-		$(
-				'#columnDetailColFilters,#columnHeaderColFilters,#groupHeaderColFilters,#searchColFilters,#searchFromFilters,#groupByColFilters,#orderByColFilters,#whereFilters')
-				.hide();
-		DA.isHavingSelected = true;
-
-	},
 	showWhereCol : function(element) {
 		$('#whereFilters').fadeIn('slow');
 		$(
 				'#columnDetailColFilters,#columnHeaderColFilters,#groupHeaderColFilters,#searchColFilters,#searchFromFilters,#havingColFilters,#groupByColFilters,#orderByColFilters')
 				.hide();
 	},
-	showOrderByCol : function(element) {
-		$('#orderByColFilters').fadeIn('slow');
-		$(
-				'#columnDetailColFilters,#columnHeaderColFilters,#groupHeaderColFilters,#searchColFilters,#searchFromFilters, #havingColFilters,#groupByColFilters,#whereFilters')
-				.hide();
 
-		var theForm = document.getElementById("orderByForm");
-		if (theForm == null || theForm == undefined || theForm.elements == null
-				|| theForm.elements == undefined)
-			return;
-		for ( var i = 0; i < theForm.elements.length; i++) {
-			var e = theForm.elements[i];
-			if (e.type == 'checkbox') {
-				for ( var key in DA.queryInfo["selectedOrderBy"]) {
-					if (e.value == key) {
-						e.checked = true;
-						var order = DA.queryInfo["selectedOrderBy"][key];
-						$("#order" + e.value).val(order);
-					}
-				}
-			}
-		}
-	},
 	showGroupHeaderByCol : function(element) {
 		$('#groupHeaderColFilters').fadeIn('slow');
 		$(
@@ -727,55 +306,7 @@ DA = {
 		// $('#line_y_seriesColFilters').show();
 		// $('#line_y_seriesColFilters').fadeIn('slow');
 	},
-	showFromFilters : function(element) {
-		$('#searchFromFilters').fadeIn('slow');
-		$(
-				'#columnHeaderColFilters,#groupHeaderColFilters,#searchColFilters,#columnDetailColFilters,#groupByColFilters,#havingColFilters,#orderByColFilters,#whereFilters')
-				.hide();
 
-		DA.isFromSelected = true;
-
-	},
-
-	setGroupBy : function(value, isChecked) {
-		var values = [];
-		var numberChecked = 0;
-		var theForm = document.getElementById("groupByForm");
-		if (theForm == null || theForm == undefined || theForm.elements == null
-				|| theForm.elements == undefined)
-			return;
-		for ( var i = 0; i < theForm.elements.length; i++) {
-			var e = theForm.elements[i];
-			if (e.type == 'checkbox') {
-				if (e.checked) {
-
-//					if(DA.searchColumn.indexOf(e.value) == -1){
-//						jAlert("The columns in the GROUP BY clause must be appear in the SELECT clause.","Column not selected");
-//						e.checked = false
-//						return;
-//					}
-					values.push(e.value);
-					numberChecked ++;
-				}
-			}
-		}
-		DA.queryInfo["selectedGroupBy"] = values
-		$('#grp_by_col').val(values);
-		DA.showCommand();
-		
-		DA.setHaving(numberChecked);
-	},
-	
-	setHaving : function(number) 
-	{
-		if(number == 0)
-		{
-			$('#having_tbl').find('input[type=checkbox]:checked').removeAttr('checked');
-			$("#having_col").val("");
-			DA.showCommand();
-		}
-	},
-	
 	isColumnUsedInReport : function(colName) {
 		var groupHeader = DA.queryInfo["groupHeader"];
 		for ( var col in DA.queryInfo["groupHeader"]) {
@@ -793,7 +324,8 @@ DA = {
 			if (DA.queryInfo["chartDetail"][chart]["xseries"] == colName) {
 				return true;
 			}
-			if ((DA.queryInfo["chartDetail"][chart]["xseriesSortType"] != "None") && (DA.queryInfo["chartDetail"][chart]["xseriesSortColumn"] == colName)) {
+			if ((DA.queryInfo["chartDetail"][chart]["xseriesSortType"] != "None")
+					&& (DA.queryInfo["chartDetail"][chart]["xseriesSortColumn"] == colName)) {
 				return true;
 			}
 			for ( var ycol in DA.queryInfo["chartDetail"][chart]["yseries"]) {
@@ -815,7 +347,8 @@ DA = {
 				delete DA.queryInfo["chartDetail"][chart];
 				continue;
 			}
-			if ((DA.queryInfo["chartDetail"][chart]["xseriesSortType"] != "None") && (DA.queryInfo["chartDetail"][chart]["xseriesSortColumn"] == colName)) {
+			if ((DA.queryInfo["chartDetail"][chart]["xseriesSortType"] != "None")
+					&& (DA.queryInfo["chartDetail"][chart]["xseriesSortColumn"] == colName)) {
 				delete DA.queryInfo["chartDetail"][chart];
 				continue;
 			}
@@ -827,389 +360,10 @@ DA = {
 		}
 		return true;
 	},
-	selectColumnOperation : function(value, isChecked) {
-		DA.enableSelectAggregateFunction(value, isChecked);
 
-		if (!(DA.isSetQueryRequest && isChecked == true)) {
-			DA.setSelectedColumn(value, isChecked);
-		}
-
-		if (value == "*") { // && DA.searchColumn.length > 0) {
-			if (isChecked) {
-				DA.searchColumn = [];
-				DA.searchColumn.push(value);
-				$('#searchColFilters').find('input[type=checkbox]:checked')
-						.removeAttr('checked');
-				$('#searchColFilters').find('select').attr('disabled',
-						'disabled');
-				$('#searchColFilters').find('select').prop('selectedIndex', 0);
-				$('#srch_col_fld').val("*");
-				$('#filterByALL').attr('checked', 'checked');
-
-			}
-		} else {
-			if (DA.searchColumn.indexOf("*") != -1) {
-				if (value != "*") {
-					$('#filterByALL').removeAttr('checked');
-					DA.searchColumn.splice(DA.searchColumn.indexOf("*"),
-							DA.searchColumn.length);
-					DA.searchColumn.push(value);
-				} else {
-					jQuery.inArray(value, DA.searchColumn);
-					DA.searchColumn.splice(index, 1);
-				}
-			} else {
-				// if(!document.getElementById("aggregate_"+value).disabled)
-				// {
-				var aggVal = $("#aggregate_" + value).val();
-				if (aggVal != "") {
-					if (aggVal.indexOf("DISTINCT") != -1)
-						value = aggVal + " " + value + ")";
-					else
-						value = aggVal + "(" + value + ")";
-				}
-				// }
-				var index = jQuery.inArray(value, DA.searchColumn);
-				if (isChecked) {
-					if (index == -1) // Not in array
-						DA.searchColumn.push(value);
-				} else {
-					if (index != -1) // Present in array
-						DA.searchColumn.splice(index, 1);
-				}
-			}
-		}
-
-		// set Header/footer/order by col according to selected col.
-		$('#srch_col_fld').val(DA.searchColumn);
-		DA.setOrderByDropDown();
-		
-		// set col selected in group by.
-
-//		if (isChecked) {
-//			$('#groupBy' + value).attr('checked', 'checked');
-//		} else {
-//			$('#groupBy' + value).removeAttr('checked');
-//		}
-		//DA.setGroupBy(value, isChecked);
-
-	},
-	
-	selectColumnOperationWrapper : function(value, isChecked){
-		DA.setColSearch(value,isChecked);
-	
-	
-	
-//		if(value.indexOf('*') == 0){
-//			if(isChecked){
-//				for(var i = 0; i< DA.colList.length; i++){
-//					$('#filterBy'+DA.colList[i]).attr('checked','checked');
-//					DA.setColSearch(DA.colList[i],isChecked);
-//				}
-//			}else{
-//				for(var i = 0; i< DA.colList.length; i++){
-//					$('#filterByALL').removeAttr('checked');
-//					for(var i = 0; i< DA.colList.length; i++){
-//						$('#filterBy'+DA.colList[i]).removeAttr('checked');
-//						DA.setColSearch(DA.colList[i],false);
-//					}
-//				}
-//			}
-//		}else{
-//			
-//			
-//				DA.setColSearch(value,isChecked);	
-//				
-////			
-//			if($('#filterByALL').is(':checked')){
-//				$('#filterByALL').removeAttr('checked');
-////				for(var i = 0; i< DA.colList.length; i++){
-////					$('#filterBy'+DA.colList[i]).removeAttr('checked');
-////					DA.setColSearch(DA.colList[i],false);
-////				}
-//			}
-////			$('#filterBy'+value).attr('checked','checked');
-////			DA.setColSearch(value,isChecked);
-//		}
-		
-		
-
-	},
-	
-	setColSearch : function(value, isChecked) {
-		
-		var isConfirm = false;
-		if (isChecked) {
-			isConfirm = true;
-			DA.selectColumnOperation(value, isChecked);
-		} else {
-			var isUsed = DA.isColumnUsedInReport(value);
-			if (isUsed) {
-				jConfirm(
-						"This column is used in report.Removal of this column will remove all the changes related to this column",
-						'Confirm', function(val) {
-							if (val == true) {
-								isConfirm = DA.removeColumnFromReport(value);
-								DA.selectColumnOperation(value, isChecked);
-							} else {
-								$('#filterBy' + value).attr('checked',
-										'checked');
-								return;
-							}
-						});
-			} else {
-				isConfirm = true;
-				DA.selectColumnOperation(value, isChecked);
-			}
-		}
-		
-		
-	
-	},
-
-	fetchResultTableName : function(response) {
-		if (response == null)
-			return;
-
-		if (response.adhoc == false) {								//Comment these 4 lines to hide Result Table
-			$('#resultTableNameTD').hide();						//TODO Result Table span removed
-			$('#resultTableName').attr('disabled', 'disabled');
-		} else {
-			$('#resultTableNameTD').show();						//TODO Result Table span removed
-			$('#resultTableName').removeAttr('disabled');
-		}
-		$('#resultTableName').val(response.resultTableName);
-		
-		DA.queryInfo["resultTableName"] = response.resultTableName; 
-		DA.currentExecutionId = response.executionId;
-		DA.setResultTableName();
-		var value = response.tableName;
-		var flag = false;
-		if (response.adhoc == true) {
-
-			if ($('#filterBy' + value).is(':checked')) {
-				flag = true;
-			} else {
-				flag = false;
-			}
-			if (flag) {
-
-				var theForm = document.getElementById("tables");
-				if (theForm == null || theForm == undefined
-						|| theForm.elements == null
-						|| theForm.elements == undefined)
-					return;
-				for ( var i = 0; i < theForm.elements.length; i++) {
-					var e = theForm.elements[i];
-					if (e.type == 'checkbox') {
-						e.checked = false;
-					}
-				}
-				$('#filterBy' + value).attr('checked', 'checked');
-			}
-
-		}
-		if (!flag) {
-
-			var theForm = document.getElementById("tables");
-			if (theForm == null || theForm == undefined
-					|| theForm.elements == null
-					|| theForm.elements == undefined)
-				return;
-
-			for ( var i = 0; i < theForm.elements.length; i++) {
-				var e = theForm.elements[i];
-				if (e.type == 'checkbox') {
-					var val = e.value + '';
-					if (DA.tableMap[val]) {
-						e.checked = false;
-						continue;
-					}
-				}
-			}
-		}
-	},
-	
-	persistClicked : function(checked)
-	{
+	persistClicked : function(checked) {
 		DA.queryInfo["persistResults"] = checked;
-		document.getElementById('resultTableName').disabled= !checked;
-	},
-	
-	selectTableOperation : function(value) {
-		var flag = false;
-		var values = [];
-		if (value == undefined)
-			return;
-
-		$('#resultTableName').val(value);
-		var nameNodeId = $('#queryIONameNodeId').val();
-		
-		RemoteManager.getResultTableName(value, nameNodeId, DA.fetchResultTableName);
-
-		if (DA.tableMap[value]) {
-
-			if ($('#filterBy' + value).is(':checked')) {
-				flag = true;
-			} else {
-				flag = false;
-			}
-			if (flag) {
-				// $('#srch_from_fld').width('70%');
-				// $('#resultTableNameSpan').show();
-				// $('#resultTableName').removeAttr('disabled');
-
-				values.push(value);
-				var theForm = document.getElementById("tables");
-				if (theForm == null || theForm == undefined
-						|| theForm.elements == null
-						|| theForm.elements == undefined)
-					return;
-				for ( var i = 0; i < theForm.elements.length; i++) {
-					var e = theForm.elements[i];
-					if (e.type == 'checkbox') {
-						e.checked = false;
-					}
-				}
-
-				$('#filterBy' + value).attr('checked', 'checked');
-			}
-
-		}
-		if (!flag) {
-
-			var theForm = document.getElementById("tables");
-			if (theForm == null || theForm == undefined
-					|| theForm.elements == null
-					|| theForm.elements == undefined)
-				return;
-
-			for ( var i = 0; i < theForm.elements.length; i++) {
-				var e = theForm.elements[i];
-				if (e.type == 'checkbox') {
-					var val = (e.value).toUpperCase() + '';
-					if (val.indexOf('ADHOC') == 0) {
-						e.checked = false;
-						continue;
-					}
-					if (e.checked) {
-
-						values.push(e.value);
-					}
-				}
-			}
-			// $('#srch_from_fld').width('100%');
-			// $('#resultTableNameSpan').hide();
-			// $('#resultTableName').attr('disabled','disabled');
-		}
-		DA.searchFrom = values;
-
-		
-		$('#srch_from_fld').val(values);
-		DA.queryInfo["selectedTable"] = DA.searchFrom;
-		RemoteManager.getAllAvailableTagsList(DA.selectedNameNode,
-				DA.selectedDbName, values, DA.populateSearchColNames);
-	},
-
-	setLocationSearch : function(value, isChecked) {
-		if (!DA.isTableSelectedByUser) {
-			DA.selectTableOperation(value);
-			DA.isTableSelectedByUser = true;
-			return;
-		}
-		DA.checkForAdded = true;
-		
-		if(!isChecked && DA.selectedTableSchema.hasOwnProperty(value)){
-			
-			var columnList = DA.selectedTableSchema[value];
-			var isUsed  = false;
-			var columnName = '';
-			for(var i = 0; i < columnList.length; i++)
-			{
-				var isConfirm = false;
-				isUsed = DA.isColumnUsedInReport(columnList[i]);
-				if(isUsed){
-					columnName = columnList[i];
-					break;
-				}
-					
-			}
-			if (isUsed) {
-				jConfirm(
-						"Table "+value+" contains column "+columnName+", which is used in report design.Removal of this table will remove all the changes related to this column",
-						'Confirm', function(val) {
-							if (val == true) {
-								Navbar.queryManagerDirtyBit = true;
-								DA.selectTableOperation(value);
-							} else {
-								DA.checkForAdded = false;
-								$('#filterBy' + value).attr('checked',
-										'checked');
-								return;
-							}
-						});
-			}else{
-				
-				Navbar.queryManagerDirtyBit = true;
-				DA.selectTableOperation(value);
-			} 
-			
-		}else{
-			Navbar.queryManagerDirtyBit = true;
-			DA.selectTableOperation(value);
-		}
-
-	},
-	SearchReady : function() {
-		filterState = false;
-		$(
-				'#column_detail_col,#columnDetailColFilters,#column_header_col,#columnHeaderColFilters,#group_footer_col,#groupFooterColFilters,#group_header_col,#groupHeaderColFilters, #srch_col_fld, #searchColFilters,#srch_from_fld, #searchFromFilters,#grp_by_col,#groupByColFilters,#havingColFilters,#order_by_col,#orderByColFilters,#where_col,#having_col')
-				.hover(function() {
-					filterState = true;
-				}, function() {
-					filterState = false;
-				});
-		$('html')
-				.bind(
-						'click',
-						function() {
-							if (!filterState) {
-								$(
-										'#columnDetailColFilters,#columnHeaderColFilters,#groupFooterColFilters,#groupHeaderColFilters,#searchColFilters,#searchFromFilters,#groupByColFilters,#havingColFilters,#orderByColFilters')
-										.hide();
-
-								if (DA.isColumnSelected) {
-									DA.serachColChanged();
-									DA.isColumnSelected = false;
-
-								}
-								if (DA.isFromSelected) {
-									DA.searchFromChanged();
-									DA.isFromSelected = false;
-								}
-							}
-						});
-
-	},
-
-	getQueryInfoObject : function() {
-		var queryId = $('#queryId').val();
-		var queryDesc = $('#queryDesc').val();
-		var sqlQuery = $('#query_textarea').val();
-
-		DA.queryInfo["queryId"] = queryId;
-		DA.queryInfo["queryDesc"] = queryDesc;
-		DA.queryInfo["sqlQuery"] = sqlQuery;
-		DA.queryInfo["executionId"] = DA.currentExecutionId;
-		DA.queryInfo["setHighFidelityOutput"] = DA.getHighFidelityState();
-		DA.queryInfo["setLimitResultRows"] = DA.getLimitResultRowsState();
-		DA.queryInfo["limitResultRowsValue"] = $('#limitResultRowsValue').val();
-
-		// DA.queryInfo["queryFooter"]=new Object();
-		// DA.queryInfo["queryFooter"]["footer"]=new Object();
-		// DA.queryInfo["queryHeader"]=new Object();
-		// DA.queryInfo["queryHeader"]["header"]=new Object();
-
+		document.getElementById('resultTableName').disabled = !checked;
 	},
 
 	setHighFidelity : function(isChecked) {
@@ -1221,7 +375,6 @@ DA = {
 	},
 
 	runCommand : function() {
-		
 
 		if (DA.isNewQuery || DA.isHive) {
 			Navbar.queryManagerDirtyBit = true;
@@ -1229,39 +382,40 @@ DA = {
 
 		if (Navbar.queryManagerDirtyBit == true) {
 			DA.isExecuteAfterSave = true;
-			Util.addLightbox('viewerLightBox', 'resources/showProcessing.html', null, null);
+			Util.addLightbox('viewerLightBox', 'resources/showProcessing.html',
+					null, null);
 			DA.saveQuery();
-			
+
 		} else {
 			DA.executeCommand();
-			
+
 		}
 
 	},
-	removeQueryFromCached : function(queryId){
+	removeQueryFromCached : function(queryId) {
 		var userId = $('#loggedInUserId').text();
-		var obj =  Util.getCookie("last-visit-query"+userId);
+		var obj = Util.getCookie("last-visit-query" + userId);
 		var idInfoObj = null;
-		if(obj != null && obj != undefined){
+		if (obj != null && obj != undefined) {
 			var filePathObj = JSON.parse(obj);
-			idInfoObj = JSON.parse(Util.getCookie("last-visit-idInfoMap"+userId));
-			for (var i in idInfoObj)
-			{
-	    		if (idInfoObj[i] == queryId)
-	    		{ 
-	    			
-	    			delete filePathObj[i];
-				    delete idInfoObj[i];
-				    
-				    var userId = $('#loggedInUserId').text();
-					Util.setCookie("last-visit-query"+userId,JSON.stringify(filePathObj), 15);
-					Util.setCookie("last-visit-idInfoMap"+userId,JSON.stringify(idInfoObj), 15);
+			idInfoObj = JSON.parse(Util.getCookie("last-visit-idInfoMap"
+					+ userId));
+			for ( var i in idInfoObj) {
+				if (idInfoObj[i] == queryId) {
+
+					delete filePathObj[i];
+					delete idInfoObj[i];
+
+					var userId = $('#loggedInUserId').text();
+					Util.setCookie("last-visit-query" + userId, JSON
+							.stringify(filePathObj), 15);
+					Util.setCookie("last-visit-idInfoMap" + userId, JSON
+							.stringify(idInfoObj), 15);
 					break;
-	    		}
+				}
 			}
 		}
-		
-		
+
 	},
 	executeCommand : function() {
 		DA.removeQueryFromCached($('#queryId').val());
@@ -1291,7 +445,8 @@ DA = {
 	},
 
 	showExportLightBox : function() {
-		Util.addLightbox("export", "resources/export_big_data.html", null,
+		Util
+				.addLightbox("export", "resources/export_big_data.html", null,
 						null);
 	},
 
@@ -1309,7 +464,7 @@ DA = {
 		if ($('#pages').val() != '*') {
 			records = parseInt($('#pages').val());
 		}
-		for ( var i = 0; i < selectedUser.length; i++) {
+		for (var i = 0; i < selectedUser.length; i++) {
 			users.push(selectedUser[i].value);
 		}
 		if (users.length > 0) {
@@ -1353,18 +508,17 @@ DA = {
 
 	emailReturn : function(dwrResponse) {
 		if (dwrResponse.taskSuccess) {
-			//jAlert(dwrResponse.responseMessage, "Success");
-			//DA.closeBox(true)
-			$('#okPopUp').prop('disabled', false);			
+			// jAlert(dwrResponse.responseMessage, "Success");
+			// DA.closeBox(true)
+			$('#okPopUp').prop('disabled', false);
 			$('#processingImg').css('display', 'none')
 			$('#successImg').css('display', '');
 			$('#popMsg').html(dwrResponse.responseMessage);
 			$('#popStatusMsg').html('Success');
-			
 
 		} else {
-			//jAlert(dwrResponse.responseMessage, "Failed");
-			//DA.closeBox(true)
+			// jAlert(dwrResponse.responseMessage, "Failed");
+			// DA.closeBox(true)
 			$('#okPopUp').prop('disabled', false);
 			$('#processingImg').css('display', 'none')
 			$('#failImg').css('display', '')
@@ -1374,11 +528,10 @@ DA = {
 
 	},
 
-	closePopUpBox : function()
-	{
+	closePopUpBox : function() {
 		DA.closeBox(true);
 	},
-	
+
 	findreportType : function() {
 		var reportType = [];
 		reportType.push(7);
@@ -1393,17 +546,6 @@ DA = {
 		if ($('#xls').is(':checked'))
 			exportFormatList.push(3);
 		return exportFormatList;
-	},
-
-	checkQueryEmpty : function() {
-		var val = $("#query_textarea").val();
-		if (val == "") {
-			document.getElementById('executeQuery').disabled = true;
-			document.getElementById('saveQuery').disabled = true;
-		} else {
-			document.getElementById('executeQuery').disabled = false;
-			document.getElementById('saveQuery').disabled = false;
-		}
 	},
 
 	exportData : function() {
@@ -1430,7 +572,8 @@ DA = {
 	reportGenerated : function(path) {
 		var namenodeId = $('#queryIONameNodeId').val();
 		var userName = Util.getLoggedInUserName();
-		filePath = 'Reports/' + userName + '/' + namenodeId.toLowerCase() + "/" + path;
+		filePath = 'Reports/' + userName + '/' + namenodeId.toLowerCase() + "/"
+				+ path;
 		if (path != null) {
 			if (DA.selectedExportFormat == 'XLS') {
 				DA.closeBox(true);
@@ -1462,15 +605,16 @@ DA = {
 		DA.cloneData = jQuery.extend(true, {}, DA.queryInfo);
 		DA.cloneData["queryId"] = $("#queryIdClone").val();
 		DA.cloneData["queryDesc"] = $("#queryDescClone").val();
-		
-		RemoteManager.isQueryExist($("#queryIdClone").val(),DA.QueryIdexists);	
+
+		RemoteManager.isQueryExist($("#queryIdClone").val(), DA.QueryIdexists);
 	},
-	
-	QueryIdexists : function(response){
-		if(response == true){
-			jAlert("Query ID already exists. Please provide a unique Query ID","Invalid action");
-	        $("#popup_container").css("z-index","9999999");
-		}else{
+
+	QueryIdexists : function(response) {
+		if (response == true) {
+			jAlert("Query ID already exists. Please provide a unique Query ID",
+					"Invalid action");
+			$("#popup_container").css("z-index", "9999999");
+		} else {
 			DA.isClone = true;
 			Util.addLightbox('export', 'pages/popup.jsp');
 			DA.closeCloneBox();
@@ -1480,16 +624,6 @@ DA = {
 	closeCloneBox : function() {
 		Util.removeLightbox("addclone");
 
-	},
-
-	closeBox : function(isRefresh) {
-		Util.removeLightbox("export");
-		if ((DA.isSave) || (DA.isDelete)) {
-			DA.isSave = false;
-			DA.isDelete = false;
-			if (isRefresh)
-				Navbar.refreshView();
-		}
 	},
 
 	// createGridTable : function(tabIndex) {
@@ -1615,7 +749,7 @@ DA = {
 	addUser : function(list) {
 		if (list != null) {
 			if (DA.userCache.length == 0) {
-				for ( var i = 0; i < list.length; i++) {
+				for (var i = 0; i < list.length; i++) {
 					user = list[i];
 					DA.userCache.push(user);
 					$('#user').append(
@@ -1634,7 +768,7 @@ DA = {
 	moveAllOptions : function(from, to) {
 		var source = document.getElementById(from).getElementsByTagName(
 				"option");
-		for ( var i = 0; i < source.length; i++) {
+		for (var i = 0; i < source.length; i++) {
 			$('#' + to).append(
 					'<option value="' + source[i].value + '">'
 							+ DA.findUser(source[i].value) + '</option>');
@@ -1646,7 +780,7 @@ DA = {
 	moveSelectedOptions : function(from, to) {
 		var source = document.getElementById(from).getElementsByTagName(
 				"option");
-		for ( var i = 0; i < source.length; i++) {
+		for (var i = 0; i < source.length; i++) {
 			if (source[i].selected) {
 				$('#' + to).append(
 						'<option value="' + source[i].value + '">'
@@ -1658,7 +792,7 @@ DA = {
 
 	},
 	findUser : function(val) {
-		for ( var i = 0; i < DA.userCache.length; i++) {
+		for (var i = 0; i < DA.userCache.length; i++) {
 			var user = DA.userCache[i];
 			if (user.id == val)
 				return user.firstName + ' ' + user.lastName;
@@ -1790,7 +924,7 @@ DA = {
 				.getElementsByTagName("option");
 		var users = [];
 
-		for ( var i = 0; i < selectedUser.length; i++) {
+		for (var i = 0; i < selectedUser.length; i++) {
 			users.push(selectedUser[i].value);
 
 		}
@@ -1830,122 +964,6 @@ DA = {
 		DA.isClone = true;
 
 	},
-	saveQuery : function() {
-			console.log(DA.queryInfo);
-		DA.queryInfo["searchColumn"] = DA.searchColumn;
-		DA.setResultTableName();
-		if (!Navbar.isDataAvailabe) {
-			var dName = DA.selectedDbName;
-			if (dName == "Not Configured")
-				jAlert(
-						"Current Namespace is not associated with any database. Please configure a database for selected Namespace.",
-						"Error");
-			else
-				jAlert(
-						"There is no table available in selected "
-								+ dName
-								+ " database.Please upload data from Data Import/Export tab to use Analytics feature.",
-						"Error");
-			return;
-		}
-		if (Util.blockSpecialCharButNotSpace($('#queryId').val())) {
-			jAlert(
-					"Query Id contains special character. Please remove special character from Id.",
-					"Invalid Id");
-			$("#popup_container").css("z-index", "9999999");
-			return;
-		}
-		var names = [];
-		$('#bigQueryIds option').each(function() {
-			names.push($(this).attr('value'));
-		});
-		for ( var i = 0; i < names.length; i++) {
-			if (names[i] == $("#queryId").val()) {
-				if (QM.isNewQuery) {
-					QM.isNewQuery = false;
-					jAlert("Query with Query ID \"" + names[i]
-							+ "\" already exists. Please rename the Query ID.",
-							"Error : Query Id");
-					return;
-				} else if (names[i] != $("#bigQueryIds").val()) {
-					jAlert("Query with Query ID \"" + names[i]
-							+ "\" already exists. Please rename the Query ID.",
-							"Error : Query Id");
-					return;
-				}
-			}
-		}
-		if (!DA.isClone)
-			DA.getQueryInfoObject();
-
-		if (($("#queryId").val() == '')) {
-			jAlert("Query ID  is not specified.", "Error : Query Id");
-			return;
-		}
-		if (($("#query_textarea").val() == '')) {
-			jAlert("Query Title is not specified.", "Error : Query Title");
-			return;
-		}
-
-		DA.selectedQueryId = DA.queryInfo["queryId"];
-		Navbar.selectedQueryId = DA.selectedQueryId;
-		DA.query = DA.queryInfo["sqlQuery"];
-		DA.isSave = true;
-		Navbar.queryManagerDirtyBit = false;
-		DAT.tempQuery = '';
-		DA.queryInfo["namenode"] = $('#queryIONameNodeId').val();
-		DA.queryInfo["dbName"] = $('#queryIODatabase').val();
-		
-		var list = new Array();
-		
-		var checkboxes = $('table#columnTable input[type=checkbox]');
-		
-		for(var t = 0; t < checkboxes.length; t++){
-			var e =checkboxes[t];
-			if(e.checked && e.name != 'ALL'){
-				list.push(e.name);
-				DA.selectAggregateFunction(null,e.name);
-			}
-		}
-		DA.queryInfo["selectedColumnList"] = list;
-		
-		
-		if (DA.isExecuteAfterSave) {
-			DA.isExecuteAfterSave = false;
-			var str = JSON.stringify(DA.queryInfo);
-			RemoteManager.saveQuery(DA.selectedNameNode,
-					DA.selectedDbName, str, showQuerySavePopup);
-		} else {
-			Util.addLightbox('export', 'pages/popup.jsp');
-		}
-
-	},
-	
-	showQuerySavePopup : function(response){
-		Util.addLightbox('export', 'pages/popup.jsp');
-	},
-
-	querySaveResponse : function(response) {
-		var id = DA.selectedQueryId;
-
-		if (response.taskSuccess) {
-			status = "Success";
-			imgId = "popup.image.success";
-
-		} else {
-			status = "Failure";
-			imgId = "popup.image.fail";
-		}
-
-		message = response.responseMessage;
-
-		dwr.util.byId('popup.image.processing' + id).style.display = 'none';
-		dwr.util.byId(imgId + id).style.display = '';
-
-		dwr.util.setValue('popup.message' + id, message);
-		dwr.util.setValue('popup.status' + id, status);
-		dwr.util.byId('ok.popup').disabled = false;
-	},
 
 	createInitialChartGrid : function() {
 		$("#chartDiv").css('display', '');
@@ -1981,10 +999,9 @@ DA = {
 			// loadui: "disable",
 
 			gridComplete : function() {
-				$("#gview_chartTable .ui-jqgrid-hdiv").css(
-						"display", "none")
+				$("#gview_chartTable .ui-jqgrid-hdiv").css("display", "none")
 			},
-			
+
 			onSortCol : function(index, idxcol, sortorder) {
 			},
 
@@ -2092,10 +1109,8 @@ DA = {
 				"ID" : chartName,
 				"title" : chartObject["title"]
 			});
-			if(DA.currentSelectedChart != null)
-			{
-				if(chartObject["title"] == DA.currentSelectedChart)
-				{
+			if (DA.currentSelectedChart != null) {
+				if (chartObject["title"] == DA.currentSelectedChart) {
 					DA.currentSelectedChart = chartObject["title"];
 					currentChartIndex = (i - 1);
 				}
@@ -2118,7 +1133,7 @@ DA = {
 
 	onChartSelect : function(id, value) {
 		var allRowsOnCurrentPage = $('#chartTable').jqGrid('getDataIDs');
-		for ( var i = 0; i < allRowsOnCurrentPage.length; i++) {
+		for (var i = 0; i < allRowsOnCurrentPage.length; i++) {
 			if (allRowsOnCurrentPage[i] == id)
 				$('#' + allRowsOnCurrentPage[i]).css('background-color',
 						'#ECECEC');
@@ -2132,17 +1147,17 @@ DA = {
 		$("#stockSave").html('Update');
 		$("#differenceSave").html('Update');
 		$("#ganttSave").html('Update');
-		
+
 		$("#lineAdd").html("Update");
 		$("#bubbleAdd").html("Update");
 		$("#differenceAdd").html("Update");
 		$("#stockAdd").html("Update");
 		$("#ganttAdd").html("Update");
-		
+
 		var rowData = jQuery("#chartTable").jqGrid('getRowData', id); // data
-																		// of
-																		// the
-																		// row
+		// of
+		// the
+		// row
 		DA.selectedChartId = rowData.ID;
 		$("#chartOptionsDiv").css('display', '');
 		$("#deleteChart").removeAttr("disabled");
@@ -2150,44 +1165,62 @@ DA = {
 		$("#chart_type").val(value[currTitle]["type"]);
 		RC.setXSeriesTable('line_x_series');
 		RC.setXSeriesTable('y_series_grouping');
-		 $('#y_series_grouping').append($('<option>', { 
-		        value: "none",
-		        text : "None" 
-		    }));
-		 $('#y_series_grouping option:contains("None")').prop('selected', true);
+		$('#y_series_grouping').append($('<option>', {
+			value : "none",
+			text : "None"
+		}));
+		$('#y_series_grouping option:contains("None")').prop('selected', true);
 		RC.setXSeriesTable('pie_x_series');
 		RC.setXSeriesTable('pie_y_series');
 		var type = value[currTitle]["type"];
 		RC.fillChartDimension(type);
-		if ((type == "line") || (type == "bar") || (type == "area") || (type == "scatter") || (type =="tube") || (type =="cone") || (type =="pyramid") ) 
-		{
-			$('#line_y_seriesColFilters').html(RC.getYSeriesHtmlData('line','series',true, true, false, false));
-		}
-		else if(type == "meter" || type == "radar" || type == "pie") 
-		{
-			$('#line_y_seriesColFilters').html(RC.getYSeriesHtmlData('line','series',true, true, false, false));
-		}
-		else if ((type == "bubble"))
-		{
-			$('#bubble_y_valueColFilters').html(RC.getYSeriesHtmlData('bubble','value',true, true, false, true));
-   			$('#bubble_y_sizeColFilters').html(RC.getYSeriesHtmlData('bubble','size',false, true, false, true));
-		}
-		else if (type=="gantt"){
-			$('#gantt_y_labelColFilters').html(RC.getYSeriesHtmlData('gantt','label',false, true, true, true));
-   			$('#gantt_y_startColFilters').html(RC.getYSeriesHtmlData('gantt','start',false, false, false, true));
-   			$('#gantt_y_endColFilters').html(RC.getYSeriesHtmlData('gantt','end',false, false, false, true));
-		}
-		else if ((type =="difference")) 
-		{
-			$('#difference_y_positiveColFilters').html(RC.getYSeriesHtmlData('difference','positive',false, true, false, false));
-   			$('#difference_y_negetiveColFilters').html(RC.getYSeriesHtmlData('difference','negetive',false, true, false, false));
-		}
-		else if ((type =="stock"))
-		{
-			$('#stock_y_highColFilters').html(RC.getYSeriesHtmlData('stock','high',true,true, false, false));
-   			$('#stock_y_lowColFilters').html(RC.getYSeriesHtmlData('stock','low',true, true, false, false));
-   			$('#stock_y_openColFilters').html(RC.getYSeriesHtmlData('stock','open',true, true, false, false));
-   			$('#stock_y_closeColFilters').html(RC.getYSeriesHtmlData('stock','close',true, true, false, false));
+		if ((type == "line") || (type == "bar") || (type == "area")
+				|| (type == "scatter") || (type == "tube") || (type == "cone")
+				|| (type == "pyramid")) {
+			$('#line_y_seriesColFilters').html(
+					RC.getYSeriesHtmlData('line', 'series', true, true, false,
+							false));
+		} else if (type == "meter" || type == "radar" || type == "pie") {
+			$('#line_y_seriesColFilters').html(
+					RC.getYSeriesHtmlData('line', 'series', true, true, false,
+							false));
+		} else if ((type == "bubble")) {
+			$('#bubble_y_valueColFilters').html(
+					RC.getYSeriesHtmlData('bubble', 'value', true, true, false,
+							true));
+			$('#bubble_y_sizeColFilters').html(
+					RC.getYSeriesHtmlData('bubble', 'size', false, true, false,
+							true));
+		} else if (type == "gantt") {
+			$('#gantt_y_labelColFilters').html(
+					RC.getYSeriesHtmlData('gantt', 'label', false, true, true,
+							true));
+			$('#gantt_y_startColFilters').html(
+					RC.getYSeriesHtmlData('gantt', 'start', false, false,
+							false, true));
+			$('#gantt_y_endColFilters').html(
+					RC.getYSeriesHtmlData('gantt', 'end', false, false, false,
+							true));
+		} else if ((type == "difference")) {
+			$('#difference_y_positiveColFilters').html(
+					RC.getYSeriesHtmlData('difference', 'positive', false,
+							true, false, false));
+			$('#difference_y_negetiveColFilters').html(
+					RC.getYSeriesHtmlData('difference', 'negetive', false,
+							true, false, false));
+		} else if ((type == "stock")) {
+			$('#stock_y_highColFilters').html(
+					RC.getYSeriesHtmlData('stock', 'high', true, true, false,
+							false));
+			$('#stock_y_lowColFilters').html(
+					RC.getYSeriesHtmlData('stock', 'low', true, true, false,
+							false));
+			$('#stock_y_openColFilters').html(
+					RC.getYSeriesHtmlData('stock', 'open', true, true, false,
+							false));
+			$('#stock_y_closeColFilters').html(
+					RC.getYSeriesHtmlData('stock', 'close', true, true, false,
+							false));
 		}
 		DA.fillChart(value);
 		DA.showChartSample('', value[DA.selectedChartId]);
@@ -2211,8 +1244,7 @@ DA = {
 		$('#difference_x_series').prop('selectedIndex', 0);
 		$('#stock_x_series').prop('selectedIndex', 0);
 		$('#bubble_x_series').prop('selectedIndex', 0);
-		
-		
+
 		$("#line_y_series").val("");
 		$("#bubble_y_value").val("");
 		$("#bubble_y_size").val("");
@@ -2225,10 +1257,10 @@ DA = {
 		$("#gantt_y_label").val("");
 		$("#gantt_y_start").val("");
 		$("#gantt_y_end").val("");
-		
+
 		$("#line_x_axis_legend").val("");
 		$("#line_y_axis_legend").val("");
-		
+
 		$("#bubble_x_axis_legend").val("");
 		$("#bubble_y_axis_legend").val("");
 		$("#gantt_x_axis_legend").val("");
@@ -2239,15 +1271,15 @@ DA = {
 		$("#stock_y_axis_legend").val("");
 		$("#y_scale_min_val").val("");
 		$("#line_x_series_scale").val("Linear");
-		
+
 		// $('#pie_x_series').prop('selectedIndex', 0);
 		// $('#pie_y_series').prop('selectedIndex', 0);
 
 		$("#line_chart_table").css('display', 'none');
-		$('#bubble_chart_table').css("display","none");
-		$('#stock_chart_table').css("display","none");
-		$('#difference_chart_table').css("display","none");
-		$('#gantt_chart_table').css("display","none");
+		$('#bubble_chart_table').css("display", "none");
+		$('#stock_chart_table').css("display", "none");
+		$('#difference_chart_table').css("display", "none");
+		$('#gantt_chart_table').css("display", "none");
 		// $("#pie_chart_table").css('display', 'none');
 
 		jQuery("#chartTable").resetSelection();
@@ -2269,8 +1301,7 @@ DA = {
 		$("#differenceSave").css('display', '');
 		$("#stockAdd").css('display', 'none');
 		$("#stockSave").css('display', '');
-		
-		
+
 		// $("#pieAdd").css('display', 'none');
 		// $("#pieSave").css('display', '');
 		$("#error_msg").text('');
@@ -2286,47 +1317,48 @@ DA = {
 		$('#chartPRButton').removeAttr("disabled");
 
 		DA.currentSelectedChart = value[currTitle]["title"];
-		
+
 		RC.sortType = value[currTitle]["xseriesSortType"];
-		
+
 		var type = value[currTitle]["type"];
-		if ((type == "line") || (type == "bar") || (type == "pie") || (type == "area") || (type == "scatter")|| (type =="meter") || (type =="tube") || (type =="cone") || (type =="pyramid") || (type =="radar")) 
-		{
+		if ((type == "line") || (type == "bar") || (type == "pie")
+				|| (type == "area") || (type == "scatter") || (type == "meter")
+				|| (type == "tube") || (type == "cone") || (type == "pyramid")
+				|| (type == "radar")) {
 			// $('#pie_chart_table').css("display", "none");
 			$('#line_chart_table').css("display", "");
-			
-			$('#pie_chart_table').css("display","none");
-   			$('#bubble_chart_table').css("display","none");
-   			$('#stock_chart_table').css("display","none");
-   			$('#difference_chart_table').css("display","none");
-   			$('#gantt_chart_table').css("display","none");
-			
+
+			$('#pie_chart_table').css("display", "none");
+			$('#bubble_chart_table').css("display", "none");
+			$('#stock_chart_table').css("display", "none");
+			$('#difference_chart_table').css("display", "none");
+			$('#gantt_chart_table').css("display", "none");
+
 			$("#line_y_series").val(value[currTitle]["yseriesArray"]);
 			$("#line_x_axis_legend").val(value[currTitle]["xlegend"]);
 			$("#line_y_axis_legend").val(value[currTitle]["ylegend"]);
 
-			
 			$("#line_x_series").val(value[currTitle]["xseries"]);
 			$("#y_scale_min_val").val(value[currTitle]["yScaleMinVal"]);
-			if(value[currTitle]["xseries"] == 'Linear'){
+			if (value[currTitle]["xseries"] == 'Linear') {
 				$('#y_scale_min_val_row').show();
-			}
-			else{
-				$('#y_scale_min_val_row').hide();	
-			}
-			$("#line_x_series_scale").val(value[currTitle]["chartscale"]);
-			if(value[currTitle]["chartscale"] == 'Linear')
-			{
-				$('#y_scale_min_val_row').show();
-			}else{
+			} else {
 				$('#y_scale_min_val_row').hide();
 			}
-				
+			$("#line_x_series_scale").val(value[currTitle]["chartscale"]);
+			if (value[currTitle]["chartscale"] == 'Linear') {
+				$('#y_scale_min_val_row').show();
+			} else {
+				$('#y_scale_min_val_row').hide();
+			}
+
 			$("#y_series_grouping").val(value[currTitle]["ygrouping"]);
-			$("#line_x_series_sort_type").val(value[currTitle]["xseriesSortType"]);
+			$("#line_x_series_sort_type").val(
+					value[currTitle]["xseriesSortType"]);
 			if (value[currTitle]["xseriesSortType"] != "None") {
 				$("#line_x_series_sort_column").removeAttr("disabled");
-				$("#line_x_series_sort_column").val(value[currTitle]["xseriesSortColumn"]);
+				$("#line_x_series_sort_column").val(
+						value[currTitle]["xseriesSortColumn"]);
 			}
 			RC.ySeriesHistory['lineseries'] = jQuery.extend(true, {},
 					value[currTitle]["yseries"]);
@@ -2334,184 +1366,188 @@ DA = {
 					value[currTitle]["yseries"]);
 			RC.selectedChartYArray['lineseries'] = value[currTitle]["yseriesArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('line','series');
+			RC.setYSeriesHistoryObj('line', 'series');
 
 			// } else if (type == "pie") {
 			// $('#pie_chart_table').css("display", "");
 			// $('#line_chart_table').css("display", "none");
 			// $("#pie_x_series").val(value[currTitle]["xseries"]);
 			// $("#pie_y_series").val(value[currTitle]["yseries"][0]);
-		} else if ((type == "bubble"))
-		{
-			$('#bubble_chart_table').css("display","");
-			$('#line_chart_table').css("display","none");
-			
-			$('#pie_chart_table').css("display","none");
-   			$('#stock_chart_table').css("display","none");
-   			$('#difference_chart_table').css("display","none");
-   			$('#gantt_chart_table').css("display","none");
-			
+		} else if ((type == "bubble")) {
+			$('#bubble_chart_table').css("display", "");
+			$('#line_chart_table').css("display", "none");
+
+			$('#pie_chart_table').css("display", "none");
+			$('#stock_chart_table').css("display", "none");
+			$('#difference_chart_table').css("display", "none");
+			$('#gantt_chart_table').css("display", "none");
+
 			$("#bubble_x_series").val(value[currTitle]["xseries"]);
 			$("#bubble_y_series_grouping").val(value[currTitle]["ygrouping"]);
-			$("#bubble_x_series_sort_type").val(value[currTitle]["xseriesSortType"]);
+			$("#bubble_x_series_sort_type").val(
+					value[currTitle]["xseriesSortType"]);
 			if (value[currTitle]["xseriesSortType"] != "None") {
 				$("#bubble_x_series_sort_column").removeAttr("disabled");
-				$("#bubble_x_series_sort_column").val(value[currTitle]["xseriesSortColumn"]);
+				$("#bubble_x_series_sort_column").val(
+						value[currTitle]["xseriesSortColumn"]);
 			}
 			$("#bubble_x_axis_legend").val(value[currTitle]["xlegend"]);
 			$("#bubble_y_axis_legend").val(value[currTitle]["ylegend"]);
-			
+
 			$("#bubble_y_value").val(value[currTitle]["yseriesValueArray"]);
 			$("#bubble_y_size").val(value[currTitle]["yseriesSizeArray"]);
-			
+
 			RC.ySeriesHistory['bubblevalue'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesValue"]);
 			RC.selectedChartYObject['bubblevalue'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesValue"]);
 			RC.selectedChartYArray['bubblevalue'] = value[currTitle]["yseriesValueArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('bubble','value');
-			
+			RC.setYSeriesHistoryObj('bubble', 'value');
+
 			RC.ySeriesHistory['bubblesize'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesSize"]);
 			RC.selectedChartYObject['bubblesize'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesSize"]);
 			RC.selectedChartYArray['bubblesize'] = value[currTitle]["yseriesSizeArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('bubble','size');
+			RC.setYSeriesHistoryObj('bubble', 'size');
 
-		} else if ((type =="stock"))
-		{
-			$('#stock_chart_table').css("display","");
-			$('#line_chart_table').css("display","none");
-			
-			$('#pie_chart_table').css("display","none");
-   			$('#bubble_chart_table').css("display","none");
-   			$('#difference_chart_table').css("display","none");
-   			$('#gantt_chart_table').css("display","none");
-			
+		} else if ((type == "stock")) {
+			$('#stock_chart_table').css("display", "");
+			$('#line_chart_table').css("display", "none");
+
+			$('#pie_chart_table').css("display", "none");
+			$('#bubble_chart_table').css("display", "none");
+			$('#difference_chart_table').css("display", "none");
+			$('#gantt_chart_table').css("display", "none");
+
 			$("#stock_x_series").val(value[currTitle]["xseries"]);
 			$("#stock_y_series_grouping").val(value[currTitle]["ygrouping"]);
-			
-			$("#stock_x_series_sort_type").val(value[currTitle]["xseriesSortType"]);
-			
+
+			$("#stock_x_series_sort_type").val(
+					value[currTitle]["xseriesSortType"]);
+
 			if (value[currTitle]["xseriesSortType"] != "None") {
 				$("#stock_x_series_sort_column").removeAttr("disabled");
-				$("#stock_x_series_sort_column").val(value[currTitle]["xseriesSortColumn"]);
+				$("#stock_x_series_sort_column").val(
+						value[currTitle]["xseriesSortColumn"]);
 			}
 			$("#stock_x_axis_legend").val(value[currTitle]["xlegend"]);
 			$("#stock_y_axis_legend").val(value[currTitle]["ylegend"]);
-			
+
 			$("#stock_y_high").val(value[currTitle]["yseriesHighArray"]);
 			$("#stock_y_low").val(value[currTitle]["yseriesLowArray"]);
 			$("#stock_y_open").val(value[currTitle]["yseriesOpenArray"]);
 			$("#stock_y_close").val(value[currTitle]["yseriesCloseArray"]);
 
-			
 			RC.ySeriesHistory['stockhigh'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesHigh"]);
 			RC.selectedChartYObject['stockhigh'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesHigh"]);
 			RC.selectedChartYArray['stockhigh'] = value[currTitle]["yseriesHighArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('stock','high');
-			
+			RC.setYSeriesHistoryObj('stock', 'high');
+
 			RC.ySeriesHistory['stocklow'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesLow"]);
 			RC.selectedChartYObject['stocklow'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesLow"]);
 			RC.selectedChartYArray['stocklow'] = value[currTitle]["yseriesLowArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('stock','low');
-			
+			RC.setYSeriesHistoryObj('stock', 'low');
+
 			RC.ySeriesHistory['stockopen'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesOpen"]);
 			RC.selectedChartYObject['stockopen'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesOpen"]);
 			RC.selectedChartYArray['stockopen'] = value[currTitle]["yseriesOpenArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('stock','open');
-			
+			RC.setYSeriesHistoryObj('stock', 'open');
+
 			RC.ySeriesHistory['stockclose'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesClose"]);
 			RC.selectedChartYObject['stockclose'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesClose"]);
 			RC.selectedChartYArray['stockclose'] = value[currTitle]["yseriesCloseArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('stock','close');
-			
+			RC.setYSeriesHistoryObj('stock', 'close');
 
+		} else if ((type == "difference")) {
+			$('#difference_chart_table').css("display", "");
+			$('#line_chart_table').css("display", "none");
 
-		} else if ((type =="difference")) 
-		{
-			$('#difference_chart_table').css("display","");
-			$('#line_chart_table').css("display","none");
-			
-			$('#pie_chart_table').css("display","none");
-   			$('#bubble_chart_table').css("display","none");
-   			$('#stock_chart_table').css("display","none");
-   			$('#gantt_chart_table').css("display","none");
-			
+			$('#pie_chart_table').css("display", "none");
+			$('#bubble_chart_table').css("display", "none");
+			$('#stock_chart_table').css("display", "none");
+			$('#gantt_chart_table').css("display", "none");
+
 			$("#difference_x_series").val(value[currTitle]["xseries"]);
-			$("#difference_y_series_grouping").val(value[currTitle]["ygrouping"]);
-			
-			$("#difference_x_series_sort_type").val(value[currTitle]["xseriesSortType"]);
+			$("#difference_y_series_grouping").val(
+					value[currTitle]["ygrouping"]);
+
+			$("#difference_x_series_sort_type").val(
+					value[currTitle]["xseriesSortType"]);
 			if (value[currTitle]["xseriesSortType"] != "None") {
 				$("#difference_x_series_sort_column").removeAttr("disabled");
-				$("#difference_x_series_sort_column").val(value[currTitle]["xseriesSortColumn"]);
+				$("#difference_x_series_sort_column").val(
+						value[currTitle]["xseriesSortColumn"]);
 			}
 			$("#difference_x_axis_legend").val(value[currTitle]["xlegend"]);
 			$("#difference_y_axis_legend").val(value[currTitle]["ylegend"]);
-			
-			$("#difference_y_positive").val(value[currTitle]["yseriesPositiveArray"]);
-			$("#difference_y_negetive").val(value[currTitle]["yseriesNegativeArray"]);
-			
+
+			$("#difference_y_positive").val(
+					value[currTitle]["yseriesPositiveArray"]);
+			$("#difference_y_negetive").val(
+					value[currTitle]["yseriesNegativeArray"]);
+
 			RC.ySeriesHistory['differencepositive'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesPositive"]);
-			RC.selectedChartYObject['differencepositive'] = jQuery.extend(true, {},
-					value[currTitle]["yseriesPositive"]);
+			RC.selectedChartYObject['differencepositive'] = jQuery.extend(true,
+					{}, value[currTitle]["yseriesPositive"]);
 			RC.selectedChartYArray['differencepositive'] = value[currTitle]["yseriesPositiveArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('difference','positive');
-			
+			RC.setYSeriesHistoryObj('difference', 'positive');
+
 			RC.ySeriesHistory['differencenegetive'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesNegative"]);
-			RC.selectedChartYObject['differencenegetive'] = jQuery.extend(true, {},
-					value[currTitle]["yseriesNegative"]);
+			RC.selectedChartYObject['differencenegetive'] = jQuery.extend(true,
+					{}, value[currTitle]["yseriesNegative"]);
 			RC.selectedChartYArray['differencenegetive'] = value[currTitle]["yseriesNegativeArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('difference','negetive');
+			RC.setYSeriesHistoryObj('difference', 'negetive');
 
-		} else if ((type =="gantt"))
-		{
-			$('#gantt_chart_table').css("display","");
-			$('#line_chart_table').css("display","none");
-			
-			$('#pie_chart_table').css("display","none");
-   			$('#bubble_chart_table').css("display","none");
-   			$('#stock_chart_table').css("display","none");
-   			$('#difference_chart_table').css("display","none");
-			
+		} else if ((type == "gantt")) {
+			$('#gantt_chart_table').css("display", "");
+			$('#line_chart_table').css("display", "none");
+
+			$('#pie_chart_table').css("display", "none");
+			$('#bubble_chart_table').css("display", "none");
+			$('#stock_chart_table').css("display", "none");
+			$('#difference_chart_table').css("display", "none");
+
 			$("#gantt_x_series").val(value[currTitle]["xseries"]);
-			$("#gantt_x_series_sort_type").val(value[currTitle]["xseriesSortType"]);
+			$("#gantt_x_series_sort_type").val(
+					value[currTitle]["xseriesSortType"]);
 			if (value[currTitle]["xseriesSortType"] != "None") {
 				$("#gantt_x_series_sort_column").removeAttr("disabled");
-				$("#gantt_x_series_sort_column").val(value[currTitle]["xseriesSortColumn"]);
+				$("#gantt_x_series_sort_column").val(
+						value[currTitle]["xseriesSortColumn"]);
 			}
 			$("#gantt_x_axis_legend").val(value[currTitle]["xlegend"]);
 			$("#gantt_y_axis_legend").val(value[currTitle]["ylegend"]);
-			
+
 			$("#gantt_y_label").val(value[currTitle]["yseriesLabelArray"]);
-			$("#gantt_y_start").val(value[currTitle]["yseriesStartArray"]);			
+			$("#gantt_y_start").val(value[currTitle]["yseriesStartArray"]);
 			$("#gantt_y_end").val(value[currTitle]["yseriesEndArray"]);
-			
+
 			RC.ySeriesHistory['ganttlabel'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesLabel"]);
 			RC.selectedChartYObject['ganttlabel'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesLabel"]);
 			RC.selectedChartYArray['ganttlabel'] = value[currTitle]["yseriesLabelArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('gantt','label');
+			RC.setYSeriesHistoryObj('gantt', 'label');
 
 			RC.ySeriesHistory['ganttstart'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesStart"]);
@@ -2519,24 +1555,23 @@ DA = {
 					value[currTitle]["yseriesStart"]);
 			RC.selectedChartYArray['ganttstart'] = value[currTitle]["yseriesStartArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('gantt','start');
-			
+			RC.setYSeriesHistoryObj('gantt', 'start');
+
 			RC.ySeriesHistory['ganttend'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesEnd"]);
 			RC.selectedChartYObject['ganttend'] = jQuery.extend(true, {},
 					value[currTitle]["yseriesEnd"]);
 			RC.selectedChartYArray['ganttend'] = value[currTitle]["yseriesEndArray"];
 			RC.issetTimeOut = true;
-			RC.setYSeriesHistoryObj('gantt','end');
-			
-		} else	
-		{
+			RC.setYSeriesHistoryObj('gantt', 'end');
+
+		} else {
 			$('#pie_chart_table').css("display", "none");
 			$('#line_chart_table').css("display", "none");
-   			$('#bubble_chart_table').css("display","none");
-   			$('#stock_chart_table').css("display","none");
-   			$('#difference_chart_table').css("display","none");
-   			$('#gantt_chart_table').css("display","none");
+			$('#bubble_chart_table').css("display", "none");
+			$('#stock_chart_table').css("display", "none");
+			$('#difference_chart_table').css("display", "none");
+			$('#gantt_chart_table').css("display", "none");
 		}
 
 	},
@@ -2553,7 +1588,7 @@ DA = {
 						if (val == true) {
 							var allRowsOnCurrentPage = $('#chartTable').jqGrid(
 									'getDataIDs');
-							for ( var i = 0; i < allRowsOnCurrentPage.length; i++)
+							for (var i = 0; i < allRowsOnCurrentPage.length; i++)
 								$('#' + allRowsOnCurrentPage[i]).css(
 										'background-color', 'white');
 							RC.ready();
@@ -2569,8 +1604,7 @@ DA = {
 							$("#stockAdd").html("Add");
 							$("#differenceSave").html("Add");
 							$("#differenceAdd").html("Add");
-							
-							
+
 							$("#chartOptionsDiv").css('display', '');
 							$("#lineAdd").css('display', '');
 							$("#lineSave").css('display', 'none');
@@ -2582,7 +1616,7 @@ DA = {
 							$("#ganttSave").css('display', 'none');
 							$("#differenceAdd").css('display', '');
 							$("#differenceSave").css('display', 'none');
-							
+
 							$("#pieAdd").css('display', '');
 							$("#pieSave").css('display', 'none');
 						}
@@ -2591,7 +1625,7 @@ DA = {
 			jQuery.alerts.cancelButton = ' Cancel';
 		} else {
 			var allRowsOnCurrentPage = $('#chartTable').jqGrid('getDataIDs');
-			for ( var i = 0; i < allRowsOnCurrentPage.length; i++)
+			for (var i = 0; i < allRowsOnCurrentPage.length; i++)
 				$('#' + allRowsOnCurrentPage[i]).css('background-color',
 						'white');
 			RC.ready();
@@ -2600,15 +1634,14 @@ DA = {
 			$("#lineSave").html("Add");
 			$("#lineAdd").html("Add");
 			$("#bubbleSave").html("Add");
-			$("#bubbleAdd").html("Add");			
+			$("#bubbleAdd").html("Add");
 			$("#ganttSave").html("Add");
 			$("#ganttAdd").html("Add");
 			$("#stockSave").html("Add");
 			$("#stockAdd").html("Add");
 			$("#differenceSave").html("Add");
 			$("#differenceAdd").html("Add");
-			
-			
+
 			$("#chartOptionsDiv").css('display', '');
 			$("#lineAdd").css('display', '');
 			$("#lineSave").css('display', 'none');
@@ -2620,7 +1653,7 @@ DA = {
 			$("#stockSave").css('display', 'none');
 			$("#differenceAdd").css('display', '');
 			$("#differenceSave").css('display', 'none');
-			
+
 			// $("#pieAdd").css('display', '');
 			// $("#pieSave").css('display', 'none');
 
@@ -2649,7 +1682,7 @@ DA = {
 		$("#popup_container").css("z-index", "99999999");
 
 	},
-	
+
 	deleteAChart : function() {
 
 		jQuery.alerts.okButton = ' Yes ';
@@ -2670,147 +1703,8 @@ DA = {
 				});
 		$("#popup_container").css("z-index", "99999999");
 
-	
 	},
 
-	deleteAQuery : function() {
-		
-		jQuery.alerts.okButton = ' Yes ';
-		jQuery.alerts.cancelButton = ' No';
-		jConfirm('Are you sure you want to delete this Query ?',
-				'Delete Query', function(val) {
-			if (val == true) {
-				// callBackFunc = deleteQuery;
-				DA.isDelete = true;
-				Navbar.queryManagerDirtyBit = false;
-				Util.addLightbox('export',
-				'resources/delete_query_box.html');
-			} else {
-				return;
-			}
-			jQuery.alerts.okButton = ' Ok ';
-			jQuery.alerts.cancelButton = ' Cancel';
-		});
-		$("#popup_container").css("z-index", "99999999");
-		
-		
-	},
-
-	fillSavedQuery : function(historyObj) {
-		if (historyObj == null || historyObj == undefined)
-			return;
-		
-		DA.isHistoryFilled = true;
-		DA.blockPreviewToShow = true;
-		$("#error_msg").text("");
-		DA.queryInfo = jQuery.extend(true, {}, historyObj);
-
-		$("#queryIODatabase").val(historyObj["dbName"]);
-		
-		DA.setHiveFlag(DA.selectedNameNode, historyObj["dbName"]);
-
-		DA.selectedDbName = $("#queryIODatabase").val();
-		
-		if (DA.lastSelectedDbName != DA.selectedDbName) {
-			DA.lastSelectedDbName = DA.selectedDbName;
-			RemoteManager.getAllTagTableNames(DA.selectedNameNode,
-					DA.selectedDbName, DA.onlyPopulateTableNameDiv);
-
-		}
-
-		$("#queryId").val(historyObj["queryId"]);
-		$("#queryIdTitle").text(historyObj["queryId"]);
-		$("#design_link").text("Design: " + $("#queryId").val());
-		$("#preview_span").text("Preview: " + $("#queryId").val());
-		$("#queryDesc").val(historyObj["queryDesc"]);
-		$("#query_textarea").val(historyObj["sqlQuery"]);
-		
-		$('#srch_col_fld').val(historyObj["searchColumn"]);
-		
-		var isFilterQuery = historyObj["isFilterQuery"];
-		
-		if(isFilterQuery){
-		
-			DA.setQueryFilterDetail(historyObj["queryFilterDetail"], historyObj["selectedTable"][0]);
-			
-		}
-		
-
-		if (DA.queryInfo["setLimitResultRows"]) {
-			$('#limitResultRows').attr('checked', 'checked');
-			$('#limitResultRowsValue')
-					.val(DA.queryInfo["limitResultRowsValue"]);
-			$('#limitResultRowsValue').css('display', '');
-		} else {
-			$('#limitResultRows').removeAttr('checked');
-			$('#limitResultRowsValue').css('display', 'none');
-		}
-		if (DA.queryInfo["setHighFidelityOutput"]) {
-			$('#highFidelityOutput').attr('checked', 'checked');
-		} else {
-			$('#highFidelityOutput').removeAttr('checked');
-		}
-
-		$('#searchFromFilters').find('input[type=checkbox]:checked')
-				.removeAttr('checked');
-
-		DA.isSetQueryRequest = true;
-
-		var selectedTableObj = historyObj["selectedTable"];
-
-		for ( var i = 0; i < selectedTableObj.length; i++) {
-			var value = selectedTableObj[i] + '';
-			// if (value.indexOf('ADHOC') == 0){
-			// $('#srch_from_fld').width('70%');
-			// $('#resultTableNameSpan').show();
-			// $('#resultTableName').removeAttr('disabled');
-			// }
-
-			$('#filterBy' + selectedTableObj[i]).attr("checked", true);
-		}
-
-		DA.searchFrom = selectedTableObj;
-
-		$('#srch_from_fld').val(selectedTableObj);
-		
-
-		RemoteManager.getAllAvailableTagsList(DA.selectedNameNode,
-				DA.selectedDbName, selectedTableObj, DA.populateSearchColNames);
-		
-		RemoteManager.getResultTableName($('#srch_from_fld').val(), DA.selectedNameNode,
-				DA.fetchResultTableName);
-
-		DA.selectedHistoryObj = jQuery.extend(true, {}, historyObj);
-		BQS.isEditQuery = false;
-		
-		
-		
-	},
-	
-	setHiveFlag : function(nameNodeId, dbName)
-	{
-		RemoteManager.getAllDBNameWithTypeForNameNodeMapping(nameNodeId, 
-			function(list)
-			{
-				if(list["Metastore"] == dbName)
-					DA.isHive = false;
-				else if(list["Hive"] == dbName)
-					DA.isHive = true;
-				if(DA.isHive)
-				{
-					$('#query_filter_table').css('visibility','visible');
-				}
-				else
-				{
-					$('#query_filter_table').css('visibility','hidden');
-					$('#is_apply_query_filter').removeAttr('checked')
-					$('#query_filter_sql').css('visibility','hidden');
-					DA.applyQueryFilter();
-				}
-			}
-		);
-	},
-	
 	adjustGridHeight : function() {
 		var topHeight = $("#data_analyzer_query_builder").height();
 		$("#queryHistoryTable").setGridHeight(
@@ -2835,132 +1729,6 @@ DA = {
 
 	},
 
-	getAggregateFunctionDropDown : function(idprefix, colName, onChageFunc) {
-
-		if (DA.colList.indexOf(colName) == -1 && colName != '*') {
-			return "";
-		}
-
-		var dataType = DA.colMap[colName];
-		var data = '<select id="'
-				+ idprefix
-				+ colName
-				+ '" disabled="disabled" style="width:100%;" onchange="javascript:'
-				+ onChageFunc + ';">';
-		data += '<option value=""></option>';
-		data += '<option value="COUNT">COUNT</option>';
-		data += '<option value="COUNT(DISTINCT">DISTINCT COUNT</option>';
-		if (dataType.toUpperCase() == 'INTEGER' || dataType.toUpperCase() == 'LONG'
-				|| dataType.toUpperCase() == 'DECIMAL' || dataType.toUpperCase() == 'SHORT'
-				|| dataType.toUpperCase() == 'DOUBLE') {
-			data += '<option value="SUM">SUM</option>';
-			data += '<option value="MIN">MIN</option>';
-			data += '<option value="MAX">MAX</option>';
-			data += '<option value="AVG">AVG</option>';
-		}
-		data += '</select>';
-		return data;
-
-	},
-	enableSelectAggregateFunction : function(colName, isSelected) {
-
-		if (isSelected) {
-			$('#aggregate_' + colName).removeAttr('disabled');
-		} else {
-			$('#aggregate_' + colName).attr('disabled', 'disabled');
-		}
-	},
-	selectAggregateFunction : function(element, colName) {
-		var value = $('#aggregate_' + colName).val();
-		var func = "";
-		if (value.indexOf("DISTINCT") != -1)
-			func = value + " " + colName + ")";
-		else
-			func = value + "(" + colName + ")";
-
-		for ( var i = 0; i < DA.searchColumn.length; i++) {
-
-			if (DA.searchColumn[i].indexOf(colName) != -1) {
-				DA.searchColumn.splice(i, 1);
-			}
-		}
-		if (value == "") {
-			DA.searchColumn.push(colName);
-		} else {
-			DA.searchColumn.push(func);
-			// set col selected in group by.
-//			$('#groupBy' + colName).removeAttr('checked');
-//			DA.setGroupBy(colName, false);
-		}
-
-		$('#srch_col_fld').val(DA.searchColumn);
-		if(DA.queryInfo["selectedColumn"][colName]==undefined || DA.queryInfo["selectedColumn"][colName]==null ){
-			DA.queryInfo["selectedColumn"][colName] = new Object();
-		}
-		DA.queryInfo["selectedColumn"][colName]["function"] = value;
-		DA.setOrderByDropDown();
-
-	},
-	setOrderByDropDown : function() {
-		var list = '';
-		if (DA.searchColumn[0] == '*' && DA.searchColumn.length == 1) {
-			list = this.colList;
-		} else {
-			list = DA.searchColumn;
-		}
-		var orderbyOptData = '<span> </span><span id="selectColClose" class="divcloser"><a href="javascript:DA.closeSelectionDiv();"><img src="images/light-box-close.png" class="closerImage"></a></span> <br><form name="orderByForm" id="orderByForm">';
-		orderbyOptData += '<table>';
-		for ( var i = 0; i < list.length; i++) {
-			var index = jQuery.inArray(list[i], DA.colList);
-			if (index == -1)
-				continue;
-
-			var checked = '';
-			var descseleted = '';
-			var ascseleted = '';
-
-			if (DA.queryInfo["selectedOrderBy"].hasOwnProperty(list[i])) {
-				checked = 'checked="checked"';
-				if (DA.queryInfo["selectedOrderBy"][list[i]] == 'DESC') {
-					descseleted = 'selected="selected"';
-				} else {
-					ascseleted = 'selected="selected"';
-				}
-			}
-			orderbyOptData += '<tr>'
-					+ '<td width = "70%" style = "white-space: nowrap;">'
-					+ '<input type="checkbox" name="orderBy'
-					+ list[i]
-					+ '" id="orderBy'
-					+ list[i]
-					+ '" value="'
-					+ list[i]
-					+ '" onclick="DA.setOrderBy(\''
-					+ list[i]
-					+ '\', this.checked);" '
-					+ checked
-					+ ' style=" margin-bottom: 10px;" > '
-					+ list[i]
-					+ '</td><td>'
-					+ '<select id="order'
-					+ list[i]
-					+ '" onchange = "DA.setOrderBy(\''
-					+ list[i]
-					+ '\');" >'
-					+ '<option value = "ASC" '
-					+ ascseleted
-					+ '>ASC</option>'
-					+ '<option value = "DESC" '
-					+ descseleted
-					+ '>DESC</option>' + '</select>' + '</td></tr>';
-		}
-		orderbyOptData += '</table>';
-		$('#orderByColFilters').html(orderbyOptData);
-		RC.ready();
-		if (!DA.blockPreviewToShow)
-			DA.setOrderBy();
-
-	},
 	setOrderBy : function(value, isChecked) {
 		var values = new Array();
 		var valuesQuery = [];
@@ -2968,7 +1736,7 @@ DA = {
 		if (theForm == null || theForm == undefined || theForm.elements == null
 				|| theForm.elements == undefined)
 			return;
-		for ( var i = 0; i < theForm.elements.length; i++) {
+		for (var i = 0; i < theForm.elements.length; i++) {
 			var e = theForm.elements[i];
 			if (e.type == 'checkbox') {
 				if (e.checked) {
@@ -2987,278 +1755,7 @@ DA = {
 		DA.showCommand();
 
 	},
-	getRelationalOperatorDropDown : function(colName, idPrefix, onChaneFunction, dataType) {
-		
-		var dbType  = $('#queryIODatabase').val();
-		var data = '<select id="'+idPrefix
-				+ colName
-				+ '" disabled="disabled" style="width:100%;" onchange="javascript:'+onChaneFunction+'(this.value,\''
-				+ colName + '\');">';
-		data += '<option value=""></option>';
-		data += '<option value=" = ">=</option>';
-		data += '<option value=" != ">!=</option>';
-		if (dataType.toUpperCase() == 'INTEGER' || dataType.toUpperCase() == 'LONG'
-				|| dataType.toUpperCase() == 'DECIMAL' || dataType.toUpperCase() == 'SHORT'
-				|| dataType.toUpperCase() == 'DOUBLE') {
-			data += '<option value=" > ">></option>';
-			data += '<option value=" < "><</option>';
-			data += '<option value=" <= "><=</option>';
-			data += '<option value=" >= ">>=</option>';
-
-		}
-		if(!(dbType.toUpperCase().indexOf('HIVE') == 0)){
-			
-			data += '<option value=" IN ">IN</option>';
-			data += '<option value=" NOT IN ">NOT IN</option>';
-		}
-		
-		data += '<option value=" IS NULL ">IS NULL</option>';
-		data += '<option value=" IS NOT NULL ">IS NOT NULL</option>';			
-		data += '<option value=" LIKE ">LIKE</option>';
-		data += '<option value=" NOT LIKE ">NOT LIKE</option>';
-		data += '<option value=" BETWEEN ">BETWEEN</option>';
-		data += '<option value=" NOT BETWEEN ">NOT BETWEEN</option>';
-
-
-		data += '</select>';
-		return data;
-
-	},
 	
-	getLogicalOperatorDropDown : function(colName, idPrefix, onChangeFunction) {
-		var data = '<select id="'+idPrefix
-				+ colName
-				+ '" disabled="disabled" style="width:100%;" onchange="javascript:'+onChangeFunction+'(this,\''
-				+ colName + '\');">';
-		data += '<option value=""></option>';
-		data += '<option value="AND">AND</option>';
-		data += '<option value="OR">OR</option>';
-
-		data += '</select>';
-		return data;
-
-	},
-	
-
-	setWhereIn : function(colName, isChecked) {
-		DA.enableWhereComponent(colName, isChecked);
-		if (!isChecked) {
-			$('#roperator_' + colName).val('');
-			$('#whereval_' + colName).val('');
-			$('#loperator_' + colName).val('');
-			DA.setSelectedWhereInJSON(colName, false);
-		}
-		DA.makeWhereCondition();
-
-	},
-	
-	setNotOperator : function()
-	{
-		DA.makeWhereCondition();
-	},
-	
-	setHavingIn : function(colName, isChecked) 
-	{
-		DA.enableHavingComponent(colName, isChecked);
-		if (!isChecked)
-		{
-			$('#roperatorHaving_' + colName).val('');
-			$('#havingval_' + colName).val('');
-			$('#loperatorHaving_' + colName).val('');
-			DA.setSelectedHavingInJSON(colName, false);
-		}
-		DA.makeHavingCondition();
-	},
-
-	setSelectedWhereInJSON : function(colName, isSelected) {
-		if (isSelected) {
-			if (!DA.queryInfo["selectedWhere"].hasOwnProperty(colName)) {
-				DA.queryInfo["selectedWhere"][colName] = new Object();
-			}
-			DA.queryInfo["selectedWhere"][colName]["roperator"] = $(
-					'#roperator_' + colName).val();
-			DA.queryInfo["selectedWhere"][colName]["value"] = $(
-					'#whereval_' + colName).val();
-			DA.queryInfo["selectedWhere"][colName]["loperator"] = $(
-					'#loperator_' + colName).val();
-		} else {
-			delete DA.queryInfo["selectedWhere"][colName];
-
-		}
-
-	},
-	setSelectedHavingInJSON : function(colName, isSelected) {
-		if (isSelected) 
-		{
-			if (!DA.queryInfo["selectedHaving"].hasOwnProperty(colName))
-			{
-				DA.queryInfo["selectedHaving"][colName] = new Object();
-			}
-			DA.queryInfo["selectedHaving"][colName]["roperator"] = $('#roperatorHaving_' + colName).val();
-			DA.queryInfo["selectedHaving"][colName]["value"] = $('#havingvalHaving_' + colName).val();
-			DA.queryInfo["selectedHaving"][colName]["loperator"] = $('#loperatorHaving_' + colName).val();
-			
-		} else {
-			delete DA.queryInfo["selectedHaving"][colName];
-			
-		}
-		
-	},
-
-	makeWhereCondition : function() {
-		var frm = document.getElementById('where_tbl').getElementsByTagName(
-				"input");
-		var len = frm.length;
-		// var colName ='';
-		var cond = '';
-		DA.selectedWhereArray = [];
-		for (i = 0; i < len; i++)
-		{
-			if (frm[i].type == "checkbox") {
-
-				if (frm[i].checked) {
-
-					var colName = frm[i].value;
-					
-					DA.selectedWhereArray.push(colName);
-					
-					cond += colName;
-					cond += $('#roperator_' + colName).val() + ' ';
-
-					var colDataType = DA.colMap[colName];
-					var operator = $('#roperator_' + colName).val();
-					if ((colDataType.toUpperCase() == "STRING" || colDataType.toUpperCase() == "BLOB" || colDataType.toUpperCase() == 'TIMESTAMP')
-							&& operator.toUpperCase().indexOf("IN") == -1
-							&& operator.toUpperCase().indexOf("IS NULL") == -1
-							&& operator.toUpperCase().indexOf("IS NOT NULL") == -1) {
-						cond += " '" + $('#whereval_' + colName).val() + "' ";
-					} else {
-						cond += ' ' + $('#whereval_' + colName).val() + ' ';
-					}
-
-					cond += $('#loperator_' + colName).val() + ' ';
-					
-					if (!DA.queryInfo["selectedWhere"].hasOwnProperty(colName))
-					{
-						DA.queryInfo["selectedWhere"][colName] = new Object();
-					}
-					DA.queryInfo["selectedWhere"][colName]["roperator"] = $(
-							'#roperator_' + colName).val();
-					DA.queryInfo["selectedWhere"][colName]["loperator"] = $(
-							'#loperator_' + colName).val();
-					DA.queryInfo["selectedWhere"][colName]["value"] = $(
-							'#whereval_' + colName).val();
-
-				}
-			}
-		}
-		$('#where_col').val(cond);
-		DA.showCommand();
-
-	},
-	makeHavingCondition : function()
-	{
-		var frm = document.getElementById('having_tbl').getElementsByTagName("input");
-		var len = frm.length;
-		// var colName ='';
-		var cond = '';
-		DA.selectedHavingArray = [];
-		for (i = 0; i < len; i++)
-		{
-			if (frm[i].type === "checkbox") {
-				
-				if (frm[i].checked) {
-					
-					var colName = frm[i].value;
-					DA.selectedHavingArray.push(colName);
-					
-					cond += colName;
-					cond += $('#roperatorHaving_' + colName).val() + ' ';
-					
-					var colDataType = DA.colMap[colName];
-					var operator = $('#roperatorHaving_' + colName).val();
-					if ((colDataType.toUpperCase() == "STRING"|| colDataType.toUpperCase() == "BLOB" || colDataType.toUpperCase() == 'TIMESTAMP')
-							&& operator.toUpperCase().indexOf("IN") == -1
-							&& operator.toUpperCase().indexOf("IS NULL") == -1
-							&& operator.toUpperCase().indexOf("IS NOT NULL") == -1) {
-						cond += " '" + $('#havingval_' + colName).val() + "' ";
-					} 
-					else 
-					{
-						cond += ' ' + $('#havingval_' + colName).val() + ' ';
-					}
-					
-					cond += $('#loperatorHaving_' + colName).val() + ' ';
-					
-					if (!DA.queryInfo["selectedHaving"].hasOwnProperty(colName)) 
-					{
-						DA.queryInfo["selectedHaving"][colName] = new Object();
-					}
-					DA.queryInfo["selectedHaving"][colName]["roperator"] = $('#roperatorHaving_' + colName).val();
-					DA.queryInfo["selectedHaving"][colName]["loperator"] = $('#loperatorHaving_' + colName).val();
-					DA.queryInfo["selectedHaving"][colName]["value"] = $('#havingval_' + colName).val();
-					
-				}
-			}
-		}
-		$('#having_col').val(cond);
-		DA.showCommand();
-		
-	},
-	selectRelationalFunction : function(value, colName) {
-		if (value.indexOf("IS NULL") != -1 || value.indexOf("IS NOT NULL") != -1) {
-			$('#whereval_' + colName).val("");
-			$('#whereval_' + colName).attr('disabled', 'disabled');
-		} else
-			$('#whereval_' + colName).removeAttr('disabled');
-		DA.makeWhereCondition();
-	},
-	selectRelationalFunctionForHaving : function(value, colName) {
-		if (value.indexOf("IS NULL") != -1 || value.indexOf("IS NOT NULL") != -1) 
-		{
-			$('#havingval_' + colName).val("");
-			$('#havingval_' + colName).attr('disabled', 'disabled');
-		}
-		else
-			$('#havingval_' + colName).removeAttr('disabled');
-		DA.makeHavingCondition();
-	},
-	selectLogicalFunction : function() {
-		DA.makeWhereCondition();
-
-	},
-	enableWhereComponent : function(colName, isSelected)
-	{
-		if (isSelected) 
-		{
-			$('#roperator_' + colName).removeAttr('disabled');
-			$('#whereval_' + colName).removeAttr('disabled');
-			if (colName != DA.lastColumn)
-				$('#loperator_' + colName).removeAttr('disabled');
-		} else {
-			$('#roperator_' + colName).attr('disabled', 'disabled');
-			$('#whereval_' + colName).attr('disabled', 'disabled');
-			$('#loperator_' + colName).attr('disabled', 'disabled');
-		}
-
-	},
-	enableHavingComponent : function(colName, isSelected)
-	{
-		if (isSelected) 
-		{
-			$('#roperatorHaving_' + colName).removeAttr('disabled');
-			$('#havingval_' + colName).removeAttr('disabled');
-			if (colName != DA.lastColumn)
-				$('#loperatorHaving_' + colName).removeAttr('disabled');
-		}
-		else 
-		{
-			$('#roperatorHaving_' + colName).attr('disabled', 'disabled');
-			$('#havingval_' + colName).attr('disabled', 'disabled');
-			$('#loperatorHaving_' + colName).attr('disabled', 'disabled');
-		}
-		
-	},
 	// setGroupHeaderTable : function() {
 	//
 	// var list = '';
@@ -3374,7 +1871,8 @@ DA = {
 				+ '"  style="width:100%;" onchange="javascript:DA.setGroupHeaderInJSON();" disabled="disabled">';
 		data += '<option value=""></option>';
 		data += '<option value="COUNT">COUNT</option>';
-		if (dataType.toUpperCase() == 'INTEGER' || dataType.toUpperCase() == 'DECIMAL') {
+		if (dataType.toUpperCase() == 'INTEGER'
+				|| dataType.toUpperCase() == 'DECIMAL') {
 			data += '<option value="SUM">SUM</option>';
 			data += '<option value="MIN">MIN</option>';
 			data += '<option value="MAX">MAX</option>';
@@ -3396,8 +1894,10 @@ DA = {
 		data += '<option value=""></option>';
 		data += '<option value="COUNT">COUNT</option>';
 		data += '<option value="DistinctCount">DISTINCT COUNT</option>';
-		if (dataType.toUpperCase() == 'INTEGER' || dataType.toUpperCase() == 'LONG'
-				|| dataType.toUpperCase() == 'SHORT' || dataType.toUpperCase() == 'DOUBLE') {
+		if (dataType.toUpperCase() == 'INTEGER'
+				|| dataType.toUpperCase() == 'LONG'
+				|| dataType.toUpperCase() == 'SHORT'
+				|| dataType.toUpperCase() == 'DOUBLE') {
 			data += '<option value="SUM">SUM</option>';
 			data += '<option value="MIN">MIN</option>';
 			data += '<option value="MAX">MAX</option>';
@@ -3415,7 +1915,7 @@ DA = {
 	},
 
 	setGroupHeader : function(colName, isChecked) {
-		for ( var i = 0; i < DA.selectedGroupHeaderArray.length; i++) {
+		for (var i = 0; i < DA.selectedGroupHeaderArray.length; i++) {
 			if (DA.selectedGroupHeaderArray[i] == colName) {
 				DA.selectedGroupHeaderArray.splice(i, 1);
 			}
@@ -3462,7 +1962,7 @@ DA = {
 	},
 
 	setGroupFooter : function(colName, isChecked) {
-		for ( var i = 0; i < DA.selectedGroupFooterArray.length; i++) {
+		for (var i = 0; i < DA.selectedGroupFooterArray.length; i++) {
 			if (DA.selectedGroupFooterArray[i] == colName) {
 				DA.selectedGroupFooterArray.splice(i, 1);
 			}
@@ -3517,7 +2017,7 @@ DA = {
 				|| DA.queryInfo["groupHeader"] == "") {
 			DA.queryInfo["groupHeader"] = new Object();
 		}
-		for ( var i = 0; i < DA.selectedGroupHeaderArray.length; i++) {
+		for (var i = 0; i < DA.selectedGroupHeaderArray.length; i++) {
 			var colName = DA.selectedGroupHeaderArray[i];
 			if (DA.queryInfo["groupHeader"][colName] == undefined
 					|| DA.queryInfo["groupHeader"][colName] == null) {
@@ -3565,7 +2065,7 @@ DA = {
 				|| DA.queryInfo["groupFooter"] == "") {
 			DA.queryInfo["groupFooter"] = new Object();
 		}
-		for ( var i = 0; i < DA.selectedGroupFooterArray.length; i++) {
+		for (var i = 0; i < DA.selectedGroupFooterArray.length; i++) {
 			var colName = DA.selectedGroupFooterArray[i];
 			if (DA.queryInfo["groupFooter"][colName] == undefined
 					|| DA.queryInfo["groupFooter"][colName] == null) {
@@ -3660,7 +2160,7 @@ DA = {
 	},
 
 	setColumnHeaderProperty : function(colName, isChecked) {
-		for ( var i = 0; i < DA.selectedColumnHeaderArray.length; i++) {
+		for (var i = 0; i < DA.selectedColumnHeaderArray.length; i++) {
 			if (DA.selectedColumnHeaderArray[i] == colName) {
 				DA.selectedColumnHeaderArray.splice(i, 1);
 			}
@@ -3679,7 +2179,7 @@ DA = {
 	},
 	selectedColumnDetailArray : [],
 	setColumnDetailProperty : function(colName, isChecked) {
-		for ( var i = 0; i < DA.selectedColumnDetailArray.length; i++) {
+		for (var i = 0; i < DA.selectedColumnDetailArray.length; i++) {
 			if (DA.selectedColumnDetailArray[i] == colName) {
 				DA.selectedColumnDetailArray.splice(i, 1);
 			}
@@ -3739,7 +2239,7 @@ DA = {
 				|| DA.queryInfo["colHeaderDetail"] == null) {
 			DA.queryInfo["colHeaderDetail"] = DA.getDefaultHeaderColumnJSON();
 		}
-		for ( var i = 0; i < DA.selectedColumnHeaderArray.length; i++) {
+		for (var i = 0; i < DA.selectedColumnHeaderArray.length; i++) {
 			var colName = DA.selectedColumnHeaderArray[i];
 
 			if (DA.queryInfo["colHeaderDetail"][colName] == undefined
@@ -3775,7 +2275,7 @@ DA = {
 				|| DA.queryInfo["colDetail"] == null) {
 			DA.queryInfo["colDetail"] = new Object();
 		}
-		for ( var i = 0; i < DA.selectedColumnDetailArray.length; i++) {
+		for (var i = 0; i < DA.selectedColumnDetailArray.length; i++) {
 			var colName = DA.selectedColumnDetailArray[i];
 
 			if (DA.queryInfo["colDetail"][colName] == undefined
@@ -3940,7 +2440,7 @@ DA = {
 		}
 		var headerObj = DA.queryInfo[detailSection]
 
-		for ( var i = 0; i < list.length; i++) {
+		for (var i = 0; i < list.length; i++) {
 			var colName = list[i] + '';
 			var colStyle = '';
 			var colTitle = colName;
@@ -4028,99 +2528,6 @@ DA = {
 
 	},
 
-	setQueryBuilderValues : function() {
-		DA.queryInfo = jQuery.extend(true, {}, DA.selectedHistoryObj);
-
-		var selectedColumnObj = DA.queryInfo["selectedColumn"];
-		
-		
-		for ( var colName in selectedColumnObj) {
-			if(DA.colList.indexOf(colName) == -1){
-				delete DA.queryInfo["selectedColumn"][colName];
-				continue;
-			}
-//			if (colName == "*") {
-//				$('#filterByALL').attr("checked", "checked");
-//				DA.selectColumnOperationWrapper('*', true);
-//			} else {
-				$('#filterByALL').removeAttr("checked");
-				$('#filterBy' + colName).attr("checked", true);
-				
-				$('#aggregate_' + colName).val(selectedColumnObj[colName]["function"]);
-				DA.selectColumnOperationWrapper(colName, true);
-				$('#aggregate_' + colName).removeAttr("disabled");
-				
-				DA.selectAggregateFunction(null, colName)
-//		}
-		}
-
-		var selectedWhereObj = DA.queryInfo["selectedWhere"];
-		DA.selectedWhereArray = [];
-		for ( var colName in selectedWhereObj) {
-			$('#whereBy' + colName).attr("checked", true);
-			$('#roperator_' + colName).val(
-					DA.queryInfo["selectedWhere"][colName]["roperator"]);
-			$('#loperator_' + colName).val(
-					DA.queryInfo["selectedWhere"][colName]["loperator"]);
-			$('#whereval_' + colName).val(
-					DA.queryInfo["selectedWhere"][colName]["value"]);
-			
-			$('#roperator_' + colName).removeAttr("disabled");
-			$('#whereval_' + colName).removeAttr("disabled");
-			$('#loperator_' + colName).removeAttr("disabled");
-		}
-		DA.makeWhereCondition();
-
-		var selectedHavingObj = DA.queryInfo["selectedHaving"];
-		DA.selectedHavingArray = [];
-		for ( var colName in selectedHavingObj) {
-			$('#having' + colName).attr("checked", true);
-			$('#roperatorHaving_' + colName).val(
-					DA.queryInfo["selectedHaving"][colName]["roperator"]);
-			$('#loperatorHaving_' + colName).val(
-					DA.queryInfo["selectedHaving"][colName]["loperator"]);
-			$('#havingval_' + colName).val(
-					DA.queryInfo["selectedHaving"][colName]["value"]);
-			
-			$('#roperator_' + colName).removeAttr("disabled");
-			$('#havingval_' + colName).removeAttr("disabled");
-			$('#loperatorHaving_' + colName).removeAttr("disabled");
-		}
-		DA.makeHavingCondition();
-
-		var selectedGroupByObj = DA.queryInfo["selectedGroupBy"];
-		DA.groupByForm = DA.queryInfo["selectedGroupBy"];
-		$('#grp_by_col').val(DA.queryInfo["selectedGroupBy"]);
-		for ( var i = 0; i < selectedGroupByObj.length; i++) {
-			$('#groupBy' + selectedGroupByObj[i]).attr("checked", true);
-		}
-		DA.groupByForm = DA.queryInfo["selectedGroupBy"];
-		DA.setOrderByDropDown();
-		var selectedOrderByObj = DA.queryInfo["selectedOrderBy"];
-		var arrOrder = [];
-		for (key in selectedOrderByObj)
-			arrOrder.push(key + ' ' + selectedOrderByObj[key]);
-		$('#order_by_col').val(arrOrder);
-
-		for ( var i = 0; i < selectedOrderByObj.length; i++) {
-			$('#orderBy' + selectedOrderByObj[i]).attr("checked", true);
-		}
-		$("#query_textarea").val(DA.queryInfo["sqlQuery"]);
-		
-		document.getElementById("persist").checked = DA.queryInfo["persistResults"];
-		DA.persistClicked(DA.queryInfo["persistResults"]);
-
-		DA.createChartGrid(DA.queryInfo["chartDetail"]);
-		DA.showReportPreview();
-
-		if (Navbar.isFromsummaryView && Navbar.isViewerView
-				&& Navbar.isExecuteQuery) {
-			DAT.executeSeletedQuery();
-			Navbar.isExecuteQuery = false;
-		}
-
-	},
-
 	deleteQuery : function() {
 		jQuery.alerts.okButton = ' Yes ';
 		jQuery.alerts.cancelButton = ' No';
@@ -4146,116 +2553,8 @@ DA = {
 		$('#queryIdTitle').text($('#queryId').val());
 		$("#design_link").text("Design: " + $("#queryId").val());
 		$("#preview_span").text("Preview: " + $("#queryId").val());
-		DA.showReportPreviewNew();
 	},
-	setResultTableName : function(element) {
-
-		var value = $('#resultTableName').val();
-		if (value == "") {
-			jAlert("Please Enter valid Resulted table Name", "Error");
-			return;
-		}
-		DA.queryInfo["resultTableName"] = value;
-
-	},
-	closeSelectionDiv : function() {
-
-		$(
-				'#gantt_y_labelColFilters,#gantt_y_startColFilters,#gantt_y_endColFilters,#difference_y_positiveColFilters,#difference_y_negetiveColFilters,#stock_y_highColFilters,#stock_y_lowColFilters,#stock_y_openColFilters,#stock_y_closeColFilters,#line_y_seriesColFilters,#bubble_y_valueColFilters,#bubble_y_sizeColFilters,#searchColFilters,#columnDetailColFilters,#columnHeaderColFilters,#groupHeaderColFilters,#searchFromFilters,#groupByColFilters,#havingColFilters,#orderByColFilters,#whereFilters')
-				.hide();
-	},
-	onlyPopulateTableNameDiv : function(map) {
-
-		var list = [];
-		DA.tableMap = map;
-
-		for ( var tableName in map) {
-			list.push(tableName);
-		}
-
-		if (list == null || list.length == 0) {
-			jAlert(
-					"There is no data available for selected namenode.Please upload data from Data Import/Export tab.",
-					"Error");
-			return;
-		}
-		Navbar.isDataAvailabe = true;
-		var data = '<form name="tables" id="tables">';
-		data += '<table><tr><td colspan="2"><span>Search On:</span><span id="selectColClose" class="divcloser"><a href="javascript:DA.closeSelectionDiv();"><img src="images/light-box-close.png" class="closerImage"></a></span></td></tr>';
-		for ( var i = 0; i < list.length; i++) {
-			var tbl_name = list[i];
-			if (i == 0) {
-				data += '<tr><td><input checked checked="checked" type="checkbox" name="nnID[]" id="filterBy'
-						+ tbl_name
-						+ '" value="'
-						+ tbl_name
-						+ '" onclick="DA.setLocationSearch(\''
-						+ tbl_name
-						+ '\',this.checked);" > </td><td>' + tbl_name + '</td></tr>';
-			} else {
-				data += '<tr><td><input type="checkbox" name="nnID[]" id="filterBy'
-						+ tbl_name
-						+ '" value="'
-						+ tbl_name
-						+ '" onclick="DA.setLocationSearch(\''
-						+ tbl_name
-						+ '\',this.checked);" > </td><td>' + tbl_name + '</td></tr>';
-			}
-		}
-		data += '</table></form>';
-		$('#searchFromFilters').html(data);
-		
-		
-			
-		$('#searchFromFilters').find('input[type=checkbox]:checked')
-				.removeAttr('checked');
-		var obj = DA.queryInfo["selectedTable"];
-		for ( var i = 0; i < obj.length; i++) {
-			$('#filterBy' + obj[i]).attr('checked', 'checked');
-		}
-
-	},
-	setQueryDirtyBitHandlerEvent : function() {
-		$('input[type=checkbox]').click(function() {
-			Navbar.queryManagerDirtyBit = true;
-		});
-
-		$('select').change(function() {
-			if ((this.id != "queryIONameNodeId") && (this.id != "bigQueryIds"))
-				Navbar.queryManagerDirtyBit = true;
-		});
-
-		$('input[type=text]').keypress(function() {
-			Navbar.queryManagerDirtyBit = true;
-		});
-
-		$('textarea').keypress(function() {
-			Navbar.queryManagerDirtyBit = true;
-		});
-
-		$('input[type=search]').keypress(function() {
-			Navbar.queryManagerDirtyBit = true;
-		});
-		$('input[type=search]').change(function() {
-			Navbar.queryManagerDirtyBit = true;
-		});
-		$('div#chartOptionsDiv input[type=text]').keypress(function() {
-			DA.chartDesignerDirtyBit = true;
-		});
-
-		$('div#chartOptionsDiv input[type=search]').keypress(function() {
-			DA.chartDesignerDirtyBit = true;
-		});
-
-		$('div#chartOptionsDiv select').change(function() {
-			DA.chartDesignerDirtyBit = true;
-		});
-
-		$('div#chartOptionsDiv input[type=checkbox]').click(function() {
-			DA.chartDesignerDirtyBit = true;
-		});
-	},
-
+	
 	queryChanged : function() {
 		if (Navbar.queryManagerDirtyBit == true) {
 			jQuery.alerts.okButton = ' Yes ';
@@ -4288,7 +2587,8 @@ DA = {
 		var userName = Util.getLoggedInUserName();
 		Navbar.selectedQueryId = queryId;
 		DA.selectedQueryId = queryId;
-		RemoteManager.getBigQueryInfo(nameNode, queryId,userName, DA.fillSavedQuery);
+		RemoteManager.getBigQueryInfo(nameNode, queryId, userName,
+				DA.fillSavedQuery);
 	},
 
 	setLimitResultRowsState : function(isChecked) {
@@ -4298,10 +2598,6 @@ DA = {
 		else
 			$('#limitResultRowsValue').css('display', 'none');
 
-	},
-
-	getLimitResultRowsState : function() {
-		return $('#limitResultRows').is(':checked');
 	},
 
 	saveBQLog : function() {
@@ -4376,7 +2672,7 @@ DA = {
 		}
 	},
 	getDefaultHeaderColumnJSON : function() {
-		
+
 		var header = new Object();
 		this.colMap;
 		for ( var attr in DA.colMap) {
@@ -4390,7 +2686,8 @@ DA = {
 			colObject["font-family"] = "Arial";
 			colObject["font-weight"] = "bold";
 			colObject["format"] = {};
-			if (DA.colMap[attr].toUpperCase() == 'INTEGER' || DA.colMap[attr].toUpperCase() == 'LONG') {
+			if (DA.colMap[attr].toUpperCase() == 'INTEGER'
+					|| DA.colMap[attr].toUpperCase() == 'LONG') {
 				colObject["width"] = "70px";
 			} else if (DA.colMap[attr].toUpperCase() == 'DOUBLE') {
 				colObject["width"] = "120px";
@@ -4441,60 +2738,6 @@ DA = {
 		return colObject;
 	},
 
-	setDBNameForNameNode : function(nameNodeId) {
-		if (nameNodeId != null && nameNodeId != '' && nameNodeId != undefined) {
-			RemoteManager.getAllDBNameWithTypeForNameNodeMapping(nameNodeId, DA.fillDBName);
-		}
-	},
-
-	fillDBName : function(dbNameList)
-	{
-		var data = "";
-		if (dbNameList != null) 
-		{
-			DA.selectedDbName = dbNameList["Metastore"];
-			DA.isHive = false;
-			DA.lastSelectedDbName = DA.selectedDbName;
-			
-			if(dbNameList["Metastore"] != null && dbNameList["Metastore"] != "")
-				data += '<option value="' + dbNameList["Metastore"] + '">' + dbNameList["Metastore"] + '</option>';
-			if(dbNameList["Hive"] != null && dbNameList["Hive"] != "")
-				data += '<option value="' + dbNameList["Hive"] + '">' + dbNameList["Hive"] + '</option>';
-		}
-		
-		$('#queryIODatabase').html(data);
-		DA.afterReadyQuery();
-	},
-
-	changeQueryIODbName : function(dbName) {
-
-		Navbar.isAddNewQuery = true;
-		if (DA.selectedDbName == '')
-			DA.lastSelectedDbName = dbName;
-		else
-			DA.lastSelectedDbName = DA.selectedDbName;
-		DA.selectedDbName = dbName;
-		RemoteManager.getAllTagTableNames(DA.selectedNameNode,
-				DA.selectedDbName, DA.populateNameNodeFromList);
-		
-		if(!DA.isHive)
-			DA.isHive = true;
-		else
-			DA.isHive = false;
-		
-		if(DA.isHive)
-		{
-			$('#query_filter_table').css('visibility','visible');
-		}
-		else
-		{
-			$('#query_filter_table').css('visibility','hidden');
-			$('#is_apply_query_filter').removeAttr('checked')
-			$('#query_filter_sql').css('visibility','hidden');
-			DA.applyQueryFilter();
-		}
-	},
-
 	afterReady : function() {
 
 		RemoteManager.getAllTagTableNames(DA.selectedNameNode,
@@ -4518,21 +2761,9 @@ DA = {
 		$("#chartContainer").height($("#chartDiv").height() - 42);
 	},
 
-	afterReadyQuery : function() {
-
-		RemoteManager.getAllTagTableNames(DA.selectedNameNode,
-				DA.selectedDbName, DA.populateNameNodeFromList);
-
-		DA.isFirstTime = true;
-		DA.chartDesignerDirtyBit = false;
-		DA.slide();
-		DA.SearchReady();
-
-	},
-	
 	saveChangeColor : function() {
 		var colorArray = [];
-		for ( var i = 1; i < 11; i++) {
+		for (var i = 1; i < 11; i++) {
 			colorArray.push($('#color' + i).val());
 		}
 		DA.closeBox(false);
@@ -4544,41 +2775,40 @@ DA = {
 				null, null);
 	},
 	getInitialChartPRObject : function() {
-		
+
 		var obj = null
-					
-		 if(DA.checkForAdded && DA.queryInfo["chartDetail"] != null && DA.queryInfo["chartDetail"] != undefined && DA.queryInfo["chartDetail"]["chart1"] != undefined ){
+
+		if (DA.checkForAdded && DA.queryInfo["chartDetail"] != null
+				&& DA.queryInfo["chartDetail"] != undefined
+				&& DA.queryInfo["chartDetail"]["chart1"] != undefined) {
 			var availabelColumn = this.colList;
-			for(var i = 0 ; i< availabelColumn.length ; i++)
-			{
+			for (var i = 0; i < availabelColumn.length; i++) {
 				var colName = availabelColumn[i];
-				for ( var chart in DA.queryInfo["chartDetail"])
-				{
-					
-					if(availabelColumn.indexOf(DA.queryInfo["chartDetail"][chart]["xseries"]) == -1)
-					{
+				for ( var chart in DA.queryInfo["chartDetail"]) {
+
+					if (availabelColumn
+							.indexOf(DA.queryInfo["chartDetail"][chart]["xseries"]) == -1) {
 						delete DA.queryInfo["chartDetail"][chart];
 						continue;
 					}
-					
-					for ( var ycol in DA.queryInfo["chartDetail"][chart]["yseries"]) 
-					{
-						if(availabelColumn.indexOf(ycol) == -1){
+
+					for ( var ycol in DA.queryInfo["chartDetail"][chart]["yseries"]) {
+						if (availabelColumn.indexOf(ycol) == -1) {
 							delete DA.queryInfo["chartDetail"][chart];
 						}
-						
+
 					}
 				}
 			}
 			DA.checkForAdded = false;
-			obj =  DA.queryInfo["chartDetail"];
-		}else{
+			obj = DA.queryInfo["chartDetail"];
+		} else {
 			obj = new Object();
 			obj["chartPreferences"] = new Object();
 			obj["chartPreferences"] = DA.globalChartPreferences
 		}
-		 return obj;
-			
+		return obj;
+
 	},
 	getDefaultChartDetails : function() {
 		var obj = new Object();
@@ -4604,7 +2834,8 @@ DA = {
 		PR.commonJson["clientBackground"] = "ffffff";
 		PR.commonJson["plotBackground"] = "ffffff";
 		PR.commonJson["emptyChartMessage"] = "";
-		PR.commonJson["topColors"] = [ "579575", "4BB2C5", "EAA228", "C5B47F", "953579", "4B5DE4", "D8B83F", "990000", "003300", "004a6d" ];
+		PR.commonJson["topColors"] = [ "579575", "4BB2C5", "EAA228", "C5B47F",
+				"953579", "4B5DE4", "D8B83F", "990000", "003300", "004a6d" ];
 
 		PR.leaderLineJson["visible"] = false;
 		PR.leaderLineJson["style"] = "stretch";
@@ -4764,7 +2995,7 @@ DA = {
 	},
 
 	showChartSample : function(idprefix, chart) {
-		
+
 		$('#' + idprefix + 'defaultImg').css('display', 'none');
 		$('#' + idprefix + 'chartPreviewDiv').css('display', '');
 		var prObject = chart["chartPreferences"];
@@ -4785,7 +3016,9 @@ DA = {
 				"withinAxesBackground" : "aad4ff",
 				"plotBackground" : "7f00ff",
 				"emptyChartMessage" : "Hello",
-				"topColors" : [ "579575", "4BB2C5", "EAA228", "C5B47F", "953579", "4B5DE4", "D8B83F", "990000", "003300", "004a6d" ]
+				"topColors" : [ "579575", "4BB2C5", "EAA228", "C5B47F",
+						"953579", "4B5DE4", "D8B83F", "990000", "003300",
+						"004a6d" ]
 			};
 		}
 
@@ -4794,7 +3027,7 @@ DA = {
 		var colors = [];
 
 		var colorCode = commonJson["topColors"];
-		for ( var i = 0; i < colorCode.length; i++) {
+		for (var i = 0; i < colorCode.length; i++) {
 			seriesArray.push([ String.fromCharCode(65 + i), +(6.6) * (i + 1) ]);
 			labels.push(String.fromCharCode(65 + i));
 			colors.push('#' + colorCode[i]);
@@ -4804,13 +3037,15 @@ DA = {
 		var loc;
 		if (prObject["labelJson"]["position"] == "inside") {
 			pos = 0.6;
-			if(chart["type"] == "bar" || chart["type"] == "tube" || chart["type"] == "cone" || chart["type"] == "pyramid")
+			if (chart["type"] == "bar" || chart["type"] == "tube"
+					|| chart["type"] == "cone" || chart["type"] == "pyramid")
 				loc = 's';
 			else
 				loc = 'e';
 		} else {
 			pos = 1.1;
-			if(chart["type"] == "bar" || chart["type"] == "tube" || chart["type"] == "cone" || chart["type"] == "pyramid")
+			if (chart["type"] == "bar" || chart["type"] == "tube"
+					|| chart["type"] == "cone" || chart["type"] == "pyramid")
 				loc = 'n';
 			else
 				loc = 'w';
@@ -4822,7 +3057,6 @@ DA = {
 		if (document.getElementById(plotId) == undefined) {
 			return;
 		}
-		
 
 		if (chart["type"] == "pie") {
 			$.jqplot(plotId, [ seriesArray ], {
@@ -4865,9 +3099,9 @@ DA = {
 						ypadding : 2,
 						labelsFromSeries : true
 					}
-					
+
 				} ],
-				
+
 				grid : {
 					shadow : false,
 					borderWidth : 0.0,
@@ -4903,94 +3137,104 @@ DA = {
 							+ idprefix
 							+ 'main_preview_chart div.jqplot-table-legend-swatch-outline')
 					.css("color", "#" + colorCode[0]);
-			
+
+		} else if (chart["type"] == "stock") {
+			$('#' + idprefix + 'main_preview_chart').html(
+					'<img src="images/stockchart.png"/ style="height: 170px; background: #'
+							+ commonJson["clientBackground"] + ' ">');
+			$('#' + idprefix + 'mainlegendTable')
+					.html(
+							'<tbody><tr class="jqplot-table-legend" style="background-color: transparent;"><td class="jqplot-table-legend jqplot-table-legend-swatch" style="text-align: center; padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;"><div class="jqplot-table-legend-swatch-outline" style="color: rgb(0, 150, 188);"><div class="jqplot-table-legend-swatch"></div></div></td><td class="jqplot-table-legend jqplot-table-legend-label" style="padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;">Series 1</td></tr></tbody>');
+		} else if (chart["type"] == "gantt") {
+			$('#' + idprefix + 'main_preview_chart').html(
+					'<img src="images/ganttchart.png"/ style="height: 170px; background: #'
+							+ commonJson["clientBackground"] + ' ">');
+			$('#' + idprefix + 'mainlegendTable')
+					.html(
+							'<tbody><tr class="jqplot-table-legend" style="background-color: transparent;"><td class="jqplot-table-legend jqplot-table-legend-swatch" style="text-align: center; padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;"><div class="jqplot-table-legend-swatch-outline" style="color: rgb(0, 150, 188);"><div class="jqplot-table-legend-swatch"></div></div></td><td class="jqplot-table-legend jqplot-table-legend-label" style="padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;">Series 1</td></tr></tbody>');
+		} else if (chart["type"] == "difference") {
+			$('#' + idprefix + 'main_preview_chart').html(
+					'<img src="images/differencechart.png"/ style="height: 170px; background: #'
+							+ commonJson["clientBackground"] + ' ">');
+			$('#' + idprefix + 'mainlegendTable')
+					.html(
+							'<tbody><tr class="jqplot-table-legend" style="background-color: transparent;"><td class="jqplot-table-legend jqplot-table-legend-swatch" style="text-align: center; padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;"><div class="jqplot-table-legend-swatch-outline" style="color: rgb(0, 150, 188);"><div class="jqplot-table-legend-swatch"></div></div></td><td class="jqplot-table-legend jqplot-table-legend-label" style="padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;">Series 1</td></tr></tbody>');
+
+			// var l0 = [6, 11, 10, 13, 11, 7];
+			// var l1 = [3, 6, 7, 7, 5, 3];
+			// var l2 = [4, 8, 9, 10, 8, 6];
+			// var l3 = [9, 13, 14, 16, 17, 19];
+			// var l4 = [15, 17, 16, 18, 13, 11];
+			// $.jqplot(plotId, [l0,l3], {
+			// title : {
+			// show : false
+			// },
+			// series : [ {
+			// showMarker : false,
+			// pointLabels : {
+			// show : true,
+			// location : loc,
+			// ypadding : 2,
+			// labelsFromSeries : true
+			// }
+			//					
+			// } ],
+			// seriesDefaults: {
+			// rendererOptions: {
+			// smooth: true
+			// }
+			// },
+			// fillBetween: {
+			//
+			// series1: 1,
+			// series2: 2,
+			// color: "rgba(0,150, 188, 1)",
+			// baseSeries: 0,
+			//  
+			// fill: true
+			// },
+			// grid : {
+			// shadow : false,
+			// borderWidth : 0.0,
+			// background : 'transparent',
+			// gridLineColor : prObject["yAxisJson"]["gridline"]["color"],
+			// gridLineWidth : prObject["yAxisJson"]["gridline"]["width"]
+			// },
+			// seriesColors : [ colorCode[0] ],
+			// axes : {
+			// xaxis : {
+			// label : chart["xlegend"],
+			// tickOptions : {
+			// showGridline : isXGridLineVisible,
+			// showLabel : prObject.xAxisJson["visible"],
+			// }
+			// },
+			// yaxis : {
+			// label : chart["ylegend"],
+			// tickOptions : {
+			// showGridline : isYGridLineVisible,
+			// showLabel : prObject.yAxisJson["visible"],
+			// },
+			//
+			// }
+			// },
+			// legend : {
+			// show : true,
+			// location : 'e'
+			// },
+			// });
+			// $(
+			// '#'
+			// + idprefix
+			// + 'main_preview_chart div.jqplot-table-legend-swatch-outline')
+			// .css("color", "#" + colorCode[0]);
+			//			
+			//			
+			// $('#' + idprefix + 'main_preview_chart
+			// .jqplot-series-shadowCanvas').css("z-index", "10" );
+
 		}
-		else if (chart["type"] == "stock") {
-			$('#' + idprefix + 'main_preview_chart').html('<img src="images/stockchart.png"/ style="height: 170px; background: #'+commonJson["clientBackground"]+' ">');
-			$('#' + idprefix + 'mainlegendTable').html('<tbody><tr class="jqplot-table-legend" style="background-color: transparent;"><td class="jqplot-table-legend jqplot-table-legend-swatch" style="text-align: center; padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;"><div class="jqplot-table-legend-swatch-outline" style="color: rgb(0, 150, 188);"><div class="jqplot-table-legend-swatch"></div></div></td><td class="jqplot-table-legend jqplot-table-legend-label" style="padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;">Series 1</td></tr></tbody>');
-		}
-		else if (chart["type"] == "gantt") {
-			$('#' + idprefix + 'main_preview_chart').html('<img src="images/ganttchart.png"/ style="height: 170px; background: #'+commonJson["clientBackground"]+' ">');
-			$('#' + idprefix + 'mainlegendTable').html('<tbody><tr class="jqplot-table-legend" style="background-color: transparent;"><td class="jqplot-table-legend jqplot-table-legend-swatch" style="text-align: center; padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;"><div class="jqplot-table-legend-swatch-outline" style="color: rgb(0, 150, 188);"><div class="jqplot-table-legend-swatch"></div></div></td><td class="jqplot-table-legend jqplot-table-legend-label" style="padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;">Series 1</td></tr></tbody>');
-		}
-		else if (chart["type"] == "difference") {
-			$('#' + idprefix + 'main_preview_chart').html('<img src="images/differencechart.png"/ style="height: 170px; background: #'+commonJson["clientBackground"]+' ">');
-			$('#' + idprefix + 'mainlegendTable').html('<tbody><tr class="jqplot-table-legend" style="background-color: transparent;"><td class="jqplot-table-legend jqplot-table-legend-swatch" style="text-align: center; padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;"><div class="jqplot-table-legend-swatch-outline" style="color: rgb(0, 150, 188);"><div class="jqplot-table-legend-swatch"></div></div></td><td class="jqplot-table-legend jqplot-table-legend-label" style="padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;">Series 1</td></tr></tbody>');
-			
-//			var l0 = [6,  11, 10, 13, 11,  7];
-//		    var l1 = [3,   6,  7,  7,  5,  3];
-//		    var l2 = [4,   8,  9, 10, 8,   6];
-//		    var l3 = [9,  13, 14, 16, 17, 19];
-//		    var l4 = [15, 17, 16, 18, 13, 11];
-//		    $.jqplot(plotId, [l0,l3], {
-//				title : {
-//					show : false
-//				},
-//				series : [ {
-//					showMarker : false,
-//					pointLabels : {
-//						show : true,
-//						location : loc,
-//						ypadding : 2,
-//						labelsFromSeries : true
-//					}
-//					
-//				} ],
-//				seriesDefaults: {
-//		            rendererOptions: {
-//		                smooth: true
-//		            }
-//		        },
-//				fillBetween: {
-//
-//		            series1: 1,
-//		            series2: 2,
-//		            color: "rgba(0,150, 188, 1)",
-//		            baseSeries: 0,
-//  
-//		            fill: true
-//		        },
-//				grid : {
-//					shadow : false,
-//					borderWidth : 0.0,
-//					background : 'transparent',
-//					gridLineColor : prObject["yAxisJson"]["gridline"]["color"],
-//					gridLineWidth : prObject["yAxisJson"]["gridline"]["width"]
-//				},
-//				seriesColors : [ colorCode[0] ],
-//				axes : {
-//					xaxis : {
-//						label : chart["xlegend"],
-//						tickOptions : {
-//							showGridline : isXGridLineVisible,
-//							showLabel : prObject.xAxisJson["visible"],
-//						}
-//					},
-//					yaxis : {
-//						label : chart["ylegend"],
-//						tickOptions : {
-//							showGridline : isYGridLineVisible,
-//							showLabel : prObject.yAxisJson["visible"],
-//						},
-//
-//					}
-//				},
-//				legend : {
-//					show : true,
-//					location : 'e'
-//				},
-//			});
-//			$(
-//					'#'
-//							+ idprefix
-//							+ 'main_preview_chart div.jqplot-table-legend-swatch-outline')
-//					.css("color", "#" + colorCode[0]);
-//			
-//			
-//			$('#' + idprefix + 'main_preview_chart .jqplot-series-shadowCanvas').css("z-index", "10" );
-			
-		}
-		
+
 		else if (chart["type"] == "scatter") {
 			$.jqplot(plotId, [ [ 28, 13, 25, 15, 33 ] ], {
 				title : {
@@ -5003,11 +3247,14 @@ DA = {
 						ypadding : 2,
 						labelsFromSeries : true
 					},
-					showLine:false, 
-			        markerOptions: { size: 7, style:"x" }
-					
+					showLine : false,
+					markerOptions : {
+						size : 7,
+						style : "x"
+					}
+
 				} ],
-				
+
 				grid : {
 					shadow : false,
 					borderWidth : 0.0,
@@ -5043,54 +3290,54 @@ DA = {
 							+ idprefix
 							+ 'main_preview_chart div.jqplot-table-legend-swatch-outline')
 					.css("color", "#" + colorCode[0]);
-			
-		}  else if (chart["type"] == "area") {
-			
-			$.jqplot(plotId , [[11, 9, 5, 12,14]],{
-			       series : [ {
-						showMarker : false,
-						fill : true,
-						pointLabels : {
-							show : true,
-							location : loc,
-							ypadding : 2,
-							labelsFromSeries : true
-						}
-						
-					} ],
-			       grid : {
-						shadow : false,
-						borderWidth : 0.0,
-						background : 'transparent',
-						gridLineColor : prObject["yAxisJson"]["gridline"]["color"],
-						gridLineWidth : prObject["yAxisJson"]["gridline"]["width"]
-					},
-				   seriesColors : [ colorCode[0] ],
-				  
-			       axes : {
-						xaxis : {
-							label : chart["xlegend"],
-							renderer : $.jqplot.CategoryAxisRenderer,
-							ticks : ticks,
-							tickOptions : {
-								showGridline : isXGridLineVisible,
-								showLabel : prObject.xAxisJson["visible"],
-							}
-						},
-						yaxis : {
-							label : chart["ylegend"],
-							tickOptions : {
-								showGridline : isYGridLineVisible,
-								showLabel : prObject.yAxisJson["visible"],
-							}
-						}
-					},
-					legend : {
+
+		} else if (chart["type"] == "area") {
+
+			$.jqplot(plotId, [ [ 11, 9, 5, 12, 14 ] ], {
+				series : [ {
+					showMarker : false,
+					fill : true,
+					pointLabels : {
 						show : true,
-						location : 'e'
+						location : loc,
+						ypadding : 2,
+						labelsFromSeries : true
+					}
+
+				} ],
+				grid : {
+					shadow : false,
+					borderWidth : 0.0,
+					background : 'transparent',
+					gridLineColor : prObject["yAxisJson"]["gridline"]["color"],
+					gridLineWidth : prObject["yAxisJson"]["gridline"]["width"]
+				},
+				seriesColors : [ colorCode[0] ],
+
+				axes : {
+					xaxis : {
+						label : chart["xlegend"],
+						renderer : $.jqplot.CategoryAxisRenderer,
+						ticks : ticks,
+						tickOptions : {
+							showGridline : isXGridLineVisible,
+							showLabel : prObject.xAxisJson["visible"],
+						}
 					},
-			    });
-			     
+					yaxis : {
+						label : chart["ylegend"],
+						tickOptions : {
+							showGridline : isYGridLineVisible,
+							showLabel : prObject.yAxisJson["visible"],
+						}
+					}
+				},
+				legend : {
+					show : true,
+					location : 'e'
+				},
+			});
+
 			$(
 					'#'
 							+ idprefix
@@ -5099,9 +3346,9 @@ DA = {
 
 		} else if (chart["type"] == "cone" || chart["type"] == "pyramid") {
 			var ypad = 2;
-			if(loc == 's')
+			if (loc == 's')
 				ypad = 30;
-			$.jqplot(plotId , [[0,11,0,0, 9,0,0, 5,0,0, 12,0]],{
+			$.jqplot(plotId, [ [ 0, 11, 0, 0, 9, 0, 0, 5, 0, 0, 12, 0 ] ], {
 				series : [ {
 					showMarker : false,
 					fill : true,
@@ -5109,44 +3356,45 @@ DA = {
 						show : true,
 						location : loc,
 						ypadding : ypad,
-						 labels:['', '11', '','', '9','','', '5','','','12','']
+						labels : [ '', '11', '', '', '9', '', '', '5', '', '',
+								'12', '' ]
 					}
-					
+
 				} ],
-			       grid : {
-						shadow : false,
-						borderWidth : 0.0,
-						background : 'transparent',
-						gridLineColor : prObject["yAxisJson"]["gridline"]["color"],
-						gridLineWidth : prObject["yAxisJson"]["gridline"]["width"]
-					},
-				   seriesColors : [ colorCode[0] ],
-				  
-			       axes : {
-						xaxis : {
-							label : chart["xlegend"],
-							renderer : $.jqplot.CategoryAxisRenderer,
-							ticks : ticks,
-							tickOptions : {
-								showGridline : isXGridLineVisible,
-								showLabel : prObject.xAxisJson["visible"],
-							}
-						},
-						yaxis : {
-							label : chart["ylegend"],
-							ticks: [0,5,10,15], 
-							tickOptions : {
-								showGridline : isYGridLineVisible,
-								showLabel : prObject.yAxisJson["visible"],
-							}
+				grid : {
+					shadow : false,
+					borderWidth : 0.0,
+					background : 'transparent',
+					gridLineColor : prObject["yAxisJson"]["gridline"]["color"],
+					gridLineWidth : prObject["yAxisJson"]["gridline"]["width"]
+				},
+				seriesColors : [ colorCode[0] ],
+
+				axes : {
+					xaxis : {
+						label : chart["xlegend"],
+						renderer : $.jqplot.CategoryAxisRenderer,
+						ticks : ticks,
+						tickOptions : {
+							showGridline : isXGridLineVisible,
+							showLabel : prObject.xAxisJson["visible"],
 						}
 					},
-					legend : {
-						show : true,
-						location : 'e'
-					},
-			    });
-			     
+					yaxis : {
+						label : chart["ylegend"],
+						ticks : [ 0, 5, 10, 15 ],
+						tickOptions : {
+							showGridline : isYGridLineVisible,
+							showLabel : prObject.yAxisJson["visible"],
+						}
+					}
+				},
+				legend : {
+					show : true,
+					location : 'e'
+				},
+			});
+
 			$(
 					'#'
 							+ idprefix
@@ -5154,97 +3402,107 @@ DA = {
 					.css("color", "#" + colorCode[0]);
 
 		} else if (chart["type"] == "bubble") {
-			
-			var arr = [
-			           [11, 123, 20, "Log"], [45, 92, 20, "csv"], 
-			           [24, 104, 20, "ppt"], [40, 63, 20, "doc"], 
-			           ];
-			            
-	           $.jqplot(plotId,[arr],{
-	               seriesDefaults:{
-	                   renderer: $.jqplot.BubbleRenderer,
-	                   rendererOptions: {
-	                       bubbleAlpha: 0.6,
-	                       highlightAlpha: 0.8,
-	                       autoscaleBubbles : false,
-		                    autoscalePointsFactor : -1.0
-	                   },
-	                   shadow: true,
-	                   shadowAlpha: 0.05
-	               },
-	               grid : {
-						shadow : false,
-						borderWidth : 0.0,
-						background : 'transparent',
-						gridLineColor : prObject["yAxisJson"]["gridline"]["color"],
-						gridLineWidth : prObject["yAxisJson"]["gridline"]["width"]
+
+			var arr = [ [ 11, 123, 20, "Log" ], [ 45, 92, 20, "csv" ],
+					[ 24, 104, 20, "ppt" ], [ 40, 63, 20, "doc" ], ];
+
+			$.jqplot(plotId, [ arr ], {
+				seriesDefaults : {
+					renderer : $.jqplot.BubbleRenderer,
+					rendererOptions : {
+						bubbleAlpha : 0.6,
+						highlightAlpha : 0.8,
+						autoscaleBubbles : false,
+						autoscalePointsFactor : -1.0
 					},
-					//seriesColors : colors,
-					seriesColors : [ colorCode[0] ],
-					  
-			       axes : {
-						xaxis : {
-							label : chart["xlegend"],
-							renderer : $.jqplot.CategoryAxisRenderer,
-							ticks : ticks,
-							tickOptions : {
-								showGridline : isXGridLineVisible,
-								showLabel : prObject.xAxisJson["visible"],
-							}
-						},
-						yaxis : {
-							label : chart["ylegend"],
-							tickOptions : {
-								showGridline : isYGridLineVisible,
-								showLabel : prObject.yAxisJson["visible"],
-							}
+					shadow : true,
+					shadowAlpha : 0.05
+				},
+				grid : {
+					shadow : false,
+					borderWidth : 0.0,
+					background : 'transparent',
+					gridLineColor : prObject["yAxisJson"]["gridline"]["color"],
+					gridLineWidth : prObject["yAxisJson"]["gridline"]["width"]
+				},
+				// seriesColors : colors,
+				seriesColors : [ colorCode[0] ],
+
+				axes : {
+					xaxis : {
+						label : chart["xlegend"],
+						renderer : $.jqplot.CategoryAxisRenderer,
+						ticks : ticks,
+						tickOptions : {
+							showGridline : isXGridLineVisible,
+							showLabel : prObject.xAxisJson["visible"],
 						}
 					},
-					legend : {
-						show : true,
-						location : 'e'
-					},
-	           });    
-			     
+					yaxis : {
+						label : chart["ylegend"],
+						tickOptions : {
+							showGridline : isYGridLineVisible,
+							showLabel : prObject.yAxisJson["visible"],
+						}
+					}
+				},
+				legend : {
+					show : true,
+					location : 'e'
+				},
+			});
+
 			$(
 					'#'
 							+ idprefix
 							+ 'main_preview_chart div.jqplot-table-legend-swatch-outline')
 					.css("color", "#" + colorCode[0]);
 
-		}  else if(chart["type"] =='meter') {
-	        
-			$.jqplot(plotId,[[1]],{
-			       seriesDefaults: {
-			           renderer: $.jqplot.MeterGaugeRenderer,
-			           rendererOptions: {
-			               background : 'transparent',
-			               showTickLabels : prObject["labelJson"]["visible"],
-			               ringColor : '#00000',
-			               tickColor : '#0096bc',
-			               ringWidth : 1.0,
-			               labelPosition : 'bottom',
-			               
-			           },
-			           pointLabels: { show: false }
-			       },
-			       legend : {
-						show : true,
-						location : 'e'
+		} else if (chart["type"] == 'meter') {
+
+			$.jqplot(plotId, [ [ 1 ] ], {
+				seriesDefaults : {
+					renderer : $.jqplot.MeterGaugeRenderer,
+					rendererOptions : {
+						background : 'transparent',
+						showTickLabels : prObject["labelJson"]["visible"],
+						ringColor : '#00000',
+						tickColor : '#0096bc',
+						ringWidth : 1.0,
+						labelPosition : 'bottom',
+
 					},
-			   });
-			
-			$('#' + idprefix + 'main_chart_preview_client_area .jqplot-series-canvas').css('background-color','#'+commonJson["clientBackground"]);
-			$('#' + idprefix + 'main_preview_chart div.jqplot-meterGauge-tick').css("z-index", "99" );
-	        $('#' + idprefix + 'main_preview_chart div.jqplot-table-legend-swatch-outline').css("color", "#" + colorCode[0] );
-		
-		}else if (chart["type"] == "bar" || chart["type"] == "tube" ) {
+					pointLabels : {
+						show : false
+					}
+				},
+				legend : {
+					show : true,
+					location : 'e'
+				},
+			});
+
+			$(
+					'#'
+							+ idprefix
+							+ 'main_chart_preview_client_area .jqplot-series-canvas')
+					.css('background-color',
+							'#' + commonJson["clientBackground"]);
+			$('#' + idprefix + 'main_preview_chart div.jqplot-meterGauge-tick')
+					.css("z-index", "99");
+			$(
+					'#'
+							+ idprefix
+							+ 'main_preview_chart div.jqplot-table-legend-swatch-outline')
+					.css("color", "#" + colorCode[0]);
+
+		} else if (chart["type"] == "bar" || chart["type"] == "tube") {
 			$.jqplot.config.enablePlugins = true;
 			var s1 = [ 2, 6, 7, 10 ];
 			var ticks = [ 'a', 'b', 'c', 'd' ];
 
 			$.jqplot(plotId, [ s1 ], {
-				
+
 				grid : {
 					shadow : false,
 					borderWidth : 0.0,
@@ -5283,12 +3541,19 @@ DA = {
 					location : 'e'
 				},
 			});
-			$('#'+ idprefix+ 'main_preview_chart div.jqplot-table-legend-swatch-outline').css("color", "#" + colorCode[0]);
+			$(
+					'#'
+							+ idprefix
+							+ 'main_preview_chart div.jqplot-table-legend-swatch-outline')
+					.css("color", "#" + colorCode[0]);
 
-		}   
-		else if(chart["type"] == "radar") {
-	        $('#' + idprefix + 'main_preview_chart').html('<img src="images/radar.png"/ style="height: 170px; background: #'+commonJson["clientBackground"]+' ">');
-	        $('#' + idprefix + 'mainlegendTable').html('<tbody><tr class="jqplot-table-legend" style="background-color: transparent;"><td class="jqplot-table-legend jqplot-table-legend-swatch" style="text-align: center; padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;"><div class="jqplot-table-legend-swatch-outline" style="color: rgb(0, 150, 188);"><div class="jqplot-table-legend-swatch"></div></div></td><td class="jqplot-table-legend jqplot-table-legend-label" style="padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;">Series 1</td></tr></tbody>');
+		} else if (chart["type"] == "radar") {
+			$('#' + idprefix + 'main_preview_chart').html(
+					'<img src="images/radar.png"/ style="height: 170px; background: #'
+							+ commonJson["clientBackground"] + ' ">');
+			$('#' + idprefix + 'mainlegendTable')
+					.html(
+							'<tbody><tr class="jqplot-table-legend" style="background-color: transparent;"><td class="jqplot-table-legend jqplot-table-legend-swatch" style="text-align: center; padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;"><div class="jqplot-table-legend-swatch-outline" style="color: rgb(0, 150, 188);"><div class="jqplot-table-legend-swatch"></div></div></td><td class="jqplot-table-legend jqplot-table-legend-label" style="padding-top: 0px; background-color: transparent; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;">Series 1</td></tr></tbody>');
 		}
 
 		$('#' + idprefix + 'legend-table' + table_count).css('bottom', '0px');
@@ -5319,16 +3584,17 @@ DA = {
 		$('#' + idprefix + 'chartPreviewDiv td.jqplot-table-legend').css(
 				'border-radius', '0px');
 
-		if(chart["type"] != "radar" && chart["type"] != "difference" && chart["type"] != "stock" && chart["type"] != "gantt") {
-		$('#' + idprefix + 'mainlegendTable')
-				.html(
-						$(
-								'#'
-										+ idprefix
-										+ 'main_preview_chart table.jqplot-table-legend')
-								.html());
-		$('#' + idprefix + 'main_preview_chart table.jqplot-table-legend')
-				.remove();
+		if (chart["type"] != "radar" && chart["type"] != "difference"
+				&& chart["type"] != "stock" && chart["type"] != "gantt") {
+			$('#' + idprefix + 'mainlegendTable')
+					.html(
+							$(
+									'#'
+											+ idprefix
+											+ 'main_preview_chart table.jqplot-table-legend')
+									.html());
+			$('#' + idprefix + 'main_preview_chart table.jqplot-table-legend')
+					.remove();
 		}
 
 		$('#' + idprefix + 'main_chart_preveiw_title').css('font-size',
@@ -5391,10 +3657,12 @@ DA = {
 							+ 'main_preview_chart div.jqplot-data-label, div.jqplot-point-label, div.jqplot-bubble-label , div.jqplot-meterGauge-tick, div.jqplot-bubble-label , div.jqplot-meterGauge-tick')
 					.remove();
 		}
-		$('div.jqplot-data-label, div.jqplot-point-label, div.jqplot-bubble-label , div.jqplot-meterGauge-tick').css("z-index",
-				"1000000");
-		$('div.jqplot-data-label, div.jqplot-point-label, div.jqplot-bubble-label , div.jqplot-meterGauge-tick').css("text-align",
-				prObject["labelJson"]["text-align"]);
+		$(
+				'div.jqplot-data-label, div.jqplot-point-label, div.jqplot-bubble-label , div.jqplot-meterGauge-tick')
+				.css("z-index", "1000000");
+		$(
+				'div.jqplot-data-label, div.jqplot-point-label, div.jqplot-bubble-label , div.jqplot-meterGauge-tick')
+				.css("text-align", prObject["labelJson"]["text-align"]);
 		if (prObject["labelJson"]["background"] == "")
 			$(
 					'#'
@@ -5602,14 +3870,14 @@ DA = {
 			$('#' + idprefix + 'main_preview_chart div.jqplot-xaxis-tick').css(
 					"margin-top", "-30px");
 
-		
-		if(prObject["labelJson"]["position"]=="outside" && chart["type"] == "bubble")
-		{
-			$('#' + idprefix + 'main_preview_chart div.jqplot-bubble-label ').each(function() {
-				var temp = $(this).css("top");
-				temp = temp.substring(0,temp.length - 2) - 30;
-				$(this).css("top", temp + "px");
-			});
+		if (prObject["labelJson"]["position"] == "outside"
+				&& chart["type"] == "bubble") {
+			$('#' + idprefix + 'main_preview_chart div.jqplot-bubble-label ')
+					.each(function() {
+						var temp = $(this).css("top");
+						temp = temp.substring(0, temp.length - 2) - 30;
+						$(this).css("top", temp + "px");
+					});
 		}
 
 		// legend
@@ -5722,7 +3990,7 @@ DA = {
 		var row_data1 = '<tr class="preview-row-data">';
 		var row_data2 = '<tr class="preview-row-data">';
 		var group_by_data = '';
-		
+
 		var colList = '';
 		if (DA.searchColumn == '*') {
 			colList = DA.colList;
@@ -5767,7 +4035,7 @@ DA = {
 			i++;
 		}
 
-		for ( var i = 0; i < colList.length; i++) {
+		for (var i = 0; i < colList.length; i++) {
 			var attr = colList[i] + '';
 			var headerVal = '';
 			var grpHeaderStyle = '';
@@ -5801,7 +4069,7 @@ DA = {
 					+ headerVal + '</td>';
 		}
 
-		for ( var i = 0; i < colList.length; i++) {
+		for (var i = 0; i < colList.length; i++) {
 			var attr = colList[i] + '';
 			var colTitle = colList[i];
 			var style = DA.queryInfo["colDetail"][attr];
@@ -5849,7 +4117,7 @@ DA = {
 			row_data2 += '<td style="' + styleProp + '">' + colTitle + '2</td>';
 		}
 		var groupFooter = DA.queryInfo["groupFooter"];
-		for ( var i = 0; i < colList.length; i++) {
+		for (var i = 0; i < colList.length; i++) {
 			var attr = colList[i] + '';
 			var footerVal = '';
 			var grpFooterStyle = '';
@@ -5897,7 +4165,7 @@ DA = {
 			data = DA.getChartHtml("queryHeader");
 			data += tbl_data;
 
-			for ( var i = 1; i < 3; i++) {
+			for (var i = 1; i < 3; i++) {
 				var str1 = group_by_data;
 
 				var rowVal = row_data1;
@@ -5977,12 +4245,12 @@ DA = {
 		setTimeout(function() {
 			DA.drawReportPreviewCharts()
 		}, 100);
-		
+
 		var rows = $('tr.preview-row-data');
-		for(var i = 0; i< rows.length; i++){
-			if (i % 2 == 0){
-				$(rows[i]).css('background-color','#EDF3FE');
-				$(rows[i]).css('border','1px solid rgb(197, 219, 236)');
+		for (var i = 0; i < rows.length; i++) {
+			if (i % 2 == 0) {
+				$(rows[i]).css('background-color', '#EDF3FE');
+				$(rows[i]).css('border', '1px solid rgb(197, 219, 236)');
 			}
 		}
 
@@ -6061,18 +4329,20 @@ DA = {
 				row--;
 			}
 			chart_data += '<tr>';
-			
-			for ( var j = 0; j < chartArray.length; j++) {
-				if(j == 0)
-					chart_data += '<td colspan="' + chartArray[j]["colspan"] + '">';
-				
+
+			for (var j = 0; j < chartArray.length; j++) {
+				if (j == 0)
+					chart_data += '<td colspan="' + chartArray[j]["colspan"]
+							+ '">';
+
 				var attr = chartArray[j]["key"];
 				var chartImg = '';
 
 				chart_data += '<div style="height: '
 						+ DA.queryInfo["chartDetail"][attr]["height"]
 						+ 'px; width: '
-						+ DA.queryInfo["chartDetail"][attr]["width"] + 'px; display:table-cell; padding-right:10px;">';
+						+ DA.queryInfo["chartDetail"][attr]["width"]
+						+ 'px; display:table-cell; padding-right:10px;">';
 				var prefix = Util.getUniqueId(4);
 				chart_data += DA.getChartTemplate(prefix);
 				var chartObj = new Object();
@@ -6089,21 +4359,12 @@ DA = {
 	},
 	drawReportPreviewCharts : function() {
 		var chartObj = DA.queryInfo["chartDetail"];
-		for ( var i = 0; i < previewCharts.length; i++) {
+		for (var i = 0; i < previewCharts.length; i++) {
 			var key = previewCharts[i]["chartKey"];
 			var id = previewCharts[i]["id"];
 
 			DA.showChartSample(id, DA.queryInfo["chartDetail"][key]);
 		}
-	},
-
-	checkID : function(count) {
-		$('#bigQueryIds').find('option').each(function() {
-			if ("New Query " + count == $(this).val()) {
-				count = DA.checkID(count + 1);
-			}
-		});
-		return (count);
 	},
 
 	setGlobalChartPreferences : function(object) {
@@ -6117,7 +4378,7 @@ DA = {
 		}
 	},
 	handleSavePreferencesResponse : function(dwrResponse) {
-		
+
 	},
 	getChartColSpanDetail : function() {
 
@@ -6136,374 +4397,5 @@ DA = {
 		}
 		return obj;
 	},
-	
-	showQueryFilterDiv : function(isShow){
-		
-		if(isShow){
-			$('#query_filter_div').show();
-		}else{
-			$('#query_filter_div').hide();
-			$('#query_filter_where_div').hide();
-			$('#query_filter_tables_div').hide();
-		}
-		
-	},
-	showQueryFilterTables : function(isShow){
-		
-		if(isShow){
-			$('#query_filter_tables_div').show();
-		}else{
-			$('#query_filter_tables_div').hide();
-		}
-	},
-	populateQueryFilterTableDiv : function(map, isSettingHistoryObj){
-		var list = [];
-		
-
-		for ( var tableName in map) {
-			list.push(tableName);
-		}
-
-		if (list == null || list.length == 0) {
-			jAlert(
-					"There is no data available for selected namenode.Please upload data from Data Import/Export tab.",
-					"Error");
-			return;
-		}
-		
-		var data = '<form name="filter_tables" id="filter_tables">';
-		data += '<table><tr><td colspan="2"><span>Search On:</span><span id="selectTableClose" class="divcloser"><a href="javascript:DA.showQueryFilterTables(false);"><img src="images/light-box-close.png" class="closerImage"></a></span></td></tr>';
-		for ( var i = 0; i < list.length; i++) {
-			var tbl_name = list[i];
-			if (i == 0) {
-				data += '<tr><td><input checked checked="checked" type="radio" name="nnID[]" id="query_filter_by'
-						+ tbl_name
-						+ '" value="'
-						+ tbl_name
-						+ '" onclick="DA.setTableForQueryFilter(\''
-						+ tbl_name
-						+ '\',this.checked);" > </td><td>' + tbl_name + '</td></tr>';
-			} else {
-				data += '<tr><td><input type="radio" name="nnID[]" id="query_filter_by'
-						+ tbl_name
-						+ '" value="'
-						+ tbl_name
-						+ '" onclick="DA.setTableForQueryFilter(\''
-						+ tbl_name
-						+ '\',this.checked);" > </td><td>' + tbl_name + '</td></tr>';
-			}
-		}
-		data += '</table></form>';
-		$('#query_filter_tables_div').html(data);
-		
-		if(isSettingHistoryObj){
-			
-			//if setting hobj from history
-			var tables = DA.queryFilterObj["selectedTable"];
-			for(var i = 0; i< tables.length;i++){
-				$('#query_filter_by'+tables[i]).attr('checked','checked');
-			}
-			
-			
-		}else{
-			
-			DA.setTableForQueryFilter();
-		}
-			
-		
-	
-	},
-	setTableForQueryFilter : function(){
-
-		var flag = false;
-		var values = [];
-		
-		if (!flag) {
-
-			var theForm = document.getElementById("filter_tables");
-			if (theForm == null || theForm == undefined
-					|| theForm.elements == null
-					|| theForm.elements == undefined)
-				return;
-
-			for ( var i = 0; i < theForm.elements.length; i++) {
-				var e = theForm.elements[i];
-				if (e.type == 'radio') {
-					if (e.checked) {
-						values.push(e.value);
-					}
-				}
-			}
-		}
-		
-		$('#query_filter_tables').val(values);
-		
-		
-		DA.queryInfo["queryFilterDetail"]["selectedTable"] = values; 
-		
-		var metastoreTableName = document.getElementById("queryIODatabase").options[0].value;
-		
-		RemoteManager.getAllAvailableTagsList(DA.selectedNameNode,
-				metastoreTableName, values,
-				function(tagListObject){
-						DA.populateWhereClauseForQueryFilter(tagListObject,false);
-				} );
-		DA.showQueryFilterCommand();
-	
-	},
-	populateWhereClauseForQueryFilter : function(tagListObject, isSettingHistoryObj) {
-		
-		var map = tagListObject["columnMap"];
-		var tableSchema = tagListObject["tableSchema"];
-		DA.selectedTableSchema = tableSchema;
-		if (map == null || map == undefined)
-			return;
-		var list = new Array();
-		
-		for ( var attr in map) {
-			list.push(attr);
-		}
-		DA.queryFilterColMap = map;
-		
-		
-		var where_data_table = '<span id="select_wher_query_filter_close" class="divcloser"><a href="javascript:DA.showQueryFilterWhere(false);">'
-			+'<img src="images/light-box-close.png" class="closerImage"></a></span> <table id="query_filter_where_tbl">'
-			+'<tbody><tr><td nowrap="nowrap">Select Column</td><td nowrap="nowrap">Relational Operator</td><td nowrap="nowrap">Value</td><td nowrap="nowrap">Logical Operator</td></tr>';
-		
-		for ( var i = 0; i < list.length; i++) {
-			where_data_table += '<tr>';
-			where_data_table += '<td nowrap="nowrap"><input type="checkbox" name="'
-					+ list[i]
-					+ '" id="query_filter_whereBy'
-					+ list[i]
-					+ '" value="'
-					+ list[i]
-					+ '" onclick="DA.setWhereClauseForQueryFilter(\''
-					+ list[i]
-					+ '\', this.checked);" > ' + list[i] + '</td>';
-			where_data_table += '<td>'
-					+ DA.getRelationalOperatorDropDown(list[i],'query_filter_r_operator_','DA.selectRelationalFuncForQueryFilterWhere',DA.queryFilterColMap[list[i]]) + '</td>';
-			where_data_table += '<td><input type="text" id="query_filter_whereval_'
-					+ list[i]
-					+ '" value="" onblur="javascript:DA.makeQueryFilterWhereClause();"></td>';
-			where_data_table += '<td>' + DA.getLogicalOperatorDropDown(list[i],'query_filter_loperator_','DA.selectLogicalFuncForQueryFilterWhere')
-					+ '</td>';
-		}
-		
-		where_data_table += '</tbody></table>';
-		$('#query_filter_where_div').html(where_data_table);
-		
-		if(isSettingHistoryObj){
-			DA.setWhereQueryFilterValues();	
-		}
-		
-	},
-	
-	selectRelationalFuncForQueryFilterWhere : function(value, columnName){
-		DA.makeQueryFilterWhereClause();
-		DA.showQueryFilterCommand();
-	},
-	
-	selectLogicalFuncForQueryFilterWhere : function(){
-		DA.makeQueryFilterWhereClause();
-		DA.showQueryFilterCommand();
-	},
-	
-	
-	setWhereClauseForQueryFilter : function(colName, isChecked) {
-		DA.enableQueryFilterWhereComponent(colName, isChecked);
-		if (!isChecked) {
-			$('#query_filter_r_operator_' + colName).val('');
-			$('#query_filter_whereval_' + colName).val('');
-			$('#query_filter_loperator_' + colName).val('');
-		}
-		DA.makeQueryFilterWhereClause();
-	},
-	enableQueryFilterWhereComponent : function(colName, isSelected){
-		if (isSelected) 
-		{
-			$('#query_filter_r_operator_' + colName).removeAttr('disabled');
-			$('#query_filter_whereval_' + colName).removeAttr('disabled');
-			$('#query_filter_loperator_' + colName).removeAttr('disabled');
-			
-		} else {
-			$('#query_filter_r_operator_' + colName).attr('disabled', 'disabled');
-			$('#query_filter_whereval_' + colName).attr('disabled', 'disabled');
-			$('#query_filter_loperator_' + colName).attr('disabled', 'disabled');
-		}
-	},
-	
-	makeQueryFilterWhereClause : function(){
-		
-			var frm = document.getElementById('query_filter_where_tbl').getElementsByTagName(
-					"input");
-			var len = frm.length;
-			// 
-			var cond = '';
-			for (i = 0; i < len; i++)
-			{
-				if (frm[i].type == "checkbox") {
-
-					if (frm[i].checked) {
-
-						var colName = frm[i].value;
-						
-						cond += colName;
-						cond += $('#query_filter_r_operator_' + colName).val() + ' ';
-
-						var colDataType = DA.queryFilterColMap[colName];
-						var operator = $('#query_filter_r_operator_' + colName).val();
-						if ((colDataType.toUpperCase() == "STRING" || colDataType.toUpperCase().indexOf("BYTE") != -1 || colDataType.toUpperCase() == 'TIMESTAMP')
-								&& operator.toUpperCase().indexOf("IN") == -1
-								&& operator.toUpperCase().indexOf("IS NULL") == -1
-								&& operator.toUpperCase().indexOf("IS NOT NULL") == -1) {
-							cond += " '" + $('#query_filter_whereval_' + colName).val() + "' ";
-						} else {
-							cond += ' ' + $('#query_filter_whereval_' + colName).val() + ' ';
-						}
-
-						cond += $('#query_filter_loperator_' + colName).val() + ' ';
-						
-						if(!DA.queryInfo["queryFilterDetail"].hasOwnProperty("selectedWhere")){
-							DA.queryInfo["queryFilterDetail"]["selectedWhere"] = new Object();
-						}
-						if (!DA.queryInfo["queryFilterDetail"]["selectedWhere"].hasOwnProperty(colName))
-						{
-							DA.queryInfo["queryFilterDetail"]["selectedWhere"][colName] = new Object();
-						}
-						DA.queryInfo["queryFilterDetail"]["selectedWhere"][colName]["roperator"] = $('#query_filter_r_operator_' + colName).val();
-						DA.queryInfo["queryFilterDetail"]["selectedWhere"][colName]["loperator"] = $('#query_filter_loperator_' + colName).val();
-						DA.queryInfo["queryFilterDetail"]["selectedWhere"][colName]["value"] = $('#query_filter_whereval_' + colName).val();
-						
-
-					}
-				}
-			}
-			$('#query_filter_where').val(cond);
-			DA.showQueryFilterCommand();
-	},
-	
-	showQueryFilterCommand : function(){
-		
-		var query = 'SELECT ';
-		query += ' filepath ';
-		query += ' FROM ' + $('#query_filter_tables').val();
-		if ($('#query_filter_where').val() != "") {
-
-			query += ' WHERE ' + $('#query_filter_where').val();
-		}
-		$('#query_filter_sql').val(query);
-		DA.queryInfo["queryFilterDetail"]["filterQuery"] = query;
-		
-	},
-	
-	showQueryFilterWhere : function(isShow){
-	
-		if(isShow){
-			$('#query_filter_where_div').show();
-		}else{
-			$('#query_filter_where_div').hide();
-		}
-	},
-	
-	applyQueryFilter : function(){
-		
-		var isApplyFilter = $('#is_apply_query_filter').is(':checked')
-		
-		if(isApplyFilter){
-
-				DA.queryInfo["isFilterQuery"] = true;
-				$('#query_filter_sql').css('visibility','visible');
-				RemoteManager.getQueryFilterTableName(DA.queryInfo["selectedTable"][0],$('#queryIONameNodeId').val(),function(tableName){
-					if(tableName == null ||tableName == undefined){
-						jAlert("Table not found for input path filter");
-						$('#is_apply_query_filter').removeAttr('checked','checked');
-						DA.applyQueryFilter();
-						return;
-					}
-					
-					var map = new Object();
-					map[tableName] = false;
-					// Fix for JTL files
-					if (DA.stringEndsWith(tableName, "_CSV")) {
-						var newTable = tableName.substr(0, tableName.lastIndexOf("_CSV")) + "_JTL";
-						map[newTable] = false;
-					}
-					DA.populateQueryFilterTableDiv(map, false);
-					
-				});
-				
-		}else{
-			
-			DA.queryInfo["isFilterQuery"] = false;
-			
-			$('#query_filter_sql').css('visibility','hidden');
-			$('#query_filter_div').hide();
-			$('#query_filter_where_div').hide();
-			$('#query_filter_tables_div').hide();
-			$('#query_filter_sql').val('');
-		}
-	},
-	
-	stringEndsWith : function(str, suffix) {
-	    return (str.indexOf(suffix, str.length - suffix.length) !== -1);
-	},
-	
-	setQueryFilterDetail : function(queryFilterObj, tablename)
-	{
-		DA.queryFilterObj = queryFilterObj;
-		$('#query_filter_table').css('visibility','visible');
-		$('#is_apply_query_filter').attr('checked','checked');
-		$('#query_filter_sql').css('visibility','visible');
-		
-
-		
-		RemoteManager.getQueryFilterTableName(tablename,$('#queryIONameNodeId').val(),function(tableName){
-			if(tableName == null ||tableName == undefined){
-				jAlert("Table not found for input path filter");
-				$('#is_apply_query_filter').removeAttr('checked','checked');
-				DA.applyQueryFilter();
-				return;
-			}
-			var map = new Object();
-			map[tableName] = false;
-			// Fix for JTL files
-			if (DA.stringEndsWith(tableName, "_CSV")) {
-				var newTable = tableName.substr(0, tableName.lastIndexOf("_CSV")) + "_JTL";
-				map[newTable] = false;
-			}
-			DA.populateQueryFilterTableDiv(map, false);
-			
-		});
-
-		var values = DA.queryFilterObj["selectedTable"]
-		$('#query_filter_tables').val(values);
-		
-		var metastoreTableName = document.getElementById("queryIODatabase").options[0].value;
-		
-		RemoteManager.getAllAvailableTagsList(DA.selectedNameNode,
-				metastoreTableName, values,
-				function(tagListObject){
-					DA.populateWhereClauseForQueryFilter(tagListObject,true);
-				});
-		
-	},
-	setWhereQueryFilterValues : function(){
-		
-		var whereObj = DA.queryFilterObj["selectedWhere"];
-		
-		for(var colName in whereObj){
-			
-			DA.enableQueryFilterWhereComponent(colName, true);
-			$('#query_filter_whereBy'+colName).attr('checked','checked');
-			$('#query_filter_r_operator_' + colName).val(whereObj[colName]["roperator"]);
-			$('#query_filter_loperator_' + colName).val(whereObj[colName]["loperator"]);
-			$('#query_filter_whereval_' + colName).val(whereObj[colName]["value"]);
-		}
-		
-		DA.makeQueryFilterWhereClause();
-	}
-	
-	
 
 };

@@ -1,7 +1,6 @@
 package com.queryio.core.bean;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.json.simple.JSONObject;
 
 public class Query {
 
@@ -15,7 +14,7 @@ public class Query {
 
 	private String namenodeId;
 
-	private JSONObject properties;
+	private String properties;
 
 	public String getId() {
 		return id;
@@ -57,11 +56,11 @@ public class Query {
 		this.namenodeId = namenodeId;
 	}
 
-	public JSONObject getProperties() {
+	public String getProperties() {
 		return properties;
 	}
 
-	public void setProperties(JSONObject properties) {
+	public void setProperties(String properties) {
 		this.properties = properties;
 	}
 

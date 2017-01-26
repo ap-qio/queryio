@@ -1,11 +1,4 @@
-CM={
-		chartCache : new Object,
-		totalCChart:1,
-		isEditChart :false,
-		selectedNameNode : '',
-		selectedChartArray :new Array(),
-		chartArray :new Array(),
-		isNewChart : false,
+TM={
 		
 		ready : function(){
 			CM.selectedNameNode = $("#queryIONameNodeId").val();

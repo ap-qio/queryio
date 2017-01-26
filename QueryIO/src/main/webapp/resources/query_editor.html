@@ -1,12 +1,8 @@
 <link rel="stylesheet" href="styles/nd.css" type="text/css" />
 <link rel="stylesheet" href="styles/data_analyzer.css" type="text/css" />
 
-<script src="scripts/data-analyzer.js"></script>
 <script type="text/javascript" src="scripts/data_analyzerTab.js"></script>
 
-<!-- script src="scripts/jquery.custom.jqplot.js"></script-->
-<script type="text/javascript" src="scripts/report_chart.js"></script>
-<script type="text/javascript" src="scripts/chart_preferences.js"></script>
 <script type="text/javascript" src="scripts/query_manager.js"></script>
 
 <div class="queryHeader" style="text-align: left; margin-top: 8px;">
@@ -15,6 +11,24 @@
 		id="shrinkQueryDesign" src="images/Down.png" style="height: 15px;">
 	<span style="margin-left: 5px;">Query Builder</span>
 </div>
+<div id="divQueryID" class="designBackground">
+			<table style="width: 100%;">
+				<tbody>
+					<tr>
+						<td style="width: 8%; padding-left: 1%;">Query Id</td>
+						<td style="width: 20%;"><input type="search"
+							placeholder="Query Id" value="New Query 1" id="queryId" style="width: 90%;" onkeyup="javascript:QM.queryIdChanged();" >
+						</td>
+
+						<td style="width: 2%; text-align: left;">Description</td>
+						<td><input type="search" placeholder="Query Description"
+							id="queryDesc" style="width: 95%;"> 
+						</td>
+						
+					</tr>
+				</tbody>
+			</table>
+		</div>
 <div id="rightPart" class="designBackground">
 <div style="height: auto;">
 	<table>
@@ -50,7 +64,7 @@
 		<tr>
 			<td style="width: 7%; text-align: left;">Database</td>
 			<td style="width: 10%;"><select id="queryIODatabase"
-				onchange="javascript:DA.changeQueryIODbName(this.options[this.selectedIndex].value);">
+				onchange="javascript:QM.changeQueryIODbName(this.options[this.selectedIndex].value);">
 			</select></td>
 			<td colspan="7">
 				<table id="query_filter_table"
@@ -58,18 +72,18 @@
 					<tr>
 						<td style="width: 15%;"><input type="checkbox"
 							id="is_apply_query_filter"
-							onclick="javascript:DA.applyQueryFilter();"> Input Path
+							onclick="javascript:QM.applyQueryFilter();"> Input Path
 							Filter</td>
 						<td><span class="sbox" style=""> <input type="search"
-								id="query_filter_sql" onclick="DA.showQueryFilterDiv(true);"
-								onfocus="DA.showQueryFilterDiv(true);"
+								id="query_filter_sql" onclick="QM.showQueryFilterDiv(true);"
+								onfocus="QM.showQueryFilterDiv(true);"
 								style="width: 100%; visibility: hidden;" readonly></span>
 
 							<div id="query_filter_div" class="filtersBlock"
 								style="display: none; width: 65%;">
 								<span>Result of this query will be passed as input path
 									for hive query.</span> <span id="selectColClose" class="divcloser">
-									<a href="javascript:DA.showQueryFilterDiv(false);"><img
+									<a href="javascript:QM.showQueryFilterDiv(false);"><img
 										src="images/light-box-close.png" class="closerImage"></a>
 								</span>
 								<table style="width: 100%;">
@@ -81,8 +95,8 @@
 										<td style="width: 7%;">FROM</td>
 										<td><span class="sbox"><input type="search"
 												id="query_filter_tables" placeholder="From Tables..."
-												onfocus="DA.showQueryFilterTables(true);"
-												onclick="DA.showQueryFilterTables(true);"
+												onfocus="QM.showQueryFilterTables(true);"
+												onclick="QM.showQueryFilterTables(true);"
 												style="width: 100%; float: left; overflow: auto;" readonly></span>
 											<div id="query_filter_tables_div" class="filtersBlock"
 												style="display: none;">
@@ -93,8 +107,8 @@
 										<td style="width: 7%;">WHERE</td>
 										<td><span class="sbox"><input type="search"
 												id="query_filter_where" placeholder="Where..."
-												onfocus="DA.showQueryFilterWhere(true);"
-												onclick="DA.showQueryFilterWhere(true);"
+												onfocus="QM.showQueryFilterWhere(true);"
+												onclick="QM.showQueryFilterWhere(true);"
 												style="width: 100%; float: left; overflow: auto;" readonly></span>
 											<div id="query_filter_where_div" class="filtersBlock"
 												style="display: none;">
@@ -109,12 +123,11 @@
 
 		</tr>
 		<tr>
-			<td style="width: 7%;" nowrap="nowrap"><label
-				onclick="javascript:DA.appendQuery('SELECT');">SELECT</label></td>
+			<td style="width: 7%;" nowrap="nowrap"><label>SELECT</label></td>
 			<td nowrap="nowrap" colspan="8"><span class="sbox" style=""><input
 					type="search" id="srch_col_fld" placeholder="Select Column..."
-					results="0" onclick="DA.showColFilters(this);"
-					onfocus="DA.showColFilters(this);" style="width: 100%;" readonly></span>
+					results="0" onclick="QM.showColFilters(this);"
+					onfocus="QM.showColFilters(this);" style="width: 100%;" readonly></span>
 				<div id="searchColFilters" class="filtersBlock"
 					style="display: none;">
 					<span>Search On:</span><br>
@@ -123,13 +136,11 @@
 
 
 		<tr>
-			<td nowrap="nowrap"><label
-				onclick="javascript:DA.appendQuery('FROM');"
-				style="width: 80px; margin-right: 5px;">FROM</label></td>
+			<td nowrap="nowrap"><label style="width: 80px; margin-right: 5px;">FROM</label></td>
 			<td nowrap="nowrap" colspan="6"><span class="sbox"><input
 					type="search" id="srch_from_fld" placeholder="From Tables..."
-					results="0" onfocus="DA.showFromFilters(this);"
-					onclick="DA.showFromFilters(this);"
+					results="0" onfocus="QM.showFromFilters(this);"
+					onclick="QM.showFromFilters(this);"
 					style="width: 100%; float: left; overflow: auto;" readonly></span>
 				<div id="searchFromFilters" class="filtersBlock"
 					style="display: none;">
@@ -139,12 +150,12 @@
 			<td id="resultTableNameTD" nowrap="nowrap" colspan="2"
 				style="width: 25%; display: none;"><span> <input
 					type="checkbox" id="persist" value="Persist"
-					onclick="DA.persistClicked(this.checked);"> <span>Persist
+					onclick="QM.persistClicked(this.checked);"> <span>Persist
 						Result&nbsp;&nbsp; | &nbsp;</span>
 			</span> <span id="resultTableNameSpan" style="width: auto;"> <span>Result
 						Table &nbsp;&nbsp;&nbsp;&nbsp;</span> <input type="search"
 					id="resultTableName" placeholder="Result Table Name" results="0"
-					onblur="DA.setResultTableName();" style="width: 200px;">
+					 style="width: 200px;">
 			</span></td>
 		</tr>
 
@@ -152,14 +163,14 @@
 		<tr>
 
 			<td nowrap="nowrap">
-				<!-- <input type="checkbox" value="WHERE" id = "wherechkbox" onclick="javascript:DA.setWhereClouse(this);"  > -->WHERE
+				WHERE
 			</td>
 
 
 			<td id="where_select_td" style="" colspan="8"><span class="sbox"
 				style=""><input type="search" id="where_col"
-					placeholder="Where..." results="0" onclick="DA.showWhereCol(this);"
-					onfocus="DA.showWhereCol(this);" style="width: 100%;" readonly></span>
+					placeholder="Where..." results="0" onclick="QM.showWhereCol(this);"
+					onfocus="QM.showWhereCol(this);" style="width: 100%;" readonly></span>
 				<div id="whereFilters" class="filtersBlock" style="display: none;">
 					<span>WHERE:</span><br>
 
@@ -171,17 +182,14 @@
 		</tr>
 		<tr>
 			<td style="width: 5%;" nowrap="nowrap">
-				<!-- <input type="checkbox" value="GROUP BY" id = "grpbychkbox" onclick="javascript:DA.setGroupByClause(this);"> -->GROUP
-				BY
-				<button class="button"
-					onclick="javascript:DA.setGroupByClause('GROUP BY');"
-					style="display: none;">GROUP BY</button>
+				GROUP BY
+				<button class="button" style="display: none;">GROUP BY</button>
 			</td>
 			<td id="group_by_select_td" style="" colspan="8"><span
 				class="sbox" style=""><input type="search" id="grp_by_col"
 					placeholder="Group By..." results="0"
-					onclick="DA.showGroupByCol(this);"
-					onfocus="DA.showGroupByCol(this);" style="width: 100%;" readonly></span>
+					onclick="QM.showGroupByCol(this);"
+					onfocus="QM.showGroupByCol(this);" style="width: 100%;" readonly></span>
 				<div id="groupByColFilters" class="filtersBlock"
 					style="display: none;">
 					<span>Search On:</span><br>
@@ -194,7 +202,7 @@
 			<td><label>HAVING</label></td>
 			<td colspan="8"><span class="sbox" style=""> <input
 					type="search" id="having_col" placeholder="Having..." results="0"
-					onclick="DA.showHavingCol(this);" onfocus="DA.showHavingCol(this);"
+					onclick="QM.showHavingCol(this);" onfocus="QM.showHavingCol(this);"
 					style="width: 100%;" readonly>
 			</span>
 				<div id="havingColFilters" class="filtersBlock"
@@ -205,14 +213,13 @@
 
 		<tr>
 			<td style="width: 5%;" nowrap="nowrap">
-				<!-- <input type="checkbox" value="ORDER BY" id = "grpbychkbox" onclick="javascript:DA.setOrderByClouse(this);"> -->ORDER
-				BY
+				ORDER BY
 			</td>
 			<td id="order_by_select_td" style="" colspan="8"><span
 				class="sbox" style=""><input type="search" id="order_by_col"
 					placeholder="Order By..." results="0"
-					onclick="DA.showOrderByCol(this);"
-					onfocus="DA.showOrderByCol(this);" style="width: 100%;" readonly></span>
+					onclick="QM.showOrderByCol(this);"
+					onfocus="QM.showOrderByCol(this);" style="width: 100%;" readonly></span>
 				<div id="orderByColFilters" class="filtersBlock"
 					style="display: none;">
 					<span>ORDER BY:</span><br>
@@ -224,13 +231,13 @@
 			<td nowrap="nowrap" style="width: 7%;"><span>SQL Query </span></td>
 			<td colspan="8"><textarea id="query_textarea" rows="" cols=""
 					style="width: 100%; height: 100%; margin-top: 10px;"
-					onchange="DA.checkQueryEmpty();"></textarea></td>
+					onchange="QM.checkQueryEmpty();"></textarea></td>
 		</tr>
 	</table>
 </div>
 
 <button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="lineClear" name="Clear" onclick="clearQuery();">Clear</button>
-<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="lineSave" name="Save" onclick="DA.saveQuery();">Save</button>
+<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="lineSave" name="Save" onclick="QM.saveQuery();">Save</button>
 </div>
 
 <script>
@@ -250,13 +257,13 @@ function clearQuery(){
 
 var colList=[];
 var currentDesignerType = "";
-DA.readyQEdit();
-DA.setQueryDirtyBitHandlerEvent();
+QM.readyQEdit();
+QM.setQueryDirtyBitHandlerEvent();
 	
 var chartPosition='';
 function fillPopUp(flag)
 {
-	var id = DA.selectedQueryId;
+	var id = QM.selectedQueryId;
 	
 	dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
 	dwr.util.byId('pop.pattern'+id).style.display = '';
@@ -265,29 +272,25 @@ function fillPopUp(flag)
 	dwr.util.setValue('popup.host'+id,id);
 	dwr.util.setValue('popup.message'+id,'Processing Request...');
 	
-	var str = JSON.stringify(DA.queryInfo);
-	if (DA.isDelete){
-	//	RemoteManager.deleteBigQuery(DA.selectedNameNode, DA.selectedQueryId, DA.querySaveResponse);
-		//DA.resetFields();
+	if (QM.isDelete){
 		dwr.util.setValue('popup.status'+id,'Deleting..');
 	}
-	else if(DA.isClone)
+	else if(QM.isClone)
 	{
 		dwr.util.setValue('popup.status'+id,'Cloning..');	
-		var str = JSON.stringify(DA.cloneData);
-		RemoteManager.saveQuery(DA.selectedNameNode,DA.selectedDbName, str, DA.querySaveResponse);
-		DA.isClone = false;
+		RemoteManager.saveQuery(QM.selectedQueryId, '', QM.selectedNameNode, QM.selectedDbName, '', QM.query, QM.querySaveResponse);
+		QM.isClone = false;
 	}
 	else{
 		dwr.util.setValue('popup.status'+id,'Saving..');
-		RemoteManager.saveQuery(DA.selectedNameNode,DA.selectedDbName, str, DA.querySaveResponse);
+		RemoteManager.saveQuery(QM.selectedQueryId, '', QM.selectedNameNode, QM.selectedDbName, '', QM.query, QM.querySaveResponse);
 	}
 	
 }
 
 function closePopUpBox()
 {
-    DA.closeBox(true);
+    QM.closeBox(true);
 }
 
 function getOnlyAlphaNumericValues(event)
@@ -305,8 +308,7 @@ function getOnlyAlphaNumericValues(event)
 	}
 	
 QM.totalQuery = $('select#queryIds option').length+1;
-$('#queryId').val("New Query "+DA.checkID(QM.totalQuery ));
-//$('#queryId').val("New Query "+BQS.totalQuery);
+$('#queryId').val("New Query "+QM.checkID(QM.totalQuery ));
 $('#queryIdTitle').text($('#queryId').val());
 $("#design_link").text("Design: "+$("#queryId").val());
 $("#preview_span").text("Preview: "+$("#queryId").val());
@@ -316,10 +318,10 @@ if(QM.totalQuery==1) {
 }
 if(Navbar.isAddNewQuery){
 	DAT.tempQuery=$('#queryId').val();
-	DA.isNewQuery=true;
-	DA.selectedQueryId = $('#queryId').val();
+	QM.isNewQuery=true;
+	QM.selectedQueryId = $('#queryId').val();
 }else{
-	DA.isNewQuery=false;
+	QM.isNewQuery=false;
 }
 
 </script>

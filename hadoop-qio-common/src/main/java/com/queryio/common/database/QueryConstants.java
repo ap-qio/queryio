@@ -821,9 +821,10 @@ public interface QueryConstants {
 			+ ColumnConstants.COL_TABLES_QUERY_ID + ") VALUES (?,?,?,?)";
 
 	String INSERT_QUERY_OBJ_QUERY = "INSERT INTO " + TableConstants.TABLE_QUERIES + "(" + ColumnConstants.COL_QUERIES_ID
-			+ "," + ColumnConstants.COL_QUERIES_PROPERTIES + "," + ColumnConstants.COL_QUERIES_DESCRIPTION + ","
+			+ "," + ColumnConstants.COL_QUERIES_PROPERTIES
+			+ "," + ColumnConstants.COL_QUERIES_SELECTED_COLS + "," + ColumnConstants.COL_QUERIES_DESCRIPTION + ","
 			+ ColumnConstants.COL_QUERIES_NAMENODEID + "," + ColumnConstants.COL_QUERIES_DBNAME + ","
-			+ ColumnConstants.COL_QUERIES_USERNAME + ") VALUES (?,?,?,?,?,?)";
+			+ ColumnConstants.COL_QUERIES_USERNAME + ") VALUES (?,?,?,?,?,?,?)";
 
 	String DELETE_QUERY = "DELETE FROM " + TableConstants.TABLE_QUERIES + " WHERE " + ColumnConstants.COL_QUERIES_ID
 			+ "=?;";
@@ -834,8 +835,7 @@ public interface QueryConstants {
 	String DELETE_VIEW_TABLE = "DELETE FROM " + TableConstants.TABLE_VIEW_TABLES + " WHERE "
 			+ ColumnConstants.COL_TABLES_ID + " = ?";
 
-	String GET_ALL_QUERIES = "SELECT * FROM " + TableConstants.TABLE_QUERIES + " WHERE "
-			+ ColumnConstants.COL_QUERIES_NAMENODEID + "=? " + " ORDER BY " + ColumnConstants.COL_QUERIES_ID + " ASC";
+	String GET_ALL_QUERIES = "SELECT * FROM " + TableConstants.TABLE_QUERIES + " ORDER BY " + ColumnConstants.COL_QUERIES_ID + " ASC";
 
 	String GET_ALL_CHARTS = "SELECT * FROM " + TableConstants.TABLE_CHARTS + " ORDER BY "
 			+ ColumnConstants.COL_CHARTS_ID + " ASC";

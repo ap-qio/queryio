@@ -212,14 +212,14 @@ public class BigQueryDAO {
 		}
 	}
 
-	public static Table getTable(final Connection connection, String chartId) throws Exception {
+	public static Table getTable(final Connection connection, String tableId) throws Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Table table = null;
 		try {
 			table = new Table();
 			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_TABLE_BY_ID);
-			ps.setString(1, chartId);
+			ps.setString(1, tableId);
 			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
 
 			JSONParser parser = new JSONParser();
@@ -279,17 +279,18 @@ public class BigQueryDAO {
 		return tables;
 	}
 
-	public static void createQuery(final Connection connection, String queryId, String qs,
+	public static void createQuery(final Connection connection, String queryId, String selectedCols, String qs,
 			String description, String namenodeId, String dbName, String username) throws SQLException {
 		PreparedStatement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.INSERT_QUERY_OBJ_QUERY);
 			stmt.setString(1, queryId);
 			stmt.setString(2, qs);
-			stmt.setString(3, description);
-			stmt.setString(4, namenodeId);
-			stmt.setString(5, dbName);
-			stmt.setString(6, username);
+			stmt.setString(3, selectedCols);
+			stmt.setString(4, description);
+			stmt.setString(5, namenodeId);
+			stmt.setString(6, dbName);
+			stmt.setString(7, username);
 
 			DatabaseFunctions.executeUpdateStatement(stmt);
 		} finally {
@@ -330,9 +331,8 @@ public class BigQueryDAO {
 			if (rs.next()) {
 				query.setId(rs.getString(ColumnConstants.COL_QUERIES_ID));
 				query.setDescription(rs.getString(ColumnConstants.COL_QUERIES_DESCRIPTION));
-				String jsonString = rs.getString(ColumnConstants.COL_QUERIES_PROPERTIES);
-				JSONObject properties = (JSONObject) parser.parse(jsonString);
-				query.setProperties(properties);
+				String qs = rs.getString(ColumnConstants.COL_QUERIES_PROPERTIES);
+				query.setProperties(qs);
 				query.setDbname(rs.getString(ColumnConstants.COL_QUERIES_DBNAME));
 				query.setNamenodeId(rs.getString(ColumnConstants.COL_QUERIES_NAMENODEID));
 				query.setUsername(rs.getString(ColumnConstants.COL_QUERIES_USERNAME));
@@ -364,9 +364,8 @@ public class BigQueryDAO {
 				Query query = new Query();
 				query.setId(rs.getString(ColumnConstants.COL_QUERIES_ID));
 				query.setDescription(rs.getString(ColumnConstants.COL_QUERIES_DESCRIPTION));
-				String jsonString = rs.getString(ColumnConstants.COL_QUERIES_PROPERTIES);
-				JSONObject properties = (JSONObject) parser.parse(jsonString);
-				query.setProperties(properties);
+				String qs = rs.getString(ColumnConstants.COL_QUERIES_PROPERTIES);
+				query.setProperties(qs);
 				query.setDbname(rs.getString(ColumnConstants.COL_QUERIES_DBNAME));
 				query.setNamenodeId(rs.getString(ColumnConstants.COL_QUERIES_NAMENODEID));
 				query.setUsername(rs.getString(ColumnConstants.COL_QUERIES_USERNAME));

@@ -383,8 +383,7 @@ public class RemoteManager {
 		return null;
 	}
 
-	public static DWRResponse addHadoopConfigValue(String type, String configkey, String configValue,
-			String description) {
+	public static DWRResponse addHadoopConfigValue(String type, String configkey, String configValue, String description) {
 		DWRResponse dwrResponse = new DWRResponse();
 		Connection connection = null;
 		try {
@@ -512,8 +511,8 @@ public class RemoteManager {
 		int dataFetchInterval = QueryIOConstants.DEFAULT_CONTROLLER_DATA_FETCH_INTERVAL;
 
 		try {
-			dataFetchInterval = Integer.parseInt(
-					RemoteManager.getHadoopConfig(QueryIOConstants.CONTROLLER_DATA_FETCH_INTERVAL_KEY).getValue());
+			dataFetchInterval = Integer.parseInt(RemoteManager.getHadoopConfig(
+					QueryIOConstants.CONTROLLER_DATA_FETCH_INTERVAL_KEY).getValue());
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal(e.getMessage(), e);
 		}
@@ -530,8 +529,8 @@ public class RemoteManager {
 				dwrResponse.setResponseCode(401);
 				return dwrResponse;
 			}
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Update Hadoop Configuration Settings Requested.");
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Update Hadoop Configuration Settings Requested.");
 			connection = CoreDBManager.getQueryIODBConnection();
 			HadoopConfigDAO.updateHadoopConfigDefaultValue(connection, configKeys, configValues);
 
@@ -788,28 +787,28 @@ public class RemoteManager {
 				}
 
 				if (configKeys.contains(QueryIOConstants.QUERYIO_DATANODE_DATA_DISK)) {
-					String diskName = (String) configValues
-							.get(configKeys.indexOf(QueryIOConstants.QUERYIO_DATANODE_DATA_DISK));
+					String diskName = (String) configValues.get(configKeys
+							.indexOf(QueryIOConstants.QUERYIO_DATANODE_DATA_DISK));
 					VolumeDAO.updateDisks(connection, nodeId, diskName);
 				}
 				if (configKeys.contains(QueryIOConstants.QUERYIO_NAMENODE_DATA_DISK)) {
-					String diskName = (String) configValues
-							.get(configKeys.indexOf(QueryIOConstants.QUERYIO_NAMENODE_DATA_DISK));
+					String diskName = (String) configValues.get(configKeys
+							.indexOf(QueryIOConstants.QUERYIO_NAMENODE_DATA_DISK));
 					VolumeDAO.updateDisks(connection, nodeId, diskName);
 				}
 				if (configKeys.contains(DFSConfigKeys.DFS_DATANODE_ADDRESS_KEY)) {
-					String volumePath = (String) configValues
-							.get(configKeys.indexOf(DFSConfigKeys.DFS_DATANODE_ADDRESS_KEY));
+					String volumePath = (String) configValues.get(configKeys
+							.indexOf(DFSConfigKeys.DFS_DATANODE_ADDRESS_KEY));
 					VolumeDAO.updatePath(connection, nodeId, volumePath);
 				}
 				if (configKeys.contains(DFSConfigKeys.DFS_NAMENODE_NAME_DIR_KEY)) {
-					String volumePath = (String) configValues
-							.get(configKeys.indexOf(DFSConfigKeys.DFS_NAMENODE_NAME_DIR_KEY));
+					String volumePath = (String) configValues.get(configKeys
+							.indexOf(DFSConfigKeys.DFS_NAMENODE_NAME_DIR_KEY));
 					VolumeDAO.updatePath(connection, nodeId, volumePath);
 				}
 
-				AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-						.info("Update Hadoop Configuration Settings Requested for " + n.getNodeType() + " on host "
+				AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+						"Update Hadoop Configuration Settings Requested for " + n.getNodeType() + " on host "
 								+ h.getHostIP());
 				QueryIOResponse response = QueryIOAgentManager.setAllNodeConfig(h, n, configKeys, configValues);
 
@@ -930,8 +929,8 @@ public class RemoteManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 			Node node = NodeDAO.getNode(connection, nodeId);
 			Host host = HostDAO.getHostDetail(connection, node.getHostId());
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Start FSCK requested for host " + host.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Start FSCK requested for host " + host.getHostIP());
 			HadoopService hadoopService = new HadoopService();
 			hadoopService.setNodeId(nodeId);
 			hadoopService.setTimeOfCall(timestamp);
@@ -1022,8 +1021,8 @@ public class RemoteManager {
 			connection = CoreDBManager.getQueryIODBConnection();
 			Node node = NodeDAO.getNode(connection, nodeId);
 			Host host = HostDAO.getHostDetail(connection, node.getHostId());
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Start Balancer requested for host " + host.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Start Balancer requested for host " + host.getHostIP());
 			HadoopService hadoopService = new HadoopService();
 			hadoopService.setNodeId(nodeId);
 			hadoopService.setTimeOfCall(timestamp);
@@ -1155,8 +1154,8 @@ public class RemoteManager {
 			if (!isAdmin()) {
 				return false;
 			}
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Update Notification Settings Requested.");
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Update Notification Settings Requested.");
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			NotifyDAO.updateNotificationSettings(connection, bean);
@@ -1271,8 +1270,8 @@ public class RemoteManager {
 				return dwrResponse;
 			}
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Insert user requested with username:" + userName);
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Insert user requested with username:" + userName);
 			connection = CoreDBManager.getQueryIODBConnection();
 			User user = new User();
 			user.setUserName(userName);
@@ -1497,8 +1496,8 @@ public class RemoteManager {
 				dwrResponse.setDwrResponse(false, QueryIOConstants.NOT_AN_AUTHORIZED_USER, 403);
 				return dwrResponse;
 			}
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Delete user requested for userId:" + userId);
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Delete user requested for userId:" + userId);
 			connection = CoreDBManager.getQueryIODBConnection();
 
 			UserDAO.deleteUser(connection, userId);
@@ -1625,8 +1624,8 @@ public class RemoteManager {
 				return dwrResponse;
 			}
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Insert host requested for hostname:" + hostIP);
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Insert host requested for hostname:" + hostIP);
 
 			connection = CoreDBManager.getQueryIODBConnection();
 
@@ -1713,10 +1712,10 @@ public class RemoteManager {
 					hadoopHome = hadoopHome.substring(0, hadoopHome.length() - 1);
 				QueryIOAgentManager.updateHadoopPath(host, host.getInstallDirPath());
 			} catch (Exception e) {
-				AppLogger.getLogger()
-						.fatal("Error while updating hadoop directory in core-site.xml file and hdfs-site.xml.", e);
-				dwrResponse.setResponseMessage(
-						"Error while updating hadoop directory in core-site.xml file and hdfs-site.xml.");
+				AppLogger.getLogger().fatal(
+						"Error while updating hadoop directory in core-site.xml file and hdfs-site.xml.", e);
+				dwrResponse
+						.setResponseMessage("Error while updating hadoop directory in core-site.xml file and hdfs-site.xml.");
 				dwrResponse.setResponseCode(500);
 				dwrResponse.setTaskSuccess(false);
 				return dwrResponse;
@@ -1820,8 +1819,7 @@ public class RemoteManager {
 		return response;
 	}
 
-	public static DWRResponse startHost(int id, String userName, String password, String sshPrivateKeyFile,
-			String port) {
+	public static DWRResponse startHost(int id, String userName, String password, String sshPrivateKeyFile, String port) {
 		Connection connection = null;
 		DWRResponse dwrResponse = new DWRResponse();
 		try {
@@ -1882,9 +1880,8 @@ public class RemoteManager {
 			host = HostDAO.getHostDetail(connection, id);
 
 			if (monitor && host.getStatus().startsWith(QueryIOConstants.STATUS_STOPPED)) {
-				dwrResponse.setDwrResponse(false,
-						"Agent on specified host is not running. "
-								+ "To start host monitoring, first start agent on that machine and then start host monitor.",
+				dwrResponse.setDwrResponse(false, "Agent on specified host is not running. "
+						+ "To start host monitoring, first start agent on that machine and then start host monitor.",
 						401);
 				return dwrResponse;
 			}
@@ -2000,8 +1997,8 @@ public class RemoteManager {
 
 			if (RemoteManager.isHostContainsNode(host.getHostIP())) {
 				dwrResponse.setResponseCode(401);
-				dwrResponse.setResponseMessage(
-						"There are node(s) configured on this host. Please delete all those node(s) before removing host.");
+				dwrResponse
+						.setResponseMessage("There are node(s) configured on this host. Please delete all those node(s) before removing host.");
 				return dwrResponse;
 			}
 
@@ -2090,8 +2087,8 @@ public class RemoteManager {
 					Host namenodeHost = HostDAO.getHostDetail(connection, namenode.getHostId());
 					QueryIOResponse resp = QueryIOAgentManager.unsetConfiguration(namenodeHost, namenode, unsetKeys,
 							"hdfs-site.xml");
-					dwrResponse.setDwrResponse(resp.isSuccessful(), resp.getResponseMsg(),
-							resp.isSuccessful() ? 200 : 500);
+					dwrResponse.setDwrResponse(resp.isSuccessful(), resp.getResponseMsg(), resp.isSuccessful() ? 200
+							: 500);
 					resp = QueryIOAgentManager.setAllNodeConfig(namenodeHost, namenode, keys, values);
 					dwrResponse.setResponseMessage(resp.getResponseMsg());
 					dwrResponse.setTaskSuccess(resp.isSuccessful());
@@ -2102,8 +2099,8 @@ public class RemoteManager {
 					Host datanodeHost = HostDAO.getHostDetail(connection, datanode.getHostId());
 					QueryIOResponse resp = QueryIOAgentManager.unsetConfiguration(datanodeHost, datanode, unsetKeys,
 							"hdfs-site.xml");
-					dwrResponse.setDwrResponse(resp.isSuccessful(), resp.getResponseMsg(),
-							resp.isSuccessful() ? 200 : 500);
+					dwrResponse.setDwrResponse(resp.isSuccessful(), resp.getResponseMsg(), resp.isSuccessful() ? 200
+							: 500);
 					resp = QueryIOAgentManager.setAllNodeConfig(datanodeHost, datanode, keys, values);
 					dwrResponse.setResponseMessage(resp.getResponseMsg());
 					dwrResponse.setTaskSuccess(resp.isSuccessful());
@@ -2116,19 +2113,19 @@ public class RemoteManager {
 								if (dwrResp.isTaskSuccess()) {
 									dwrResp = startNode(datanode.getId(), false);
 									if (dwrResp.isTaskSuccess()) {
-										dwrResponse.setResponseMessage(
-												resp.getResponseMsg() + " DataNode restarted successfully.");
+										dwrResponse.setResponseMessage(resp.getResponseMsg()
+												+ " DataNode restarted successfully.");
 										dwrResponse.setTaskSuccess(true);
 										isUpdateStatus = false;
 									} else {
-										dwrResponse.setResponseMessage(
-												dwrResponse.getResponseMessage() + " " + dwrResp.getResponseMessage());
+										dwrResponse.setResponseMessage(dwrResponse.getResponseMessage() + " "
+												+ dwrResp.getResponseMessage());
 										dwrResponse.setTaskSuccess(false);
 										isUpdateStatus = true;
 									}
 								} else {
-									dwrResponse.setResponseMessage(
-											dwrResponse.getResponseMessage() + " " + dwrResp.getResponseMessage());
+									dwrResponse.setResponseMessage(dwrResponse.getResponseMessage() + " "
+											+ dwrResp.getResponseMessage());
 									dwrResponse.setTaskSuccess(false);
 									isUpdateStatus = true;
 								}
@@ -2142,16 +2139,16 @@ public class RemoteManager {
 				}
 
 			} else if (NodeDAO.getAllDatanodes(connection).size() != 0) {
-				dwrResponse.setResponseMessage(
-						"Cluster contains other nodes, please delete all those nodes before deleting namenode.");
+				dwrResponse
+						.setResponseMessage("Cluster contains other nodes, please delete all those nodes before deleting namenode.");
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
 			if (!node.getStatus().startsWith(QueryIOConstants.STATUS_STOPPED))
 				stopNode(nodeID);
 			Host host = HostDAO.getHostDetail(connection, node.getHostId());
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Delete " + node.getNodeType() + " requested for host " + host.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Delete " + node.getNodeType() + " requested for host " + host.getHostIP());
 			QueryIOAgentManager.stopNode(host, node, dwrResponse);
 
 			if (dwrResponse.isTaskSuccess()) {
@@ -2286,8 +2283,8 @@ public class RemoteManager {
 						Node namenode = (Node) namenodes.get(i);
 						Host namenodeHost = HostDAO.getHostDetail(connection, namenode.getHostId());
 						ip = namenodeHost.getHostIP();
-						QueryIOResponse resp = QueryIOAgentManager.unsetConfiguration(namenodeHost, namenode, unsetKeys,
-								"hdfs-site.xml");
+						QueryIOResponse resp = QueryIOAgentManager.unsetConfiguration(namenodeHost, namenode,
+								unsetKeys, "hdfs-site.xml");
 						dwrResponse.setDwrResponse(resp.isSuccessful(), resp.getResponseMsg(),
 								resp.isSuccessful() ? 200 : 500);
 						resp = QueryIOAgentManager.setAllNodeConfig(namenodeHost, namenode, keys, values);
@@ -2301,8 +2298,8 @@ public class RemoteManager {
 						Node datanode = (Node) datanodes.get(i);
 						Host datanodeHost = HostDAO.getHostDetail(connection, datanode.getHostId());
 						ip = datanodeHost.getHostIP();
-						QueryIOResponse resp = QueryIOAgentManager.unsetConfiguration(datanodeHost, datanode, unsetKeys,
-								"hdfs-site.xml");
+						QueryIOResponse resp = QueryIOAgentManager.unsetConfiguration(datanodeHost, datanode,
+								unsetKeys, "hdfs-site.xml");
 						dwrResponse.setDwrResponse(resp.isSuccessful(), resp.getResponseMsg(),
 								resp.isSuccessful() ? 200 : 500);
 						resp = QueryIOAgentManager.setAllNodeConfig(datanodeHost, datanode, keys, values);
@@ -2311,8 +2308,8 @@ public class RemoteManager {
 					}
 
 				} else if (NodeDAO.getAllDatanodes(connection).size() != 0) {
-					dwrResponse.setResponseMessage(
-							"Cluster contains other nodes, please delete all those nodes before deleting namenode.");
+					dwrResponse
+							.setResponseMessage("Cluster contains other nodes, please delete all those nodes before deleting namenode.");
 					dwrResponse.setResponseCode(500);
 					return dwrResponse;
 				}
@@ -2320,8 +2317,8 @@ public class RemoteManager {
 			if (!node.getStatus().startsWith(QueryIOConstants.STATUS_STOPPED))
 				stopNode(nodeID);
 			Host host = HostDAO.getHostDetail(connection, node.getHostId());
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Delete " + node.getNodeType() + " requested for host " + host.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Delete " + node.getNodeType() + " requested for host " + host.getHostIP());
 			QueryIOAgentManager.stopNode(host, node, dwrResponse);
 
 			if (dwrResponse.isTaskSuccess()) {
@@ -2512,8 +2509,8 @@ public class RemoteManager {
 				}
 			}
 		} catch (Exception e) {
-			AppLogger.getLogger()
-					.fatal("Services could not be started for nodeId: " + nodeId + " Exception: " + e.getMessage(), e);
+			AppLogger.getLogger().fatal(
+					"Services could not be started for nodeId: " + nodeId + " Exception: " + e.getMessage(), e);
 		} finally {
 			try {
 				CoreDBManager.closeConnection(connection);
@@ -2615,10 +2612,12 @@ public class RemoteManager {
 			if (node.getNodeType().equals(QueryIOConstants.NAMENODE) && HAStatusDAO.isHANode(connection, node.getId())
 					&& (nnId = HAStatusDAO.getActiveNodeId(connection, node.getId())) != null) {
 				if (NodeDAO.getNode(connection, nnId).getStatus().startsWith(QueryIOConstants.STATUS_STOPPED)) {
-					dwrResponse.setDwrResponse(false,
-							"Cannot start StandBy Namenode because Active NameNode of this cluster is not running. "
-									+ "To start the HA-Enabled cluster, first start Active NameNode and then start StandBy NameNode",
-							401);
+					dwrResponse
+							.setDwrResponse(
+									false,
+									"Cannot start StandBy Namenode because Active NameNode of this cluster is not running. "
+											+ "To start the HA-Enabled cluster, first start Active NameNode and then start StandBy NameNode",
+									401);
 					return dwrResponse;
 				}
 
@@ -2669,14 +2668,15 @@ public class RemoteManager {
 						ControllerManager.startNodeManagerController(connection, host, node, dataFetchInterval);
 					}
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger()
-								.debug("Monitor started for " + node.getNodeType() + " on " + host.getHostIP());
+						AppLogger.getLogger().debug(
+								"Monitor started for " + node.getNodeType() + " on " + host.getHostIP());
 
 					NodeDAO.setNodeMonitor(connection, nodeId, true);
 				} catch (Exception e) {
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor could not be started for " + node.getNodeType() + " on "
-								+ host.getHostIP() + ", Exception: " + e.getMessage(), e);
+						AppLogger.getLogger().debug(
+								"Monitor could not be started for " + node.getNodeType() + " on " + host.getHostIP()
+										+ ", Exception: " + e.getMessage(), e);
 				}
 
 				if (node.getNodeType().equals(QueryIOConstants.NAMENODE)) {
@@ -2775,9 +2775,8 @@ public class RemoteManager {
 									if (flag) {
 										node.setHiveServiceStatus(QueryIOConstants.STATUS_STARTED);
 										ControllerManager.startQueryIOServiceController(nodeId);
-										dwrResponse.setDwrResponse(true,
-												dwrResponse.getResponseMessage() + " " + response.getResponseMessage(),
-												response.getResponseCode());
+										dwrResponse.setDwrResponse(true, dwrResponse.getResponseMessage() + " "
+												+ response.getResponseMessage(), response.getResponseCode());
 									} else {
 										node.setHiveServiceStatus(QueryIOConstants.STATUS_NOT_RESPONDING);
 										ControllerManager.startQueryIOServiceController(nodeId);
@@ -2810,16 +2809,16 @@ public class RemoteManager {
 				else
 					node.setStatus(QueryIOConstants.STATUS_LAUNCHING);
 				if (AppLogger.getLogger().isDebugEnabled())
-					AppLogger.getLogger()
-							.debug("Start node Mark : " + (Thread.currentThread().getStackTrace()[1].getLineNumber()));
+					AppLogger.getLogger().debug(
+							"Start node Mark : " + (Thread.currentThread().getStackTrace()[1].getLineNumber()));
 				NodeDAO.updateStatus(connection, node);
 				if (AppLogger.getLogger().isDebugEnabled())
-					AppLogger.getLogger()
-							.debug("Start node Mark : " + (Thread.currentThread().getStackTrace()[1].getLineNumber()));
+					AppLogger.getLogger().debug(
+							"Start node Mark : " + (Thread.currentThread().getStackTrace()[1].getLineNumber()));
 			} else {
 				if (AppLogger.getLogger().isDebugEnabled())
-					AppLogger.getLogger()
-							.debug("Start node Mark : " + (Thread.currentThread().getStackTrace()[1].getLineNumber()));
+					AppLogger.getLogger().debug(
+							"Start node Mark : " + (Thread.currentThread().getStackTrace()[1].getLineNumber()));
 				return dwrResponse;
 			}
 		} catch (Exception e) {
@@ -2833,8 +2832,8 @@ public class RemoteManager {
 			}
 		}
 		if (AppLogger.getLogger().isDebugEnabled())
-			AppLogger.getLogger()
-					.debug("Start node Mark : " + (Thread.currentThread().getStackTrace()[1].getLineNumber()));
+			AppLogger.getLogger().debug(
+					"Start node Mark : " + (Thread.currentThread().getStackTrace()[1].getLineNumber()));
 		return dwrResponse;
 	}
 
@@ -2849,8 +2848,8 @@ public class RemoteManager {
 		while (!flag && count < QueryIOConstants.HIVE_CONNECTION_RETRY_LIMIT) {
 			try {
 				if (count != 0)
-					AppLogger.getLogger()
-							.fatal("Hive server not started yet, waiting for some time to re-try the same. Current try count: "
+					AppLogger.getLogger().fatal(
+							"Hive server not started yet, waiting for some time to re-try the same. Current try count: "
 									+ count);
 
 				Thread.sleep(5000);
@@ -3035,8 +3034,8 @@ public class RemoteManager {
 				int dataFetchInterval = QueryIOConstants.DEFAULT_CONTROLLER_DATA_FETCH_INTERVAL;
 
 				try {
-					dataFetchInterval = Integer.parseInt(ConfigurationManager.getConfiguration(connection, nodeId)
-							.get(QueryIOConstants.CONTROLLER_DATA_FETCH_INTERVAL_KEY));
+					dataFetchInterval = Integer.parseInt(ConfigurationManager.getConfiguration(connection, nodeId).get(
+							QueryIOConstants.CONTROLLER_DATA_FETCH_INTERVAL_KEY));
 				} catch (Exception e) {
 					AppLogger.getLogger().fatal(e.getMessage(), e);
 				}
@@ -3055,14 +3054,15 @@ public class RemoteManager {
 						ControllerManager.startNodeManagerController(connection, host, node, dataFetchInterval);
 					}
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger()
-								.debug("Monitor restarted for " + node.getNodeType() + " on " + host.getHostIP());
+						AppLogger.getLogger().debug(
+								"Monitor restarted for " + node.getNodeType() + " on " + host.getHostIP());
 
 					NodeDAO.setNodeMonitor(connection, nodeId, true);
 				} catch (Exception e) {
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor could not be restarted for " + node.getNodeType() + " on "
-								+ host.getHostIP() + ", Exception: " + e.getMessage(), e);
+						AppLogger.getLogger().debug(
+								"Monitor could not be restarted for " + node.getNodeType() + " on " + host.getHostIP()
+										+ ", Exception: " + e.getMessage(), e);
 				}
 
 				return dwrResponse;
@@ -3108,8 +3108,8 @@ public class RemoteManager {
 			int dataFetchInterval = QueryIOConstants.DEFAULT_CONTROLLER_DATA_FETCH_INTERVAL;
 
 			try {
-				dataFetchInterval = Integer.parseInt(ConfigurationManager.getConfiguration(connection, nodeId)
-						.get(QueryIOConstants.CONTROLLER_DATA_FETCH_INTERVAL_KEY));
+				dataFetchInterval = Integer.parseInt(ConfigurationManager.getConfiguration(connection, nodeId).get(
+						QueryIOConstants.CONTROLLER_DATA_FETCH_INTERVAL_KEY));
 			} catch (Exception e) {
 				AppLogger.getLogger().fatal(e.getMessage(), e);
 			}
@@ -3125,15 +3125,17 @@ public class RemoteManager {
 						ControllerManager.stopNameNodeController(host.getHostIP(), node);
 					}
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor " + (monitor ? "started" : "stopped")
-								+ " for name node on " + host.getHostIP());
-					dwrResponse.setResponseMessage(
-							"Monitor " + (monitor ? "started" : "stopped") + " for name node on " + host.getHostIP());
+						AppLogger.getLogger().debug(
+								"Monitor " + (monitor ? "started" : "stopped") + " for name node on "
+										+ host.getHostIP());
+					dwrResponse.setResponseMessage("Monitor " + (monitor ? "started" : "stopped")
+							+ " for name node on " + host.getHostIP());
 					dwrResponse.setTaskSuccess(true);
 				} catch (Exception e) {
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor could not be " + (monitor ? "started" : "stopped")
-								+ " for name node on " + host.getHostIP(), e);
+						AppLogger.getLogger().debug(
+								"Monitor could not be " + (monitor ? "started" : "stopped") + " for name node on "
+										+ host.getHostIP(), e);
 					dwrResponse.setResponseMessage("Monitor could not be " + (monitor ? "started" : "stopped")
 							+ " for name node on " + host.getHostIP());
 				}
@@ -3145,15 +3147,17 @@ public class RemoteManager {
 						ControllerManager.stopDataNodeController(host.getHostIP(), node);
 					}
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor " + (monitor ? "started" : "stopped")
-								+ " for data node on " + host.getHostIP());
+						AppLogger.getLogger().debug(
+								"Monitor " + (monitor ? "started" : "stopped") + " for data node on "
+										+ host.getHostIP());
 					dwrResponse.setTaskSuccess(true);
-					dwrResponse.setResponseMessage(
-							"Monitor " + (monitor ? "started" : "stopped") + " for data node on " + host.getHostIP());
+					dwrResponse.setResponseMessage("Monitor " + (monitor ? "started" : "stopped")
+							+ " for data node on " + host.getHostIP());
 				} catch (Exception e) {
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor could not be " + (monitor ? "started" : "stopped")
-								+ " for data node on " + host.getHostIP(), e);
+						AppLogger.getLogger().debug(
+								"Monitor could not be " + (monitor ? "started" : "stopped") + " for data node on "
+										+ host.getHostIP(), e);
 					dwrResponse.setResponseMessage("Monitor could not be " + (monitor ? "started" : "stopped")
 							+ " for data node on " + host.getHostIP());
 				}
@@ -3165,15 +3169,17 @@ public class RemoteManager {
 						ControllerManager.stopResourceManagerController(host.getHostIP(), node);
 					}
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor " + (monitor ? "started" : "stopped")
-								+ " for Resource Manager node on " + host.getHostIP());
+						AppLogger.getLogger().debug(
+								"Monitor " + (monitor ? "started" : "stopped") + " for Resource Manager node on "
+										+ host.getHostIP());
 					dwrResponse.setTaskSuccess(true);
 					dwrResponse.setResponseMessage("Monitor " + (monitor ? "started" : "stopped")
 							+ " for Resource Manager node on " + host.getHostIP());
 				} catch (Exception e) {
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor could not be " + (monitor ? "started" : "stopped")
-								+ " for Resource Manager on " + host.getHostIP(), e);
+						AppLogger.getLogger().debug(
+								"Monitor could not be " + (monitor ? "started" : "stopped")
+										+ " for Resource Manager on " + host.getHostIP(), e);
 					dwrResponse.setResponseMessage("Monitor could not be " + (monitor ? "started" : "stopped")
 							+ " for Resource Manager on " + host.getHostIP());
 				}
@@ -3185,15 +3191,17 @@ public class RemoteManager {
 						ControllerManager.stopNodeManagerController(host.getHostIP(), node);
 					}
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor " + (monitor ? "started" : "stopped")
-								+ " for Node Manager on " + host.getHostIP());
+						AppLogger.getLogger().debug(
+								"Monitor " + (monitor ? "started" : "stopped") + " for Node Manager on "
+										+ host.getHostIP());
 					dwrResponse.setTaskSuccess(true);
 					dwrResponse.setResponseMessage("Monitor " + (monitor ? "started" : "stopped")
 							+ " for Node Manager on " + host.getHostIP());
 				} catch (Exception e) {
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor could not be " + (monitor ? "started" : "stopped")
-								+ " for Node Manager on " + host.getHostIP(), e);
+						AppLogger.getLogger().debug(
+								"Monitor could not be " + (monitor ? "started" : "stopped") + " for Node Manager on "
+										+ host.getHostIP(), e);
 					dwrResponse.setResponseMessage("Monitor could not be " + (monitor ? "started" : "stopped")
 							+ " for Node Manager on " + host.getHostIP());
 				}
@@ -3239,8 +3247,8 @@ public class RemoteManager {
 			ArrayList value = QueryIOAgentManager.getConfig(dataNodeHost, list, datanode, "hdfs-site.xml");
 			String datanodeAddress = (String) value.get(0);
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Decomission requested for node " + dataNodeHost.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Decomission requested for node " + dataNodeHost.getHostIP());
 
 			List namenodes = NodeDAO.getAllNameNodes(connection);
 			NodeDAO.insertDecommissionNode(connection, nodeId);
@@ -3293,8 +3301,8 @@ public class RemoteManager {
 				return dwrResponse;
 			}
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Add Datanode requsted on host" + dataNodeHost.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Add Datanode requsted on host" + dataNodeHost.getHostIP());
 
 			// checking if atleast one namenode is added
 			ArrayList namenodes = getAllNonStandByNodes(connection);
@@ -3306,8 +3314,8 @@ public class RemoteManager {
 
 			// checking if an node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"DataNode could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("DataNode could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -3348,9 +3356,10 @@ public class RemoteManager {
 				// NameNode's HOST-IP mapping in /etc/hosts file on DataNode
 				// host. Please note this will require administrative
 				// priviliges.");
-				dwrResponse.setResponseMessage("No IP-Hostname found of NameNode host on DataNode host ["
-						+ dataNodeHost.getHostIP()
-						+ "]. In case you have Domain Name Server on your network then please check with your network administrator on NameNode's host resolution. Alternatively you can add NameNode's HOST-IP mapping in /etc/hosts file on DataNode host. Please note this will require administrative priviliges.");
+				dwrResponse
+						.setResponseMessage("No IP-Hostname found of NameNode host on DataNode host ["
+								+ dataNodeHost.getHostIP()
+								+ "]. In case you have Domain Name Server on your network then please check with your network administrator on NameNode's host resolution. Alternatively you can add NameNode's HOST-IP mapping in /etc/hosts file on DataNode host. Please note this will require administrative priviliges.");
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 				// }
@@ -3403,8 +3412,11 @@ public class RemoteManager {
 				namenodeHost = HostDAO.getHostDetail(connection, namenode.getHostId());
 				federatedValues = QueryIOAgentManager.getConfig(namenodeHost, federatedKeys, namenode, "hdfs-site.xml");
 				if (federatedValues == null) {
-					throw new Exception("Host " + namenodeHost.getHostIP() + " is not responding. "
-							+ "The configuration changes pertaining to this operation are to be applied on all hosts having datanodes.");
+					throw new Exception(
+							"Host "
+									+ namenodeHost.getHostIP()
+									+ " is not responding. "
+									+ "The configuration changes pertaining to this operation are to be applied on all hosts having datanodes.");
 				}
 			} catch (Exception e) {
 				dwrResponse.setDwrResponse(false, e.getMessage(), 500);
@@ -3464,8 +3476,8 @@ public class RemoteManager {
 
 			VolumeDAO.addVolume(connection, node.getId(), disk, dirPath);
 
-			AppLogger.getLogger()
-					.info("Monitor table added for " + node.getNodeType() + " on " + dataNodeHost.getHostIP());
+			AppLogger.getLogger().info(
+					"Monitor table added for " + node.getNodeType() + " on " + dataNodeHost.getHostIP());
 
 			HadoopConfigManager.updateHostsList(connection, true);
 
@@ -3522,8 +3534,9 @@ public class RemoteManager {
 
 			List namenodeList = NodeDAO.getAllNameNodes(connection);
 			if (namenodeList.size() > 1) {
-				dwrResponse.setResponseMessage("StandBy NameNode could not be added.\n"
-						+ "Namenodes in your cluster are currently federated. HA feature is not supported with Nameservice federation.");
+				dwrResponse
+						.setResponseMessage("StandBy NameNode could not be added.\n"
+								+ "Namenodes in your cluster are currently federated. HA feature is not supported with Nameservice federation.");
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 
@@ -3538,13 +3551,13 @@ public class RemoteManager {
 				return dwrResponse;
 			}
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Add Stand by Namenode requsted on host" + host.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Add Stand by Namenode requsted on host" + host.getHostIP());
 
 			// checking if node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"StandBy NameNode could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("StandBy NameNode could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -3618,9 +3631,12 @@ public class RemoteManager {
 			coreSitekeys.add(QueryIOConstants.CUSTOM_TAG_DB_DBCONFIGPATH);
 			nodeValues.addAll(QueryIOAgentManager.getConfig(namenodeHost, coreSitekeys, namenode, "core-site.xml"));
 			if (nodeValues == null || nodeValues.size() != 6) {
-				throw new Exception("Host " + namenodeHost.getHostIP() + " is not responding. "
-						+ "The configuration changes pertaining to this operation are to be applied on host having namenode "
-						+ namenodeId);
+				throw new Exception(
+						"Host "
+								+ namenodeHost.getHostIP()
+								+ " is not responding. "
+								+ "The configuration changes pertaining to this operation are to be applied on host having namenode "
+								+ namenodeId);
 			}
 
 			// constructing HA configuration
@@ -3650,9 +3666,9 @@ public class RemoteManager {
 			values.add(nodeId);
 
 			// updating all config at remote host
-			QueryIOAgentManager.setStandByNamenodeDefaultConfiguration(namenodeId, node, host, keys, values, volumePath,
-					servicePort, httpsPort, jmxPort, os3ServerPort, secureFtpPort, hdfsoverftpServerPort, ftpServerPort,
-					secureFtpPort, disk, dwrResponse);
+			QueryIOAgentManager.setStandByNamenodeDefaultConfiguration(namenodeId, node, host, keys, values,
+					volumePath, servicePort, httpsPort, jmxPort, os3ServerPort, secureFtpPort, hdfsoverftpServerPort,
+					ftpServerPort, secureFtpPort, disk, dwrResponse);
 			if (!dwrResponse.isTaskSuccess()) {
 				return dwrResponse;
 			}
@@ -3680,10 +3696,14 @@ public class RemoteManager {
 			dwrResponse.setResponseMessage(resp.getResponseMsg());
 			dwrResponse.setTaskSuccess(resp.isSuccessful());
 			if (!dwrResponse.isTaskSuccess()) {
-				dwrResponse.setDwrResponse(false,
-						"Host " + namenodeHost.getHostIP() + " is not responding. "
-								+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
-						500);
+				dwrResponse
+						.setDwrResponse(
+								false,
+								"Host "
+										+ namenodeHost.getHostIP()
+										+ " is not responding. "
+										+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
+								500);
 			}
 
 			if (!isJournal)
@@ -3729,10 +3749,14 @@ public class RemoteManager {
 				dwrResponse.setResponseMessage(resp.getResponseMsg());
 				dwrResponse.setTaskSuccess(resp.isSuccessful());
 				if (!dwrResponse.isTaskSuccess()) {
-					dwrResponse.setDwrResponse(false,
-							"Host " + datanodeHost.getHostIP() + " is not responding. "
-									+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
-							500);
+					dwrResponse
+							.setDwrResponse(
+									false,
+									"Host "
+											+ datanodeHost.getHostIP()
+											+ " is not responding. "
+											+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
+									500);
 				}
 			}
 
@@ -3843,8 +3867,9 @@ public class RemoteManager {
 			if (namenodeList.size() > 0) {
 				Node namenode = (Node) namenodeList.get(0);
 				if (HAStatusDAO.isHANode(connection, namenode.getId())) {
-					dwrResponse.setResponseMessage("NameNode could not be added.\n"
-							+ "Cluster is configured as High Avalability cluster. Nameservice federation is currently not supported with HA mode.");
+					dwrResponse
+							.setResponseMessage("NameNode could not be added.\n"
+									+ "Cluster is configured as High Avalability cluster. Nameservice federation is currently not supported with HA mode.");
 					dwrResponse.setResponseCode(500);
 					return dwrResponse;
 				}
@@ -3858,13 +3883,13 @@ public class RemoteManager {
 				return dwrResponse;
 			}
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Add Namenode requsted on host" + host.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Add Namenode requsted on host" + host.getHostIP());
 
 			// checking if node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"NameNode could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("NameNode could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -3902,8 +3927,11 @@ public class RemoteManager {
 					federatedValues = QueryIOAgentManager.getConfig(namenodeHost, federatedKeys, namenode,
 							"hdfs-site.xml");
 					if (federatedValues == null) {
-						throw new Exception("Host " + namenodeHost.getHostIP() + " is not responding. "
-								+ "The configuration changes pertaining to this operation are to be applied on all hosts having datanodes/namenodes.");
+						throw new Exception(
+								"Host "
+										+ namenodeHost.getHostIP()
+										+ " is not responding. "
+										+ "The configuration changes pertaining to this operation are to be applied on all hosts having datanodes/namenodes.");
 					}
 				} catch (Exception e) {
 					dwrResponse.setDwrResponse(false, e.getMessage(), 500);
@@ -3959,8 +3987,8 @@ public class RemoteManager {
 					+ QueryIOConstants.ADHOC_TYPE_PAIRS_EXTENSION.toLowerCase());
 			federatedValues.add(QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_KVPAIRS);
 
-			String fileTypes = QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES.concat(",")
-					.concat(QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES_WIKI);
+			String fileTypes = QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES.concat(",").concat(
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES_WIKI);
 			fileTypes = fileTypes.concat(",").concat(QueryIOConstants.ADHOC_TYPE_CSV.toLowerCase()).concat(",")
 					.concat(QueryIOConstants.ADHOC_TYPE_JSON.toLowerCase()).concat(",")
 					.concat(QueryIOConstants.ADHOC_TYPE_LOG.toLowerCase()).concat(",")
@@ -3973,8 +4001,9 @@ public class RemoteManager {
 
 			// updating all config at remote host
 			QueryIOAgentManager.setNamenodeDefaultConfiguration(node, host, federatedKeys, federatedValues, dirPath,
-					serverPort, httpPort, httpsPort, jmxPort, os3ServerPort, secureOs3ServerPort, hdfsoverftpServerPort,
-					ftpServerPort, secureFtpPort, connectionName, analyticsDbName, disk, dwrResponse);
+					serverPort, httpPort, httpsPort, jmxPort, os3ServerPort, secureOs3ServerPort,
+					hdfsoverftpServerPort, ftpServerPort, secureFtpPort, connectionName, analyticsDbName, disk,
+					dwrResponse);
 			if (!dwrResponse.isTaskSuccess()) {
 				return dwrResponse;
 			}
@@ -4005,19 +4034,19 @@ public class RemoteManager {
 							if (dwrResp.isTaskSuccess()) {
 								dwrResp = startNode(datanode.getId(), false);
 								if (dwrResp.isTaskSuccess()) {
-									dwrResponse.setResponseMessage(
-											resp.getResponseMsg() + " DataNode restarted successfully.");
+									dwrResponse.setResponseMessage(resp.getResponseMsg()
+											+ " DataNode restarted successfully.");
 									dwrResponse.setTaskSuccess(true);
 									isUpdateStatus = false;
 								} else {
-									dwrResponse.setResponseMessage(
-											dwrResponse.getResponseMessage() + " " + dwrResp.getResponseMessage());
+									dwrResponse.setResponseMessage(dwrResponse.getResponseMessage() + " "
+											+ dwrResp.getResponseMessage());
 									dwrResponse.setTaskSuccess(false);
 									isUpdateStatus = true;
 								}
 							} else {
-								dwrResponse.setResponseMessage(
-										dwrResponse.getResponseMessage() + " " + dwrResp.getResponseMessage());
+								dwrResponse.setResponseMessage(dwrResponse.getResponseMessage() + " "
+										+ dwrResp.getResponseMessage());
 								dwrResponse.setTaskSuccess(false);
 								isUpdateStatus = true;
 							}
@@ -4028,10 +4057,14 @@ public class RemoteManager {
 						NodeDAO.updateStatus(connection, datanode);
 					}
 				} else {
-					dwrResponse.setDwrResponse(false,
-							"Host " + datanodeHost.getHostIP() + " is not responding. "
-									+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
-							500);
+					dwrResponse
+							.setDwrResponse(
+									false,
+									"Host "
+											+ datanodeHost.getHostIP()
+											+ " is not responding. "
+											+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
+									500);
 				}
 			}
 
@@ -4046,10 +4079,14 @@ public class RemoteManager {
 				dwrResponse.setResponseMessage(resp.getResponseMsg());
 				dwrResponse.setTaskSuccess(resp.isSuccessful());
 				if (!dwrResponse.isTaskSuccess()) {
-					dwrResponse.setDwrResponse(false,
-							"Host " + namenodeHost.getHostIP() + " is not responding. "
-									+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
-							500);
+					dwrResponse
+							.setDwrResponse(
+									false,
+									"Host "
+											+ namenodeHost.getHostIP()
+											+ " is not responding. "
+											+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
+									500);
 				}
 			}
 
@@ -4087,10 +4124,10 @@ public class RemoteManager {
 			AppLogger.getLogger().info("Monitor table added for " + node.getNodeType() + " on " + host.getHostIP());
 			QueryIOServiceDAO.insert(connection, new QueryIOService(nodeId, QueryIOConstants.SERVICE_HDFS_OVER_FTP,
 					QueryIOConstants.STATUS_STOPPED));
-			QueryIOServiceDAO.insert(connection,
-					new QueryIOService(nodeId, QueryIOConstants.SERVICE_OS3, QueryIOConstants.STATUS_STOPPED));
-			QueryIOServiceDAO.insert(connection,
-					new QueryIOService(nodeId, QueryIOConstants.SERVICE_HIVE, QueryIOConstants.STATUS_STOPPED));
+			QueryIOServiceDAO.insert(connection, new QueryIOService(nodeId, QueryIOConstants.SERVICE_OS3,
+					QueryIOConstants.STATUS_STOPPED));
+			QueryIOServiceDAO.insert(connection, new QueryIOService(nodeId, QueryIOConstants.SERVICE_HIVE,
+					QueryIOConstants.STATUS_STOPPED));
 
 			dwrResponse.setResponseCode(200);
 			dwrResponse.setResponseMessage(QueryIOConstants.NAMENODE_ADDED_SUCCESS);
@@ -4134,7 +4171,7 @@ public class RemoteManager {
 			// configKeys.add(QueryIOConstants.HIVE_QUERYLOG_LOCATION);
 			// configValues.add(host.getInstallDirPath() +
 			// QueryIOConstants.HIVE_DIR_NAME + "/logs");
-			//// configValues.add(""); // Not to generate any history file.
+			// // configValues.add(""); // Not to generate any history file.
 			//
 			// DWRResponse response =
 			// QueryIOAgentManager.updateHiveSiteConfiguration(nodeId,
@@ -4217,8 +4254,8 @@ public class RemoteManager {
 					TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + str.toUpperCase(),
 							QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
 							QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase()
-									+ File.separator + QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
-							str, QueryIOConstants.DEFAULT_ONINGEST_PARSER_CLASS_NAME, node.getId(), true, true);
+									+ File.separator + QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR, str,
+							QueryIOConstants.DEFAULT_ONINGEST_PARSER_CLASS_NAME, node.getId(), true, true);
 
 					TagParserDBSchemaUpdator dbUpdator = new TagParserDBSchemaUpdator(defaultJarFile,
 							QueryIOConstants.DEFAULT_ONINGEST_PARSER_CLASS_NAME, node.getId(), str);
@@ -4235,14 +4272,13 @@ public class RemoteManager {
 			if (!destFile.exists())
 				destFile.mkdirs();
 
-			StaticUtilities.copyFileAs(new File(defaultJarFile), new File(
-					destFile.getAbsolutePath() + File.separator + QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR));
+			StaticUtilities.copyFileAs(new File(defaultJarFile), new File(destFile.getAbsolutePath() + File.separator
+					+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR));
 
-			TagParserDAO.insert(connection,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
-							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES_WIKI.toUpperCase(),
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase() + File.separator
+			TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+					+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES_WIKI.toUpperCase(),
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+							+ "_" + node.getId().toLowerCase() + File.separator
 							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
 					QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES_WIKI,
 					QueryIOConstants.DEFAULT_ONINGEST_PARSER_CLASS_NAME_WIKI, node.getId(), true, true);
@@ -4252,10 +4288,10 @@ public class RemoteManager {
 					QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES_WIKI);
 			resp = dbUpdator.parse();
 
-			TagParserDAO.insert(connection,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + QueryIOConstants.ADHOC_TYPE_CSV.toUpperCase(),
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase() + File.separator
+			TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+					+ QueryIOConstants.ADHOC_TYPE_CSV.toUpperCase(),
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+							+ "_" + node.getId().toLowerCase() + File.separator
 							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
 					QueryIOConstants.ADHOC_TYPE_CSV.toLowerCase(),
 					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_CSV, node.getId(), true, true);
@@ -4265,22 +4301,21 @@ public class RemoteManager {
 					QueryIOConstants.ADHOC_TYPE_CSV);
 			resp = dbUpdator.parse();
 
-			TagParserDAO.insert(connection,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + QueryIOConstants.ADHOC_TYPE_CSV.toUpperCase(),
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase() + File.separator
-							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
-					QueryIOConstants.TYPE_JTL.toLowerCase(), QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_CSV,
-					node.getId(), true, true);
+			TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+					+ QueryIOConstants.ADHOC_TYPE_CSV.toUpperCase(),
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+							+ "_" + node.getId().toLowerCase() + File.separator
+							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR, QueryIOConstants.TYPE_JTL.toLowerCase(),
+					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_CSV, node.getId(), true, true);
 
 			dbUpdator = new TagParserDBSchemaUpdator(defaultJarFile,
 					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_CSV, node.getId(), QueryIOConstants.TYPE_JTL);
 			resp = dbUpdator.parse();
 
-			TagParserDAO.insert(connection,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + QueryIOConstants.ADHOC_TYPE_JSON.toUpperCase(),
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase() + File.separator
+			TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+					+ QueryIOConstants.ADHOC_TYPE_JSON.toUpperCase(),
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+							+ "_" + node.getId().toLowerCase() + File.separator
 							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
 					QueryIOConstants.ADHOC_TYPE_JSON.toLowerCase(),
 					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_JSON, node.getId(), true, true);
@@ -4290,10 +4325,10 @@ public class RemoteManager {
 					QueryIOConstants.ADHOC_TYPE_JSON);
 			resp = dbUpdator.parse();
 
-			TagParserDAO.insert(connection,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + QueryIOConstants.ADHOC_TYPE_ACCESSLOG.toUpperCase(),
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase() + File.separator
+			TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+					+ QueryIOConstants.ADHOC_TYPE_ACCESSLOG.toUpperCase(),
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+							+ "_" + node.getId().toLowerCase() + File.separator
 							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
 					QueryIOConstants.ADHOC_TYPE_ACCESSLOG.toLowerCase(),
 					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_APACHE_LOG, node.getId(), true, true);
@@ -4303,10 +4338,10 @@ public class RemoteManager {
 					QueryIOConstants.ADHOC_TYPE_ACCESSLOG);
 			resp = dbUpdator.parse();
 
-			TagParserDAO.insert(connection,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + QueryIOConstants.ADHOC_TYPE_LOG.toUpperCase(),
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase() + File.separator
+			TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+					+ QueryIOConstants.ADHOC_TYPE_LOG.toUpperCase(),
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+							+ "_" + node.getId().toLowerCase() + File.separator
 							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
 					QueryIOConstants.ADHOC_TYPE_LOG.toLowerCase(),
 					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_LOG4J, node.getId(), true, true);
@@ -4316,10 +4351,10 @@ public class RemoteManager {
 					QueryIOConstants.ADHOC_TYPE_LOG);
 			resp = dbUpdator.parse();
 
-			TagParserDAO.insert(connection,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + QueryIOConstants.ADHOC_TYPE_IISLOG.toUpperCase(),
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase() + File.separator
+			TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+					+ QueryIOConstants.ADHOC_TYPE_IISLOG.toUpperCase(),
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+							+ "_" + node.getId().toLowerCase() + File.separator
 							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
 					QueryIOConstants.ADHOC_TYPE_IISLOG.toLowerCase(),
 					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_IIS_LOG, node.getId(), true, true);
@@ -4329,10 +4364,10 @@ public class RemoteManager {
 					QueryIOConstants.ADHOC_TYPE_IISLOG);
 			resp = dbUpdator.parse();
 
-			TagParserDAO.insert(connection,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + QueryIOConstants.ADHOC_TYPE_PAIRS.toUpperCase(),
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION,
-					QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME + "_" + node.getId().toLowerCase() + File.separator
+			TagParserDAO.insert(connection, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+					+ QueryIOConstants.ADHOC_TYPE_PAIRS.toUpperCase(),
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_DESCRIPTION, QueryIOConstants.DEFAULT_ONINGEST_PARSER_NAME
+							+ "_" + node.getId().toLowerCase() + File.separator
 							+ QueryIOConstants.DEFAULT_ONINGEST_PARSER_LIBJAR,
 					QueryIOConstants.ADHOC_TYPE_PAIRS.toLowerCase(),
 					QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_KVPAIRS, node.getId(), true, true);
@@ -4475,16 +4510,16 @@ public class RemoteManager {
 				return dwrResponse;
 			}
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Add CheckpointNode requsted on host" + host.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Add CheckpointNode requsted on host" + host.getHostIP());
 
 			Node namenode = NodeDAO.getNode(connection, namenodeId);
 			Host namenodeHost = HostDAO.getHostDetail(connection, namenode.getHostId());
 
 			// checking if node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"CheckpointNode could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("CheckpointNode could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -4614,13 +4649,13 @@ public class RemoteManager {
 				return dwrResponse;
 			}
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Add JournalNode requsted on host" + host.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Add JournalNode requsted on host" + host.getHostIP());
 
 			// checking if node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"JournalNode could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("JournalNode could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -4698,8 +4733,8 @@ public class RemoteManager {
 		ArrayList list = NodeDAO.getAllNameNodes(connection);
 		for (Object o : list) {
 			Node node = (Node) o;
-			if (!(HAStatusDAO.isHANode(connection, node.getId())
-					&& HAStatusDAO.getActiveNodeId(connection, node.getId()) != null)) {
+			if (!(HAStatusDAO.isHANode(connection, node.getId()) && HAStatusDAO.getActiveNodeId(connection,
+					node.getId()) != null)) {
 				result.add(node);
 			}
 		}
@@ -5247,13 +5282,13 @@ public class RemoteManager {
 				return dwrResponse;
 			}
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Add ResourceManager requsted on host" + host.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Add ResourceManager requsted on host" + host.getHostIP());
 
 			// checking if an node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"Resource Manager could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("Resource Manager could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -5376,8 +5411,8 @@ public class RemoteManager {
 				return dwrResponse;
 			}
 
-			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser())
-					.info("Add NodeManager requsted on host" + nodeManagerHost.getHostIP());
+			AuditLogger.getUserLogger(WebContextFactory.get().getHttpServletRequest().getRemoteUser()).info(
+					"Add NodeManager requsted on host" + nodeManagerHost.getHostIP());
 
 			// checking if atleast one namenode is added
 			Node rmNode = NodeDAO.getNode(connection, resourceManagerId);
@@ -5389,8 +5424,8 @@ public class RemoteManager {
 
 			// checking if an node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"Node Manager could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("Node Manager could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -5422,8 +5457,8 @@ public class RemoteManager {
 				// ResourceManager's HOST-IP mapping in /etc/hosts file on
 				// NodeManager host. Please note this will require
 				// administrative priviliges.");
-				dwrResponse.setResponseMessage(
-						"No IP-Hostname mapping found on ResourceManager host of NodeManager's host ["
+				dwrResponse
+						.setResponseMessage("No IP-Hostname mapping found on ResourceManager host of NodeManager's host ["
 								+ nodeManagerHost.getHostIP()
 								+ "]. In case you have Domain Name Server on your network then please check with your network administrator on NameNode's host resolution. Alternatively you can add ResourceManager's HOST-IP mapping in /etc/hosts file on NodeManager host. Please note this will require administrative priviliges.");
 				dwrResponse.setResponseCode(500);
@@ -5511,8 +5546,8 @@ public class RemoteManager {
 
 			MonitorDAO.createNodeManagerSummaryTable(connection, node.getId(), colNames, colTypes);
 
-			AppLogger.getLogger()
-					.info("Monitor table added for " + node.getNodeType() + " on " + nodeManagerHost.getHostIP());
+			AppLogger.getLogger().info(
+					"Monitor table added for " + node.getNodeType() + " on " + nodeManagerHost.getHostIP());
 			dwrResponse.setResponseMessage(QueryIOConstants.NODEMANAGER_ADDED_SUCCESS);
 			dwrResponse.setTaskSuccess(true);
 			dwrResponse.setResponseCode(200);
@@ -5614,8 +5649,9 @@ public class RemoteManager {
 	public static DWRResponse updateDBConfiguration(String url, String driverName, String userName, String password,
 			boolean primary) {
 		if (AppLogger.getLogger().isDebugEnabled())
-			AppLogger.getLogger().debug("Updating " + (primary ? "primary" : "secondary") + " DBConfig. URL: " + url
-					+ " DriverClassName: " + driverName + " Username: " + userName + " Password: " + password);
+			AppLogger.getLogger().debug(
+					"Updating " + (primary ? "primary" : "secondary") + " DBConfig. URL: " + url + " DriverClassName: "
+							+ driverName + " Username: " + userName + " Password: " + password);
 		DWRResponse response = new DWRResponse();
 		response.setResponseMessage("BigQuery Database settings updated successfully.");
 		response.setTaskSuccess(true);
@@ -5800,8 +5836,9 @@ public class RemoteManager {
 				}
 			}
 		}
-		if (conf.get(QueryIOConstants.CUSTOM_TAG_PARSER_CLASSNAME_PREFIX + "." + fileType) != null && conf
-				.get(QueryIOConstants.CUSTOM_TAG_PARSER_CLASSNAME_PREFIX + "." + fileType).endsWith("DataTagParser")) {
+		if (conf.get(QueryIOConstants.CUSTOM_TAG_PARSER_CLASSNAME_PREFIX + "." + fileType) != null
+				&& conf.get(QueryIOConstants.CUSTOM_TAG_PARSER_CLASSNAME_PREFIX + "." + fileType).endsWith(
+						"DataTagParser")) {
 			return false;
 		} else {
 			return foundParser;
@@ -6141,8 +6178,7 @@ public class RemoteManager {
 		return null;
 	}
 
-	public static String getJavaHome(String hostname, String userName, String password, String sshPrivateKey,
-			int port) {
+	public static String getJavaHome(String hostname, String userName, String password, String sshPrivateKey, int port) {
 		try {
 			return OneTimeConfig.getJavaHome(hostname, userName, password, sshPrivateKey, port);
 		} catch (Exception e) {
@@ -6295,8 +6331,7 @@ public class RemoteManager {
 	}
 
 	public static void insertOnIngestTagParserConfig(String name, String description, String jarName,
-			String tagParserfileTypes, String tagParserClassName, String namenodeId, boolean isActive)
-			throws Exception {
+			String tagParserfileTypes, String tagParserClassName, String namenodeId, boolean isActive) throws Exception {
 		Connection connection = null;
 		connection = CoreDBManager.getQueryIODBConnection();
 		TagParserConfigManager.handleOnIngestParser(connection, name, description, jarName, tagParserfileTypes,
@@ -6332,8 +6367,8 @@ public class RemoteManager {
 		connection = CoreDBManager.getQueryIODBConnection();
 		Configuration conf = RemoteManager.getNameNodeConfiguration(namenodeId);
 		String hdfsURI = conf.get(DFSConfigKeys.FS_DEFAULT_NAME_KEY);
-		TagParserConfigManager.handlePostIngestParser(connection, namenodeId, rmId, name, description, hdfsURI, jarName,
-				tagParserfileTypes, tagParserClassName);
+		TagParserConfigManager.handlePostIngestParser(connection, namenodeId, rmId, name, description, hdfsURI,
+				jarName, tagParserfileTypes, tagParserClassName);
 		CoreDBManager.closeConnection(connection);
 	}
 
@@ -6471,14 +6506,16 @@ public class RemoteManager {
 			try {
 				DBActivationRequestor.reInitializeFTPServer(host, ftpPort, isCustomTagDB);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal("Reinitialize failed on HDFS OVER FTP Server for host " + host.getHostIP()
-						+ ". " + e.getLocalizedMessage());
+				AppLogger.getLogger().fatal(
+						"Reinitialize failed on HDFS OVER FTP Server for host " + host.getHostIP() + ". "
+								+ e.getLocalizedMessage());
 			}
 			try {
 				DBActivationRequestor.reInitializeOS3Server(host, os3Port, isCustomTagDB);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal("Reinitialize failed on OS3 Server for host " + host.getHostIP() + ". "
-						+ e.getLocalizedMessage());
+				AppLogger.getLogger().fatal(
+						"Reinitialize failed on OS3 Server for host " + host.getHostIP() + ". "
+								+ e.getLocalizedMessage());
 			}
 		}
 
@@ -6512,14 +6549,16 @@ public class RemoteManager {
 			try {
 				HadoopConfigReInitRequestor.reInitializeFTPServer(host, ftpPort);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal("reInitializeHadoopConfigOnServers failed on HDFS OVER FTP Server for host "
-						+ host.getHostIP() + ". " + e.getLocalizedMessage());
+				AppLogger.getLogger().fatal(
+						"reInitializeHadoopConfigOnServers failed on HDFS OVER FTP Server for host " + host.getHostIP()
+								+ ". " + e.getLocalizedMessage());
 			}
 			try {
 				HadoopConfigReInitRequestor.reInitializeOS3Server(host, os3Port);
 			} catch (Exception e) {
-				AppLogger.getLogger().fatal("reInitializeHadoopConfigOnServers failed on OS3 Server for host "
-						+ host.getHostIP() + ". " + e.getLocalizedMessage());
+				AppLogger.getLogger().fatal(
+						"reInitializeHadoopConfigOnServers failed on OS3 Server for host " + host.getHostIP() + ". "
+								+ e.getLocalizedMessage());
 			}
 		}
 	}
@@ -6560,8 +6599,8 @@ public class RemoteManager {
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("getAllConnectionsNameForNameNode() arr: " + arr);
 		} catch (Exception e) {
-			AppLogger.getLogger()
-					.fatal("getAllConnectionsNameForNameNode() failed with Exception: " + e.getLocalizedMessage(), e);
+			AppLogger.getLogger().fatal(
+					"getAllConnectionsNameForNameNode() failed with Exception: " + e.getLocalizedMessage(), e);
 		} finally {
 			if (connection != null) {
 				try {
@@ -6622,8 +6661,8 @@ public class RemoteManager {
 			if (AppLogger.getLogger().isDebugEnabled())
 				AppLogger.getLogger().debug("getAllNameNodesForDBMapped() arr: " + arr);
 		} catch (Exception e) {
-			AppLogger.getLogger()
-					.fatal("getAllNameNodesForDBMapped() failed with Exception: " + e.getLocalizedMessage(), e);
+			AppLogger.getLogger().fatal(
+					"getAllNameNodesForDBMapped() failed with Exception: " + e.getLocalizedMessage(), e);
 		} finally {
 			if (connection != null) {
 				try {
@@ -6642,8 +6681,8 @@ public class RemoteManager {
 
 		try {
 			HttpSession session = WebContextFactory.get().getHttpServletRequest().getSession();
-			FileUploadListener fileUploadListener = (FileUploadListener) session
-					.getAttribute("fileUploadListener" + fileId);
+			FileUploadListener fileUploadListener = (FileUploadListener) session.getAttribute("fileUploadListener"
+					+ fileId);
 			object.put("fileId", fileId);
 			if (fileUploadListener == null) {
 				object.put("BytesRead", "0");
@@ -6662,8 +6701,7 @@ public class RemoteManager {
 				object.put("pervalue", perval);
 				object.put("status", fileUploadListener.getStatus());
 				object.put("ErrorMsg", fileUploadListener.getErrorMsg());
-				if (fileUploadListener.getStatus().equals("Success")
-						|| fileUploadListener.getStatus().equals("Failed")) {
+				if (fileUploadListener.getStatus().equals("Success") || fileUploadListener.getStatus().equals("Failed")) {
 					session.removeAttribute("fileUploadListener" + fileId);
 				}
 			}
@@ -6791,8 +6829,8 @@ public class RemoteManager {
 							}
 						} else {
 							if (AppLogger.getLogger().isDebugEnabled())
-								AppLogger.getLogger()
-										.debug("Initiating backup without prior diagnosis, id: " + backupId);
+								AppLogger.getLogger().debug(
+										"Initiating backup without prior diagnosis, id: " + backupId);
 
 							QueryIOAgentManager.startDBToFileMigration(backupId, host, dbName, backupDir);
 						}
@@ -6919,14 +6957,14 @@ public class RemoteManager {
 									NNMIgrationInfoDAO.updateMigrationInfo(connection, backupId, null,
 											"Initiating backup", null);
 
-									DBConfigDAO.startMigration(sourceDBBean, destinationDBBean, isCustomTagDB, nameNode,
-											nameNodeHost, true, backupId);
+									DBConfigDAO.startMigration(sourceDBBean, destinationDBBean, isCustomTagDB,
+											nameNode, nameNodeHost, true, backupId);
 								}
 							}
 						} else {
 							if (AppLogger.getLogger().isDebugEnabled())
-								AppLogger.getLogger()
-										.debug("Initiating backup without prior diagnosis, id: " + backupId);
+								AppLogger.getLogger().debug(
+										"Initiating backup without prior diagnosis, id: " + backupId);
 
 							DBConfigDAO.startMigration(sourceDBBean, destinationDBBean, isCustomTagDB, nameNode,
 									nameNodeHost, true, backupId);
@@ -7086,8 +7124,8 @@ public class RemoteManager {
 				NNRestoreInfoDAO.deleteRestoreInfoFromList(connection, restoreIds.toString());
 				dwrResponse.setDwrResponse(true, QueryIOConstants.BACKUP_DELETED_SUCCESS, 200);
 			} else {
-				dwrResponse.setDwrResponse(false,
-						QueryIOConstants.RESTORE_DELETED_FAILED + " Reason: No restore Id specified for delete.", 500);
+				dwrResponse.setDwrResponse(false, QueryIOConstants.RESTORE_DELETED_FAILED
+						+ " Reason: No restore Id specified for delete.", 500);
 			}
 		} catch (Exception e) {
 			AppLogger.getLogger().fatal("Exception: " + e.getLocalizedMessage(), e);
@@ -7163,8 +7201,8 @@ public class RemoteManager {
 				extraTags.add(new UserDefinedTag(key, obj.get(key)));
 			}
 
-			TagFileRequest request = new TagFileRequest(RemoteManager.getLoggedInUser(), new Path(filePath), namenodeId,
-					extraTags);
+			TagFileRequest request = new TagFileRequest(RemoteManager.getLoggedInUser(), new Path(filePath),
+					namenodeId, extraTags);
 			request.process();
 
 			response.setDwrResponse(true, "Tags saved successfully.", 200);
@@ -7234,8 +7272,8 @@ public class RemoteManager {
 				return null;
 			}
 
-			stmt = connection.prepareStatement(
-					"SELECT * FROM " + tableName + " WHERE " + ColumnConstants.COL_TAG_VALUES_FILEPATH + "=?");
+			stmt = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE "
+					+ ColumnConstants.COL_TAG_VALUES_FILEPATH + "=?");
 
 			stmt.setString(1, filePath);
 
@@ -7544,8 +7582,7 @@ public class RemoteManager {
 			}
 
 			// installation of hadoop failed
-			if (!OneTimeConfig.installHadoop(host, userName, password, sshPrivateKeyFile, javaHomePath, port,
-					isLocal)) {
+			if (!OneTimeConfig.installHadoop(host, userName, password, sshPrivateKeyFile, javaHomePath, port, isLocal)) {
 				dwrResponse.setResponseMessage(QueryIOConstants.HADOOP_INSTALLATION_FAILS);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
@@ -7666,10 +7703,10 @@ public class RemoteManager {
 					hadoopHome = hadoopHome.substring(0, hadoopHome.length() - 1);
 				QueryIOAgentManager.updateHadoopPath(host, host.getInstallDirPath());
 			} catch (Exception e) {
-				AppLogger.getLogger()
-						.fatal("Error while updating hadoop directory in core-site.xml file and hdfs-site.xml.", e);
-				dwrResponse.setResponseMessage(
-						"Error while updating hadoop directory in core-site.xml file and hdfs-site.xml.");
+				AppLogger.getLogger().fatal(
+						"Error while updating hadoop directory in core-site.xml file and hdfs-site.xml.", e);
+				dwrResponse
+						.setResponseMessage("Error while updating hadoop directory in core-site.xml file and hdfs-site.xml.");
 				dwrResponse.setResponseCode(500);
 				dwrResponse.setTaskSuccess(false);
 				return dwrResponse;
@@ -7803,8 +7840,9 @@ public class RemoteManager {
 			if (namenodeList.size() > 0) {
 				Node namenode = (Node) namenodeList.get(0);
 				if (HAStatusDAO.isHANode(connection, namenode.getId())) {
-					dwrResponse.setResponseMessage("NameNode could not be added.\n"
-							+ "Cluster is configured as High Avalability cluster. Nameservice federation is currently not supported with HA mode.");
+					dwrResponse
+							.setResponseMessage("NameNode could not be added.\n"
+									+ "Cluster is configured as High Avalability cluster. Nameservice federation is currently not supported with HA mode.");
 					dwrResponse.setResponseCode(500);
 					return dwrResponse;
 				}
@@ -7820,8 +7858,8 @@ public class RemoteManager {
 
 			// checking if node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"NameNode could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("NameNode could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -7859,8 +7897,11 @@ public class RemoteManager {
 					federatedValues = QueryIOAgentManager.getConfig(namenodeHost, federatedKeys, namenode,
 							"hdfs-site.xml");
 					if (federatedValues == null) {
-						throw new Exception("Host " + namenodeHost.getHostIP() + " is not responding. "
-								+ "The configuration changes pertaining to this operation are to be applied on all hosts having datanodes/namenodes.");
+						throw new Exception(
+								"Host "
+										+ namenodeHost.getHostIP()
+										+ " is not responding. "
+										+ "The configuration changes pertaining to this operation are to be applied on all hosts having datanodes/namenodes.");
 					}
 				} catch (Exception e) {
 					dwrResponse.setDwrResponse(false, e.getMessage(), 500);
@@ -7915,8 +7956,8 @@ public class RemoteManager {
 					+ QueryIOConstants.ADHOC_TYPE_PAIRS_EXTENSION.toLowerCase());
 			federatedValues.add(QueryIOConstants.DEFAULT_DATA_TAG_PARSER_CLASS_NAME_KVPAIRS);
 
-			String fileTypes = QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES.concat(",")
-					.concat(QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES_WIKI);
+			String fileTypes = QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES.concat(",").concat(
+					QueryIOConstants.DEFAULT_ONINGEST_PARSER_FILETYPES_WIKI);
 			fileTypes = fileTypes.concat(",").concat(QueryIOConstants.ADHOC_TYPE_CSV.toLowerCase()).concat(",")
 					.concat(QueryIOConstants.ADHOC_TYPE_JSON.toLowerCase()).concat(",")
 					.concat(QueryIOConstants.ADHOC_TYPE_LOG.toLowerCase()).concat(",")
@@ -7929,8 +7970,9 @@ public class RemoteManager {
 
 			// updating all config at remote host
 			QueryIOAgentManager.setNamenodeDefaultConfiguration(node, host, federatedKeys, federatedValues, dirPath,
-					serverPort, httpPort, httpsPort, jmxPort, os3ServerPort, secureOs3ServerPort, hdfsoverftpServerPort,
-					ftpServerPort, secureFtpPort, connectionName, analyticsDbName, disk, dwrResponse);
+					serverPort, httpPort, httpsPort, jmxPort, os3ServerPort, secureOs3ServerPort,
+					hdfsoverftpServerPort, ftpServerPort, secureFtpPort, connectionName, analyticsDbName, disk,
+					dwrResponse);
 			if (!dwrResponse.isTaskSuccess()) {
 				return dwrResponse;
 			}
@@ -7961,19 +8003,19 @@ public class RemoteManager {
 							if (dwrResp.isTaskSuccess()) {
 								dwrResp = startNode(datanode.getId(), false);
 								if (dwrResp.isTaskSuccess()) {
-									dwrResponse.setResponseMessage(
-											resp.getResponseMsg() + " DataNode restarted successfully.");
+									dwrResponse.setResponseMessage(resp.getResponseMsg()
+											+ " DataNode restarted successfully.");
 									dwrResponse.setTaskSuccess(true);
 									isUpdateStatus = false;
 								} else {
-									dwrResponse.setResponseMessage(
-											dwrResponse.getResponseMessage() + " " + dwrResp.getResponseMessage());
+									dwrResponse.setResponseMessage(dwrResponse.getResponseMessage() + " "
+											+ dwrResp.getResponseMessage());
 									dwrResponse.setTaskSuccess(false);
 									isUpdateStatus = true;
 								}
 							} else {
-								dwrResponse.setResponseMessage(
-										dwrResponse.getResponseMessage() + " " + dwrResp.getResponseMessage());
+								dwrResponse.setResponseMessage(dwrResponse.getResponseMessage() + " "
+										+ dwrResp.getResponseMessage());
 								dwrResponse.setTaskSuccess(false);
 								isUpdateStatus = true;
 							}
@@ -7984,10 +8026,14 @@ public class RemoteManager {
 						NodeDAO.updateStatus(connection, datanode);
 					}
 				} else {
-					dwrResponse.setDwrResponse(false,
-							"Host " + datanodeHost.getHostIP() + " is not responding. "
-									+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
-							500);
+					dwrResponse
+							.setDwrResponse(
+									false,
+									"Host "
+											+ datanodeHost.getHostIP()
+											+ " is not responding. "
+											+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
+									500);
 				}
 			}
 
@@ -8002,10 +8048,14 @@ public class RemoteManager {
 				dwrResponse.setResponseMessage(resp.getResponseMsg());
 				dwrResponse.setTaskSuccess(resp.isSuccessful());
 				if (!dwrResponse.isTaskSuccess()) {
-					dwrResponse.setDwrResponse(false,
-							"Host " + namenodeHost.getHostIP() + " is not responding. "
-									+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
-							500);
+					dwrResponse
+							.setDwrResponse(
+									false,
+									"Host "
+											+ namenodeHost.getHostIP()
+											+ " is not responding. "
+											+ "The configuration changes pertaining to this operation are to be applied on all hosts having namenodes and/or datanodes.",
+									500);
 				}
 			}
 
@@ -8043,10 +8093,10 @@ public class RemoteManager {
 			AppLogger.getLogger().info("Monitor table added for " + node.getNodeType() + " on " + host.getHostIP());
 			QueryIOServiceDAO.insert(connection, new QueryIOService(nodeId, QueryIOConstants.SERVICE_HDFS_OVER_FTP,
 					QueryIOConstants.STATUS_STOPPED));
-			QueryIOServiceDAO.insert(connection,
-					new QueryIOService(nodeId, QueryIOConstants.SERVICE_OS3, QueryIOConstants.STATUS_STOPPED));
-			QueryIOServiceDAO.insert(connection,
-					new QueryIOService(nodeId, QueryIOConstants.SERVICE_HIVE, QueryIOConstants.STATUS_STOPPED));
+			QueryIOServiceDAO.insert(connection, new QueryIOService(nodeId, QueryIOConstants.SERVICE_OS3,
+					QueryIOConstants.STATUS_STOPPED));
+			QueryIOServiceDAO.insert(connection, new QueryIOService(nodeId, QueryIOConstants.SERVICE_HIVE,
+					QueryIOConstants.STATUS_STOPPED));
 
 			dwrResponse.setResponseCode(200);
 			dwrResponse.setResponseMessage(QueryIOConstants.NAMENODE_ADDED_SUCCESS);
@@ -8119,10 +8169,12 @@ public class RemoteManager {
 			if (node.getNodeType().equals(QueryIOConstants.NAMENODE) && HAStatusDAO.isHANode(connection, node.getId())
 					&& (nnId = HAStatusDAO.getActiveNodeId(connection, node.getId())) != null) {
 				if (NodeDAO.getNode(connection, nnId).getStatus().startsWith(QueryIOConstants.STATUS_STOPPED)) {
-					dwrResponse.setDwrResponse(false,
-							"Cannot start StandBy Namenode because Active NameNode of this cluster is not running. "
-									+ "To start the HA-Enabled cluster, first start Active NameNode and then start StandBy NameNode",
-							401);
+					dwrResponse
+							.setDwrResponse(
+									false,
+									"Cannot start StandBy Namenode because Active NameNode of this cluster is not running. "
+											+ "To start the HA-Enabled cluster, first start Active NameNode and then start StandBy NameNode",
+									401);
 					return dwrResponse;
 				}
 
@@ -8165,14 +8217,15 @@ public class RemoteManager {
 						ControllerManager.startNodeManagerController(connection, host, node, dataFetchInterval);
 					}
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger()
-								.debug("Monitor started for " + node.getNodeType() + " on " + host.getHostIP());
+						AppLogger.getLogger().debug(
+								"Monitor started for " + node.getNodeType() + " on " + host.getHostIP());
 
 					NodeDAO.setNodeMonitor(connection, nodeId, true);
 				} catch (Exception e) {
 					if (AppLogger.getLogger().isDebugEnabled())
-						AppLogger.getLogger().debug("Monitor could not be started for " + node.getNodeType() + " on "
-								+ host.getHostIP() + ", Exception: " + e.getMessage(), e);
+						AppLogger.getLogger().debug(
+								"Monitor could not be started for " + node.getNodeType() + " on " + host.getHostIP()
+										+ ", Exception: " + e.getMessage(), e);
 				}
 
 				if (node.getNodeType().equals(QueryIOConstants.NAMENODE)) {
@@ -8362,8 +8415,8 @@ public class RemoteManager {
 
 			// checking if an node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"DataNode could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("DataNode could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -8397,9 +8450,10 @@ public class RemoteManager {
 				// NameNode's HOST-IP mapping in /etc/hosts file on DataNode
 				// host. Please note this will require administrative
 				// priviliges.");
-				dwrResponse.setResponseMessage("No IP-Hostname found of NameNode host on DataNode host ["
-						+ dataNodeHost.getHostIP()
-						+ "]. In case you have Domain Name Server on your network then please check with your network administrator on NameNode's host resolution. Alternatively you can add NameNode's HOST-IP mapping in /etc/hosts file on DataNode host. Please note this will require administrative priviliges.");
+				dwrResponse
+						.setResponseMessage("No IP-Hostname found of NameNode host on DataNode host ["
+								+ dataNodeHost.getHostIP()
+								+ "]. In case you have Domain Name Server on your network then please check with your network administrator on NameNode's host resolution. Alternatively you can add NameNode's HOST-IP mapping in /etc/hosts file on DataNode host. Please note this will require administrative priviliges.");
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 				// }
@@ -8453,8 +8507,11 @@ public class RemoteManager {
 				namenodeHost = HostDAO.getHostDetail(connection, namenode.getHostId());
 				federatedValues = QueryIOAgentManager.getConfig(namenodeHost, federatedKeys, namenode, "hdfs-site.xml");
 				if (federatedValues == null) {
-					throw new Exception("Host " + namenodeHost.getHostIP() + " is not responding. "
-							+ "The configuration changes pertaining to this operation are to be applied on all hosts having datanodes.");
+					throw new Exception(
+							"Host "
+									+ namenodeHost.getHostIP()
+									+ " is not responding. "
+									+ "The configuration changes pertaining to this operation are to be applied on all hosts having datanodes.");
 				}
 			} catch (Exception e) {
 				dwrResponse.setDwrResponse(false, e.getMessage(), 500);
@@ -8514,8 +8571,8 @@ public class RemoteManager {
 
 			VolumeDAO.addVolume(connection, node.getId(), disk, dirPath);
 
-			AppLogger.getLogger()
-					.info("Monitor table added for " + node.getNodeType() + " on " + dataNodeHost.getHostIP());
+			AppLogger.getLogger().info(
+					"Monitor table added for " + node.getNodeType() + " on " + dataNodeHost.getHostIP());
 
 			HadoopConfigManager.updateHostsList(connection, true);
 
@@ -8571,8 +8628,8 @@ public class RemoteManager {
 
 			// checking if an node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"Resource Manager could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("Resource Manager could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -8699,8 +8756,8 @@ public class RemoteManager {
 
 			// checking if an node is already present by this id
 			if (NodeDAO.getNode(connection, nodeId) != null) {
-				dwrResponse.setResponseMessage(
-						"Node Manager could not be added.\n" + QueryIOConstants.NODE_ID_ALREADY_PRESENT);
+				dwrResponse.setResponseMessage("Node Manager could not be added.\n"
+						+ QueryIOConstants.NODE_ID_ALREADY_PRESENT);
 				dwrResponse.setResponseCode(500);
 				return dwrResponse;
 			}
@@ -8732,8 +8789,8 @@ public class RemoteManager {
 				// ResourceManager's HOST-IP mapping in /etc/hosts file on
 				// NodeManager host. Please note this will require
 				// administrative priviliges.");
-				dwrResponse.setResponseMessage(
-						"No IP-Hostname mapping found on ResourceManager host of NodeManager's host ["
+				dwrResponse
+						.setResponseMessage("No IP-Hostname mapping found on ResourceManager host of NodeManager's host ["
 								+ nodeManagerHost.getHostIP()
 								+ "]. In case you have Domain Name Server on your network then please check with your network administrator on NameNode's host resolution. Alternatively you can add ResourceManager's HOST-IP mapping in /etc/hosts file on NodeManager host. Please note this will require administrative priviliges.");
 				dwrResponse.setResponseCode(500);
@@ -8821,8 +8878,8 @@ public class RemoteManager {
 
 			MonitorDAO.createNodeManagerSummaryTable(connection, node.getId(), colNames, colTypes);
 
-			AppLogger.getLogger()
-					.info("Monitor table added for " + node.getNodeType() + " on " + nodeManagerHost.getHostIP());
+			AppLogger.getLogger().info(
+					"Monitor table added for " + node.getNodeType() + " on " + nodeManagerHost.getHostIP());
 			dwrResponse.setResponseMessage(QueryIOConstants.NODEMANAGER_ADDED_SUCCESS);
 			dwrResponse.setTaskSuccess(true);
 			dwrResponse.setResponseCode(200);
@@ -9069,8 +9126,7 @@ public class RemoteManager {
 							MapRedJobConfig jobConfig = new MapRedJobConfig(namenodeId, nodes.get(0).getId(), jobName,
 									QueryIOConstants.DATATAGGING_GENERIC_PARSER_JOB_NAME,
 									QueryIOConstants.DATATAGGING_GENERIC_PARSER_JOB_LIB_JAR_NAME, null,
-									QueryIOConstants.DATATAGGING_GENERIC_PARSER_JOB_CLASS, arguments, true, false,
-									null);
+									QueryIOConstants.DATATAGGING_GENERIC_PARSER_JOB_CLASS, arguments, true, false, null);
 
 							MapRedJobConfigDAO.insert(connection, jobConfig);
 							applyNowJobName = jobName;
@@ -9093,8 +9149,7 @@ public class RemoteManager {
 							MapRedJobConfig jobConfig = new MapRedJobConfig(namenodeId, nodes.get(0).getId(), jobName,
 									QueryIOConstants.DATATAGGING_GENERIC_PARSER_JOB_NAME,
 									QueryIOConstants.DATATAGGING_GENERIC_PARSER_JOB_LIB_JAR_NAME, null,
-									QueryIOConstants.DATATAGGING_GENERIC_PARSER_JOB_CLASS, arguments, true, false,
-									null);
+									QueryIOConstants.DATATAGGING_GENERIC_PARSER_JOB_CLASS, arguments, true, false, null);
 
 							MapRedJobConfigDAO.insert(connection, jobConfig);
 
@@ -9150,8 +9205,8 @@ public class RemoteManager {
 			String applicationStatus = ApplicationManager.getApllicationStatus(applicationId);
 
 			if (AppLogger.getLogger().isDebugEnabled())
-				AppLogger.getLogger()
-						.debug("applicationStatus: " + applicationStatus + ", for application ID : " + applicationId);
+				AppLogger.getLogger().debug(
+						"applicationStatus: " + applicationStatus + ", for application ID : " + applicationId);
 
 			if (applicationStatus.equals(FinalApplicationStatus.UNDEFINED.toString())) {
 				isJobRunning = true;
@@ -9256,8 +9311,8 @@ public class RemoteManager {
 
 			MetaDataTagManager.updateCustomTagMetadatData(id, metadata, desc, isActive, dataTaggingTimeInfo);
 
-			mapRedJobConfig = updateMapRedConfiguration(id, getCustomTagMetaataDetailById(id).get("jobName").toString(),
-					metadata, dataTaggingTimeInfo);
+			mapRedJobConfig = updateMapRedConfiguration(id,
+					getCustomTagMetaataDetailById(id).get("jobName").toString(), metadata, dataTaggingTimeInfo);
 			for (Map.Entry<String, String> entry : mapRedJobConfig.entrySet()) {
 				MetaDataTagManager.updateMapRedJobConfig(entry.getKey(), entry.getValue());
 			}
@@ -9725,9 +9780,9 @@ public class RemoteManager {
 		return MigrationManager.getByTitle(title, fileId);
 	}
 
-	public static String startHDFSMigration(String nodeId, String title, String dataStore, String hostName, String file,
-			String user, String group, String hdfsPath, boolean isImportType, boolean unzip, String compressionType,
-			String encryptionType) {
+	public static String startHDFSMigration(String nodeId, String title, String dataStore, String hostName,
+			String file, String user, String group, String hdfsPath, boolean isImportType, boolean unzip,
+			String compressionType, String encryptionType) {
 		return MigrationManager.startHDFSMigration(nodeId, title, dataStore, hostName, file, user, group, hdfsPath,
 				isImportType, unzip, compressionType, encryptionType);
 	}
@@ -9764,8 +9819,8 @@ public class RemoteManager {
 
 	public static DWRResponse mailGeneralReport(ArrayList reportTypeList, ArrayList exportFormatList,
 			ArrayList usersIdList, String title, String startTime, String endTime) {
-		return ReportManager.mailGeneralReport(reportTypeList, exportFormatList, usersIdList, title, startTime,
-				endTime);
+		return ReportManager
+				.mailGeneralReport(reportTypeList, exportFormatList, usersIdList, title, startTime, endTime);
 	}
 
 	// RuleManager
@@ -9938,8 +9993,7 @@ public class RemoteManager {
 
 	}
 
-	public static DWRResponse updateSSHDataSource(String id, String host, int port, String user, String pass,
-			String key) {
+	public static DWRResponse updateSSHDataSource(String id, String host, int port, String user, String pass, String key) {
 		return DataSourceManager.updateSSHDataSource(id, host, port, user, pass, key);
 	}
 
@@ -10013,8 +10067,8 @@ public class RemoteManager {
 
 	public static boolean updateAdhocJobDetails(String jobName, String newJobName, String mainClass, String arguments,
 			String pathPattern, String srcPath, String nnId, String rmId) {
-		return ApplicationManager.updateAdhocJobDetails(jobName, newJobName, mainClass, arguments, pathPattern, srcPath,
-				nnId, rmId);
+		return ApplicationManager.updateAdhocJobDetails(jobName, newJobName, mainClass, arguments, pathPattern,
+				srcPath, nnId, rmId);
 	}
 
 	public static boolean updateJobDetails(String jobName, String newJobName, String mainClass, String arguments,
@@ -10063,16 +10117,16 @@ public class RemoteManager {
 			boolean parseRecursive, String adHocTableName, String fileName, String filePathPattern, String fields,
 			String delimiter, String valueSeparator, boolean isFirstRowHeader, String encoding,
 			String isSkipAllRecordsString) {
-		return AdHocQueryManager.addAdHocQueryCSV(adHocId, nameNodeId, rmId, sourcePath, parseRecursive, adHocTableName,
-				fileName, filePathPattern, fields, delimiter, valueSeparator, isFirstRowHeader, encoding,
-				isSkipAllRecordsString);
+		return AdHocQueryManager.addAdHocQueryCSV(adHocId, nameNodeId, rmId, sourcePath, parseRecursive,
+				adHocTableName, fileName, filePathPattern, fields, delimiter, valueSeparator, isFirstRowHeader,
+				encoding, isSkipAllRecordsString);
 	}
 
 	public static DWRResponse addAdHocQueryLOG(String adHocId, String nameNodeId, String rmId, String sourcePath,
 			boolean parseRecursive, String adHocTableName, String fileName, String filePathPattern, String fields,
 			String pattern, String encoding) {
-		return AdHocQueryManager.addAdHocQueryLOG(adHocId, nameNodeId, rmId, sourcePath, parseRecursive, adHocTableName,
-				fileName, filePathPattern, fields, pattern, encoding);
+		return AdHocQueryManager.addAdHocQueryLOG(adHocId, nameNodeId, rmId, sourcePath, parseRecursive,
+				adHocTableName, fileName, filePathPattern, fields, pattern, encoding);
 	}
 
 	public static DWRResponse addAdHocQueryJSON(String adHocId, String nameNodeId, String rmId, String sourcePath,
@@ -10108,8 +10162,8 @@ public class RemoteManager {
 	public static DWRResponse addAdHocQueryXML(String adHocId, String nameNodeId, String rmId, String sourcePath,
 			boolean parseRecursive, String adHocTableName, String fileName, String filePathPattern, String fields,
 			String nodeName, String encoding) {
-		return AdHocQueryManager.addAdHocQueryXML(adHocId, nameNodeId, rmId, sourcePath, parseRecursive, adHocTableName,
-				fileName, filePathPattern, fields, nodeName, encoding);
+		return AdHocQueryManager.addAdHocQueryXML(adHocId, nameNodeId, rmId, sourcePath, parseRecursive,
+				adHocTableName, fileName, filePathPattern, fields, nodeName, encoding);
 	}
 
 	public static DWRResponse addAdHocQueryRegex(String adHocId, String nameNodeId, String rmId, String sourcePath,
@@ -10161,17 +10215,61 @@ public class RemoteManager {
 		return BigQueryManager.saveBigQuery(namenodeId, dbName, jsonProperties);
 	}
 
-	public static DWRResponse saveChart(String queryId, String jsonProperties) {
-		return BigQueryManager.saveChart(queryId, jsonProperties);
+	// Query
+
+	public static DWRResponse saveQuery(String queryID, String desc, String namenodeId, String dbName, String selectedCols, String qs) {
+		return BigQueryManager.saveQuery(queryID, desc, namenodeId, dbName, selectedCols, qs);
 	}
 
-	public static DWRResponse saveTable(String queryId, String jsonProperties) {
-		return BigQueryManager.saveTable(queryId, jsonProperties);
+	public static String getQuery(String queryID) {
+		return BigQueryManager.getQuery(queryID);
 	}
 
-	public static DWRResponse saveQuery(String queryID, String desc, String namenodeId, String dbName, String qs) {
-		return BigQueryManager.saveQuery(queryID, desc, namenodeId, dbName, qs);
+	public static DWRResponse getAllQueriesInfo() {
+		return BigQueryManager.getAllQueriesInfo();
 	}
+
+	public static DWRResponse deleteQuery(String queryID) {
+		return BigQueryManager.deleteQuery(queryID);
+	}
+
+	// Charts
+
+	public static DWRResponse saveChart(String chartId, String queryId, String desc, JSONObject jsonProperties) {
+		return BigQueryManager.saveChart(chartId, queryId, desc, jsonProperties);
+	}
+
+	public static String getChart(String chartId) {
+		return BigQueryManager.getChart(chartId);
+	}
+
+	public static DWRResponse getAllChartsInfo() {
+		return BigQueryManager.getAllChartsInfo();
+	}
+
+	public static DWRResponse deleteChart(String chartId) {
+		return BigQueryManager.deleteChart(chartId);
+	}
+
+	// Tables
+
+	public static DWRResponse saveTable(String tableId, String queryId, String desc, JSONObject jsonProperties) {
+		return BigQueryManager.saveTable(tableId, queryId, desc, jsonProperties);
+	}
+
+	public static String getTable(String tableId) {
+		return BigQueryManager.getTable(tableId);
+	}
+
+	public static DWRResponse getAllTablesInfo() {
+		return BigQueryManager.getAllTablesInfo();
+	}
+
+	public static DWRResponse deleteTable(String tableId) {
+		return BigQueryManager.deleteTable(tableId);
+	}
+	
+	// Done
 
 	public static DWRResponse dropBigQueryTable(String databaseName, String[] tableList) {
 		return BigQueryManager.dropBigQueryTable(databaseName, tableList);
@@ -10200,10 +10298,6 @@ public class RemoteManager {
 
 	public static JSONObject getAllBigQueriesInfo(String namenodeId) {
 		return BigQueryManager.getAllBigQueriesInfo(namenodeId);
-	}
-
-	public static DWRResponse getAllChartsInfo() {
-		return BigQueryManager.getAllChartsInfo();
 	}
 
 	public static JSONObject getAllBigQueriesInfo(String namenodeId, String aoData) {
@@ -10356,8 +10450,8 @@ public class RemoteManager {
 
 	public static boolean scheduleMapRedJobWithoutNotification(String interval, String scheduleTime,
 			ArrayList mapRedJobName, String scheduleName) {
-		return ScheduleManager.scheduleMapRedJobWithoutNotification(interval, scheduleTime, mapRedJobName,
-				scheduleName);
+		return ScheduleManager
+				.scheduleMapRedJobWithoutNotification(interval, scheduleTime, mapRedJobName, scheduleName);
 	}
 
 	public static DWRResponse scheduleNamespaceDiagnosis(String interval, String scheduleTime, String namenodeId,
