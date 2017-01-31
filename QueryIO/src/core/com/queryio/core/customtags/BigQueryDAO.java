@@ -336,6 +336,7 @@ public class BigQueryDAO {
 				query.setDbname(rs.getString(ColumnConstants.COL_QUERIES_DBNAME));
 				query.setNamenodeId(rs.getString(ColumnConstants.COL_QUERIES_NAMENODEID));
 				query.setUsername(rs.getString(ColumnConstants.COL_QUERIES_USERNAME));
+				query.setSelectedCols(rs.getString(ColumnConstants.COL_QUERIES_SELECTED_COLS));
 			}
 		} finally {
 			try {
@@ -369,6 +370,7 @@ public class BigQueryDAO {
 				query.setDbname(rs.getString(ColumnConstants.COL_QUERIES_DBNAME));
 				query.setNamenodeId(rs.getString(ColumnConstants.COL_QUERIES_NAMENODEID));
 				query.setUsername(rs.getString(ColumnConstants.COL_QUERIES_USERNAME));
+				query.setSelectedCols(rs.getString(ColumnConstants.COL_QUERIES_SELECTED_COLS));
 				queries.add(query);
 			}
 		} finally {

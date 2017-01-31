@@ -15,6 +15,8 @@ public class Query {
 	private String namenodeId;
 
 	private String properties;
+	
+	private String selectedCols;
 
 	public String getId() {
 		return id;
@@ -72,6 +74,14 @@ public class Query {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public String getSelectedCols() {
+		return selectedCols;
+	}
+
+	public void setSelectedCols(String selectedCols) {
+		this.selectedCols = selectedCols;
 	}
 
 }

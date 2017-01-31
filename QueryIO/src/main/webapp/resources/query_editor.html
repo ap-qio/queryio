@@ -22,7 +22,7 @@
 
 						<td style="width: 2%; text-align: left;">Description</td>
 						<td><input type="search" placeholder="Query Description"
-							id="queryDesc" style="width: 95%;"> 
+							id="queryDesc" style="width: 95%;" onchange="javascript:QM.descChanged();"> 
 						</td>
 						
 					</tr>
@@ -261,37 +261,6 @@ QM.readyQEdit();
 QM.setQueryDirtyBitHandlerEvent();
 	
 var chartPosition='';
-function fillPopUp(flag)
-{
-	var id = QM.selectedQueryId;
-	
-	dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
-	dwr.util.byId('pop.pattern'+id).style.display = '';
-	dwr.util.byId('popup.image.processing'+id).style.display = '';
-	dwr.util.setValue('popup.component','Query ID');
-	dwr.util.setValue('popup.host'+id,id);
-	dwr.util.setValue('popup.message'+id,'Processing Request...');
-	
-	if (QM.isDelete){
-		dwr.util.setValue('popup.status'+id,'Deleting..');
-	}
-	else if(QM.isClone)
-	{
-		dwr.util.setValue('popup.status'+id,'Cloning..');	
-		RemoteManager.saveQuery(QM.selectedQueryId, '', QM.selectedNameNode, QM.selectedDbName, '', QM.query, QM.querySaveResponse);
-		QM.isClone = false;
-	}
-	else{
-		dwr.util.setValue('popup.status'+id,'Saving..');
-		RemoteManager.saveQuery(QM.selectedQueryId, '', QM.selectedNameNode, QM.selectedDbName, '', QM.query, QM.querySaveResponse);
-	}
-	
-}
-
-function closePopUpBox()
-{
-    QM.closeBox(true);
-}
 
 function getOnlyAlphaNumericValues(event)
 {	

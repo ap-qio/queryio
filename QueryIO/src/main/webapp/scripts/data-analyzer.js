@@ -621,11 +621,6 @@ DA = {
 		}
 	},
 
-	closeCloneBox : function() {
-		Util.removeLightbox("addclone");
-
-	},
-
 	// createGridTable : function(tabIndex) {
 	// return;
 	// var colModelArray = [];
@@ -2144,21 +2139,6 @@ DA = {
 	//
 	// },
 
-	createCSSGeneratorWizard : function(type) {
-		DA.currentType = type;
-		if (type == "columnHeader")
-			DA.tempData = jQuery.extend(true, {},
-					DA.queryInfo["colHeaderDetail"]);
-		else if (type == "columnDetail")
-			DA.tempData = jQuery.extend(true, {}, DA.queryInfo["colDetail"]);
-		else
-			DA.tempData = jQuery.extend(true, {}, DA.queryInfo[type]);
-
-		Util.addLightbox("cssGeneratorWizard",
-				"resources/css_generator_wizard.html", null, null);
-
-	},
-
 	setColumnHeaderProperty : function(colName, isChecked) {
 		for (var i = 0; i < DA.selectedColumnHeaderArray.length; i++) {
 			if (DA.selectedColumnHeaderArray[i] == colName) {
@@ -2507,23 +2487,6 @@ DA = {
 			$('#group_header_preview').html(htmlContent);
 		} else if (detailSection == "groupFooter") {
 			$('#group_footer_preview').html(htmlContent);
-		}
-
-	},
-
-	setSelectedColumn : function(colName, isSelected) {
-		if (isSelected) {
-			if (colName == '*') {
-				DA.queryInfo["selectedColumn"] = new Object();
-				DA.queryInfo["selectedColumn"]["*"] = "*";
-			} else if (DA.queryInfo["selectedColumn"].hasOwnProperty("*")) {
-				delete DA.queryInfo["selectedColumn"]["*"];
-			}
-			DA.queryInfo["selectedColumn"][colName] = new Object();
-			DA.queryInfo["selectedColumn"][colName]["function"] = $(
-					'#aggregate_' + colName).val();
-		} else {
-			delete DA.queryInfo["selectedColumn"][colName];
 		}
 
 	},

@@ -36,7 +36,7 @@
 							</td>
 							<td>
 								<button class="button"
-									onclick="javascript:DA.createCSSGeneratorWizard('groupHeader');"
+									onclick="javascript:TM.createCSSGeneratorWizard('groupHeader');"
 									style="width: 40px; margin-left: 5px; vertical-align: top;">Edit</button>
 							</td>
 						</tr>
@@ -53,7 +53,7 @@
 							<td>
 
 								<button class="button"
-									onclick="javascript:DA.createCSSGeneratorWizard('columnHeader');"
+									onclick="javascript:TM.createCSSGeneratorWizard('columnHeader');"
 									style="width: 40px; margin-left: 5px; vertical-align: top;">Edit</button>
 							</td>
 
@@ -82,7 +82,7 @@
 												
 										</div> -->
 								<button class="button"
-									onclick="javascript:DA.createCSSGeneratorWizard('columnDetail');"
+									onclick="javascript:TM.createCSSGeneratorWizard('columnDetail');"
 									style="width: 40px; margin-left: 5px; vertical-align: top;">Edit</button>
 							</td>
 
@@ -101,7 +101,7 @@
 							</td>
 							<td>
 								<button class="button"
-									onclick="javascript:DA.createCSSGeneratorWizard('groupFooter');"
+									onclick="javascript:TM.createCSSGeneratorWizard('groupFooter');"
 									style="width: 40px; margin-left: 5px; vertical-align: top;">Edit</button>
 							</td>
 
@@ -118,92 +118,6 @@
 
 
 <script>
-	var colList = [];
-	var currentDesignerType = "";
-	DA.readyTable();
+	TM.readyTable();
 
-	var chartPosition = '';
-	function fillPopUp(flag) {
-		var id = DA.selectedQueryId;
-
-		dwr.util.cloneNode('pop.pattern', {
-			idSuffix : id
-		});
-		dwr.util.byId('pop.pattern' + id).style.display = '';
-		dwr.util.byId('popup.image.processing' + id).style.display = '';
-		dwr.util.setValue('popup.component', 'Query ID');
-		dwr.util.setValue('popup.host' + id, id);
-		dwr.util.setValue('popup.message' + id, 'Processing Request...');
-
-		var str = JSON.stringify(DA.queryInfo);
-		if (DA.isDelete) {
-			dwr.util.setValue('popup.status' + id, 'Deleting..');
-		} else if (DA.isClone) {
-			dwr.util.setValue('popup.status' + id, 'Cloning..');
-			var str = JSON.stringify(DA.cloneData);
-			RemoteManager.saveBigQuery(DA.selectedNameNode, DA.selectedDbName,
-					str, DA.querySaveResponse);
-			DA.isClone = false;
-		} else {
-			dwr.util.setValue('popup.status' + id, 'Saving..');
-			RemoteManager.saveBigQuery(DA.selectedNameNode, DA.selectedDbName,
-					str, DA.querySaveResponse);
-		}
-
-	}
-
-	function closePopUpBox() {
-		DA.closeBox(true);
-	}
-
-	function getOnlyAlphaNumericValues(event) {
-		var cod = event.which;
-		var code = String.fromCharCode(cod);
-		var controlKeys = [ 8, 9, 32, 0 ];
-		var isControlKey = controlKeys.join(",").match(new RegExp(event.which));
-		if ((code >= 'A' && code <= 'Z') || (code >= '0' && code <= '9')
-				|| (code >= 'a' && code <= 'z') || (code >= 35 && code <= 40)
-				|| isControlKey) {
-			return;
-		} else {
-			event.preventDefault();
-		}
-	}
-
-	BQS.totalQuery = $('select#bigQueryIds option').length + 1;
-	$('#queryId').val("New Query " + DA.checkID(BQS.totalQuery));
-	//$('#queryId').val("New Query "+BQS.totalQuery);
-	$('#queryIdTitle').text($('#queryId').val());
-	$("#design_link").text("Design: " + $("#queryId").val());
-	$("#preview_span").text("Preview: " + $("#queryId").val());
-
-	if (BQS.totalQuery == 1) {
-		Navbar.isAddNewQuery = true;
-	}
-	if (Navbar.isAddNewQuery) {
-		DAT.tempQuery = $('#queryId').val();
-		DA.isNewQuery = true;
-		DA.selectedQueryId = $('#queryId').val();
-	} else {
-		DA.isNewQuery = false;
-	}
-
-	function showPalette() {
-		Util.addLightbox('export', 'resources/color-palette.html');
-	}
-	var previewCharts = new Array();
-
-	function chartPositionChanged() {
-		var pos = $('#chart_position').val();
-		if (pos == 'queryHeader') {
-			$('#chart_col_opt').text('Column Span');
-		} else {
-			$('#chart_col_opt').text('Column Span');
-
-		}
-
-	}
 </script>
-
-<script src="scripts/dropdown.textbox.js"></script>
-

@@ -27,6 +27,8 @@ QM={
 		searchColumn : [],
 		searchFrom : null,
 		query : '',
+		description : '',
+		selectedCols : '',
 		columnsForCurrentFromSelection : [],
 		colList : [],
 		selectedQueryId : '',
@@ -589,6 +591,20 @@ QM={
 
 		},
 		
+		addCloneQuery : function() {
+			var queryID = QM.selectedQueryId;
+			RemoteManager.getQuery(queryID, function(response) {
+				console.log(response);
+				var queryObj = JSON.parse(response);
+				QM.selectedQueryId = $('#queryIdClone').val();
+				QM.description = $('#queryDescClone').val();
+				QM.selectedNameNode = queryObj["namenodeId"];
+				QM.selectedDbName = queryObj["dbname"];
+				QM.selectedCols = queryObj["selectedCols"];
+				QM.query = queryObj["properties"];
+				QM.showQuerySavePopup();
+			});
+		},
 
 		showQuerySavePopup : function() {
 			Util.addLightbox('export', 'pages/popup.jsp');
@@ -916,6 +932,10 @@ QM={
 		},
 		searchFromChanged : function() {
 			QM.showCommand();
+		},
+		
+		descChanged : function() {
+			QM.description = $('#queryDesc').val();
 		},
 		
 		populateNameNodeFromList : function(map) {
@@ -1803,6 +1823,23 @@ QM={
 			QM.setOrderByDropDown();
 
 		},
+
+		setSelectedColumn : function(colName, isSelected) {
+			if (isSelected) {
+				if (colName == '*') {
+					DA.queryInfo["selectedColumn"] = new Object();
+					DA.queryInfo["selectedColumn"]["*"] = "*";
+				} else if (DA.queryInfo["selectedColumn"].hasOwnProperty("*")) {
+					delete DA.queryInfo["selectedColumn"]["*"];
+				}
+				DA.queryInfo["selectedColumn"][colName] = new Object();
+				DA.queryInfo["selectedColumn"][colName]["function"] = $(
+						'#aggregate_' + colName).val();
+			} else {
+				delete DA.queryInfo["selectedColumn"][colName];
+			}
+
+		},
 		
 		enableSelectAggregateFunction : function(colName, isSelected) {
 
@@ -1925,7 +1962,7 @@ QM={
 			}
 
 			QM.makeQueryFilterWhereClause();
-		}		
+		},		
 		
 		selectRelationalFuncForQueryFilterWhere : function(value, columnName) {
 			QM.makeQueryFilterWhereClause();
@@ -2467,5 +2504,41 @@ QM={
 			return $('#limitResultRows').is(':checked');
 		},
 
+		closeCloneBox : function() {
+			Util.removeLightbox("addclone");
+
+		},
 
 };
+
+function fillPopUp(flag)
+{
+	var id = QM.selectedQueryId;
+	
+	dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+	dwr.util.byId('pop.pattern'+id).style.display = '';
+	dwr.util.byId('popup.image.processing'+id).style.display = '';
+	dwr.util.setValue('popup.component','Query ID');
+	dwr.util.setValue('popup.host'+id,id);
+	dwr.util.setValue('popup.message'+id,'Processing Request...');
+	
+	if (QM.isDelete){
+		dwr.util.setValue('popup.status'+id,'Deleting..');
+	}
+	else if(QM.isClone)
+	{
+		dwr.util.setValue('popup.status'+id,'Cloning..');	
+		RemoteManager.saveQuery(QM.selectedQueryId, QM.description, QM.selectedNameNode, QM.selectedDbName, QM.selectedCols, QM.query, QM.querySaveResponse);
+		QM.isClone = false;
+	}
+	else{
+		dwr.util.setValue('popup.status'+id,'Saving..');
+		RemoteManager.saveQuery(QM.selectedQueryId, QM.description, QM.selectedNameNode, QM.selectedDbName, QM.selectedCols, QM.query, QM.querySaveResponse);
+	}
+	
+};
+
+function closePopUpBox()
+{
+    QM.closeBox(true);
+}

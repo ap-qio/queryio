@@ -1,19 +1,17 @@
 TM={
 		
 		ready : function(){
-			CM.selectedNameNode = $("#queryIONameNodeId").val();
-			if(CM.selectedNameNode==""||CM.selectedNameNode==null){
-				$('#chart_list_table_div').html('There is no Namespace configured currently. Please setup a cluster and import data to cluster to use Query and Analysis features.');
-				$('#chart_list_table_div').css('text-align','center');
+			TM.selectedNameNode = $("#queryIONameNodeId").val();
+			if(TM.selectedNameNode==""||TM.selectedNameNode==null){
+				$('#table_list_table_div').html('There is no Namespace configured currently. Please setup a cluster and import data to cluster to use Query and Analysis features.');
+				$('#table_list_table_div').css('text-align','center');
 				return;
 			}
-			DA.selectedNameNode=CM.selectedNameNode;
-			CM.populateChartSummaryTable();
-			RemoteManager.getNotificationSettings(CM.setNotification);
+			TM.populateTableSummaryTable();
 		},
 		
-		populateChartSummaryTable : function(){
-			$('#chart_list_table').dataTable( {
+		populateTableSummaryTable : function(){
+			$('#table_list_table').dataTable( {
 	   			"sScrollX": "100%",
 	   			"bPaginate": true,
 				"bLengthChange": true,
@@ -27,73 +25,73 @@ TM={
 				"searching": true,
 				"aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0 ] }],
 				"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
-					RemoteManager.getAllChartsInfo({
+					RemoteManager.getAllTablesInfo({
 			            async:false,
 			            callback:function(result){
-			                 fnCallback(CM.fillChartSummaryTable(result));	
+			                 fnCallback(TM.fillTableSummaryTable(result));	
 			                 $(window).trigger('resize');
 			                }});
 					
 					},
 				"bAutoWidth": true,
 		        "aoColumns": [
-		            { "sTitle": '<input type="checkbox" value="selectAll" id="selectAll" onclick="javascript:CM.selectAllCharts(this.id)">'},
-		            { "sTitle": "ChartID" },
+		            { "sTitle": '<input type="checkbox" value="selectAll" id="selectAll" onclick="javascript:TM.selectAllTables(this.id)">'},
+		            { "sTitle": "TableID" },
 		            { "sTitle": "Description" },
 		            { "sTitle": "Query" }
 		        ]
 		    } );
-			if($('#chart_list_table tbody tr td').hasClass('dataTables_empty'))
+			if($('#table_list_table tbody tr td').hasClass('dataTables_empty'))
 				document.getElementById('selectAll').disabled = true;
 			else
 				document.getElementById('selectAll').disabled = false;
 			
-			$('#chart_list_table_length').css('margin-top', 7 + 'px');
-			$('#chart_list_table_length').css('margin-bottom', 7 + 'px');
-			$('#chart_list_table_filter').css('margin-top', 7 + 'px');
-			$('#chart_list_table_filter').css('margin-bottom', 7 + 'px');
+			$('#table_list_table_length').css('margin-top', 7 + 'px');
+			$('#table_list_table_length').css('margin-bottom', 7 + 'px');
+			$('#table_list_table_filter').css('margin-top', 7 + 'px');
+			$('#table_list_table_filter').css('margin-bottom', 7 + 'px');
 			
 			
 		},
 		
-		fillChartSummaryTable : function(chartData){
+		fillTableSummaryTable : function(tableData){
 			
-			CM.selectedChartArray.splice(0, CM.selectedChartArray.length);
+			TM.selectedTableArray.splice(0, TM.selectedTableArray.length);
 			document.getElementById('selectAll').checked = false;
-			CM.toggleButton("selectAll", false);
-			var object = chartData["data"];
+			TM.toggleButton("selectAll", false);
+			var object = tableData["data"];
 			var tableList = new Array();
-			var cCache = new Object;
+			var tCache = new Object;
 			if(object!=null)
 	   		{
-				    CM.chartArray.splice(0,CM.chartArray.length);
+				TM.tableArray.splice(0,TM.tableArray.length);
 					for (var i=0; i< object.length;i++)
 					{
-						var chartData = object[i];
-						var chartId = chartData[0]; // queryID
-						var description = chartData[1]; // query description
-						var query = chartData[2]; // query description
-						var chartc = {};
-						chartc["id"] = chartId;
-						chartc["description"] = description;
-						chartc["query"] = query;
+						var tData = object[i];
+						var tableId = tData[0]; // queryID
+						var description = tData[1]; // query description
+						var query = tData[2]; // query description
+						var tablec = {};
+						tablec["id"] = tableId;
+						tablec["description"] = description;
+						tablec["query"] = query;
 						
-						CM.totalChart++;
-			   			CM.chartArray.push(chartId);
-						var check='<input type="checkbox" id="'+chartId+'" onclick="javascript:CM.clickBox(this.id);">';
+						TM.totalTable++;
+			   			TM.tableArray.push(tableId);
+						var check='<input type="checkbox" id="'+tableId+'" onclick="javascript:TM.clickBox(this.id);">';
 						
-						cCache[chartId] = chartc;
+						tCache[tableId] = tablec;
 //						if(status=="SUCCESS"){
 //							var path='Reports/Birt'+query["reportpath"];
-						chartId='<a href = "javascript:CM.showChart(\''+chartId+'\');">'+chartId+"</a>";
+						tableId='<a href = "javascript:TM.showTable(\''+tableId+'\');">'+tableId+"</a>";
 //						}
-						var queryContent = '<a href = "javascript:CM.showQuery(\''+query+'\');">'+query+"</a>";
-						tableList.push([check,chartId,description,queryContent]);
+						var queryContent = '<a href = "javascript:TM.showQuery(\''+query+'\');">'+query+"</a>";
+						tableList.push([check,tableId,description,queryContent]);
 		   			}
 		  	}
-			chartData["data"] = tableList;
-			CM.chartCache = cCache;
-			return chartData;
+			tableData["data"] = tableList;
+			TM.tableCache = tCache;
+			return tableData;
 		},
 		
 		clickBox : function(id)
@@ -101,56 +99,56 @@ TM={
 			var flag = document.getElementById(id).checked;
 			if (flag == true)
 			{
-				CM.selectedChartArray.push(id.toString());
+				TM.selectedTableArray.push(id.toString());
 			}
 			else
 			{
-				var index = jQuery.inArray(id.toString(), CM.selectedChartArray);
+				var index = jQuery.inArray(id.toString(), TM.selectedTableArray);
 				if (index != -1)
 				{
-					CM.selectedChartArray.splice(index, 1);
+					TM.selectedTableArray.splice(index, 1);
 				}
 			}
-			if(($('#chart_list_table tr').length - 1) == CM.selectedChartArray.length)
+			if(($('#table_list_table tr').length - 1) == TM.selectedTableArray.length)
 			{
 				document.getElementById("selectAll").checked = flag;
-				CM.selectAllChart("selectAll", flag);
+				TM.selectAllTable("selectAll", flag);
 			}
 			else
-				CM.toggleButton(id, flag, "selectAll");
+				TM.toggleButton(id, flag, "selectAll");
 		},
-  		selectAllChart : function(id)
+  		selectAllTable : function(id)
    		{
 
   			var flag = document.getElementById(id).checked;
   			
-  			CM.selectedChartArray.splice(0, CM.selectedChartArray.length);
-  			for (var i=0; i<CM.chartArray.length; i++)
+  			TM.selectedTableArray.splice(0, TM.selectedTableArray.length);
+  			for (var i=0; i<TM.tableArray.length; i++)
   			{
-  				document.getElementById(CM.chartArray[i]).checked = flag;
+  				document.getElementById(TM.tableArray[i]).checked = flag;
   				if (flag)
   				{	
-  					CM.selectedChartArray.push(CM.chartArray[i]);
+  					TM.selectedTableArray.push(TM.tableArray[i]);
   				}
   			}
-  			CM.toggleButton(id, flag);
+  			TM.toggleButton(id, flag);
    		},
    		toggleButton : function(id , value)
    		{
 
    			if (id == "selectAll")
    			{
-   				if (CM.selectedChartArray.length == 1)
+   				if (TM.selectedTableArray.length == 1)
    				{
-   					dwr.util.byId('chartEdit').disabled=false;
-   					dwr.util.byId('chartClone').disabled=false;
+   					dwr.util.byId('tableEdit').disabled=false;
+   					dwr.util.byId('tableClone').disabled=false;
    				}
    				else
    				{
-   					dwr.util.byId('chartClone').disabled=true;
-   					dwr.util.byId('chartEdit').disabled=true;
+   					dwr.util.byId('tableClone').disabled=true;
+   					dwr.util.byId('tableEdit').disabled=true;
    				}
-   				dwr.util.byId('chartDelete').disabled=!value;
+   				dwr.util.byId('tableDelete').disabled=!value;
    				
    			}
    			else
@@ -160,42 +158,42 @@ TM={
 				
 				if (CM.selectedChartArray.length < 1)
 				{
-					dwr.util.byId('chartClone').disabled=true;
-   					dwr.util.byId('chartEdit').disabled=true;
-   					dwr.util.byId('chartDelete').disabled=true;
+					dwr.util.byId('tableClone').disabled=true;
+   					dwr.util.byId('tableEdit').disabled=true;
+   					dwr.util.byId('tableDelete').disabled=true;
 				}
 				else
 				{
 					if (CM.selectedChartArray.length == 1)
 					{
-						dwr.util.byId('chartEdit').disabled=false;
-	   					dwr.util.byId('chartClone').disabled=false;
+						dwr.util.byId('tableEdit').disabled=false;
+	   					dwr.util.byId('tableClone').disabled=false;
 					}
 					else
 					{
-						dwr.util.byId('chartClone').disabled=true;
-	   					dwr.util.byId('chartEdit').disabled=true;
+						dwr.util.byId('tableClone').disabled=true;
+	   					dwr.util.byId('tableEdit').disabled=true;
 					}
-					dwr.util.byId('chartDelete').disabled=false;
+					dwr.util.byId('tableDelete').disabled=false;
 				}
    				
    		
    			}
    		},
-		addNewChart : function(){
-			CM.isEditChart = false;
-			CM.isNewChart = true;
-			Navbar.isAddNewChart=true;
+		addNewTable : function(){
+			TM.isEditTable = false;
+			TM.isNewTable = true;
+			Navbar.isAddNewTable=true;
 			Navbar.isFromsummaryView = true;
-			Navbar.changeTab('Charts','charts','edit_charts');
+			Navbar.changeTab('Tables','tables','edit_tables');
 		},
-		editSelectedChart : function(){
-			Navbar.isEditChart = true;
-			var chartId = CM.selectedChartArray[0]+'';
-			Navbar.selectedChartId = chartId;
+		editSelectedTable : function(){
+			Navbar.isEditTable = true;
+			var tableId = TM.selectedTableArray[0]+'';
+			Navbar.selectedTableId = chartId;
 			Navbar.isFromsummaryView = true;
-			var nameNodeId = CM.selectedNameNode;
-			Navbar.changeTab('Charts','charts','edit_charts');
+			var nameNodeId = TM.selectedNameNode;
+			Navbar.changeTab('Tables','tables','edit_tables');
 		},
 		backToSummary : function(){
 			$('#refreshViewButton').attr('onclick','javascript:Navbar.refreshView()');
@@ -205,47 +203,47 @@ TM={
 			Navbar.isEditQuery = true;
 			Navbar.selectedQueryId = queryId;
 			Navbar.isFromsummaryView = true;
-			var nameNodeId = CM.selectedNameNode;
+			var nameNodeId = TM.selectedNameNode;
 			Navbar.changeTab('QueryDesigner','analytics','QueryDesigner');
 		},
 		
-		cloneSelectedChart : function(){
+		cloneSelectedTable : function(){
 			
-			DA.selectedChartId = CM.selectedChartArray[0]
+			TM.selectedTableId = TM.selectedTableArray[0]
 			
-			Util.addLightbox("addclone", "resources/cloneChart.html", null, null);
+			Util.addLightbox("addclone", "resources/cloneTable.html", null, null);
 		},
-		fillCloneChartObject : function(object){
+		fillCloneTableObject : function(object){
 			
-			DA.chartInfo =jQuery.extend(true, {},object);
+			TM.tableInfo =jQuery.extend(true, {},object);
 		},
-		deleteSelectedChart : function(){
-			DA.selectedChartId = CM.selectedChartArray[0];
-			DA.deleteChart();
+		deleteSelectedTable : function(){
+			TM.selectedTableId = TM.selectedTableArray[0];
+			TM.deleteTable();
 		},
-		populateDeleteChartBox : function(){
+		populateDeleteTableBox : function(){
 			
-			var chartIdArray  = CM.selectedChartArray;
-			for (var i = 0; i <chartIdArray.length ; i++)
+			var tableIdArray  = TM.selectedTableArray;
+			for (var i = 0; i <tableIdArray.length ; i++)
 			{
-				var id = chartIdArray[i];
+				var id = tableIdArray[i];
 				dwr.util.cloneNode('pattern',{ idSuffix:id });
-				dwr.util.setValue('chart' + id,id);
-				dwr.util.setValue('message' + id,"Perform delete operation on chart "+id);
+				dwr.util.setValue('table' + id,id);
+				dwr.util.setValue('message' + id,"Perform delete operation on table "+id);
 				dwr.util.setValue('status' + id,'Deleting');
 				dwr.util.byId('pattern' + id).style.display = '';
 				
 			}
 			var nameNode = $('#queryIONameNodeId').val();
 			
-			for (var i = 0; i <chartIdArray.length ; i++)
+			for (var i = 0; i <tableIdArray.length ; i++)
 			{
-				var id = chartIdArray[i];
-				RemoteManager.deleteChart(id, CM.processDeleteChartResponse);
+				var id = tableIdArray[i];
+				RemoteManager.deleteTable(id, TM.processDeleteTableResponse);
 				
 			}
 		},
-		processDeleteChartResponse : function(dwrResponse){
+		processDeleteTableResponse : function(dwrResponse){
 			
 			var id=dwrResponse.id;
 			if(dwrResponse.taskSuccess){
@@ -287,23 +285,38 @@ TM={
 			dwr.util.setValue('message' + id,dwrResponse.responseMessage);
 			dwr.util.setValue('status' + id,status);
 			document.getElementById('okbtn').disabled = false;
-			Navbar.selectedChartId = '';
+			Navbar.selectedTableId = '';
 //			Navbar.refreshNavBar();
 			
 			
 		},
-		showChart : function(){
-			Navbar.selectedChartId= CM.selectedChartArray[0];
-			Navbar.isEditChart=true;
+		showTable : function(){
+			Navbar.selectedTableId= TM.selectedTableArray[0];
+			Navbar.isEditTable=true;
 			
-			Navbar.changeTab('Charts','charts','edit_charts');
+			Navbar.changeTab('Tables','tables','edit_tables');
 			
 		},
-		closeDeleteChartBox : function(){
-			DA.closeBox(true);
+		closeDeleteTableBox : function(){
+			TM.closeBox(true);
 		},
 		fillExecuteTab : function(obj){
 			
+		},
+		
+		createCSSGeneratorWizard : function(type) {
+			TM.currentType = type;
+			if (type == "columnHeader")
+				TM.tempData = jQuery.extend(true, {},
+						TM.queryInfo["colHeaderDetail"]);
+			else if (type == "columnDetail")
+				TM.tempData = jQuery.extend(true, {}, TM.queryInfo["colDetail"]);
+			else
+				TM.tempData = jQuery.extend(true, {}, TM.queryInfo[type]);
+
+			Util.addLightbox("cssGeneratorWizard",
+					"resources/css_generator_wizard.html", null, null);
+
 		},
 
 };

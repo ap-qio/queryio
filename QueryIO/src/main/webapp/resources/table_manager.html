@@ -4,31 +4,30 @@
 <script src="scripts/host.js"></script>
 
 -->
-<script type="text/javascript" src="scripts/data-analyzer.js"></script>
-<script type="text/javascript" src="scripts/chart_manager.js"></script>
+<script type="text/javascript" src="scripts/table_manager.js"></script>
 
-<div id='chart_list' class="viewDiv">
-	<div id="chart_table_div" class="detailDivView">
-		<div id="chart_buttons" class="buttons">
-			<button class="button" id="chartAdd" onclick="javascript:CM.addNewChart();" >Add</button>
-			<button class="button" id="chartEdit" onclick="javascript:CM.editSelectedChart();" disabled="disabled">Design</button>
-			<button class="button" id="chartDelete" onclick="javascript:CM.deleteSelectedChart();" disabled="disabled">Delete</button>
-			<button class="button" id="chartClone" onclick="javascipt:CM.cloneSelectedChart();" disabled="disabled">Clone</button>
+<div id='table_list' class="viewDiv">
+	<div id="table_table_div" class="detailDivView">
+		<div id="table_buttons" class="buttons">
+			<button class="button" id="tableAdd" onclick="javascript:TM.addNewTable();" >Add</button>
+			<button class="button" id="tableEdit" onclick="javascript:TM.editSelectedTable();" disabled="disabled">Design</button>
+			<button class="button" id="tableDelete" onclick="javascript:TM.deleteSelectedTable();" disabled="disabled">Delete</button>
+			<button class="button" id="tableClone" onclick="javascipt:TM.cloneSelectedTable();" disabled="disabled">Clone</button>
 		</div>
 		<form action="">
-		<div id ="chart_list_table_div" style="width: 100%;">
-			<table id="chart_list_table" class="dataTable" style="font-size: 9pt; width: 100%"></table>
+		<div id ="table_list_table_div" style="width: 100%;">
+			<table id="table_list_table" class="dataTable" style="font-size: 9pt; width: 100%"></table>
 		</div>
 		</form>
 	</div>
 </div>
 <script type="text/javascript">
 Navbar.isFromsummaryView=true;
-	CM.ready();
+	TM.ready();
 
 	function closePopUpBox()
 	{
-	    DA.closeBox(true);
+	    TM.closeBox(true);
 	    Navbar.refreshView();
 	}
 
