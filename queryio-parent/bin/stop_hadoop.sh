@@ -1,6 +1,12 @@
-HOME=$HOME/QueryIOPackage
-echo $HOME
 echo '###  Stopping Hadoop  ###'
+
+CURR_PATH=$(pwd)
+
+SCRIPT_PATH=$(dirname "${BASH_SOURCE[0]}")
+
+echo $SCRIPT_PATH
+
+cd $SCRIPT_PATH
 
 # Stop NameNodes
 pid=$(ps -ef | grep -v grep | grep hdfs.server.namenode.NameNode | awk '{print $2}')
@@ -99,3 +105,5 @@ pid=$(ps -ef | grep -v grep | grep yarn.server.nodemanager.NodeManager | awk '{p
 			echo "NodeManager Process is not running."
             echo "Is it running?"
         fi
+        
+cd $CURR_PATH
