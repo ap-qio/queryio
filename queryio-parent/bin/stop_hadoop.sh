@@ -1,4 +1,4 @@
-HOME=$USER_INSTALL_DIR$/QueryIOPackage
+HOME=$HOME/QueryIOPackage
 echo $HOME
 echo '###  Stopping Hadoop  ###'
 

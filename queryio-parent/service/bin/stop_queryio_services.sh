@@ -1,4 +1,4 @@
-HOME=$USER_INSTALL_DIR$
+HOME=$USER_PACKAGE_INSTALL_DIR$
 echo $HOME
 
 for i in $(find $HOME/Hadoop-2.7.3/etc -name "namenode-conf_*"); do
