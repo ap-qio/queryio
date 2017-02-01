@@ -1,10 +1,10 @@
 # find /root/QueryIOPackage/Hadoop-2.7.3/etc -name "namenode-conf_*" -exec cat {} \;
 # find /root/QueryIOPackage/Hadoop-2.7.3/etc -name "namenode-conf_*" -exec cat {}/core-site.xml \;
 
-HOME=$HOME/QueryIOPackage
-echo $HOME
+QIO_SERVICE_HOME=$USER_PACKAGE_INSTALL_DIR$
+echo $QIO_SERVICE_HOME
 
-for i in $(find $HOME/Hadoop-2.7.3/etc -name "namenode-conf_*"); do
+for i in $(find $QIO_SERVICE_HOME/Hadoop-2.7.3/etc -name "namenode-conf_*"); do
         echo $i
         ftpPortString=$(grep -n queryio.hdfsoverftp.port $i/core-site.xml)
         ftpPort=$(echo $ftpPortString | cut -d'<' -f 5 |cut -d '>' -f 2)
@@ -14,7 +14,7 @@ for i in $(find $HOME/Hadoop-2.7.3/etc -name "namenode-conf_*"); do
         echo $ftpPort
         echo "s3Port"
         echo $s3Port
-		nohup sh $HOME/QueryIOServers/bin/start_servers_manually.sh $HOME $ftpPort $s3Port $i >> $HOME/bin/start_service.log 2>&1 &
+		nohup sh $QIO_SERVICE_HOME/QueryIOServers/bin/start_servers_manually.sh $QIO_SERVICE_HOME $ftpPort $s3Port $i >> $QIO_SERVICE_HOME/bin/start_service.log 2>&1 &
 done
 
 
