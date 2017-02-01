@@ -2,7 +2,7 @@ export LC_CTYPE=C
 export LANG=C
 
 USER_INSTALL_DIR="$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )")"
-
+USER_PACKAGE_INSTALL_DIR='$HOME/QueryIOPackage'
 echo "Installation Directory: $USER_INSTALL_DIR"
 
 source $USER_INSTALL_DIR/bin/qio-setup.properties
@@ -45,6 +45,8 @@ chmod -R +x $USER_INSTALL_DIR
 
 find $USER_INSTALL_DIR -type f \( -name "*.properties" -or -name "*.sh" -or -name "*.script" -or -name "*.xml" -or -name "*.js" \) -print0 | xargs -0 sed -i '' 's~\$USER_INSTALL_DIR\$'"~$USER_INSTALL_DIR"'~g'
 echo "Done USER_INSTALL_DIR"
+find $USER_INSTALL_DIR -type f \( -name "*.properties" -or -name "*.sh" -or -name "*.script" -or -name "*.xml" -or -name "*.js" \) -print0 | xargs -0 sed -i '' 's~\$USER_PACKAGE_INSTALL_DIR\$'"~$USER_PACKAGE_INSTALL_DIR"'~g'
+echo "Done USER_PACKAGE_INSTALL_DIR"
 find $USER_INSTALL_DIR -type f \( -name "*.properties" -or -name "*.sh" -or -name "*.script" -or -name "*.xml" -or -name "*.js" \) -print0 | xargs -0 sed -i '' 's~\$CustomDBPass\$'"~$CustomDBPass"'~g'
 echo "Done CustomDBPass"
 find $USER_INSTALL_DIR -type f \( -name "*.properties" -or -name "*.sh" -or -name "*.script" -or -name "*.xml" -or -name "*.js" \) -print0 | xargs -0 sed -i '' 's~\$CustomDBUser\$'"~$CustomDBUser"'~g'
