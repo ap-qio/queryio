@@ -1,7 +1,7 @@
 # find /root/QueryIOPackage/Hadoop-2.7.3/etc -name "namenode-conf_*" -exec cat {} \;
 # find /root/QueryIOPackage/Hadoop-2.7.3/etc -name "namenode-conf_*" -exec cat {}/core-site.xml \;
 
-HOME=$USER_INSTALL_DIR$/QueryIOPackage
+HOME=$HOME/QueryIOPackage
 echo $HOME
 
 for i in $(find $HOME/Hadoop-2.7.3/etc -name "namenode-conf_*"); do

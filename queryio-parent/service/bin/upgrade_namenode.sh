@@ -1,4 +1,4 @@
-HOME=$USER_INSTALL_DIR$
+HOME=$USER_PACKAGE_INSTALL_DIR$
 echo $HOME
 
 echo '###  Starting Hadoop  ###'

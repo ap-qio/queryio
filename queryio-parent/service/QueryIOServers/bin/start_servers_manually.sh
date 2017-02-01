@@ -1,4 +1,4 @@
-HOME=$USER_INSTALL_DIR$
+HOME=$USER_PACKAGE_INSTALL_DIR$
 ServiceHome=$HOME/QueryIOServers
 HADOOP_LIB_HOME=$HOME/Hadoop-2.7.3/share/hadoop/common/lib
 QUERYIO_AGENT_LIB_HOME=$HOME/QueryIOAgent/webapps/agentqueryio/WEB-INF/classes:$HOME/QueryIOAgent/webapps/agentqueryio/WEB-INF/lib/QueryIOAgent.jar:$HOME/QueryIOAgent/webapps/agentqueryio/WEB-INF/lib/QueryIOCommonAgent.jar
