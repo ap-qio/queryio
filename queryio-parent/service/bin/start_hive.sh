@@ -1,4 +1,4 @@
-HOME=$USER_INSTALL_DIR$
+HOME=$USER_PACKAGE_INSTALL_DIR$
 hiveClass=org.apache.hive.service.server.HiveServer2
 pid=$(ps -ef | grep -v grep | grep $hiveClass | awk '{print $2}')
 echo "Hive Server Process ID"
