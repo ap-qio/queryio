@@ -363,7 +363,114 @@ Navbar = {
 			}
 			selectedId = 'Hadoop';
 		}
+		/* Part of Hadoop Cluster only */
+		else if (tabName == 'nn_detail') 
+		{
+				header = 'NameNode Details : '+selectedId;
+				selectedNameNode = selectedId;
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'nn_summary\');" class="tab_banner" >NameNode Summary</a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'TreeNameNode\',\'nn_summary\');" class="tab_banner" >NameNode Summary</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\''+childtab+'\',\'nn_host\');" class="tab_banner" >'+childtab+'</a></span><img src="images/forward.png" style="height:20px">'	
+//							+'<img src="images/forward.png" style="height:20px"><span id="NameNode'+selectedId+'"> '+selectedId+'</span>';
+				source = 'resources/nn_detail.html';
+				selectedNodeTypeForDetailView = "NameNode";
+				selectedId = 'Hadoop';
+				Navbar.doAutoRefresh=true;
+		}
+		else if(tabName=='nn_host')
+		{
+			header = 'Host Summary : '+selectedId;
+			pathHeader = '<a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'nn_summary\');" class="tab_banner" >NameNode Summary</a></span><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+//			pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'nn_summary\');" class="tab_banner">NameNode Summary</a></span><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span> '+selectedId+'</span>';
+			this.selectedHost=selectedId;
+			source = 'resources/nn_host_summary.html';
+			selectedId = 'Hadoop';
+			Navbar.doAutoRefresh=true;
+		}
+		else if (tabName == 'dn_detail') 
+		{
+			if (typeof(grandchildtab) == "undefined")
+			{
+				header = 'DataNode Details : '+selectedId;
+				selectedDataNode = selectedId;
+				
+				pathHeader+=$('#pathbar_div').html();
+				
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'dn_summary\');" class="tab_banner" >NameNode Summary</a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');" class="tab_banner" >DataNode Summary</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span> '+selectedId+'</span>';
+				source = 'resources/dn_detail_host.html';
+				selectedNodeTypeForDetailView = "DataNode";
+				selectedId = 'Hadoop';
+				Navbar.doAutoRefresh=true;
+				
+			}
+			else 
+			{
+				header = 'DataNode Volume Details';
+				selectedDataNode = selectedId;
+				pathHeader+=$('#pathbar_div').html();
+				source = 'resources/dn_detail_volume.html';
+				Navbar.doAutoRefresh=true;
+			}
+		}
+		else if (tabName == 'host_summary')
+		{
+			header = 'Host Summary : '+selectedId;
+			pathHeader = '<a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'dn_summary\');" class="tab_banner" >DataNode Summary</a></span><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+//			pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
+//						+'<img src="images/forward.png" style="height:20px"><span> '+selectedId+'</span>';
+			this.selectedHost=selectedId;
+			selectedId = 'Hadoop';
+			source = 'resources/host_summary.html';
+			Navbar.doAutoRefresh=true;
+		}
+		else if (tabName == 'rack_summary') 
+		{
+			header = 'Rack Summary'+selectedId;
+			pathHeader = '<a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'dn_summary\');" class="tab_banner" >DataNode Summary</a></span><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+//			pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'HDFS\');"> HDFS</a></span><img src="images/forward.png" style="height:20px">'	
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'TreeDataNode\',\'dn_summary\');" class="tab_banner" >DataNode Summary</a></span><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span> '+selectedId+'</span>';
+			Navbar.doAutoRefresh=true;
+			selectedId = 'Hadoop';
+			this.selectedRack=selectedId;
+			source = 'resources/rack_summary.html';
+			
+		}
+
+		/* Hadoop Details finished*/
 		
+		/*Map Reduce Started*/
 		
 		else if (tabName == 'MapReduce')
 		{
@@ -407,6 +514,62 @@ Navbar = {
 			selectedId = 'MapReduce';
 			
 		}
+		
+		else if(tabName=='rm_detail')
+		{
+				header = 'ResourceManager Details : '+selectedId;
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'MapReduce\',\'MapReduce\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'MapReduce\',\'MapReduce\');"> MapReduce Overview </a></span><img src="images/forward.png" style="height:20px">'
+					+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'MapReduce\',\'MapReduce\',\'ResourceManager\');" class="tab_banner" > ResourceManager</a></span><img src="images/forward.png" style="height:20px">';
+//					+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+
+//				pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'		
+//							+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\', \'ResourceManager\');"> ResourceManager</a></span><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px">';
+				Navbar.doAutoRefresh=true;
+				if(typeof(grandchildtab) != "undefined")
+				{
+					pathHeader += '<span><a href="javascript:Navbar.changeTab(\'MapReduce\',\'rm_detail\',\''+childtab+'\');" class="tab_banner">'+childtab+'</a></span><img src="images/forward.png" style="height:20px">'
+								 +'<img src="images/forward.png" style="height:20px"><span>'+grandchildtab+'</span>';
+					selectedNodeTypeForDetailView = "RM";
+				}
+				else{
+					pathHeader+='<span>'+childtab+'</span>';
+				}
+				source = 'resources/rm_detail.html';
+				selectedId = 'Hadoop';
+			source = 'resources/rm_detail.html';
+		}
+		else if(tabName=='nm_detail')
+		{
+			header = 'NodeManager Details : '+selectedId;
+			pathHeader = '<a href="javascript:Navbar.changeTab(\'MapReduce\',\'MapReduce\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'MapReduce\',\'MapReduce\');"> MapReduce Overview </a></span><img src="images/forward.png" style="height:20px">'
+				+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'MapReduce\',\'MapReduce\',\'NodeManager\');" class="tab_banner" > NodeManager</a></span><img src="images/forward.png" style="height:20px">';
+
+//			pathHeader = '<a href="javascript:Navbar.changeTab(\'Dashboard\',\'dashboard\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\');"> Hadoop</a></span><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\',\'MapReduce\');"> MapReduce</a></span><img src="images/forward.png" style="height:20px">'
+//						+'<img src="images/forward.png" style="height:20px"><span><a href="javascript:Navbar.changeTab(\'Hadoop\',\'Hadoop\', \'NodeManager\');"> NodeManager</a></span><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px">';
+			Navbar.doAutoRefresh=true;
+			if(typeof(grandchildtab) != "undefined")
+			{
+				pathHeader+='<span><a href="javascript:Navbar.changeTab(\'MapReduce\',\'nm_detail\',\''+childtab+'\');">'+childtab+'</a></span><img src="images/forward.png" style="height:20px"><img src="images/forward.png" style="height:20px">'
+				+'<span>'+grandchildtab+'</span>';
+				selectedNodeTypeForDetailView = "NM";
+			}
+			else
+			{
+				pathHeader+='<span>'+childtab+'</span>';
+			}
+			source = 'resources/nm_detail.html';
+			
+			selectedId = 'Hadoop';
+		}
+
+		/* Map Reduce Ended */
+		
 		
 		else if(tabName == 'Monitor') {
 			if (childtab == 'system_monitor')
@@ -1135,7 +1298,11 @@ Navbar = {
 			Navbar.changeTab('Users','admin','users');
 		} else if (isFirstTimeCluster)
 		{
-			Navbar.changeTab('Data Migration','data', 'data_migration');
+			if(adminView) {
+				Navbar.changeTab('Setup','setup','quicksetup');
+			} else {
+				Navbar.changeTab('Data Migration','data', 'data_migration');				
+			}
 		}
 	}, 
 	
