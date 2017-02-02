@@ -173,7 +173,7 @@
 		</copy>
 
 
-		<copy todir="${QueryIOBuild}/docs">
+		<copy todir="${dir.queryio}/docs">
 			<fileset dir="${dir.source}/QueryIO/src/main/webapp/Documents">
 				<include name="**/*" />
 			</fileset>
