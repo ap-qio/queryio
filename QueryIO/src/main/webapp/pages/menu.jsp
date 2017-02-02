@@ -56,7 +56,7 @@
 			</ul>
 		</li>
 
-		<li onmouseout="showDropDown(3);" id="Analytics" class="user"><a
+		<li onmouseout="showDropDown(3);" id="Analytics_li" class="user"><a
 			href="javascript:Navbar.changeTab('Analytics','analytics', 'analytics_overview');hideDropDown(3);">Analyze</a>
 			<ul>
 				<li onmouseout="showDropDown(3);"><a
@@ -98,7 +98,7 @@
 			} else {
 		%>
 
-		<li onmouseout="showDropDown(5);" id="HadoopMan_li"
+		<li onmouseout="showDropDown(5);" id="Setup_li"
 			style="margin-left: 1px;" class="first admin"><a id="Dashboard"
 			href="javascript:Navbar.changeTab('Setup','setup','quicksetup');hideDropDown(5)">Quick
 				Setup</a>
@@ -111,7 +111,7 @@
 						Hosts</a></li>
 			</ul></li>
 
-		<li onmouseout="showDropDown(7);" class="admin"><a id="System Config"
+		<li onmouseout="showDropDown(7);" id="Hadoop_li" class="admin"><a id="System Config"
 			href="javascript:Navbar.changeTab('Hadoop','Hadoop','HDFS');hideDropDown(7);">Manage
 				HDFS</a>
 			<ul>
@@ -133,7 +133,7 @@
 						HDFS</a></li>
 			</ul></li>
 
-		<li onmouseout="showDropDown(7);" class="admin"><a
+		<li onmouseout="showDropDown(7);" id="MapReduce_li" class="admin"><a
 			href="javascript:Navbar.changeTab('MapReduce','MapReduce');hideDropDown(7);">
 				Manage MapReduce/Yarn</a>
 			<ul>
@@ -149,7 +149,7 @@
 						MapReduce</a></li>
 			</ul></li>
 
-		<li onmouseout="showDropDown(7);" id="QioSvc_li" class="admin"><a
+		<li onmouseout="showDropDown(7);" id="Monitor_li" class="admin"><a
 			id="Hadoop"
 			href="javascript:Navbar.changeTab('Monitor','Monitor','system_monitor');hideDropDown(7);">Monitor</a>
 			<ul id="Admin">
@@ -173,7 +173,7 @@
 				
 			</ul></li>
 
-		<li onmouseout="showDropDown(7);" id="QioSvc_li" class="last admin" style="border-right: 0px; width: 19%;"><a
+		<li onmouseout="showDropDown(7);" id="Admin_li" class="end admin" style="border-right: 0px; width: 19.5%;"><a
 			id="Hadoop"
 			href="javascript:Navbar.changeTab('Admin','Admin','queryio_services');hideDropDown(7);">Others</a>
 			<ul id="Admin">
