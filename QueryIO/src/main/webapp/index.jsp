@@ -329,6 +329,15 @@ System.out.println("index.jsp called, current view is: " + currentView);
 	Navbar.ready();
 		var lastSelectedId = 'Dashboard';
 		var isFirstTimeCluster = true;
+		var adminView = false;
+		<%
+		if ("AdminView".equalsIgnoreCase((String) request.getSession().getAttribute("viewType"))) {
+		%>
+			adminView = true;
+		<%
+			}
+		%>
+
 		var isFirstTime = true;
 		var table_count=0;
 		$(LOC_INDEX.ready);
