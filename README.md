@@ -25,11 +25,9 @@ The best way to install QueryIO is to build from source:
 
 `git clone https://github.com/ap-qio/queryio.git`
 
-`git checkout Upgrades`
-
 `cd queryio/queryio-parent`
 
-`mvn -DskipTests clean install`
+`mvn clean install`
 
 `cp buildRoot/build <installation-path>`
 
