@@ -44,6 +44,12 @@ Navbar = {
 	selectedChartId: null,
 	isNewChart: true,
 	
+	isAddNewTable: false,
+	isEditTable: false,
+	selectedTableId: null,
+	isNewTable: false,
+	
+	
 	changeTab: function (selectedId, tabName, childtab, grandchildtab) {
 		
 		console.log("selectedId: " + selectedId);

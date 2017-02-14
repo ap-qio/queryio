@@ -10,7 +10,7 @@ cssGenerator = {
 	ready : function()
 	{
 		var flag = true;
-		if(DA.currentType == 'groupHeader' || DA.currentType == 'groupFooter')
+		if(TM.currentType == 'groupHeader' || TM.currentType == 'groupFooter')
 		{
 			cssGenerator.loadGroupPrefixSuffixWizard();
 		}
@@ -23,31 +23,31 @@ cssGenerator = {
 		}
 		
 		
-		if(DA.currentType == 'groupHeader')
+		if(TM.currentType == 'groupHeader')
 		{
 			$("#headerspan").text('Group Header');
 			
 		}
-		else if(DA.currentType == 'groupFooter')
+		else if(TM.currentType == 'groupFooter')
 		{
 			$("#headerspan").text('Group Footer');
 		}
-		else if(DA.currentType == 'columnDetail')
+		else if(TM.currentType == 'columnDetail')
 		{
 			$("#headerspan").text('Column Detail');
 			
 		}
-		else if(DA.currentType == 'columnHeader')
+		else if(TM.currentType == 'columnHeader')
 		{
 			$("#headerspan").text('Column Header');
 			$("#nextViewCSSGenerator").css("display","none");
 		}
-		else if(DA.currentType == 'queryHeader')
+		else if(TM.currentType == 'queryHeader')
 		{
 			$("#headerspan").text('Report Header');
 			$("#nextViewCSSGenerator").css("display","none");
 		}
-		else if(DA.currentType == 'queryFooter')
+		else if(TM.currentType == 'queryFooter')
 		{
 			$("#headerspan").text('Report Footer');
 			$("#nextViewCSSGenerator").css("display","none");
@@ -69,23 +69,23 @@ cssGenerator = {
 	{
 		var prefixName;
 		var list=new Array();
-		if(DA.currentType == 'groupHeader')
+		if(TM.currentType == 'groupHeader')
 		{
 			prefixName = "group_header";
-			for(var attr in DA.queryInfo["groupHeader"]){
+			for(var attr in TM.queryInfo["groupHeader"]){
 				list.push(attr);
 			}
 			
-			 DA.selectedGroupHeaderArray=list;
+			 TM.selectedGroupHeaderArray=list;
 		}
-		else if(DA.currentType == 'groupFooter')
+		else if(TM.currentType == 'groupFooter')
 		{
 			prefixName = "group_footer";
 			
-			for(var attr in DA.queryInfo["groupFooter"]){
+			for(var attr in TM.queryInfo["groupFooter"]){
 				list.push(attr);
 			}
-			 DA.selectedGroupFooterArray=list;
+			 TM.selectedGroupFooterArray=list;
 		}
 		
 		
@@ -93,32 +93,32 @@ cssGenerator = {
 		
 		for(var i = 0; i < list.length; i++)
 		{
-			var columnName = DA.currentType + list[i];
+			var columnName = TM.currentType + list[i];
 			$("#" + columnName).attr('checked',true);
-			if(DA.currentType == 'groupHeader')
+			if(TM.currentType == 'groupHeader')
 			{
 				cssGenerator.enablePrefixSuffixTextBox("group_header", list[i]);
 			}
-			else if(DA.currentType == 'groupFooter')
+			else if(TM.currentType == 'groupFooter')
 			{
 				cssGenerator.enablePrefixSuffixTextBox("group_footer", list[i]);
 			}
 			
 			columnName = "#" + prefixName + "_prefix" + list[i];
-			$(columnName).val(DA.queryInfo[DA.currentType][list[i]]["prefix"]);
+			$(columnName).val(TM.queryInfo[TM.currentType][list[i]]["prefix"]);
 			columnName = "#" + prefixName + "_suffix" + list[i];
-			$(columnName).val(DA.queryInfo[DA.currentType][list[i]]["suffix"]);
-			if(DA.currentType=='groupFooter'){
-				$("#footer_" + list[i]).val(DA.queryInfo[DA.currentType][list[i]]["function"]);
+			$(columnName).val(TM.queryInfo[TM.currentType][list[i]]["suffix"]);
+			if(TM.currentType=='groupFooter'){
+				$("#footer_" + list[i]).val(TM.queryInfo[TM.currentType][list[i]]["function"]);
 				$("#footer_" + list[i]).removeAttr("disabled");
 			}
 			
 		}
 		
-		if(DA.currentType == 'groupHeader')
+		if(TM.currentType == 'groupHeader')
 		{
 			
-			if(DA.selectedGroupHeaderArray.length == 0)
+			if(TM.selectedGroupHeaderArray.length == 0)
 			{
 				$("#nextViewCSSGenerator").attr('disabled', 'disabled');
 			}
@@ -127,9 +127,9 @@ cssGenerator = {
 				$("#nextViewCSSGenerator").removeAttr('disabled');
 			}
 		}
-		else if(DA.currentType == 'groupFooter')
+		else if(TM.currentType == 'groupFooter')
 		{
-			if(DA.selectedGroupFooterArray.length == 0)
+			if(TM.selectedGroupFooterArray.length == 0)
 			{
 				$("#nextViewCSSGenerator").attr('disabled', 'disabled');
 			}
@@ -143,22 +143,22 @@ cssGenerator = {
 	
 	loadCSSStyleGeneratorPage : function()
 	{
-		if(DA.currentType == 'groupHeader' || DA.currentType == 'groupFooter'){
+		if(TM.currentType == 'groupHeader' || TM.currentType == 'groupFooter'){
 			cssGenerator.generateJSONOfCSS();
 		}
 		
-		if(DA.currentType == 'columnHeader' || DA.currentType == 'columnDetail')
+		if(TM.currentType == 'columnHeader' || TM.currentType == 'columnDetail')
 			cssGenerator.generateJSONOfCSS();
 		
 		if(cssGenerator.tabLevel == 0)
 		{
 			$("#dataLoadArea").load('resources/css_style_attributes.html', function(){
 				cssGenerator.initializeCSSGenerator();
-				if(DA.currentType == 'queryHeader' || DA.currentType == 'queryFooter'){
+				if(TM.currentType == 'queryHeader' || TM.currentType == 'queryFooter'){
 					$('#title_row').css("display","");
 					$('#column_list_row').css("display","none");
 				}
-				if(DA.currentType == 'columnHeader'){
+				if(TM.currentType == 'columnHeader'){
 					$('#title_row').css("display","");
 					$('#width_row').css("display","");
 				} 
@@ -185,7 +185,7 @@ cssGenerator = {
 			$("#dataLoadArea").load('resources/formatter_wizard.html', function(){
 				Formatter.loadColumnList();
 				Formatter.loadFormatTypeList(false);
-				if(DA.currentType == 'queryHeader' || DA.currentType == 'queryFooter'){
+				if(TM.currentType == 'queryHeader' || TM.currentType == 'queryFooter'){
 					$('#title_row').css("display","");
 					$('#column_list_row').css("display","none");
 				}
@@ -200,7 +200,7 @@ cssGenerator = {
 	
 	initializeCSSGenerator : function()
 	{
-		if(DA.currentType == 'columnDetail')
+		if(TM.currentType == 'columnDetail')
 		{
 			$("#checkBookStyleTD").css('display', '');
 		}
@@ -210,22 +210,6 @@ cssGenerator = {
 		cssGenerator.fillAtStartup();
 		cssGenerator.bindJPicker();
 		
-		
-		$('input[type=text]').change(function(){
-			Navbar.queryManagerDirtyBit = true;
-		});
-
-		$('input[type=search]').change(function(){
-			Navbar.queryManagerDirtyBit = true;
-		});
-
-		$('select').change(function(){
-		Navbar.queryManagerDirtyBit = true;
-		});
-
-		$('input[type=checkbox]').change(function(){
-		Navbar.queryManagerDirtyBit = true;
-		});
 	},
 	
 	getFontSizeOptions : function()
@@ -261,27 +245,24 @@ cssGenerator = {
 //		var el = document.getElementsByTagName("iframe")[0];
 //		el.parentNode.removeChild(el);
 		$('.jPicker').css('display', 'none');
-		DA.showReportPreview();
 		Util.removeLightbox("cssGeneratorWizard");
-		Navbar.queryManagerDirtyBit = true;
 	},
 	
 	revertBack : function()
 	{
-		var type = DA.currentType;
+		var type = TM.currentType;
 		if(type == "columnHeader")
-			DA.queryInfo["colHeaderDetail"] = jQuery.extend(true, {}, DA.tempData);
+			TM.queryInfo["colHeaderDetail"] = jQuery.extend(true, {}, TM.tempData);
 		else if(type == "columnDetail")
-			DA.queryInfo["colDetail"] = jQuery.extend(true, {}, DA.tempData);
+			TM.queryInfo["colDetail"] = jQuery.extend(true, {}, TM.tempData);
 		else
-			DA.queryInfo[type] = jQuery.extend(true, {}, DA.tempData);
+			TM.queryInfo[type] = jQuery.extend(true, {}, TM.tempData);
 		
-		DA.showReportPreview();
 	},
 	
 	finishStyling : function()
 	{
-		if(DA.currentType == 'groupHeader'||DA.currentType == 'groupFooter'||DA.currentType == 'columnHeader'||DA.currentType == 'columnDetail'){
+		if(TM.currentType == 'groupHeader'||TM.currentType == 'groupFooter'||TM.currentType == 'columnHeader'||TM.currentType == 'columnDetail'){
 			
 			if(cssGenerator.tabLevel==1){
 				cssGenerator.generateJSONOfCSS();
@@ -300,28 +281,28 @@ cssGenerator = {
 
 		if(cssGenerator.currentColumn != null)
 		{
-			if(DA.currentType == 'columnHeader')
+			if(TM.currentType == 'columnHeader')
 			{
 				cssGenerator.columnHeaderCSSHandler(cssGenerator.currentColumn);
 			}
-			else if(DA.currentType == 'groupHeader')
+			else if(TM.currentType == 'groupHeader')
 			{
 				cssGenerator.groupHeaderCSSHandler(cssGenerator.currentColumn);
 			}
-			else if(DA.currentType == 'columnDetail')
+			else if(TM.currentType == 'columnDetail')
 			{
 				cssGenerator.columnDetailCSSHandler(cssGenerator.currentColumn);
 			}
-			else if(DA.currentType == 'groupFooter')
+			else if(TM.currentType == 'groupFooter')
 			{
 				cssGenerator.groupFooterCSSHandler(cssGenerator.currentColumn);		
 			}
-			else if(DA.currentType == 'queryHeader')
+			else if(TM.currentType == 'queryHeader')
 			{
 				//Set Query/Report Header
 				cssGenerator.setReportHeaderCSS();		
 			}
-			else if(DA.currentType == 'queryFooter')
+			else if(TM.currentType == 'queryFooter')
 			{
 				//Set Query/Report Footer
 				cssGenerator.setReportFooterCSS();		
@@ -333,20 +314,20 @@ cssGenerator = {
 	setReportFooterCSS : function()
 	{
 		
-		DA.queryInfo["queryFooter"] = new Object();
-		DA.queryInfo["queryFooter"]["footer"] = new Object();
-		DA.queryInfo["queryFooter"]["footer"] =cssGenerator.addCSSValues();
-		DA.queryInfo["queryFooter"]["footer"]["title"]=$('#header_title').val();
+		TM.queryInfo["queryFooter"] = new Object();
+		TM.queryInfo["queryFooter"]["footer"] = new Object();
+		TM.queryInfo["queryFooter"]["footer"] =cssGenerator.addCSSValues();
+		TM.queryInfo["queryFooter"]["footer"]["title"]=$('#header_title').val();
 		
 		
 	},
 	setReportHeaderCSS : function()
 	{
 		
-		DA.queryInfo["queryHeader"] = new Object();
-		DA.queryInfo["queryHeader"]["header"] = new Object();
-		DA.queryInfo["queryHeader"]["header"]=cssGenerator.addCSSValues();
-		DA.queryInfo["queryHeader"]["header"]["title"]=$('#header_title').val();
+		TM.queryInfo["queryHeader"] = new Object();
+		TM.queryInfo["queryHeader"]["header"] = new Object();
+		TM.queryInfo["queryHeader"]["header"]=cssGenerator.addCSSValues();
+		TM.queryInfo["queryHeader"]["header"]["title"]=$('#header_title').val();
 		
 		
 	},
@@ -377,62 +358,62 @@ cssGenerator = {
 	
 	fillAtStartup : function()
 	{
-		if(DA.currentType == 'columnHeader')
+		if(TM.currentType == 'columnHeader')
 		{
 			
-			cssGenerator.fillProperties(DA.queryInfo["colHeaderDetail"][cssGenerator.currentColumn]);
+			cssGenerator.fillProperties(TM.queryInfo["colHeaderDetail"][cssGenerator.currentColumn]);
 			var flag = true;
-			if(DA.queryInfo["colHeaderDetail"][cssGenerator.currentColumn]!=undefined&&DA.queryInfo["colHeaderDetail"][cssGenerator.currentColumn]!=null){
-				if(DA.queryInfo["colHeaderDetail"][cssGenerator.currentColumn].hasOwnProperty("title")){
-					$('#header_title').val(DA.queryInfo["colHeaderDetail"][cssGenerator.currentColumn]["title"]);
+			if(TM.queryInfo["colHeaderDetail"][cssGenerator.currentColumn]!=undefined&&TM.queryInfo["colHeaderDetail"][cssGenerator.currentColumn]!=null){
+				if(TM.queryInfo["colHeaderDetail"][cssGenerator.currentColumn].hasOwnProperty("title")){
+					$('#header_title').val(TM.queryInfo["colHeaderDetail"][cssGenerator.currentColumn]["title"]);
 					flag=false;
 				}
 			}
 			if(flag)
 			$('#header_title').val(cssGenerator.currentColumn);
 		}
-		if(DA.currentType == 'queryHeader')
+		if(TM.currentType == 'queryHeader')
 		{
 			
-			if(DA.queryInfo["queryHeader"].hasOwnProperty("header")){
-				cssGenerator.fillProperties(DA.queryInfo["queryHeader"]["header"]);
-				if(DA.queryInfo["queryHeader"]["header"].hasOwnProperty("title")){
-					$('#header_title').val(DA.queryInfo["queryHeader"]["header"]["title"]);
+			if(TM.queryInfo["queryHeader"].hasOwnProperty("header")){
+				cssGenerator.fillProperties(TM.queryInfo["queryHeader"]["header"]);
+				if(TM.queryInfo["queryHeader"]["header"].hasOwnProperty("title")){
+					$('#header_title').val(TM.queryInfo["queryHeader"]["header"]["title"]);
 				}
 			}
 
 		}
-		if(DA.currentType == 'queryFooter')
+		if(TM.currentType == 'queryFooter')
 		{
 			
-			if(DA.queryInfo["queryFooter"].hasOwnProperty("footer")){
-				cssGenerator.fillProperties(DA.queryInfo["queryFooter"]["footer"]);
-				if(DA.queryInfo["queryFooter"]["footer"].hasOwnProperty("title")){
+			if(TM.queryInfo["queryFooter"].hasOwnProperty("footer")){
+				cssGenerator.fillProperties(TM.queryInfo["queryFooter"]["footer"]);
+				if(TM.queryInfo["queryFooter"]["footer"].hasOwnProperty("title")){
 					
-					$('#header_title').val(DA.queryInfo["queryFooter"]["footer"]["title"]);
+					$('#header_title').val(TM.queryInfo["queryFooter"]["footer"]["title"]);
 				}
 			}	
 			
 		}
-		else if(DA.currentType == 'groupHeader')
+		else if(TM.currentType == 'groupHeader')
 		{
-			if(DA.queryInfo["groupHeader"][cssGenerator.currentColumn] != undefined)
+			if(TM.queryInfo["groupHeader"][cssGenerator.currentColumn] != undefined)
 			{
-				cssGenerator.fillProperties(DA.queryInfo["groupHeader"][cssGenerator.currentColumn]["style"]);
+				cssGenerator.fillProperties(TM.queryInfo["groupHeader"][cssGenerator.currentColumn]["style"]);
 			}else{
 				$('#header_title').val(cssGenerator.currentColumn);
 			}
 				
 		}
-		else if(DA.currentType == 'columnDetail')
+		else if(TM.currentType == 'columnDetail')
 		{
-			cssGenerator.fillProperties(DA.queryInfo["colDetail"][cssGenerator.currentColumn]);
+			cssGenerator.fillProperties(TM.queryInfo["colDetail"][cssGenerator.currentColumn]);
 		}
-		else if(DA.currentType == 'groupFooter')
+		else if(TM.currentType == 'groupFooter')
 		{
-			if(DA.queryInfo["groupFooter"][cssGenerator.currentColumn] != undefined )
+			if(TM.queryInfo["groupFooter"][cssGenerator.currentColumn] != undefined )
 			{
-				cssGenerator.fillProperties(DA.queryInfo["groupFooter"][cssGenerator.currentColumn]["style"]);	
+				cssGenerator.fillProperties(TM.queryInfo["groupFooter"][cssGenerator.currentColumn]["style"]);	
 			}
 		}
 	},
@@ -482,7 +463,7 @@ cssGenerator = {
 	fillDefaultProperties : function()
 	{
 		var cssObj = new Object();
-		if(DA.currentType == 'columnDetail')
+		if(TM.currentType == 'columnDetail')
 		{
 			cssObj["width"] = "50px";
 			cssObj["background-color"] = "";
@@ -494,7 +475,7 @@ cssGenerator = {
 			cssGenerator.fillProperties(cssObj);
 
 		}
-		else if(DA.currentType == 'columnHeader')
+		else if(TM.currentType == 'columnHeader')
 		{
 		
 			cssObj["width"] = "50px";
@@ -509,7 +490,7 @@ cssGenerator = {
 			
 			
 		}
-		else if(DA.currentType == 'queryHeader')
+		else if(TM.currentType == 'queryHeader')
 		{
 			cssObj["width"] = "100%";
 			cssObj["background-color"] = "69abdb";
@@ -521,7 +502,7 @@ cssGenerator = {
 			cssObj["text-align"] = "center";
 			cssGenerator.fillProperties(cssObj);
 		}
-		else if(DA.currentType == 'queryFooter')
+		else if(TM.currentType == 'queryFooter')
 		{
 			cssObj["width"] = "100%";
 			cssObj["background-color"] = "69abdb";
@@ -543,61 +524,61 @@ cssGenerator = {
 	
 	groupHeaderCSSHandler : function(colName)
 	{
-		if(DA.queryInfo["groupHeader"]==undefined||DA.queryInfo["groupHeader"]==null||DA.queryInfo["groupHeader"]=="")
+		if(TM.queryInfo["groupHeader"]==undefined||TM.queryInfo["groupHeader"]==null||TM.queryInfo["groupHeader"]=="")
 		{
-   			DA.queryInfo["groupHeader"]=new Object();
+   			TM.queryInfo["groupHeader"]=new Object();
    		}
-		if(DA.queryInfo["groupHeader"][colName]==undefined||DA.queryInfo["groupHeader"][colName]==null || DA.queryInfo["groupHeader"][colName]=="")
+		if(TM.queryInfo["groupHeader"][colName]==undefined||TM.queryInfo["groupHeader"][colName]==null || TM.queryInfo["groupHeader"][colName]=="")
 		{
-			DA.queryInfo["groupHeader"][colName]=new Object();
-			DA.queryInfo["groupHeader"][colName]["prefix"] = "";
-   			DA.queryInfo["groupHeader"][colName]["function"] = "";
-   			DA.queryInfo["groupHeader"][colName]["suffix"]= "";
-   			DA.queryInfo["groupHeader"][colName]["style"]=new Object();
+			TM.queryInfo["groupHeader"][colName]=new Object();
+			TM.queryInfo["groupHeader"][colName]["prefix"] = "";
+   			TM.queryInfo["groupHeader"][colName]["function"] = "";
+   			TM.queryInfo["groupHeader"][colName]["suffix"]= "";
+   			TM.queryInfo["groupHeader"][colName]["style"]=new Object();
 		}
-		if(DA.queryInfo["groupHeader"][colName]["style"]==undefined||DA.queryInfo["groupHeader"][colName]==null)
+		if(TM.queryInfo["groupHeader"][colName]["style"]==undefined||TM.queryInfo["groupHeader"][colName]==null)
 		{
-			DA.queryInfo["groupHeader"][colName]["style"]=new Object();
+			TM.queryInfo["groupHeader"][colName]["style"]=new Object();
 		}
 		
 		var format =cssGenerator.getDefaultFormatObject(colName);
-		if(DA.queryInfo["groupHeader"][colName]["style"]!=undefined&&DA.queryInfo["groupHeader"][colName]["style"]!=null){
-			if(DA.queryInfo["groupHeader"][colName]["style"]["format"]!=undefined&&DA.queryInfo["groupHeader"][colName]["style"]["format"]!=null){
-				format=DA.queryInfo["groupHeader"][colName]["style"]["format"];
+		if(TM.queryInfo["groupHeader"][colName]["style"]!=undefined&&TM.queryInfo["groupHeader"][colName]["style"]!=null){
+			if(TM.queryInfo["groupHeader"][colName]["style"]["format"]!=undefined&&TM.queryInfo["groupHeader"][colName]["style"]["format"]!=null){
+				format=TM.queryInfo["groupHeader"][colName]["style"]["format"];
 			}
 		}
 		
-		DA.queryInfo["groupHeader"][colName]["style"] = cssGenerator.addCSSValues();
-		DA.queryInfo["groupHeader"][colName]["style"]["format"]=format;
+		TM.queryInfo["groupHeader"][colName]["style"] = cssGenerator.addCSSValues();
+		TM.queryInfo["groupHeader"][colName]["style"]["format"]=format;
 		
 	},
 	
 	groupFooterCSSHandler : function(colName)
 	{
-		if(DA.queryInfo["groupFooter"]==undefined||DA.queryInfo["groupFooter"]==null||DA.queryInfo["groupFooter"]=="")
+		if(TM.queryInfo["groupFooter"]==undefined||TM.queryInfo["groupFooter"]==null||TM.queryInfo["groupFooter"]=="")
 		{
-   			DA.queryInfo["groupFooter"]=new Object();
+   			TM.queryInfo["groupFooter"]=new Object();
    		}
-		if(DA.queryInfo["groupFooter"][colName]==undefined||DA.queryInfo["groupFooter"][colName]==null || DA.queryInfo["groupFooter"][colName]== "")
+		if(TM.queryInfo["groupFooter"][colName]==undefined||TM.queryInfo["groupFooter"][colName]==null || TM.queryInfo["groupFooter"][colName]== "")
 		{
-			DA.queryInfo["groupFooter"][colName]=new Object();
-			DA.queryInfo["groupFooter"][colName]["function"]="";
-   			DA.queryInfo["groupFooter"][colName]["prefix"]="";
-   			DA.queryInfo["groupFooter"][colName]["suffix"]="";
-   			DA.queryInfo["groupFooter"][colName]["style"]=new Object();
+			TM.queryInfo["groupFooter"][colName]=new Object();
+			TM.queryInfo["groupFooter"][colName]["function"]="";
+   			TM.queryInfo["groupFooter"][colName]["prefix"]="";
+   			TM.queryInfo["groupFooter"][colName]["suffix"]="";
+   			TM.queryInfo["groupFooter"][colName]["style"]=new Object();
 		}
-		if(DA.queryInfo["groupFooter"][colName]["style"]==undefined||DA.queryInfo["groupFooter"][colName]["style"]==null)
+		if(TM.queryInfo["groupFooter"][colName]["style"]==undefined||TM.queryInfo["groupFooter"][colName]["style"]==null)
 		{
-			DA.queryInfo["groupFooter"][colName]["style"]=new Object();
+			TM.queryInfo["groupFooter"][colName]["style"]=new Object();
 		}
 		var format =cssGenerator.getDefaultFormatObject(colName);
-		if(DA.queryInfo["groupFooter"][colName]["style"]!=undefined&&DA.queryInfo["groupFooter"][colName]["style"]!=null){
-			if(DA.queryInfo["groupFooter"][colName]["style"]["format"]!=undefined&&DA.queryInfo["groupFooter"][colName]["style"]["format"]!=null){
-				format=DA.queryInfo["groupFooter"][colName]["style"]["format"];
+		if(TM.queryInfo["groupFooter"][colName]["style"]!=undefined&&TM.queryInfo["groupFooter"][colName]["style"]!=null){
+			if(TM.queryInfo["groupFooter"][colName]["style"]["format"]!=undefined&&TM.queryInfo["groupFooter"][colName]["style"]["format"]!=null){
+				format=TM.queryInfo["groupFooter"][colName]["style"]["format"];
 			}
 		}
-		DA.queryInfo["groupFooter"][colName]["style"]=cssGenerator.addCSSValues();
-		DA.queryInfo["groupFooter"][colName]["style"]["format"]=format;
+		TM.queryInfo["groupFooter"][colName]["style"]=cssGenerator.addCSSValues();
+		TM.queryInfo["groupFooter"][colName]["style"]["format"]=format;
 	},
 	getDefaultFormatObject: function(colName){
 		var obj = new Object();
@@ -612,7 +593,7 @@ cssGenerator = {
 		obj["pattern"]["negativeNumber"]="-"
 		obj["sample"]=colName;
 		
-		var datatype = DA.colMap[colName];
+		var datatype = TM.colMap[colName];
 		if(datatype.toUpperCase()=="STRING" || datatype.toUpperCase() == 'BLOB'){
 			datatype="string";
 		}else if(datatype.toUpperCase()=="LONG"||datatype.toUpperCase()=="INTEGER"){
@@ -626,47 +607,47 @@ cssGenerator = {
 	columnHeaderCSSHandler : function(colName)
 	{
 		cssGenerator.userDefinedCSS = "";
-  		if(DA.queryInfo["colHeaderDetail"] == undefined || DA.queryInfo["colHeaderDetail"] == null)
+  		if(TM.queryInfo["colHeaderDetail"] == undefined || TM.queryInfo["colHeaderDetail"] == null)
    		{
-   			DA.queryInfo["colHeaderDetail"]=new Object();
+   			TM.queryInfo["colHeaderDetail"]=new Object();
    		}
-  		if(DA.queryInfo["colHeaderDetail"][colName]==undefined||DA.queryInfo["colHeaderDetail"][colName]==null || DA.queryInfo["colHeaderDetail"][colName] == "")
+  		if(TM.queryInfo["colHeaderDetail"][colName]==undefined||TM.queryInfo["colHeaderDetail"][colName]==null || TM.queryInfo["colHeaderDetail"][colName] == "")
   		{
-			DA.queryInfo["colHeaderDetail"][colName]=new Object();
+			TM.queryInfo["colHeaderDetail"][colName]=new Object();
 		}
   		var title="";
   		title=$('#header_title').val();
-//  		if(DA.queryInfo["colHeaderDetail"][colName].hasOwnProperty("title")){
-//  			title=DA.queryInfo["colHeaderDetail"][colName]["title"];
+//  		if(TM.queryInfo["colHeaderDetail"][colName].hasOwnProperty("title")){
+//  			title=TM.queryInfo["colHeaderDetail"][colName]["title"];
 //  		}
-  		DA.queryInfo["colHeaderDetail"][colName]=cssGenerator.addCSSValues();
+  		TM.queryInfo["colHeaderDetail"][colName]=cssGenerator.addCSSValues();
 //  		if(title!=""){
-  			DA.queryInfo["colHeaderDetail"][colName]["title"]=title;
+  			TM.queryInfo["colHeaderDetail"][colName]["title"]=title;
 //  		}
-  		$('#column_header_col').val(JSON.stringify(DA.queryInfo["colHeaderDetail"]));
+  		$('#column_header_col').val(JSON.stringify(TM.queryInfo["colHeaderDetail"]));
 	},
 	
 	columnDetailCSSHandler : function(colName)
 	{
-		if(DA.queryInfo["colDetail"] == undefined || DA.queryInfo["colDetail"] == null)
+		if(TM.queryInfo["colDetail"] == undefined || TM.queryInfo["colDetail"] == null)
    		{
-   			DA.queryInfo["colDetail"]=new Object();
+   			TM.queryInfo["colDetail"]=new Object();
    		}
-		if(DA.queryInfo["colDetail"][colName]==undefined||DA.queryInfo["colDetail"][colName]==null || DA.queryInfo["colDetail"][colName]=="")
+		if(TM.queryInfo["colDetail"][colName]==undefined||TM.queryInfo["colDetail"][colName]==null || TM.queryInfo["colDetail"][colName]=="")
 		{
-			DA.queryInfo["colDetail"][colName]=new Object();
+			TM.queryInfo["colDetail"][colName]=new Object();
 		}
-		DA.queryInfo["colDetail"]["checkBookFlag"] = $("#checkBookStyleFlag").is(':checked');
+		TM.queryInfo["colDetail"]["checkBookFlag"] = $("#checkBookStyleFlag").is(':checked');
 		var format =cssGenerator.getDefaultFormatObject(colName);
-		if(DA.queryInfo["colDetail"][colName]!=undefined&&DA.queryInfo["colDetail"][colName]!=null){
-			if(DA.queryInfo["colDetail"][colName]["format"]!=undefined&&DA.queryInfo["colDetail"][colName]["format"]!=null){
-				format=DA.queryInfo["colDetail"][colName]["format"];
+		if(TM.queryInfo["colDetail"][colName]!=undefined&&TM.queryInfo["colDetail"][colName]!=null){
+			if(TM.queryInfo["colDetail"][colName]["format"]!=undefined&&TM.queryInfo["colDetail"][colName]["format"]!=null){
+				format=TM.queryInfo["colDetail"][colName]["format"];
 			}
 		}
-		DA.queryInfo["colDetail"][colName]=cssGenerator.addCSSValues();
-		$('#column_detail_col').val(JSON.stringify(DA.queryInfo["colDetail"]));
-		DA.queryInfo["colDetail"][colName]["format"]=format;
-		DA.queryInfo["colDetail"][colName]["width"]=$('#column_detail_width').val() + $('#column_detail_width_unit').val();
+		TM.queryInfo["colDetail"][colName]=cssGenerator.addCSSValues();
+		$('#column_detail_col').val(JSON.stringify(TM.queryInfo["colDetail"]));
+		TM.queryInfo["colDetail"][colName]["format"]=format;
+		TM.queryInfo["colDetail"][colName]["width"]=$('#column_detail_width').val() + $('#column_detail_width_unit').val();
 		
 	},
 	
@@ -685,7 +666,7 @@ cssGenerator = {
 		}
 		obj["font-size"] = fontSize;
 		obj["width"] = $("#colWidth").val() + $("#colwidthUnit").val();
-		if(DA.currentType == 'queryHeader' || DA.currentType == 'queryFooter'){
+		if(TM.currentType == 'queryHeader' || TM.currentType == 'queryFooter'){
 			obj["width"] = "100%";
 			
 		}
@@ -754,20 +735,16 @@ cssGenerator = {
 	loadColumnList : function()
 	{
    		var list='';
-   		if(DA.currentType == 'groupHeader')
+   		if(TM.currentType == 'groupHeader')
    		{
-   			list = DA.selectedGroupHeaderArray;
+   			list = TM.selectedGroupHeaderArray;
    		}
-   		else if(DA.currentType == 'groupFooter')
+   		else if(TM.currentType == 'groupFooter')
    		{
-   			list = DA.selectedGroupFooterArray;
-   		}
-   		else if(DA.searchColumn[0]=='*'&&DA.searchColumn.length==1){
-   			 list = DA.colList;	
+   			list = TM.selectedGroupFooterArray;
    		}
    		else
    		{
-   			list=DA.searchColumn;
    		}
    		
    		var data = "<select style=\"width: 100%;\" id = 'availableColumnList' onchange='javascript:cssGenerator.fillAvailableProperties();'>";
@@ -844,69 +821,6 @@ cssGenerator = {
 				  },
 					
 				images:{clientPath:'images/'}}); 
-		
-//		if(DA.currentType == 'columnHeader')
-//		{
-//			$('#checkBookOddColor').jPicker(
-//					{  window: // used to define the position of the popup window only useful in binded mode
-//					  {
-//					    title: null, // any title for the jPicker window itself - displays "Drag Markers To Pick A Color" if left null
-//					    effects:
-//					    {
-//					      type: 'slide', // effect used to show/hide an expandable picker. Acceptable values "slide", "show", "fade"
-//					      speed:
-//					      {
-//					        show: 'fast', // duration of "show" effect. Acceptable values are "fast", "slow", or time in ms
-//					        hide: 'fast' // duration of "hide" effect. Acceptable value are "fast", "slow", or time in ms
-//					      }
-//					    },
-//					    position:
-//					    {
-//					      x: 'center', // acceptable values "left", "center", "right", "screenCenter", or relative px value
-//					      y: 'center', // acceptable values "top", "bottom", "center", or relative px value
-//					    },
-//					    expandable: false, // default to large static picker - set to true to make an expandable picker (small icon with popup) - set
-//					                       // automatically when binded to input element
-//					    liveUpdate: true, // set false if you want the user to click "OK" before the binded input box updates values (always "true"
-//					                      // for expandable picker)
-//					    alphaSupport: false, // set to true to enable alpha picking
-//					    alphaPrecision: 0, // set decimal precision for alpha percentage display - hex codes do not map directly to percentage
-//					                       // integers - range 0-2
-//					    updateInputColor: true // set to false to prevent binded input colors from changing
-//					  },
-//						
-//					images:{clientPath:'images/'}}); 
-//
-//			$('#checkBookEvenColor').jPicker(
-//					{  window: // used to define the position of the popup window only useful in binded mode
-//					  {
-//					    title: null, // any title for the jPicker window itself - displays "Drag Markers To Pick A Color" if left null
-//					    effects:
-//					    {
-//					      type: 'slide', // effect used to show/hide an expandable picker. Acceptable values "slide", "show", "fade"
-//					      speed:
-//					      {
-//					        show: 'fast', // duration of "show" effect. Acceptable values are "fast", "slow", or time in ms
-//					        hide: 'fast' // duration of "hide" effect. Acceptable value are "fast", "slow", or time in ms
-//					      }
-//					    },
-//					    position:
-//					    {
-//					      x: 'center', // acceptable values "left", "center", "right", "screenCenter", or relative px value
-//					      y: 'center', // acceptable values "top", "bottom", "center", or relative px value
-//					    },
-//					    expandable: false, // default to large static picker - set to true to make an expandable picker (small icon with popup) - set
-//					                       // automatically when binded to input element
-//					    liveUpdate: true, // set false if you want the user to click "OK" before the binded input box updates values (always "true"
-//					                      // for expandable picker)
-//					    alphaSupport: false, // set to true to enable alpha picking
-//					    alphaPrecision: 0, // set decimal precision for alpha percentage display - hex codes do not map directly to percentage
-//					                       // integers - range 0-2
-//					    updateInputColor: true // set to false to prevent binded input colors from changing
-//					  },
-//						
-//					images:{clientPath:'images/'}}); 
-//		}
 
 	},
 	
@@ -922,28 +836,13 @@ cssGenerator = {
  	loadGroupPrefixSuffixWizard : function()
  	{
  		var data;
-   		if(DA.currentType == 'groupHeader')
+   		if(TM.currentType == 'groupHeader')
    			data = cssGenerator.groupHeader();
-   		else if(DA.currentType == 'groupFooter')
+   		else if(TM.currentType == 'groupFooter')
    			data = cssGenerator.groupFooter();
    		$('#dataLoadArea').html(data);
    		cssGenerator.loadDefaultSelectedColumns();
    		
-   		$('input[type=text]').change(function(){
-   			Navbar.queryManagerDirtyBit = true;
-   		});
-
-   		$('input[type=search]').change(function(){
-   			Navbar.queryManagerDirtyBit = true;
-   		});
-
-   		$('select').change(function(){
-   		Navbar.queryManagerDirtyBit = true;
-   		});
-
-   		$('input[type=checkbox]').change(function(){
-   		Navbar.queryManagerDirtyBit = true;
-   		});
    	},
    	
    	backButtonClicked : function()
@@ -965,23 +864,18 @@ cssGenerator = {
    	groupFooter : function()
    	{
    		var list='';
-   		if(DA.searchColumn[0]=='*'&&DA.searchColumn.length==1){
-   			 list = DA.colList;	
-   		}else{
-   			list=DA.searchColumn;	
-   		}
+
+   			list=TM.searchColumn;	
    		
    	   		var groupFooter='<div id="groupFooterTable"><table><tbody>';
    	   		groupFooter+='<tr><td nowrap="nowrap">Select Column</td><td nowrap="nowrap">Prefix</td><td nowrap="nowrap">Aggregate Function</td><td nowrap="nowrap">Suffix</td></tr>';
    			for(var i=0;i<list.length;i++){
    				
-   				groupFooter+='<tr><td style= "text-align: left; white-space: nowrap;" nowrap="nowrap"><input type="checkbox" name="groupFooter'+list[i]+'" id="groupFooter'+list[i]+'" value="'+list[i]+'" onclick="DA.setGroupFooter(\''+list[i]+'\', this.checked);" > '+list[i]+'</td>';
-   				groupFooter+='<td style= "text-align: left;" nowrap="nowrap"><input type="text" disabled="disabled" id="group_footer_prefix'+list[i]+'" name="group_footer_prefix" placeholder="prefix" onblur="javascript:DA.setGroupFooterInJSON();"> </td>';
-   				groupFooter+='<td style= "text-align: left;" nowrap="nowrap">'+DA.getAggregateFunctionDropDownForGroupFooter(list[i])+'</td>';
+   				groupFooter+='<tr><td style= "text-align: left; white-space: nowrap;" nowrap="nowrap"><input type="checkbox" name="groupFooter'+list[i]+'" id="groupFooter'+list[i]+'" value="'+list[i]+'" onclick="TM.setGroupFooter(\''+list[i]+'\', this.checked);" > '+list[i]+'</td>';
+   				groupFooter+='<td style= "text-align: left;" nowrap="nowrap"><input type="text" disabled="disabled" id="group_footer_prefix'+list[i]+'" name="group_footer_prefix" placeholder="prefix" onblur="javascript:TM.setGroupFooterInJSON();"> </td>';
+   				groupFooter+='<td style= "text-align: left;" nowrap="nowrap">'+TM.getAggregateFunctionDropDownForGroupFooter(list[i])+'</td>';
    				
-   				groupFooter+='<td style= "text-align: left;" nowrap="nowrap"><input type="text" disabled="disabled" id="group_footer_suffix'+list[i]+'" name="group_footer_suffix" placeholder="suffix" onblur="javascript:DA.setGroupFooterInJSON();"> </td>';
-//   				groupFooter+='<td nowrap="nowrap">'+DA.getCSSStyleDropDown(list[i],'group_footer_style','DA.setGroupFooterInJSON()')+'</td>';
-//   				groupFooter+='<td nowrap="nowrap"><input type="text" disabled="disabled" id="group_footer_style_val'+list[i]+'" name="group_footer_style_val" onblur="javascript:DA.setGroupFooterInJSON();"> </td>';
+   				groupFooter+='<td style= "text-align: left;" nowrap="nowrap"><input type="text" disabled="disabled" id="group_footer_suffix'+list[i]+'" name="group_footer_suffix" placeholder="suffix" onblur="javascript:TM.setGroupFooterInJSON();"> </td>';
    				groupFooter+='</tr>';
    			}
    			groupFooter+='</tbody></table></div>'
@@ -991,23 +885,17 @@ cssGenerator = {
    	
    	groupHeader : function()
    	{
-   		var list='';
-   		if(DA.searchColumn[0]=='*'&&DA.searchColumn.length==1){
-   			 list = DA.colList;	
-   		}else{
-   			list=DA.searchColumn;	
-   		}
+
+   			list=TM.searchColumn;	
    		
    		var groupHeader='<div id="groupHeaderTable"><table><tbody>';
   		 groupHeader+='<tr><td nowrap="nowrap" style="text-align: left;">Group By</td><td nowrap="nowrap">Prefix</td><td nowrap="nowrap">Suffix</td></tr>';
 		for(var i=0;i<list.length;i++){
 			
-			groupHeader+='<tr><td style= "text-align: left; white-space: nowrap;" nowrap="nowrap"><input type="checkbox" name="groupHeader'+list[i]+'" id="groupHeader'+list[i]+'" value="'+list[i]+'" onclick="DA.setGroupHeader(\''+list[i]+'\', this.checked);" > '+list[i]+'</td>';
-			groupHeader+='<td style= "text-align: left;" nowrap="nowrap" ><input type="text" id="group_header_prefix'+list[i]+'" name="group_footer_prefix" placeholder="prefix" onblur="javascript:DA.setGroupHeaderInJSON();" disabled="disabled"> </td>';
-			groupHeader+='<td nowrap="nowrap" style="display: none; text-align: left;">'+DA.getAggregateFunctionDropDownForGroupHeader(list[i])+'</td>';
-			groupHeader+='<td style= "text-align: left;" nowrap="nowrap"><input type="text" id="group_header_suffix'+list[i]+'" name="group_footer_suffix" placeholder="suffix" onblur="javascript:DA.setGroupHeaderInJSON();" disabled="disabled"> </td>';
-//			groupHeader+='<td nowrap="nowrap">'+DA.getCSSStyleDropDown(list[i],'group_header_style','DA.setGroupHeaderInJSON()')+'</td>';
-//			groupHeader+='<td nowrap="nowrap"><input type="text" id="group_header_style_val'+list[i]+'" name="group_header_style_val" onblur="javascript:DA.setGroupHeaderInJSON();" disabled="disabled"> </td>';
+			groupHeader+='<tr><td style= "text-align: left; white-space: nowrap;" nowrap="nowrap"><input type="checkbox" name="groupHeader'+list[i]+'" id="groupHeader'+list[i]+'" value="'+list[i]+'" onclick="TM.setGroupHeader(\''+list[i]+'\', this.checked);" > '+list[i]+'</td>';
+			groupHeader+='<td style= "text-align: left;" nowrap="nowrap" ><input type="text" id="group_header_prefix'+list[i]+'" name="group_footer_prefix" placeholder="prefix" onblur="javascript:TM.setGroupHeaderInJSON();" disabled="disabled"> </td>';
+			groupHeader+='<td nowrap="nowrap" style="display: none; text-align: left;">'+TM.getAggregateFunctionDropDownForGroupHeader(list[i])+'</td>';
+			groupHeader+='<td style= "text-align: left;" nowrap="nowrap"><input type="text" id="group_header_suffix'+list[i]+'" name="group_footer_suffix" placeholder="suffix" onblur="javascript:TM.setGroupHeaderInJSON();" disabled="disabled"> </td>';
 			
 			groupHeader+='</tr>';
 		}
@@ -1029,7 +917,7 @@ cssGenerator = {
 		colName= Formatter.previousColName;
 		
 		var category = $('#formatTypeOptions').val();
-		var datatype = DA.colMap[colName];
+		var datatype = TM.colMap[colName];
 		if(datatype.toUpperCase()=="STRING" || datatype.toUpperCase() == 'BLOB'){
 			datatype="string";
 		}else if(datatype.toUpperCase()=="LONG" || datatype.toUpperCase()=="INTEGER" || datatype.toUpperCase()=="FLOAT" || datatype.toUpperCase()=="DOUBLE"){
@@ -1062,37 +950,37 @@ cssGenerator = {
 		formatObj["sample"]=sampleData;
 		
 		
-		if(DA.currentType=="groupHeader"){
+		if(TM.currentType=="groupHeader"){
 			
-			if(DA.queryInfo["groupHeader"][colName]["style"]==undefined||DA.queryInfo["groupHeader"][colName]==null)
+			if(TM.queryInfo["groupHeader"][colName]["style"]==undefined||TM.queryInfo["groupHeader"][colName]==null)
 			{
-				DA.queryInfo["groupHeader"][colName]["style"]=new Object();
+				TM.queryInfo["groupHeader"][colName]["style"]=new Object();
 			}
-			DA.queryInfo["groupHeader"][colName]["style"]["format"]=formatObj;
+			TM.queryInfo["groupHeader"][colName]["style"]["format"]=formatObj;
 		}
-		else if(DA.currentType=="groupFooter"){
+		else if(TM.currentType=="groupFooter"){
 			
-			if(DA.queryInfo["groupFooter"][colName]["style"]==undefined||DA.queryInfo["groupFooter"][colName]==null)
+			if(TM.queryInfo["groupFooter"][colName]["style"]==undefined||TM.queryInfo["groupFooter"][colName]==null)
 			{
-				DA.queryInfo["groupFooter"][colName]["style"]=new Object();
+				TM.queryInfo["groupFooter"][colName]["style"]=new Object();
 			}
 			
-			DA.queryInfo["groupFooter"][colName]["style"]["format"]=formatObj;
+			TM.queryInfo["groupFooter"][colName]["style"]["format"]=formatObj;
 		}
-		else if(DA.currentType=="columnHeader"){
-			if(DA.queryInfo["colHeaderDetail"][colName]==undefined||DA.queryInfo["colHeaderDetail"][colName]==null)
+		else if(TM.currentType=="columnHeader"){
+			if(TM.queryInfo["colHeaderDetail"][colName]==undefined||TM.queryInfo["colHeaderDetail"][colName]==null)
 			{
-				DA.queryInfo["colHeaderDetail"][colName]=new Object();
+				TM.queryInfo["colHeaderDetail"][colName]=new Object();
 			}	
-			DA.queryInfo["colHeaderDetail"][colName]["format"]=formatObj;
+			TM.queryInfo["colHeaderDetail"][colName]["format"]=formatObj;
 		}
-		else if(DA.currentType=="columnDetail"){
-			if(DA.queryInfo["colDetail"][colName]==undefined||DA.queryInfo["colDetail"][colName]==null)
+		else if(TM.currentType=="columnDetail"){
+			if(TM.queryInfo["colDetail"][colName]==undefined||TM.queryInfo["colDetail"][colName]==null)
 			{
-				DA.queryInfo["colDetail"][colName]=new Object();
+				TM.queryInfo["colDetail"][colName]=new Object();
 			}
 			
-			DA.queryInfo["colDetail"][colName]["format"]=formatObj;
+			TM.queryInfo["colDetail"][colName]["format"]=formatObj;
 		}
 		
 		Formatter.previousColName = $('#availableColumnList').val();

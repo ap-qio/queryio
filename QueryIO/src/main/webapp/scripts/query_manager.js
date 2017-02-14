@@ -600,7 +600,7 @@ QM={
 				QM.description = $('#queryDescClone').val();
 				QM.selectedNameNode = queryObj["namenodeId"];
 				QM.selectedDbName = queryObj["dbname"];
-				QM.selectedCols = queryObj["selectedCols"];
+				QM.colMap = JSON.parse(queryObj["selectedCols"]);
 				QM.query = queryObj["properties"];
 				QM.showQuerySavePopup();
 			});
@@ -2521,19 +2521,22 @@ function fillPopUp(flag)
 	dwr.util.setValue('popup.component','Query ID');
 	dwr.util.setValue('popup.host'+id,id);
 	dwr.util.setValue('popup.message'+id,'Processing Request...');
+	console.log(QM.colMap);
 	
 	if (QM.isDelete){
 		dwr.util.setValue('popup.status'+id,'Deleting..');
 	}
+	
+	
 	else if(QM.isClone)
 	{
 		dwr.util.setValue('popup.status'+id,'Cloning..');	
-		RemoteManager.saveQuery(QM.selectedQueryId, QM.description, QM.selectedNameNode, QM.selectedDbName, QM.selectedCols, QM.query, QM.querySaveResponse);
+		RemoteManager.saveQuery(QM.selectedQueryId, QM.description, QM.selectedNameNode, QM.selectedDbName, JSON.stringify(QM.colMap), QM.query, QM.querySaveResponse);
 		QM.isClone = false;
 	}
 	else{
 		dwr.util.setValue('popup.status'+id,'Saving..');
-		RemoteManager.saveQuery(QM.selectedQueryId, QM.description, QM.selectedNameNode, QM.selectedDbName, QM.selectedCols, QM.query, QM.querySaveResponse);
+		RemoteManager.saveQuery(QM.selectedQueryId, QM.description, QM.selectedNameNode, QM.selectedDbName, JSON.stringify(QM.colMap), QM.query, QM.querySaveResponse);
 	}
 	
 };

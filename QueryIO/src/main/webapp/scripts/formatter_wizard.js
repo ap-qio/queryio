@@ -20,10 +20,10 @@ Formatter =
 			$("#customFormatHolder").css('display', 'none');
 			Formatter.previousColName = $("#availableColumnList").val();
 			var colName = $("#availableColumnList").val();
-			Formatter.currentColumnDataType = DA.colMap[colName];
+			Formatter.currentColumnDataType = TM.colMap[colName];
 			if(Formatter.currentColumnDataType==undefined||colName.indexOf('(')!=-1){
 				var validColName = colName.substring(colName.indexOf('(')+1,colName.indexOf(')'));
-				Formatter.currentColumnDataType = DA.colMap[validColName];
+				Formatter.currentColumnDataType = TM.colMap[validColName];
 			}
 			var date = new Date();
 			var numberFormat = ["Unformatted", "General Number", "Currency", "Fixed", "Percentage", "Scientific", "Custom"];
@@ -68,41 +68,41 @@ Formatter =
 		
 		var colName ='';
 		colName = $("#availableColumnList").val();
-		var datatype = DA.colMap[colName];
+		var datatype = TM.colMap[colName];
 		var formatObj=null;
-		if(DA.currentType=="groupHeader"){
-			if(DA.queryInfo["groupHeader"][colName]!=undefined&&DA.queryInfo["groupHeader"]!=null){
-				if(DA.queryInfo["groupHeader"][colName]["style"]!=undefined&&DA.queryInfo["groupHeader"][colName]!=null)
+		if(TM.currentType=="groupHeader"){
+			if(TM.queryInfo["groupHeader"][colName]!=undefined&&TM.queryInfo["groupHeader"]!=null){
+				if(TM.queryInfo["groupHeader"][colName]["style"]!=undefined&&TM.queryInfo["groupHeader"][colName]!=null)
 				{
-					if(DA.queryInfo["groupHeader"][colName]["style"]["format"]!=undefined&&DA.queryInfo["groupHeader"][colName]["style"]["format"]!=null)
-						formatObj =DA.queryInfo["groupHeader"][colName]["style"]["format"];
+					if(TM.queryInfo["groupHeader"][colName]["style"]["format"]!=undefined&&TM.queryInfo["groupHeader"][colName]["style"]["format"]!=null)
+						formatObj =TM.queryInfo["groupHeader"][colName]["style"]["format"];
 				}
 			}
 		}
-		else if(DA.currentType=="groupFooter"){
-			if(DA.queryInfo["groupFooter"][colName]!=undefined&&DA.queryInfo["groupFooter"]!=null){
-				if(DA.queryInfo["groupFooter"][colName]["style"]!=undefined&&DA.queryInfo["groupFooter"][colName]!=null)
+		else if(TM.currentType=="groupFooter"){
+			if(TM.queryInfo["groupFooter"][colName]!=undefined&&TM.queryInfo["groupFooter"]!=null){
+				if(TM.queryInfo["groupFooter"][colName]["style"]!=undefined&&TM.queryInfo["groupFooter"][colName]!=null)
 				{
-					if(DA.queryInfo["groupFooter"][colName]["style"]["format"]!=undefined||DA.queryInfo["groupFooter"][colName]["style"]["format"]!=null){
-						formatObj = DA.queryInfo["groupFooter"][colName]["style"]["format"];
+					if(TM.queryInfo["groupFooter"][colName]["style"]["format"]!=undefined||TM.queryInfo["groupFooter"][colName]["style"]["format"]!=null){
+						formatObj = TM.queryInfo["groupFooter"][colName]["style"]["format"];
 					}
 				}
 			}
 		}
-		else if(DA.currentType=="columnHeader"){
-			if(DA.queryInfo["colHeaderDetail"][colName]!=undefined&&DA.queryInfo["colHeaderDetail"][colName]!=null)
+		else if(TM.currentType=="columnHeader"){
+			if(TM.queryInfo["colHeaderDetail"][colName]!=undefined&&TM.queryInfo["colHeaderDetail"][colName]!=null)
 			{
-				if(DA.queryInfo["colHeaderDetail"][colName]["format"]!=undefined&&DA.queryInfo["colHeaderDetail"][colName]["format"]!=null){
-					formatObj=DA.queryInfo["colHeaderDetail"][colName]["format"];		
+				if(TM.queryInfo["colHeaderDetail"][colName]["format"]!=undefined&&TM.queryInfo["colHeaderDetail"][colName]["format"]!=null){
+					formatObj=TM.queryInfo["colHeaderDetail"][colName]["format"];		
 				}
 			}	
 			
 		}
-		else if(DA.currentType=="columnDetail"){
-			if(DA.queryInfo["colDetail"][colName]!=undefined&&DA.queryInfo["colDetail"][colName]!=null)
+		else if(TM.currentType=="columnDetail"){
+			if(TM.queryInfo["colDetail"][colName]!=undefined&&TM.queryInfo["colDetail"][colName]!=null)
 			{
-				if(DA.queryInfo["colDetail"][colName]["format"]!=undefined&&DA.queryInfo["colDetail"][colName]["format"]!=null){
-					formatObj=DA.queryInfo["colDetail"][colName]["format"];
+				if(TM.queryInfo["colDetail"][colName]["format"]!=undefined&&TM.queryInfo["colDetail"][colName]["format"]!=null){
+					formatObj=TM.queryInfo["colDetail"][colName]["format"];
 				}
 			}
 		}
@@ -362,7 +362,7 @@ Formatter =
 		}
 		$("#roundModeNumber").html(data);
 		
-//		var currencySymbol = ["No Symbol","´", "$", "Û", "£", "DKK"];
+//		var currencySymbol = ["No Symbol","ï¿½", "$", "ï¿½", "ï¿½", "DKK"];
 		var currencySymbol = ["No Symbol", "&#165;","&#36;", "&#8364;", "&#163;", "DKK"];
 		
 		data = "";
@@ -587,7 +587,7 @@ Formatter =
 	
   	createFromatterWizard : function(columnName, type, columnDataType)
    	{
-  		DA.currentType = type;
+  		TM.currentType = type;
    		Formatter.currentColumnDataType = columnDataType;
    		Util.addLightbox("formatterWizard", "resources/css_generator_wizard.html", null, null);
    	},
@@ -596,20 +596,20 @@ Formatter =
 	{
 		$("#formatTypeSubOptions").html("");
    		var list='';
-   		if(DA.currentType == 'groupHeader')
+   		if(TM.currentType == 'groupHeader')
    		{
-   			list = DA.selectedGroupHeaderArray;
+   			list = TM.selectedGroupHeaderArray;
    		}
-   		else if(DA.currentType == 'groupFooter')
+   		else if(TM.currentType == 'groupFooter')
    		{
-   			list = DA.selectedGroupFooterArray;
+   			list = TM.selectedGroupFooterArray;
    		}
-   		else if(DA.searchColumn[0]=='*'&&DA.searchColumn.length==1){
-   			 list = DA.colList;	
+   		else if(TM.searchColumn[0]=='*'&&TM.searchColumn.length==1){
+   			 list = TM.colList;	
    		}
    		else
    		{
-   			list=DA.searchColumn;
+   			list=TM.searchColumn;
    		}
    		
    		var data = "<select style=\"width: 120px;\" id = 'availableColumnList' onchange='javascript:Formatter.loadFormatTypeList(true);'>";
