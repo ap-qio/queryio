@@ -8,1463 +8,921 @@
 <!-- script src="scripts/jquery.custom.jqplot.js"></script-->
 <script type="text/javascript" src="scripts/report_chart.js"></script>
 <script type="text/javascript" src="scripts/chart_preferences.js"></script>
-<script src="scripts/bigQuerySummary.js"></script>
 <div id='data_browser' class="viewDiv">
-<!-- 
-<div class="table_header_div" style="text-align: left;">
-	<img id="expandQuery" src="images/Right.png" style="position: absolute; display: none; height: 15px;">
-	<img id="shrinkQuery" src="images/Down.png" style="position: absolute; height: 15px;">
-	<span style="margin-left: 30px;">Compose Query</span>
-</div>
- -->
- <!--
-<div id="queryHistory" style = "width: 210px; float: left; min-height: 650px; min-width: 210px;">
-	<div id = "leftOverlay">
-		<img id="Show" src="images/Right.png" style="float: right; display: none; height: 15px; margin: 3px;">
-		<div id = "leftTable" style = "margin: 3px;min-width: 190px;">
-			<div class="queryHeader" style="text-align: left;height:21px;">
-				<span>Queries (<span id="tableCount"></span>)</span>
-				<img id="Hide" src="images/Left.png" style="float: right; height: 15px;">
-				<select id = "selectQueryOption" style = "float: right;height: 100%; margin-bottom: 1px; margin-top: 0px;" onchange = "DA.selectTask();">
-					<option>--Action--</option>
-					<option>Add</option>
-					<option>Delete</option>
-					<option>Clone</option>
-				</select>
-				<button class="button" style="width: auto; float: right;" onclick="DA.deleteQuery();" type = "button" id = "deleteButton">Delete</button>
-				<button class="button" style="width: auto; float: right;" onclick="DA.resetFields();" type = "button" id = "addButton">Add</button>   
-			</div>
-			<div id ="table_container" style="height: 590px;min-width: 190px;overflow: hidden;">
-				<table id="queryHistoryTable"></table>
-			</div>
-		</div>
-	</div>
-</div>-->
 
-<div id ="data_analyzer_query_builder" style = "overflow: auto; position: relative; width: auto; min-height: 650px; display: ">
-	<div id = "rightOverlay" style = "height: auto;">
-	<div id = "rightPanel" style = "margin: 3px;">
-	<div class="queryHeader" style="text-align: left;">
-		<img id="expandQueryID" src="images/Right.png" style="display: none; height: 15px;">
-		<img id="shrinkQueryID" src="images/Down.png" style="height: 15px;">
-		<span id="queryIdTitle" style="margin-left: 5px;">New Query 1</span>
-	</div>
-		<div id="divQueryID" class="designBackground">
-			<table style="width: 100%;">
-				<tbody>
-					<tr>
-						<td style="width: 8%; padding-left: 1%;">Query Id</td>
-						<td style="width: 20%;"><input type="search"
-							placeholder="Query Id" value="New Query 1" id="queryId" style="width: 90%;" onkeyup="javascript:DA.queryIdChanged();" >
-						</td>
-						<!-- <td style="width: 2%; text-align: left;">Database</td>
-						<td style="width: 10%;">
-							<select id="queryIODatabase" onchange="javascript:DA.changeQueryIODbName(this.options[this.selectedIndex].value);">
-							</select>
-								
-						</td> -->
-						<td style="width: 2%; text-align: left;">Description</td>
-						<td><input type="search" placeholder="Query Description"
-							id="queryDesc" style="width: 95%;"> 
-							<!-- span style="color: red; margin-left: 0px; vertical-align: top">*</span-->
-						</td>
-						<td style="width: 10%;" nowrap="nowrap">
-							<input type="checkbox" name="limitResultRows" id="limitResultRows" checked onclick="javascript:DA.setLimitResultRowsState(this.checked);">
-							<span>Limit Result Rows</span>
-							<input type="search" placeholder="Result Rows Limit" id="limitResultRowsValue" style="width: auto;" value="300">
-						</td>
-						<td style="width: 10%;" nowrap="nowrap">
-							<input type="checkbox" name="highFidelityOutput" id="highFidelityOutput" checked onclick="javascript:DA.setHighFidelity(this.checked);">
-							<span>High Fidelity HTML Output</span>
-						</td>
-						<!-- 
-						<td style="text-align: right; width: 11%;" nowrap="nowrap">
-							<span style="padding-right: 10px;"><button class="button" id="executeQuery" onclick="javascript:DA.runCommand();">View</button></span>
-							<button class="button" id = "saveQuery" onclick="javascript:DA.saveQuery();">Save</button>
-						</td> -->
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-	<div class="queryHeader" style="text-align: left; margin-top: 8px;">
-		<img id="expandQueryDesign" src="images/Right.png" style="display: none; height: 15px;">
-		<img id="shrinkQueryDesign" src="images/Down.png" style="height: 15px;">
-		<span style="margin-left: 5px;">Query Builder</span>
-	</div>
-		<div id="rightPart" class="designBackground">
-			<div style="height: auto;">
-				<table>
-					<tr style="display: none;">
-						<td nowrap="nowrap" >
-							<span style="margin-left: 10px; margin-right: 5px">Query Id: </span>
-						</td>
-						<td nowrap="nowrap" style="width: 10%">
-							<input type='search' placeholder="Query Id" id="queryId" style="width: 100%">
-							<span style="color: red; margin-left: 0px; vertical-align: top">*</span>
-						 </td>
-						
-						<td nowrap="nowrap" >
-							<span style="margin-left: 10px; margin-right: 5px">Query Title: </span>
-						</td>
-						<td nowrap="nowrap" style="width: 90%">
-							<input type='search' placeholder="Query Name" id="queryName" style="width: 100%">
-							<span style="color: red; margin-left: 0px; vertical-align: top">*</span>
-						 </td>
-					</tr>
-				</table>
-			</div>
-			<div id="sql_query_builder_div" style=" height: auto;">
-				
-				
-				
-			</div>
-			<ul id="query_builder_tab" style="display: none;">
-				<li id="sql_query_builder_li"><a href="javascript:DataAnalyzer.showTab('1');">SQL Query Builder</a></li>
-				<li id="gui_query_builder_li" class="deactive" ><a href="javascript:DataAnalyzer.showTab('2');">Graphical Query Builder</a></li>
-			</ul>
-		
-			<div id="graphical_query_builder_div" style="height: auto; display:">
-	
-				<table id="element_table" style="width: 100%; padding: 0px; font-size: 9pt;">
-							<tr>
-								<td style="width: 7%; text-align: left;">Database</td>
-								<td style="width:10%;">
-									<select id="queryIODatabase" onchange="javascript:DA.changeQueryIODbName(this.options[this.selectedIndex].value);">
-									</select>
-									</td>
-									<td colspan="7">
-									<table id="query_filter_table" style="visibility: hidden; width: 100%;" >
-										<tr>
-											<td style="width: 15%;">
-												<input type="checkbox" id="is_apply_query_filter" onclick="javascript:DA.applyQueryFilter();"> Input Path Filter
-											</td>
-											<td>
-												<span class="sbox" style="">
-												<input type="search" id="query_filter_sql"  onclick="DA.showQueryFilterDiv(true);"
-												onfocus="DA.showQueryFilterDiv(true);" style="width: 100%; visibility: hidden;" readonly></span>
-											
-											<div id="query_filter_div" class="filtersBlock" style="display: none;width: 65%;">
-												<span>Result of this query will be passed as input path for hive query.</span>
-												<span id="selectColClose" class="divcloser">
-													<a href="javascript:DA.showQueryFilterDiv(false);"><img src="images/light-box-close.png" class="closerImage"></a>
-												</span>
-												<table style="width: 100%;">
-													<tr>
-														<td style="width:7%;">
-															SELECT
-														</td>
-														<td>
-														 filepath
-														</td>
-													</tr>
-													<tr>
-														<td style="width:7%;">
-															FROM 
-														</td>
-														<td>
-															<span class="sbox"><input type="search" id="query_filter_tables" placeholder="From Tables..." 
-															 onfocus="DA.showQueryFilterTables(true);" onclick="DA.showQueryFilterTables(true);"
-															 style="width: 100%; float: left; overflow: auto;"
-															readonly></span>
-															<div id="query_filter_tables_div" class="filtersBlock" style="display: none;">
-																<span>Search On:</span><br>
-															</div>
-														</td>
-													</tr>
-													<tr>
-													<td style="width:7%;">
-														WHERE
-													</td>
-													<td>
-														<span class="sbox"><input type="search" id="query_filter_where" placeholder="Where..." 
-															 onfocus="DA.showQueryFilterWhere(true);" onclick="DA.showQueryFilterWhere(true);"
-															 style="width: 100%; float: left; overflow: auto;"
-															readonly></span>
-															<div id="query_filter_where_div" class="filtersBlock" style="display: none;">
-																<span>Search On:</span><br>
-															</div>
-													</td>
-													</tr>
-												</table>
-											</div>
-											</td>
-										</tr>
-									</table>
-								</td>
-								
-							</tr>
-							<tr>
-								<td style="width: 7%;"
-									nowrap="nowrap"><label
-									onclick="javascript:DA.appendQuery('SELECT');">SELECT</label></td>
-								<td  nowrap="nowrap" colspan="8">
-									<span class="sbox" style=""><input type="search"
-										id="srch_col_fld" placeholder="Select Column..." results="0"
-										onclick="DA.showColFilters(this);" onfocus="DA.showColFilters(this);" style="width: 100%;" readonly></span>
-									<div id="searchColFilters" class="filtersBlock"
-										style="display: none;">
-											<span>Search On:</span><br>
-									</div>
-								</td>
-							</tr>
-
-							
-							<tr>	 
-								<td  nowrap="nowrap">
-									<label onclick="javascript:DA.appendQuery('FROM');" style="width: 80px;margin-right: 5px;">FROM</label>
-								 </td>
-								<td  nowrap="nowrap" colspan="6">
-									<span class="sbox"><input type="search" id="srch_from_fld" placeholder="From Tables..." results="0" onfocus="DA.showFromFilters(this);" onclick="DA.showFromFilters(this);"	style="width: 100%; float: left; overflow: auto;"
-									readonly></span>
-									<div id="searchFromFilters" class="filtersBlock" style="display: none;">
-										<span>Search On:</span><br>
-									</div>
-								 </td>
-								 
-								 <td id="resultTableNameTD" nowrap="nowrap" colspan="2" style = "width: 25%;  display: none;">
-									<span>
-										<input type = "checkbox" id = "persist" value = "Persist"  onclick = "DA.persistClicked(this.checked);">
-										<span>Persist Result&nbsp;&nbsp; | &nbsp;</span>
-									</span>
-									<span id="resultTableNameSpan" style="width: auto;">
-										<span>Result Table &nbsp;&nbsp;&nbsp;&nbsp;</span>
-										<input type="search" id="resultTableName" placeholder="Result Table Name" results="0" onblur="DA.setResultTableName();" style="width: 200px;">
-									</span>
-								 </td>
-						</tr>
-							
-						<!-- Start of where  -->
-					<tr>	 
-					
-								<td  nowrap="nowrap">
-									<!-- <input type="checkbox" value="WHERE" id = "wherechkbox" onclick="javascript:DA.setWhereClouse(this);"  > -->WHERE
-								 </td>
-								
-								
-										<td id="where_select_td" style="" colspan="8">
-											<span class="sbox" style=""><input type="search"
-															id="where_col" placeholder="Where..." results="0" onclick="DA.showWhereCol(this);"
-															onfocus="DA.showWhereCol(this);" style="width: 100%;" readonly></span>
-														<div id="whereFilters" class="filtersBlock"
-															style="display: none;">
-															<span>WHERE:</span><br>
-																
-														</div>
-										</td>
-								 
-								 
-								 
-								  
-						</tr>
-						<tr>
-						<td  style="width: 5%;" nowrap="nowrap">
-							 <!-- <input type="checkbox" value="GROUP BY" id = "grpbychkbox" onclick="javascript:DA.setGroupByClause(this);"> -->GROUP BY
-								<button class="button" onclick="javascript:DA.setGroupByClause('GROUP BY');" style="display: none;">GROUP BY</button>
-						</td>
-						<td id="group_by_select_td" style="" colspan="8">
-							<span class="sbox" style=""><input type="search"
-											id="grp_by_col" placeholder="Group By..." results="0"
-										onclick="DA.showGroupByCol(this);"	onfocus="DA.showGroupByCol(this);" style="width: 100%;" readonly></span>
-										<div id="groupByColFilters" class="filtersBlock"
-											style="display: none;">
-											<span>Search On:</span><br>
-												
-										</div>
-						</td>
-					</tr>
-					
-					<!-- HAVING clause -->
-					<tr>
-						<td>
-							<label>HAVING</label>
-						</td>
-						<td colspan = "8">
-							<span class="sbox" style="">
-								<input type="search" id="having_col" placeholder="Having..."  results="0" onclick="DA.showHavingCol(this);" 
-									onfocus="DA.showHavingCol(this);" style="width: 100%;" readonly>
-							</span>
-							<div id="havingColFilters" class="filtersBlock" style="display: none;">
-								<span>Search On:</span><br>
-							</div>
-						</td>
-					</tr>
-					
-					<tr>
-						<td  style="width: 5%;" nowrap="nowrap">
-							 <!-- <input type="checkbox" value="ORDER BY" id = "grpbychkbox" onclick="javascript:DA.setOrderByClouse(this);"> -->ORDER BY
-						</td>
-						<td id="order_by_select_td" style="" colspan="8">
-							<span class="sbox" style=""><input type="search"
-											id="order_by_col" placeholder="Order By..." results="0" onclick="DA.showOrderByCol(this);"
-											onfocus="DA.showOrderByCol(this);" style="width: 100%;" readonly></span>
-										<div id="orderByColFilters" class="filtersBlock"
-											style="display: none;">
-											<span>ORDER BY:</span><br>
-												
-										</div>
-						</td>
-					</tr>
-				
-					<tr>
-						<td nowrap="nowrap" style="width: 7%;"><span>SQL Query </span></td>
-						<td colspan = "8"><textarea id="query_textarea" rows="" cols="" style="width: 100%; height: 100%; margin-top: 10px;" onchange="DA.checkQueryEmpty();"></textarea></td>
-					</tr>
-				</table>
-			</div>
-		
-		
-		</div>
-		
-		<div class="queryHeader" style="text-align: left; margin-top: 8px;">
-			<img id="expandQueryProperties" src="images/Right.png" style="display: none; height: 15px;">
-			<img id="shrinkQueryProperties" src="images/Down.png" style="height: 15px;">
-			<span style="margin-left: 5px;">Report Designer</span>
-		</div>
-		<div id = "divQueryProperties" class="designBackground">
-				<table style="width: 100%">
-					
-						
-					<tr>
-						<td style="width: 8%;">
-							Report Header
-						</td>
-						<td colspan="8" style="width: 95%;">
-						<div style="display: inline-block;width: 100%;min-height: 15px;">
-										<div id="report_header_preview" class="header-preview-div" >
-										</div>
-									</div>
-								</td>
-							<td style="width: 5px;">								
-								<button class="button" onclick="javascript:DA.createCSSGeneratorWizard('queryHeader');" style="width: 40px;margin-left: 5px;vertical-align: top;">Edit</button>
-						
-						
-							<!-- <input  type="search" placeholder="Report Header"
-							id="queryHeader" style="width: 95%; display: none;" onblur="DA.showReportPreview();"  > -->
-							<!-- <a href="javascript:DA.showAddChart('queryHeader');"><img class="addChartImg"	alt="Add Chart" src="images/addChart.jpeg" ></a>
-							-->
-						</td>
-					</tr>
-					
-					<!-- Group Header Start -->
-					
-					
-					<tr>	 
-								<td  nowrap="nowrap" style="padding-left: 20px;">
-									<span id="group_header_span" style="display: ">Group Header</span>
-								 </td>
-								<td id="group_header_select_td"  colspan="8" style="padding-left: 20px;">
-								
-								<div style="display: inline-block;width: 100%;min-height: 15px;">
-										<div id="group_header_preview" class="header-preview-div" >
-										</div>
-								</div>
-								</td><td>
-							<button class="button" onclick="javascript:DA.createCSSGeneratorWizard('groupHeader');" style="width: 40px;margin-left: 5px;vertical-align: top;"">Edit</button>
-									
-								
-								
-							<!-- <span class="sbox" style="display: none;"><input type="search"
-											id="group_header_col" placeholder="Group Header..." results="0" onclick="DA.showGroupHeaderByCol(this);"
-											onfocus="DA.showGroupHeaderByCol(this);" style="width: 95%;"></span>
-										<div id="groupHeaderColFilters" class="filtersBlock"
-											style="display: none;">
-											<span>ORDER BY:</span><br>
-												 -->
-										</div>
-						</td> 
-						
-						</tr>
-						
-						
-				
-				
-				<!-- Column Header Start -->
-					<tr>	 
-								<td  nowrap="nowrap">
-									<span id="column_header_span" style="padding-left: 40px;">Column Header</span>
-								 </td>
-								<td id="column_header_select_td"  colspan="8" style="padding-left: 40px;">
-									<div style="display: inline-block;width: 100%;">
-										<div id="column_header_preview" class="header-preview-div">
-										</div>
-									</div></td><td>
-										<!-- <span class="sbox" style="display: none;"><input type="search"
-											id="column_header_col" placeholder="Column Header..." results="0" onclick="DA.showColumnHeaderByCol(this);"
-											onfocus="DA.showColumnHeaderByCol(this);" style="width: 95%;"></span>
-										<div id="columnHeaderColFilters" class="filtersBlock"
-											style="display: none;">
-											<span>ORDER BY:</span><br>
-												
-										</div> --><button class="button" onclick="javascript:DA.createCSSGeneratorWizard('columnHeader');" style="width: 40px;margin-left: 5px;vertical-align: top;"">Edit</button>
-						</td> 
-						
-						</tr>
-				
-				
-				<!-- Column Detail Start -->
-					<tr>	 
-								<td  nowrap="nowrap">
-									<span id="column_detail_span" style="padding-left: 40px;">Column Details</span>
-								 </td>
-								<td id="column_detail_select_td"  colspan="8" style="padding-left: 40px;">
-										
-										<div style="display: inline-block;width:100%;">
-											<div id="column_detail_preview" class="header-preview-div">
-											</div>
-										</div>
-										</td><td>
-										<!-- <span class="sbox" style="display: none;"><input type="search"
-											id="column_detail_col" placeholder="Column Detail..." results="0" onclick="DA.showColumnDetailByCol(this);"
-											onfocus="DA.showColumnDetailByCol(this);" style="width: 95%;"></span>
-										<div id="columnDetailColFilters" class="filtersBlock"
-											style="display: none;">
-											<span>ORDER BY:</span><br>
-												
-										</div> --><button class="button" onclick="javascript:DA.createCSSGeneratorWizard('columnDetail');" style="width: 40px;margin-left: 5px;vertical-align: top;"">Edit</button>
-						</td> 
-					
-						</tr>
-					
-					<tr>	  
-								<td  nowrap="nowrap">
-									<span id="group_footer_span" style="padding-left: 20px;">Group Footer</span>
-								 </td>
-								<td id="group_footer_select_td"  colspan="8" style="padding-left: 20px;">
-								
-								<div style="display: inline-block;width: 100%;">
-										<div id="group_footer_preview" class="header-preview-div">
-										</div>
-									</div></td><td>
-								<button class="button" onclick="javascript:DA.createCSSGeneratorWizard('groupFooter');" style="width: 40px;margin-left: 5px;vertical-align: top;"">Edit</button>
-							</td> 
-							
-					</tr>
-					
-						<tr>
-						<td>
-							Report Footer
-						</td>
-						<td colspan="8">
-						<div style="display: inline-block;width: 100%;min-height: 15px;">
-										<div id="report_footer_preview" class="header-preview-div" >
-										</div>
-						</div>
-								</td><td>
-								<button class="button" onclick="javascript:DA.createCSSGeneratorWizard('queryFooter');" style="width: 40px;margin-left: 5px;vertical-align: top;">Edit</button>
-				
-						</td>
-					</tr>
-				</table>
-			</div>
-		
-		<div class="queryHeader" style="text-align: left;margin-top: 8px;">
-			<img id="expandChartDesigner" src="images/Right.png" style="display: none; height: 15px;">
-			<img id="shrinkChartDesigner" src="images/Down.png" style="height: 15px;">
-			<span style="margin-left: 5px;">Chart Designer</span>
-		</div>
-		<div id = "divChartDesigner" class="designBackground" style="overflow-x: auto;">
-			<div id="chartDiv" style="float: left; width: 18%; min-height: 150px;">
-				<div id = "leftOverlay" style = "height: 275px; min-height: 245px;">
-					<div id = "chartTableDiv" style = "margin: 3px;">
-						<div class="queryHeader" style="text-align: left;">
-							<span>Charts (<span id="chartCount"></span>)</span>
-							<select id = "chartAction" onchange="DA.selectChartTask();" style = "float: right;">
-								<option>--Action--</option>
-								<option>Add</option>
-								<option>Clone</option>
-								<option>Delete</option>
-								<option >Chart Preferences</option>
-							</select>							
-							<!-- <button class="button" style="width: auto; float: right;" onclick="DA.deleteChart();" disabled = "disabled" type = "button" id = "deleteChart">Delete</button>
-							<button class="button" style="width: auto; float: right;" onclick="DA.addNewChart();"  type = "button" id = "addChart">Add</button>  -->
-						</div>
-						
-						<div id ="chartContainer" style="height: auto;">
-							<table id="chartTable"></table>
-						</div>
-					</div>
+	<div id="data_analyzer_query_builder"
+		style="overflow: auto; position: relative; width: auto; min-height: 650px; display:">
+		<div id="rightOverlay" style="height: auto;">
+			<div id="rightPanel" style="margin: 3px;">
+				<div class="queryHeader" style="text-align: left;">
+					<img id="expandQueryID" src="images/Right.png"
+						style="display: none; height: 15px;"> <img
+						id="shrinkQueryID" src="images/Down.png" style="height: 15px;">
+					<span id="queryIdTitle" style="margin-left: 5px;">New Query
+						1</span>
 				</div>
-			</div>
-			
-			<div id="chartOptionsDiv" style="float: right; width: 81.5%; min-height: 150px;">
-				<div id = "leftOverlay" style = "height: auto; min-height: 275px;">
-					<div id="add_report_chart" style="min-height: 250px;">
-						<div style="float: right;display: ;" id="defaultImg">
-							<img src="images/pie.png" style="width: 288px;"/>
-						</div>
-						<table style="display: inline-block;margin-right: 0px; width: 66%;" id="add_report_chart_table">
-							<tbody>
-								<tr id="error_msg_row">
-								</tr>
-								<tr>
-									<td>
-										<div id="chart_detail_div">
-											<table id="chart_detail_table" style="width: 100%;">
-												<tbody>
-													<tr>
-														<td colspan="2"><span id="error_msg" style="color: red;"></span></td>
-													</tr>
-													<tr>
-														<td style="width: 100px">Title</td>
-														<td style="width: 200px">
-															<input type="search" placeholder="Chart Title" value="Chart Title" id="line_chart_title" style="width: 95%;">
-														</td>
-														<td style="width: 100px;">Type</td>
-														<td style="width: 200px"><select id="chart_type" style = "width: 95%;" onchange="javascript:RC.chartTypeChanged(this);">
-																<option value="">Select Chart Type</option>
-																<option value="line">Line Chart</option>
-																<option value="bar">Bar Chart</option>
-																<option value="pie">Pie Chart</option>
-																<option value="area">Area Chart</option>
-																<option value="bubble">Bubble Chart</option>
-																<option value="scatter">Scatter Chart</option>
-																<option value="meter">Meter Chart</option>
-																<option value="stock">Stock Chart</option>
-																<option value="difference">Difference Chart</option>
-																<option value="gantt">Gantt Chart</option>
-																<option value="tube">Tube Chart</option>
-																<option value="cone">Cone Chart</option>
-																<option value="pyramid">Pyramid Chart</option>
-																<option value="radar">Radar Chart</option>
-																</select>
-														</td>
-														
-													</tr>
-													<tr>
-														<td style = "width: 100px;">Section</td>
-														<td style="width: 200px">
-														<select id="chart_position" style = "width: 95%;" onchange="javascript:chartPositionChanged();">
-																<option value="queryHeader">Report Header</option>
-																<option value="groupHeader">Group Header</option>
-																<option value="groupFooter">Group Footer</option>
-																<!-- <option value="queryFooter">Report Footer</option> -->
-																</select>
-															<input type="text" id="chart_section" style="display: none;">
-														</td>
-														<td style="width: 100px">Dimension</td>
-														<td style="width: 200px">
-															<select id="chart_dimension" style = "width: 95%;">
-																
-															</select>
-														</td>
-													</tr>
-													<tr>
-														<td style ="width: 100px;">Width (pt)</td>
-														<td style="width: 200px">
-															<input type="search" placeholder="Width" id="chart_width" value="300" style="width: 95%;">
-														</td>
-														<td style = "width: 100px;">Height (pt)</td>
-														<td style="width: 200px;">
-															<input type="search" placeholder="Height" id="chart_height" value="300" style="width: 95%;">
-														</td>
-													</tr>
-													<tr>
-														<td style="width: 100px">Row Position</td>
-														<td style="width: 200px">
-															<input type="search" placeholder="Row Position" value = "1" id="row_position" style="width: 95%;">
-														</td>
-														<td style="width: 100px" ><span id="chart_col_opt">Column Position</span></td>
-														<td style="width: 200px">
-															<input type="search" placeholder="Column Span" value = "1" id="col_span" style="width: 95%;">
-														</td>
-													</tr>
-												</tbody>
-											</table>
-											
-											<!-- DEFAULT CHARTS -->
-											<table style="width: 100%; display:none " id="line_chart_table">
-												
-												<tr>
-													<td  style="width: 100px">	
-														X Series
-													</td>
-													<td  style="width: 200px"><select id="line_x_series" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select></td>
-													<td  style="width: 100px">
-														Y Series
-													</td>
-													<!-- <td  style="width: 200px"><select id="line_y_series" style="width: 100%;">
+
+				<div class="queryHeader" style="text-align: left; margin-top: 8px;">
+					<img id="expandChartDesigner" src="images/Right.png"
+						style="display: none; height: 15px;"> <img
+						id="shrinkChartDesigner" src="images/Down.png"
+						style="height: 15px;"> <span style="margin-left: 5px;">Chart
+						Designer</span>
+				</div>
+				<div id="divChartDesigner" class="designBackground"
+					style="overflow-x: auto;">
+
+					<div id="chartOptionsDiv"
+						style="float: right; width: 81.5%; min-height: 150px;">
+						<div id="leftOverlay" style="height: auto; min-height: 275px;">
+							<div id="add_report_chart" style="min-height: 250px;">
+								<div style="float: right; display:;" id="defaultImg">
+									<img src="images/pie.png" style="width: 288px;" />
+								</div>
+								<table
+									style="display: inline-block; margin-right: 0px; width: 66%;"
+									id="add_report_chart_table">
+									<tbody>
+										<tr id="error_msg_row">
+										</tr>
+										<tr>
+											<td>
+												<div id="chart_detail_div">
+													<table id="chart_detail_table" style="width: 100%;">
+														<tbody>
+															<tr>
+																<td colspan="2"><span id="error_msg"
+																	style="color: red;"></span></td>
+															</tr>
+															<tr>
+																<td style="width: 100px">Title</td>
+																<td style="width: 200px"><input type="search"
+																	placeholder="Chart Title" value="Chart Title"
+																	id="line_chart_title" style="width: 95%;"></td>
+																<td style="width: 100px;">Type</td>
+																<td style="width: 200px"><select id="chart_type"
+																	style="width: 95%;"
+																	onchange="javascript:RC.chartTypeChanged(this);">
+																		<option value="">Select Chart Type</option>
+																		<option value="line">Line Chart</option>
+																		<option value="bar">Bar Chart</option>
+																		<option value="pie">Pie Chart</option>
+																		<option value="area">Area Chart</option>
+																		<option value="bubble">Bubble Chart</option>
+																		<option value="scatter">Scatter Chart</option>
+																		<option value="meter">Meter Chart</option>
+																		<option value="stock">Stock Chart</option>
+																		<option value="difference">Difference Chart</option>
+																		<option value="gantt">Gantt Chart</option>
+																		<option value="tube">Tube Chart</option>
+																		<option value="cone">Cone Chart</option>
+																		<option value="pyramid">Pyramid Chart</option>
+																		<option value="radar">Radar Chart</option>
+																</select></td>
+
+															</tr>
+															<tr>
+																<td style="width: 100px;">Section</td>
+																<td style="width: 200px"><select
+																	id="chart_position" style="width: 95%;"
+																	onchange="javascript:chartPositionChanged();">
+																		<option value="queryHeader">Report Header</option>
+																		<option value="groupHeader">Group Header</option>
+																		<option value="groupFooter">Group Footer</option>
+																		<!-- <option value="queryFooter">Report Footer</option> -->
+																</select> <input type="text" id="chart_section"
+																	style="display: none;"></td>
+																<td style="width: 100px">Dimension</td>
+																<td style="width: 200px"><select
+																	id="chart_dimension" style="width: 95%;">
+
+																</select></td>
+															</tr>
+															<tr>
+																<td style="width: 100px;">Width (pt)</td>
+																<td style="width: 200px"><input type="search"
+																	placeholder="Width" id="chart_width" value="300"
+																	style="width: 95%;"></td>
+																<td style="width: 100px;">Height (pt)</td>
+																<td style="width: 200px;"><input type="search"
+																	placeholder="Height" id="chart_height" value="300"
+																	style="width: 95%;"></td>
+															</tr>
+															<tr>
+																<td style="width: 100px">Row Position</td>
+																<td style="width: 200px"><input type="search"
+																	placeholder="Row Position" value="1" id="row_position"
+																	style="width: 95%;"></td>
+																<td style="width: 100px"><span id="chart_col_opt">Column
+																		Position</span></td>
+																<td style="width: 200px"><input type="search"
+																	placeholder="Column Span" value="1" id="col_span"
+																	style="width: 95%;"></td>
+															</tr>
+														</tbody>
+													</table>
+
+													<!-- DEFAULT CHARTS -->
+													<table style="width: 100%; display: none"
+														id="line_chart_table">
+
+														<tr>
+															<td style="width: 100px">X Series</td>
+															<td style="width: 200px"><select id="line_x_series"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+															<td style="width: 100px">Y Series</td>
+															<!-- <td  style="width: 200px"><select id="line_y_series" style="width: 100%;">
 															<option value="col1">--Select--</option>
 													</select></td> -->
-													<td>	
-														<span class="sbox" style=""><input	type="search" id="line_y_series" placeholder="Y Series ..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="line_y_seriesColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Y Series</span><br>
-														</div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="X-Axis Title" value="X-Axis" id="line_x_axis_legend" style="width: 95%;">
-													</td>
-													<td style="width: 100px">
-														Y Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="Y-Axis Title" value="Y-Axis"
-																							id="line_y_axis_legend" style="width: 95%;">
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Data Sorting
-													</td>
-													<td  style="width: 200px"><select id="line_x_series_sort_type" style="width: 95%;" onchange="javascript:RC.sortOrderChanged(this, 'line_x_series_sort_column');">
-															<option value="None">None</option>
-															<option value="Ascending">Ascending</option>
-															<option value="Descending">Descending</option>
-													</select></td>
-														<td  style="width: 100px">
-														Optional Y Series Grouping
-													</td>
-													<td>	
-													<select id="y_series_grouping" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select>
-													</td>
-												</tr>
-												<tr>
-													<td  style="width: 100px">
-														Sort Column
-													</td>
-													<td  style="width: 200px"><select id="line_x_series_sort_column" style="width: 95%;" disabled="disabled">
-															<option value="col1">--Select--</option>
-													</select></td>
-													<td  style="width: 100px">
-														 Y Series Scale
-													</td>
-													<td  style="width: 200px"><select id="line_x_series_scale" style="width: 95%;" onchange="javascript:RC.seriesChanged()">
-															<option value="Linear">Linear</option>
-															<option value="Logarithmic">Logarithmic</option>
-															<option value="DateTime">DateTime</option>
-													</select></td>
-													
-												</tr>
-												<tr id="y_scale_min_val_row">
-													<td  style="width: 100px">
-														Y Scale Min value
-													</td>
-													<td  style="width: 200px">
-														<input type="text" id="y_scale_min_val">
-													</td>
-													<td  style="width: 100px">
-														 
-													</td>
-													<td  style="width: 200px">
-													</td>
-													
-													
-												</tr>
-												<tr>
-													
-													<td colspan="4" style="text-align: right;">
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="chartPRButton" name="chartPRButton" onclick="javascript:DA.editChartPreferences();">Edit</button>
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px; display: none;" id="lineAdd" name="Add" onclick="RC.addLineChart(true);">Add</button>
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="lineSave" name="Save" onclick="RC.addLineChart(false);">Add</button>
-													</td>
-												</tr>
-											</table>
-											
-											
-											
-											<!-- Pie Chart Div -->
-											
-											<table style="width: 100%;display:none " id="pie_chart_table">
-												<tr>
-													<td style="width: 100px">	
-														X Series
-													</td>
-													<td style="width: 200px">
-															<select id="pie_x_series" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select></td>
-													<td style="width: 100px">	
-														Y Series
-													</td>
-													<td style="width: 200px">
-															<select id="pie_y_series" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select></td>
-												</tr>
-													<tr>
-													<td style="width: 100px">
-														X Axis Legend
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="X-Axis Title" value="X-Axis" id="pie_x_axis_legend" style="width: 95%;">
-													</td>
-													<td style="width: 100px">
-														Y Axis Legend
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="Y-Axis Title" value="Y-Axis"
-																							id="pie_y_axis_legend" style="width: 95%;">
-													</td>
-												</tr>
-												<tr>
-													<td colspan = "2" style="width: 200px"> 
-													</td>
-													<td colspan="2" style="text-align: right;">
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="chartPR" name="chartPR" onclick="javascript:DA.editChartPreferences();">Chart Preferences</button>
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px; display: none;" id="pieAdd" name="Add" onclick="RC.addPieChart(true);">Save</button>
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="pieSave" name="Save" onclick="RC.addPieChart(false);">Save</button>
-													</td>
-												</tr>
-												
-											</table>
-											
-											<!-- BUBBLE CHART -->
-											<table style="width: 100%; display:none " id="bubble_chart_table">
-												
-												<tr>
-													<td  style="width: 100px">	
-														Catagory (X) Series
-													</td>
-													<td  style="width: 200px"><select id="bubble_x_series" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select></td>
-													
-													<td  style="width: 100px">
-														Y Series Value
-													</td>
-													<td>	
-														<span class="sbox" style=""><input	type="search" id="bubble_y_value" placeholder="Y Series Value..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="bubble_y_valueColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Y Series Value</span><br>
-														</div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td  style="width: 100px"></td>
-													<td  style="width: 200px"></td>
-													<td  style="width: 100px">
-														Y Series Size
-													</td>
-													<td>	
-														<span class="sbox" style=""><input	type="search" id="bubble_y_size" placeholder="Y Series Size..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="bubble_y_sizeColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Y Series Size</span><br>
-														</div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="X-Axis Title" value="X-Axis"  id="bubble_x_axis_legend" style="width: 95%;">
-													</td>
-													<td style="width: 100px">
-														Y Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="Y-Axis Title" value="Y-Axis" id="bubble_y_axis_legend" style="width: 95%;">
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Data Sorting
-													</td>
-													<td  style="width: 200px"><select id="bubble_x_series_sort_type" style="width: 95%;" onchange="javascript:RC.sortOrderChanged(this, 'bubble_x_series_sort_column');">
-															<option value="None">None</option>
-															<option value="Ascending">Ascending</option>
-															<option value="Descending">Descending</option>
-													</select></td>
-														<td  style="width: 100px">
-														Optional Y Series Grouping
-													</td>
-													<td>	
-													<select id="bubble_y_series_grouping" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select>
-													</td>
-												</tr>
-												<tr>
-													<td  style="width: 100px">
-														Sort Column
-													</td>
-													<td  style="width: 200px"><select id="bubble_x_series_sort_column" style="width: 95%;" disabled="disabled">
-															<option value="col1">--Select--</option>
-													</select></td>
-													<td colspan="2" style="text-align: right;">
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="chartPRButton" name="chartPRButton" onclick="javascript:DA.editChartPreferences();">Edit</button>
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px; display: none;" id="bubbleAdd" name="Add" onclick="RC.addBubbleChart(true);">Add</button>
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="bubbleSave" name="Save" onclick="RC.addBubbleChart(false);">Add</button>
-													</td>
-												</tr>
-												
-											</table>
-											
-											
-											<!-- STOCK CHART -->
-											<table style="width: 100%; display:none " id="stock_chart_table">
-												
-												<tr>
-													<td  style="width: 100px">	
-														Catagory (X) Series
-													</td>
-													<td  style="width: 200px"><select id="stock_x_series" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select></td>
-													
-													<td  style="width: 100px">
-													</td>
-													<td>	
-													</td>
-												</tr>
-												
-												<tr>
-													<td  style="width: 100px">
-														Y Series High
-													</td>
-													<td  style="width: 200px">
-														<span class="sbox" style=""><input	type="search" id="stock_y_high" placeholder="Y Series High..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="stock_y_highColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Y Series High</span><br>
-														</div>
-													</td>
-													<td  style="width: 100px">
-														Y Series Low
-													</td>
-													<td>	
-														<span class="sbox" style=""><input	type="search" id="stock_y_low" placeholder="Y Series Low..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="stock_y_lowColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Y Series Low</span><br>
-														</div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td  style="width: 100px">
-														Y Series Open
-													</td>
-													<td  style="width: 200px">
-														<span class="sbox" style=""><input	type="search" id="stock_y_open" placeholder="Y Series Open..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="stock_y_openColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Y Series Open</span><br>
-														</div>
-													</td>
-													<td  style="width: 100px">
-														Y Series Close
-													</td>
-													<td>	
-														<span class="sbox" style=""><input	type="search" id="stock_y_close" placeholder="Y Series Close..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="stock_y_closeColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Y Series Close</span><br>
-														</div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="X-Axis Title" value="X-Axis" id="stock_x_axis_legend" style="width: 95%;">
-													</td>
-													<td style="width: 100px">
-														Y Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="Y-Axis Title" value="Y-Axis" id="stock_y_axis_legend" style="width: 95%;">
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Data Sorting
-													</td>
-													<td  style="width: 200px"><select id="stock_x_series_sort_type" style="width: 95%;" onchange="javascript:RC.sortOrderChanged(this, 'stock_x_series_sort_column');">
-															<option value="None">None</option>
-															<option value="Ascending">Ascending</option>
-															<option value="Descending">Descending</option>
-													</select></td>
-														<td  style="width: 100px">
-														Optional Y Series Grouping
-													</td>
-													<td>	
-													<select id="stock_y_series_grouping" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select>
-													</td>
-												</tr>
-												<tr>
-													<td  style="width: 100px">
-														Sort Column
-													</td>
-													<td  style="width: 200px"><select id="stock_x_series_sort_column" style="width: 95%;" disabled="disabled">
-															<option value="col1">--Select--</option>
-													</select></td>
-													<td colspan="2" style="text-align: right;">
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="chartPRButton" name="chartPRButton" onclick="javascript:DA.editChartPreferences();">Edit</button>														
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px; display: none;" id="stockAdd" name="Add" onclick="RC.addStockChart(true);">Add</button>
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="stockSave" name="Save" onclick="RC.addStockChart(false);">Add</button>
-													</td>
-												</tr>
-												
-											</table>
-											
-											
-											<!--DIFFERENCE CHART -->
-											<table style="width: 100%; display:none " id="difference_chart_table">
-												
-												<tr>
-													<td  style="width: 100px">	
-														Catagory (X) Series
-													</td>
-													<td  style="width: 200px"><select id="difference_x_series" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select></td>
-													
-													<td  style="width: 100px">
-														Y Series Positive
-													</td>
-													<td>	
-														<span class="sbox" style=""><input	type="search" id="difference_y_positive" placeholder="Y Series Positive..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="difference_y_positiveColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Y Series Positive</span><br>
-														</div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td  style="width: 100px"></td>
-													<td  style="width: 200px"></td>
-													<td  style="width: 100px">
-														Y Series Negative
-													</td>
-													<td>	
-														<span class="sbox" style=""><input	type="search" id="difference_y_negetive" placeholder="Y Series Negative..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="difference_y_negetiveColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Y Series Negative</span><br>
-														</div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="X-Axis Title" value="X-Axis" id="difference_x_axis_legend" style="width: 95%;">
-													</td>
-													<td style="width: 100px">
-														Y Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="Y-Axis Title" value="Y-Axis" id="difference_y_axis_legend" style="width: 95%;">
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Data Sorting
-													</td>
-													<td  style="width: 200px"><select id="difference_x_series_sort_type" style="width: 95%;" onchange="javascript:RC.sortOrderChanged(this, 'difference_x_series_sort_column');">
-															<option value="None">None</option>
-															<option value="Ascending">Ascending</option>
-															<option value="Descending">Descending</option>
-													</select></td>
-														<td  style="width: 100px">
-														Optional Y Series Grouping
-													</td>
-													<td>	
-													<select id="difference_y_series_grouping" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select>
-													</td>
-												</tr>
-												<tr>
-													<td  style="width: 100px">
-														Sort Column
-													</td>
-													<td  style="width: 200px"><select id="difference_x_series_sort_column" style="width: 95%;" disabled="disabled">
-															<option value="col1">--Select--</option>
-													</select></td>
-													<td colspan="2" style="text-align: right;">
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="chartPRButton" name="chartPRButton" onclick="javascript:DA.editChartPreferences();">Edit</button>														
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px; display: none;" id="differenceAdd" name="Add" onclick="RC.addDifferenceChart(true);">Add</button>
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="differenceSave" name="Save" onclick="RC.addDifferenceChart(false);">Add</button>
-													</td>
-												</tr>
-												
-											</table>
-											
-											<!-- GANTT CHART -->
-											<table style="width: 100%; display:none " id="gantt_chart_table">
-												
-												<tr>
-													<td  style="width: 100px">	
-														Catagory (X) Series
-													</td>
-													<td  style="width: 200px"><select id="gantt_x_series" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select></td>
-													
-													<td  style="width: 100px">
-														Task Label
-													</td>
-													<td>	
-														<span class="sbox" style=""><input	type="search" id="gantt_y_label" placeholder="Task Label..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="gantt_y_labelColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Task Label</span><br>
-														</div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td  style="width: 100px">
-														Start Date
-													</td>
-													<td  style="width: 200px">
-														<span class="sbox" style=""><input	type="search" id="gantt_y_start" placeholder="Start Date..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="gantt_y_startColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>Start Date</span><br>
-														</div>
-													</td>
-													<td  style="width: 100px">
-														End Date
-													</td>
-													<td>	
-														<span class="sbox" style=""><input	type="search" id="gantt_y_end" placeholder="End Date..." results="0" onfocus="DA.showLineYSeriesCol(this);" onclick="DA.showLineYSeriesCol(this);" style="width: 95%;"></span>
-														<div id="gantt_y_endColFilters"
-															class="filtersBlock" style="display: none;">
-															<span>End Date</span><br>
-														</div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="X-Axis Title" value="X-Axis" id="gantt_x_axis_legend" style="width: 95%;">
-													</td>
-													<td style="width: 100px">
-														Y Axis Title
-													</td>
-													<td style="width: 200px">
-														<input type="search" placeholder="Y-Axis Title" value="Y-Axis" id="gantt_y_axis_legend" style="width: 95%;">
-													</td>
-												</tr>
-												
-												<tr>
-													<td style="width: 100px">
-														X Axis Data Sorting
-													</td>
-													<td  style="width: 200px"><select id="gantt_x_series_sort_type" style="width: 95%;" onchange="javascript:RC.sortOrderChanged(this, 'gantt_x_series_sort_column');">
-															<option value="None">None</option>
-															<option value="Ascending">Ascending</option>
-															<option value="Descending">Descending</option>
-													</select></td>
-														<td  style="width: 100px">
-														Optional Y Series Grouping
-													</td>
-													<td>	
-													<select id="y_series_grouping" style="width: 95%;">
-															<option value="col1">--Select--</option>
-													</select>
-													</td>
-												</tr>
-												<tr>
-													<td  style="width: 100px">
-														Sort Column
-													</td>
-													<td  style="width: 200px"><select id="gantt_x_series_sort_column" style="width: 95%;" disabled="disabled">
-															<option value="col1">--Select--</option>
-													</select></td>
-													<td colspan="2" style="text-align: right;">
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="chartPRButton" name="chartPRButton" onclick="javascript:DA.editChartPreferences();">Edit</button>														
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px; display: none;" id="ganttAdd" name="Add" onclick="RC.addGanttChart(true);">Add</button>
-														<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="ganttSave" name="Save" onclick="RC.addGanttChart(false);">Add</button>
-													</td>
-												</tr>
-												
-											</table>
-											
-											
+															<td><span class="sbox" style=""><input
+																	type="search" id="line_y_series"
+																	placeholder="Y Series ..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="line_y_seriesColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>Y Series</span><br>
+																</div></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="X-Axis Title" value="X-Axis"
+																id="line_x_axis_legend" style="width: 95%;"></td>
+															<td style="width: 100px">Y Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="Y-Axis Title" value="Y-Axis"
+																id="line_y_axis_legend" style="width: 95%;"></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Data Sorting</td>
+															<td style="width: 200px"><select
+																id="line_x_series_sort_type" style="width: 95%;"
+																onchange="javascript:RC.sortOrderChanged(this, 'line_x_series_sort_column');">
+																	<option value="None">None</option>
+																	<option value="Ascending">Ascending</option>
+																	<option value="Descending">Descending</option>
+															</select></td>
+															<td style="width: 100px">Optional Y Series Grouping
+															</td>
+															<td><select id="y_series_grouping"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+														</tr>
+														<tr>
+															<td style="width: 100px">Sort Column</td>
+															<td style="width: 200px"><select
+																id="line_x_series_sort_column" style="width: 95%;"
+																disabled="disabled">
+																	<option value="col1">--Select--</option>
+															</select></td>
+															<td style="width: 100px">Y Series Scale</td>
+															<td style="width: 200px"><select
+																id="line_x_series_scale" style="width: 95%;"
+																onchange="javascript:RC.seriesChanged()">
+																	<option value="Linear">Linear</option>
+																	<option value="Logarithmic">Logarithmic</option>
+																	<option value="DateTime">DateTime</option>
+															</select></td>
+
+														</tr>
+														<tr id="y_scale_min_val_row">
+															<td style="width: 100px">Y Scale Min value</td>
+															<td style="width: 200px"><input type="text"
+																id="y_scale_min_val"></td>
+															<td style="width: 100px"></td>
+															<td style="width: 200px"></td>
+
+
+														</tr>
+														<tr>
+
+															<td colspan="4" style="text-align: right;">
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;"
+																	id="chartPRButton" name="chartPRButton"
+																	onclick="javascript:CM.editChartPreferences();">Edit</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px; display: none;"
+																	id="lineAdd" name="Add"
+																	onclick="RC.addLineChart(true);">Add</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;" id="lineSave"
+																	name="Save" onclick="RC.addLineChart(false);">Add</button>
+															</td>
+														</tr>
+													</table>
+
+
+
+													<!-- Pie Chart Div -->
+
+													<table style="width: 100%; display: none"
+														id="pie_chart_table">
+														<tr>
+															<td style="width: 100px">X Series</td>
+															<td style="width: 200px"><select id="pie_x_series"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+															<td style="width: 100px">Y Series</td>
+															<td style="width: 200px"><select id="pie_y_series"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+														</tr>
+														<tr>
+															<td style="width: 100px">X Axis Legend</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="X-Axis Title" value="X-Axis"
+																id="pie_x_axis_legend" style="width: 95%;"></td>
+															<td style="width: 100px">Y Axis Legend</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="Y-Axis Title" value="Y-Axis"
+																id="pie_y_axis_legend" style="width: 95%;"></td>
+														</tr>
+														<tr>
+															<td colspan="2" style="width: 200px"></td>
+															<td colspan="2" style="text-align: right;">
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;" id="chartPR"
+																	name="chartPR"
+																	onclick="javascript:CM.editChartPreferences();">Chart
+																	Preferences</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px; display: none;"
+																	id="pieAdd" name="Add" onclick="RC.addPieChart(true);">Save</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;" id="pieSave"
+																	name="Save" onclick="RC.addPieChart(false);">Save</button>
+															</td>
+														</tr>
+
+													</table>
+
+													<!-- BUBBLE CHART -->
+													<table style="width: 100%; display: none"
+														id="bubble_chart_table">
+
+														<tr>
+															<td style="width: 100px">Catagory (X) Series</td>
+															<td style="width: 200px"><select
+																id="bubble_x_series" style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+
+															<td style="width: 100px">Y Series Value</td>
+															<td><span class="sbox" style=""><input
+																	type="search" id="bubble_y_value"
+																	placeholder="Y Series Value..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="bubble_y_valueColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>Y Series Value</span><br>
+																</div></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px"></td>
+															<td style="width: 200px"></td>
+															<td style="width: 100px">Y Series Size</td>
+															<td><span class="sbox" style=""><input
+																	type="search" id="bubble_y_size"
+																	placeholder="Y Series Size..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="bubble_y_sizeColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>Y Series Size</span><br>
+																</div></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="X-Axis Title" value="X-Axis"
+																id="bubble_x_axis_legend" style="width: 95%;"></td>
+															<td style="width: 100px">Y Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="Y-Axis Title" value="Y-Axis"
+																id="bubble_y_axis_legend" style="width: 95%;"></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Data Sorting</td>
+															<td style="width: 200px"><select
+																id="bubble_x_series_sort_type" style="width: 95%;"
+																onchange="javascript:RC.sortOrderChanged(this, 'bubble_x_series_sort_column');">
+																	<option value="None">None</option>
+																	<option value="Ascending">Ascending</option>
+																	<option value="Descending">Descending</option>
+															</select></td>
+															<td style="width: 100px">Optional Y Series Grouping
+															</td>
+															<td><select id="bubble_y_series_grouping"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+														</tr>
+														<tr>
+															<td style="width: 100px">Sort Column</td>
+															<td style="width: 200px"><select
+																id="bubble_x_series_sort_column" style="width: 95%;"
+																disabled="disabled">
+																	<option value="col1">--Select--</option>
+															</select></td>
+															<td colspan="2" style="text-align: right;">
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;"
+																	id="chartPRButton" name="chartPRButton"
+																	onclick="javascript:CM.editChartPreferences();">Edit</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px; display: none;"
+																	id="bubbleAdd" name="Add"
+																	onclick="RC.addBubbleChart(true);">Add</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;"
+																	id="bubbleSave" name="Save"
+																	onclick="RC.addBubbleChart(false);">Add</button>
+															</td>
+														</tr>
+
+													</table>
+
+
+													<!-- STOCK CHART -->
+													<table style="width: 100%; display: none"
+														id="stock_chart_table">
+
+														<tr>
+															<td style="width: 100px">Catagory (X) Series</td>
+															<td style="width: 200px"><select id="stock_x_series"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+
+															<td style="width: 100px"></td>
+															<td></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">Y Series High</td>
+															<td style="width: 200px"><span class="sbox" style=""><input
+																	type="search" id="stock_y_high"
+																	placeholder="Y Series High..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="stock_y_highColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>Y Series High</span><br>
+																</div></td>
+															<td style="width: 100px">Y Series Low</td>
+															<td><span class="sbox" style=""><input
+																	type="search" id="stock_y_low"
+																	placeholder="Y Series Low..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="stock_y_lowColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>Y Series Low</span><br>
+																</div></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">Y Series Open</td>
+															<td style="width: 200px"><span class="sbox" style=""><input
+																	type="search" id="stock_y_open"
+																	placeholder="Y Series Open..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="stock_y_openColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>Y Series Open</span><br>
+																</div></td>
+															<td style="width: 100px">Y Series Close</td>
+															<td><span class="sbox" style=""><input
+																	type="search" id="stock_y_close"
+																	placeholder="Y Series Close..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="stock_y_closeColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>Y Series Close</span><br>
+																</div></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="X-Axis Title" value="X-Axis"
+																id="stock_x_axis_legend" style="width: 95%;"></td>
+															<td style="width: 100px">Y Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="Y-Axis Title" value="Y-Axis"
+																id="stock_y_axis_legend" style="width: 95%;"></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Data Sorting</td>
+															<td style="width: 200px"><select
+																id="stock_x_series_sort_type" style="width: 95%;"
+																onchange="javascript:RC.sortOrderChanged(this, 'stock_x_series_sort_column');">
+																	<option value="None">None</option>
+																	<option value="Ascending">Ascending</option>
+																	<option value="Descending">Descending</option>
+															</select></td>
+															<td style="width: 100px">Optional Y Series Grouping
+															</td>
+															<td><select id="stock_y_series_grouping"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+														</tr>
+														<tr>
+															<td style="width: 100px">Sort Column</td>
+															<td style="width: 200px"><select
+																id="stock_x_series_sort_column" style="width: 95%;"
+																disabled="disabled">
+																	<option value="col1">--Select--</option>
+															</select></td>
+															<td colspan="2" style="text-align: right;">
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;"
+																	id="chartPRButton" name="chartPRButton"
+																	onclick="javascript:CM.editChartPreferences();">Edit</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px; display: none;"
+																	id="stockAdd" name="Add"
+																	onclick="RC.addStockChart(true);">Add</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;"
+																	id="stockSave" name="Save"
+																	onclick="RC.addStockChart(false);">Add</button>
+															</td>
+														</tr>
+
+													</table>
+
+
+													<!--DIFFERENCE CHART -->
+													<table style="width: 100%; display: none"
+														id="difference_chart_table">
+
+														<tr>
+															<td style="width: 100px">Catagory (X) Series</td>
+															<td style="width: 200px"><select
+																id="difference_x_series" style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+
+															<td style="width: 100px">Y Series Positive</td>
+															<td><span class="sbox" style=""><input
+																	type="search" id="difference_y_positive"
+																	placeholder="Y Series Positive..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="difference_y_positiveColFilters"
+																	class="filtersBlock" style="display: none;">
+																	<span>Y Series Positive</span><br>
+																</div></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px"></td>
+															<td style="width: 200px"></td>
+															<td style="width: 100px">Y Series Negative</td>
+															<td><span class="sbox" style=""><input
+																	type="search" id="difference_y_negetive"
+																	placeholder="Y Series Negative..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="difference_y_negetiveColFilters"
+																	class="filtersBlock" style="display: none;">
+																	<span>Y Series Negative</span><br>
+																</div></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="X-Axis Title" value="X-Axis"
+																id="difference_x_axis_legend" style="width: 95%;">
+															</td>
+															<td style="width: 100px">Y Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="Y-Axis Title" value="Y-Axis"
+																id="difference_y_axis_legend" style="width: 95%;">
+															</td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Data Sorting</td>
+															<td style="width: 200px"><select
+																id="difference_x_series_sort_type" style="width: 95%;"
+																onchange="javascript:RC.sortOrderChanged(this, 'difference_x_series_sort_column');">
+																	<option value="None">None</option>
+																	<option value="Ascending">Ascending</option>
+																	<option value="Descending">Descending</option>
+															</select></td>
+															<td style="width: 100px">Optional Y Series Grouping
+															</td>
+															<td><select id="difference_y_series_grouping"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+														</tr>
+														<tr>
+															<td style="width: 100px">Sort Column</td>
+															<td style="width: 200px"><select
+																id="difference_x_series_sort_column" style="width: 95%;"
+																disabled="disabled">
+																	<option value="col1">--Select--</option>
+															</select></td>
+															<td colspan="2" style="text-align: right;">
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;"
+																	id="chartPRButton" name="chartPRButton"
+																	onclick="javascript:CM.editChartPreferences();">Edit</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px; display: none;"
+																	id="differenceAdd" name="Add"
+																	onclick="RC.addDifferenceChart(true);">Add</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;"
+																	id="differenceSave" name="Save"
+																	onclick="RC.addDifferenceChart(false);">Add</button>
+															</td>
+														</tr>
+
+													</table>
+
+													<!-- GANTT CHART -->
+													<table style="width: 100%; display: none"
+														id="gantt_chart_table">
+
+														<tr>
+															<td style="width: 100px">Catagory (X) Series</td>
+															<td style="width: 200px"><select id="gantt_x_series"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+
+															<td style="width: 100px">Task Label</td>
+															<td><span class="sbox" style=""><input
+																	type="search" id="gantt_y_label"
+																	placeholder="Task Label..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="gantt_y_labelColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>Task Label</span><br>
+																</div></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">Start Date</td>
+															<td style="width: 200px"><span class="sbox" style=""><input
+																	type="search" id="gantt_y_start"
+																	placeholder="Start Date..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="gantt_y_startColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>Start Date</span><br>
+																</div></td>
+															<td style="width: 100px">End Date</td>
+															<td><span class="sbox" style=""><input
+																	type="search" id="gantt_y_end"
+																	placeholder="End Date..." results="0"
+																	onfocus="CM.showLineYSeriesCol(this);"
+																	onclick="CM.showLineYSeriesCol(this);"
+																	style="width: 95%;"></span>
+																<div id="gantt_y_endColFilters" class="filtersBlock"
+																	style="display: none;">
+																	<span>End Date</span><br>
+																</div></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="X-Axis Title" value="X-Axis"
+																id="gantt_x_axis_legend" style="width: 95%;"></td>
+															<td style="width: 100px">Y Axis Title</td>
+															<td style="width: 200px"><input type="search"
+																placeholder="Y-Axis Title" value="Y-Axis"
+																id="gantt_y_axis_legend" style="width: 95%;"></td>
+														</tr>
+
+														<tr>
+															<td style="width: 100px">X Axis Data Sorting</td>
+															<td style="width: 200px"><select
+																id="gantt_x_series_sort_type" style="width: 95%;"
+																onchange="javascript:RC.sortOrderChanged(this, 'gantt_x_series_sort_column');">
+																	<option value="None">None</option>
+																	<option value="Ascending">Ascending</option>
+																	<option value="Descending">Descending</option>
+															</select></td>
+															<td style="width: 100px">Optional Y Series Grouping
+															</td>
+															<td><select id="y_series_grouping"
+																style="width: 95%;">
+																	<option value="col1">--Select--</option>
+															</select></td>
+														</tr>
+														<tr>
+															<td style="width: 100px">Sort Column</td>
+															<td style="width: 200px"><select
+																id="gantt_x_series_sort_column" style="width: 95%;"
+																disabled="disabled">
+																	<option value="col1">--Select--</option>
+															</select></td>
+															<td colspan="2" style="text-align: right;">
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;"
+																	id="chartPRButton" name="chartPRButton"
+																	onclick="javascript:CM.editChartPreferences();">Edit</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px; display: none;"
+																	id="ganttAdd" name="Add"
+																	onclick="RC.addGanttChart(true);">Add</button>
+																<button class="button" type="button"
+																	style="margin-right: 10px; padding: 4px;"
+																	id="ganttSave" name="Save"
+																	onclick="RC.addGanttChart(false);">Add</button>
+															</td>
+														</tr>
+
+													</table>
+
+
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<a style="text-decoration: none;"
+									href="javascript:CM.editChartPreferences();">
+									<div style="display: none;" id="chartPreviewDiv">
+										<div id="main_chart_preveiw_title">
+											<b>Chart Title</b>
 										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<a style="text-decoration: none;" href="javascript:DA.editChartPreferences();">
-						<div style="display: none; " id="chartPreviewDiv" >
-								<div id="main_chart_preveiw_title"  ><b>Chart Title</b></div>
-								<div id="main_chart_preview_plot_area" style="width: 75%; float: left;">
-									<div id="main_chart_preview_client_area" style="text-align: center;">
-										<div id="main_preview_chart" style="height: 200px">
+										<div id="main_chart_preview_plot_area"
+											style="width: 75%; float: left;">
+											<div id="main_chart_preview_client_area"
+												style="text-align: center;">
+												<div id="main_preview_chart" style="height: 200px"></div>
+												<span id="main_chart_preveiw_series" class="header"
+													style="width: 100%;"><b>Series 1</b></span>
+											</div>
+
 										</div>
-										<span id="main_chart_preveiw_series" class="header" style="width: 100%;"><b>Series 1</b></span>
+										<div
+											style="width: 15%; height: 215px; float: right; margin-left: 2%; margin-right: 5%;"
+											id="main_parent_chart_legend_div">
+											<div style="" id="main_chart_legend_div">
+												<div id="main_legend_title">Legend Title</div>
+												<table id="mainlegendTable">
+
+												</table>
+											</div>
+										</div>
 									</div>
-									
-								</div>
-								<div style="  width: 15%;height: 215px; float: right; margin-left: 2%; margin-right: 5%;" id="main_parent_chart_legend_div">
-									<div style=" " id="main_chart_legend_div">
-										<div id="main_legend_title">Legend Title</div>
-										<table id="mainlegendTable">
-											
-										</table>
-									</div>
-								</div>
+								</a>
+							</div>
 						</div>
-						</a>
 					</div>
 				</div>
 			</div>
 		</div>
-			
-	
 	</div>
-
-	<div id="resultPart" style="display: none;">
-		<div class="queryHeader" style="margin-top: -13px"><span style="">Query Result</span>
-		</div>
-		<div id ="jqgrid_container">
-			<table id="data_analyzer_table"></table>
-			<div id="pager"></div>
-		</div>
-	</div>
-
-		</div>
-	</div>
-<!-- <div id="report_preview_div" style="display: none;">
-		<div class="queryHeader" style="text-align: left;margin-top: 8px;">
-			<img id="expandQueryPreview" src="images/Right.png" style="display: none; height: 15px;">
-			<img id="shrinkQueryPreview" src="images/Down.png" style="height: 15px;">
-			<span style="margin-left: 5px;">Report Preview</span>
-		</div>
-		<div id = "divQueryPreview" class="designBackground" style="overflow-x: auto;">
-			<table style="width: 100%;">
-				<tbody>
-					<tr>
-						<td>
-							<div style="width: 100%;font-size: 14px;" id="queryHeaderPreview"> </div>
-						</td>
-						</tr>
-						<tr>
-						<td style="padding-left: 20px; ">
-							<label style="width: 100%;" id="groupHeaderPreview"> </label>
-						</td>
-						</tr>
-						<tr>
-						<td style="padding-left: 40px;">
-							<table id="previewContentTable" style="width: 100%;">
-								
-							</table>
-						</td>
-						</tr>
-						<tr>
-							<td style="padding-left: 20px;">
-								<label style="width: 100%;" id="groupFooterPreview"> </label>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div style="width: 100%;font-size: 14px;" id="queryFooterPreview"> </div>
-							</td>
-						</tr>
-				</tbody>
-			</table>
-		</div>
-</div>-->
-
 </div>
 
 
 <script>
+	var colList = [];
+	var currentDesignerType = "";
+	CM.readyChart();
+	var obj = CM.getDefaultChartDetails();
+	CM.globalChartPreferences = obj["chartPreferences"];
+	RemoteManager.getChartPreferences(CM.setGlobalChartPreferences);
 
-
-
-var colList=[];
-var currentDesignerType = "";
-DA.ready();
-DA.setQueryDirtyBitHandlerEvent();
-var obj  = DA.getDefaultChartDetails();
-DA.globalChartPreferences = obj["chartPreferences"];
-RemoteManager.getChartPreferences(DA.setGlobalChartPreferences);
-
-
-function focusYattributes(prefix,suffix)
-{
-	$('#'+prefix+'_y_'+suffix+'ColFilters').show();
-	var ys = $('#'+prefix+'_y_'+suffix).val();
-	var ySeries = [];
-	ySeries = ys.split(",");
-	for(var i=0; i<ySeries.length; i++)
-	{
-		var temp = document.getElementById(prefix +"_y_"+ suffix + ySeries[i]);
-		if(temp != null)
-		{
-			temp.checked = true; 
-			//RC.setLineChartYSeries(ySeries[i], temp);
+	function focusYattributes(prefix, suffix) {
+		$('#' + prefix + '_y_' + suffix + 'ColFilters').show();
+		var ys = $('#' + prefix + '_y_' + suffix).val();
+		var ySeries = [];
+		ySeries = ys.split(",");
+		for (var i = 0; i < ySeries.length; i++) {
+			var temp = document.getElementById(prefix + "_y_" + suffix
+					+ ySeries[i]);
+			if (temp != null) {
+				temp.checked = true;
+				//RC.setLineChartYSeries(ySeries[i], temp);
+			}
 		}
 	}
-}
 
-function mouseenterYattributes(prefix,suffix)
-{
-	selectOpened = true;
-	$('#'+prefix+'_y_'+suffix+'ColFilters').show();
-}
-
-//Line y series
-$('#line_y_series').focus(function()
-{
-	focusYattributes('line','series');
-});
-
-$('#line_y_seriesColFilters').mouseenter(function()
-{
-	mouseenterYattributes('line','series');
-});	
-
-//bubble value
-$('#bubble_y_value').focus(function()
-{
-	focusYattributes('bubble','value');
-});
-
-$('#bubble_y_valueColFilters').mouseenter(function()
-{
-	mouseenterYattributes('bubble','value');
-});
-
-
-//bubble size
-$('#bubble_y_size').focus(function()
-{
-	focusYattributes('bubble','size');
-});
-
-$('#bubble_y_sizeColFilters').mouseenter(function()
-{
-	mouseenterYattributes('bubble','size');
-});
-
-
-//stock high 
-$('#stock_y_high').focus(function()
-{
-	focusYattributes('stock','high');
-});
-
-$('#stock_y_highColFilters').mouseenter(function()
-{
-	mouseenterYattributes('stock','high');
-});
-
-//stock low 
-$('#stock_y_low').focus(function()
-{
-	focusYattributes('stock','low');
-});
-
-$('#stock_y_lowColFilters').mouseenter(function()
-{
-	mouseenterYattributes('stock','low');
-});
-
-//stock opem 
-$('#stock_y_open').focus(function()
-{
-	focusYattributes('stock','open');
-});
-
-$('#stock_y_openColFilters').mouseenter(function()
-{
-	mouseenterYattributes('stock','open');
-});
-
-//stock close
-$('#stock_y_close').focus(function()
-{
-	focusYattributes('stock','close');
-});
-
-$('#stock_y_closeColFilters').mouseenter(function()
-{
-	mouseenterYattributes('stock','close');
-});
-
-//difference positive
-$('#difference_y_positive').focus(function()
-{
-	focusYattributes('difference','positive');
-});
-
-$('#difference_y_positiveColFilters').mouseenter(function()
-{
-	mouseenterYattributes('difference','positive');
-});
-
-//difference negetive
-$('#difference_y_negetive').focus(function()
-{
-	focusYattributes('difference','negetive');
-});
-
-$('#difference_y_negetiveColFilters').mouseenter(function()
-{
-	mouseenterYattributes('difference','negetive');
-});
-
-//gantt label
-$('#gantt_y_label').focus(function()
-{
-	focusYattributes('gantt','label');
-});
-
-$('#gantt_y_labelColFilters').mouseenter(function()
-{
-	mouseenterYattributes('gantt','label');
-});
-
-//gantt start
-$('#gantt_y_start').focus(function()
-{
-	focusYattributes('gantt','start');
-});
-
-$('#gantt_y_startColFilters').mouseenter(function()
-{
-	mouseenterYattributes('gantt','start');
-});
-
-//gantt end
-$('#gantt_y_end').focus(function()
-{
-	focusYattributes('gantt','end');
-});
-
-$('#gantt_y_endColFilters').mouseenter(function()
-{
-	mouseenterYattributes('gantt','end');
-});
-	
-var chartPosition='';
-function fillPopUp(flag)
-{
-	var id = DA.selectedQueryId;
-	
-	dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
-	dwr.util.byId('pop.pattern'+id).style.display = '';
-	dwr.util.byId('popup.image.processing'+id).style.display = '';
-	dwr.util.setValue('popup.component','Query ID');
-	dwr.util.setValue('popup.host'+id,id);
-	dwr.util.setValue('popup.message'+id,'Processing Request...');
-	
-	var str = JSON.stringify(DA.queryInfo);
-	if (DA.isDelete){
-	//	RemoteManager.deleteBigQuery(DA.selectedNameNode, DA.selectedQueryId, DA.querySaveResponse);
-		//DA.resetFields();
-		dwr.util.setValue('popup.status'+id,'Deleting..');
+	function mouseenterYattributes(prefix, suffix) {
+		selectOpened = true;
+		$('#' + prefix + '_y_' + suffix + 'ColFilters').show();
 	}
-	else if(DA.isClone)
-	{
-		dwr.util.setValue('popup.status'+id,'Cloning..');	
-		var str = JSON.stringify(DA.cloneData);
-		RemoteManager.saveBigQuery(DA.selectedNameNode, DA.selectedDbName, str, DA.querySaveResponse);
-		DA.isClone = false;
-	}
-	else{
-		dwr.util.setValue('popup.status'+id,'Saving..');
-		RemoteManager.saveBigQuery(DA.selectedNameNode, DA.selectedDbName, str, DA.querySaveResponse);
-	}
-	
-}
 
-function closePopUpBox()
-{
-    DA.closeBox(true);
-}
+	//Line y series
+	$('#line_y_series').focus(function() {
+		focusYattributes('line', 'series');
+	});
 
-function getOnlyAlphaNumericValues(event)
-{	
-	    var cod = event.which;
-	    var code = String.fromCharCode(cod);
-	    var controlKeys = [8, 9, 32 ,0];
-	    var isControlKey = controlKeys.join(",").match(new RegExp(event.which));
-    	if((code>='A' && code<='Z')||(code>='0' && code<='9') || (code>='a' && code<='z') || (code>=35 && code<=40) || isControlKey ){
-    		return;
-    	}
-    	else{
-    		event.preventDefault();
-    	}
-	}
-	
-BQS.totalQuery = $('select#bigQueryIds option').length+1;
-$('#queryId').val("New Query "+DA.checkID(BQS.totalQuery ));
-//$('#queryId').val("New Query "+BQS.totalQuery);
-$('#queryIdTitle').text($('#queryId').val());
-$("#design_link").text("Design: "+$("#queryId").val());
-$("#preview_span").text("Preview: "+$("#queryId").val());
+	$('#line_y_seriesColFilters').mouseenter(function() {
+		mouseenterYattributes('line', 'series');
+	});
 
-if(BQS.totalQuery==1) {
-	Navbar.isAddNewQuery = true;
-}
-if(Navbar.isAddNewQuery){
-	DAT.tempQuery=$('#queryId').val();
-	DA.isNewQuery=true;
-	DA.selectedQueryId = $('#queryId').val();
-}else{
-	DA.isNewQuery=false;
-}
+	//bubble value
+	$('#bubble_y_value').focus(function() {
+		focusYattributes('bubble', 'value');
+	});
 
+	$('#bubble_y_valueColFilters').mouseenter(function() {
+		mouseenterYattributes('bubble', 'value');
+	});
 
-function showPalette(){
-	Util.addLightbox('export', 'resources/color-palette.html');
-}
-var previewCharts = new Array();
+	//bubble size
+	$('#bubble_y_size').focus(function() {
+		focusYattributes('bubble', 'size');
+	});
 
-function chartPositionChanged(){
-	var pos = $('#chart_position').val();
-	if(pos =='queryHeader'){
-		$('#chart_col_opt').text('Column Span');
-	}else{
-		$('#chart_col_opt').text('Column Span');
-	
+	$('#bubble_y_sizeColFilters').mouseenter(function() {
+		mouseenterYattributes('bubble', 'size');
+	});
+
+	//stock high 
+	$('#stock_y_high').focus(function() {
+		focusYattributes('stock', 'high');
+	});
+
+	$('#stock_y_highColFilters').mouseenter(function() {
+		mouseenterYattributes('stock', 'high');
+	});
+
+	//stock low 
+	$('#stock_y_low').focus(function() {
+		focusYattributes('stock', 'low');
+	});
+
+	$('#stock_y_lowColFilters').mouseenter(function() {
+		mouseenterYattributes('stock', 'low');
+	});
+
+	//stock opem 
+	$('#stock_y_open').focus(function() {
+		focusYattributes('stock', 'open');
+	});
+
+	$('#stock_y_openColFilters').mouseenter(function() {
+		mouseenterYattributes('stock', 'open');
+	});
+
+	//stock close
+	$('#stock_y_close').focus(function() {
+		focusYattributes('stock', 'close');
+	});
+
+	$('#stock_y_closeColFilters').mouseenter(function() {
+		mouseenterYattributes('stock', 'close');
+	});
+
+	//difference positive
+	$('#difference_y_positive').focus(function() {
+		focusYattributes('difference', 'positive');
+	});
+
+	$('#difference_y_positiveColFilters').mouseenter(function() {
+		mouseenterYattributes('difference', 'positive');
+	});
+
+	//difference negetive
+	$('#difference_y_negetive').focus(function() {
+		focusYattributes('difference', 'negetive');
+	});
+
+	$('#difference_y_negetiveColFilters').mouseenter(function() {
+		mouseenterYattributes('difference', 'negetive');
+	});
+
+	//gantt label
+	$('#gantt_y_label').focus(function() {
+		focusYattributes('gantt', 'label');
+	});
+
+	$('#gantt_y_labelColFilters').mouseenter(function() {
+		mouseenterYattributes('gantt', 'label');
+	});
+
+	//gantt start
+	$('#gantt_y_start').focus(function() {
+		focusYattributes('gantt', 'start');
+	});
+
+	$('#gantt_y_startColFilters').mouseenter(function() {
+		mouseenterYattributes('gantt', 'start');
+	});
+
+	//gantt end
+	$('#gantt_y_end').focus(function() {
+		focusYattributes('gantt', 'end');
+	});
+
+	$('#gantt_y_endColFilters').mouseenter(function() {
+		mouseenterYattributes('gantt', 'end');
+	});
+
+	var chartPosition = '';
+	function fillPopUp(flag) {
+		var id = CM.selectedChartId;
+
+		dwr.util.cloneNode('pop.pattern', {
+			idSuffix : id
+		});
+		dwr.util.byId('pop.pattern' + id).style.display = '';
+		dwr.util.byId('popup.image.processing' + id).style.display = '';
+		dwr.util.setValue('popup.component', 'Chart ID');
+		dwr.util.setValue('popup.host' + id, id);
+		dwr.util.setValue('popup.message' + id, 'Processing Request...');
+
+		if (CM.isDelete) {
+			dwr.util.setValue('popup.status' + id, 'Deleting..');
+		} else if (CM.isClone) {
+			dwr.util.setValue('popup.status' + id, 'Cloning..');
+			var str = JSON.stringify(CM.cloneData);
+			CM.isClone = false;
+		} else {
+			dwr.util.setValue('popup.status' + id, 'Saving..');
 		}
-		
-}
 
+	}
 
+	function closePopUpBox() {
+		CM.closeBox(true);
+	}
 
+	function getOnlyAlphaNumericValues(event) {
+		var cod = event.which;
+		var code = String.fromCharCode(cod);
+		var controlKeys = [ 8, 9, 32, 0 ];
+		var isControlKey = controlKeys.join(",").match(new RegExp(event.which));
+		if ((code >= 'A' && code <= 'Z') || (code >= '0' && code <= '9')
+				|| (code >= 'a' && code <= 'z') || (code >= 35 && code <= 40)
+				|| isControlKey) {
+			return;
+		} else {
+			event.preventDefault();
+		}
+	}
 
+	function showPalette() {
+		Util.addLightbox('export', 'resources/color-palette.html');
+	}
+	var previewCharts = new Array();
 
+	function chartPositionChanged() {
+		var pos = $('#chart_position').val();
+		if (pos == 'queryHeader') {
+			$('#chart_col_opt').text('Column Span');
+		} else {
+			$('#chart_col_opt').text('Column Span');
 
+		}
 
-
+	}
 </script>
 <script src="scripts/charts/jquery.jqplot.charts.js?version=3"></script>
 <script src="scripts/jquery.custom.jqplot.js?version=2"></script>
-<script type="text/javascript" src="scripts/charts/jqplot.barRenderer.min.js"></script>
-<script type="text/javascript" src="scripts/charts/jqplot.categoryAxisRenderer.min.js"></script>
-<script type="text/javascript" src="scripts/charts/jqplot.pointLabels.min.js"></script>
-<script type="text/javascript" src="scripts/charts/jqplot.bubbleRenderer.min.js"></script>
-<script type="text/javascript" src="scripts/charts/jqplot.meterGaugeRenderer.min.js"></script>
+<script type="text/javascript"
+	src="scripts/charts/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript"
+	src="scripts/charts/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript"
+	src="scripts/charts/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript"
+	src="scripts/charts/jqplot.bubbleRenderer.min.js"></script>
+<script type="text/javascript"
+	src="scripts/charts/jqplot.meterGaugeRenderer.min.js"></script>
 
 
 <script src="scripts/dropdown.textbox.js"></script>

@@ -10235,7 +10235,7 @@ public class RemoteManager {
 
 	// Charts
 
-	public static DWRResponse saveChart(String chartId, String queryId, String desc, JSONObject jsonProperties) {
+	public static DWRResponse saveChart(String chartId, String queryId, String desc, String jsonProperties) {
 		return BigQueryManager.saveChart(chartId, queryId, desc, jsonProperties);
 	}
 
@@ -10253,7 +10253,7 @@ public class RemoteManager {
 
 	// Tables
 
-	public static DWRResponse saveTable(String tableId, String queryId, String desc, JSONObject jsonProperties) {
+	public static DWRResponse saveTable(String tableId, String queryId, String desc, String jsonProperties) {
 		return BigQueryManager.saveTable(tableId, queryId, desc, jsonProperties);
 	}
 

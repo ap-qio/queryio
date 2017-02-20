@@ -1428,9 +1428,9 @@ CHARTPR.ready();
 function closePreferncesBox(){
 	Util.removeLightbox("chart_prefernces");
 	if(RC.chartOperation == 'edit' ){
-		DA.showChartSample('',DA.queryInfo["chartDetail"][RC.chartKey]);
-	} else if(RC.chartPreferenceType == 'global' && DA.selectedChartId != "" ){
-		DA.showChartSample('',DA.queryInfo["chartDetail"][DA.selectedChartId]);
+		CM.showChartSample('',CM.queryInfo["chartDetail"][RC.chartKey]);
+	} else if(RC.chartPreferenceType == 'global' && CM.selectedChartId != "" ){
+		CM.showChartSample('',CM.queryInfo["chartDetail"][CM.selectedChartId]);
 	}
 				
 }

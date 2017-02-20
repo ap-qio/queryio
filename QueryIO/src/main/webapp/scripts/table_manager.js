@@ -1,8 +1,6 @@
 TM={
 		colMap : new Object(),
-		queries : new Array(),
 		selectedNameNode: '',
-		colMap : new Object(),
 		currentType: '',
 		selectedNameNode: '',
 		selectedTableArray: [],
@@ -21,6 +19,7 @@ TM={
 		selectedColumnFooterArray: [],
 		selectedColumnDetailArray: [],
 		colList: [],
+		selectedQueryID: '',
 		
 		ready : function(){
 			TM.selectedNameNode = $("#queryIONameNodeId").val();
@@ -246,8 +245,25 @@ TM={
 			TM.deleteTable();
 		},
 		
-		deleteTable : function() {
-			
+		deleteATable : function() {
+
+			jQuery.alerts.okButton = ' Yes ';
+			jQuery.alerts.cancelButton = ' No';
+			jConfirm('Are you sure you want to delete this Table ?',
+					'Delete Table', function(val) {
+						if (val == true) {
+							// callBackFunc = deleteQuery;
+							TM.isDelete = true;
+							Util.addLightbox('export',
+									'resources/delete_table_box.html');
+						} else {
+							return;
+						}
+						jQuery.alerts.okButton = ' Ok ';
+						jQuery.alerts.cancelButton = ' Cancel';
+					});
+			$("#popup_container").css("z-index", "99999999");
+
 		},
 		
 		populateDeleteTableBox : function(){
@@ -257,7 +273,7 @@ TM={
 			{
 				var id = tableIdArray[i];
 				dwr.util.cloneNode('pattern',{ idSuffix:id });
-				dwr.util.setValue('table' + id,id);
+				dwr.util.setValue('query' + id,id);
 				dwr.util.setValue('message' + id,"Perform delete operation on table "+id);
 				dwr.util.setValue('status' + id,'Deleting');
 				dwr.util.byId('pattern' + id).style.display = '';
@@ -272,6 +288,7 @@ TM={
 				
 			}
 		},
+		
 		processDeleteTableResponse : function(dwrResponse){
 			
 			var id=dwrResponse.id;
@@ -280,7 +297,7 @@ TM={
 				status = 'Success'; 
 				dwr.util.byId('imageSuccess' + id).style.display = '';
 				var userId = $('#loggedInUserId').text();
-				var obj =  Util.getCookie("last-visit-chart"+userId);
+				var obj =  Util.getCookie("last-visit-table"+userId);
 				var idInfoObj = null;
 				if(obj != null && obj != undefined){
 					var filePathObj = JSON.parse(obj);
@@ -330,11 +347,7 @@ TM={
 		},
 		
 		closeBox : function(value) {
-			
-		},
-		
-		fillExecuteTab : function(obj){
-			
+			Util.removeLightbox("export");
 		},
 		
 		populateQueries : function() {
@@ -364,6 +377,7 @@ TM={
 				console.log("thisQueryId: " + thisQueryId);
 				if(queryId == thisQueryId){
 					var thisColMap = cur["selectedCols"];
+					TM.selectedQueryID = queryId;
 					TM.colMap = JSON.parse(thisColMap);
 					TM.populateColumns();
 				}
@@ -593,6 +607,36 @@ TM={
 			data += '</select>';
 			return data;
 
+		},
+		
+		saveTable : function() {
+			TM.showTableSavePopup();
+		},
+		
+		showTableSavePopup : function() {
+			Util.addLightbox('export', 'pages/popup.jsp');
+		},
+		
+		tableSaveResponse : function(response) {
+			var id = $('#tableIdText').val();
+
+			if (response.taskSuccess) {
+				status = "Success";
+				imgId = "popup.image.success";
+
+			} else {
+				status = "Failure";
+				imgId = "popup.image.fail";
+			}
+
+			message = response.responseMessage;
+
+			dwr.util.byId('popup.image.processing' + id).style.display = 'none';
+			dwr.util.byId(imgId + id).style.display = '';
+
+			dwr.util.setValue('popup.message' + id, message);
+			dwr.util.setValue('popup.status' + id, status);
+			dwr.util.byId('ok.popup').disabled = false;
 		},
 		
 		getAggregateFunctionDropDownForGroupHeader : function(colName) {
@@ -853,4 +897,37 @@ TM={
 			return colObject;
 		},
 
+};
+
+function fillPopUp(flag)
+{
+	var id = TM.selectedTableId;
+	
+	dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+	dwr.util.byId('pop.pattern'+id).style.display = '';
+	dwr.util.byId('popup.image.processing'+id).style.display = '';
+	dwr.util.setValue('popup.component','Table ID');
+	dwr.util.setValue('popup.host'+id,id);
+	dwr.util.setValue('popup.message'+id,'Processing Request...');
+	
+	if (TM.isDelete){
+		dwr.util.setValue('popup.status'+id,'Deleting..');
+	}
+	
+	var data = {};
+	
+	data["colDetail"] = TM.queryInfo.colDetail;
+	data["colHeaderDetail"] = TM.queryInfo.colHeaderDetail;
+	
+	else if(TM.isClone)
+	{
+		dwr.util.setValue('popup.status'+id,'Cloning..');	
+		RemoteManager.saveTable($('#tableIdText').val(), TM.selectedQueryId, $('#tableDescText').val(), JSON.stringify(data), TM.tableSaveResponse);
+		TM.isClone = false;
+	}
+	else{
+		dwr.util.setValue('popup.status'+id,'Saving..');
+		RemoteManager.saveTable($('#tableIdText').val(), TM.selectedQueryId, $('#tableDescText').val(), JSON.stringify(data), TM.tableSaveResponse);
+	}
+	
 };

@@ -48,18 +48,18 @@ CHARTPR = {
         	
         	if(CHARTPR.validate())
         	{
-	        	if(DA.queryInfo["chartDetail"]==undefined||DA.queryInfo["chartDetail"]==null){
-					DA.queryInfo["chartDetail"] = new Object();
+	        	if(CM.queryInfo["chartDetail"]==undefined||CM.queryInfo["chartDetail"]==null){
+					CM.queryInfo["chartDetail"] = new Object();
 				}
 				
 	        	if(RC.chartOperation == 'edit'){
-	        		DA.queryInfo["chartDetail"][RC.chartKey]["chartPreferences"] = CHARTPR.chartPR;
-	        		DA.showChartSample('',DA.queryInfo["chartDetail"][RC.chartKey]);
+	        		CM.queryInfo["chartDetail"][RC.chartKey]["chartPreferences"] = CHARTPR.chartPR;
+	        		CM.showChartSample('',CM.queryInfo["chartDetail"][RC.chartKey]);
 	        	}else{
-	        		DA.globalChartPreferences = jQuery.extend({}, CHARTPR.chartPR);
-	        		DA.queryInfo["chartDetail"]["chartPreferences"] = CHARTPR.chartPR;
+	        		CM.globalChartPreferences = jQuery.extend({}, CHARTPR.chartPR);
+	        		CM.queryInfo["chartDetail"]["chartPreferences"] = CHARTPR.chartPR;
 	        		//if(RC.chartPreferenceType == 'global')
-	        		RemoteManager.saveChartPreferences(JSON.stringify(CHARTPR.chartPR), DA.handleSavePreferencesResponse);
+	        		RemoteManager.saveChartPreferences(JSON.stringify(CHARTPR.chartPR), CM.handleSavePreferencesResponse);
 	        	}
 	        	Navbar.queryManagerDirtyBit = true;
 	        	closePreferncesBox();
@@ -945,16 +945,14 @@ CHARTPR = {
 			
 			var chartData = new Object(); 
 			if(restore) {
-				chartData = DA.getDefaultChartDetails(restore);
+				chartData = CM.getDefaultChartDetails(restore);
 				chartData = chartData["chartPreferences"];
 			}else {
 				if(RC.chartOperation == 'edit'){
-					chartData = DA.queryInfo["chartDetail"][RC.chartKey]["chartPreferences"];
-					$('#chart_preveiw_title').html(''+DA.queryInfo["chartDetail"][RC.chartKey]["title"]+'');
+					chartData = CM.queryInfo["chartDetail"][RC.chartKey]["chartPreferences"];
+					$('#chart_preveiw_title').html(''+CM.queryInfo["chartDetail"][RC.chartKey]["title"]+'');
 				}else{
-//					chartData = DA.queryInfo["chartDetail"]["chartPreferences"];
-					chartData = DA.globalChartPreferences;
-//					chartData = chartData["chartPreferences"];
+					chartData = CM.globalChartPreferences;
 				}
 			}
 			

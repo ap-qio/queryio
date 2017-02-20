@@ -21,7 +21,7 @@
 				</div>
 				<div id="divQueryProperties" class="designBackground">
 					<table style="width: 100%">
-											<tr>
+						<tr>
 							<td nowrap="nowrap" style="padding-left: 20px;"><span
 								id="group_header_span" style="display:">Select Query</span></td>
 							<td id="group_header_select_td" colspan="8"
@@ -32,6 +32,36 @@
 									<select id="selectQueryId" onchange="javascript:TM.queryIdChanged();">
 									<option>--Select--</option>
 									</select>
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+
+						<tr>
+							<td nowrap="nowrap" style="padding-left: 20px;"><span
+								id="group_header_span" style="display:">Table Id</span></td>
+							<td id="group_header_select_td" colspan="8"
+								style="padding-left: 20px;">
+
+								<div
+									style="display: inline-block; width: 100%; min-height: 15px;">
+									<input type="text" id="tableIdText">
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+						
+						<tr>
+							<td nowrap="nowrap" style="padding-left: 20px;"><span
+								id="group_header_span" style="display:">Description</span></td>
+							<td id="group_header_select_td" colspan="8"
+								style="padding-left: 20px;">
+
+								<div
+									style="display: inline-block; width: 100%; min-height: 15px;">
+									<input type="text" id="tableDescText">
 								</div>
 							</td>
 							<td>
@@ -131,9 +161,11 @@
 		</div>
 	</div>
 </div>
-
+<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="lineSave" name="Save" onclick="TM.saveTable();">Save</button>
 
 <script>
+
+		
 	TM.readyTable();
 
 </script>

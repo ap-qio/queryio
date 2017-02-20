@@ -76,12 +76,12 @@ public class BigQueryDAO {
 	}
 
 	public static void createChart(final Connection connection, String id, String queryId, String description,
-			JSONObject properties) throws SQLException {
+			String properties) throws SQLException {
 		PreparedStatement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.INSERT_CHART_QUERY);
 			stmt.setString(1, id);
-			stmt.setString(2, properties.toJSONString());
+			stmt.setString(2, properties);
 			stmt.setString(3, description);
 			stmt.setString(4, queryId);
 
@@ -178,12 +178,12 @@ public class BigQueryDAO {
 	}
 
 	public static void createTable(final Connection connection, String id, String queryId, String description,
-			JSONObject properties) throws SQLException {
+			String properties) throws SQLException {
 		PreparedStatement stmt = null;
 		try {
 			stmt = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.INSERT_TABLE_QUERY);
 			stmt.setString(1, id);
-			stmt.setString(2, properties.toJSONString());
+			stmt.setString(2, properties);
 			stmt.setString(3, description);
 			stmt.setString(4, queryId);
 

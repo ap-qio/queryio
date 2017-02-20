@@ -197,7 +197,7 @@ public class BigQueryManager {
 	}
 
 	// Charts
-	public static DWRResponse saveChart(String chartId, String queryID, String desc, JSONObject props) {
+	public static DWRResponse saveChart(String chartId, String queryID, String desc, String props) {
 
 		DWRResponse dwrResponse = new DWRResponse();
 
@@ -292,7 +292,7 @@ public class BigQueryManager {
 	}
 
 	// Tables
-	public static DWRResponse saveTable(String tableId, String queryID, String desc, JSONObject props) {
+	public static DWRResponse saveTable(String tableId, String queryID, String desc, String props) {
 
 		DWRResponse dwrResponse = new DWRResponse();
 
