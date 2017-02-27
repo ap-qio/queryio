@@ -121,11 +121,7 @@ RC={
 		setXSeriesTable : function(id){
 			var list='';
 			
-			if(DA.searchColumn[0]=='*'&&DA.searchColumn.length==1){
-				list = DA.colList;
-			} else {
-				list = DA.searchColumn;
-			}
+				list = CM.colList;
 			
 			
 			var data='';
@@ -139,10 +135,10 @@ RC={
 		
 		getAggregateFunctionDropDown : function(idprefix, colName, onChageFunc, isInt, isText, isDate) {
 
-			if (DA.colList.indexOf(colName) == -1) {
+			if (CM.colList.indexOf(colName) == -1) {
 				return "";
 			}
-			var dataType = DA.colMap[colName];
+			var dataType = CM.colMap[colName];
 			var data = '<select id="'
 					+ idprefix
 					+ colName
@@ -174,23 +170,14 @@ RC={
 		getYSeriesHtmlData : function(prefix,suffix,isChecked, isInt, isText, isDate){
 			   
 			var list='';
-	   		if(DA.searchColumn[0]=='*'&&DA.searchColumn.length==1){
-	   			 list = DA.colList;	
-	   		}else{
-	   			list=DA.searchColumn;	
-	   		}
-			var groupHeader='<span class="divcloser"><a href="javascript:DA.closeSelectionDiv();"><img src="images/light-box-close.png" class="closerImage"></a></span><table id="'+prefix+suffix+'_chart_name"><tbody>';
+	   			list=CM.colList;	
+			var groupHeader='<span class="divcloser"><a href="javascript:CM.closeSelectionDiv();"><img src="images/light-box-close.png" class="closerImage"></a></span><table id="'+prefix+suffix+'_chart_name"><tbody>';
 	   		groupHeader+='<tr><td nowrap="nowrap">Select Column</td></tr>';//<td nowrap="nowrap">Aggregate Function</td></tr>';
 	   		for(var i=0;i<list.length;i++)
 	   		{
 	   			var colName=list[i];
 	   			
-//	   			if((DA.colMap[colName] == "BIGINT" || DA.colMap[colName] == "DECIMAL" || DA.colMap[colName] == "INTEGER" || DA.colMap[colName] == "SMALLINT") && !isInt)
-//	   				continue;
-//	   			if(DA.colMap[colName].indexOf("VAR")==0 && !isText)
-//	   				continue;
-	   			
-	   			if(DA.colMap[colName].toUpperCase() != "TIMESTAMP" && RC.chartType =="gantt" && suffix !='label')
+	   			if(CM.colMap[colName].toUpperCase() != "TIMESTAMP" && RC.chartType =="gantt" && suffix !='label')
 	   				continue;
 	   					
 	   			
@@ -268,10 +255,6 @@ RC={
 	   	},
 
 	   	closeBox : function(){
-//	   		Util.removeLightbox("addchart");
-	   		DA.showReportPreview();
-//	   		RC.showChartInDiv();
-//	   		RC.ready();
 	   	},
 	   	
 	   	addBubbleChart : function(value){
@@ -384,20 +367,20 @@ RC={
 	   		chartObject["ylegend"]=ylegend;
 	   		chartObject["align"]="center";
 	   		
-	   		if(DA.queryInfo["chartDetail"]==undefined||DA.queryInfo["chartDetail"]==""||DA.queryInfo["chartDetail"]==null){
-	   			DA.queryInfo["chartDetail"]=new Object();
-	   		}else if(DA.queryInfo["chartDetail"]["chartPreferences"]==undefined||DA.queryInfo["chartDetail"]["chartPreferences"]==""||DA.queryInfo["chartDetail"]["chartPreferences"]==null){
+	   		if(CM.queryInfo["chartDetail"]==undefined||CM.queryInfo["chartDetail"]==""||CM.queryInfo["chartDetail"]==null){
+	   			CM.queryInfo["chartDetail"]=new Object();
+	   		}else if(CM.queryInfo["chartDetail"]["chartPreferences"]==undefined||CM.queryInfo["chartDetail"]["chartPreferences"]==""||CM.queryInfo["chartDetail"]["chartPreferences"]==null){
 	   			
 	   		}else{
 	   			var chartPreferences =null;
 	   			if(value){
-	   				var obj = DA.getInitialChartPRObject();
+	   				var obj = CM.getInitialChartPRObject();
 					chartPreferences = obj["chartPreferences"];
 	   			}else{
-	   				if(DA.queryInfo["chartDetail"][DA.selectedChartId] != null && DA.queryInfo["chartDetail"][DA.selectedChartId] !=undefined){
-	   					chartPreferences  = DA.queryInfo["chartDetail"][DA.selectedChartId]["chartPreferences"];
+	   				if(CM.queryInfo["chartDetail"][CM.selectedChartId] != null && CM.queryInfo["chartDetail"][CM.selectedChartId] !=undefined){
+	   					chartPreferences  = CM.queryInfo["chartDetail"][CM.selectedChartId]["chartPreferences"];
 	   				}else{
-	   					 var obj = DA.getInitialChartPRObject();
+	   					 var obj = CM.getInitialChartPRObject();
 	   					chartPreferences = obj["chartPreferences"];
 	   				}
 	   			}	
@@ -407,9 +390,9 @@ RC={
 	   		if(value)
 	   		{
 	   			var count=0;
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
-		   			var temp = DA.queryInfo["chartDetail"][key]["title"];
+		   			var temp = CM.queryInfo["chartDetail"][key]["title"];
 		   			if(temp == $('#line_chart_title').val())
 		   			{
 		   				$('#error_msg').text("Title already exists");
@@ -418,28 +401,28 @@ RC={
 		   			count++;
 	   			}
 	   			var chartkey="chart"+count;
-	   			while(DA.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
+	   			while(CM.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
 	   				count++;
 	   				chartkey="chart"+count;
 	   			}
 	   			
-	   			DA.queryInfo["chartDetail"][chartkey]=chartObject;	   			
+	   			CM.queryInfo["chartDetail"][chartkey]=chartObject;	   			
 	   		}
 	   		else
 	   		{
 	   			
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
 	   				var chartkey = "chart"+count;
-	   				if(key == DA.selectedChartId)
-	   					DA.queryInfo["chartDetail"][key]=chartObject;
+	   				if(key == CM.selectedChartId)
+	   					CM.queryInfo["chartDetail"][key]=chartObject;
 	   			}
 	   			Navbar.queryManagerDirtyBit = true;
 	   			
 	   		}
-	   		DA.currentSelectedChart = title;
-	   		DA.createChartGrid(DA.queryInfo["chartDetail"]);
-	   		DA.chartDesignerDirtyBit=false;
+	   		CM.currentSelectedChart = title;
+	   		CM.createChartGrid(CM.queryInfo["chartDetail"]);
+	   		CM.chartDesignerDirtyBit=false;
 	   		RC.closeBox();
 	   	},
 	   	
@@ -570,21 +553,21 @@ RC={
 	   		chartObject["ylegend"]=ylegend;
 	   		chartObject["align"]="center";
 	   		
-	   		if(DA.queryInfo["chartDetail"]==undefined||DA.queryInfo["chartDetail"]==""||DA.queryInfo["chartDetail"]==null){
-	   			DA.queryInfo["chartDetail"]=new Object();
-	   		}else if(DA.queryInfo["chartDetail"]["chartPreferences"]==undefined||DA.queryInfo["chartDetail"]["chartPreferences"]==""||DA.queryInfo["chartDetail"]["chartPreferences"]==null){
+	   		if(CM.queryInfo["chartDetail"]==undefined||CM.queryInfo["chartDetail"]==""||CM.queryInfo["chartDetail"]==null){
+	   			CM.queryInfo["chartDetail"]=new Object();
+	   		}else if(CM.queryInfo["chartDetail"]["chartPreferences"]==undefined||CM.queryInfo["chartDetail"]["chartPreferences"]==""||CM.queryInfo["chartDetail"]["chartPreferences"]==null){
 	   			
 	   		}else{
 	   			var chartPreferences =null;
 	   			if(value){
-	   				//chartPreferences = DA.queryInfo["chartDetail"]["chartPreferences"];
-	   				var obj = DA.getInitialChartPRObject();
+	   				//chartPreferences = CM.queryInfo["chartDetail"]["chartPreferences"];
+	   				var obj = CM.getInitialChartPRObject();
 					chartPreferences = obj["chartPreferences"];
 	   			}else{
-	   				if(DA.queryInfo["chartDetail"][DA.selectedChartId] != null && DA.queryInfo["chartDetail"][DA.selectedChartId] !=undefined){
-	   					chartPreferences  = DA.queryInfo["chartDetail"][DA.selectedChartId]["chartPreferences"];
+	   				if(CM.queryInfo["chartDetail"][CM.selectedChartId] != null && CM.queryInfo["chartDetail"][CM.selectedChartId] !=undefined){
+	   					chartPreferences  = CM.queryInfo["chartDetail"][CM.selectedChartId]["chartPreferences"];
 	   				}else{
-	   					 var obj = DA.getInitialChartPRObject();
+	   					 var obj = CM.getInitialChartPRObject();
 	   					chartPreferences = obj["chartPreferences"];
 	   				}
 	   			}	
@@ -594,9 +577,9 @@ RC={
 	   		if(value)
 	   		{
 	   			var count=0;
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
-		   			var temp = DA.queryInfo["chartDetail"][key]["title"];
+		   			var temp = CM.queryInfo["chartDetail"][key]["title"];
 		   			if(temp == $('#line_chart_title').val())
 		   			{
 		   				$('#error_msg').text("Title already exists");
@@ -605,28 +588,28 @@ RC={
 		   			count++;
 	   			}
 	   			var chartkey="chart"+count;
-	   			while(DA.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
+	   			while(CM.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
 	   				count++;
 	   				chartkey="chart"+count;
 	   			}
 	   			
-	   			DA.queryInfo["chartDetail"][chartkey]=chartObject;	   			
+	   			CM.queryInfo["chartDetail"][chartkey]=chartObject;	   			
 	   		}
 	   		else
 	   		{
 	   			
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
 	   				var chartkey = "chart"+count;
-	   				if(key == DA.selectedChartId)
-	   					DA.queryInfo["chartDetail"][key]=chartObject;
+	   				if(key == CM.selectedChartId)
+	   					CM.queryInfo["chartDetail"][key]=chartObject;
 	   			}
 	   			Navbar.queryManagerDirtyBit = true;
 	   			
 	   		}
-	   		DA.currentSelectedChart = title;
-	   		DA.createChartGrid(DA.queryInfo["chartDetail"]);
-	   		DA.chartDesignerDirtyBit=false;
+	   		CM.currentSelectedChart = title;
+	   		CM.createChartGrid(CM.queryInfo["chartDetail"]);
+	   		CM.chartDesignerDirtyBit=false;
 	   		RC.closeBox();
 	   	},
 	   	
@@ -741,21 +724,21 @@ RC={
 	   		chartObject["ylegend"]=ylegend;
 	   		chartObject["align"]="center";
 	   		
-	   		if(DA.queryInfo["chartDetail"]==undefined||DA.queryInfo["chartDetail"]==""||DA.queryInfo["chartDetail"]==null){
-	   			DA.queryInfo["chartDetail"]=new Object();
-	   		}else if(DA.queryInfo["chartDetail"]["chartPreferences"]==undefined||DA.queryInfo["chartDetail"]["chartPreferences"]==""||DA.queryInfo["chartDetail"]["chartPreferences"]==null){
+	   		if(CM.queryInfo["chartDetail"]==undefined||CM.queryInfo["chartDetail"]==""||CM.queryInfo["chartDetail"]==null){
+	   			CM.queryInfo["chartDetail"]=new Object();
+	   		}else if(CM.queryInfo["chartDetail"]["chartPreferences"]==undefined||CM.queryInfo["chartDetail"]["chartPreferences"]==""||CM.queryInfo["chartDetail"]["chartPreferences"]==null){
 	   			
 	   		}else{
 	   			var chartPreferences =null;
 	   			if(value){
-	   				//chartPreferences = DA.queryInfo["chartDetail"]["chartPreferences"];
-	   				var obj = DA.getInitialChartPRObject();
+	   				//chartPreferences = CM.queryInfo["chartDetail"]["chartPreferences"];
+	   				var obj = CM.getInitialChartPRObject();
 					chartPreferences = obj["chartPreferences"];
 	   			}else{
-	   				if(DA.queryInfo["chartDetail"][DA.selectedChartId] != null && DA.queryInfo["chartDetail"][DA.selectedChartId] !=undefined){
-	   					chartPreferences  = DA.queryInfo["chartDetail"][DA.selectedChartId]["chartPreferences"];
+	   				if(CM.queryInfo["chartDetail"][CM.selectedChartId] != null && CM.queryInfo["chartDetail"][CM.selectedChartId] !=undefined){
+	   					chartPreferences  = CM.queryInfo["chartDetail"][CM.selectedChartId]["chartPreferences"];
 	   				}else{
-	   					 var obj = DA.getInitialChartPRObject();
+	   					 var obj = CM.getInitialChartPRObject();
 	   					chartPreferences = obj["chartPreferences"];
 	   				}
 	   			}	
@@ -765,9 +748,9 @@ RC={
 	   		if(value)
 	   		{
 	   			var count=0;
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
-		   			var temp = DA.queryInfo["chartDetail"][key]["title"];
+		   			var temp = CM.queryInfo["chartDetail"][key]["title"];
 		   			if(temp == $('#line_chart_title').val())
 		   			{
 		   				$('#error_msg').text("Title already exists");
@@ -776,28 +759,28 @@ RC={
 		   			count++;
 	   			}
 	   			var chartkey="chart"+count;
-	   			while(DA.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
+	   			while(CM.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
 	   				count++;
 	   				chartkey="chart"+count;
 	   			}
 	   			
-	   			DA.queryInfo["chartDetail"][chartkey]=chartObject;	   			
+	   			CM.queryInfo["chartDetail"][chartkey]=chartObject;	   			
 	   		}
 	   		else
 	   		{
 	   			
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
 	   				var chartkey = "chart"+count;
-	   				if(key == DA.selectedChartId)
-	   					DA.queryInfo["chartDetail"][key]=chartObject;
+	   				if(key == CM.selectedChartId)
+	   					CM.queryInfo["chartDetail"][key]=chartObject;
 	   			}
 	   			Navbar.queryManagerDirtyBit = true;
 	   			
 	   		}
-	   		DA.currentSelectedChart = title;
-	   		DA.createChartGrid(DA.queryInfo["chartDetail"]);
-	   		DA.chartDesignerDirtyBit=false;
+	   		CM.currentSelectedChart = title;
+	   		CM.createChartGrid(CM.queryInfo["chartDetail"]);
+	   		CM.chartDesignerDirtyBit=false;
 	   		RC.closeBox();
 	   	},
 	   	
@@ -919,21 +902,21 @@ RC={
 	   		chartObject["ylegend"]=ylegend;
 	   		chartObject["align"]="center";
 	   		
-	   		if(DA.queryInfo["chartDetail"]==undefined||DA.queryInfo["chartDetail"]==""||DA.queryInfo["chartDetail"]==null){
-	   			DA.queryInfo["chartDetail"]=new Object();
-	   		}else if(DA.queryInfo["chartDetail"]["chartPreferences"]==undefined||DA.queryInfo["chartDetail"]["chartPreferences"]==""||DA.queryInfo["chartDetail"]["chartPreferences"]==null){
+	   		if(CM.queryInfo["chartDetail"]==undefined||CM.queryInfo["chartDetail"]==""||CM.queryInfo["chartDetail"]==null){
+	   			CM.queryInfo["chartDetail"]=new Object();
+	   		}else if(CM.queryInfo["chartDetail"]["chartPreferences"]==undefined||CM.queryInfo["chartDetail"]["chartPreferences"]==""||CM.queryInfo["chartDetail"]["chartPreferences"]==null){
 	   			
 	   		}else{
 	   			var chartPreferences =null;
 	   			if(value){
-	   				//chartPreferences = DA.queryInfo["chartDetail"]["chartPreferences"];
-	   				var obj = DA.getInitialChartPRObject();
+	   				//chartPreferences = CM.queryInfo["chartDetail"]["chartPreferences"];
+	   				var obj = CM.getInitialChartPRObject();
 					chartPreferences = obj["chartPreferences"];
 	   			}else{
-	   				if(DA.queryInfo["chartDetail"][DA.selectedChartId] != null && DA.queryInfo["chartDetail"][DA.selectedChartId] !=undefined){
-	   					chartPreferences  = DA.queryInfo["chartDetail"][DA.selectedChartId]["chartPreferences"];
+	   				if(CM.queryInfo["chartDetail"][CM.selectedChartId] != null && CM.queryInfo["chartDetail"][CM.selectedChartId] !=undefined){
+	   					chartPreferences  = CM.queryInfo["chartDetail"][CM.selectedChartId]["chartPreferences"];
 	   				}else{
-	   					 var obj = DA.getInitialChartPRObject();
+	   					 var obj = CM.getInitialChartPRObject();
 	   					chartPreferences = obj["chartPreferences"];
 	   				}
 	   			}	
@@ -943,9 +926,9 @@ RC={
 	   		if(value)
 	   		{
 	   			var count=0;
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
-		   			var temp = DA.queryInfo["chartDetail"][key]["title"];
+		   			var temp = CM.queryInfo["chartDetail"][key]["title"];
 		   			if(temp == $('#line_chart_title').val())
 		   			{
 		   				$('#error_msg').text("Title already exists");
@@ -954,28 +937,28 @@ RC={
 		   			count++;
 	   			}
 	   			var chartkey="chart"+count;
-	   			while(DA.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
+	   			while(CM.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
 	   				count++;
 	   				chartkey="chart"+count;
 	   			}
 	   			
-	   			DA.queryInfo["chartDetail"][chartkey]=chartObject;	   			
+	   			CM.queryInfo["chartDetail"][chartkey]=chartObject;	   			
 	   		}
 	   		else
 	   		{
 	   			
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
 	   				var chartkey = "chart"+count;
-	   				if(key == DA.selectedChartId)
-	   					DA.queryInfo["chartDetail"][key]=chartObject;
+	   				if(key == CM.selectedChartId)
+	   					CM.queryInfo["chartDetail"][key]=chartObject;
 	   			}
 	   			Navbar.queryManagerDirtyBit = true;
 	   			
 	   		}
-	   		DA.currentSelectedChart = title;
-	   		DA.createChartGrid(DA.queryInfo["chartDetail"]);
-	   		DA.chartDesignerDirtyBit=false;
+	   		CM.currentSelectedChart = title;
+	   		CM.createChartGrid(CM.queryInfo["chartDetail"]);
+	   		CM.chartDesignerDirtyBit=false;
 	   		RC.closeBox();
 	   	},
 	   	
@@ -1094,37 +1077,37 @@ RC={
 	   		chartObject["yScaleMinVal"]=chartScaleMinVal;
 	   		
 	   		
-	   		if(DA.queryInfo["chartDetail"]==undefined||DA.queryInfo["chartDetail"]==""||DA.queryInfo["chartDetail"]==null){
-	   			DA.queryInfo["chartDetail"]=new Object();
-	   		}else if(DA.queryInfo["chartDetail"]["chartPreferences"]==undefined||DA.queryInfo["chartDetail"]["chartPreferences"]==""||DA.queryInfo["chartDetail"]["chartPreferences"]==null){
+	   		if(CM.queryInfo["chartDetail"]==undefined||CM.queryInfo["chartDetail"]==""||CM.queryInfo["chartDetail"]==null){
+	   			CM.queryInfo["chartDetail"]=new Object();
+	   		}else if(CM.queryInfo["chartDetail"]["chartPreferences"]==undefined||CM.queryInfo["chartDetail"]["chartPreferences"]==""||CM.queryInfo["chartDetail"]["chartPreferences"]==null){
 	   			JSON.stringify("CHARTPR "+JSON.stringify(CHARTPR.chartPR));
 	   		}else{
 	   			var chartPreferences =null;
 	   			if(value){
-	   				//chartPreferences = DA.queryInfo["chartDetail"]["chartPreferences"];
-	   				var obj = DA.getInitialChartPRObject();
+	   				//chartPreferences = CM.queryInfo["chartDetail"]["chartPreferences"];
+	   				var obj = CM.getInitialChartPRObject();
 					chartPreferences = obj["chartPreferences"];
 	   			}else{
-	   				if(DA.queryInfo["chartDetail"][DA.selectedChartId] != null && DA.queryInfo["chartDetail"][DA.selectedChartId] !=undefined){
-	   					chartPreferences  = DA.queryInfo["chartDetail"][DA.selectedChartId]["chartPreferences"];
+	   				if(CM.queryInfo["chartDetail"][CM.selectedChartId] != null && CM.queryInfo["chartDetail"][CM.selectedChartId] !=undefined){
+	   					chartPreferences  = CM.queryInfo["chartDetail"][CM.selectedChartId]["chartPreferences"];
 	   				}else{
-	   					 var obj = DA.getInitialChartPRObject();
+	   					 var obj = CM.getInitialChartPRObject();
 	   					chartPreferences = obj["chartPreferences"];
 	   				}
 	   			}	
 	   			chartObject["chartPreferences"] = jQuery.extend(true, {}, chartPreferences);
 	   			
 	   		}
-	   		console.log("DA.globalChartPreferences "+JSON.stringify(DA.globalChartPreferences));
-	   		if(DA.queryInfo["chartDetail"]["chartPreferences"] == undefined || DA.queryInfo["chartDetail"]["chartPreferences"] ==null)
-	   			DA.queryInfo["chartDetail"]["chartPreferences"] = DA.globalChartPreferences;
+	   		console.log("CM.globalChartPreferences "+JSON.stringify(CM.globalChartPreferences));
+	   		if(CM.queryInfo["chartDetail"]["chartPreferences"] == undefined || CM.queryInfo["chartDetail"]["chartPreferences"] ==null)
+	   			CM.queryInfo["chartDetail"]["chartPreferences"] = CM.globalChartPreferences;
 	   		
 	   		if(value)
 	   		{
 	   			var count=0;
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
-		   			var temp = DA.queryInfo["chartDetail"][key]["title"];
+		   			var temp = CM.queryInfo["chartDetail"][key]["title"];
 		   			if(temp == $('#line_chart_title').val())
 		   			{
 		   				$('#error_msg').text("Title already exists");
@@ -1133,28 +1116,28 @@ RC={
 		   			count++;
 	   			}
 	   			var chartkey="chart"+count;
-	   			while(DA.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
+	   			while(CM.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
 	   				count++;
 	   				chartkey="chart"+count;
 	   			}
 	   			
-	   			DA.queryInfo["chartDetail"][chartkey]=chartObject;	   			
+	   			CM.queryInfo["chartDetail"][chartkey]=chartObject;	   			
 	   		}
 	   		else
 	   		{
 	   			
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
 	   				var chartkey = "chart"+count;
-	   				if(key == DA.selectedChartId)
-	   					DA.queryInfo["chartDetail"][key]=chartObject;
+	   				if(key == CM.selectedChartId)
+	   					CM.queryInfo["chartDetail"][key]=chartObject;
 	   			}
 	   			Navbar.queryManagerDirtyBit = true;
 	   			
 	   		}
-	   		DA.currentSelectedChart = title;
-	   		DA.createChartGrid(DA.queryInfo["chartDetail"]);
-	   		DA.chartDesignerDirtyBit=false;
+	   		CM.currentSelectedChart = title;
+	   		CM.createChartGrid(CM.queryInfo["chartDetail"]);
+	   		CM.chartDesignerDirtyBit=false;
 	   		RC.closeBox();
 	   		
 	   	},
@@ -1252,26 +1235,26 @@ RC={
 	   		chartObject["xlegend"]=xlegend;
 	   		chartObject["ylegend"]=ylegend;
 	   		chartObject["align"]="center";
-	   		if(DA.queryInfo["chartDetail"]==undefined||DA.queryInfo["chartDetail"]==""||DA.queryInfo["chartDetail"]==null){
-	   			DA.queryInfo["chartDetail"]=new Array();
-	   		}else if(DA.queryInfo["chartDetail"]["chartPreferences"]==undefined||DA.queryInfo["chartDetail"]["chartPreferences"]==""||DA.queryInfo["chartDetail"]["chartPreferences"]==null){
+	   		if(CM.queryInfo["chartDetail"]==undefined||CM.queryInfo["chartDetail"]==""||CM.queryInfo["chartDetail"]==null){
+	   			CM.queryInfo["chartDetail"]=new Array();
+	   		}else if(CM.queryInfo["chartDetail"]["chartPreferences"]==undefined||CM.queryInfo["chartDetail"]["chartPreferences"]==""||CM.queryInfo["chartDetail"]["chartPreferences"]==null){
 	   			
 	   		}else{
-	   			//var chartPreferences  = DA.queryInfo["chartDetail"]["chartPreferences"];
-	   			var chartPreferences = DA.getDefaultChartDetails(false)["chartPreferences"];
+	   			//var chartPreferences  = CM.queryInfo["chartDetail"]["chartPreferences"];
+	   			var chartPreferences = CM.getDefaultChartDetails(false)["chartPreferences"];
 	   			chartObject["chartPreferences"] = jQuery.extend(true, {}, chartPreferences);
 	   		}
 //	   		var count=0;
-//	   		for(key in DA.queryInfo["chartDetail"]) {
+//	   		for(key in CM.queryInfo["chartDetail"]) {
 //	   		  count++;
 //	   		}
 //	   		var chartkey="chart"+count;
-//	   		DA.queryInfo["chartDetail"][chartkey]=chartObject;
+//	   		CM.queryInfo["chartDetail"][chartkey]=chartObject;
 	   		if(value)
 	   		{
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
-		   			var temp = DA.queryInfo["chartDetail"][key]["title"];
+		   			var temp = CM.queryInfo["chartDetail"][key]["title"];
 		   			if(temp == $('#line_chart_title').val())
 		   			{
 		   				$('#error_msg').text("Title already exists");
@@ -1279,27 +1262,26 @@ RC={
 		   			}
 	   			}
 	   			var count=0;
-	   			for(key in DA.queryInfo["chartDetail"]) {
+	   			for(key in CM.queryInfo["chartDetail"]) {
 	   				count++;
 	   			}
 	   			var chartkey="chart"+count;
-	   			DA.queryInfo["chartDetail"][chartkey]=chartObject;	   			
-//	   			DA.resetChart();
+	   			CM.queryInfo["chartDetail"][chartkey]=chartObject;	   			
 	   		}
 	   		else
 	   		{
 	   			
-	   			for(var key in DA.queryInfo["chartDetail"])
+	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
 	   				var chartkey="chart"+count;
-//	   				DA.queryInfo["chartDetail"][key][]
-	   				if(key == DA.selectedChartId)
-	   					DA.queryInfo["chartDetail"][key]=chartObject;
+//	   				CM.queryInfo["chartDetail"][key][]
+	   				if(key == CM.selectedChartId)
+	   					CM.queryInfo["chartDetail"][key]=chartObject;
 	   			}
 	   		}
-	   		DA.currentSelectedChart = title;
-	   		DA.createChartGrid(DA.queryInfo["chartDetail"]);
-	   		DA.chartDesignerDirtyBit=false;
+	   		CM.currentSelectedChart = title;
+	   		CM.createChartGrid(CM.queryInfo["chartDetail"]);
+	   		CM.chartDesignerDirtyBit=false;
 	   		RC.closeBox();
 	   	},
 	   	
@@ -1443,10 +1425,10 @@ RC={
 
 	   	deleteChart : function(chartKey){
 	   		
-	   		var object=DA.queryInfo["chartDetail"];
+	   		var object=CM.queryInfo["chartDetail"];
 	   		for(var attr in object){
 	   			if(attr==chartKey){
-	   				delete DA.queryInfo["chartDetail"][attr];
+	   				delete CM.queryInfo["chartDetail"][attr];
 	   			}
 	   		}
 	   	},
@@ -1472,9 +1454,9 @@ RC={
 	   	
 	   	addCloneChart : function(){
 	   		var title = $('#chartTitleClone').val();
-	   		for(var key in DA.queryInfo["chartDetail"])
+	   		for(var key in CM.queryInfo["chartDetail"])
    			{
-	   			var temp = DA.queryInfo["chartDetail"][key]["title"];
+	   			var temp = CM.queryInfo["chartDetail"][key]["title"];
 	   			if(temp == title)
 	   			{
 	   				jAlert("Title already exists","Error");
@@ -1482,21 +1464,21 @@ RC={
 	   				return;
 	   			}
    			}
-	   		var chartObject =jQuery.extend(true, {}, DA.queryInfo["chartDetail"][DA.selectedChartId]); 
+	   		var chartObject =jQuery.extend(true, {}, CM.queryInfo["chartDetail"][CM.selectedChartId]); 
 	   			chartObject["title"] = title;
    			var count=0;
-   			for(key in DA.queryInfo["chartDetail"]) {
+   			for(key in CM.queryInfo["chartDetail"]) {
    				count++;
    			}
    			var chartkey="chart"+count;
-   			while(DA.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
+   			while(CM.queryInfo["chartDetail"].hasOwnProperty(chartkey)){
    				count++;
    				chartkey="chart"+count;
    			}
-   			DA.queryInfo["chartDetail"][chartkey]=chartObject;	   			
-   			DA.closeCloneBox();
-   			DA.currentSelectedChart = title;
-   			DA.createChartGrid(DA.queryInfo["chartDetail"]);
+   			CM.queryInfo["chartDetail"][chartkey]=chartObject;	   			
+   			CM.closeCloneBox();
+   			CM.currentSelectedChart = title;
+   			CM.createChartGrid(CM.queryInfo["chartDetail"]);
 	   	},
 	   	
 	   	fillChartDimension : function(type)

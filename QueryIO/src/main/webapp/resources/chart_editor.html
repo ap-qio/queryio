@@ -3,24 +3,17 @@
 <link rel="stylesheet" href="styles/nd.css" type="text/css" />
 <link rel="stylesheet" href="styles/data_analyzer.css" type="text/css" />
 
-<script src="scripts/data-analyzer.js"></script>
-
 <!-- script src="scripts/jquery.custom.jqplot.js"></script-->
+<script type="text/javascript" src="scripts/chart_manager.js"></script>
 <script type="text/javascript" src="scripts/report_chart.js"></script>
 <script type="text/javascript" src="scripts/chart_preferences.js"></script>
+<script type="text/javascript" src="scripts/jquery.jqGrid.min.js"></script>
 <div id='data_browser' class="viewDiv">
 
 	<div id="data_analyzer_query_builder"
 		style="overflow: auto; position: relative; width: auto; min-height: 650px; display:">
 		<div id="rightOverlay" style="height: auto;">
 			<div id="rightPanel" style="margin: 3px;">
-				<div class="queryHeader" style="text-align: left;">
-					<img id="expandQueryID" src="images/Right.png"
-						style="display: none; height: 15px;"> <img
-						id="shrinkQueryID" src="images/Down.png" style="height: 15px;">
-					<span id="queryIdTitle" style="margin-left: 5px;">New Query
-						1</span>
-				</div>
 
 				<div class="queryHeader" style="text-align: left; margin-top: 8px;">
 					<img id="expandChartDesigner" src="images/Right.png"
@@ -29,8 +22,36 @@
 						style="height: 15px;"> <span style="margin-left: 5px;">Chart
 						Designer</span>
 				</div>
+				<table style="width: 100%">
+					<tr>
+						<td nowrap="nowrap" style="padding-left: 20px;"><span
+							id="group_header_span" style="display:">Select Query</span></td>
+						<td id="group_header_select_td" colspan="8"
+							style="padding-left: 20px;">
+
+							<div
+								style="display: inline-block; width: 100%; min-height: 15px;">
+								<select id="selectQueryId"
+									onchange="javascript:CM.queryIdChanged();">
+									<option>--Select--</option>
+								</select>
+							</div>
+						</td>
+						<td></td>
+					</tr>
+				</table>
 				<div id="divChartDesigner" class="designBackground"
 					style="overflow-x: auto;">
+								<div id="chartDiv" style="float: left; width: 18%; min-height: 150px;">
+				<div id = "leftOverlay" style = "height: 275px; min-height: 245px;">
+					<div id = "chartTableDiv" style = "margin: 3px;">
+						
+						<div id ="chartContainer" style="height: auto;">
+							<table id="chartTable"></table>
+						</div>
+					</div>
+				</div>
+			</div>
 
 					<div id="chartOptionsDiv"
 						style="float: right; width: 81.5%; min-height: 150px;">
