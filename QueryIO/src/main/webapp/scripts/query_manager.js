@@ -39,6 +39,7 @@ QM={
 		lastColumn : '',
 		isHistoryFilled : false,
 		tableMap : new Object(),
+		editedDbName : {},
 		
 		ready : function(){
 			QM.selectedNameNode = $("#queryIONameNodeId").val();
@@ -76,7 +77,7 @@ QM={
 					},
 				"bAutoWidth": true,
 		        "aoColumns": [
-		            { "sTitle": '<input type="checkbox" value="selectAll" id="selectAll" onclick="javascript:QM.selectAllQueries(this.id)">'},
+		            { "sTitle": '<input type="checkbox" value="selectAll" id="selectAll" onclick="javascript:QM.selectAllQuery(this.id)">'},
 		            { "sTitle": "QueryID" },
 		            { "sTitle": "Description" },
 		            { "sTitle": "Query" }
@@ -230,6 +231,7 @@ QM={
 			Navbar.isFromsummaryView = true;
 			Navbar.changeTab('Queries','queries','edit_queries');
 		},
+		
 		editSelectedQuery : function(){
 			Navbar.isEditQuery = true;
 			var queryId = QM.selectedQueryArray[0]+'';
@@ -237,11 +239,103 @@ QM={
 			Navbar.isFromsummaryView = true;
 			var nameNodeId = QM.selectedNameNode;
 			Navbar.changeTab('Queries','queries','edit_queries');
+			RemoteManager.getQuery(queryId, function(response) {
+				var queryObj = JSON.parse(response);
+				console.log(queryObj);
+//				QM.showQuerySavePopup();
+				QM.populateQueryData(queryObj)
+			});
 		},
+		
+		populateQueryData : function(queryObj) {
+			
+			QM.selectedDbName = queryObj["dbname"];
+			QM.editedDbName[queryObj["id"]] = QM.selectedDbName;
+			$('#queryIODatabase').val(QM.selectedDbName);
+
+			Navbar.selectedQueryId = queryId;
+			$("#queryId").val(queryObj["id"]);
+			
+			$("#queryDesc").val(queryObj["description"]);
+
+			QM.selectedNameNode = queryObj["namenodeId"];
+						
+			QM.colMap = JSON.parse(queryObj["selectedCols"]);
+			QM.query = queryObj["properties"];
+			QM.tokenizeQuery(QM.query);
+			$('#query_textarea').val(QM.query);
+
+		},
+		
+		tokenizeQuery : function(query) {
+			 var totalToken = ["SELECT ", " FROM ", " WHERE ", " GROUP BY ", " HAVING ", " ORDER BY "];
+			 var token = ["SELECT", "FROM"];
+			 
+			 for(var i=2;i<totalToken.length; i++) {
+				 console.log(totalToken[i]);
+				 if(query.indexOf(totalToken[i]) > 0) {
+					 token.push(totalToken[i]);
+				 }
+			 }
+			 
+			 token.push("");
+			 
+			 var start = 0, end = 1;
+			 var out = QM.tokenizeQueryString(query, token[start],token[end]);
+			 QM.searchColumn =  out[1];
+			 console.log(out[1]);
+			 $('#srch_col_fld').val(QM.searchColumn);	 
+			 start = end;
+			 end = end + 1;
+			 
+			//FROM 
+			if(query.indexOf(totalToken[1]) > 0) {
+				out = QM.tokenizeQueryString(query, token[start],token[end]);
+				start = end;
+				end = end + 1;
+				QM.searchFrom = [out[1]];
+				$('#srch_from_fld').val(QM.searchFrom);
+			} 
+ 
+			//WHERE 
+			if(query.indexOf(totalToken[2]) > 0) {
+				out = QM.tokenizeQueryString(query, token[start],token[end]);
+				start = end;
+				end = end + 1;
+				QM.selectedWhereArray = [out[1]];
+				$('#where_col').val(QM.selectedWhereArray[0]);
+			} 
+			if(query.indexOf(totalToken[3]) > 0) {
+				out = QM.tokenizeQueryString(query, token[start],token[end]);
+				start = end;
+				end = end + 1;
+				QM.groupByForm = out[1];
+				$('#grp_by_col').val(QM.groupByForm);
+			} 
+			if(query.indexOf(totalToken[4]) > 0) {
+				out = QM.tokenizeQueryString(query, token[start],token[end]);
+				start = end;
+				end = end + 1;
+				$('#having_col').val(out[1]);
+			} 
+			if(query.indexOf(totalToken[5]) > 0) {
+				console.log(token[start], token[end].length);
+				out = QM.tokenizeQueryString(query, token[start],token[end]);
+				start = end;
+				$('#order_by_col').val(out[1]);
+			}
+		},
+		
+		tokenizeQueryString : function(string, start, end) {
+			return string.match(start+'(.*)'+end);
+		},
+		
+		
 		backToSummary : function(){
 			$('#refreshViewButton').attr('onclick','javascript:Navbar.refreshView()');
 			Navbar.refreshView();
 		},
+		
 		showQuery: function(queryId){
 			Navbar.isEditQuery = true;
 			Navbar.selectedQueryId = queryId;
@@ -826,6 +920,12 @@ QM={
 			}
 
 			$('#queryIODatabase').html(data);
+			
+			if(QM.editedDbName[Navbar.selectedQueryId] != null) {
+//				$('#queryIODatabase').val(QM.selectedDbName);
+				$('queryIODatabase select').val(QM.editedDbName[Navbar.selectedQueryId]);
+			}
+			
 			QM.afterReadyQuery();
 		},
 		

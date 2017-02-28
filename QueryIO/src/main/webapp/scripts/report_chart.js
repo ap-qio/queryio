@@ -1079,37 +1079,41 @@ RC={
 	   		
 	   		if(CM.queryInfo["chartDetail"]==undefined||CM.queryInfo["chartDetail"]==""||CM.queryInfo["chartDetail"]==null){
 	   			CM.queryInfo["chartDetail"]=new Object();
-	   		}else if(CM.queryInfo["chartDetail"]["chartPreferences"]==undefined||CM.queryInfo["chartDetail"]["chartPreferences"]==""||CM.queryInfo["chartDetail"]["chartPreferences"]==null){
-	   			JSON.stringify("CHARTPR "+JSON.stringify(CHARTPR.chartPR));
-	   		}else{
+	   		}
 	   			var chartPreferences =null;
 	   			if(value){
 	   				//chartPreferences = CM.queryInfo["chartDetail"]["chartPreferences"];
+	   				console.log("1");
 	   				var obj = CM.getInitialChartPRObject();
 					chartPreferences = obj["chartPreferences"];
 	   			}else{
+	   				console.log("2");
 	   				if(CM.queryInfo["chartDetail"][CM.selectedChartId] != null && CM.queryInfo["chartDetail"][CM.selectedChartId] !=undefined){
+	   					console.log("3");
 	   					chartPreferences  = CM.queryInfo["chartDetail"][CM.selectedChartId]["chartPreferences"];
 	   				}else{
+	   					console.log("4");
 	   					 var obj = CM.getInitialChartPRObject();
 	   					chartPreferences = obj["chartPreferences"];
 	   				}
-	   			}	
-	   			chartObject["chartPreferences"] = jQuery.extend(true, {}, chartPreferences);
 	   			
 	   		}
+	   		chartObject["chartPreferences"] = jQuery.extend(true, {}, chartPreferences);
 	   		console.log("CM.globalChartPreferences "+JSON.stringify(CM.globalChartPreferences));
 	   		if(CM.queryInfo["chartDetail"]["chartPreferences"] == undefined || CM.queryInfo["chartDetail"]["chartPreferences"] ==null)
 	   			CM.queryInfo["chartDetail"]["chartPreferences"] = CM.globalChartPreferences;
 	   		
+	   		console.log("chartObject: ", chartObject);
 	   		if(value)
 	   		{
+	   			console.log("1.1");
 	   			var count=0;
 	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
 		   			var temp = CM.queryInfo["chartDetail"][key]["title"];
 		   			if(temp == $('#line_chart_title').val())
 		   			{
+		   				console.log("2.2");
 		   				$('#error_msg').text("Title already exists");
 		   				return;
 		   			}
@@ -1120,17 +1124,19 @@ RC={
 	   				count++;
 	   				chartkey="chart"+count;
 	   			}
-	   			
+	   			console.log("3.3");
 	   			CM.queryInfo["chartDetail"][chartkey]=chartObject;	   			
 	   		}
 	   		else
 	   		{
-	   			
+	   			console.log("4.4");	
 	   			for(var key in CM.queryInfo["chartDetail"])
 	   			{
 	   				var chartkey = "chart"+count;
-	   				if(key == CM.selectedChartId)
+	   				if(key == CM.selectedChartId){
+	   					console.log("5.5");
 	   					CM.queryInfo["chartDetail"][key]=chartObject;
+	   				}
 	   			}
 	   			Navbar.queryManagerDirtyBit = true;
 	   			

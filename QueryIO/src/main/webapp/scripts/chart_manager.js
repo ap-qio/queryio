@@ -10,7 +10,7 @@ CM={
 		isNewChart : false,
 		isEditChart : false,
 		colList: [],
-		selectedQueryID: '',
+		selectedQueryId: '',
 		queries: [],
 		queryInfo: {},
 		globalChartPreferences: {},
@@ -59,7 +59,7 @@ CM={
 				console.log("thisQueryId: " + thisQueryId);
 				if(queryId == thisQueryId){
 					var thisColMap = cur["selectedCols"];
-					CM.selectedQueryID = queryId;
+					CM.selectedQueryId = queryId;
 					CM.colMap = JSON.parse(thisColMap);
 				}
 			}
@@ -132,7 +132,7 @@ CM={
 		},
 		
 		fillChartSummaryTable : function(chartData){
-			
+			console.log(chartData);
 			CM.selectedChartArray.splice(0, CM.selectedChartArray.length);
 			document.getElementById('selectAll').checked = false;
 			CM.toggleButton("selectAll", false);
@@ -169,6 +169,36 @@ CM={
 			chartData["data"] = tableList;
 			CM.chartCache = cCache;
 			return chartData;
+		},
+		
+		saveChart : function() {
+			CM.showChartSavePopup();
+		},
+		
+		showChartSavePopup : function() {
+			Util.addLightbox('export', 'pages/popup.jsp');
+		},
+		
+		chartSaveResponse : function(response) {
+			var id = CM.selectedChartId;
+
+			if (response.taskSuccess) {
+				status = "Success";
+				imgId = "popup.image.success";
+
+			} else {
+				status = "Failure";
+				imgId = "popup.image.fail";
+			}
+
+			message = response.responseMessage;
+
+			dwr.util.byId('popup.image.processing' + id).style.display = 'none';
+			dwr.util.byId(imgId + id).style.display = '';
+
+			dwr.util.setValue('popup.message' + id, message);
+			dwr.util.setValue('popup.status' + id, status);
+			dwr.util.byId('ok.popup').disabled = false;
 		},
 		
 		clickBox : function(id)
@@ -373,6 +403,12 @@ CM={
 		},
 		closeDeleteChartBox : function(){
 			CM.closeBox(true);
+		},
+		
+		closeBox : function(isRefresh) {
+			Util.removeLightbox("export");
+				if (isRefresh)
+					Navbar.refreshView();
 		},
 		
 		showLineYSeriesCol : function(id) {
@@ -1930,6 +1966,7 @@ CM={
 				}
 				CM.checkForAdded = false;
 				obj = CM.queryInfo["chartDetail"];
+				obj["chartPreferences"] = CM.globalChartPreferences
 			} else {
 				obj = new Object();
 				obj["chartPreferences"] = new Object();
@@ -2203,7 +2240,9 @@ CM={
 						RC.getYSeriesHtmlData('stock', 'close', true, true, false,
 								false));
 			}
+			console.log("value before: ", value);
 			CM.fillChart(value);
+			console.log("value after: ", value);
 			CM.showChartSample('', value[CM.selectedChartId]);
 		},
 		
@@ -2229,3 +2268,41 @@ CM={
 
 
 };
+
+function fillPopUp(flag)
+{
+	var id = CM.selectedChartId;
+	
+	dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
+	dwr.util.byId('pop.pattern'+id).style.display = '';
+	dwr.util.byId('popup.image.processing'+id).style.display = '';
+	dwr.util.setValue('popup.component','Chart ID');
+	dwr.util.setValue('popup.host'+id,id);
+	dwr.util.setValue('popup.message'+id,'Processing Request...');
+	
+	if (CM.isDelete){
+		dwr.util.setValue('popup.status'+id,'Deleting..');
+	}
+	
+	var data = CM.queryInfo["chartDetail"];
+	
+	
+	if(CM.isClone)
+	{
+		dwr.util.setValue('popup.status'+id,'Cloning..');	
+		RemoteManager.saveChart($('#chartIdText').val(), CM.selectedQueryId, $('#chartDescText').val(), JSON.stringify(data), CM.chartSaveResponse);
+		CM.isClone = false;
+	}
+	else{
+		dwr.util.setValue('popup.status'+id,'Saving..');
+		console.log("Hello");
+		RemoteManager.saveChart($('#chartIdText').val(), CM.selectedQueryId, $('#chartDescText').val(), JSON.stringify(data), CM.chartSaveResponse);
+		console.log("Hello Again");
+	}
+	
+};
+
+function closePopUpBox()
+{
+    CM.closeBox(true);
+}

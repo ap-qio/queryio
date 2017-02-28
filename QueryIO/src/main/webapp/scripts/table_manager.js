@@ -19,7 +19,7 @@ TM={
 		selectedColumnFooterArray: [],
 		selectedColumnDetailArray: [],
 		colList: [],
-		selectedQueryID: '',
+		selectedQueryId: '',
 		
 		ready : function(){
 			TM.selectedNameNode = $("#queryIONameNodeId").val();
@@ -377,7 +377,7 @@ TM={
 				console.log("thisQueryId: " + thisQueryId);
 				if(queryId == thisQueryId){
 					var thisColMap = cur["selectedCols"];
-					TM.selectedQueryID = queryId;
+					TM.selectedQueryId = queryId;
 					TM.colMap = JSON.parse(thisColMap);
 					TM.populateColumns();
 				}
@@ -901,7 +901,7 @@ TM={
 
 function fillPopUp(flag)
 {
-	var id = TM.selectedTableId;
+	var id = $('#tableIdText').val();
 	
 	dwr.util.cloneNode('pop.pattern',{ idSuffix: id});
 	dwr.util.byId('pop.pattern'+id).style.display = '';
@@ -919,7 +919,7 @@ function fillPopUp(flag)
 	data["colDetail"] = TM.queryInfo.colDetail;
 	data["colHeaderDetail"] = TM.queryInfo.colHeaderDetail;
 	
-	else if(TM.isClone)
+	if(TM.isClone)
 	{
 		dwr.util.setValue('popup.status'+id,'Cloning..');	
 		RemoteManager.saveTable($('#tableIdText').val(), TM.selectedQueryId, $('#tableDescText').val(), JSON.stringify(data), TM.tableSaveResponse);
@@ -931,3 +931,8 @@ function fillPopUp(flag)
 	}
 	
 };
+
+function closePopUpBox()
+{
+    TM.closeBox(true);
+}

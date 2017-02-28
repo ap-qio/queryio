@@ -39,6 +39,35 @@
 						</td>
 						<td></td>
 					</tr>
+					<tr>
+							<td nowrap="nowrap" style="padding-left: 20px;"><span
+								id="group_header_span" style="display:">Chart Id</span></td>
+							<td id="group_header_select_td" colspan="8"
+								style="padding-left: 20px;">
+
+								<div
+									style="display: inline-block; width: 100%; min-height: 15px;">
+									<input type="text" id="chartIdText">
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+						
+						<tr>
+							<td nowrap="nowrap" style="padding-left: 20px;"><span
+								id="group_header_span" style="display:">Description</span></td>
+							<td id="group_header_select_td" colspan="8"
+								style="padding-left: 20px;">
+
+								<div
+									style="display: inline-block; width: 100%; min-height: 15px;">
+									<input type="text" id="chartDescText">
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
 				</table>
 				<div id="divChartDesigner" class="designBackground"
 					style="overflow-x: auto;">
@@ -735,6 +764,7 @@
 		</div>
 	</div>
 </div>
+<button class="button" type="button" style="margin-right: 10px; padding: 4px;" id="lineBtnSave" name="Save" onclick="CM.saveChart();">Save</button>
 
 
 <script>
@@ -874,29 +904,6 @@
 	});
 
 	var chartPosition = '';
-	function fillPopUp(flag) {
-		var id = CM.selectedChartId;
-
-		dwr.util.cloneNode('pop.pattern', {
-			idSuffix : id
-		});
-		dwr.util.byId('pop.pattern' + id).style.display = '';
-		dwr.util.byId('popup.image.processing' + id).style.display = '';
-		dwr.util.setValue('popup.component', 'Chart ID');
-		dwr.util.setValue('popup.host' + id, id);
-		dwr.util.setValue('popup.message' + id, 'Processing Request...');
-
-		if (CM.isDelete) {
-			dwr.util.setValue('popup.status' + id, 'Deleting..');
-		} else if (CM.isClone) {
-			dwr.util.setValue('popup.status' + id, 'Cloning..');
-			var str = JSON.stringify(CM.cloneData);
-			CM.isClone = false;
-		} else {
-			dwr.util.setValue('popup.status' + id, 'Saving..');
-		}
-
-	}
 
 	function closePopUpBox() {
 		CM.closeBox(true);
