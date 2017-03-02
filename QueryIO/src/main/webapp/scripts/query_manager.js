@@ -244,16 +244,16 @@ QM={
 				var queryObj = JSON.parse(response);
 				console.log(queryObj);
 //				QM.showQuerySavePopup();
-				QM.populateQueryData(queryObj)
+				setTimeout(function() { QM.populateQueryData(queryObj); }, 200);			
 			});
 		},
 		
 		populateQueryData : function(queryObj) {
-			
+			console.log("hello12233");
 			QM.selectedDbName = queryObj["dbname"];
 			QM.editedDbName[queryObj["id"]] = QM.selectedDbName;
 			$('#queryIODatabase').val(QM.selectedDbName);
-
+ 
 			Navbar.selectedQueryId = queryId;
 			$("#queryId").val(queryObj["id"]);
 			
@@ -265,6 +265,23 @@ QM={
 			QM.query = queryObj["properties"];
 			QM.tokenizeQuery(QM.query);
 			$('#query_textarea').val(QM.query);
+
+			RemoteManager.getResultTableName(QM.searchFrom, QM.selectedNameNode, QM.fetchResultTableName);
+			RemoteManager.getAllTagTableNames(QM.selectedNameNode, QM.selectedDbName, QM.populateNameNodeFromList);
+			if(QM.selectedDbName == "Hive" || QM.selectedDbName == "hive") {
+				QM.isHive = true;
+			}
+			
+			if (QM.isHive) {
+				$('#query_filter_table').css('visibility', 'visible');
+			} else {
+				$('#query_filter_table').css('visibility', 'hidden');
+				$('#is_apply_query_filter').removeAttr('checked')
+				$('#query_filter_sql').css('visibility', 'hidden');
+				QM.applyQueryFilter();
+			}
+
+			RemoteManager.getAllAvailableTagsList(QM.selectedNameNode, QM.selectedDbName, QM.searchFrom, QM.populateSearchColNames);
 
 		},
 		
@@ -283,9 +300,9 @@ QM={
 			 
 			 var start = 0, end = 1;
 			 var out = QM.tokenizeQueryString(query, token[start],token[end]);
-			 QM.searchColumn =  out[1];
-			 console.log(out[1]);
-			 $('#srch_col_fld').val(QM.searchColumn);	 
+			 
+			 QM.searchColumn =  out[1].split(",");
+			 $('#srch_col_fld').val(out[1]);	 
 			 start = end;
 			 end = end + 1;
 			 
@@ -906,6 +923,8 @@ QM={
 		
 		fillDBName : function(dbNameList) {
 			var data = "";
+			console.log('DB Name List :' , dbNameList);
+			
 			if (dbNameList != null) {
 				QM.selectedDbName = dbNameList["Metastore"];
 				QM.isHive = false;
@@ -922,9 +941,11 @@ QM={
 
 			$('#queryIODatabase').html(data);
 			
+			console.log('test1', QM.editedDbName[Navbar.selectedQueryId]);
 			if(QM.editedDbName[Navbar.selectedQueryId] != null) {
 //				$('#queryIODatabase').val(QM.selectedDbName);
-				$('queryIODatabase select').val(QM.editedDbName[Navbar.selectedQueryId]);
+				console.log("Test1")
+				$('#queryIODatabase').val(QM.editedDbName[Navbar.selectedQueryId]);
 			}
 			
 			QM.afterReadyQuery();
@@ -932,6 +953,7 @@ QM={
 		
 		afterReadyQuery : function() {
 
+			console.log(QM.selectedNameNode, QM.selectedDbName, QM.populateNameNodeFromList);
 			RemoteManager.getAllTagTableNames(QM.selectedNameNode,
 					QM.selectedDbName, QM.populateNameNodeFromList);
 
