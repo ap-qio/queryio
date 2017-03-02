@@ -251,7 +251,7 @@ public class BigQueryDAO {
 		ResultSet rs = null;
 		List<Table> tables = new ArrayList<>();
 		try {
-			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_ALL_CHARTS);
+			ps = DatabaseFunctions.getPreparedStatement(connection, QueryConstants.GET_ALL_TABLES);
 			rs = CoreDBManager.getQueryResultsForPreparedStatement(ps);
 			JSONParser parser = new JSONParser();
 			while (rs.next()) {

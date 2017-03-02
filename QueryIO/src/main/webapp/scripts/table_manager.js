@@ -80,11 +80,11 @@ TM={
 		},
 		
 		fillTableSummaryTable : function(tableData){
-			
+			var retData = new Array();
 			TM.selectedTableArray.splice(0, TM.selectedTableArray.length);
 			document.getElementById('selectAll').checked = false;
 			TM.toggleButton("selectAll", false);
-			var object = tableData["data"];
+			var object = JSON.parse(tableData["responseMessage"]);
 			var tableList = new Array();
 			var tCache = new Object;
 			if(object!=null)
@@ -93,9 +93,9 @@ TM={
 					for (var i=0; i< object.length;i++)
 					{
 						var tData = object[i];
-						var tableId = tData[0]; // queryID
-						var description = tData[1]; // query description
-						var query = tData[2]; // query description
+						var tableId = tData["id"]; // queryID
+						var description = tData["description"]; // query description
+						var query = tData["queryId"]; // query description
 						var tablec = {};
 						tablec["id"] = tableId;
 						tablec["description"] = description;
@@ -114,9 +114,9 @@ TM={
 						tableList.push([check,tableId,description,queryContent]);
 		   			}
 		  	}
-			tableData["data"] = tableList;
+			retData["data"] = tableList;
 			TM.tableCache = tCache;
-			return tableData;
+			return retData;
 		},
 		
 		clickBox : function(id)

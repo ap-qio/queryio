@@ -135,6 +135,7 @@ QM={
 			retData["data"] = tableList;
 			QM.queryCache = qCache;
 			console.log("retData: ", retData)
+			console.log("returning: ", retData);
 			return retData;
 		},
 		

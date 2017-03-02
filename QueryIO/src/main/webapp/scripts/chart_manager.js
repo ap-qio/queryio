@@ -132,22 +132,23 @@ CM={
 		},
 		
 		fillChartSummaryTable : function(chartData){
-			console.log(chartData);
+			var retData = new Array();
 			CM.selectedChartArray.splice(0, CM.selectedChartArray.length);
 			document.getElementById('selectAll').checked = false;
 			CM.toggleButton("selectAll", false);
-			var object = chartData["data"];
+			var object = JSON.parse(chartData["responseMessage"]);
+			console.log(object);
 			var tableList = new Array();
 			var cCache = new Object;
 			if(object!=null)
 	   		{
 				    CM.chartArray.splice(0,CM.chartArray.length);
-					for (var i=0; i< object.length;i++)
+					for (var cur in object)
 					{
-						var chartData = object[i];
-						var chartId = chartData[0]; // queryID
-						var description = chartData[1]; // query description
-						var query = chartData[2]; // query description
+						var chartData = object[cur];
+						var chartId = chartData["id"]; // queryID
+						var description = chartData["description"]; // query description
+						var query = chartData["queryId"]; // query description
 						var chartc = {};
 						chartc["id"] = chartId;
 						chartc["description"] = description;
@@ -166,9 +167,10 @@ CM={
 						tableList.push([check,chartId,description,queryContent]);
 		   			}
 		  	}
-			chartData["data"] = tableList;
+			retData["data"] = tableList;
 			CM.chartCache = cCache;
-			return chartData;
+			console.log("returning: ", retData);
+			return retData;
 		},
 		
 		saveChart : function() {
