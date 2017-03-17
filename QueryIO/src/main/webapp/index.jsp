@@ -19,7 +19,10 @@ if (username == null)
 
 String currentView = (String) request.getSession().getAttribute("viewType");
 System.out.println("index.jsp called, current view is: " + currentView);
-
+if (request.isUserInRole("Admin") && request.getSession().getAttribute("viewType")==null) {
+	request.getSession().setAttribute("viewType", "UserView");
+	response.sendRedirect("/queryio/toggleView.jsp");
+}
 
 %>
 <!--[if IE]>

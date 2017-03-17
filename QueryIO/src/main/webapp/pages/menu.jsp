@@ -112,7 +112,7 @@
 			</ul></li>
 
 		<li onmouseout="showDropDown(7);" id="Hadoop_li" class="admin"><a id="System Config"
-			href="javascript:Navbar.changeTab('Hadoop','Hadoop','HDFS');hideDropDown(7);">Manage
+			href="javascript:Navbar.changeTab('Hadoop','Hadoop');hideDropDown(7);">Manage
 				HDFS</a>
 			<ul>
 				<li onmouseout="showDropDown(7);"><a
