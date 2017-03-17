@@ -628,8 +628,17 @@ Navbar = {
 		}
 		
 		else if (tabName == "Admin") {
-			
-			if (childtab == 'queryio_services') 
+			if (childtab == undefined) 
+			{
+				header = 'Cluster Setup ';
+				pathHeader = '<a href="javascript:Navbar.changeTab(\'Setup\',\'setup\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span> Quick Setup </span><img src="images/forward.png" style="height:20px">'
+							+'<img src="images/forward.png" style="height:20px"><span>' +header+'</span>';
+				source = 'resources/automate_cluster_setup.html';
+				Navbar.doAutoRefresh=false;
+			}
+
+			else if (childtab == 'queryio_services') 
 			{
 				header = 'QueryIO Services ';
 				pathHeader = '<a href="javascript:Navbar.changeTab(\'Admin\',\'Admin\',\'queryio_services\');" class="tab_banner" ><img src="" id="homeImage"></a><img src="images/forward.png" style="height:20px">'
