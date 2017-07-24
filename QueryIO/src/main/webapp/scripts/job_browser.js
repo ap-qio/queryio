@@ -3,7 +3,7 @@ JB = {
 	isAdhoc : false,
 
 	appsCache : null,
-	jobsCache : null,
+	//jobsCache : null,
 	jobsCacheAdhoc : null,
 
 	selectedApp : [],
@@ -258,6 +258,7 @@ JB = {
 
 	fillJobsTable : function(jobsDataResult) {
 		var tableList = new Array();
+		//JB.jobsCache= new Array();
 		JB.total = 0;
 		JB.allJobsArray.splice(0, JB.allJobsArray.length);
 		var jobsData = jobsDataResult["data"];
@@ -284,6 +285,8 @@ JB = {
 						namenodeIdSpan, rmId, jarFile, libJar, nativeFiles ]);
 			}
 			jobsDataResult["data"] = tableList;
+			//If required, JB.jobsCache value can be obtained from here
+			//JB.jobsCache=tableList;
 		}
 		return jobsDataResult;
 
@@ -1702,12 +1705,11 @@ JB = {
 		var list = [];
 		if (JB.isAdhoc) {
 			for (var i = 0; i < JB.selectedJobAdhoc.length; i++) {
-				list.push(JB.jobsCacheAdhoc[(JB.selectedJobAdhoc[i])
-						.substring(12)][0]);
+				list.push((JB.selectedJobAdhoc[i]).substring(12));
 			}
 		} else {
 			for (var i = 0; i < JB.selectedJob.length; i++) {
-				list.push(JB.jobsCache[(JB.selectedJob[i]).substring(7)][0]);
+				list.push((JB.selectedJob[i]).substring(12));
 			}
 		}
 		return list;
