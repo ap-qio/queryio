@@ -59,6 +59,8 @@ public class UpgradeHadoop2_7_0To2_7_1 {
 						line = line.replace(QueryIOConstants.HADOOP_2_4_0_DIR_NAME, QueryIOConstants.HADOOP_DIR_NAME);
 					else if (line.contains(QueryIOConstants.HADOOP_2_7_0_DIR_NAME))
 						line = line.replace(QueryIOConstants.HADOOP_2_7_0_DIR_NAME, QueryIOConstants.HADOOP_DIR_NAME);
+					else if (line.contains(QueryIOConstants.HADOOP_2_7_3_DIR_NAME))
+						line = line.replace(QueryIOConstants.HADOOP_2_7_3_DIR_NAME, QueryIOConstants.HADOOP_DIR_NAME);
 					if (line.contains(QueryIOConstants.NM_AUX_SERVICE))
 						line = line.replace(QueryIOConstants.NM_AUX_SERVICE, QueryIOConstants.NM_AUX_SERVICE_UPDATE);
 					if (isHive && line.contains(QueryIOConstants.HIVE_0_10_0_DIR_NAME))

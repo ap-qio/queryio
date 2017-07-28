@@ -11,9 +11,9 @@ pid=$(ps -ef | grep -v grep | grep hdfs.server.namenode.NameNode | awk '{print $
         then
             echo "NamoNode Process is already running on this host."
         else
-            for i in $(find $HOME/Hadoop-2.7.3/etc -name "namenode-conf_*"); do
+            for i in $(find $HOME/Hadoop-2.8.0/etc -name "namenode-conf_*"); do
 	        	echo $i
-				sh $HOME/Hadoop-2.7.3/sbin/hadoop-daemon.sh --config $i start namenode
+				sh $HOME/Hadoop-2.8.0/sbin/hadoop-daemon.sh --config $i start namenode
 			done
             echo "NamoNode Process launched successfully."
         fi
@@ -27,9 +27,9 @@ pid=$(ps -ef | grep -v grep | grep hdfs.server.datanode.DataNode | awk '{print $
         then
 	        echo "DataNode Process is already running on this host."
         else
-            for i in $(find $HOME/Hadoop-2.7.3/etc -name "datanode-conf_*"); do
+            for i in $(find $HOME/Hadoop-2.8.0/etc -name "datanode-conf_*"); do
 		        echo $i
-				sh $HOME/Hadoop-2.7.3/sbin/hadoop-daemon.sh --config $i start datanode
+				sh $HOME/Hadoop-2.8.0/sbin/hadoop-daemon.sh --config $i start datanode
 			done
             echo "DataNode Process launched successfully."
         fi
@@ -43,9 +43,9 @@ pid=$(ps -ef | grep -v grep | grep hdfs.server.namenode.SecondaryNameNode | awk 
         then
 	        echo "SecondaryNameNode Process is already running on this host."
         else
-			for i in $(find $HOME/Hadoop-2.7.3/etc -name "secondarynamenode-conf_*"); do
+			for i in $(find $HOME/Hadoop-2.8.0/etc -name "secondarynamenode-conf_*"); do
        			echo $i
-				sh $HOME/Hadoop-2.7.3/sbin/hadoop-daemon.sh --config $i start secondarynamenode
+				sh $HOME/Hadoop-2.8.0/sbin/hadoop-daemon.sh --config $i start secondarynamenode
 			done
             echo "SecondaryNameNode Process launched successfully."
 		fi
@@ -59,9 +59,9 @@ pid=$(ps -ef | grep -v grep | grep hdfs.qjournal.server.JournalNode | awk '{prin
         then
         	echo "JournalNode Process is already running on this host."
         else
-			for i in $(find $HOME/Hadoop-2.7.3/etc -name "journalnode-conf_*"); do
+			for i in $(find $HOME/Hadoop-2.8.0/etc -name "journalnode-conf_*"); do
 		        echo $i
-				sh $HOME/Hadoop-2.7.3/sbin/hadoop-daemon.sh --config $i start journalnode
+				sh $HOME/Hadoop-2.8.0/sbin/hadoop-daemon.sh --config $i start journalnode
 			done
             echo "JournalNode Process launched successfully."			
         fi
@@ -75,9 +75,9 @@ pid=$(ps -ef | grep -v grep | grep hdfs.qjournal.server.JournalNode | awk '{prin
         then
 	        echo "ResourceManager Process is already running on this host."
         else
-			for i in $(find $HOME/Hadoop-2.7.3/etc -name "resourcemanager-conf_*"); do
+			for i in $(find $HOME/Hadoop-2.8.0/etc -name "resourcemanager-conf_*"); do
 		        echo $i
-				sh $HOME/Hadoop-2.7.3/sbin/yarn-daemon.sh --config $i start resourcemanager
+				sh $HOME/Hadoop-2.8.0/sbin/yarn-daemon.sh --config $i start resourcemanager
 			done
             echo "ResourceManager Process launched successfully."
         fi
@@ -91,9 +91,9 @@ pid=$(ps -ef | grep -v grep | grep hdfs.qjournal.server.JournalNode | awk '{prin
         then
         	echo "JobHistoryServer Process is already running on this host."
         else
-			for i in $(find $HOME/Hadoop-2.7.3/etc -name "resourcemanager-conf_*"); do
+			for i in $(find $HOME/Hadoop-2.8.0/etc -name "resourcemanager-conf_*"); do
 		        echo $i
-				sh $HOME/Hadoop-2.7.3/sbin/mr-jobhistory-daemon.sh --config $i start historyserver
+				sh $HOME/Hadoop-2.8.0/sbin/mr-jobhistory-daemon.sh --config $i start historyserver
 			done
             echo "JobHistoryServer Process launched successfully."
         fi
@@ -107,9 +107,9 @@ pid=$(ps -ef | grep -v grep | grep yarn.server.nodemanager.NodeManager | awk '{p
         then
         	echo "NodeManager Process is already running on this host."
         else
-			for i in $(find $HOME/Hadoop-2.7.3/etc -name "nodemanager-conf_*"); do
+			for i in $(find $HOME/Hadoop-2.8.0/etc -name "nodemanager-conf_*"); do
 		        echo $i
-				sh $HOME/Hadoop-2.7.3/sbin/yarn-daemon.sh --config $i start nodemanager
+				sh $HOME/Hadoop-2.8.0/sbin/yarn-daemon.sh --config $i start nodemanager
 			done
             echo "NodeManager Process launched successfully."
         fi

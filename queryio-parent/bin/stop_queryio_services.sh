@@ -1,7 +1,7 @@
 HOME=$HOME/QueryIOPackage
 echo $HOME
 
-for i in $(find $HOME/Hadoop-2.7.3/etc -name "namenode-conf_*"); do
+for i in $(find $HOME/Hadoop-2.8.0/etc -name "namenode-conf_*"); do
         echo $i
         ftpPortString=$(grep -n queryio.hdfsoverftp.port $i/core-site.xml)
         ftpPort=$(echo $ftpPortString | cut -d'<' -f 5 |cut -d '>' -f 2)
