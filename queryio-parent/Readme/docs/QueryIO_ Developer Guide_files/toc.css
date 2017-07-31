@@ -1,0 +1,67 @@
+body { background-color:#ffffff; font-family:Tahoma, sans-serif; margin-top:5pt; margin-bottom:5pt;margin-left:5pt; margin-right:5pt;}
+
+table.outer 	{ border=0:cellpadding=0 cellspacing=0 width=95%; }
+tr.data		{ font-size:10pt;  font-style:normal; font-weight:normal; letter-spacing:normal; }
+tr:nth-child(even) {background: #EFF5FB}
+tr:nth-child(odd) {background: #FFF}
+
+td 		{ font-size:10pt; font-style:normal; font-weight:normal; letter-spacing:normal; }
+td.title 	{ font-size:12pt; font-style:normal; font-weight:bold; 	 color:#177bb4; }
+td.topic 	{ font-size:10pt; font-style:normal; font-weight:normal; background:#177bb4; }
+td.subtopic 	{ font-size:10pt; font-style:normal; font-weight:normal; background-color:#f3efe9; text-align:left; }
+td.nav 		{ font-size:150%; font-style:normal; font-weight:normal; text-align:right;  }
+td.HEADING 	{ font-size:10pt;  font-style:normal; font-weight:bold;   color:#177bb4;}
+
+P {  letter-spacing:normal; font-size:10pt; font-weight:normal; font-style:normal; }
+P.paragraph { margin-top:1pt; margin-bottom:1pt;  }
+P.COLUMNFHEADING { font-style:normal; color:#000080; font-weight:bold; text-align:center; }
+P.Preformatted-codeDisplay { background-color:#f2f2f2; font-size:10pt; margin-top:1pt; margin-bottom:1pt;  }
+P.note { font-weight:normal; color:#000000; font-size:9pt; background-color:#BDBDBD;  }
+P.References { font-style:italic; font-weight:normal;  }
+p.standout { font-color:RED;font-size:18pt }
+p.code-format { letter-spacing:normal; font-style:normal; margin-top:1pt; margin-bottom:1pt; font-weight:normal; 
+               font-size:10pt; background-color:#e0e0e0; }
+               
+ol {  letter-spacing:normal; font-size:10pt; font-weight:normal; font-style:normal; margin-top:1pt; margin-bottom:1pt; }
+ul {  letter-spacing:normal; font-size:10pt; font-weight:normal; font-style:normal; margin-top:1pt; margin-bottom:1pt; background-color: #EFF5FB; width: 70%; margin-left: 30px;}
+LI.kadov-P {  letter-spacing:normal; font-size:10pt; font-weight:normal; font-style:normal; }
+LI.kadov-H1 { font-size:12pt; color:#000080; font-weight:bold; font-style:normal;  }
+LI.kadov-H2 { font-size:10pt; color:#000080; font-weight:bold; font-style:normal;  background-color:#f3efe9; }
+LI.kadov-H3 { font-size:10pt; color:#000080; font-weight:bold; font-style:normal;   }
+LI.kadov-H4 { font-size:9pt;  color:#000080; font-weight:bold; font-style:normal;   }
+li { margin-top:3pt; margin-bottom:3pt; }
+
+H1 { font-size:18pt; color:#FFFFFF; font-weight:normal; font-style:normal;  vertical-align: middle; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#579), to(#246)); background-color: #135; height: 38px; border-radius: 8px 8px 8px 8px; }
+H2 { font-size:16pt; color:#FFFFFF; font-weight:normal; font-style:normal;  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#579), to(#246)); background-color: #135; height: 30px; border-radius: 8px 8px 8px 8px;}
+H3 { font-size:14pt;  color:#424242; font-weight:normal; font-style:normal;  }
+H4 { font-size:12pt;  color:#585858; font-weight:normal; font-style:normal;  }
+
+pre.code-format { letter-spacing:normal; font-style:normal; margin-top:1pt; margin-bottom:1pt; font-weight:normal; 
+               font-size:10pt; background-color:#e0e0e0; }
+
+
+A:link { color:#135; }
+A:visited { color:#135; }
+A:hover { color:#000000; }
+A:active { color:#ff0000; }
+
+A.sub { font-size:10pt;margin-left:10pt }
+A.glossterm { color:#800000; font-style:normal;  }
+
+LI.kadov-P-CCOLUMNFHEADING { font-style:normal; color:#000080; font-weight:bold;  }
+LI.kadov-P-CPreformatted-codeDisplay { font-size:10pt;  }
+LI.kadov-P-Cparagraph {  }
+LI.kadov-P-Cnote { font-weight:normal; color:#000000; font-size:8pt;  }
+LI.kadov-p-Ccode-format { letter-spacing:normal; font-style:normal; font-weight:normal; font-size:10pt;  }
+LI.kadov-P-CReferences { font-style:italic; font-weight:normal;  }
+
+SPAN {display: inline-block; padding-top: 3px; margin-left: 7px;}
+SPAN.glosstext { color:#0000ff; font-weight:normal; font-style:italic;  }
+SPAN.TODO { color:#ff0000; font-size:10pt;  }
+SPAN.courier { font-size:10pt; font-weight:bold; font-style:normal; }
+SPAN.bold {font-weight:bold}
+
+DIV.droptext { font-size:8pt; background-color:Transparent; color:#000000;  }
+div.code-format { letter-spacing:normal; font-style:normal; margin-top:1pt; margin-bottom:1pt; font-weight:normal; 
+               font-size:10pt; background-color:#e0e0e0; }
+               
