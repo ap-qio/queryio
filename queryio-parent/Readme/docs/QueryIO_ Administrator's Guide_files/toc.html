@@ -1,0 +1,190 @@
+
+<!-- saved from url=(0076)http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/toc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<title>QueryIO</title>
+
+	<link rel="stylesheet" href="./toc.css" type="text/css">
+	<script type="text/javascript" src="./cooltree.js"></script>
+	<script type="text/javascript">
+				// Tree format definition
+				var TREE_FORMAT = [
+					//  0. left position
+					5,
+					//  1. top position
+					5,
+					//  2. show buttons ("+" and "-" images)
+					true,
+					//  3. button images: collapsed state, expanded state, blank image
+					["../common/images/collapsed_button.gif", "../common/images/expanded_button.gif", "../common/images/blank.gif"],
+					//  4. size of buttons: width, height, indent amount for childless nodes
+					[16, 16, 16],
+					//  5. show icons ("folder" and "document")
+					true,
+					//  6. icon images: closed folder, opened folder, document
+					["../common/images/book_closed.gif", "../common/images/book_open.gif", "../common/images/source_code.gif"],
+					//  7. size of icons: width, height
+					[16, 16],
+					//  8. indent amount for each level of the tree
+					[0, 16, 32, 48, 64, 80, 96, 112, 128],
+					//  9. background color for the tree
+					"",
+					// 10. default CSS class for nodes
+					"treeNode",
+					// 11. individual CSS classes for levels of the tree
+					[],
+					// 12. "single branch" mode
+					false,
+					// 13. padding and spacing values for all nodes
+					[1, 1]
+				];
+
+				// Tree structure definition
+				var TREE_NODES = [
+					["QueryIO Admin Guide", "queryio/title-page.html", null,
+						
+						["Table of Contents", "queryio/table-of-contents.html", null],
+
+						["QueryIO Software License Agreement", "../common/license.html", null],
+
+					 	[" Introduction", "queryio/hadoop-big-data-introduction.html", null],
+					
+					 	/* [" QueryIO Architecture", "queryio/hadoop-big-data-architecture.html", null], */
+
+					 	["Quick Setup ", null, null,						 	
+						 	[" Cluster Setup", "queryio/hadoop-bag-data-cluster.html", null],
+							[" Manage Hosts", "queryio/manage-hosts.html", null],
+						],
+					 	
+						["Manage HDFS", null, null,
+					 		[" HDFS Overview", "queryio/dashboard-hdfs.html", null],
+						 	[" NameNode", "queryio/hadoop-name-nodes.html", null],
+							[" DataNode", "queryio/hadoop-data-nodes.html", null],
+							[" Journal Node", "queryio/hadoop-journal-node.html", null],
+							[" CheckPoint Node", "queryio/hadoop-checkpoint-nodes.html", null],
+							[" Configure HDFS", "queryio/hadoop-system-config-hdfs.html", null],
+						],
+						
+						["Manage MapReduce/Yarn", null, null, 
+						 	[" MapReduce Overview", "queryio/dashboard-mapreduce.html", null],
+						 	[" ResourceManager", "queryio/yarn-resource-manager.html", null],
+							[" NodeManager", "queryio/yarn-node-manager.html", null],
+							[" Job Manager", "queryio/yarn-job-manager.html", null],
+						//	[" Post Ingest Tagging", "queryio/big-data-post-ingest-tagging.html", null],
+							[" Configure MapReduce", "queryio/hadoop-system-config-mapreduce.html", null],
+							
+						],
+						
+						["System Monitor - Basics", "queryio/hadoop-monitoring.html", null],
+						
+						["System Monitor - Rules", null, null, 
+						 	[" System Alerts", "queryio/big-data-alerts.html", null],
+							[" Rules for Alerts", "queryio/big-data-hadoop-rules.html", null],
+						],
+						
+						[" System Monitor - Reports", "queryio/hadoop-system-reports.html", null],
+						[" System Schedules", "queryio/big-data-schedule.html", null],
+						[" Users & Groups", "queryio/user-management.html", null],
+						[" QueryIO Services", "queryio/big-data-services-ftp-s3.html", null],
+						[" Hive Services", "queryio/big-data-services-hive.html", null],
+						["Manage Databases", "queryio/hadoop-sql-database.html", null],
+						
+/* 						["Disaster Recovery", null, null, 
+							[" Disaster Recovery", "queryio/hadoop-disaster-recovery.html", null],
+							[" High Availability", "queryio/hadoop-high-availability.html", null],
+							[" Journal Node", "queryio/hadoop-journal-node.html", null],
+							[" CheckPoint Node", "queryio/hadoop-checkpoint-nodes.html", null],
+						],
+ */						
+/* 						["Data Security", null, null, 
+							[" Access Control List", "queryio/acl.html", null],
+							[" Hadoop Security Setup: Kerberos", "queryio/hadoop-security-setup-kerberos.html", null],
+						],
+ */							
+							
+						/* ["Data", null, null,
+							[" Big Data Migration: Import/Export", "queryio/big-data-import-export.html", null],
+							[" Big Data Browser", "queryio/big-data-browser.html", null],
+					 		[" Manage Hive", "queryio/hadoop-analytics-adhocdd.html", null],
+					 		[" Database Migration from PostgreSQL to MySQL", "queryio/hadoop-database-migration-tutorial.html", null],
+							["Manage Datasources", null, null,
+						 		[" Manage Databases", "queryio/hadoop-sql-database.html", null],
+						 		[" Manage DataSource Connections", "queryio/hadoop-datasource-connections.html", null],
+								[" On Ingest Tagging", "queryio/big-data-on-ingest-tagging.html", null],
+						 		[" Manage Content Processor", "queryio/hadoop-analytics-adhoc.html", null],
+							],
+						],
+								
+						["Analytics", null, null,
+						 	[" Query Manager ", "queryio/hadoop-sql-manager.html", null],
+						 	[" Query Designer ", "queryio/hadoop-sql-designer.html", null],
+						 	[" Query Viewer ", "queryio/hadoop-sql-viewer.html", null],
+						 	[" SpreadSheet Viewer ", "queryio/big-data-spreadsheet.html", null],	 	
+						],
+
+						["Dashboard ", null , null,
+						 	[" HDFS Overview", "queryio/dashboard-hdfs.html", null],
+						 	[" MapReduce Overview", "queryio/dashboard-mapreduce.html", null],
+						 	[" System Monitor", "queryio/hadoop-monitoring.html", null],
+						 	[" System Alerts", "queryio/big-data-alerts.html", null],
+							[" Rules for Alerts", "queryio/big-data-hadoop-rules.html", null],
+							[" Notifications", "queryio/big-data-notification.html", null],	
+						],
+
+						["Hadoop", null, null,
+						 	[" System Monitor", "queryio/hadoop-monitoring.html", null],
+						 	["HDFS", null, null,
+						 		[" HDFS Overview", "queryio/dashboard-hdfs.html", null],
+							 	[" NameNode", "queryio/hadoop-name-nodes.html", null],
+								[" DataNode", "queryio/hadoop-data-nodes.html", null],
+								[" Journal Node", "queryio/hadoop-journal-node.html", null],
+								[" CheckPoint Node", "queryio/hadoop-checkpoint-nodes.html", null],
+								[" Configure HDFS", "queryio/hadoop-system-config-hdfs.html", null],
+							],
+							["MapReduce/YARN", null, null, 
+							 	[" MapReduce Overview", "queryio/dashboard-mapreduce.html", null],
+							 	[" ResourceManager", "queryio/yarn-resource-manager.html", null],
+								[" NodeManager", "queryio/yarn-node-manager.html", null],
+								[" Job Manager", "queryio/yarn-job-manager.html", null],
+								[" Post Ingest Tagging", "queryio/big-data-post-ingest-tagging.html", null],
+								[" Configure MapReduce", "queryio/hadoop-system-config-mapreduce.html", null],
+								
+							],
+						],
+						
+						["Administration ", null, null,						 	
+						 	[" Cluster Setup", "queryio/hadoop-bag-data-cluster.html", null],
+							[" Manage Hosts", "queryio/manage-hosts.html", null],
+							[" QueryIO Services", "queryio/big-data-services-ftp-s3.html", null],
+							[" Disaster Recovery", "queryio/hadoop-disaster-recovery.html", null],
+							[" System Reports", "queryio/hadoop-system-reports.html", null],
+							[" Users & Groups", "queryio/user-management.html", null],
+							[" System Schedules", "queryio/big-data-schedule.html", null],
+									
+						],
+						["Advanced Features", null, null,						 	
+							[" High Availability", "queryio/hadoop-high-availability.html", null],
+							[" Node Replacement", "queryio/node-replacement.html", null],
+							[" Big Data Compression", "queryio/big-data-compression.html", null],
+							[" Access Control List", "queryio/acl.html", null],
+							[" Big Data Security", "queryio/hadoop-big-data-security.html", null],
+							[" Disk Monitoring", "queryio/big-data-disk-monitoring.html", null],
+							[" Performance", "queryio/hadoop-big-data-performance.html", null],
+							[" Hadoop Security Setup: Kerberos", "queryio/hadoop-security-setup-kerberos.html", null],
+						], */
+						
+						[" Glossary", "queryio/glossary.html", null],
+						[" FAQs", "queryio/bag-data-faq.html", null],						
+					]
+				];
+			</script>
+			<!--<base target="bsscright">--><base href="." target="bsscright">
+	</head>
+	<body>
+		<script>
+					var tree1 = new COOLjsTree("tree1", TREE_NODES, TREE_FORMAT);
+					tree1.expandNode();
+		</script><div style="overflow: hidden; position: absolute; top: 5px; left: 5px; width: 280px; height: 340px; z-index: 0;" id="clstree1__"><div style="position: absolute; top: 0px; left: 0px; visibility: visible;"><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,0,this,window.event||arguments[0])" id="nttree1_1d" style="left: 0px; top: 0px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__0"><tbody><tr><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;button&#39;,&#39;onmouseover&#39;,0,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="" class=""><img src="./expanded_button.gif" name="nttree1_1nb" id="nttree1_1nb" width="16" height="16" border="0" style="display:block"></a></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,0,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/title-page.html" target="" id="" class=""><img src="./book_open.gif" name="nttree1_1nf" id="nttree1_1nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_1a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,0,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/title-page.html" target="" id="nttree1_1an" class="treeNode">QueryIO Admin Guide</a></div></td></tr></tbody></table></div></div><div style="position: absolute; top: 0px; left: 0px; visibility: visible;"><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,1,this,window.event||arguments[0])" id="nttree1_2d" style="left: 0px; top: 20px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,1,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/table-of-contents.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_2nf" id="nttree1_2nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_2a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,1,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/table-of-contents.html" target="" id="nttree1_2an" class="treeNode">Table of Contents</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,2,this,window.event||arguments[0])" id="nttree1_3d" style="left: 0px; top: 40px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,2,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/common/license.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_3nf" id="nttree1_3nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_3a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,2,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/common/license.html" target="" id="nttree1_3an" class="treeNode">QueryIO Software License Agreement</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,3,this,window.event||arguments[0])" id="nttree1_4d" style="left: 0px; top: 60px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,3,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/hadoop-big-data-introduction.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_4nf" id="nttree1_4nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_4a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,3,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/hadoop-big-data-introduction.html" target="" id="nttree1_4an" class="treeNode"> Introduction</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,4,this,window.event||arguments[0])" id="nttree1_5d" style="left: 0px; top: 80px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="16"><img src="./blank.gif" name="" id="" width="16" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;button&#39;,&#39;onmouseover&#39;,4,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="" class=""><img src="./collapsed_button.gif" name="nttree1_5nb" id="nttree1_5nb" width="16" height="16" border="0" style="display:block"></a></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,4,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="" class=""><img src="./book_closed.gif" name="nttree1_5nf" id="nttree1_5nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_5a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,4,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="nttree1_5an" class="treeNode">Quick Setup </a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,7,this,window.event||arguments[0])" id="nttree1_6d" style="left: 0px; top: 100px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="16"><img src="./blank.gif" name="" id="" width="16" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;button&#39;,&#39;onmouseover&#39;,7,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="" class=""><img src="./collapsed_button.gif" name="nttree1_6nb" id="nttree1_6nb" width="16" height="16" border="0" style="display:block"></a></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,7,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="" class=""><img src="./book_closed.gif" name="nttree1_6nf" id="nttree1_6nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_6a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,7,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="nttree1_6an" class="treeNode">Manage HDFS</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,14,this,window.event||arguments[0])" id="nttree1_7d" style="left: 0px; top: 120px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="16"><img src="./blank.gif" name="" id="" width="16" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;button&#39;,&#39;onmouseover&#39;,14,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="" class=""><img src="./collapsed_button.gif" name="nttree1_7nb" id="nttree1_7nb" width="16" height="16" border="0" style="display:block"></a></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,14,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="" class=""><img src="./book_closed.gif" name="nttree1_7nf" id="nttree1_7nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_7a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,14,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="nttree1_7an" class="treeNode">Manage MapReduce/Yarn</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,20,this,window.event||arguments[0])" id="nttree1_8d" style="left: 0px; top: 140px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,20,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/hadoop-monitoring.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_8nf" id="nttree1_8nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_8a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,20,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/hadoop-monitoring.html" target="" id="nttree1_8an" class="treeNode">System Monitor - Basics</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,21,this,window.event||arguments[0])" id="nttree1_9d" style="left: 0px; top: 160px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="16"><img src="./blank.gif" name="" id="" width="16" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;button&#39;,&#39;onmouseover&#39;,21,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="" class=""><img src="./collapsed_button.gif" name="nttree1_9nb" id="nttree1_9nb" width="16" height="16" border="0" style="display:block"></a></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,21,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="" class=""><img src="./book_closed.gif" name="nttree1_9nf" id="nttree1_9nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_9a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,21,this,window.event||arguments[0])" href="javascript:void(0)" target="" id="nttree1_9an" class="treeNode">System Monitor - Rules</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,24,this,window.event||arguments[0])" id="nttree1_10d" style="left: 0px; top: 180px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,24,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/hadoop-system-reports.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_10nf" id="nttree1_10nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_10a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,24,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/hadoop-system-reports.html" target="" id="nttree1_10an" class="treeNode"> System Monitor - Reports</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,25,this,window.event||arguments[0])" id="nttree1_11d" style="left: 0px; top: 200px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,25,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/big-data-schedule.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_11nf" id="nttree1_11nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_11a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,25,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/big-data-schedule.html" target="" id="nttree1_11an" class="treeNode"> System Schedules</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,26,this,window.event||arguments[0])" id="nttree1_12d" style="left: 0px; top: 220px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,26,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/user-management.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_12nf" id="nttree1_12nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_12a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,26,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/user-management.html" target="" id="nttree1_12an" class="treeNode"> Users &amp; Groups</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,27,this,window.event||arguments[0])" id="nttree1_13d" style="left: 0px; top: 240px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,27,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/big-data-services-ftp-s3.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_13nf" id="nttree1_13nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_13a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,27,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/big-data-services-ftp-s3.html" target="" id="nttree1_13an" class="treeNode"> QueryIO Services</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,28,this,window.event||arguments[0])" id="nttree1_14d" style="left: 0px; top: 260px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,28,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/big-data-services-hive.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_14nf" id="nttree1_14nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_14a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,28,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/big-data-services-hive.html" target="" id="nttree1_14an" class="treeNode"> Hive Services</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,29,this,window.event||arguments[0])" id="nttree1_15d" style="left: 0px; top: 280px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,29,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/hadoop-sql-database.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_15nf" id="nttree1_15nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_15a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,29,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/hadoop-sql-database.html" target="" id="nttree1_15an" class="treeNode">Manage Databases</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,30,this,window.event||arguments[0])" id="nttree1_16d" style="left: 0px; top: 300px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,30,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/glossary.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_16nf" id="nttree1_16nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_16a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,30,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/glossary.html" target="" id="nttree1_16an" class="treeNode"> Glossary</a></div></td></tr></tbody></table></div><div onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;layer&#39;,&#39;onmouseover&#39;,31,this,window.event||arguments[0])" id="nttree1_17d" style="left: 0px; top: 320px; position: absolute;"><table cellpadding="1" cellspacing="1" border="0" class="clstree1__1"><tbody><tr><td style="font-size:1px" width="32"><img src="./blank.gif" name="" id="" width="32" height="1" border="0" style="display:block"></td><td style="font-size:1px" width="16"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;image&#39;,&#39;onmouseover&#39;,31,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/bag-data-faq.html" target="" id="" class=""><img src="./source_code.gif" name="nttree1_17nf" id="nttree1_17nf" width="16" height="16" border="0" style="display:block"></a></td><td nowrap="nowrap"><div id="nttree1_17a" style="position:relative;"><a onmouseover="return window.CTrees[&#39;tree1&#39;].$handleEvent(&#39;caption&#39;,&#39;onmouseover&#39;,31,this,window.event||arguments[0])" href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/bag-data-faq.html" target="" id="nttree1_17an" class="treeNode"> FAQs</a></div></td></tr></tbody></table></div></div></div>
+		<a href="http://queryio.com/hadoop-big-data-docs/hadoop-big-data-admin-guide/queryio/table-of-contents.html" style="display: none;"></a>
+	
+
+</body></html>
