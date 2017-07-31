@@ -1,0 +1,2 @@
+dist/QueryIOInstaller.tar.gz filter=lfs diff=lfs merge=lfs -text
+dist/QueryIOInstaller-5.0.tar.gz filter=lfs diff=lfs merge=lfs -text
