@@ -440,6 +440,10 @@ public class GenericMacOSXDataParser extends AbstractDataParser {
 		 * Read the bytes and create string. Tokenize the string. Discard all
 		 * the tokes till "%idle" token and then read 4th token.
 		 */
+		// alread 
+		//print output
+		AppLogger.getLogger().debug(" value of output :" + output);
+		AppLogger.getLogger().debug("output check:");
 		if (output != null) // output will be null if this method gets called
 		// after disconnect
 		{
@@ -454,76 +458,116 @@ public class GenericMacOSXDataParser extends AbstractDataParser {
 					 * sys, 89.5% idle Load Avg: 0.01, 0.02, 0.09 CPU usage:
 					 * 0.12% user, 0.25% sys, 99.63% idle
 					 */
-					if (sLine.startsWith("Load Avg:")) {
+					if (sLine.startsWith("Load Avg:"))
+					{
 						String lowercase = sLine.toLowerCase();
 						int index = lowercase.indexOf("cpu usage:");
-
-						String cpuUsage = sLine.substring(index).trim();
-						cpuUsage = cpuUsage.substring("CPU usage:".length());
-
-						String loadAvg = sLine.substring(0, index).trim();
+						String loadAvg = sLine.trim();
+						if (index != -1) {
+							loadAvg = sLine.substring(0, index).trim();
+						}
+						
 						loadAvg = loadAvg.substring("Load Avg:".length());
 						float value = 0.0f;
 						StringTokenizer line = new StringTokenizer(loadAvg, ",");
 						temp = line.nextToken().trim();
-						try {
+						try
+						{
 							value = this.nf.parse(temp).floatValue();
-						} catch (final Exception e) {
-							value = 0.0f;
 						}
+						catch (final Exception e)
+						{
+							value = 0.0f;
+						}						
 						f1MinLoadAvg = value;
 						temp = line.nextToken().trim();
-						try {
+						try
+						{
 							value = this.nf.parse(temp).floatValue();
-						} catch (final Exception e) {
-							value = 0.0f;
 						}
+						catch (final Exception e)
+						{
+							value = 0.0f;
+						}						
 						f5MinLoadAvg = value;
 						temp = line.nextToken().trim();
-						try {
+						try
+						{
 							value = this.nf.parse(temp).floatValue();
-						} catch (final Exception e) {
-							value = 0.0f;
 						}
+						catch (final Exception e)
+						{
+							value = 0.0f;
+						}						
 						f15MinLoadAvg = value;
-
-						line = new StringTokenizer(cpuUsage);
-						while (line.hasMoreTokens()) {
+						
+						if (index != -1) {
+							String cpuUsage = sLine.substring(index).trim();
+							cpuUsage = cpuUsage.substring("CPU usage:".length());
+							line = new StringTokenizer(cpuUsage);
+							while (line.hasMoreTokens())
+							{
+								temp = line.nextToken();
+								if (temp.indexOf("%") != -1)
+								{
+									temp = temp.substring(0, temp.indexOf("%"));
+									try
+									{
+										value = this.nf.parse(temp).floatValue();
+									}
+									catch (final Exception e)
+									{
+										value = -1.0f;
+									}
+								}
+								if (temp.indexOf("user") != -1)
+								{
+									this.fUserCPUUsageTime = value != -1.0f ? value : 0.0f;
+								}
+								if (temp.indexOf("sys") != -1)
+								{
+									this.fSysCPUUsageTime = value != -1.0f ? value : 0.0f;
+								}
+								if(temp.indexOf("idle") != -1)
+								{
+									this.fCpuUsageTime = value != -1.0f ? (100.0f - value) : 0.0f;
+								}
+							}
+						}
+					}
+					if (sLine.startsWith("CPU usage:")) {
+						String cpuUsage = sLine.substring("CPU usage:".length());
+						StringTokenizer line = new StringTokenizer(cpuUsage);
+						float value = 0.0f;
+						while (line.hasMoreTokens())
+						{
 							temp = line.nextToken();
-							if (temp.indexOf("%") != -1) {
+							if (temp.indexOf("%") != -1)
+							{
 								temp = temp.substring(0, temp.indexOf("%"));
-								try {
+								try
+								{
 									value = this.nf.parse(temp).floatValue();
-								} catch (final Exception e) {
+								}
+								catch (final Exception e)
+								{
 									value = -1.0f;
 								}
 							}
-							if (temp.indexOf("user") != -1) {
+							if (temp.indexOf("user") != -1)
+							{
 								this.fUserCPUUsageTime = value != -1.0f ? value : 0.0f;
 							}
-							if (temp.indexOf("sys") != -1) {
+							if (temp.indexOf("sys") != -1)
+							{
 								this.fSysCPUUsageTime = value != -1.0f ? value : 0.0f;
 							}
-							if (temp.indexOf("idle") != -1) {
+							if(temp.indexOf("idle") != -1)
+							{
 								this.fCpuUsageTime = value != -1.0f ? (100.0f - value) : 0.0f;
 							}
 						}
-						/*
-						 * final StringTokenizer line = new
-						 * StringTokenizer(sLine); while (line.hasMoreTokens())
-						 * { temp = line.nextToken(); if (temp.indexOf("sys") !=
-						 * -1) { temp = line.nextToken(); temp = temp.trim(); if
-						 * (temp.indexOf("%") != -1) { temp = temp.substring(0,
-						 * temp.indexOf("%")); } try { idleCpuTime =
-						 * this.nf.parse(temp).floatValue(); } catch (final
-						 * Exception e) { idleCpuTime = 100; }
-						 * this.fCpuUsageTime = 100 - idleCpuTime; } }
-						 */
 					}
-					/*
-					 * PhysMem: 36.0M wired, 74.1M active, 42.0M inactive, 152M
-					 * used, 103M free
-					 */
 					if (sLine.startsWith("PhysMem:")) {
 						final StringTokenizer line = new StringTokenizer(sLine);
 						while (line.hasMoreTokens()) {
