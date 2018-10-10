@@ -28,6 +28,7 @@ import com.queryio.common.util.StreamPumper;
 import com.queryio.common.util.ZipUtil;
 import com.queryio.core.agent.QueryIOAgentManager;
 import com.queryio.core.bean.Host;
+import com.jcraft.jsch.JSchException;
 
 public class OneTimeConfig {
 	/*
@@ -947,7 +948,7 @@ public class OneTimeConfig {
 	}
 
 	public static String getJavaHome(String hostName, String userName, String password, String sshPrivateKey, int port)
-			throws Exception {
+			throws JSchException, Exception {
 		// /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
 
 		if (AppLogger.getLogger().isDebugEnabled())

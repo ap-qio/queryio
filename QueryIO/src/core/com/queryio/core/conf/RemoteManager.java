@@ -50,6 +50,7 @@ import org.json.simple.parser.JSONParser;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.JSchException;
 import com.queryio.common.EnvironmentalConstants;
 import com.queryio.common.QueryIOConstants;
 import com.queryio.common.beans.NNDBMigrationInfo;
@@ -1803,23 +1804,30 @@ public class RemoteManager {
 		AppLogger.getLogger().debug("installationPath : " + installationPath);
 		AppLogger.getLogger().debug("queryIOAgentPort : " + queryIOAgentPort);
 		AppLogger.getLogger().debug("rackName : " + rackName);
-		String javaHome = getJavaHome(hostIP, userName, password, sshPrivateKeyFile, Integer.parseInt(port.trim()));
+		response = new DWRResponse();
+		response.setTaskSuccess(false);
+		try {
+			String javaHome = getJavaHome(hostIP, userName, password, sshPrivateKeyFile, Integer.parseInt(port.trim()));
 
-		if (installationPath == null || javaHome == null) {
-			response = new DWRResponse();
-			response.setTaskSuccess(false);
-			if (installationPath == null)
-				response.setResponseMessage("Authentication Failure.");
-			else if (javaHome == null)
-				response.setResponseMessage("JavaHome not found.");
-		} else {
-			response = insertHost(hostIP, userName, password, sshPrivateKeyFile, installationPath, rackName,
-					queryIOAgentPort, javaHome, port);
+			if (installationPath == null || javaHome == null) {
+
+				if (installationPath == null)
+					response.setResponseMessage("Authentication Failure.");
+				else if (javaHome == null)
+					response.setResponseMessage("JavaHome not found.");
+			} else {
+				response = insertHost(hostIP, userName, password, sshPrivateKeyFile, installationPath, rackName,
+						queryIOAgentPort, javaHome, port);
+			}
+			
+		} catch (JSchException e) {
+			response.setResponseMessage("Invalid SSH Credentials");
+		} finally {
+			response.setId(id);
+			return response;
 		}
-		response.setId(id);
-		return response;
-	}
 
+	}
 	public static DWRResponse startHost(int id, String userName, String password, String sshPrivateKeyFile,
 			String port) {
 		Connection connection = null;
@@ -7700,6 +7708,8 @@ public class RemoteManager {
 
 		String userHomeDir = null;
 
+		AppLogger.getLogger().debug("credentials:" + hostIP + "+" + userName + "+" + password + "+" + sshPrivateKeyFile
+				+ "+" + Integer.parseInt(port));
 		if (isLocal)
 			userHomeDir = installUserHome;
 		else
@@ -7708,16 +7718,19 @@ public class RemoteManager {
 		if (userHomeDir != null)
 			userHomeDir = userHomeDir.replaceAll("[\n\r]", "");
 
+		AppLogger.getLogger().debug("UserHomeDir in line number 7695:" + userHomeDir);
 		String javaHome = null;
+		response = new DWRResponse();
+		response.setTaskSuccess(false);
 
+		try {
 		if (isLocal)
 			javaHome = installJavaHome;
 		else
 			javaHome = getJavaHome(hostIP, userName, password, sshPrivateKeyFile, Integer.parseInt(port.trim()));
 
 		if (userHomeDir == null || javaHome == null) {
-			response = new DWRResponse();
-			response.setTaskSuccess(false);
+			
 			if (userHomeDir == null)
 				response.setResponseMessage("Authentication Failure.");
 			else if (javaHome == null)
@@ -7726,8 +7739,15 @@ public class RemoteManager {
 			response = insertHostInstaller(hostIP, userName, password, sshPrivateKeyFile, userHomeDir, rackName,
 					getQueryIOAgentPort(), javaHome, port, isLocal, isUpgrade, "");
 		}
-		response.setId(id);
-		return response;
+		}
+		catch(JSchException e) {
+			response.setResponseMessage("Invalid SSH Credentials");
+		}
+		finally {
+			response.setId(id);
+			return response;
+		}
+		
 	}
 
 	public static DWRResponse startHostInstaller(int id, String userName, String password, String sshPrivateKeyFile,

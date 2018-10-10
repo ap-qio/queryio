@@ -14,6 +14,7 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 /**
@@ -36,22 +37,24 @@ public class SSHRemoteExecution {
 	public SSHRemoteExecution() throws Exception {
 	}
 
-	public Session createSession(String hostName, String userName, String password, int portNumber) throws Exception {
+	public Session createSession(String hostName, String userName, String password, int portNumber)
+			throws JSchException {
 		JSch jsch = null;
 		Session session = null;
 
-		try {
-			jsch = new JSch();
+		jsch = new JSch();
 
-			session = jsch.getSession(userName, hostName, portNumber);
-			session.setUserInfo(new SSHUserInfo(password, false));
+		if (AppLogger.getLogger().isDebugEnabled())
+			AppLogger.getLogger().debug("in createSession");
 
-			Properties config = new Properties();
-			config.put("StrictHostKeyChecking", "no");
-			session.setConfig(config);
-		} catch (Exception e) {
+		session = jsch.getSession(userName, hostName, portNumber);
 
-		}
+		session.setUserInfo(new SSHUserInfo(password, false));
+
+		Properties config = new Properties();
+		config.put("StrictHostKeyChecking", "no");
+		session.setConfig(config);
+
 		return session;
 	}
 
