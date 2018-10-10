@@ -468,7 +468,7 @@ public interface QueryIOConstants {
 	String HIVE_CREATE_EXTERNAL_TABLE = "CREATE EXTERNAL TABLE";
 	String HIVE_CREATE_TABLE = "CREATE TABLE";
 
-	String HIVE_SERDE_CLASS_JSON = "org.apache.hadoop.hive.serde2.json.JSONSerDe";
+	String HIVE_SERDE_CLASS_JSON = "org.apache.hive.hcatalog.data.JsonSerDe";
 	String HIVE_SERDE_CLASS_REGEX = "org.apache.hadoop.hive.contrib.serde2.RegexSerDe";
 
 	String HIVE_QUERYIO_WAREHOUSE_DIR = "queryio.hive.warehouse.dir";
