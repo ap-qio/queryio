@@ -106,7 +106,10 @@ SecDataNode = {
 				$("#popup_container").css("z-index","99999999999");
 				SecDataNode.isUserWaiting =true;
 			}
-			
+
+			console.log(" volumePath1" + volumePath);
+			console.log(" disks" + disks);
+			console.log(" secDataNode.diskMap" , SecDataNode.diskMap);
 			var statusArray = new Array();
 			var volume='';
 			var disk='';
@@ -124,15 +127,24 @@ SecDataNode = {
 				var  valid = false;
 				var value = '';
 				var attr = disk;
-					if(!(SecDataNode.diskMap.hasOwnProperty(disk))){
+				
+				console.log(" volume" + volume);
+				console.log(" disk" + disk);
+				console.log(" secDataNode.diskMap" , SecDataNode.diskMap);
+				
+				var check =disk.split(" ");
+				
+					//if(!(SecDataNode.diskMap.hasOwnProperty(disk))){
+				if(!(SecDataNode.diskMap.hasOwnProperty(check[0].trim()))){
 						disk+='s2';
 						if(!(SecDataNode.diskMap.hasOwnProperty(disk))){
 							jAlert('Disk '+disks[i]+' is not properly mounted or some error occured while fetching the details of disk.','Invalid Detail');
 							return;
 						}
 					}
-						val = SecDataNode.diskMap[disk];
-						tempPath = val.replace(" ", "\\ "); 
+						//val = SecDataNode.diskMap[disk];
+				       val = SecDataNode.diskMap[check[0].trim()];	
+				     tempPath = val.replace(" ", "\\ "); 
 						
 //						if((volume.indexOf(val)==0))
 //						{
@@ -140,9 +152,12 @@ SecDataNode = {
 //						}
 				statusArray.push(valid);
 			}
+			
+			console.log(" secDataNode.diskMap" + SecDataNode.diskMap);
 			SecDataNode.validateVolumePath(statusArray);
 			
-		},
+		}
+,
 		 validateVolumePath : function(statusArray)
 		{
 			for(var i = 0;i<statusArray.length;i++){
