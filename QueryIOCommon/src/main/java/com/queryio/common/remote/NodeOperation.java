@@ -2469,8 +2469,7 @@ public class NodeOperation {
 	
 	// Changes done for Hive 2.1
 	// Need to run schematool for creation of hive metastore DB
-
-                public static QueryIOResponse configureHiveSchema(String installDir) throws IOException {
+	public static QueryIOResponse configureHiveSchema(String installDir) throws IOException {
 		if (!installDir.endsWith("/")) {
 			installDir = installDir + "/";
 		}
@@ -2479,38 +2478,19 @@ public class NodeOperation {
 		AppLogger.getLogger().debug("installDir: " + installDir);
 		
 		String schemaToolCmd = "bin/schematool -dbType mysql -initSchema --verbose";
-		String schemaToolCmdInfo = "bin/schematool -dbType mysql -info";
-		
-		QueryIOResponse checkHive = executeHadoopCommand(schemaToolCmdInfo, installDir, false, 0, false, false);
 		
 		QueryIOResponse schemaCreationResponse = executeHadoopCommand(schemaToolCmd, installDir, false, 0, false, false);
 
 		if(schemaCreationResponse.isSuccessful()){
 			schemaCreationResponse.setResponseMsg(QueryIOConstants.HIVE_STARTED_SUCCESS);
 			schemaCreationResponse.setSuccessful(true);
-			
-		
 		}
 		else {
-			
-			
-			
-			
 			schemaCreationResponse.setResponseMsg(QueryIOConstants.HIVE_STARTED_FAILED);
 			schemaCreationResponse.setSuccessful(false);
-			
-			
-			if(checkHive.isSuccessful())
-			{
-				schemaCreationResponse.setResponseMsg(QueryIOConstants.HIVE_STARTED_SUCCESS);
-				schemaCreationResponse.setSuccessful(true);
-			}
-			
-			
 		}
 		return schemaCreationResponse;
-	}	
-
+	}
 
 	public static QueryIOResponse startHiveServer(String installDir) throws IOException {
 		
