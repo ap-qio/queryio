@@ -6,11 +6,12 @@
 <script>
 function closeHostBox()
 {
-	if(Navbar.selectedTabName=='nn_summary')
+	if(Navbar.selectedChildTab=='nn_summary')
 	{
 		NN_Summary.closeHostBox();
 	}
-	else if (Navbar.selectedTabName == 'journal_node') {
+	else if (Navbar.selectedChildTab  == 'JournalNode') {
+		
 		JN.closeHostBox();
 	}
 	else{
@@ -19,7 +20,7 @@ function closeHostBox()
 }
 function closeBox(val)
 {
-	if(Navbar.selectedTabName=='nn_summary')
+	if(Navbar.selectedChildTab=='nn_summary')
 	{
 		NN_Summary.closeBox(val);
 	}
@@ -30,7 +31,7 @@ function closeBox(val)
 }
 function validate(val, type)
 {
-	if(Navbar.selectedTabName=='nn_summary')
+	if(Navbar.selectedChildTab=='nn_summary')
 	{
 		validateJavaHomeBeforeSave(true, 'nn');
 	}
@@ -40,7 +41,6 @@ function validate(val, type)
 	
 
 }
-
 </script>
 
 <div id="host_create" class="lightbox">
