@@ -29,6 +29,8 @@ public class AdHocHiveClient {
 		String url = config.get(QueryIOConstants.HIVE_QUERYIO_CONNECTION_URL);
 		String userName = config.get(QueryIOConstants.HIVE_QUERYIO_CONNECTION_USERNAME);
 		String password = config.get(QueryIOConstants.HIVE_QUERYIO_CONNECTION_PASSWORD);
+		// String userName = "admin";
+		// String password = "admin";
 
 		Class.forName(driverName);
 		AppLogger.getLogger().info("Url: " + url);
