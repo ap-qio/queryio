@@ -276,7 +276,8 @@ public class GetIpAddress {
 				final int startIndex = linux ? line.indexOf(':', INET_SPACE.length()) + 1 : INET_SPACE.length();
 				final String address = line.substring(startIndex, line.indexOf(' ', INET_SPACE.length()));
 				if (!IOSProtocolConstants.LOOPBACKADDRESS.equals(address)) {
-					this.ipAddresses.add(address);
+					// On some linux distro we can still have the 'inet' prefix
+					this.ipAddresses.add(address.replaceFirst("^inet", "").trim());
 				}
 			}
 			line = reader.readLine();
