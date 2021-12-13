@@ -1,3 +1,5 @@
+#!/bin/sh
+
 USER_INSTALL_DIR="$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )")"
 
 echo "Detecting system type"

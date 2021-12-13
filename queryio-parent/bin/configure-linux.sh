@@ -1,47 +1,53 @@
-export LC_CTYPE=C 
+#!/bin/sh
+
+export LC_CTYPE=C
 export LANG=C
 
 USER_INSTALL_DIR="$(dirname "$( cd "$( dirname "$0" )" && pwd )")"
-USER_PACKAGE_INSTALL_DIR='$HOME/QueryIOPackage'
+USER_PACKAGE_INSTALL_DIR="$HOME/QueryIOPackage"
 echo "Installation Directory: $USER_INSTALL_DIR"
 
 PROP_FILE=$USER_INSTALL_DIR/bin/qio-setup.properties
 
-source $PROP_FILE
+# shellcheck source=/dev/null
+. "$PROP_FILE"
 
-LOCAL_IP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -1`
+LOCAL_IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -1)
 
 if [ -z "$LOCAL_IP" ]
 then
 LOCAL_IP='127.0.0.1'
 fi
 
-read -t 10 -p "Enter IP(Leave blank if the displayed IP is correct): $LOCAL_IP : " IP_TO_USE
-IP_TO_USE=${IP_TO_USE:-$LOCAL_IP}
-# echo $IP_TO_USE
+# read command does not support -t (timeout) in sh.
+# Inorder to use timeout we either need to use a different shell like bash or impliment our own.
+read -r -p "Enter IP(Leave blank if the displayed IP is correct): $LOCAL_IP : " IP_TO_USE
+if [ -z "$IP_TO_USE" ]; then
+    IP_TO_USE=$LOCAL_IP
+fi
 
 IP=$IP_TO_USE
 SSH_HOSTNAME=$IP_TO_USE
 DB_SSH_HOSTNAME=$IP_TO_USE
-# 
-# echo "$ADD_USER"
-# echo "$CustomDBPass"
-# echo "$CustomDBUser"
-# echo "$DB_PORT1"
-# echo "$DB_PORT2"
-# echo "$IP"
-# echo "$IS_INSTALL"
-# echo "$QIO_EMAIL"
-# echo "$QIO_FNAME"
-# echo "$QIO_LNAME"
-# echo "$QIO_PASSWORD"
-# echo "$QIO_USER"
-# echo "$SHUTDOWN_PORT"
-# echo "$STARTUP_PORT"
-# echo "$SysDBPass"
-# echo "$SysDBUser"
-# echo "$SSH_HOSTNAME"
-# echo "$DB_SSH_HOSTNAME"
+
+echo "ADD_USER: $ADD_USER"
+echo "CustomDBPass: $CustomDBPass"
+echo "CustomDBUser: $CustomDBUser"
+echo "DB_PORT1: $DB_PORT1"
+echo "DB_PORT2: $DB_PORT2"
+echo "IP: $IP"
+echo "IS_INSTALL: $IS_INSTALL"
+echo "QIO_EMAIL: $QIO_EMAIL"
+echo "QIO_FNAME: $QIO_FNAME"
+echo "QIO_LNAME: $QIO_LNAME"
+echo "QIO_PASSWORD: $QIO_PASSWORD"
+echo "QIO_USER: $QIO_USER"
+echo "SHUTDOWN_PORT: $SHUTDOWN_PORT"
+echo "STARTUP_PORT: $STARTUP_PORT"
+echo "SysDBPass: $SysDBPass"
+echo "SysDBUser: $SysDBUser"
+echo "SSH_HOSTNAME: $SSH_HOSTNAME"
+echo "DB_SSH_HOSTNAME: $DB_SSH_HOSTNAME"
 
 chmod -R +x $USER_INSTALL_DIR
 

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # find /root/QueryIOPackage/Hadoop-2.8.0/etc -name "namenode-conf_*" -exec cat {} \;
 # find /root/QueryIOPackage/Hadoop-2.8.0/etc -name "namenode-conf_*" -exec cat {}/core-site.xml \;
 

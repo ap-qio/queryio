@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo '###  Stopping Hadoop  ###'
 
 CURR_PATH=$(pwd)

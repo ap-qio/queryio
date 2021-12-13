@@ -1,3 +1,5 @@
+#!/bin/sh
+
 export LC_CTYPE=C 
 export LANG=C
 
@@ -5,7 +7,10 @@ USER_INSTALL_DIR="$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )")
 USER_PACKAGE_INSTALL_DIR='$HOME/QueryIOPackage'
 echo "Installation Directory: $USER_INSTALL_DIR"
 
-source $USER_INSTALL_DIR/bin/qio-setup.properties
+PROP_FILE=$USER_INSTALL_DIR/bin/qio-setup.properties
+
+# shellcheck source=/dev/null
+. "$PROP_FILE"
 
 LOCAL_IP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -1`
 

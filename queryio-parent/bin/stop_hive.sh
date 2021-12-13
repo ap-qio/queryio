@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo '###  Stopping Hive  ###'
 
 hiveClass=org.apache.hive.service.server.HiveServer2

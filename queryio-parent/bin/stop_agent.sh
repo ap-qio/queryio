@@ -1,3 +1,5 @@
+#!/bin/sh
+
 agentClass=com.queryio.agent.core.server.QueryIOAgent 
 
 pid=$(ps -ef | grep -v grep | grep $agentClass | awk '{print $2}')
