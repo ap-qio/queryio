@@ -1,1 +1,0 @@
-FAILED: UDFArgumentTypeException Only primitive, struct, list or map type arguments are accepted but uniontype<> was passed as parameter 1.
