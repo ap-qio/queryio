@@ -1,3 +1,5 @@
+#!/bin/sh
+
 export LC_CTYPE=C 
 export LANG=C
 
@@ -7,7 +9,7 @@ echo "Installation Directory: $USER_INSTALL_DIR"
 
 PROP_FILE=$USER_INSTALL_DIR/bin/qio-setup.properties
 
-source $PROP_FILE
+. $PROP_FILE
 
 LOCAL_IP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -1`
 
@@ -16,9 +18,12 @@ then
 LOCAL_IP='127.0.0.1'
 fi
 
-read -t 10 -p "Enter IP(Leave blank if the displayed IP is correct): $LOCAL_IP : " IP_TO_USE
-IP_TO_USE=${IP_TO_USE:-$LOCAL_IP}
-# echo $IP_TO_USE
+# read command does not support -t (timeout) in sh.
+# Inorder to use timeout we might need to use a different shell like bash.
+read -r -p "Enter IP(Leave blank if the displayed IP is correct): $LOCAL_IP : " IP_TO_USE
+if [ -z "$IP_TO_USE" ]; then
+    IP_TO_USE=$LOCAL_IP
+fi
 
 IP=$IP_TO_USE
 SSH_HOSTNAME=$IP_TO_USE
