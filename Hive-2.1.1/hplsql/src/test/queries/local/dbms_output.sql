@@ -1,6 +1,0 @@
-DECLARE
-  str VARCHAR(200) DEFAULT 'Hello, world!';
-BEGIN
-  DBMS_OUTPUT.PUT_LINE('Hello, world!');
-  DBMS_OUTPUT.PUT_LINE(str);
-END;

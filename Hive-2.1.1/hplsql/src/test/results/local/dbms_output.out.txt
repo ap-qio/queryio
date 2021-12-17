@@ -1,3 +1,0 @@
-Ln:2 DECLARE str VARCHAR = 'Hello, world!'
-Hello, world!
-Hello, world!

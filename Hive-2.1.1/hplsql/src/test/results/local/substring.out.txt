@@ -1,8 +1,0 @@
-Correct
-Correct
-Ln:4 FUNC SUBSTRING
-Correct
-Ln:5 FUNC SUBSTRING
-Correct
-
-null
