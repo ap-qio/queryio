@@ -474,7 +474,7 @@ public class ScheduleManager {
 		return SchedulerDAO.getTriggerDetail(jobGroup, jobName);
 	}
 
-	public static ArrayList getAllTriggerDetails(String jobGroup, String jobName) {
+	public static ArrayList getAllTriggerDetails() {
 		return SchedulerDAO.getAllTriggerDetail();
 	}
 

@@ -44,7 +44,7 @@ BQS={
 				"searching": true,
 				"aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0 ] }],
 				"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
-					RemoteManager.getAllBigQueriesInfo(BQS.selectedNameNode, JSON.stringify(aoData), {
+					RemoteManager.getAllBigQueriesInfoWithDataParam(BQS.selectedNameNode, JSON.stringify(aoData), {
 			            async:false,
 			            callback:function(result){
 			                 fnCallback(BQS.fillQuerySummaryTable(result));	

@@ -10038,9 +10038,9 @@ public class RemoteManager {
 		return ApplicationManager.getJobNameLists();
 	}
 
-	public static JSONObject getAllJobsList() {
-		return ApplicationManager.getAllJobsList();
-	}
+	// public static JSONObject getAllJobsList() {
+	// 	return ApplicationManager.getAllJobsList();
+	// }
 
 	public static JSONObject getAllJobsList(String aoData) {
 		return ApplicationManager.getAllJobsList(aoData);
@@ -10130,9 +10130,9 @@ public class RemoteManager {
 		return AdHocQueryManager.getDefaultColumns(type);
 	}
 
-	public static JSONObject getAdHocQueryInfoAll() {
-		return AdHocQueryManager.getAdHocQueryInfoAll();
-	}
+	// public static JSONObject getAdHocQueryInfoAll() {
+	// 	return AdHocQueryManager.getAdHocQueryInfoAll();
+	// }
 
 	// Added for server side pagenation
 	public static JSONObject getAdHocQueryInfoAll(String aoData) {
@@ -10190,7 +10190,7 @@ public class RemoteManager {
 		return BigQueryManager.getAllBigQueriesInfo(namenodeId);
 	}
 
-	public static JSONObject getAllBigQueriesInfo(String namenodeId, String aoData) {
+	public static JSONObject getAllBigQueriesInfoWithDataParam(String namenodeId, String aoData) {
 		return BigQueryManager.getAllBigQueriesInfo(namenodeId, aoData);
 	}
 
@@ -10295,8 +10295,8 @@ public class RemoteManager {
 		return ScheduleManager.deleteTriggers(triggerList);
 	}
 
-	public static ArrayList getAllTriggerDetails(String jobGroup, String jobName) {
-		return ScheduleManager.getAllTriggerDetails(jobGroup, jobName);
+	public static ArrayList getAllTriggerDetails() {
+		return ScheduleManager.getAllTriggerDetails();
 	}
 
 	public static boolean deleteJob(ArrayList key) {
