@@ -23,7 +23,7 @@
       <variable name="DSTAMP" value="" description="" category="" />
       <variable name="HADOOP_VERSION" value="3.1.1" description="" category="" />
       <variable name="METADATA_FILE" value=".queryio.install" description="" category="" />
-      <variable name="HIVE_VERSION" value="2.1.1" description="" category="" />
+      <variable name="HIVE_VERSION" value="3.1.2" description="" category="" />
     </variables>
     <mergedProjects />
     <codeSigning macEnabled="false" macPkcs12File="" windowsEnabled="false" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="" />
@@ -8380,7 +8380,7 @@ return true;</condition>
                                 <array class="java.io.File" length="1">
                                   <void index="0">
                                     <object class="java.io.File">
-                                      <string>services/hive-2.1.1/lib/JsonSerDe.jar</string>
+                                      <string>services/hive-3.1.2/lib/JsonSerDe.jar</string>
                                     </object>
                                   </void>
                                 </array>
@@ -8403,7 +8403,7 @@ return true;</condition>
                                 <array class="java.io.File" length="1">
                                   <void index="0">
                                     <object class="java.io.File">
-                                      <string>services/hive-2.1.1/lib/hive-contrib-2.1.1.jar</string>
+                                      <string>services/hive-3.1.2/lib/hive-contrib-3.1.2.jar</string>
                                     </object>
                                   </void>
                                 </array>

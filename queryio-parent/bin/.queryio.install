@@ -1,15 +1,15 @@
 #
-#Mon Nov 07 11:58:30 IST 2016
+#Fri Dec 17 16:31:09 IST 2021
 hadoop=3.1.1
 DataNode=
 ResourceManager=
 NodeManager=
 isUpgrade=false
 clusterHosts=
-version=4.5
+version=5.1
 uninstalled=false
 postgresVersion=$postgresVersion$
 NameNode=
 installLoc=/Users/queryio/QueryIO
-hiveVersion=2.1.1
+hiveVersion=3.1.2
 buildId=1470

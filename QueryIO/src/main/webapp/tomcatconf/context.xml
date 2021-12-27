@@ -32,13 +32,13 @@
 	<lib>$USER_INSTALL_DIR$/services/QueryIOAgent/webapps/agentqueryio/WEB-INF/lib/jakarta-oro-2.0.8.jar</lib>
 	<lib>$USER_INSTALL_DIR$/services/QueryIOAgent/webapps/agentqueryio/WEB-INF/lib/commons-codec-1.3.jar</lib>
 	<lib>$USER_INSTALL_DIR$/services/QueryIOAgent/webapps/agentqueryio/WEB-INF/lib/stax-api-1.0.1.jar</lib>
-	<lib>$USER_INSTALL_DIR$/services/hive-2.1.1/lib/hive-jdbc-2.1.1.jar</lib>
-	<lib>$USER_INSTALL_DIR$/services/hive-2.1.1/lib/hive-service-2.1.1.jar</lib>
-	<lib>$USER_INSTALL_DIR$/services/hive-2.1.1/lib/libthrift-0.9.3.jar</lib>
-	<lib>$USER_INSTALL_DIR$/services/hive-2.1.1/lib/httpclient-4.4.jar</lib>
-	<lib>$USER_INSTALL_DIR$/services/hive-2.1.1/lib/httpcore-4.4.jar</lib>
-	<lib>$USER_INSTALL_DIR$/services/hive-2.1.1/lib/hive-metastore-2.1.1.jar</lib>
-	<lib>$USER_INSTALL_DIR$/services/hive-2.1.1/lib/hive-exec-2.1.1.jar</lib>
+	<lib>$USER_INSTALL_DIR$/services/hive-3.1.2/lib/hive-jdbc-3.1.2.jar</lib>
+	<lib>$USER_INSTALL_DIR$/services/hive-3.1.2/lib/hive-service-3.1.2.jar</lib>
+	<lib>$USER_INSTALL_DIR$/services/hive-3.1.2/lib/libthrift-0.9.3.jar</lib>
+	<lib>$USER_INSTALL_DIR$/services/hive-3.1.2/lib/httpclient-4.5.2.jar</lib>
+	<lib>$USER_INSTALL_DIR$/services/hive-3.1.2/lib/httpcore-4.4.4.jar</lib>
+	<lib>$USER_INSTALL_DIR$/services/hive-3.1.2/lib/hive-metastore-3.1.2.jar</lib>
+	<lib>$USER_INSTALL_DIR$/services/hive-3.1.2/lib/hive-exec-3.1.2.jar</lib>
 	<lib>$USER_INSTALL_DIR$/services/QueryIOServers/lib/json_simple-1.1.jar</lib>
 	<lib>$USER_INSTALL_DIR$/services/QueryIOServers/lib/commons-jexl-2.1.1.jar</lib>
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
