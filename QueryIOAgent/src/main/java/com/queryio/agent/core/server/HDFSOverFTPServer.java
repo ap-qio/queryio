@@ -1,8 +1,8 @@
 package com.queryio.agent.core.server;
 
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 public class HDFSOverFTPServer {
 
@@ -22,7 +22,7 @@ public class HDFSOverFTPServer {
 
 		try {
 			server = new Server();
-			SelectChannelConnector connector = new SelectChannelConnector();
+			ServerConnector connector = new ServerConnector(server);
 			connector.setPort(port);
 			server.addConnector(connector);
 			WebAppContext webapp = new WebAppContext();

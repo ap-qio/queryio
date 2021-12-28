@@ -15,7 +15,7 @@ Check out the [QueryIO Website](http://queryio.com/) for more details and how-to
 
 ## Requirements
 
-* Java 1.7 or newer.
+* Java 1.8 or newer.
 * JAVA_HOME must be set on all machines in cluster to ensure intended java version is used while running services.
 * All machines in the cluster to have same user accounts to ensure Hadoop services work seamlessly with system accounts.
 
@@ -29,7 +29,7 @@ The best way to install QueryIO is to build from source:
 
 `mvn clean install`
 
-`cp buildRoot/build <installation-path>`
+`cp -r buildRoot/build <installation-path>`
 
 cd `<installation-path>/bin`
 

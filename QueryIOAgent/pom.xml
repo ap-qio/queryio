@@ -76,11 +76,21 @@
 			<artifactId>oncrpc</artifactId>
 			<version>1.0.7</version>
 		</dependency>
-        	<dependency>
-                        <groupId>org.mortbay.jetty</groupId>
-                        <artifactId>jetty</artifactId>
-                        <version>6.1.26</version>
-                </dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>9.3.20.v20170531</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>9.3.20.v20170531</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
+			<version>9.3.20.v20170531</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>QueryIOAgent</finalName>

@@ -2,11 +2,11 @@ package com.queryio.agent.core.server;
 
 import java.io.File;
 
-import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.webapp.WebAppContext;
-import org.mortbay.thread.QueuedThreadPool;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
 public class QueryIOServers {
 
@@ -25,14 +25,11 @@ public class QueryIOServers {
 		System.out.println("Hadoop Configuration path: " + hadoopConf);
 
 		try {
-
 			QueuedThreadPool threadPool = new QueuedThreadPool();
 			threadPool.setMaxThreads(100);
 
-			final Server ftpServer = new Server();
-			ftpServer.setThreadPool(threadPool);
-
-			SelectChannelConnector ftpConnector = new SelectChannelConnector();
+			final Server ftpServer = new Server(threadPool);
+			ServerConnector ftpConnector = new ServerConnector(ftpServer);
 			ftpConnector.setPort(ftpServerPort);
 			ftpServer.setConnectors(new Connector[] { ftpConnector });
 
@@ -40,12 +37,10 @@ public class QueryIOServers {
 			ftpServerApp.setAttribute("hadoop_conf", hadoopConf);
 			ftpServerApp.setResourceBase(homeDir + File.separator + "webapps" + File.separator + "hdfs-over-ftp");
 			ftpServerApp.setContextPath("/hdfs-over-ftp");
-			ftpServer.addHandler(ftpServerApp);
+			ftpServer.setHandler(ftpServerApp);
 
-			final Server os3Server = new Server();
-			os3Server.setThreadPool(threadPool);
-
-			SelectChannelConnector os3Connector = new SelectChannelConnector();
+			final Server os3Server = new Server(threadPool);
+			ServerConnector os3Connector = new ServerConnector(os3Server);
 			os3Connector.setPort(os3ServerPort);
 			os3Server.setConnectors(new Connector[] { os3Connector });
 
@@ -53,15 +48,15 @@ public class QueryIOServers {
 			os3ServerApp.setAttribute("hadoop_conf", hadoopConf);
 			os3ServerApp.setResourceBase(homeDir + File.separator + "webapps" + File.separator + "os3server");
 			os3ServerApp.setContextPath("/queryio");
-			os3Server.addHandler(os3ServerApp);
+			os3Server.setHandler(os3ServerApp);
 
 			ftpServer.start();
 			ftpServer.setStopAtShutdown(true);
-			ftpServer.setSendServerVersion(true);
+//			ftpServer.setSendServerVersion(true);
 
 			os3Server.start();
 			os3Server.setStopAtShutdown(true);
-			os3Server.setSendServerVersion(true);
+//			os3Server.setSendServerVersion(true);
 
 			System.out.println("STARTUP:SUCCESS");
 			new Thread() {

@@ -3,7 +3,7 @@
 	
 2. Untar to location where want to install the QueryIO.
 	 Command :
-	 tar -xvf QueryIOInstaller_5.1.tar
+	 tar -xvf QueryIOInstaller_5.1.tar.gz
 3. Then go to bin directory :
 	cd QueryIOInstaller/bin
 	

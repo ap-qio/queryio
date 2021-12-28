@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.apache.commons.lang.SystemUtils;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 import com.queryio.common.QueryIOConstants;
 
@@ -40,7 +40,7 @@ public class QueryIOAgent {
 			System.out.println("Starting QueryIOAgent " + agentHome + " on port " + port);
 			System.setProperty(QueryIOConstants.QUERYIOAGENT_PORT, agentPort);
 			server = new Server();
-			SelectChannelConnector connector = new SelectChannelConnector();
+			ServerConnector connector = new ServerConnector(server);
 			connector.setPort(port);
 			server.addConnector(connector);
 			WebAppContext webapp = new WebAppContext();
