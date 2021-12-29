@@ -53,7 +53,7 @@ function hadoop_subproject_init
 
   hadoop_deprecate_envvar HADOOP_NFS3_SECURE_EXTRA_OPTS HDFS_NFS3_SECURE_EXTRA_OPTS
 
-  hadoop_deprecate_envvar HADOOP_SECURE_DN_USER HDFS_DATANODE_SECURE_USER
+  hadoop_deprecate_envvar HDFS_DATANODE_SECURE_USER HDFS_DATANODE_SECURE_USER
 
   hadoop_deprecate_envvar HADOOP_PRIVILEGED_NFS_USER HDFS_NFS3_SECURE_USER
 

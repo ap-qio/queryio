@@ -77,7 +77,7 @@ goto :eof
 
 :namenode
   set CLASS=org.apache.hadoop.hdfs.server.namenode.NameNode
-  set HADOOP_OPTS=%HADOOP_OPTS% %HADOOP_NAMENODE_OPTS%
+  set HADOOP_OPTS=%HADOOP_OPTS% %HDFS_NAMENODE_OPTS%
   goto :eof
 
 :journalnode
@@ -92,12 +92,12 @@ goto :eof
 
 :secondarynamenode
   set CLASS=org.apache.hadoop.hdfs.server.namenode.SecondaryNameNode
-  set HADOOP_OPTS=%HADOOP_OPTS% %HADOOP_SECONDARYNAMENODE_OPTS%
+  set HADOOP_OPTS=%HADOOP_OPTS% %HDFS_SECONDARYNAMENODE_OPTS%
   goto :eof
 
 :datanode
   set CLASS=org.apache.hadoop.hdfs.server.datanode.DataNode
-  set HADOOP_OPTS=%HADOOP_OPTS% -server %HADOOP_DATANODE_OPTS%
+  set HADOOP_OPTS=%HADOOP_OPTS% -server %HDFS_DATANODE_OPTS%
   goto :eof
 
 :dfs

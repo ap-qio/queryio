@@ -575,16 +575,16 @@ public class NodeOperation {
 				} else if (!d && strLine.startsWith(exportConstant + " HADOOP_HEAPSIZE")) {
 					updateConf(conf.get(QueryIOConstants.HADOOP_HEAP_SIZE), "HADOOP_HEAPSIZE", strLine, sb, false);
 					d = true;
-				} else if (!e && strLine.startsWith(exportConstant + " HADOOP_NAMENODE_OPTS")) {
-					updateConf(conf.get(QueryIOConstants.NAMENODE_OPTS_KEY), "HADOOP_NAMENODE_OPTS", strLine, sb,
+				} else if (!e && strLine.startsWith(exportConstant + " HDFS_NAMENODE_OPTS")) {
+					updateConf(conf.get(QueryIOConstants.NAMENODE_OPTS_KEY), "HDFS_NAMENODE_OPTS", strLine, sb,
 							false);
 					e = true;
-				} else if (!f && strLine.startsWith(exportConstant + " HADOOP_DATANODE_OPTS")) {
-					updateConf(conf.get(QueryIOConstants.DATANODE_OPTS_KEY), "HADOOP_DATANODE_OPTS", strLine, sb,
+				} else if (!f && strLine.startsWith(exportConstant + " HDFS_DATANODE_OPTS")) {
+					updateConf(conf.get(QueryIOConstants.DATANODE_OPTS_KEY), "HDFS_DATANODE_OPTS", strLine, sb,
 							false);
 					f = true;
-				} else if (!g && strLine.startsWith(exportConstant + " HADOOP_SECONDARYNAMENODE_OPTS")) {
-					updateConf(conf.get(QueryIOConstants.SECONDARYNAMENODE_OPTS_KEY), "HADOOP_SECONDARYNAMENODE_OPTS",
+				} else if (!g && strLine.startsWith(exportConstant + " HDFS_SECONDARYNAMENODE_OPTS")) {
+					updateConf(conf.get(QueryIOConstants.SECONDARYNAMENODE_OPTS_KEY), "HDFS_SECONDARYNAMENODE_OPTS",
 							strLine, sb, false);
 					g = true;
 				} else if (!h && strLine.startsWith(exportConstant + " HADOOP_JOURNALNAMENODE_OPTS")) {
@@ -610,13 +610,13 @@ public class NodeOperation {
 				updateConf(conf.get(QueryIOConstants.HADOOP_HEAP_SIZE), "HADOOP_HEAPSIZE", sb, false);
 			}
 			if (!e) {
-				updateConf(conf.get(QueryIOConstants.NAMENODE_OPTS_KEY), "HADOOP_NAMENODE_OPTS", sb, false);
+				updateConf(conf.get(QueryIOConstants.NAMENODE_OPTS_KEY), "HDFS_NAMENODE_OPTS", sb, false);
 			}
 			if (!f) {
-				updateConf(conf.get(QueryIOConstants.DATANODE_OPTS_KEY), "HADOOP_DATANODE_OPTS", sb, false);
+				updateConf(conf.get(QueryIOConstants.DATANODE_OPTS_KEY), "HDFS_DATANODE_OPTS", sb, false);
 			}
 			if (!g) {
-				updateConf(conf.get(QueryIOConstants.SECONDARYNAMENODE_OPTS_KEY), "HADOOP_SECONDARYNAMENODE_OPTS", sb,
+				updateConf(conf.get(QueryIOConstants.SECONDARYNAMENODE_OPTS_KEY), "HDFS_SECONDARYNAMENODE_OPTS", sb,
 						false);
 			}
 			if (!h) {

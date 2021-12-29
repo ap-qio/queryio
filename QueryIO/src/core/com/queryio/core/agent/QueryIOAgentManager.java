@@ -465,7 +465,7 @@ public class QueryIOAgentManager {
 								val += " ";
 							if (args[var].startsWith("-Dcom.sun.management.jmxremote.port=")) {
 								val += "-Dcom.sun.management.jmxremote.port=" + jmxPort;
-							} else if (namenodeHost.isWindows() && args[var].startsWith("$HADOOP_NAMENODE_OPTS")) {
+							} else if (namenodeHost.isWindows() && args[var].startsWith("$HDFS_NAMENODE_OPTS")) {
 								val += args[var].replaceAll("\\$", "%") + "%";
 							} else {
 								val += args[var];
@@ -700,7 +700,7 @@ public class QueryIOAgentManager {
 								val += " ";
 							if (args[var].startsWith("-Dcom.sun.management.jmxremote.port=")) {
 								val += "-Dcom.sun.management.jmxremote.port=" + jmxPort;
-							} else if (host.isWindows() && args[var].startsWith("$HADOOP_NAMENODE_OPTS")) {
+							} else if (host.isWindows() && args[var].startsWith("$HDFS_NAMENODE_OPTS")) {
 								val += args[var].replaceAll("\\$", "%") + "%";
 							} else {
 								val += args[var];
@@ -873,7 +873,7 @@ public class QueryIOAgentManager {
 								val += " ";
 							if (args[var].startsWith("-Dcom.sun.management.jmxremote.port=")) {
 								val += "-Dcom.sun.management.jmxremote.port=" + jmxPort;
-							} else if (datanodeHost.isWindows() && args[var].startsWith("$HADOOP_DATANODE_OPTS")) {
+							} else if (datanodeHost.isWindows() && args[var].startsWith("$HDFS_DATANODE_OPTS")) {
 								val += args[var].replaceAll("\\$", "%") + "%";
 							} else {
 								val += args[var];
@@ -1960,7 +1960,7 @@ public class QueryIOAgentManager {
 								val += " ";
 							if (args[var].startsWith("-Dcom.sun.management.jmxremote.port=")) {
 								val += "-Dcom.sun.management.jmxremote.port=" + jmxPort;
-							} else if (host.isWindows() && args[var].startsWith("$HADOOP_SECONDARYNAMENODE_OPTS")) {
+							} else if (host.isWindows() && args[var].startsWith("$HDFS_SECONDARYNAMENODE_OPTS")) {
 								val += args[var].replaceAll("\\$", "%") + "%";
 							} else {
 								val += args[var];

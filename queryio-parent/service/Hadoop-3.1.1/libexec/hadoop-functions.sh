@@ -2440,7 +2440,7 @@ function hadoop_subcommand_opts
   uvar="${uprogram}_${ucommand}_OPTS"
 
   # Let's handle all of the deprecation cases early
-  # HADOOP_NAMENODE_OPTS -> HDFS_NAMENODE_OPTS
+  # HDFS_NAMENODE_OPTS -> HDFS_NAMENODE_OPTS
 
   depvar="HADOOP_${ucommand}_OPTS"
 

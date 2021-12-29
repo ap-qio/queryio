@@ -60,7 +60,7 @@ More general the system configuration is the specific definition of the elements
 	<tr>
 		<td>Checkpoint Node</td>
 		<td>queryio.secondarynamenode.options</td>
-		<td>-Dcom.sun.management.jmxremote $HADOOP_SECONDARYNAMENODE_OPTS -Dcom.sun.management.jmxremote.port=9005 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
+		<td>-Dcom.sun.management.jmxremote $HDFS_SECONDARYNAMENODE_OPTS -Dcom.sun.management.jmxremote.port=9005 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
 		<td>Checkpoint Node specific run-time options. Used by queryio server for hdfs runtime configuration.</td>
 	</tr>	
 	<tr>
@@ -126,7 +126,7 @@ More general the system configuration is the specific definition of the elements
 	<tr>
 		<td>DataNode</td>
 		<td>queryio.datanode.options</td>
-		<td>-Dcom.sun.management.jmxremote $HADOOP_DATANODE_OPTS -Dcom.sun.management.jmxremote.port=9006 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
+		<td>-Dcom.sun.management.jmxremote $HDFS_DATANODE_OPTS -Dcom.sun.management.jmxremote.port=9006 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
 		<td>Datanode specific runtime options. Used by queryio server for hadoop runtime configuration.</td>
 	</tr>
 	<tr>
@@ -450,7 +450,7 @@ More general the system configuration is the specific definition of the elements
 	<tr>
 		<td>NameNode</td>
 		<td>queryio.namenode.options</td>
-		<td>-Dcom.sun.management.jmxremote $HADOOP_NAMENODE_OPTS -Dcom.sun.management.jmxremote.port=9004 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
+		<td>-Dcom.sun.management.jmxremote $HDFS_NAMENODE_OPTS -Dcom.sun.management.jmxremote.port=9004 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl.need.client.auth=false -Dcom.sun.management.jmxremote.ssl=false</td>
 		<td>NameNode specific runtime options. Used by queryio server for hadoop runtime configuration.</td>
 	</tr>
 	<tr>
